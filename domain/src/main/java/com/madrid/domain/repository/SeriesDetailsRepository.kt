@@ -22,4 +22,9 @@ interface SeriesDetailsRepository {
     suspend fun getListsCollection(): Flow<List<String>>
     suspend fun addNewCollection(collection: String)
     suspend fun addSeriesToList(seriesId: Int,listName: String): Boolean
+
+    suspend fun getTopRatedSeries(): List<Series>
+    suspend fun getOnAirSeries(): List<Series>
+    suspend fun getAiringTodaySeries(): List<Series>
+    suspend fun getRecommendedSeries(): List<Series>
 }
