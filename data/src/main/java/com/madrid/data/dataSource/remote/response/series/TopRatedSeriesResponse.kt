@@ -4,11 +4,11 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SearchSeriesResponse(
+data class TopRatedSeriesResponse(
     @SerializedName("page")
     val page: Int?,
     @SerializedName("results")
-    val seriesResults: List<SeriesResult>?,
+    val seriesResults: List<SeriesResult?>?,
     @SerializedName("total_pages")
     val totalPages: Int?,
     @SerializedName("total_results")
