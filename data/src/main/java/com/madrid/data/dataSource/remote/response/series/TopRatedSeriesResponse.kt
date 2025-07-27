@@ -8,7 +8,7 @@ data class TopRatedSeriesResponse(
     @SerializedName("page")
     val page: Int?,
     @SerializedName("results")
-    val seriesResults: List<SeriesResult?>?,
+    val seriesResults: List<SeriesResult>?,
     @SerializedName("total_pages")
     val totalPages: Int?,
     @SerializedName("total_results")
