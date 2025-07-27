@@ -1,4 +1,4 @@
-package com.madrid.designsystem.component
+package com.madrid.designSystem.component
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.MovioText
@@ -83,6 +84,7 @@ fun FilterChip(
                 color = backgroundColor,
                 shape = RoundedCornerShape(24.dp)
             )
+            .clip(RoundedCornerShape(24.dp))
             .clickable(onClick = onClick)
             .padding(vertical = 8.dp, horizontal = 12.dp),
         contentAlignment = Alignment.Center
@@ -104,7 +106,7 @@ fun FilterChip(
 @Preview(showBackground = true)
 @Composable
 private fun FilterBarPreview() {
-    val items = listOf("Movies", "Series", "Artists", "Top Rated")
+    val items = listOf("Movies", "Series", "Artists", "Top Rated","Top Rated","Top Rated","Top Rated")
     val selected = remember { mutableStateOf("Movies") }
 
     FilterBar(
