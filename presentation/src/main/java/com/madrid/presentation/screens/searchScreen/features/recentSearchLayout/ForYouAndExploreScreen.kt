@@ -229,12 +229,11 @@ fun LazyGridScope.forYouAndExploreScreen(
                     count = exploreMoreMovies.itemCount,
                 ) { index ->
                     MovioVerticalCard(
-                        modifier = Modifier.fillMaxWidth(fraction = 0.50f),
+                        modifier = Modifier.fillMaxWidth(),
                         description = exploreMoreMovies[index]!!.title,
                         movieImage = exploreMoreMovies[index]!!.imageUrl,
                         rate = exploreMoreMovies[index]!!.rating,
-                        width = 158.dp,
-                        height = 180.dp,
+                        height = 222.dp,
                         onClick = {
                             onMovieClick(exploreMoreMovies[index]!!)
                         }
