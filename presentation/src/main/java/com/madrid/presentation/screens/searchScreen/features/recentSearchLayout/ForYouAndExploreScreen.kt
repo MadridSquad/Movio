@@ -204,7 +204,7 @@ fun LazyGridScope.forYouAndExploreScreen(
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "We couldn’t find anything matching your search. Try checking the spelling or explore something else!",
+                            text = stringResource(com.madrid.presentation.R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
                             style = Theme.textStyle.label.smallRegular12,
                             color = Theme.color.surfaces.onSurfaceContainer,
                             textAlign = TextAlign.Center,

@@ -88,9 +88,9 @@ fun LazyGridScope.filterSearchScreen(
                                     contentAlignment = Alignment.Center
                                 ) {
                                     EmptySearchLayout(
-                                        title = "Internet is not available",
-                                        description = "Please make sure you are connected to the internet and try again.",
-                                        image = com.madrid.presentation.R.drawable.img_no_internet
+                                        title = stringResource(R.string.no_results_found),
+                                        description = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
+                                        image = com.madrid.presentation.R.drawable.img_no_sesrch_found // Use a "no results" image
                                     )
                                 }
                             }
@@ -108,8 +108,8 @@ fun LazyGridScope.filterSearchScreen(
                                     contentAlignment = Alignment.Center
                                 ) {
                                     EmptySearchLayout(
-                                        title = "No results found",
-                                        description = "We couldn’t find anything matching your search. Try checking the spelling or explore something else!",
+                                        title = stringResource(R.string.no_results_found),
+                                        description = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
                                         image = com.madrid.presentation.R.drawable.img_no_sesrch_found // Use a "no results" image
                                     )
                                 }
@@ -166,8 +166,8 @@ fun LazyGridScope.filterSearchScreen(
                                     contentAlignment = Alignment.Center
                                 ) {
                                     EmptySearchLayout(
-                                        title = "Internet is not available",
-                                        description = "Please make sure you are connected to the internet and try again.",
+                                        title = stringResource(R.string.no_results_found),
+                                        description = stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
                                         image = com.madrid.presentation.R.drawable.img_no_internet
                                     )
                                 }
@@ -187,8 +187,8 @@ fun LazyGridScope.filterSearchScreen(
                                     contentAlignment = Alignment.Center
                                 ) {
                                     EmptySearchLayout(
-                                        title = "No results found",
-                                        description = "We couldn’t find anything matching your search. Try checking the spelling or explore something else!",
+                                        title = stringResource(R.string.no_results_found),
+                                        description =  stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
                                         image = com.madrid.presentation.R.drawable.img_no_sesrch_found // Use a "no results" image
                                     )
                                 }
@@ -245,8 +245,9 @@ fun LazyGridScope.filterSearchScreen(
                                     contentAlignment = Alignment.Center
                                 ) {
                                     EmptySearchLayout(
-                                        title = "Internet is not available",
-                                        description = "Please make sure you are connected to the internet and try again.",
+                                        title = stringResource(R.string.internet_is_not_available),
+                                        description =
+                                            stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
                                         image = com.madrid.presentation.R.drawable.img_no_internet
                                     )
                                 }
@@ -266,8 +267,8 @@ fun LazyGridScope.filterSearchScreen(
                                     contentAlignment = Alignment.Center
                                 ) {
                                     EmptySearchLayout(
-                                        title = "No results found",
-                                        description = "We couldn’t find anything matching your search. Try checking the spelling or explore something else!",
+                                        title = stringResource(R.string.no_results_found),
+                                        description = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
                                         image = com.madrid.presentation.R.drawable.img_no_sesrch_found // Use a "no results" image
                                     )
                                 }
@@ -326,7 +327,7 @@ fun LazyGridScope.filterSearchScreen(
                                     contentAlignment = Alignment.Center
                                 ) {
                                     EmptySearchLayout(
-                                        title = "Internet is not available",
+                                        title = stringResource(R.string.internet_is_not_available),
                                         description = "Please make sure you are connected to the internet and try again.",
                                         image = com.madrid.presentation.R.drawable.img_no_internet
                                     )
@@ -346,8 +347,8 @@ fun LazyGridScope.filterSearchScreen(
                                     contentAlignment = Alignment.Center
                                 ) {
                                     EmptySearchLayout(
-                                        title = "No results found",
-                                        description = "We couldn’t find anything matching your search. Try checking the spelling or explore something else!",
+                                        title = stringResource(R.string.internet_is_not_available),
+                                        description = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
                                         image = com.madrid.presentation.R.drawable.img_no_sesrch_found // Use a "no results" image
                                     )
                                 }

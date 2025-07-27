@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
@@ -99,7 +100,7 @@ private fun SeeAllForYouScreenContent(
                 )
                 Spacer(Modifier.width(8.dp))
                 MovioText(
-                    text = "For you",
+                    text = stringResource(com.madrid.presentation.R.string.for_u),
                     color = Theme.color.surfaces.onSurface,
                     textStyle = Theme.textStyle.headline.largeBold16,
                     modifier = Modifier.fillMaxWidth(),
@@ -134,7 +135,7 @@ private fun SeeAllForYouScreenContent(
                         contentAlignment = Alignment.Center
                     ) {
                         EmptySearchLayout(
-                            title = "Internet is not available",
+                            title = stringResource(com.madrid.presentation.R.string.internet_is_not_available),
                             description = "Please make sure you are connected to the internet and try again.",
                             image = com.madrid.presentation.R.drawable.img_no_internet
                         )
@@ -151,8 +152,8 @@ private fun SeeAllForYouScreenContent(
                         contentAlignment = Alignment.Center
                     ) {
                         EmptySearchLayout(
-                            title = "No results found",
-                            description = "We couldn’t find anything matching your search. Try checking the spelling or explore something else!",
+                            title = stringResource(com.madrid.presentation.R.string.no_results_found),
+                            description = stringResource(com.madrid.presentation.R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
                             image = com.madrid.presentation.R.drawable.img_no_sesrch_found
                         )
                     }

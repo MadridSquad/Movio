@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="similar_movies">similar movies</string>
+    <string name="internet_is_not_available">لا يوجد انترنت</string>
+    <string name="no_results_found">لا توجد نتائج</string>//لم نعثر على أي شيء يطابق بحثك. حاول التحقق من التهجئة أو استكشف شيئًا آخر!
+    <string name="we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else">لم نعثر على أي شيء يطابق بحثك. حاول التحقق من التهجئة أو استكشف شيئًا آخر!</string>
+    <string name="please_make_sure_you_are_connected_to_the_internet_and_try_again">تحقق من اتصالك بالانترنيت واعد المحاولة</string>
+
 </resources>
