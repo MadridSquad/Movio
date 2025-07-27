@@ -174,15 +174,36 @@ fun SeriesDetailsScreen(
                 }
             }
             Spacer(modifier = Modifier.height(32.dp))
-            ReviewScreen(
-                onSeeAllReviews = { navController.navigate(Destinations.ReviewsScreen(uiState.seriesId, isMovie = false))},
-                uiState = uiState.reviews.toReviewScreenUiState()
-            )
-            Spacer(modifier = Modifier.height(32.dp))
+            if(uiState.reviews.isNotEmpty()){
+                ReviewScreen(
+                    onSeeAllReviews = {
+                        navController.navigate(
+                            Destinations.ReviewsScreen(
+                                uiState.seriesId,
+                                isMovie = false
+                            )
+                        )
+                    },
+                    uiState = uiState.reviews.toReviewScreenUiState()
+                )
+                Spacer(modifier = Modifier.height(32.dp))
+            }
             SimilarSeriesSection(
-                onSeeAllClick = {},
+                onSeeAllClick = {
+                    navController.navigate(
+                        Destinations.SimilarMediaScreen(
+                            mediaId = uiState.seriesId,
+                            isMovie = false
+                        )
+                    )
+                },
                 onSeriesClick = { series ->
-
+                    navController.navigate(
+                        Destinations.SeriesDetailsScreen(
+                            seriesId = series.id,
+                            1
+                        )
+                    )
                 },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
                 similarSeries = uiState.similarSeries.map { series ->

@@ -3,22 +3,20 @@ package com.madrid.presentation.viewModel.detailsViewModel
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
-import com.madrid.presentation.viewModel.base.BaseViewModel
-import com.madrid.presentation.viewModel.effect.effect
-import com.madrid.domain.usecase.mediaDeatailsUseCase.ArtistDetailsUseCase
 import com.madrid.domain.usecase.mediaDeatailsUseCase.MovieDetailsUseCase
 import com.madrid.domain.usecase.mediaDeatailsUseCase.SeriesDetailsUseCase
 import com.madrid.presentation.navigation.Destinations
+import com.madrid.presentation.viewModel.base.BaseViewModel
 
 class TopCastViewModel(
     private val savedStateHandle: SavedStateHandle,
     private val movieDetailsUseCase: MovieDetailsUseCase,
     private val seriesDetailsUseCase: SeriesDetailsUseCase,
-) : BaseViewModel<MovieDetailsUiState, effect>(
+) : BaseViewModel<MovieDetailsUiState, Nothing>(
     MovieDetailsUiState()
 ) {
 
-     val args = savedStateHandle.toRoute<Destinations.TopCast>()
+    val args = savedStateHandle.toRoute<Destinations.TopCast>()
 
     init {
         Log.d("loadCast", "loadCast ... : ${args.mediaId}")

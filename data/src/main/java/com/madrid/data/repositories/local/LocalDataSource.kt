@@ -30,10 +30,10 @@ interface LocalDataSource {
     suspend fun removeRecentSearch(item: String)
     suspend fun clearAllRecentSearches()
 
-    suspend fun relateMovieToCategory(movieCategoryEntity: MovieGenreCrossRef)
+    suspend fun relateMovieToGenre(movieGenreCrossRef: MovieGenreCrossRef)
     suspend fun increaseMovieGenreSeenCount(genreTitle: String)
 
-    suspend fun relateSeriesToCategory(seriesGenreEntity: SeriesGenreCrossRef)
+    suspend fun relateSeriesToGenre(seriesGenreEntity: SeriesGenreCrossRef)
     suspend fun increaseSeriesGenreSeenCount(genreTitle: String)
 
     suspend fun getAllMovieGenres(): List<MovieGenreEntity>

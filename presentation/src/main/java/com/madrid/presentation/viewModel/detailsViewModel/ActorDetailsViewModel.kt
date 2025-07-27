@@ -5,12 +5,12 @@ import androidx.navigation.toRoute
 import com.madrid.domain.usecase.mediaDeatailsUseCase.ArtistDetailsUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import com.madrid.presentation.viewModel.effect.effect
 
 class ActorDetailsViewModel(
     private val actorDetailsUseCase: ArtistDetailsUseCase,
     private val saveStateHandle: SavedStateHandle
-) : BaseViewModel<MovieDetailsUiState, effect>(MovieDetailsUiState()
+) : BaseViewModel<MovieDetailsUiState, Nothing>(
+    MovieDetailsUiState()
 ) {
     val args = saveStateHandle.toRoute<Destinations.ActorDetails>()
 

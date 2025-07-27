@@ -15,37 +15,37 @@ import com.madrid.data.dataSource.local.entity.relationship.GenreWithMovies
 interface MovieGenreDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertGenre(category: MovieGenreEntity)
+    suspend fun insertGenre(genre: MovieGenreEntity)
 
     @Update
-    suspend fun updateCategory(category: MovieGenreEntity)
+    suspend fun updateGenre(genre: MovieGenreEntity)
 
     @Query(
         """
         UPDATE MOVIE_GENRE_TABLE SET searchCount = searchCount + 1 
-            WHERE genreTitle = :categoryTitle
+            WHERE genreTitle = :genreTitle
      """
     )
-    suspend fun increaseCategorySearchCount(categoryTitle: String)
+    suspend fun increaseGenreSearchCount(genreTitle: String)
 
     @Delete
-    suspend fun deleteCategory(category: MovieGenreEntity)
+    suspend fun deleteGenre(genre: MovieGenreEntity)
 
     @Query("SELECT * FROM MOVIE_GENRE_TABLE WHERE genreId = :id")
-    suspend fun getCategoryById(id: Int): MovieGenreEntity?
+    suspend fun getGenreById(id: Int): MovieGenreEntity?
 
     @Query("SELECT * FROM MOVIE_GENRE_TABLE WHERE genreTitle = :title")
-    suspend fun getCategoryByTitle(title: String): MovieGenreEntity?
+    suspend fun getGenreByTitle(title: String): MovieGenreEntity?
 
     @Query("SELECT * FROM MOVIE_GENRE_TABLE")
-    suspend fun getAllCategories(): List<MovieGenreEntity>
+    suspend fun getAllGenres(): List<MovieGenreEntity>
 
     // descending order by searchCount
     @Query("SELECT * FROM MOVIE_GENRE_TABLE ORDER BY searchCount DESC")
-    suspend fun getAllCategoriesBySearchCount(): List<MovieGenreEntity>
+    suspend fun getAllGenresBySearchCount(): List<MovieGenreEntity>
 
     @Query("DELETE FROM MOVIE_GENRE_TABLE")
-    suspend fun deleteAllCategories()
+    suspend fun deleteAllGenres()
 
     @Transaction
     @Query("SELECT * FROM MOVIE_GENRE_TABLE")

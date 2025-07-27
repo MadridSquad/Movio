@@ -23,7 +23,7 @@ import com.madrid.domain.entity.Series
 import com.madrid.domain.entity.SimilarSeries
 
 
-// Region Search 
+// region Search
 fun SearchSeriesResponse.toSearchResult(): SearchResult {
     return SearchResult(
         page = this.page,
@@ -44,9 +44,9 @@ fun SeriesResult.toSeries(): Series {
         genre = listOf(),
     )
 }
-// End Region
+// endregion
 
-//Region Details
+//region Details
 fun SeriesDetailsResponse.toSeries(): Series {
     return Series(
         id = this.id ?: 0,
@@ -60,9 +60,9 @@ fun SeriesDetailsResponse.toSeries(): Series {
         profilePage = this.homepage ?: ""
     )
 }
-//End Region
+// endregion
 
-//Region Cast
+//region Cast
 fun SeriesCastNetwork.toCast(): Cast {
     return Cast(
         id = this.id ?: 0,
@@ -77,10 +77,10 @@ fun SeriesCreditResponse.toCredits(): Credits {
         cast = this.seriesCastNetwork?.map { it.toCast() },
     )
 }
-//End Region
+// endregion
 
 
-//Region Review
+//region Review
 fun SeriesReviewResponse.toReviewResult(): ReviewResult {
     return ReviewResult(
         mediaId = this.id ?: 0,
@@ -99,10 +99,10 @@ fun SeriesReviewResult.toReview(): Review {
         comment = this.content ?: "",
     )
 }
-//End Region
+// endregion
 
 
-//Region Similar
+//region Similar
 fun SimilarSeriesResponse.toSimilarSeries(): SimilarMedia {
     return SimilarMedia(
         page = this.page,
@@ -120,10 +120,10 @@ fun SimilarSeriesNetwork.toSimilarSeries(): SimilarSeries {
         rate = this.voteAverage ?: 0.0
     )
 }
-//End Region
+// endregion
 
 
-//Region series Season by series id
+// region series Season by series id
 
 fun SeasonsNetwork.toSeason(): Season {
     return Season(
@@ -143,9 +143,9 @@ fun SeriesGenres.toMediaGenre(): MediaGenre {
         title = this.name ?: ""
     )
 }
-//End Region
+// endregion
 
-//Region episodes by series id and season number
+//region episodes by series id and season number
 
 fun SeasonEpisodesResponse.toSeasonEpisodes(): SeasonEpisodes {
     return SeasonEpisodes(
@@ -165,6 +165,6 @@ fun EpisodeNetwork.toEpisode(): Episode {
         duration = this.runtime?.toString() ?: "",
     )
 }
-//End Region
+// endregion
 
 

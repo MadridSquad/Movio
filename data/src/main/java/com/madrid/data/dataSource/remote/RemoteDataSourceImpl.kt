@@ -1,7 +1,5 @@
 package com.madrid.data.dataSource.remote
 
-import android.util.Log
-import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.response.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.response.artist.ArtistKnownForResponse
 import com.madrid.data.dataSource.remote.response.artist.SearchArtistResponse
@@ -18,13 +16,13 @@ import com.madrid.data.dataSource.remote.response.series.SeriesCreditResponse
 import com.madrid.data.dataSource.remote.response.series.SeriesDetailsResponse
 import com.madrid.data.dataSource.remote.response.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.response.series.SimilarSeriesResponse
+import com.madrid.data.dataSource.remote.response.trending.AllTrendingResponse
 import com.madrid.data.repositories.remote.RemoteDataSource
 
 class RemoteDataSourceImpl(
     private val api: MovieApi
-
 ) : RemoteDataSource {
-    // Movies
+    //  region Movies
     override suspend fun searchMoviesByQuery(name: String, page: Int): SearchMovieResponse {
         return api.searchMoviesByQuery(name, page)
     }
@@ -36,12 +34,10 @@ class RemoteDataSourceImpl(
     override suspend fun getPopularMovie(page: Int): SearchMovieResponse {
         return api.getPopularMovie(page)
     }
-
+    // endregion
 
     override suspend fun getTopRatedSeries(query: String, page: Int): SearchSeriesResponse {
-        val x=  api.searchSeriesByQuery(query,page)
-        Log.d("loool", "getTopRatedSeries: $x")
-        return x
+        return api.searchSeriesByQuery(query, page)
     }
 
 
@@ -133,17 +129,14 @@ class RemoteDataSourceImpl(
     }
 
     override suspend fun getArtistById(artistId: Int): ArtistDetailsResponse {
-        Log.e("MY_TAG", "ArtistDetailsRepositoryImpl start $artistId")
-
         val response = api.getArtistDetailsById(artistId)
-
-        Log.e("MY_TAG", "ArtistDetailsRepositoryImpl response $response")
-
         val result = response
-
-        Log.e("MY_TAG", "ArtistDetailsRepositoryImpl mapped $result")
-
         return result
     }
 
+    // region Trending
+    override suspend fun getAllTrending(page: Int): AllTrendingResponse {
+        return api.getAllTrending(page = page)
+    }
+    // endregion
 }

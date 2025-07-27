@@ -90,23 +90,23 @@ class LocalDataSourceImpl(
         recentSearchDao.clearAllRecentSearches()
     }
 
-    override suspend fun relateMovieToCategory(movieCategoryEntity: MovieGenreCrossRef) {
-        movieDao.insertMovieCategoryCrossRef(movieCategoryEntity)
+    override suspend fun relateMovieToGenre(movieGenreCrossRef: MovieGenreCrossRef) {
+        movieDao.insertMovieGenreCrossRef(movieGenreCrossRef)
     }
 
     override suspend fun increaseMovieGenreSeenCount(genreTitle: String) {
-        movieGenreDao.increaseCategorySearchCount(genreTitle)
+        movieGenreDao.increaseGenreSearchCount(genreTitle)
     }
 
     override suspend fun getAllMovieGenres(): List<MovieGenreEntity> {
-        return movieGenreDao.getAllCategories()
+        return movieGenreDao.getAllGenres()
     }
 
     override suspend fun getMoviesByGenres(): List<GenreWithMovies> {
         return movieGenreDao.getMoviesByGenres()
     }
 
-    override suspend fun relateSeriesToCategory(seriesGenreEntity: SeriesGenreCrossRef) {
+    override suspend fun relateSeriesToGenre(seriesGenreEntity: SeriesGenreCrossRef) {
         seriesDao.insertSeriesGenreCrossRef(seriesGenreEntity)
     }
 

@@ -19,7 +19,7 @@ import com.madrid.domain.entity.SearchResult
 import com.madrid.domain.entity.SimilarMovie
 import com.madrid.domain.entity.Trailer
 
-// Region Search
+// region Search
 fun SearchMovieResponse.toSearchResult(): SearchResult {
     return SearchResult(
         page = this.page,
@@ -28,9 +28,9 @@ fun SearchMovieResponse.toSearchResult(): SearchResult {
         totalResults = this.totalResults
     )
 }
-// End Region
+// endregion
 
-// Region Details
+// region Details
 fun MovieDetailsResponse.toMovie(): Movie {
     return Movie(
         id = this.id ?: 0,
@@ -58,9 +58,9 @@ fun MovieResult.toMovie(): Movie {
 
         )
 }
-// End Region
+// endregion
 
-// Region Cast
+// region Cast
 fun MovieCreditsResponse.toCredits(): Credits {
     return Credits(
         id = this.id ?: 0,
@@ -75,9 +75,9 @@ fun CastNetwork.toCast(): Cast {
         imageUrl = "https://image.tmdb.org/t/p/original${this.profilePath}",
     )
 }
-// End Region
+// endregion
 
-// Region Review
+// region Review
 fun MovieReviewResponse.toReviewResult(
 ): ReviewResult {
     return ReviewResult(
@@ -97,9 +97,9 @@ fun MovieReviewResult.toReview(): Review {
         comment = this.content ?: ""
     )
 }
-// End Region
+// endregion
 
-// Region Similar Movie
+// region Similar Movie
 fun SimilarMovieNetwork.toSimilarMovie(): SimilarMovie {
     return SimilarMovie(
         id = this.id ?: 0,
@@ -118,18 +118,18 @@ fun SimilarMoviesResponse.toSimilarMovies(): SimilarMedia {
 
     )
 }
-// End Region
+// endregion
 
-//Region Genre
+//region Genre
 fun MovieGenre.toMediaGenre(): MediaGenre {
     return MediaGenre(
         id = this.id ?: 0,
         title = this.name ?: ""
     )
 }
-//End region
+// endregion
 
-// Region Trailer
+// region Trailer
 
 fun TrailerResponse.toTrailer(): Trailer {
     return Trailer(
@@ -137,4 +137,4 @@ fun TrailerResponse.toTrailer(): Trailer {
         id = this.results.firstOrNull()?.id ?: ""
     )
 }
-// End Region
+// endregion

@@ -31,8 +31,7 @@ fun MovioNavGraph(navController: NavHostController) {
     val currentRoute = navBackStackEntry?.destination?.route
 
     val currentDestination = navBarDestinations.find { destinationItem ->
-        destinationItem.destination::class.qualifiedName == currentRoute
-    }
+        destinationItem.destination.toString() == currentRoute?.substringAfterLast(".")    }
 
     Column(
         Modifier

@@ -7,7 +7,7 @@ import androidx.room.Relation
 import com.madrid.data.dataSource.local.entity.MovieGenreEntity
 import com.madrid.data.dataSource.local.entity.MovieEntity
 
-@Entity(tableName = "MovieCategoryCrossRef", primaryKeys = ["genreId", "movieId"])
+@Entity(tableName = "MovieGenreCrossRef", primaryKeys = ["genreId", "movieId"])
 data class MovieGenreCrossRef(
     val genreId: Int,
     val movieId: Int

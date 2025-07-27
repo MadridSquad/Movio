@@ -4,11 +4,9 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.madrid.domain.entity.Cast
 import com.madrid.domain.usecase.mediaDeatailsUseCase.MovieDetailsUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import com.madrid.presentation.viewModel.effect.effect
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.annotation.KoinViewModel
 
@@ -17,7 +15,7 @@ import org.koin.android.annotation.KoinViewModel
 class DetailsMovieViewModel(
     private val movieDetailsUseCase: MovieDetailsUseCase,
     private val saveStateHandle: SavedStateHandle
-) : BaseViewModel<DetailsMovieUiState, effect>(
+) : BaseViewModel<DetailsMovieUiState, Nothing>(
     DetailsMovieUiState()
 ) {
 

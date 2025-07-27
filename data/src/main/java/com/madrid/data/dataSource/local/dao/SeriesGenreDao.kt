@@ -29,7 +29,7 @@ interface SeriesGenreDao {
     suspend fun increaseGenreSearchCount(genreTitle: String)
 
     @Delete
-    suspend fun deleteCategory(genre: SeriesGenreEntity)
+    suspend fun deleteGenre(genre: SeriesGenreEntity)
 
     @Query("SELECT * FROM SERIES_GENRE_TABLE WHERE genreId = :id")
     suspend fun getGenreById(id: Int): SeriesGenreEntity?

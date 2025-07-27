@@ -7,13 +7,12 @@ import com.madrid.domain.usecase.mediaDeatailsUseCase.MovieDetailsUseCase
 import com.madrid.domain.usecase.mediaDeatailsUseCase.SeriesDetailsUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import com.madrid.presentation.viewModel.effect.effect
 
 class ReviewsScreenViewModel(
     savedStateHandle: SavedStateHandle,
     private val movieDetailsUseCase: MovieDetailsUseCase,
     private val seriesDetailsUseCase: SeriesDetailsUseCase,
-) : BaseViewModel<ReviewsScreenUiState, effect>(ReviewsScreenUiState()) {
+) : BaseViewModel<ReviewsScreenUiState, Nothing>(ReviewsScreenUiState()) {
 
     private val args = savedStateHandle.toRoute<Destinations.ReviewsScreen>()
 
@@ -50,7 +49,7 @@ class ReviewsScreenViewModel(
                     })
                 }
             },
-            onError = { e -> Log.d("TAG lol", "loadSeriesReviews: ${e.message}")},
+            onError = { e -> Log.d("TAG lol", "loadSeriesReviews: ${e.message}") },
         )
 
     }

@@ -14,6 +14,10 @@ import com.madrid.presentation.screens.detailsScreen.reviewsScreen.ReviewsScreen
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.EpisodesScreen
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.SeasonsScreen
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.SeriesDetailsScreen
+import com.madrid.presentation.screens.detailsScreen.similarMedia.SeeAllSimilarMediaScreen
+import com.madrid.presentation.screens.homeScreen.HomeScreen
+import com.madrid.presentation.screens.libraryScreen.LibraryScreen
+import com.madrid.presentation.screens.moreScreen.MoreScreen
 import com.madrid.presentation.screens.searchScreen.SearchScreen
 import com.madrid.presentation.screens.searchScreen.SeeAllForYou.SeeAllForYouScreen
 
@@ -45,9 +49,7 @@ fun MovioNavHost(navController: NavHostController) {
             SearchScreen()
         }
         composable<Destinations.HomeScreen> {
-            FakeHomeScreen(
-
-            )
+            HomeScreen()
         }
         composable<Destinations.EpisodesScreen> {
             EpisodesScreen()
@@ -66,16 +68,19 @@ fun MovioNavHost(navController: NavHostController) {
             SeasonsScreen()
         }
         composable<Destinations.LibraryScreen> {
-            FakeLibraryScreen()
+            LibraryScreen()
         }
         composable<Destinations.MoreScreen> {
-            FakeMoreScreen()
+            MoreScreen()
         }
         composable<Destinations.ActorDetails> {
-           ActorDetails()
+            ActorDetails()
         }
         composable<Destinations.TopCastScreen> {
             TopCastDetailsScreen()
+        }
+        composable<Destinations.SimilarMediaScreen> {
+            SeeAllSimilarMediaScreen()
         }
 
     }

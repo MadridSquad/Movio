@@ -1,6 +1,5 @@
 package com.madrid.data.repositories
 
-import com.madrid.data.dataSource.local.entity.ArtistEntity
 import com.madrid.data.dataSource.local.entity.relationship.MovieGenreCrossRef
 import com.madrid.data.dataSource.local.entity.relationship.SeriesGenreCrossRef
 import com.madrid.data.dataSource.local.mappers.toArtist
@@ -11,10 +10,8 @@ import com.madrid.data.dataSource.local.mappers.toMovieEntity
 import com.madrid.data.dataSource.local.mappers.toSeries
 import com.madrid.data.dataSource.local.mappers.toSeriesEntity
 import com.madrid.data.dataSource.local.mappers.toSeriesGenreEntity
-import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.mapper.toMovie
 import com.madrid.data.dataSource.remote.mapper.toSeries
-import com.madrid.data.dataSource.remote.response.artist.ArtistsResult
 import com.madrid.data.repositories.local.LocalDataSource
 import com.madrid.data.repositories.remote.RemoteDataSource
 import com.madrid.domain.entity.Artist
@@ -41,7 +38,7 @@ class SearchRepositoryImpl(
                 page = page
             ).movieResults?.map { movieResult ->
                 movieResult.genreIds?.map { genreId ->
-                    localSource.relateMovieToCategory(
+                    localSource.relateMovieToGenre(
                         MovieGenreCrossRef(
                             movieId = movieResult.id ?: 0,
                             genreId = genreId
@@ -68,7 +65,7 @@ class SearchRepositoryImpl(
                 page = page
             ).seriesResults?.map { seriesResult ->
                 seriesResult.genreIds?.map { genreId ->
-                    localSource.relateSeriesToCategory(
+                    localSource.relateSeriesToGenre(
                         SeriesGenreCrossRef(
                             seriesId = seriesResult.id ?: 0,
                             genreId = genreId
@@ -130,7 +127,7 @@ class SearchRepositoryImpl(
         movies?.map { movie ->
             localSource.insertMovie(movie.toMovieEntity())
             movie.genreIds?.map { genreId ->
-                localSource.relateMovieToCategory(
+                localSource.relateMovieToGenre(
                     MovieGenreCrossRef(
                         movieId = movie.id ?: 0,
                         genreId = genreId
