@@ -45,31 +45,27 @@ fun AuthRequiredBottomSheetContent(
 
         Column(
             modifier = Modifier
-                .fillMaxWidth(), // Fill (328px) in the image, achieved with fillMaxWidth and parent padding
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp) // Gap 8px between title and description
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleMedium.copy(
-                    // You might need to define your custom typography in your Theme file
-                    // or adjust FontFamilies/Weights directly if not yet in your theme.
-                    // Assuming Title Medium - Medium (Weight 500) from image_22fb7b.jpg
                     fontWeight = MaterialTheme.typography.titleMedium.fontWeight
-                        ?: MaterialTheme.typography.titleMedium.fontWeight // If you have a custom font, it should be defined in your Theme's Typography
+                        ?: MaterialTheme.typography.titleMedium.fontWeight
                 ),
-                color = Theme.color.surfaces.onSurface, // Color from image_22fb7b.jpg
+                color = Theme.color.surfaces.onSurface,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
             Text(
                 text = description,
                 style = MaterialTheme.typography.labelSmall.copy(
-                    // Assuming Label Small - Regular 12 (Weight 400) from image_22fb80.jpg
                     fontWeight = MaterialTheme.typography.labelSmall.fontWeight
-                        ?: MaterialTheme.typography.labelSmall.fontWeight // If you have a custom font, it should be defined in your Theme's Typography
+                        ?: MaterialTheme.typography.labelSmall.fontWeight
                 ),
-                color = Theme.color.surfaces.onSurfaceContainer, // Color from image_22fb80.jpg
+                color = Theme.color.surfaces.onSurfaceContainer,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -79,14 +75,14 @@ fun AuthRequiredBottomSheetContent(
         Button(
             onClick = onLoginClick,
             modifier = Modifier
-                .fillMaxWidth() // Fill (328px)
-                .height(48.dp), // Fixed (48px)
-            shape = RoundedCornerShape(24.dp), // 2xl radius, assuming 24.dp
+                .fillMaxWidth()
+                .height(48.dp),
+            shape = RoundedCornerShape(24.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Theme.color.brand.primary, // Primary brand color for button background
-                contentColor = Theme.color.brand.onPrimary // Text color on primary background
+                containerColor = Theme.color.brand.primary,
+                contentColor = Theme.color.brand.onPrimary
             ),
-            contentPadding = ButtonDefaults.ContentPadding // Default Material Design padding (adjust if "md" in image is different)
+            contentPadding = ButtonDefaults.ContentPadding
         ) {
             Text(text = buttonText)
         }

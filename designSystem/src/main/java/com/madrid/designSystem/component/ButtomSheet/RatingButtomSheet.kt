@@ -104,11 +104,11 @@ fun RatingBottomSheetContent(
                 painter = painterResource(id = moviePosterResId),
                 contentDescription = movieTitle,
                 modifier = Modifier
-                    .size(88.dp) // 88x88px
-                    .clip(CircleShape) // 137.5px radius makes it circular
+                    .size(88.dp)
+                    .clip(CircleShape)
                     .border(
                         width = 1.1.dp,
-                        color = Theme.color.surfaces.onSurfaceAt2, // White 38% opacity, which should be onSurfaceAt2 based on your color system
+                        color = Theme.color.surfaces.onSurfaceAt2,
                         shape = CircleShape
                     )
             )
@@ -137,11 +137,9 @@ fun RatingBottomSheetContent(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(28.dp) // Hug (28px) for stars row
+                    .height(28.dp)
             )
         } else {
-            // Show filled stars after submission if needed, or some other confirmation visual.
-            // For now, let's keep it simple as per the "Thank you" state.
             RatingStars(
                 currentRating = selectedRating,
                 onRatingChange = { /* No action on click after submission */ },
@@ -160,8 +158,6 @@ fun RatingBottomSheetContent(
                     onRatingSubmitted(selectedRating)
                     isSubmitted = true // Change state to submitted
                 } else {
-                    // If already submitted, the button might change to "Done" and dismiss the sheet
-                    // You might want to add another callback for "Done"
                     onRatingSubmitted(selectedRating) // Call submit again if "Done" also performs an action or just dismisses
                 }
             },
