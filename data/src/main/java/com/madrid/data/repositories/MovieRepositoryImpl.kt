@@ -13,13 +13,13 @@ import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.SimilarMovie
 import com.madrid.domain.entity.Trailer
-import com.madrid.domain.repository.MovieDetailsRepository
+import com.madrid.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 
-class MovieDetailsRepositoryImpl(
+class MovieRepositoryImpl(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
-) : MovieDetailsRepository {
+) : MovieRepository {
 
     override suspend fun getMovieDetailsById(movieId: Int): Movie {
         val movieResponse = remoteDataSource.getMovieDetailsById(movieId)

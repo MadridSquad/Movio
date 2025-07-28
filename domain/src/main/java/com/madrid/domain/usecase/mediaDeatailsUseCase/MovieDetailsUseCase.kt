@@ -5,32 +5,32 @@ import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.SimilarMovie
 import com.madrid.domain.entity.Trailer
-import com.madrid.domain.repository.MovieDetailsRepository
+import com.madrid.domain.repository.MovieRepository
 import kotlinx.coroutines.flow.Flow
 
-class MovieDetailsUseCase(private val movieDetailsRepository: MovieDetailsRepository) {
+class MovieDetailsUseCase(private val movieRepository: MovieRepository) {
     suspend fun getMovieDetailsById(movieId: Int): Movie =
-        movieDetailsRepository.getMovieDetailsById(movieId)
+        movieRepository.getMovieDetailsById(movieId)
 
     suspend fun getMovieTrailersById(movieId: Int): Trailer =
-        movieDetailsRepository.getMovieTrailersById(movieId)
+        movieRepository.getMovieTrailersById(movieId)
 
     suspend fun getMovieCreditsById(movieId: Int): List<Cast> =
-        movieDetailsRepository.getMovieCreditsById(movieId)
+        movieRepository.getMovieCreditsById(movieId)
 
     suspend fun getMovieReviewsById(movieId: Int): List<Review> =
-        movieDetailsRepository.getMovieReviewsById(movieId)
+        movieRepository.getMovieReviewsById(movieId)
 
     suspend fun getSimilarMoviesById(movieId: Int): List<SimilarMovie> =
-        movieDetailsRepository.getSimilarMoviesById(movieId)
+        movieRepository.getSimilarMoviesById(movieId)
 
-    suspend fun submitMovieRating(rating: Float) = movieDetailsRepository.submitMovieRating(rating)
+    suspend fun submitMovieRating(rating: Float) = movieRepository.submitMovieRating(rating)
 
-    suspend fun addMovieToFavourites(movieId: Int) = movieDetailsRepository.addMovieToFavourites(movieId)
+    suspend fun addMovieToFavourites(movieId: Int) = movieRepository.addMovieToFavourites(movieId)
 
-    suspend fun getCollectionsList(): Flow<List<String>> = movieDetailsRepository.getCollectionsList()
+    suspend fun getCollectionsList(): Flow<List<String>> = movieRepository.getCollectionsList()
 
-    suspend fun addNewCollection(collection: String) = movieDetailsRepository.addNewCollection(collection)
+    suspend fun addNewCollection(collection: String) = movieRepository.addNewCollection(collection)
 
-    suspend fun addMovieToList(movieId: Int,listName: String): Boolean = movieDetailsRepository.addMovieToList(movieId,listName)
+    suspend fun addMovieToList(movieId: Int,listName: String): Boolean = movieRepository.addMovieToList(movieId,listName)
 }

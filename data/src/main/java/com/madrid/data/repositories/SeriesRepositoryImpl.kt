@@ -1,14 +1,13 @@
 package com.madrid.data.repositories
 
 import android.util.Log
-import com.madrid.data.dataSource.local.mappers.toMovieGenreEntity
 import com.madrid.data.dataSource.remote.mapper.toCredits
 import com.madrid.data.dataSource.remote.mapper.toEpisode
-import com.madrid.data.dataSource.remote.mapper.toMovie
 import com.madrid.data.dataSource.remote.mapper.toReviewResult
 import com.madrid.data.dataSource.remote.mapper.toSeries
 import com.madrid.data.dataSource.remote.mapper.toSimilarSeries
 import com.madrid.data.dataSource.remote.mapper.toTrailer
+import com.madrid.data.dataSource.remote.mapper.toTvShows
 import com.madrid.data.repositories.local.LocalDataSource
 import com.madrid.data.repositories.remote.RemoteDataSource
 import com.madrid.domain.entity.Cast
@@ -17,13 +16,13 @@ import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.Series
 import com.madrid.domain.entity.SimilarSeries
 import com.madrid.domain.entity.Trailer
-import com.madrid.domain.repository.SeriesDetailsRepository
+import com.madrid.domain.repository.SeriesRepository
 import kotlinx.coroutines.flow.Flow
 
-class SeriesDetailsRepositoryImpl(
+class SeriesRepositoryImpl(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
-) : SeriesDetailsRepository {
+) : SeriesRepository {
 
     //region series details
     override suspend fun getSeriesDetailsById(seriesId: Int): Series {
@@ -61,6 +60,22 @@ class SeriesDetailsRepositoryImpl(
         ).episodeNetworks?.map { it.toEpisode() } ?: emptyList()
     }
     //End region
+
+    override suspend fun getTopRatedSeries(): List<Series> {
+        return remoteDataSource.getTopRatedSeries().toTvShows()
+    }
+
+    override suspend fun getOnAirSeries(): List<Series> {
+        return remoteDataSource.getOnAirSeries().toTvShows()
+    }
+
+    override suspend fun getAiringTodaySeries(): List<Series> {
+        return remoteDataSource.getAiringTodaySeries().toTvShows()
+    }
+
+    override suspend fun getRecommendedSeries(): List<Series> {
+        return remoteDataSource.getRecommendedSeries().toTvShows()
+    }
 
 
     override suspend fun submitSeriesRating(rating: Float) {

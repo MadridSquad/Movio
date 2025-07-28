@@ -6,37 +6,37 @@ import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.Series
 import com.madrid.domain.entity.SimilarSeries
 import com.madrid.domain.entity.Trailer
-import com.madrid.domain.repository.SeriesDetailsRepository
+import com.madrid.domain.repository.SeriesRepository
 import kotlinx.coroutines.flow.Flow
 
-class SeriesDetailsUseCase(private val seriesDetailsRepository: SeriesDetailsRepository) {
+class SeriesDetailsUseCase(private val seriesRepository: SeriesRepository) {
 
     suspend fun getSeriesDetailsById(seriesId: Int): Series =
-        seriesDetailsRepository.getSeriesDetailsById(seriesId)
+        seriesRepository.getSeriesDetailsById(seriesId)
 
     suspend fun getSeriesTrailersById(seriesId: Int): Trailer =
-        seriesDetailsRepository.getSeriesTrailersById(seriesId)
+        seriesRepository.getSeriesTrailersById(seriesId)
 
     suspend fun getSeriesCreditsById(seriesId: Int): List<Cast> =
-        seriesDetailsRepository.getSeriesCreditsById(seriesId)
+        seriesRepository.getSeriesCreditsById(seriesId)
 
     suspend fun getSeriesReviewsById(seriesId: Int): List<Review> =
-        seriesDetailsRepository.getSeriesReviewsById(seriesId)
+        seriesRepository.getSeriesReviewsById(seriesId)
 
     suspend fun getSimilarSeriesById(seriesId: Int): List<SimilarSeries> =
-        seriesDetailsRepository.getSimilarSeriesById(seriesId)
+        seriesRepository.getSimilarSeriesById(seriesId)
 
     suspend fun getEpisodesBySeriesId(seriesId: Int, seasonNumber: Int): List<Episode> =
-        seriesDetailsRepository.getEpisodesBySeriesId(seriesId, seasonNumber)
+        seriesRepository.getEpisodesBySeriesId(seriesId, seasonNumber)
 
 
-    suspend fun submitSeriesRating(rating: Float) = seriesDetailsRepository.submitSeriesRating(rating)
+    suspend fun submitSeriesRating(rating: Float) = seriesRepository.submitSeriesRating(rating)
 
-    suspend fun addSeriesToFavourites(seriesId: Int) = seriesDetailsRepository.addSeriesToFavourites(seriesId)
+    suspend fun addSeriesToFavourites(seriesId: Int) = seriesRepository.addSeriesToFavourites(seriesId)
 
-    suspend fun getListsCollection(): Flow<List<String>> = seriesDetailsRepository.getListsCollection()
+    suspend fun getListsCollection(): Flow<List<String>> = seriesRepository.getListsCollection()
 
-    suspend fun addNewCollection(collection: String) = seriesDetailsRepository.addNewCollection(collection)
+    suspend fun addNewCollection(collection: String) = seriesRepository.addNewCollection(collection)
 
-    suspend fun addSeriesToList(seriesId: Int,listName: String) = seriesDetailsRepository.addSeriesToList(seriesId,listName)
+    suspend fun addSeriesToList(seriesId: Int,listName: String) = seriesRepository.addSeriesToList(seriesId,listName)
 }

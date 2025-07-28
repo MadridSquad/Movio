@@ -11,7 +11,6 @@ interface SearchRepository {
     suspend fun getArtistByQuery(query: String,page:Int): List<Artist>
 
     suspend fun getTopRatedMovies(query: String,page: Int): List<Movie>
-    suspend fun getTopRatedSeries(query: String,page: Int): List<Series>
 
     suspend fun getRecommendedMovie(): List<Movie>
     suspend fun getPopularMovie(page: Int): List<Movie>

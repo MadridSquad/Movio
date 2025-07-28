@@ -5,20 +5,20 @@ import com.madrid.data.dataSource.local.MovioDatabase
 import com.madrid.data.repositories.AllTrendingRepositoryImpl
 import com.madrid.data.repositories.ArtistDetailsRepositoryImpl
 import com.madrid.data.repositories.HomeRepositoryImpl
-import com.madrid.data.repositories.MovieDetailsRepositoryImpl
+import com.madrid.data.repositories.MovieRepositoryImpl
 import com.madrid.data.repositories.RecommendedRepositoryImp
 import com.madrid.data.repositories.SearchRepositoryImpl
-import com.madrid.data.repositories.SeriesDetailsRepositoryImpl
+import com.madrid.data.repositories.SeriesRepositoryImpl
 import com.madrid.data.repositories.local.LocalDataSource
 import com.madrid.detectImageContent.GetImageBitmap
 import com.madrid.detectImageContent.SensitiveContentDetection
 import com.madrid.domain.repository.AllTrendingRepository
 import com.madrid.domain.repository.ArtistDetailsRepository
 import com.madrid.domain.repository.HomeRepository
-import com.madrid.domain.repository.MovieDetailsRepository
+import com.madrid.domain.repository.MovieRepository
 import com.madrid.domain.repository.RecommendedRepository
 import com.madrid.domain.repository.SearchRepository
-import com.madrid.domain.repository.SeriesDetailsRepository
+import com.madrid.domain.repository.SeriesRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -46,11 +46,11 @@ val dataModule = module {
     // endregion
 
     // region Movie Details
-    single<MovieDetailsRepository> { MovieDetailsRepositoryImpl(get(), get()) }
+    single<MovieRepository> { MovieRepositoryImpl(get(), get()) }
     // endregion
 
     // region Series Details
-    single<SeriesDetailsRepository> { SeriesDetailsRepositoryImpl(get(), get()) }
+    single<SeriesRepository> { SeriesRepositoryImpl(get(), get()) }
     // endregion
 
     // region Home
