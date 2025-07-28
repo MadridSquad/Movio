@@ -71,8 +71,6 @@ fun AuthRequiredBottomSheetContent(
                 modifier = Modifier.fillMaxWidth()
             )
         }
-
-        // Login Button
         Button(
             onClick = onLoginClick,
             modifier = Modifier

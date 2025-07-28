@@ -143,7 +143,6 @@ fun CreateNewListItem(
         Box(
             modifier = Modifier
                 .size(32.dp)
-//                .background(Theme.color.surfaces.surfaceContainer)
                 .clip(CircleShape),
         ) {
             MovioIcon(
@@ -182,16 +181,7 @@ fun AddToListBottomSheetContent(
             onListCreated = onListCreated
         )
 
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(1.dp)
-                .padding(horizontal = 16.dp)
-        )
-
         Spacer(modifier = Modifier.height(8.dp))
-
-        // Existing lists
         if (userLists.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),

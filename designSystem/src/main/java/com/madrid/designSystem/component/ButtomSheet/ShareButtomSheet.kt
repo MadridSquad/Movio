@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -90,9 +89,9 @@ fun ShareViaBottomSheetContent(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
+        MovioText(
             text = "Share via",
-            style = MaterialTheme.typography.titleMedium,
+            textStyle = MaterialTheme.typography.titleMedium,
             color = Theme.color.surfaces.onSurface
         )
         Row(
