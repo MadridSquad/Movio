@@ -99,13 +99,6 @@ fun SeriesDetailsScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
             TopCastSection(
-                castMembers = uiState.topCast.map { cast ->
-                    CastMember(
-                        id = cast.id.toString(),
-                        name = cast.name,
-                        imageUrl = cast.imageUrl
-                    )
-                },
                 onSeeAllClick = {
                     navController.navigate(
                         Destinations.TopCast(
@@ -122,7 +115,13 @@ fun SeriesDetailsScreen(
                         )
                     )
                 },
-            )
+                castMembers = uiState.topCast.map { cast ->
+                    CastMember(
+                        id = cast.id.toString(),
+                        name = cast.name,
+                        imageUrl = cast.imageUrl
+                    )
+                })
             Spacer(Modifier.height(12.dp))
             Row(
                 modifier = Modifier

@@ -3,21 +3,16 @@ package com.madrid.presentation.screens.detailsScreen.castDetails
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -37,7 +32,6 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.detailsViewModel.ActorDetailsViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.MovieDetailsUiState
-import com.madrid.presentation.viewModel.detailsViewModel.TopCastViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -63,9 +57,11 @@ fun ActorDetails(
             )
         }
         else -> {
-            Text(
+            MovioText(
                 "Actor not found",
                 modifier = Modifier.fillMaxSize(),
+                color = Theme.color.brand.primary,
+                textStyle = Theme.textStyle.label.mediumMedium16,
                 textAlign = TextAlign.Center
             )
         }

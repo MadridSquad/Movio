@@ -98,7 +98,7 @@ fun MovieDetailsScreen(
                     )
                 },
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                castMembers = uiState.casts.map { cast ->
+                  castMembers = uiState.casts.map { cast ->
                     CastMember(
                         id = cast.id.toString(),
                         name = cast.name,
@@ -106,6 +106,7 @@ fun MovieDetailsScreen(
                     )
                 }
             )
+
             Spacer(modifier = Modifier.height(32.dp))
 
             if (uiState.reviews.isNotEmpty()) {
