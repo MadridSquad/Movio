@@ -1,14 +1,14 @@
 package com.madrid.data.dataSource.local.mappers
 
-import com.madrid.data.dataSource.local.table.MovieEntity
+import com.madrid.data.dataSource.local.table.MovieTable
 import com.madrid.data.dataSource.remote.response.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.response.movie.MovieResult
 import com.madrid.domain.entity.Movie
 import kotlinx.datetime.LocalDate
 
 
-fun Movie.toMovieEntity(): MovieEntity {
-    return MovieEntity(
+fun Movie.toMovieEntity(): MovieTable {
+    return MovieTable(
         movieId = this.id,
         title = this.title,
         imageUrl = this.imageUrl,
@@ -19,7 +19,7 @@ fun Movie.toMovieEntity(): MovieEntity {
     )
 }
 
-fun MovieEntity.toMovie(): Movie {
+fun MovieTable.toMovie(): Movie {
     return Movie(
         id = this.movieId,
         title = this.title,
@@ -32,8 +32,8 @@ fun MovieEntity.toMovie(): Movie {
     )
 }
 
-fun MovieDetailsResponse.toMovieEntity(): MovieEntity {
-    return MovieEntity(
+fun MovieDetailsResponse.toMovieEntity(): MovieTable {
+    return MovieTable(
         movieId = this.id ?: 0,
         title = this.title ?: "",
         imageUrl = this.posterPath ?: "",
@@ -44,8 +44,8 @@ fun MovieDetailsResponse.toMovieEntity(): MovieEntity {
     )
 }
 
-fun MovieResult.toMovieEntity(): MovieEntity {
-    return MovieEntity(
+fun MovieResult.toMovieEntity(): MovieTable {
+    return MovieTable(
         movieId = this.id ?: 0,
         title = this.title ?: "",
         imageUrl = ("https://image.tmdb.org/t/p/original" + this.posterPath) ?: "",

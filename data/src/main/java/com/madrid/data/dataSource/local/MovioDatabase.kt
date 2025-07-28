@@ -10,23 +10,23 @@ import com.madrid.data.dataSource.local.dao.MovieDao
 import com.madrid.data.dataSource.local.dao.RecentSearchDao
 import com.madrid.data.dataSource.local.dao.SeriesDao
 import com.madrid.data.dataSource.local.dao.SeriesGenreDao
-import com.madrid.data.dataSource.local.table.ArtistEntity
-import com.madrid.data.dataSource.local.table.MovieGenreEntity
-import com.madrid.data.dataSource.local.table.SeriesGenreEntity
-import com.madrid.data.dataSource.local.table.MovieEntity
-import com.madrid.data.dataSource.local.table.SeriesEntity
-import com.madrid.data.dataSource.local.table.RecentSearchEntity
+import com.madrid.data.dataSource.local.table.ArtistTable
+import com.madrid.data.dataSource.local.table.MovieGenreTable
+import com.madrid.data.dataSource.local.table.SeriesGenreTable
+import com.madrid.data.dataSource.local.table.MovieTable
+import com.madrid.data.dataSource.local.table.SeriesTable
+import com.madrid.data.dataSource.local.table.RecentSearchTable
 import com.madrid.data.dataSource.local.table.relationship.MovieGenreCrossRef
 import com.madrid.data.dataSource.local.table.relationship.SeriesGenreCrossRef
 
 @Database(
     entities = [
-        MovieEntity::class,
-        SeriesEntity::class,
-        MovieGenreEntity::class,
-        SeriesGenreEntity::class,
-        ArtistEntity::class,
-        RecentSearchEntity::class,
+        MovieTable::class,
+        SeriesTable::class,
+        MovieGenreTable::class,
+        SeriesGenreTable::class,
+        ArtistTable::class,
+        RecentSearchTable::class,
         MovieGenreCrossRef::class,
         SeriesGenreCrossRef::class
     ],

@@ -1,12 +1,12 @@
 package com.madrid.data.dataSource.local.mappers
 
 
-import com.madrid.data.dataSource.local.table.ArtistEntity
+import com.madrid.data.dataSource.local.table.ArtistTable
 import com.madrid.data.dataSource.remote.response.artist.ArtistsResult
 import com.madrid.domain.entity.Artist
 
-fun Artist.toArtistEntity(): ArtistEntity {
-    return ArtistEntity(
+fun Artist.toArtistEntity(): ArtistTable {
+    return ArtistTable(
         id = this.id,
         name = this.name,
         imageUrl = this.imageUrl,
@@ -17,7 +17,7 @@ fun Artist.toArtistEntity(): ArtistEntity {
     )
 }
 
-fun ArtistEntity.toArtist(): Artist {
+fun ArtistTable.toArtist(): Artist {
     return Artist(
         id = this.id,
         name = this.name,
@@ -30,8 +30,8 @@ fun ArtistEntity.toArtist(): Artist {
 }
 
 
-fun ArtistsResult.toArtistEntity(): ArtistEntity {
-    return ArtistEntity(
+fun ArtistsResult.toArtistEntity(): ArtistTable {
+    return ArtistTable(
         id = this.id ?: 0,
         name = this.name ?: "",
         imageUrl = "https://image.tmdb.org/t/p/original${this.profilePath}",

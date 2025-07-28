@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 
 @Entity(tableName = "RECENT_TABLE")
-data class RecentSearchEntity(
+data class RecentSearchTable(
     @PrimaryKey(autoGenerate = false) val searchQuery: String,
     val timestamp: Long = System.currentTimeMillis()
 )
