@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
+import com.madrid.designSystem.theme.Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,19 +29,15 @@ fun CreateListBottomSheet(
     onCreateClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val sheetState = rememberModalBottomSheetState()
-    var modifiedIsVisible: Boolean by remember { mutableStateOf(isVisible) }
+    val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     LaunchedEffect(isVisible) {
-        if (isVisible) {
-            modifiedIsVisible = true
-        } else {
+        if (!isVisible) {
             sheetState.hide()
-            modifiedIsVisible = false
         }
     }
 
-    if (modifiedIsVisible) {
+    if (isVisible) {
         ModalBottomSheet(
             onDismissRequest = onDismiss,
             modifier = modifier,
@@ -68,15 +65,7 @@ private fun CreateListContent(
             .fillMaxWidth()
             .padding(16.dp)
             .clip(RoundedCornerShape(24.dp))
-            .background(
-                Brush.verticalGradient(
-                    colors = listOf(
-                        Color(0xFF1A1B2E),
-                        Color(0xFF16213E),
-                        Color(0xFF0F3460)
-                    )
-                )
-            )
+            .background(color = Color(0xFF080D24))
             .padding(24.dp)
     ) {
         Column(
@@ -103,60 +92,27 @@ private fun CreateListContent(
                     lineHeight = 20.sp
                 )
             }
+
+
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(
-                                Color(0xFF2D1B69),
-                                Color(0xFF1E1348)
-                            )
-                        )
-                    )
+                    .height(48.dp) // Fixed height as per design
+                    .clip(RoundedCornerShape(12.dp)) // 12dp corner radius
+                    .background(Color(0xFF1A162F)) // Solid background color
                     .border(
                         width = 1.dp,
                         color = Color(0xFF00D4FF),
-                        shape = RoundedCornerShape(16.dp)
+                        shape = RoundedCornerShape(12.dp) // Matching border radius
                     )
-                    .padding(20.dp)
+                    .padding(horizontal = 16.dp ) // Horizontal padding only
             ) {
-                // Decorative elements
-                Box(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(Color(0xFFFF1493))
-                        .align(Alignment.TopEnd)
-                ) {
-                    Text(
-                        text = "40",
-                        color = Color.White,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(60.dp)
-                        .background(
-                            Brush.linearGradient(
-                                colors = listOf(
-                                    Color(0xFF6A0DAD).copy(alpha = 0.3f),
-                                    Color.Transparent,
-                                    Color(0xFF6A0DAD).copy(alpha = 0.3f)
-                                )
-                            )
-                        )
-                )
-
                 Row(
+                    modifier = Modifier
+                        .fillMaxSize(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.align(Alignment.BottomStart)
+                    horizontalArrangement = Arrangement.Start,
+
                 ) {
                     MovioIcon(
                         painter = painterResource(id = R.drawable.outline_minimalistic),
@@ -164,6 +120,8 @@ private fun CreateListContent(
                         tint = Color.White,
                         modifier = Modifier.size(20.dp)
                     )
+
+                    Spacer(modifier = Modifier.width(12.dp))
 
                     Text(
                         text = "Watch later",
@@ -173,6 +131,7 @@ private fun CreateListContent(
                     )
                 }
             }
+            Spacer(modifier = Modifier.height(8.dp))
             Button(
                 onClick = onCreateClick,
                 modifier = Modifier
@@ -187,16 +146,7 @@ private fun CreateListContent(
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(
-                            Brush.horizontalGradient(
-                                colors = listOf(
-                                    Color(0xFF8A2BE2),
-                                    Color(0xFF9932CC),
-                                    Color(0xFFBA55D3)
-                                )
-                            ),
-                            shape = RoundedCornerShape(28.dp)
-                        ),
+                        .background(Theme.color.brand.primary),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -211,12 +161,24 @@ private fun CreateListContent(
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true )
 @Composable
-fun CreateListBottomSheetPreview() {
-    CreateListBottomSheet(
-        isVisible = true,
-        onDismiss = {},
-        onCreateClick = {}
-    )
+fun CreateListContentPreview() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(400.dp)
+    ) {
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = Color(0xFF1A1B23) // Dark background from design
+            )
+        ) {
+            CreateListContent(
+                onCreateClick = {},
+                onDismiss = {}
+            )
+        }
+    }
 }
