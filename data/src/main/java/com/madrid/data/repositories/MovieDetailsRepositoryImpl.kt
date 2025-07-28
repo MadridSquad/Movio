@@ -23,9 +23,8 @@ class MovieDetailsRepositoryImpl(
 
     override suspend fun getMovieDetailsById(movieId: Int): Movie {
         val movieResponse = remoteDataSource.getMovieDetailsById(movieId)
-        movieResponse.movieGenres.map { genre ->
-            val genreEntity = genre.toMovieGenreTable()
-            localDataSource.increaseMovieGenreSeenCount(genreEntity.genreTitle)
+        movieResponse.movieGenres.forEach { genre ->
+            localDataSource.increaseMovieGenreSeenCount(genre.name ?: "")
         }
         return movieResponse.toMovie()
     }

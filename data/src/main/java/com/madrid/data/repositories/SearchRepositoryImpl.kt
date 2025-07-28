@@ -29,15 +29,15 @@ class SearchRepositoryImpl(
         var result = localSource.searchMovieByQueryFromDB(query, page)
         if (result.isEmpty()) {
             localSource.getAllMovieGenres().ifEmpty {
-                remoteDataSource.getMovieGenres().genres?.map {
+                remoteDataSource.getMovieGenres().genres?.forEach {
                     localSource.insertMovieGenre(it.toMovieGenreTable())
                 }
             }
             remoteDataSource.searchMoviesByQuery(
                 name = query,
                 page = page
-            ).movieResults?.map { movieResult ->
-                movieResult.genreIds?.map { genreId ->
+            ).movieResults?.forEach { movieResult ->
+                movieResult.genreIds?.forEach { genreId ->
                     localSource.relateMovieToGenre(
                         MovieGenreCrossRef(
                             movieId = movieResult.id ?: 0,
@@ -56,15 +56,15 @@ class SearchRepositoryImpl(
         var result = localSource.searchSeriesByQueryFromDB(query, page)
         if (result.isEmpty()) {
             localSource.getAllSeriesGenres().ifEmpty {
-                remoteDataSource.getSeriesGenres().genres?.map {
+                remoteDataSource.getSeriesGenres().genres?.forEach {
                     localSource.insertSeriesGenre(it.toSeriesGenreTable())
                 }
             }
             remoteDataSource.searchSeriesByQuery(
                 name = query,
                 page = page
-            ).seriesResults?.map { seriesResult ->
-                seriesResult.genreIds?.map { genreId ->
+            ).seriesResults?.forEach { seriesResult ->
+                seriesResult.genreIds?.forEach { genreId ->
                     localSource.relateSeriesToGenre(
                         SeriesGenreCrossRef(
                             seriesId = seriesResult.id ?: 0,
@@ -85,13 +85,11 @@ class SearchRepositoryImpl(
             remoteDataSource.searchArtistByQuery(
                 name = query,
                 page = page
-            ).artistResults?.map {
+            ).artistResults?.forEach {
                 localSource.insertArtist(it.toArtistTable())
             }
         }
-        return localSource.searchArtistByQueryFromDB(query, page).map {
-            it.toArtist()
-        }
+        return localSource.searchArtistByQueryFromDB(query, page).map {it.toArtist() }
     }
 
 
