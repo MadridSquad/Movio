@@ -154,7 +154,7 @@ fun RatingBottomSheetContent(
                 .height(48.dp),
             shape = RoundedCornerShape(24.dp),
             colors = ButtonDefaults.buttonColors(
-                disabledContainerColor = Color(0xFF724CF8),
+                disabledContainerColor = Theme.color.brand.primary,
                 disabledContentColor = Color.White.copy(alpha = 0.7f)
             )
         ) {
@@ -170,6 +170,6 @@ fun RatingBottomSheetPreview() {
         movieTitle = "Ballerina",
         moviePosterResId = R.drawable.library_main_icon,
         initialRating = 0,
-        onRatingSubmitted = { /* Handle rating submission */ }
+        onRatingSubmitted = { }
     )
 }
