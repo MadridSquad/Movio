@@ -1,6 +1,5 @@
 package com.madrid.designSystem.component.ButtomSheet
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,6 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
+import com.madrid.designSystem.component.MovioIcon
+import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 
 @Composable
@@ -37,7 +38,7 @@ fun AuthRequiredBottomSheetContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Image(
+        MovioIcon(
             painter = painterResource(id = R.drawable.library_main_icon),
             contentDescription = "Movio Logo",
             modifier = Modifier.size(width = 60.dp, height = 66.dp)
@@ -49,9 +50,9 @@ fun AuthRequiredBottomSheetContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text(
+            MovioText(
                 text = title,
-                style = MaterialTheme.typography.titleMedium.copy(
+                textStyle = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = MaterialTheme.typography.titleMedium.fontWeight
                         ?: MaterialTheme.typography.titleMedium.fontWeight
                 ),
@@ -59,9 +60,9 @@ fun AuthRequiredBottomSheetContent(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
-            Text(
+            MovioText(
                 text = description,
-                style = MaterialTheme.typography.labelSmall.copy(
+                textStyle = MaterialTheme.typography.labelSmall.copy(
                     fontWeight = MaterialTheme.typography.labelSmall.fontWeight
                         ?: MaterialTheme.typography.labelSmall.fontWeight
                 ),
@@ -91,10 +92,10 @@ fun AuthRequiredBottomSheetContent(
 
 @Preview(showBackground = true , showSystemUi = true)
 @Composable
-fun kjl(){
+fun AuthRequiredBottomSheetContentPreview(){
     AuthRequiredBottomSheetContent(
-        title = "Title",
-        description = "Description",
+        title = "You don't have an account",
+        description = "Please log in or create an account to save items to your favorites and access them later.",
         buttonText = "Login",
         onLoginClick = {}
     )

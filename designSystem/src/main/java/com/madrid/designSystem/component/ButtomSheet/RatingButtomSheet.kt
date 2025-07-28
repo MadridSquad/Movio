@@ -33,6 +33,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
+import com.madrid.designSystem.component.MovioIcon
+import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 
 @Composable
@@ -40,24 +42,30 @@ fun RatingStars(
     currentRating: Int,
     onRatingChange: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    maxRating: Int = 5
+    maxRating: Int = 5,
+    isInteractive: Boolean = true
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.Center, // Centered as per image
+        horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
         repeat(maxRating) { index ->
             val starNumber = index + 1
-            Icon(
-                imageVector = Icons.Default.Star,
+            val isSelected = starNumber <= currentRating
+
+            MovioIcon(
+                painter = painterResource(
+                    id = if (isSelected) R.drawable.bold_star else R.drawable.outline_star
+                ),
                 contentDescription = "Star $starNumber",
-                tint = if (starNumber <= currentRating) Theme.color.brand.primary
-                else Theme.color.surfaces.onSurfaceVariant,
+                tint = if (isSelected) Theme.color.brand.primary else Theme.color.surfaces.onSurfaceContainer,
                 modifier = Modifier
-                    .size(28.dp)
-                    .clickable { onRatingChange(starNumber) }
-                    .padding(horizontal = 6.dp) // Half of the 12dp gap between stars
+                    .size(32.dp)
+                    .clickable(enabled = isInteractive) {
+                        onRatingChange(starNumber)
+                    }
+                    .padding(4.dp)
             )
         }
     }
@@ -79,17 +87,15 @@ fun RatingBottomSheetContent(
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp) // Gap between major sections
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        // Movie Info Section
         Column(
             modifier = Modifier
-                .fillMaxWidth() // Fill (328px)
-                .height(115.dp), // Hug (115px)
+                .fillMaxWidth()
+                .height(115.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp) // Gap 8px between image, title, description
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            // Movie Poster
             Image(
                 painter = painterResource(id = moviePosterResId),
                 contentDescription = movieTitle,
@@ -102,63 +108,48 @@ fun RatingBottomSheetContent(
                         shape = CircleShape
                     )
             )
-            // Movie Title
-            Text(
+            MovioText(
                 text = movieTitle,
-                style = MaterialTheme.typography.titleMedium, // Assuming Title Medium - Medium 16
-                color = Theme.color.surfaces.onSurface, // Color from image_3116e3.jpg
+                textStyle = MaterialTheme.typography.titleMedium,
+                color = Theme.color.surfaces.onSurface,
                 textAlign = TextAlign.Center
             )
-            // Description
-            Text(
+            MovioText(
                 text = if (isSubmitted) "Thank you for your rating!" else "Add your overall rating for this movie",
-                style = MaterialTheme.typography.labelSmall, // Assuming Label Small - Regular 14
-                color = Theme.color.surfaces.onSurfaceContainer, // Color from image_31171f.png
+                textStyle = MaterialTheme.typography.labelSmall,
+                color = Theme.color.surfaces.onSurfaceContainer,
                 textAlign = TextAlign.Center
             )
         }
-
-        // Rating Stars
-        if (!isSubmitted) { // Show stars only if not yet submitted
-            RatingStars(
-                currentRating = selectedRating,
-                onRatingChange = { newRating ->
+        RatingStars(
+            currentRating = selectedRating,
+            onRatingChange = { newRating ->
+                if (!isSubmitted) {
                     selectedRating = newRating
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(28.dp)
-            )
-        } else {
-            RatingStars(
-                currentRating = selectedRating,
-                onRatingChange = { /* No action on click after submission */ },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(28.dp),
-                maxRating = 5 // Always show 5 stars for the "Thank you" state if you want to visually represent the rating
-            )
-        }
-
-
-        // Submit Button
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp),
+            isInteractive = !isSubmitted
+        )
         Button(
             onClick = {
                 if (!isSubmitted) {
                     onRatingSubmitted(selectedRating)
-                    isSubmitted = true // Change state to submitted
+                    isSubmitted = true
                 } else {
-                    onRatingSubmitted(selectedRating) // Call submit again if "Done" also performs an action or just dismisses
+                    onRatingSubmitted(selectedRating)
                 }
             },
-            enabled = selectedRating > 0 || isSubmitted, // Enable only if a rating is selected or already submitted (for "Done")
+            enabled = selectedRating > 0 || isSubmitted,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(48.dp), // Fixed (48px)
-            shape = RoundedCornerShape(24.dp), // 2xl radius, assuming 24.dp
+                .height(48.dp),
+            shape = RoundedCornerShape(24.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = Theme.color.brand.primary, // Primary brand color for button background
-                contentColor = Theme.color.brand.onPrimary // Text color on primary background
+                containerColor = Theme.color.brand.primary,
+                contentColor = Theme.color.brand.onPrimary
             )
         ) {
             Text(text = if (isSubmitted) "Done" else "Submit")
@@ -170,9 +161,9 @@ fun RatingBottomSheetContent(
 @Composable
 fun RatingBottomSheetPreview() {
     RatingBottomSheetContent(
-        movieTitle = "Movie Title",
+        movieTitle = "Ballerina",
         moviePosterResId = R.drawable.library_main_icon,
-        initialRating = 3,
+        initialRating = 0,
         onRatingSubmitted = { /* Handle rating submission */ }
-        )
+    )
 }
