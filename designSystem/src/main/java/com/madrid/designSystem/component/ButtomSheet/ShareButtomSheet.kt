@@ -23,6 +23,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
+import com.madrid.designSystem.component.MovioIcon
+import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 
 data class ShareOptionData(
@@ -51,16 +53,16 @@ fun ShareOption(
                 .background(Theme.color.surfaces.surfaceContainer),
             contentAlignment = Alignment.Center
         ) {
-            Icon(
+            MovioIcon(
                 painter = painterResource(id = data.icon),
                 contentDescription = data.label,
                 tint = Theme.color.surfaces.onSurface
             )
         }
-        Text(
+        MovioText(
             text = data.label,
-            style = MaterialTheme.typography.labelMedium,
-            color = Theme.color.surfaces.onSurfaceContainer
+            textStyle = MaterialTheme.typography.labelMedium,
+            color = Theme.color.surfaces.onSurface
         )
     }
 }
@@ -107,7 +109,7 @@ fun ShareViaBottomSheetContent(
 }
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun kfjd(){
+fun ShareViaBottomSheetContentPreview(){
     ShareViaBottomSheetContent(
         onShareOptionClick = {}
     )
