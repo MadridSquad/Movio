@@ -41,58 +41,101 @@ class SeriesDetailsViewModel(
                         productionDate = series.yearOfRelease,
                         description = series.description,
                         currentSeasonsUiStates = series.seasons.map { season -> season.mapToUiState() },
-                        selectedSeasonUiState = series.seasons[args.seasonNumber - 1].mapToUiState()
+                        selectedSeasonUiState = series.seasons[if (series.seasons.first().seasonNumber == 0) args.seasonNumber  else args.seasonNumber -1].mapToUiState()
+//                        if (series.seasons.first().seasonNumber == 0) args.seasonNumber else
                     )
                 }
                 loadAllSeasonsEpisodes()
                 loadCastData()
                 loadReviews()
                 loadSimilarSeries()
+                loadSeasonEpisodes(if (series.seasons.first().seasonNumber == 0) args.seasonNumber  else args.seasonNumber)
             },
             onError = {},
         )
-        loadSeasonEpisodes(args.seasonNumber)
     }
 
     private fun loadAllSeasonsEpisodes() {
         viewModelScope.launch {
-            val seasonCount = state.first().numberOfSeasons
+            val seasonCount = state.first().currentSeasonsUiStates.size
             Log.d("TAG lol", "loadAllSeasonsEpisodes: ${state.first().numberOfSeasons}")
-            for (i in 0..seasonCount) {
+            state.first().currentSeasonsUiStates.forEachIndexed { index, season ->
                 tryToExecute(
-                    function = { seriesDetailsUseCase.getEpisodesBySeriesId(args.seriesId.toInt(), i + 1) },
+                    function = {
+                        seriesDetailsUseCase.getEpisodesBySeriesId(
+                            args.seriesId,
+                            season.seasonNumber
+                        )
+                    },
                     onSuccess = { episodes ->
                         updateState { currentState ->
                             currentState.copy(
-                                currentSeasonsUiStates = currentState.currentSeasonsUiStates.mapIndexed { index, season ->
-                                    if (index == i) {
-                                        season.copy(
+                                currentSeasonsUiStates = currentState.currentSeasonsUiStates.mapIndexed { seasonIndex, currentSeason ->
+                                    if (season.seasonNumber == currentSeason.seasonNumber)
+                                        currentSeason.copy(
                                             numberOfEpisodes = episodes.size,
-                                            episodesUiStates = episodes.map { episode -> episode.toUiState() }
-                                        )
-                                    } else {
-                                        season
-                                    }
+                                            episodesUiStates = episodes.map { episode -> episode.toUiState() })
+                                    else
+                                        currentSeason
                                 }
                             )
                         }
                     },
-                    onError = {}
+                    onError = { },
                 )
             }
+//            for (i in 0..seasonCount) {
+//                tryToExecute(
+//                    function = {
+//                        seriesDetailsUseCase.getEpisodesBySeriesId(
+//                            args.seriesId.toInt(),
+//                            i
+//                        )
+//                    },
+//                    onSuccess = { episodes ->
+//                        updateState { currentState ->
+//                            currentState.copy(
+//                                currentSeasonsUiStates = currentState.currentSeasonsUiStates.mapIndexed { index, season ->
+//                                    if (index == i) {
+//                                        season.copy(
+//                                            numberOfEpisodes = episodes.size,
+//                                            episodesUiStates = episodes.map { episode -> episode.toUiState() }
+//                                        )
+//                                    } else {
+//                                        season
+//                                    }
+//                                }
+//                            )
+//                        }
+//                    },
+//                    onError = {}
+//                )
+//            }
         }
     }
 
-    fun updateSelectedSeason(seasonNumber: Int) = loadSeasonEpisodes(seasonNumber)
+    fun updateSelectedSeason(seasonNumber: Int, firstSeasonNumber: Int = 0) = loadSeasonEpisodes(seasonNumber,firstSeasonNumber)
 
-    private fun loadSeasonEpisodes(seasonNumber: Int = 1) {
+    private fun loadSeasonEpisodes(seasonNumber: Int = 1, firstSeasonNumber: Int = 0) {
         tryToExecute(
-            function = { seriesDetailsUseCase.getEpisodesBySeriesId(args.seriesId.toInt(), seasonNumber) },
+            function = {
+                seriesDetailsUseCase.getEpisodesBySeriesId(
+                    args.seriesId.toInt(),
+                    seasonNumber
+                )
+            },
             onSuccess = { episodes ->
                 updateState { state ->
-                    state.copy(selectedSeasonUiState = state.selectedSeasonUiState.copy(episodesUiStates = episodes.map { episode ->
-                        episode.toUiState()
-                    }, numberOfEpisodes = episodes.size, seasonNumber = seasonNumber, imageUrl = state.currentSeasonsUiStates[seasonNumber-1].imageUrl))
+                    state.copy(
+                        selectedSeasonUiState = state.selectedSeasonUiState.copy(
+                            episodesUiStates = episodes.map { episode ->
+                                episode.toUiState()
+                            },
+                            numberOfEpisodes = episodes.size,
+                            seasonNumber = seasonNumber,
+                            imageUrl = state.currentSeasonsUiStates[if (state.currentSeasonsUiStates.first().seasonNumber == 0) seasonNumber else seasonNumber -1].imageUrl
+                        )
+                    )
                 }
             },
             onError = { },
@@ -111,13 +154,13 @@ class SeriesDetailsViewModel(
                     })
                 }
             },
-            onError = {e ->
+            onError = { e ->
                 Log.d("TAG lol", "loadCastData: ${e.message}")
             },
         )
     }
 
-    private fun loadReviews(){
+    private fun loadReviews() {
         tryToExecute(
             function = {
                 seriesDetailsUseCase.getSeriesReviewsById(args.seriesId.toInt())
@@ -129,13 +172,13 @@ class SeriesDetailsViewModel(
                     })
                 }
             },
-            onError = {e ->
+            onError = { e ->
                 Log.d("TAG lol", "loadCastData: ${e.message}")
             },
         )
     }
 
-    private fun loadSimilarSeries(){
+    private fun loadSimilarSeries() {
         tryToExecute(
             function = {
                 seriesDetailsUseCase.getSimilarSeriesById(args.seriesId.toInt())
@@ -147,14 +190,14 @@ class SeriesDetailsViewModel(
                     })
                 }
             },
-            onError = {e ->
+            onError = { e ->
                 Log.d("TAG lol", "loadCastData: ${e.message}")
             },
         )
     }
 }
 
-fun SimilarSeries.toUiState(): SeriesUiState{
+fun SimilarSeries.toUiState(): SeriesUiState {
     return SeriesUiState(
         id = this.id,
         name = this.title,
@@ -164,9 +207,9 @@ fun SimilarSeries.toUiState(): SeriesUiState{
 }
 
 
-fun Review.toUiState(): ReviewUiState{
+fun Review.toUiState(): ReviewUiState {
     return ReviewUiState(
-        reviewerName = "Anonymous" ,
+        reviewerName = this.reviewerName,
         reviewerImageUrl = "",
         rating = this.rate.toFloat(),
         date = this.dateOfRelease,
