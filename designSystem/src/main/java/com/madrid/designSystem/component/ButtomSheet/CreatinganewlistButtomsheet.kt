@@ -1,7 +1,9 @@
 package com.madrid.designSystem.component.ButtomSheet
 
+import android.R.attr.onClick
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -14,11 +16,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
+import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,7 +30,7 @@ import com.madrid.designSystem.theme.Theme
 fun CreateListBottomSheet(
     isVisible: Boolean,
     onDismiss: () -> Unit,
-    onCreateClick: () -> Unit,
+    onCreateClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
@@ -55,17 +59,20 @@ fun CreateListBottomSheet(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun CreateListContent(
-    onCreateClick: () -> Unit,
+    onCreateClick: (String) -> Unit,
     onDismiss: () -> Unit
 ) {
+    var listName by remember { mutableStateOf(TextFieldValue("")) }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
             .clip(RoundedCornerShape(24.dp))
-            .background(color = Color(0xFF080D24))
+            .background(color = Color(0xFF0D1226))
             .padding(24.dp)
     ) {
         Column(
@@ -92,48 +99,48 @@ private fun CreateListContent(
                     lineHeight = 20.sp
                 )
             }
-
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp) // Fixed height as per design
-                    .clip(RoundedCornerShape(12.dp)) // 12dp corner radius
-                    .background(Color(0xFF1A162F)) // Solid background color
-                    .border(
-                        width = 1.dp,
-                        color = Color(0xFF00D4FF),
-                        shape = RoundedCornerShape(12.dp) // Matching border radius
+            OutlinedTextField(
+                value = listName,
+                onValueChange = { listName = it },
+                placeholder = {
+                    Text(
+                        text = "List name",
+                        color = Color.White.copy(alpha = 0.5f),
+                        style = MaterialTheme.typography.bodyLarge
                     )
-                    .padding(horizontal = 16.dp ) // Horizontal padding only
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start,
-
-                ) {
+                },
+                leadingIcon = {
                     MovioIcon(
                         painter = painterResource(id = R.drawable.outline_minimalistic),
-                        contentDescription = "Watch Later",
-                        tint = Color.White,
+                        contentDescription = "List Icon",
+                        tint = Color.White.copy(alpha = 0.7f),
                         modifier = Modifier.size(20.dp)
                     )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedContainerColor = Color(0xFF1A1B2F),
+                    unfocusedContainerColor = Color(0xFF1A1B2F),
+                    focusedTextColor = Color.White,
+                    unfocusedTextColor = Color.White,
+                    focusedBorderColor = Color(0xFF2A2B3F),
+                    unfocusedBorderColor = Color(0xFF2A2B3F),
+                    cursorColor = Color.White
+                ),
+                textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.White),
+                singleLine = true
+            )
 
-                    Spacer(modifier = Modifier.width(12.dp))
-
-                    Text(
-                        text = "Watch later",
-                        color = Color.White,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
-            }
             Spacer(modifier = Modifier.height(8.dp))
             Button(
-                onClick = onCreateClick,
+                onClick = {
+                    if (listName.text.isNotBlank()) {
+                        onCreateClick(listName.text)
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
@@ -141,7 +148,8 @@ private fun CreateListContent(
                     containerColor = Color.Transparent
                 ),
                 contentPadding = PaddingValues(0.dp),
-                shape = RoundedCornerShape(28.dp)
+                shape = RoundedCornerShape(28.dp),
+                enabled = listName.text.isNotBlank()
             ) {
                 Box(
                     modifier = Modifier
@@ -161,24 +169,20 @@ private fun CreateListContent(
     }
 }
 
-@Preview(showBackground = true )
+@Preview(showBackground = true)
 @Composable
 fun CreateListContentPreview() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .height(400.dp)
+            .background(Color.Black)
     ) {
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(
-                containerColor = Color(0xFF1A1B23) // Dark background from design
-            )
-        ) {
-            CreateListContent(
-                onCreateClick = {},
-                onDismiss = {}
-            )
-        }
+        CreateListContent(
+            onCreateClick = { listName ->
+                println("Creating list: $listName")
+            },
+            onDismiss = {}
+        )
     }
 }
