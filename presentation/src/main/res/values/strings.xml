@@ -7,4 +7,6 @@
     <string name="please_make_sure_you_are_connected_to_the_internet_and_try_again">Please make sure you are connected to the internet and try again.</string>
     <string name="known_for">Known For</string>
     <string name="loading_actor_details">Loading actor details...</string>
+    <string name="current_seasons">Current Seasons</string>
+    <string name="similar_series">Similar Series</string>
 </resources>

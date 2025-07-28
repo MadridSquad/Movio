@@ -39,7 +39,7 @@ fun TopCastSection(
             secondaryText = stringResource(com.madrid.presentation.R.string.see_all),
             endIcon = painterResource(R.drawable.outline_alt_arrow_left),
             onSeeAllClick = { onSeeAllClick() },
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
         )
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(12.dp)
