@@ -1,32 +1,32 @@
-package com.madrid.data.dataSource.local
+package com.madrid.data.dataSource.local.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.madrid.data.dataSource.local.dao.ArtistDao
-import com.madrid.data.dataSource.local.dao.MovieGenreDao
 import com.madrid.data.dataSource.local.dao.MovieDao
+import com.madrid.data.dataSource.local.dao.MovieGenreDao
 import com.madrid.data.dataSource.local.dao.RecentSearchDao
 import com.madrid.data.dataSource.local.dao.SeriesDao
 import com.madrid.data.dataSource.local.dao.SeriesGenreDao
-import com.madrid.data.dataSource.local.entity.ArtistEntity
-import com.madrid.data.dataSource.local.entity.MovieGenreEntity
-import com.madrid.data.dataSource.local.entity.SeriesGenreEntity
-import com.madrid.data.dataSource.local.entity.MovieEntity
-import com.madrid.data.dataSource.local.entity.SeriesEntity
-import com.madrid.data.dataSource.local.entity.RecentSearchEntity
-import com.madrid.data.dataSource.local.entity.relationship.MovieGenreCrossRef
-import com.madrid.data.dataSource.local.entity.relationship.SeriesGenreCrossRef
+import com.madrid.data.dataSource.local.table.ArtistTable
+import com.madrid.data.dataSource.local.table.MovieGenreTable
+import com.madrid.data.dataSource.local.table.MovieTable
+import com.madrid.data.dataSource.local.table.RecentSearchTable
+import com.madrid.data.dataSource.local.table.SeriesGenreTable
+import com.madrid.data.dataSource.local.table.SeriesTable
+import com.madrid.data.dataSource.local.table.relationship.MovieGenreCrossRef
+import com.madrid.data.dataSource.local.table.relationship.SeriesGenreCrossRef
 
 @Database(
     entities = [
-        MovieEntity::class,
-        SeriesEntity::class,
-        MovieGenreEntity::class,
-        SeriesGenreEntity::class,
-        ArtistEntity::class,
-        RecentSearchEntity::class,
+        MovieTable::class,
+        SeriesTable::class,
+        MovieGenreTable::class,
+        SeriesGenreTable::class,
+        ArtistTable::class,
+        RecentSearchTable::class,
         MovieGenreCrossRef::class,
         SeriesGenreCrossRef::class
     ],

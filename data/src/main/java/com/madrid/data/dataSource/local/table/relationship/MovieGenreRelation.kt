@@ -1,11 +1,11 @@
-package com.madrid.data.dataSource.local.entity.relationship
+package com.madrid.data.dataSource.local.table.relationship
 
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Junction
 import androidx.room.Relation
-import com.madrid.data.dataSource.local.entity.MovieGenreEntity
-import com.madrid.data.dataSource.local.entity.MovieEntity
+import com.madrid.data.dataSource.local.table.MovieGenreTable
+import com.madrid.data.dataSource.local.table.MovieTable
 
 @Entity(tableName = "MovieGenreCrossRef", primaryKeys = ["genreId", "movieId"])
 data class MovieGenreCrossRef(
@@ -14,21 +14,21 @@ data class MovieGenreCrossRef(
 )
 
 data class MovieWithGenres(
-    @Embedded val movie: MovieEntity,
+    @Embedded val movie: MovieTable,
     @Relation(
         parentColumn = "movieId",
         entityColumn = "genreId",
         associateBy = Junction(MovieGenreCrossRef::class)
     )
-    val genres: List<MovieGenreEntity>
+    val genres: List<MovieGenreTable>
 )
 
 data class GenreWithMovies(
-    @Embedded val genre: MovieGenreEntity,
+    @Embedded val genre: MovieGenreTable,
     @Relation(
         parentColumn = "genreId",
         entityColumn = "movieId",
         associateBy = Junction(MovieGenreCrossRef::class)
     )
-    val movies: List<MovieEntity>
+    val movies: List<MovieTable>
 )

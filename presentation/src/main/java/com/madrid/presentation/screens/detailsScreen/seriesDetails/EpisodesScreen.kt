@@ -1,5 +1,6 @@
 package com.madrid.presentation.screens.detailsScreen.seriesDetails
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,7 +39,7 @@ fun EpisodesScreen(viewModel: SeriesDetailsViewModel = koinViewModel()) {
     EpisodesScreenContent(
         uiState,
         viewModel::updateSelectedSeason,
-        onClickBack = { navController.popBackStack()})
+        onClickBack = { navController.popBackStack() })
 }
 
 @Composable
@@ -95,20 +96,30 @@ fun EpisodesScreenContent(
                 )
                 Spacer(Modifier.weight(1f))
                 var selectedItem by remember { mutableStateOf("Season ${uiState.selectedSeasonUiState.seasonNumber}") }
-                CustomDropdown(
-                    items = getSeasonsNames(uiState.numberOfSeasons),
-                    selectedItem = "Season ${uiState.selectedSeasonUiState.seasonNumber}",
-                    labelSelector = { it },
-                    onItemSelected = {
-                        selectedItem = it
-                        onSeasonSelection(it.substringAfterLast(" ").toInt())
-                    }
-                )
+                Log.d("TAG lolooo", "EpisodesScreenContent: ${uiState.currentSeasonsUiStates.size}")
+                if (uiState.currentSeasonsUiStates.isNotEmpty()) {
+                    CustomDropdown(
+                        items = getSeasonsNames(uiState.currentSeasonsUiStates.size, uiState),
+                        selectedItem = "Season ${uiState.selectedSeasonUiState.seasonNumber}",
+                        labelSelector = { it },
+                        onItemSelected = {
+                            selectedItem = it
+                            onSeasonSelection(it.substringAfterLast(" ").toInt())
+                        }
+                    )
+                }
             }
         }
     }
 }
 
-private fun getSeasonsNames(numberOfSeasons: Int) = (1..numberOfSeasons).map { "Season $it" }
+private fun getSeasonsNames(numberOfSeasons: Int, uiState: SeriesDetailsUiState): List<String> {
+    return if (uiState.currentSeasonsUiStates.first().seasonNumber == 0)
+        (0..<numberOfSeasons).map { "Season $it" }
+    else
+        (1..<numberOfSeasons +1).map { "Season $it" }
+}
+
+
 
 

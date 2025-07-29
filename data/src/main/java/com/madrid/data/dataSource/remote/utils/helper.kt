@@ -1,8 +1,7 @@
 package com.madrid.data.dataSource.remote.utils
 
-import com.madrid.domain.entity.Cast
 import com.madrid.domain.entity.Movie
-import kotlin.Int
+import com.madrid.domain.entity.Series
 
 fun getDefaultMovie(): Movie{
     return Movie(
@@ -16,5 +15,17 @@ fun getDefaultMovie(): Movie{
         movieDuration = "",
         crew = listOf(),
         profilePage = " "
+    )
+}
+
+fun getDefaultSeries(): Series{
+    return Series(
+        id = 0,
+        title = "",
+        imageUrl = "",
+        rate = 0.0,
+        yearOfRelease = "",
+        description = "",
+        genre = listOf(),
     )
 }

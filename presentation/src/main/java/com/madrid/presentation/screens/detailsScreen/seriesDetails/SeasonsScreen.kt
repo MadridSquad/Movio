@@ -1,5 +1,6 @@
 package com.madrid.presentation.screens.detailsScreen.seriesDetails
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -62,15 +63,16 @@ fun SeasonsScreenContent(
         LazyColumn(
             contentPadding = PaddingValues(bottom = 40.dp)
         ) {
+            Log.d("TAG bob", "SeasonsScreenContent: ${uiState.currentSeasonsUiStates.size}")
             itemsIndexed(seasons) { index, season ->
                 MovioSeasonCard(
-                    movieTitle = season.seasonNumber.toString(),
+                    movieTitle =  "",
                     movieImage = season.imageUrl,
                     movieRate = season.rate,
                     totalNumberOfEpisodes = season.numberOfEpisodes.toString(),
                     onClick = { onClickSeason(season.seasonNumber) },
                     yearOfPublish = season.productionDate,
-                    currentSeason = (index + 1).toString(),
+                    currentSeason = (season.seasonNumber).toString(),
                     timeOfPublish = season.productionDate,
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
@@ -79,14 +81,3 @@ fun SeasonsScreenContent(
     }
 
 }
-
-data class testS(
-    val movieTitle: String = "Spider-Man: Homecoming",
-    val movieImage: String = "https://image.tmdb.org/t/p/w500/5xKGk6q5g7mVmg7k7U1RrLSHwz6.jpg",
-    val movieRate: String = " 3.0",
-    val totalNumberOfEpisodes: String = "1",
-    val onClick: () -> Unit = {},
-    val yearOfPublish: String = "2004",
-    val currentSeason: String = "7",
-    val timeOfPublish: String = "october 4 , 2002"
-)
