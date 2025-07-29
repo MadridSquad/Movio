@@ -1,26 +1,27 @@
 package com.madrid.data.dataSource.remote
 
-import com.madrid.data.dataSource.remote.response.artist.ArtistDetailsResponse
-import com.madrid.data.dataSource.remote.response.artist.ArtistKnownForResponse
-import com.madrid.data.dataSource.remote.response.artist.SearchArtistResponse
-import com.madrid.data.dataSource.remote.response.common.TrailerResponse
-import com.madrid.data.dataSource.remote.response.genre.GenresResponse
-import com.madrid.data.dataSource.remote.response.movie.MovieCreditsResponse
-import com.madrid.data.dataSource.remote.response.movie.MovieDetailsResponse
-import com.madrid.data.dataSource.remote.response.movie.MovieReviewResponse
-import com.madrid.data.dataSource.remote.response.movie.SearchMovieResponse
-import com.madrid.data.dataSource.remote.response.movie.SimilarMoviesResponse
+import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
+import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
+import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
+import com.madrid.data.dataSource.remote.dto.common.TrailerResult
+import com.madrid.data.dataSource.remote.dto.genre.GenresResponse
+import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
+import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
+import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
+import com.madrid.data.dataSource.remote.dto.movie.SearchMovieResponse
+import com.madrid.data.dataSource.remote.dto.movie.SimilarMoviesResponse
+import com.madrid.data.dataSource.remote.dto.series.SearchSeriesResponse
+import com.madrid.data.dataSource.remote.dto.series.SeasonResponse
+import com.madrid.data.dataSource.remote.dto.series.SeriesCreditResponse
+import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
+import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
+import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
+import com.madrid.data.dataSource.remote.response.movie.NowPlayingMovieResponse
+import com.madrid.data.dataSource.remote.response.movie.UpcomingMoviesResponse
 import com.madrid.data.dataSource.remote.response.series.AiringTodayTvShowsResponse
 import com.madrid.data.dataSource.remote.response.series.OnAirTvShowsResponse
 import com.madrid.data.dataSource.remote.response.series.RecommendedSeriesResponse
-import com.madrid.data.dataSource.remote.response.series.SearchSeriesResponse
-import com.madrid.data.dataSource.remote.response.series.SeasonEpisodesResponse
-import com.madrid.data.dataSource.remote.response.series.SeriesCreditResponse
-import com.madrid.data.dataSource.remote.response.series.SeriesDetailsResponse
-import com.madrid.data.dataSource.remote.response.series.SeriesReviewResponse
-import com.madrid.data.dataSource.remote.response.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.response.series.TopRatedSeriesResponse
-import com.madrid.data.dataSource.remote.response.trending.AllTrendingResponse
 import com.madrid.data.repositories.remote.RemoteDataSource
 
 class RemoteDataSourceImpl(
@@ -35,22 +36,16 @@ class RemoteDataSourceImpl(
         return api.getTopRatedMovies(page)
     }
 
-    override suspend fun getPopularMovie(page: Int): SearchMovieResponse {
+    override suspend fun getPopularMovies(page: Int): SearchMovieResponse {
         return api.getPopularMovie(page)
     }
-    // endregion
-
-    override suspend fun getTopRatedSeries(page: Int): TopRatedSeriesResponse {
-        return api.getTopRatedSeries(page)
-    }
-
 
     override suspend fun getMovieDetailsById(movieId: Int): MovieDetailsResponse {
         return api.getMovieDetailsById(movieId)
     }
 
-    override suspend fun getMovieTrailersById(movieId: Int): TrailerResponse {
-        return api.getMovieTrailersById(movieId)
+    override suspend fun getMovieTrailersByMovieId(movieId: Int): List<TrailerResult> {
+        return api.getMovieTrailersById(movieId).results
     }
 
     override suspend fun getMovieCreditById(movieId: Int): MovieCreditsResponse {
@@ -69,13 +64,22 @@ class RemoteDataSourceImpl(
         return api.getMovieGenres()
     }
 
-    // Series
+    override suspend fun getTrendingMovies(page: Int): SearchMovieResponse {
+        return api.getTrendingMovies(page = page)
+    }
+    // endregion
+
+    // region Series
+    override suspend fun getTopRatedSeries(page: Int): TopRatedSeriesResponse {
+        return api.getTopRatedSeries(page)
+    }
+
     override suspend fun searchSeriesByQuery(name: String, page: Int): SearchSeriesResponse {
         return api.searchSeriesByQuery(name, page)
     }
 
-    override suspend fun getSeriesTrailersById(seriesId: Int): TrailerResponse {
-        return api.getSeriesTrailersById(seriesId)
+    override suspend fun getSeriesTrailersById(seriesId: Int): List<TrailerResult> {
+        return api.getSeriesTrailersById(seriesId).results
     }
 
     override suspend fun getSeriesCreditsById(seriesId: Int): SeriesCreditResponse {
@@ -93,12 +97,20 @@ class RemoteDataSourceImpl(
     override suspend fun getEpisodesBySeasonId(
         seriesId: Int,
         seasonNumber: Int
-    ): SeasonEpisodesResponse {
+    ): SeasonResponse {
         return api.getEpisodesBySeasonId(seriesId, seasonNumber)
     }
 
     override suspend fun getSeriesGenres(): GenresResponse {
         return api.getSeriesGenres()
+    }
+
+    override suspend fun getTrendingSeries(page: Int): SearchSeriesResponse {
+        return api.getTrendingSeries(page = page)
+    }
+
+    override suspend fun getSeriesDetailsById(seriesId: Int): SeriesDetailsResponse {
+        return api.getSeriesDetailsById(seriesId)
     }
 
     // Artist
@@ -110,26 +122,8 @@ class RemoteDataSourceImpl(
         return api.getArtistDetailsById(artistId)
     }
 
-    override suspend fun getArtistKnownForById(artistId: Int): ArtistKnownForResponse {
-        return api.getArtistKnownForById(artistId)
-    }
-
-
-    override suspend fun searchMoviesByQuery(name: String): SearchMovieResponse {
-        return api.searchMoviesByQuery(name, 1)
-    }
-
-    override suspend fun searchSeriesByQuery(name: String): SearchSeriesResponse {
-        return api.searchSeriesByQuery(name, 1)
-    }
-
-    override suspend fun getTopRatedMovies(query: String, page: Int): SearchMovieResponse {
-        return api.getTopRatedMovies(page)
-    }
-
-
-    override suspend fun getSeriesDetailsById(seriesId: Int): SeriesDetailsResponse {
-        return api.getSeriesDetailsById(seriesId)
+    override suspend fun getArtistMovies(artistId: Int): List<KnownForMoviesNetwork> {
+        return api.getArtistKnownForById(artistId).movies ?: emptyList()
     }
 
     override suspend fun getOnAirSeries(page: Int): OnAirTvShowsResponse {
@@ -144,15 +138,11 @@ class RemoteDataSourceImpl(
         return api.getPopularTvShows(page = page)
     }
 
-    override suspend fun getArtistById(artistId: Int): ArtistDetailsResponse {
-        val response = api.getArtistDetailsById(artistId)
-        val result = response
-        return result
+    override suspend fun getUpcomingMovie(page: Int): UpcomingMoviesResponse {
+        return api.getUpcomingMovies(page)
     }
 
-    // region Trending
-    override suspend fun getAllTrending(page: Int): AllTrendingResponse {
-        return api.getAllTrending(page = page)
+    override suspend fun getNowPlayingMovie(page: Int): NowPlayingMovieResponse {
+        return api.getNowPlayingMovies(page)
     }
-    // endregion
 }

@@ -134,7 +134,6 @@ dependencies {
     implementation (libs.androidx.core.splashscreen)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
     implementation(libs.koin.androidx.compose)
     api(libs.koin.annotations)
     implementation(libs.koin.android)

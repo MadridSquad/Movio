@@ -4,6 +4,8 @@ import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Series
 import com.madrid.presentation.viewModel.searchViewModel.SearchScreenState
+import com.madrid.presentation.viewModel.shared.MediaType
+import com.madrid.presentation.viewModel.shared.MediaUiState
 
 fun Movie.toMovieUiState(): SearchScreenState.MovieUiState {
     return SearchScreenState.MovieUiState(
@@ -31,6 +33,17 @@ fun Artist.toArtistUiState(): SearchScreenState.ArtistUiState {
         imageUrl = this.imageUrl,
         role = this.role,
         country = this.country,
-        description = this.description
+        description = this.overview
+    )
+}
+
+fun SearchScreenState.MovieUiState.toMediaUiState(): MediaUiState {
+    return MediaUiState(
+        id = this.id,
+        mediaType = MediaType.MOVIE,
+        title = this.title,
+        imageUrl = this.imageUrl,
+        rating = this.rating,
+        category = this.category
     )
 }
