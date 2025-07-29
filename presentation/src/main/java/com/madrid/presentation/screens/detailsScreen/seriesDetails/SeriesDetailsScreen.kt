@@ -138,7 +138,7 @@ fun SeriesDetailsScreen(
             ) {
                 itemsIndexed(seasons) { index, season ->
                     MovioSeasonCard(
-                        movieTitle = season.seasonNumber.toString(),
+                        movieTitle = "",
                         movieImage = season.imageUrl,
                         movieRate = season.rate,
                         totalNumberOfEpisodes = season.numberOfEpisodes.toString(),
@@ -151,7 +151,7 @@ fun SeriesDetailsScreen(
                             )
                         },
                         yearOfPublish = season.productionDate,
-                        currentSeason = (index + 1).toString(),
+                        currentSeason = (season.seasonNumber).toString(),
                         timeOfPublish = season.productionDate
                     )
                 }

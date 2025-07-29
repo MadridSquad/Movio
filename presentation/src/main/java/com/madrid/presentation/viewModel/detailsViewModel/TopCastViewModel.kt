@@ -3,15 +3,15 @@ package com.madrid.presentation.viewModel.detailsViewModel
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
-import com.madrid.domain.usecase.mediaDeatailsUseCase.MovieDetailsUseCase
-import com.madrid.domain.usecase.mediaDeatailsUseCase.SeriesDetailsUseCase
+import com.madrid.domain.usecase.movie.GetMovieTopCastUseCase
+import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
 
 class TopCastViewModel(
     private val savedStateHandle: SavedStateHandle,
-    private val movieDetailsUseCase: MovieDetailsUseCase,
-    private val seriesDetailsUseCase: SeriesDetailsUseCase,
+    private val getMovieTopCastUseCase: GetMovieTopCastUseCase,
+    private val getSeriesTopCastUseCase: GetSeriesTopCastUseCase
 ) : BaseViewModel<MovieDetailsUiState, Nothing>(
     MovieDetailsUiState()
 ) {
@@ -26,7 +26,7 @@ class TopCastViewModel(
     private fun loadCast() {
         if (args.isMovie) {
             tryToExecute(
-                function = { movieDetailsUseCase.getMovieCreditsById(args.mediaId) },
+                function = { getMovieTopCastUseCase(args.mediaId) },
                 onSuccess = { castList ->
                     val mappedCast = castList.map { castMember ->
                         MovieDetailsUiState.CastUiState(
@@ -54,7 +54,7 @@ class TopCastViewModel(
             )
         } else {
             tryToExecute(
-                function = { seriesDetailsUseCase.getSeriesCreditsById(args.mediaId) },
+                function = { getSeriesTopCastUseCase(args.mediaId) },
                 onSuccess = { castList ->
                     val mappedCast = castList.map { castMember ->
                         MovieDetailsUiState.CastUiState(
