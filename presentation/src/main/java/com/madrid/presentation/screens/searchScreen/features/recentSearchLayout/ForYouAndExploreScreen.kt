@@ -10,10 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -27,9 +25,9 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.CustomTextTitel
-import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.LoadingSearchCard
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.component.CustomHorizontalCard
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.viewModel.searchViewModel.SearchScreenState
 import com.madrid.presentation.viewModel.uiStateMapper.toMediaUiState
