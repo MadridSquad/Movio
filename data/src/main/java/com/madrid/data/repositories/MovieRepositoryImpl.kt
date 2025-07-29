@@ -6,6 +6,7 @@ import com.madrid.data.dataSource.local.table.relationship.MovieGenreCrossRef
 import com.madrid.data.dataSource.mapper.toMovieTable
 import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.mapper.toMovie
+import com.madrid.data.dataSource.remote.mapper.toMovies
 import com.madrid.data.dataSource.remote.mapper.toReview
 import com.madrid.data.dataSource.remote.mapper.toSimilarMovie
 import com.madrid.data.dataSource.remote.mapper.toTrailer
@@ -99,5 +100,13 @@ class MovieRepositoryImpl(
             }
         }
         return movies?.map { it.toMovie() } ?: emptyList()
+    }
+
+    override suspend fun getNowPlayingMovie(page: Int): List<Movie> {
+        return remoteDataSource.getNowPlayingMovie().toMovies()
+    }
+
+    override suspend fun getUpcomingMovie(page: Int): List<Movie> {
+        return remoteDataSource.getUpcomingMovie().toMovies()
     }
 }

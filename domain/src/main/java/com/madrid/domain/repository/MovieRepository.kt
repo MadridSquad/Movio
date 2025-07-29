@@ -17,4 +17,6 @@ interface MovieRepository {
     suspend fun getMoviesByGenres(): Map<String, List<Movie>>
     suspend fun getTopRatedMovies(page: Int): List<Movie>
     suspend fun getPopularMovies(page: Int): List<Movie>
+    suspend fun getNowPlayingMovie(page: Int): List<Movie>
+    suspend fun getUpcomingMovie(page: Int): List<Movie>
 }

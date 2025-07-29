@@ -16,6 +16,8 @@ import com.madrid.data.dataSource.remote.dto.series.SeriesCreditResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
+import com.madrid.data.dataSource.remote.response.movie.NowPlayingMovieResponse
+import com.madrid.data.dataSource.remote.response.movie.UpcomingMoviesResponse
 import com.madrid.data.dataSource.remote.response.series.AiringTodayTvShowsResponse
 import com.madrid.data.dataSource.remote.response.series.OnAirTvShowsResponse
 import com.madrid.data.dataSource.remote.response.series.RecommendedSeriesResponse
@@ -39,6 +41,8 @@ interface RemoteDataSource {
     suspend fun getSimilarMoviesById(movieId: Int): SimilarMoviesResponse
     suspend fun getMovieGenres(): GenresResponse
     suspend fun getTrendingMovies(page: Int): SearchMovieResponse
+    suspend fun getUpcomingMovie(page: Int = 1): UpcomingMoviesResponse
+    suspend fun getNowPlayingMovie(page: Int = 1): NowPlayingMovieResponse
     // endregion
 
     // region Series
