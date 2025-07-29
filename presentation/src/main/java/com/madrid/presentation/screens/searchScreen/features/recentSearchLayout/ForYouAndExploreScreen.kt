@@ -94,8 +94,7 @@ fun LazyGridScope.forYouAndExploreScreen(
                 ) {
                     LazyRow(
                         modifier = Modifier
-                            .padding(12.dp)
-                            .padding(bottom = 10.dp),
+                            .padding(12.dp,bottom = 10.dp),
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
                         items(forYouMovies) { movie ->
