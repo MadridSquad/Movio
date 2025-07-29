@@ -10,12 +10,16 @@ import com.madrid.data.dataSource.remote.response.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.response.movie.MovieReviewResponse
 import com.madrid.data.dataSource.remote.response.movie.SearchMovieResponse
 import com.madrid.data.dataSource.remote.response.movie.SimilarMoviesResponse
+import com.madrid.data.dataSource.remote.response.series.AiringTodayTvShowsResponse
+import com.madrid.data.dataSource.remote.response.series.OnAirTvShowsResponse
+import com.madrid.data.dataSource.remote.response.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.response.series.SearchSeriesResponse
 import com.madrid.data.dataSource.remote.response.series.SeasonEpisodesResponse
 import com.madrid.data.dataSource.remote.response.series.SeriesCreditResponse
 import com.madrid.data.dataSource.remote.response.series.SeriesDetailsResponse
 import com.madrid.data.dataSource.remote.response.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.response.series.SimilarSeriesResponse
+import com.madrid.data.dataSource.remote.response.series.TopRatedSeriesResponse
 import com.madrid.data.dataSource.remote.response.trending.AllTrendingResponse
 import com.madrid.data.repositories.remote.RemoteDataSource
 
@@ -36,8 +40,8 @@ class RemoteDataSourceImpl(
     }
     // endregion
 
-    override suspend fun getTopRatedSeries(query: String, page: Int): SearchSeriesResponse {
-        return api.searchSeriesByQuery(query, page)
+    override suspend fun getTopRatedSeries(page: Int): TopRatedSeriesResponse {
+        return api.getTopRatedSeries(page)
     }
 
 
@@ -126,6 +130,18 @@ class RemoteDataSourceImpl(
 
     override suspend fun getSeriesDetailsById(seriesId: Int): SeriesDetailsResponse {
         return api.getSeriesDetailsById(seriesId)
+    }
+
+    override suspend fun getOnAirSeries(page: Int): OnAirTvShowsResponse {
+        return api.getOnTheAirTvShows(page = page)
+    }
+
+    override suspend fun getAiringTodaySeries(page: Int): AiringTodayTvShowsResponse {
+        return api.getAiringTvShowsToday(page = page)
+    }
+
+    override suspend fun getRecommendedSeries(page: Int): RecommendedSeriesResponse {
+        return api.getPopularTvShows(page = page)
     }
 
     override suspend fun getArtistById(artistId: Int): ArtistDetailsResponse {

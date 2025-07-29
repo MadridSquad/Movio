@@ -19,3 +19,4 @@ local.properties
 /.idea/
 secret.properties
 /.kotlin
+/data/schemas

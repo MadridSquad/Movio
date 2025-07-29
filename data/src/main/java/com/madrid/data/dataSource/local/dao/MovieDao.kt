@@ -8,33 +8,33 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import androidx.room.Upsert
-import com.madrid.data.dataSource.local.entity.MovieEntity
-import com.madrid.data.dataSource.local.entity.relationship.MovieGenreCrossRef
-import com.madrid.data.dataSource.local.entity.relationship.MovieWithGenres
+import com.madrid.data.dataSource.local.table.MovieTable
+import com.madrid.data.dataSource.local.table.relationship.MovieGenreCrossRef
+import com.madrid.data.dataSource.local.table.relationship.MovieWithGenres
 
 @Dao
 interface MovieDao {
 
     @Upsert
-    suspend fun insertMovie(movie: MovieEntity)
+    suspend fun insertMovie(movie: MovieTable)
 
     @Delete
-    suspend fun deleteMovie(movie: MovieEntity)
+    suspend fun deleteMovie(movie: MovieTable)
 
     @Update
-    suspend fun updateMovie(movie: MovieEntity)
+    suspend fun updateMovie(movie: MovieTable)
 
     @Query("SELECT * FROM MOVIE_TABLE WHERE movieId = :id")
-    suspend fun getMovieById(id: Int): MovieEntity?
+    suspend fun getMovieById(id: Int): MovieTable?
 
     @Query("SELECT * FROM MOVIE_TABLE WHERE title LIKE :title LIMIT 20")
-    suspend fun getMovieByTitle(title: String): List<MovieEntity>
+    suspend fun getMovieByTitle(title: String): List<MovieTable>
 
     @Query("SELECT * FROM MOVIE_TABLE ORDER BY rate DESC")
-    suspend fun getTopRatedMovies(): List<MovieEntity>
+    suspend fun getTopRatedMovies(): List<MovieTable>
 
     @Query("SELECT * FROM MOVIE_TABLE")
-    suspend fun getAllMovies(): List<MovieEntity>
+    suspend fun getAllMovies(): List<MovieTable>
 
     @Query("DELETE FROM MOVIE_TABLE")
     suspend fun deleteAllMovies()

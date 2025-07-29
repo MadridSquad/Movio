@@ -7,7 +7,7 @@ import com.madrid.domain.entity.SimilarMovie
 import com.madrid.domain.entity.Trailer
 import kotlinx.coroutines.flow.Flow
 
-interface MovieDetailsRepository {
+interface MovieRepository {
     suspend fun getMovieDetailsById(movieId: Int): Movie
     suspend fun getMovieTrailersById(movieId: Int): Trailer
     suspend fun getMovieCreditsById(movieId: Int): List<Cast>

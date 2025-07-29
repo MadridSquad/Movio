@@ -9,24 +9,20 @@ import com.madrid.domain.repository.RecommendedRepository
 class RecommendedRepositoryImp(
     private val remoteDataSource: RemoteDataSource,
     private val localSource: LocalDataSource
-) : RecommendedRepository{
+) : RecommendedRepository {
     override suspend fun getRecommendedMovies(page: Int): List<Movie> {
-        val res = remoteDataSource.getPopularMovie(
+        return remoteDataSource.getPopularMovie(
             page
         ).movieResults?.map {
             it.toMovie()
         } ?: listOf()
-
-        return res
     }
 
     override suspend fun getExploreMoreMovies(page: Int): List<Movie> {
-        val res = remoteDataSource.getTopRatedMovies(
+        return remoteDataSource.getTopRatedMovies(
             page = page,
         ).movieResults?.map {
             it.toMovie()
         } ?: listOf()
-
-        return res
     }
 }

@@ -10,12 +10,16 @@ import com.madrid.data.dataSource.remote.response.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.response.movie.MovieReviewResponse
 import com.madrid.data.dataSource.remote.response.movie.SearchMovieResponse
 import com.madrid.data.dataSource.remote.response.movie.SimilarMoviesResponse
+import com.madrid.data.dataSource.remote.response.series.AiringTodayTvShowsResponse
+import com.madrid.data.dataSource.remote.response.series.OnAirTvShowsResponse
+import com.madrid.data.dataSource.remote.response.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.response.series.SearchSeriesResponse
 import com.madrid.data.dataSource.remote.response.series.SeasonEpisodesResponse
 import com.madrid.data.dataSource.remote.response.series.SeriesCreditResponse
 import com.madrid.data.dataSource.remote.response.series.SeriesDetailsResponse
 import com.madrid.data.dataSource.remote.response.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.response.series.SimilarSeriesResponse
+import com.madrid.data.dataSource.remote.response.series.TopRatedSeriesResponse
 import com.madrid.data.dataSource.remote.response.trending.AllTrendingResponse
 
 interface RemoteDataSource {
@@ -41,7 +45,6 @@ interface RemoteDataSource {
     // endregion
 
     // region Series
-    suspend fun getTopRatedSeries(query: String, page: Int): SearchSeriesResponse
     suspend fun getSeriesTrailersById(seriesId: Int): TrailerResponse
     suspend fun getSeriesCreditsById(seriesId: Int): SeriesCreditResponse
     suspend fun getSeriesReviewsById(seriesId: Int): SeriesReviewResponse
@@ -49,6 +52,12 @@ interface RemoteDataSource {
     suspend fun getEpisodesBySeasonId(seriesId: Int, seasonNumber: Int): SeasonEpisodesResponse
     suspend fun getSeriesGenres(): GenresResponse
     suspend fun getSeriesDetailsById(seriesId: Int): SeriesDetailsResponse
+
+    // Home
+    suspend fun getTopRatedSeries(page: Int = 1): TopRatedSeriesResponse
+    suspend fun getOnAirSeries(page: Int = 1): OnAirTvShowsResponse
+    suspend fun getAiringTodaySeries(page: Int = 1): AiringTodayTvShowsResponse
+    suspend fun getRecommendedSeries(page: Int = 1): RecommendedSeriesResponse
     // endregion
 
     // region Artist

@@ -1,11 +1,11 @@
-package com.madrid.data.dataSource.local.entity.relationship
+package com.madrid.data.dataSource.local.table.relationship
 
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.Junction
 import androidx.room.Relation
-import com.madrid.data.dataSource.local.entity.SeriesEntity
-import com.madrid.data.dataSource.local.entity.SeriesGenreEntity
+import com.madrid.data.dataSource.local.table.SeriesTable
+import com.madrid.data.dataSource.local.table.SeriesGenreTable
 
 @Entity(tableName = "SeriesGenreCrossRef", primaryKeys = ["genreId", "seriesId"])
 data class SeriesGenreCrossRef(
@@ -14,21 +14,21 @@ data class SeriesGenreCrossRef(
 )
 
 data class SeriesWithGenres(
-    @Embedded val series: SeriesEntity,
+    @Embedded val series: SeriesTable,
     @Relation(
         parentColumn = "seriesId",
         entityColumn = "genreId",
         associateBy = Junction(SeriesGenreCrossRef::class)
     )
-    val genres: List<SeriesGenreEntity>
+    val genres: List<SeriesGenreTable>
 )
 
 data class GenreWithSeries(
-    @Embedded val genre: SeriesGenreEntity,
+    @Embedded val genre: SeriesGenreTable,
     @Relation(
         parentColumn = "genreId",
         entityColumn = "seriesId",
         associateBy = Junction(SeriesGenreCrossRef::class)
     )
-    val series: List<SeriesEntity>
+    val series: List<SeriesTable>
 )

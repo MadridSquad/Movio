@@ -1,13 +1,12 @@
 package com.madrid.data.dataSource.local.mappers
 
 
-import com.madrid.data.dataSource.local.entity.SeriesEntity
-import com.madrid.data.dataSource.remote.response.series.SeriesResult
+import com.madrid.data.dataSource.local.table.SeriesTable
 import com.madrid.domain.entity.Series
 import kotlinx.datetime.LocalDate
 
-fun Series.toSeriesEntity(): SeriesEntity {
-    return SeriesEntity(
+fun Series.toSeriesTable(): SeriesTable {
+    return SeriesTable(
         seriesId = this.id,
         title = this.title,
         imageUrl = this.imageUrl,
@@ -17,7 +16,7 @@ fun Series.toSeriesEntity(): SeriesEntity {
     )
 }
 
-fun SeriesEntity.toSeries(): Series {
+fun SeriesTable.toSeries(): Series {
     return Series(
         id = this.seriesId,
         title = this.title,
@@ -28,15 +27,4 @@ fun SeriesEntity.toSeries(): Series {
         genre = listOf(),
 
         )
-}
-
-fun SeriesResult.toSeriesEntity(): SeriesEntity {
-    return SeriesEntity(
-        seriesId = this.id ?: 0,
-        title = this.title ?: "",
-        imageUrl = ("https://image.tmdb.org/t/p/original" + this.posterPath) ?: "",
-        rate = this.voteAverage ?: 0.0,
-        yearOfRelease = this.releaseDate ?: "",
-        description = this.overview ?: ""
-    )
 }
