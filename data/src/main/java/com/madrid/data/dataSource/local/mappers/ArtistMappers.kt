@@ -2,19 +2,18 @@ package com.madrid.data.dataSource.local.mappers
 
 
 import com.madrid.data.dataSource.local.entity.ArtistEntity
-import com.madrid.data.dataSource.remote.response.artist.ArtistsResult
+import com.madrid.data.dataSource.remote.dto.artist.ArtistsResult
 import com.madrid.domain.entity.Artist
-import kotlinx.datetime.LocalDate
 
 fun Artist.toArtistEntity(): ArtistEntity {
     return ArtistEntity(
         id = this.id,
         name = this.name,
         imageUrl = this.imageUrl,
-        description = this.description ?: "",
+        description = this.overview,
         role = this.role,
         dateOfBirth = this.dateOfBirth.toString(),
-        country = this.country ?: ""
+        country = this.country
     )
 }
 
@@ -23,7 +22,7 @@ fun ArtistEntity.toArtist(): Artist {
         id = this.id,
         name = this.name,
         imageUrl = this.imageUrl,
-        description = this.description,
+        overview = this.description,
         role = this.role,
         dateOfBirth = this.dateOfBirth,
         country = this.country

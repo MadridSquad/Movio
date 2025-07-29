@@ -5,7 +5,7 @@ data class Season(
     val seasonNumber: Int,
     val imageUrl: String,
     val rate: Double,
-    val yearOfRelease: String,
-    val episodes: List<Episode> = listOf(),
-    val description: String
+    val date: String,
+    val description: String,
+    val episodeCount: Int
 )

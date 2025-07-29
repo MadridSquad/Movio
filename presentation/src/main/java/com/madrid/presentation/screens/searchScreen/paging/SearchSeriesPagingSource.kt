@@ -1,14 +1,14 @@
 package com.madrid.presentation.screens.searchScreen.paging
 
 import com.madrid.domain.entity.Series
-import com.madrid.domain.usecase.searchUseCase.SeriesUseCase
+import com.madrid.domain.usecase.search.GetSeriesByQueryUseCase
 
 class SearchSeriesPagingSource(
     private val query: String,
-    private val seriesUseCase: SeriesUseCase,
+    private val getSeriesByQueryUseCase: GetSeriesByQueryUseCase,
 ) : BasePagingSource<Series>() {
 
     override suspend fun loadPage(page: Int): List<Series> {
-        return seriesUseCase.invoke(query = query, page = page)
+        return getSeriesByQueryUseCase.invoke(query = query, page = page)
     }
 }

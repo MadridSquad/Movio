@@ -31,6 +31,6 @@ fun Artist.toArtistUiState(): SearchScreenState.ArtistUiState {
         imageUrl = this.imageUrl,
         role = this.role,
         country = this.country,
-        description = this.description
+        description = this.overview
     )
 }
