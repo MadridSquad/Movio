@@ -37,8 +37,10 @@ fun HomeAppBar() {
         Spacer(Modifier.width(8.dp))
         MovioText(
             text = "Movio",
-            color = Color(0xFF7C5DF6),
             textStyle = Theme.textStyle.headline.largeBold18,
+            brush = Brush.verticalGradient(
+                colors = listOf( Color(0xFFEBE6FE),Color(0xFF7C5DF6))
+            )
         )
         Spacer(Modifier.weight(1f))
         Image(
