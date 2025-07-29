@@ -77,7 +77,7 @@ fun MovioVerticalCard(
 private fun VerticalCardPreview() {
     MovioTheme {
         MovioVerticalCard(
-            description = "Spider-Man hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh ",
+            description = "Spider-Man ",
             movieImage = "https://image.tmdb.org/t/p/w500/5xKGk6q5g7mVmg7k7U1RrLSHwz6.jpg",
             width = 200.dp,
             height = 150.dp,
