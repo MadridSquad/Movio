@@ -12,9 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.CustomTextTitel
+import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
 
 data class CastMember(
@@ -64,7 +66,7 @@ private fun CastMemberItem(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.size(height = 111.dp, width = 86.dp),
+        modifier = modifier.size(height = 111.dp, width = 86.dp),
     ) {
         MovioArtistsCard(
             imageUrl = castMember.imageUrl,
@@ -74,28 +76,30 @@ private fun CastMemberItem(
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun TopCastSectionPreview() {
-//    MovioTheme {
-//        TopCastSection(
-//            castMembers = listOf(
-//                CastMember(
-//                    id = "1",
-//                    name = "Ana de Armas",
-//                    imageUrl = "https://image.tmdb.org/t/p/w500/3vxvsmYLTf4jnr163SUlBIWX8qx.jpg"
-//                ),
-//                CastMember(
-//                    id = "2",
-//                    name = "Keanu Reeves",
-//                    imageUrl = "https://image.tmdb.org/t/p/w500/4D0PpNI0km5B9Gk7SZOo6hJxJ9P.jpg"
-//                ),
-//                CastMember(
-//                    id = "3",
-//                    name = "Ian McShane",
-//                    imageUrl = "https://image.tmdb.org/t/p/w500/9H7oVx4b6Z0j3EjLZN9mzcqcJjU.jpg"
-//                )
-//            )
-//        )
-
-//    } }
+@Preview(showBackground = true)
+@Composable
+private fun TopCastSectionPreview() {
+    MovioTheme {
+        TopCastSection(
+            castMembers = listOf(
+                CastMember(
+                    id = "1",
+                    name = "Ana de Armas",
+                    imageUrl = "https://image.tmdb.org/t/p/w500/3vxvsmYLTf4jnr163SUlBIWX8qx.jpg"
+                ),
+                CastMember(
+                    id = "2",
+                    name = "Keanu Reeves",
+                    imageUrl = "https://image.tmdb.org/t/p/w500/4D0PpNI0km5B9Gk7SZOo6hJxJ9P.jpg"
+                ),
+                CastMember(
+                    id = "3",
+                    name = "Ian McShane",
+                    imageUrl = "https://image.tmdb.org/t/p/w500/9H7oVx4b6Z0j3EjLZN9mzcqcJjU.jpg"
+                )
+            ),
+            onSeeAllClick = {},
+            onCastMemberClick = {}
+        )
+    }
+}
