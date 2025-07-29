@@ -52,7 +52,9 @@ fun MovieDetailsScreen(
         TopAppBar(
             text = null,
             modifier = Modifier.padding(start = 16.dp, top = 36.dp),
-            onFirstIconClick = { navController.navigate(Destinations.SearchScreen) }
+            onFirstIconClick = { navController.navigate(Destinations.SearchScreen) },
+            onThirdIconClick = viewModel::onClickLoveIcon,
+            isFavorite = uiState.isLoved
         )
         Column(
             modifier = Modifier
