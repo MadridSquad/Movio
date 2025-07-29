@@ -1,24 +1,28 @@
 package com.madrid.presentation.viewModel.detailsViewModel
 
 import android.util.Log
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.madrid.domain.entity.Review
-import com.madrid.domain.entity.SimilarSeries
-import com.madrid.domain.usecase.mediaDeatailsUseCase.SeriesDetailsUseCase
+import com.madrid.domain.entity.Series
+import com.madrid.domain.usecase.series.GetEpisodesForSeasonUseCase
+import com.madrid.domain.usecase.series.GetSeriesDetailsUseCase
+import com.madrid.domain.usecase.series.GetSeriesReviewsUseCase
+import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
+import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlin.text.toInt
 
 class SeriesDetailsViewModel(
     private val savedStateHandle: SavedStateHandle,
-    private val seriesDetailsUseCase: SeriesDetailsUseCase
+    private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
+    private val getSeriesTopCastUseCase: GetSeriesTopCastUseCase,
+    private val getSeriesReviewsUseCase: GetSeriesReviewsUseCase,
+    private val getSimilarSeriesUseCase: GetSimilarSeriesUseCase,
+    private val getEpisodesForSeasonUseCase: GetEpisodesForSeasonUseCase
 ) : BaseViewModel<SeriesDetailsUiState, Nothing>(SeriesDetailsUiState()) {
     private val args = savedStateHandle.toRoute<Destinations.SeriesDetailsScreen>()
 
@@ -29,7 +33,7 @@ class SeriesDetailsViewModel(
 
     private fun loadData() {
         tryToExecute(
-            function = { seriesDetailsUseCase.getSeriesDetailsById(args.seriesId.toInt()) },
+            function = { getSeriesDetailsUseCase(args.seriesId.toInt()) },
             onSuccess = { series ->
                 updateState {
                     it.copy(
@@ -38,17 +42,17 @@ class SeriesDetailsViewModel(
                         seriesName = series.title,
                         rate = series.rate.toString(),
                         numberOfSeasons = series.seasons.size,
-                        productionDate = series.yearOfRelease,
+                        productionDate = series.airDate,
                         description = series.description,
                         currentSeasonsUiStates = series.seasons.map { season -> season.mapToUiState() },
-                        selectedSeasonUiState = series.seasons[if (series.seasons.first().seasonNumber == 0) args.seasonNumber  else args.seasonNumber -1].mapToUiState()
+                        selectedSeasonUiState = series.seasons[if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber - 1].mapToUiState()
                     )
                 }
                 loadAllSeasonsEpisodes()
                 loadCastData()
                 loadReviews()
                 loadSimilarSeries()
-                loadSeasonEpisodes(if (series.seasons.first().seasonNumber == 0) args.seasonNumber  else args.seasonNumber)
+                loadSeasonEpisodes(if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber)
             },
             onError = {},
         )
@@ -61,10 +65,7 @@ class SeriesDetailsViewModel(
             state.first().currentSeasonsUiStates.forEachIndexed { index, season ->
                 tryToExecute(
                     function = {
-                        seriesDetailsUseCase.getEpisodesBySeriesId(
-                            args.seriesId,
-                            season.seasonNumber
-                        )
+                        getEpisodesForSeasonUseCase(args.seriesId, season.seasonNumber)
                     },
                     onSuccess = { episodes ->
                         updateState { currentState ->
@@ -91,10 +92,7 @@ class SeriesDetailsViewModel(
     private fun loadSeasonEpisodes(seasonNumber: Int = 1) {
         tryToExecute(
             function = {
-                seriesDetailsUseCase.getEpisodesBySeriesId(
-                    args.seriesId.toInt(),
-                    seasonNumber
-                )
+                getEpisodesForSeasonUseCase(args.seriesId.toInt(), seasonNumber)
             },
             onSuccess = { episodes ->
                 updateState { state ->
@@ -105,7 +103,7 @@ class SeriesDetailsViewModel(
                             },
                             numberOfEpisodes = episodes.size,
                             seasonNumber = seasonNumber,
-                            imageUrl = state.currentSeasonsUiStates[if (state.currentSeasonsUiStates.first().seasonNumber == 0) seasonNumber else seasonNumber -1].imageUrl
+                            imageUrl = state.currentSeasonsUiStates[if (state.currentSeasonsUiStates.first().seasonNumber == 0) seasonNumber else seasonNumber - 1].imageUrl
                         )
                     )
                 }
@@ -117,7 +115,7 @@ class SeriesDetailsViewModel(
     private fun loadCastData() {
         tryToExecute(
             function = {
-                seriesDetailsUseCase.getSeriesCreditsById(args.seriesId.toInt())
+                getSeriesTopCastUseCase(args.seriesId.toInt())
             },
             onSuccess = { Artists ->
                 updateState {
@@ -135,7 +133,7 @@ class SeriesDetailsViewModel(
     private fun loadReviews() {
         tryToExecute(
             function = {
-                seriesDetailsUseCase.getSeriesReviewsById(args.seriesId.toInt())
+                getSeriesReviewsUseCase(args.seriesId.toInt())
             },
             onSuccess = { reviews ->
                 updateState {
@@ -153,7 +151,7 @@ class SeriesDetailsViewModel(
     private fun loadSimilarSeries() {
         tryToExecute(
             function = {
-                seriesDetailsUseCase.getSimilarSeriesById(args.seriesId.toInt())
+                getSimilarSeriesUseCase(args.seriesId.toInt())
             },
             onSuccess = { allSeries ->
                 updateState {
@@ -169,7 +167,7 @@ class SeriesDetailsViewModel(
     }
 }
 
-fun SimilarSeries.toUiState(): SeriesUiState {
+fun Series.toUiState(): SeriesUiState {
     return SeriesUiState(
         id = this.id,
         name = this.title,
@@ -184,7 +182,7 @@ fun Review.toUiState(): ReviewUiState {
         reviewerName = this.reviewerName,
         reviewerImageUrl = "",
         rating = this.rate.toFloat(),
-        date = this.dateOfRelease,
+        date = this.date,
         content = this.comment
     )
 }

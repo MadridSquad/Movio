@@ -1,9 +1,8 @@
 package com.madrid.presentation.viewModel.detailsViewModel
 
-import com.madrid.domain.entity.Cast
+import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Episode
 import com.madrid.domain.entity.Season
-
 
 fun Episode.toUiState(): EpisodeUiState {
     return EpisodeUiState(
@@ -20,14 +19,14 @@ fun Season.mapToUiState(): SeasonUiState {
         id = this.id,
         imageUrl = this.imageUrl,
         seasonNumber = this.seasonNumber,
-        productionDate = this.yearOfRelease,
+        productionDate = this.date,
         rate = this.rate.toString(),
         description = this.description,
     )
 }
 
-fun Cast.mapToUiState(): Artist {
-    return Artist(
+fun Artist.mapToUiState(): ArtistUiState {
+    return ArtistUiState(
         id = this.id,
         imageUrl = this.imageUrl,
         name = this.name

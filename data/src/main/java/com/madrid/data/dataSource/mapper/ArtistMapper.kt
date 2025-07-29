@@ -1,7 +1,7 @@
 package com.madrid.data.dataSource.mapper
 
 import com.madrid.data.dataSource.local.table.ArtistTable
-import com.madrid.data.dataSource.remote.response.artist.ArtistsResult
+import com.madrid.data.dataSource.remote.dto.artist.ArtistsResult
 
 fun ArtistsResult.toArtistTable(): ArtistTable {
     return ArtistTable(

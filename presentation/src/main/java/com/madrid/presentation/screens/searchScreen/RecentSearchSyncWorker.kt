@@ -6,7 +6,7 @@ import androidx.work.WorkerParameters
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.madrid.domain.usecase.searchUseCase.RecentSearchUseCase
+import com.madrid.domain.usecase.search.ClearAllRecentSearchesUseCase
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.util.concurrent.TimeUnit
@@ -15,9 +15,9 @@ class RecentSearchSyncWorker(
     appContext: Context,
     params: WorkerParameters
 ) : CoroutineWorker(appContext, params), KoinComponent {
-    private val recentSearchUseCase: RecentSearchUseCase by inject()
+    private val clearAllRecentSearchesUseCase: ClearAllRecentSearchesUseCase by inject()
     override suspend fun doWork(): Result {
-        recentSearchUseCase.clearAllRecentSearches()
+        clearAllRecentSearchesUseCase()
         return Result.success()
     }
 

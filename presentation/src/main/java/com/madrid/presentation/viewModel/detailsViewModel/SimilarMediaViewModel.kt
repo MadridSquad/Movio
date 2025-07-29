@@ -3,17 +3,17 @@ package com.madrid.presentation.viewModel.detailsViewModel
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
-import com.madrid.domain.entity.SimilarMovie
-import com.madrid.domain.entity.SimilarSeries
-import com.madrid.domain.usecase.mediaDeatailsUseCase.MovieDetailsUseCase
-import com.madrid.domain.usecase.mediaDeatailsUseCase.SeriesDetailsUseCase
+import com.madrid.domain.entity.Movie
+import com.madrid.domain.entity.Series
+import com.madrid.domain.usecase.movie.GetSimilarMoviesUseCase
+import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
 
 class SimilarMediaViewModel(
     savedStateHandle: SavedStateHandle,
-    private val movieDetailsUseCase: MovieDetailsUseCase,
-    private val seriesDetailsUseCase: SeriesDetailsUseCase,
+    private val getSimilarMoviesUseCase: GetSimilarMoviesUseCase,
+    private val getSimilarSeriesUseCase: GetSimilarSeriesUseCase,
 ) : BaseViewModel<SimilarMediaUiState, Nothing>(SimilarMediaUiState()) {
 
     private val args = savedStateHandle.toRoute<Destinations.SimilarMediaScreen>()
@@ -26,7 +26,7 @@ class SimilarMediaViewModel(
     private fun loadSimilarMedia() {
         tryToExecute(
             function = {
-                movieDetailsUseCase.getSimilarMoviesById(args.mediaId.toInt())
+                getSimilarMoviesUseCase(args.mediaId.toInt())
             },
             onSuccess = { allMovies ->
                 updateState {
@@ -46,7 +46,7 @@ class SimilarMediaViewModel(
     private fun loadSimilarSeries() {
         tryToExecute(
             function = {
-                seriesDetailsUseCase.getSimilarSeriesById(args.mediaId.toInt())
+                getSimilarSeriesUseCase(args.mediaId.toInt())
             },
             onSuccess = { allSeries ->
                 updateState {
@@ -65,7 +65,7 @@ class SimilarMediaViewModel(
 
 }
 
-fun List<SimilarMovie>.toMovieUiState(): List<MediaUiState> {
+fun List<Movie>.toMovieUiState(): List<MediaUiState> {
     return this.map { movie ->
         MediaUiState(
             mediaId = movie.id,
@@ -76,7 +76,7 @@ fun List<SimilarMovie>.toMovieUiState(): List<MediaUiState> {
     }
 }
 
-fun List<SimilarSeries>.toSeriesUiState(): List<MediaUiState> {
+fun List<Series>.toSeriesUiState(): List<MediaUiState> {
     return this.map { series ->
         MediaUiState(
             mediaId = series.id,

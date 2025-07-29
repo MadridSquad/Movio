@@ -1,9 +1,8 @@
 package com.madrid.data.dataSource.mapper
 
 import com.madrid.data.dataSource.local.table.MovieTable
-import com.madrid.data.dataSource.remote.response.movie.MovieDetailsResponse
-import com.madrid.data.dataSource.remote.response.movie.MovieResult
-
+import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
+import com.madrid.data.dataSource.remote.dto.movie.MovieResult
 
 fun MovieResult.toMovieTable(): MovieTable {
     return MovieTable(
