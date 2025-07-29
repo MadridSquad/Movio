@@ -31,6 +31,7 @@ import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.designSystem.theme.Theme
 import com.madrid.detectImageContent.FilteredImage
 import com.madrid.presentation.R
+import java.text.DecimalFormat
 
 data class SimilarMovie(
     val id: Int,
@@ -38,6 +39,15 @@ data class SimilarMovie(
     val imageUrl: String,
     val rating: Double
 )
+
+fun Double.toOneDecimalPlace(): String {
+    return try {
+        val truncated = Math.floor(this * 10) / 10
+        DecimalFormat("#.#").format(truncated)
+    } catch (e: Exception) {
+        this.toString()
+    }
+}
 
 @Composable
 fun SimilarMoviesSection(
@@ -126,7 +136,7 @@ private fun MovieCard(
                         tint = Theme.color.system.warning
                     )
                     MovioText(
-                        text = movie.rating.toString(),
+                        text = movie.rating.toOneDecimalPlace(),
                         color = Theme.color.surfaces.onSurface,
                         textStyle = Theme.textStyle.label.smallRegular12
                     )
