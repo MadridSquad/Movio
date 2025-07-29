@@ -1,8 +1,7 @@
 package com.madrid.presentation.screens.searchScreen.paging
 
 import com.madrid.domain.entity.Movie
-import com.madrid.domain.usecase.GetExploreMoreMovieUseCase
-import com.madrid.domain.usecase.GetRecommendedMovieUseCase
+import com.madrid.domain.usecase.search.GetRecommendedMovieUseCase
 
 class ForYouPagingSource(
     private val getRecommendedMovieUseCase: GetRecommendedMovieUseCase

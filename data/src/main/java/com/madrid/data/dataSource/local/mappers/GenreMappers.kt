@@ -2,7 +2,7 @@ package com.madrid.data.dataSource.local.mappers
 
 import com.madrid.data.dataSource.local.table.MovieGenreTable
 import com.madrid.data.dataSource.local.table.SeriesGenreTable
-import com.madrid.data.dataSource.remote.response.genre.MovieGenre
+import com.madrid.data.dataSource.remote.dto.genre.MovieGenre
 
 
 fun MovieGenre.toMovieGenreTable(): MovieGenreTable {
