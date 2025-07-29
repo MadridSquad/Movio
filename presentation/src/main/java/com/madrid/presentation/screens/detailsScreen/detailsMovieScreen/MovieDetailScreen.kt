@@ -172,7 +172,6 @@ fun MovieDetailsScreen(
             ) {
                 RatingBottomSheetContent(
                     movieTitle = uiState.movieName,
-                    // TODO: Replace with actual poster resource ID or URL handling
                     moviePosterResId = R.drawable.library_main_icon,
                     onRatingSubmitted = { rating -> Log.d("Rating", "Submitted rating: $rating") }
                 )
@@ -185,11 +184,9 @@ fun MovieDetailsScreen(
                 },
                 sheetState = sheetState
             ) {
-                // TODO: Replace with actual data and logic
                 AddToListBottomSheetContent(
                     onListCreated = {
                         Log.d("AddToList", "Create new list clicked")
-                        // Handle new list creation logic here
                     },
                     initialUserLists = listOf(
                         UserList("1", "Watch later", isSelected = true),
