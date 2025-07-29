@@ -9,10 +9,10 @@ fun Artist.toArtistTable(): ArtistTable {
         id = this.id,
         name = this.name,
         imageUrl = this.imageUrl,
-        description = this.description ?: "",
+        description = this.overview,
         role = this.role,
         dateOfBirth = this.dateOfBirth.toString(),
-        country = this.country ?: ""
+        country = this.country
     )
 }
 
@@ -21,7 +21,7 @@ fun ArtistTable.toArtist(): Artist {
         id = this.id,
         name = this.name,
         imageUrl = this.imageUrl,
-        description = this.description,
+        overview = this.description,
         role = this.role,
         dateOfBirth = this.dateOfBirth,
         country = this.country

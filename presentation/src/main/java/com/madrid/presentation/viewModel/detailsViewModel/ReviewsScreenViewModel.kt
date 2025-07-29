@@ -3,15 +3,15 @@ package com.madrid.presentation.viewModel.detailsViewModel
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
-import com.madrid.domain.usecase.mediaDeatailsUseCase.MovieDetailsUseCase
-import com.madrid.domain.usecase.mediaDeatailsUseCase.SeriesDetailsUseCase
+import com.madrid.domain.usecase.movie.GetMovieReviewsUseCase
+import com.madrid.domain.usecase.series.GetSeriesReviewsUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
 
 class ReviewsScreenViewModel(
     savedStateHandle: SavedStateHandle,
-    private val movieDetailsUseCase: MovieDetailsUseCase,
-    private val seriesDetailsUseCase: SeriesDetailsUseCase,
+    private val getMovieReviewsUseCase: GetMovieReviewsUseCase,
+    private val getSeriesReviewsUseCase: GetSeriesReviewsUseCase
 ) : BaseViewModel<ReviewsScreenUiState, Nothing>(ReviewsScreenUiState()) {
 
     private val args = savedStateHandle.toRoute<Destinations.ReviewsScreen>()
@@ -27,7 +27,7 @@ class ReviewsScreenViewModel(
 
     private fun loadMovieReviews() {
         tryToExecute(
-            function = { movieDetailsUseCase.getMovieReviewsById(args.mediaId.toInt()) },
+            function = { getMovieReviewsUseCase(args.mediaId.toInt()) },
             onSuccess = { reviews ->
                 updateState {
                     it.copy(reviews = reviews.map { review ->
@@ -41,7 +41,7 @@ class ReviewsScreenViewModel(
 
     private fun loadSeriesReviews() {
         tryToExecute(
-            function = { seriesDetailsUseCase.getSeriesReviewsById(args.mediaId.toInt()) },
+            function = { getSeriesReviewsUseCase(args.mediaId.toInt()) },
             onSuccess = { reviews ->
                 updateState {
                     it.copy(reviews = reviews.map { review ->
@@ -51,8 +51,5 @@ class ReviewsScreenViewModel(
             },
             onError = { e -> Log.d("TAG lol", "loadSeriesReviews: ${e.message}") },
         )
-
     }
-
-
 }
