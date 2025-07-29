@@ -18,7 +18,8 @@
     <string name="Movies">الافلام</string>
     <string name="Series">المسلسلات</string>
     <string name="Artists">الممثلون</string>
-    <string name="search_result_count">نتائج البحث (%1$s عنصر)</string>
+    <string name="search_result_count">نتائج البحث </string>
+    <string name="items_count">(%1$s عنصر)</string>
     <string name="recent_search">البحث الأخير</string>
     <string name="clear_all">مسح الكل</string>
     <string name="top_cast">أفضل طاقم</string>

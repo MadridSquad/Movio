@@ -136,7 +136,7 @@ private fun SeeAllForYouScreenContent(
                     ) {
                         EmptySearchLayout(
                             title = stringResource(com.madrid.presentation.R.string.internet_is_not_available),
-                            description = "Please make sure you are connected to the internet and try again.",
+                            description = stringResource(com.madrid.presentation.R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
                             image = com.madrid.presentation.R.drawable.img_no_internet
                         )
                     }
