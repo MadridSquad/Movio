@@ -23,10 +23,12 @@ import com.madrid.designSystem.theme.Theme
 
 
 @Composable
-fun HomeAppBar() {
+fun HomeAppBar(
+    modifier: Modifier = Modifier
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(48.dp)
     ) {

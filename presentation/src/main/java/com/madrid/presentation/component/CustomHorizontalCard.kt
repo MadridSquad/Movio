@@ -2,6 +2,7 @@ package com.madrid.presentation.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
@@ -24,6 +25,7 @@ fun CustomHorizontalCard(
     primaryTextForCustomTextTitel: String,
     listOfMedia: List<MediaUiState>,
     modifier: Modifier = Modifier,
+    headerModifier: Modifier  = Modifier,
     secondaryTextForCustomTextTitel: String? = null,
     endIconForCustomTextTitel: Painter? = null,
     onSeeAllClick: (() -> Unit)? = null,
@@ -34,11 +36,13 @@ fun CustomHorizontalCard(
             primaryText = primaryTextForCustomTextTitel,
             secondaryText = secondaryTextForCustomTextTitel,
             endIcon = endIconForCustomTextTitel,
-            onSeeAllClick = onSeeAllClick
+            onSeeAllClick = onSeeAllClick,
+            modifier = headerModifier
         )
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.height(200.dp)
+            modifier = Modifier.height(200.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp)
         ) {
             items(listOfMedia) { media ->
                 MovioVerticalCard(

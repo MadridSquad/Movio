@@ -37,12 +37,11 @@ fun HomeScreenContent(){
     Column(
         Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
             .background(Theme.color.surfaces.surface)
-            .padding(horizontal = 16.dp, vertical = 32.dp),
+            .padding(vertical = 32.dp),
     ) {
 
-        HomeAppBar()
+        HomeAppBar(modifier = Modifier.padding(horizontal = 16.dp))
         HeaderSectionBar(
             tabs = listOf(
                 stringResource(R.string.all),
@@ -54,6 +53,7 @@ fun HomeScreenContent(){
             onTabSelected = { index ->
                 selectedTabIndex = index
             },
+            modifier = Modifier.padding(horizontal = 16.dp)
         )
         LayoutContent(HomeTab.entries[selectedTabIndex])
 
