@@ -1,6 +1,5 @@
 package com.madrid.presentation.component.movioCards
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -137,13 +136,3 @@ private fun EpisodesCardPreview() {
         )
     }
 }
-
-//MovioEpisodesCard(
-//modifier = Modifier.padding(top = 20.dp),
-//movieTitle = "Unimatrix Zero",
-//movieRate = "9",
-//currentMovieEpisode = "Episode 01",
-//movieTime = "44m",
-//movieImageUrl = "https://image.tmdb.org/t/p/w500/5xKGk6q5g7mVmg7k7U1RrLSHwz6.jpg",
-//onClick = { },
-//)
