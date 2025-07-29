@@ -1,36 +1,62 @@
 package com.madrid.movio.di
 
-
-import com.madrid.domain.usecase.homeUseCase.GetAllTrendingUseCase
-import com.madrid.domain.usecase.GetExploreMoreMovieUseCase
-import com.madrid.domain.usecase.GetRecommendedMovieUseCase
-import com.madrid.domain.usecase.mediaDeatailsUseCase.ArtistDetailsUseCase
-import com.madrid.domain.usecase.homeUseCase.MoviesByGenresUseCase
-import com.madrid.domain.usecase.homeUseCase.SeriesByGenresUseCase
-import com.madrid.domain.usecase.mediaDeatailsUseCase.MovieDetailsUseCase
-import com.madrid.domain.usecase.mediaDeatailsUseCase.SeriesDetailsUseCase
-import com.madrid.domain.usecase.searchUseCase.ArtistUseCase
-import com.madrid.domain.usecase.searchUseCase.MovieUseCase
-import com.madrid.domain.usecase.searchUseCase.PreferredMediaUseCase
-import com.madrid.domain.usecase.searchUseCase.RecentSearchUseCase
-import com.madrid.domain.usecase.searchUseCase.SeriesUseCase
-import com.madrid.domain.usecase.searchUseCase.TrendingMediaUseCase
+import com.madrid.domain.usecase.artist.GetArtistDetailsUseCase
+import com.madrid.domain.usecase.artist.GetArtistMoviesUseCase
+import com.madrid.domain.usecase.movie.GetMovieDetailsUseCase
+import com.madrid.domain.usecase.movie.GetMovieReviewsUseCase
+import com.madrid.domain.usecase.movie.GetMovieTopCastUseCase
+import com.madrid.domain.usecase.movie.GetMovieTrailersUseCase
+import com.madrid.domain.usecase.movie.GetMoviesByGenresUseCase
+import com.madrid.domain.usecase.movie.GetSimilarMoviesUseCase
+import com.madrid.domain.usecase.search.AddRecentSearchUseCase
+import com.madrid.domain.usecase.search.ClearAllRecentSearchesUseCase
+import com.madrid.domain.usecase.search.GetArtistsByQueryUseCase
+import com.madrid.domain.usecase.search.GetExploreMoreMovieUseCase
+import com.madrid.domain.usecase.search.GetMoviesByQueryUseCase
+import com.madrid.domain.usecase.search.GetPopularMoviesUseCase
+import com.madrid.domain.usecase.search.GetRecentSearchesUseCase
+import com.madrid.domain.usecase.search.GetRecommendedMovieUseCase
+import com.madrid.domain.usecase.search.GetSeriesByQueryUseCase
+import com.madrid.domain.usecase.search.RemoveRecentSearchUseCase
+import com.madrid.domain.usecase.series.GetEpisodesForSeasonUseCase
+import com.madrid.domain.usecase.series.GetSeriesByGenresUseCase
+import com.madrid.domain.usecase.series.GetSeriesDetailsUseCase
+import com.madrid.domain.usecase.series.GetSeriesReviewsUseCase
+import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
+import com.madrid.domain.usecase.series.GetSeriesTrailersUseCase
+import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
-
 val domainModule = module {
-    single { ArtistUseCase(get()) }
-    single { MovieUseCase(get()) }
-    single { SeriesUseCase(get()) }
-    single { PreferredMediaUseCase(get()) }
-    single { RecentSearchUseCase(get()) }
-    single { TrendingMediaUseCase(get()) }
-    single { GetExploreMoreMovieUseCase(get()) }
-    single { GetRecommendedMovieUseCase(get()) }
-    single { MovieDetailsUseCase(get()) }
-    single { ArtistDetailsUseCase(get()) }
-    single { SeriesDetailsUseCase(get()) }
-    single { GetAllTrendingUseCase(get()) }
-    single { MoviesByGenresUseCase(get()) }
-    single { SeriesByGenresUseCase(get()) }
+    // artist
+    singleOf(::GetArtistMoviesUseCase)
+    singleOf(::GetArtistDetailsUseCase)
+    // search
+    singleOf(::AddRecentSearchUseCase)
+    singleOf(::ClearAllRecentSearchesUseCase)
+    singleOf(::GetArtistsByQueryUseCase)
+    singleOf(::GetExploreMoreMovieUseCase)
+    singleOf(::GetMoviesByQueryUseCase)
+    singleOf(::GetPopularMoviesUseCase)
+    singleOf(::GetRecentSearchesUseCase)
+    singleOf(::GetRecommendedMovieUseCase)
+    singleOf(::GetSeriesByQueryUseCase)
+    singleOf(::RemoveRecentSearchUseCase)
+    // movies
+    singleOf(::GetMovieDetailsUseCase)
+    singleOf(::GetMovieReviewsUseCase)
+    singleOf(::GetMoviesByGenresUseCase)
+    singleOf(::GetMovieTopCastUseCase)
+    singleOf(::GetMovieTrailersUseCase)
+    singleOf(::GetSimilarMoviesUseCase)
+    singleOf(::GetMovieTrailersUseCase)
+    // series
+    singleOf(::GetSeriesByGenresUseCase)
+    singleOf(::GetEpisodesForSeasonUseCase)
+    singleOf(::GetSeriesDetailsUseCase)
+    singleOf(::GetSeriesReviewsUseCase)
+    singleOf(::GetSeriesTopCastUseCase)
+    singleOf(::GetSeriesTrailersUseCase)
+    singleOf(::GetSimilarSeriesUseCase)
 }

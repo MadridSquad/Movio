@@ -60,7 +60,6 @@ fun SearchScreen(
     var typeOfFilterSearch by remember { mutableStateOf(FilterPagesItem.TOP_RATED) }
     val navController = LocalNavController.current
 
-
     RefreshScreenHolder(
         refreshState = uiState.searchUiState.refreshState,
         onRefresh = {viewModel.onRefresh(searchQuery , typeOfFilterSearch)}

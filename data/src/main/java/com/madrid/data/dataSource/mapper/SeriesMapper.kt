@@ -1,8 +1,7 @@
 package com.madrid.data.dataSource.mapper
 
 import com.madrid.data.dataSource.local.table.SeriesTable
-import com.madrid.data.dataSource.remote.response.series.SeriesResult
-
+import com.madrid.data.dataSource.remote.dto.series.SeriesResult
 
 fun SeriesResult.toSeriesTable(): SeriesTable {
     return SeriesTable(
