@@ -22,7 +22,7 @@ fun MovieDetailsResponse.toMovie(): Movie {
         releaseDate = this.releaseDate ?: "",
         movieDuration = this.runtime?.toString() ?: "",
         description = this.overview ?: "",
-        genre = this.movieGenres.map { it.toMediaGenre().title },
+        genre = this.movieGenres.map { it.name ?: "" },
     )
 }
 
@@ -88,12 +88,6 @@ fun SimilarMovieNetwork.toSimilarMovie(): Movie {
     )
 }
 
-fun MovieGenre.toMediaGenre(): MediaGenre {
-    return MediaGenre(
-        id = this.id ?: 0,
-        title = this.name ?: ""
-    )
-}
 
 fun TrailerResult.toTrailer(): Trailer {
     return Trailer(
