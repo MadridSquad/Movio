@@ -27,7 +27,6 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.CustomTextTitel
-import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.LoadingSearchCard
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
@@ -116,6 +115,7 @@ fun LazyGridScope.forYouAndExploreScreen(
                 ) {
                     LazyRow(
                         modifier = Modifier
+                            .padding(12.dp)
                             .padding(bottom = 32.dp),
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
@@ -225,7 +225,8 @@ fun LazyGridScope.forYouAndExploreScreen(
                     count = exploreMoreMovies.itemCount,
                 ) { index ->
                     MovioVerticalCard(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth(),
                         description = exploreMoreMovies[index]!!.title,
                         movieImage = exploreMoreMovies[index]!!.imageUrl,
                         rate = exploreMoreMovies[index]!!.rating,
