@@ -146,8 +146,8 @@ fun SearchScreen(
 @OptIn(FlowPreview::class)
 @Composable
 fun ContentSearchScreen(
-    isError : Boolean,
-    typeOfFilterSearch : FilterPagesItem ,
+    isError: Boolean,
+    typeOfFilterSearch: FilterPagesItem,
     addRecentSearch: (String) -> Unit,
     topRated: LazyPagingItems<SearchScreenState.MovieUiState>,
     movies: LazyPagingItems<SearchScreenState.MovieUiState>,
@@ -176,6 +176,7 @@ fun ContentSearchScreen(
     val showSearchResults = searchQuery.isNotBlank()
     var selectedTabIndex by remember { mutableIntStateOf(0) }
     var showRecentSearch by remember { mutableIntStateOf(0) }
+    var previousSelectedTabIndex by remember { mutableIntStateOf(-1) }
 
     LaunchedEffect(searchQuery) {
         snapshotFlow { searchQuery }
@@ -186,10 +187,10 @@ fun ContentSearchScreen(
                     onSearchBarClick()
                     addRecentSearch(query)
                     when (typeOfFilterSearch) {
-                        FilterPagesItem.TOP_RATED-> onClickTopRated()
-                        FilterPagesItem.MOVIES-> onClickMovies()
+                        FilterPagesItem.TOP_RATED -> onClickTopRated()
+                        FilterPagesItem.MOVIES -> onClickMovies()
                         FilterPagesItem.SERIES -> onClickSeries()
-                        FilterPagesItem.ARTISTS-> onClickArtist()
+                        FilterPagesItem.ARTISTS -> onClickArtist()
                     }
                 }
             }
@@ -228,7 +229,7 @@ fun ContentSearchScreen(
             forYouAndExploreScreen(
                 showSearchResults = showSearchResults,
                 isLoading = isLoading,
-                isError =  isError,
+                isError = isError,
                 forYouMovies = forYouMovies,
                 onMovieClick = onMovieClick,
                 exploreMoreMovies = exploreMoreMovies,
@@ -244,30 +245,26 @@ fun ContentSearchScreen(
                 series = series,
                 artist = artist,
                 selectedTabIndex = selectedTabIndex,
-                onChangeSelectedTabIndex = { selectedTabIndex = it },
-                onChangeTypeFilterSearch = {
-                    when (selectedTabIndex) {
-                        0 -> {
-                            onClickTopRated()
-                        }
 
-                        1 -> {
-                            onClickMovies()
-                        }
+                onChangeSelectedTabIndex = { newIndex ->
+                    if (newIndex != selectedTabIndex) {
+                        previousSelectedTabIndex = selectedTabIndex
+                        selectedTabIndex = newIndex
 
-                        2 -> {
-                            onClickSeries()
-                        }
-
-                        else -> {
-                            onClickArtist()
+                        when (newIndex) {
+                            0 -> onClickTopRated()
+                            1 -> onClickMovies()
+                            2 -> onClickSeries()
+                            3 -> onClickArtist()
                         }
                     }
                 },
+                onChangeTypeFilterSearch = {},
                 onSeriesClick = { seriesId ->
                     onSeriesClick(seriesId)
                 }
             )
+
         }
 
         if (showRecentSearch == 1 && searchHistory.isNotEmpty()) {
