@@ -1,7 +1,7 @@
-package com.madrid.domain.usecase.homeUseCase
+package com.madrid.domain.usecase.movie
 
 import com.madrid.domain.repository.MovieRepository
 
-class getNowPlayingMovieUseCase(private val movieRepository: MovieRepository) {
+class GetNowPlayingMovieUseCase(private val movieRepository: MovieRepository) {
     suspend operator fun invoke() = movieRepository.getNowPlayingMovie()
 }
