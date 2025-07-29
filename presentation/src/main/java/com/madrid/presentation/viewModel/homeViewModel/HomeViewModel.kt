@@ -1,14 +1,14 @@
 package com.madrid.presentation.viewModel.homeViewModel
 
 import androidx.lifecycle.viewModelScope
-import com.madrid.domain.usecase.homeUseCase.GetAllTrendingUseCase
+import com.madrid.domain.usecase.movie.GetTrendingMoviesUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
 class HomeViewModel(
-    private val getAllTrendingUseCase: GetAllTrendingUseCase
+    private val getTrendingMoviesUseCase: GetTrendingMoviesUseCase
 ) : BaseViewModel<TrendingUiState, Nothing>(
     TrendingUiState()
 ) {
@@ -21,7 +21,7 @@ class HomeViewModel(
         updateState { it.copy(isLoading = true, errorMessage = "") }
         tryToExecute(
             function = {
-                getAllTrendingUseCase(page = 1)
+                getTrendingMoviesUseCase(page = 1)
             },
             onSuccess = { trendingItems ->
                 updateState {
@@ -31,9 +31,9 @@ class HomeViewModel(
                             Trending(
                                 id = item.id,
                                 title = item.title,
-                                posterPath = item.posterPath,
-                                voteAverage = item.voteAverage,
-                                mediaType = item.mediaType
+                                posterPath = item.imageUrl,
+                                voteAverage = item.rate,
+                                mediaType = ""
                             )
                         },
                         errorMessage = ""

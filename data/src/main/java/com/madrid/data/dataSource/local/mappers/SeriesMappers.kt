@@ -1,6 +1,5 @@
 package com.madrid.data.dataSource.local.mappers
 
-
 import com.madrid.data.dataSource.local.table.SeriesTable
 import com.madrid.domain.entity.Series
 import kotlinx.datetime.LocalDate
@@ -11,7 +10,7 @@ fun Series.toSeriesTable(): SeriesTable {
         title = this.title,
         imageUrl = this.imageUrl,
         rate = this.rate,
-        yearOfRelease = this.yearOfRelease.toString(),
+        yearOfRelease = this.airDate.toString(),
         description = this.description,
     )
 }
@@ -22,9 +21,9 @@ fun SeriesTable.toSeries(): Series {
         title = this.title,
         imageUrl = this.imageUrl,
         rate = this.rate,
-        yearOfRelease = LocalDate.parse(this.yearOfRelease).toString(),
+        airDate = LocalDate.parse(this.yearOfRelease).toString(),
         description = this.description,
         genre = listOf(),
-
-        )
+        seasons = emptyList(),
+    )
 }

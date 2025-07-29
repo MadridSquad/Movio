@@ -1,30 +1,27 @@
 package com.madrid.data.repositories
 
-import android.util.Log
-import com.madrid.data.dataSource.remote.mapper.toCredits
+import com.madrid.data.dataSource.local.mappers.toSeries
+import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.mapper.toEpisode
-import com.madrid.data.dataSource.remote.mapper.toReviewResult
+import com.madrid.data.dataSource.remote.mapper.toReview
 import com.madrid.data.dataSource.remote.mapper.toSeries
 import com.madrid.data.dataSource.remote.mapper.toSimilarSeries
 import com.madrid.data.dataSource.remote.mapper.toTrailer
 import com.madrid.data.dataSource.remote.mapper.toTvShows
 import com.madrid.data.repositories.local.LocalDataSource
 import com.madrid.data.repositories.remote.RemoteDataSource
-import com.madrid.domain.entity.Cast
+import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Episode
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.Series
-import com.madrid.domain.entity.SimilarSeries
 import com.madrid.domain.entity.Trailer
 import com.madrid.domain.repository.SeriesRepository
-import kotlinx.coroutines.flow.Flow
 
 class SeriesRepositoryImpl(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
 ) : SeriesRepository {
 
-    //region series details
     override suspend fun getSeriesDetailsById(seriesId: Int): Series {
         val seriesResponse = remoteDataSource.getSeriesDetailsById(seriesId)
         seriesResponse.genres?.map { genre ->
@@ -33,19 +30,21 @@ class SeriesRepositoryImpl(
         return seriesResponse.toSeries()
     }
 
-    override suspend fun getSeriesTrailersById(seriesId: Int): Trailer {
-        return remoteDataSource.getSeriesTrailersById(seriesId).toTrailer()
+    override suspend fun getSeriesTrailersById(seriesId: Int): List<Trailer> {
+        return remoteDataSource.getSeriesTrailersById(seriesId).map { it.toTrailer() }
     }
 
-    override suspend fun getSeriesCreditsById(seriesId: Int): List<Cast> {
-        return remoteDataSource.getSeriesCreditsById(seriesId).toCredits().cast ?: emptyList()
+    override suspend fun getSeriesCreditsById(seriesId: Int): List<Artist> {
+        return remoteDataSource.getSeriesCreditsById(seriesId).seriesCastNetwork?.map { it.toArtist() }
+            ?: emptyList()
     }
 
     override suspend fun getSeriesReviewsById(seriesId: Int): List<Review> {
-        return remoteDataSource.getSeriesReviewsById(seriesId).toReviewResult().results
+        return remoteDataSource.getSeriesReviewsById(seriesId).results?.map { it.toReview() }
+            ?: emptyList()
     }
 
-    override suspend fun getSimilarSeriesById(seriesId: Int): List<SimilarSeries> {
+    override suspend fun getSimilarSeriesById(seriesId: Int): List<Series> {
         return remoteDataSource.getSimilarSeriesById(seriesId).results?.map { it.toSimilarSeries() }
             ?: emptyList()
     }
@@ -54,44 +53,31 @@ class SeriesRepositoryImpl(
         return remoteDataSource.getEpisodesBySeasonId(
             seriesId = seriesId,
             seasonNumber = seasonNumber
-        ).episodeNetworks?.map { it.toEpisode() } ?: emptyList()
+        ).episodes?.map { it.toEpisode() } ?: emptyList()
     }
-    //End region
 
-    override suspend fun getTopRatedSeries(): List<Series> {
+    override suspend fun getTopRatedSeries(page: Int): List<Series> {
         return remoteDataSource.getTopRatedSeries().toTvShows()
     }
 
-    override suspend fun getOnAirSeries(): List<Series> {
+    override suspend fun getOnAirSeries(page: Int): List<Series> {
         return remoteDataSource.getOnAirSeries().toTvShows()
     }
 
-    override suspend fun getAiringTodaySeries(): List<Series> {
+    override suspend fun getAiringTodaySeries(page: Int): List<Series> {
         return remoteDataSource.getAiringTodaySeries().toTvShows()
     }
 
-    override suspend fun getRecommendedSeries(): List<Series> {
+    override suspend fun getRecommendedSeries(page: Int): List<Series> {
         return remoteDataSource.getRecommendedSeries().toTvShows()
     }
 
-
-    override suspend fun submitSeriesRating(rating: Float) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun addSeriesToFavourites(seriesId: Int) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getListsCollection(): Flow<List<String>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun addNewCollection(collection: String) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun addSeriesToList(seriesId: Int, listName: String): Boolean {
-        TODO("Not yet implemented")
+    override suspend fun getSeriesByGenres(): Map<String, List<Series>> {
+        val genresWithSeries = localDataSource.getSeriesByGenres()
+        return genresWithSeries.associate { genreWithSeries ->
+            val genreTitle = genreWithSeries.genre.genreTitle
+            val series = genreWithSeries.series.map { it.toSeries() }
+            genreTitle to series
+        }
     }
 }
