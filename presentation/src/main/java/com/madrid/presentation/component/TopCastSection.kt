@@ -87,11 +87,11 @@ private fun CastMemberItem(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.width(80.dp) // Fixed width to ensure consistent spacing
+        modifier = modifier.width(80.dp)
     ) {
         Box(
             modifier = Modifier
-                .size(60.dp)
+                .size(86.dp , 87.dp)
                 .clip(CircleShape)
         ) {
             FilteredImage(
@@ -107,7 +107,7 @@ private fun CastMemberItem(
         MovioText(
             text = castMember.name,
             color = Theme.color.surfaces.onSurface,
-            textStyle = Theme.textStyle.label.smallRegular12, // Smaller text for better fit
+            textStyle = Theme.textStyle.label.smallRegular12,
             maxLines = 2,
             textAlign = TextAlign.Center,
             overflow = TextOverflow.Ellipsis,
