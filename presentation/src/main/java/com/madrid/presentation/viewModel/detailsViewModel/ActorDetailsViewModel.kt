@@ -52,7 +52,7 @@ class ActorDetailsViewModel(
                         selectedActor = mappedActor,
                         isLoading = false,
                         errorMessage = null,
-//                        movieId = args.
+//                        movieId = args
                     )
                 }
             },

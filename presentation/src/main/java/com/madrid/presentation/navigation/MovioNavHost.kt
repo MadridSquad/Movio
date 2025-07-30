@@ -50,7 +50,7 @@ fun MovioNavHost(navController: NavHostController) {
             SearchScreen()
         }
         composable<Destinations.HomeScreen> {
-            FakeHomeScreen()
+            HomeScreen()
         }
         composable<Destinations.EpisodesScreen> {
             EpisodesScreen()

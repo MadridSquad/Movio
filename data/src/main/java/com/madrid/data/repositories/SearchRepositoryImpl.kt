@@ -27,7 +27,7 @@ class SearchRepositoryImpl(
         var result = localSource.searchMovieByQueryFromDB(query, page)
         if (result.isEmpty()) {
             localSource.getAllMovieGenres().ifEmpty {
-                remoteDataSource.getMovieGenres().genres?.forEach {
+                remoteDataSource.getMovieGenres().forEach {
                     localSource.insertMovieGenre(it.toMovieGenreTable())
                 }
             }
@@ -54,7 +54,7 @@ class SearchRepositoryImpl(
         var result = localSource.searchSeriesByQueryFromDB(query, page)
         if (result.isEmpty()) {
             localSource.getAllSeriesGenres().ifEmpty {
-                remoteDataSource.getSeriesGenres().genres?.forEach {
+                remoteDataSource.getSeriesGenres().forEach {
                     localSource.insertSeriesGenre(it.toSeriesGenreTable())
                 }
             }

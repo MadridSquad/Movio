@@ -4,7 +4,7 @@ import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
-import com.madrid.data.dataSource.remote.dto.genre.GenresResponse
+import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
@@ -60,8 +60,8 @@ class RemoteDataSourceImpl(
         return api.getSimilarMoviesById(movieId)
     }
 
-    override suspend fun getMovieGenres(): GenresResponse {
-        return api.getMovieGenres()
+    override suspend fun getMovieGenres(): List<RemoteGenreDto> {
+        return api.getMovieGenres().genres?.filterNotNull().orEmpty()
     }
 
     override suspend fun getTrendingMovies(page: Int): SearchMovieResponse {
@@ -101,8 +101,8 @@ class RemoteDataSourceImpl(
         return api.getEpisodesBySeasonId(seriesId, seasonNumber)
     }
 
-    override suspend fun getSeriesGenres(): GenresResponse {
-        return api.getSeriesGenres()
+    override suspend fun getSeriesGenres(): List<RemoteGenreDto> {
+        return api.getSeriesGenres().genres?.filterNotNull().orEmpty()
     }
 
     override suspend fun getTrendingSeries(page: Int): SearchSeriesResponse {

@@ -10,9 +10,9 @@ import com.madrid.presentation.R
 @Composable
 fun SearchResultMessage(items: String, modifier: Modifier = Modifier) {
     MovioText(
-        stringResource(id = R.string.search_result_count, items),
-        Theme.color.surfaces.onSurfaceVariant,
-        Theme.textStyle.label.smallRegular14,
+        text = stringResource(id = R.string.search_result_count, items),
+        color = Theme.color.surfaces.onSurfaceVariant,
+        textStyle = Theme.textStyle.label.smallRegular14,
         modifier = modifier
     )
 }

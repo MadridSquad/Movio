@@ -2,7 +2,7 @@ package com.madrid.data.dataSource.remote.dto.movie
 
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
-import com.madrid.data.dataSource.remote.dto.genre.MovieGenre
+import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
 
 @Serializable
 data class MovieDetailsResponse(
@@ -15,7 +15,7 @@ data class MovieDetailsResponse(
     @SerializedName("budget")
     val budget: Int?,
     @SerializedName("genres")
-    val movieGenres: List<MovieGenre>,
+    val remoteGenreDtos: List<RemoteGenreDto>,
     @SerializedName("homepage")
     val homepage: String?,
     @SerializedName("id")

@@ -2,10 +2,10 @@ package com.madrid.data.dataSource.local.mappers
 
 import com.madrid.data.dataSource.local.table.MovieGenreTable
 import com.madrid.data.dataSource.local.table.SeriesGenreTable
-import com.madrid.data.dataSource.remote.dto.genre.MovieGenre
+import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
 
 
-fun MovieGenre.toMovieGenreTable(): MovieGenreTable {
+fun RemoteGenreDto.toMovieGenreTable(): MovieGenreTable {
     return MovieGenreTable(
         genreId = this.id ?: 0,
         genreTitle = this.name ?: "Unknown",
@@ -13,7 +13,7 @@ fun MovieGenre.toMovieGenreTable(): MovieGenreTable {
     )
 }
 
-fun MovieGenre.toSeriesGenreTable(): SeriesGenreTable {
+fun RemoteGenreDto.toSeriesGenreTable(): SeriesGenreTable {
     return SeriesGenreTable(
         genreId = this.id ?: 0,
         genreTitle = this.name ?: "Unknown",
