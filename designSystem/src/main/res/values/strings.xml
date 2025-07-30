@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="empty_no_results_title" />
+    <string name="empty_no_results_description" />
+    <string name="empty_no_internet_title" />
+    <string name="empty_no_internet_description" />
+    <string name="empty_no_history_title" />
+    <string name="empty_no_history_description" />
+    <string name="empty_search_title" />
+    <string name="empty_search_description" />
+    <string name="read_less">Read Less</string>
+    <string name="read_more">Read More</string>
+</resources>

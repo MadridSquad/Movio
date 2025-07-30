@@ -2,6 +2,7 @@ package com.madrid.presentation.viewModel.searchViewModel
 
 import androidx.compose.runtime.Immutable
 import androidx.paging.PagingData
+import com.madrid.presentation.viewModel.shared.MediaType
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -13,8 +14,9 @@ data class SearchScreenState(
 ) {
     data class SearchUiState(
         val forYouMovies: List<MovieUiState> = emptyList(),
-        val exploreMoreMovies:Flow<PagingData<MovieUiState>> = flow {},
+        val exploreMoreMovies: Flow<PagingData<MovieUiState>> = flow {},
         val searchResults: Flow<PagingData<MovieUiState>> = flow {},
+        val isError: Boolean = false,
         val isLoading: Boolean = false,
         val refreshState: Boolean = false,
         val errorMessage: String? = null
@@ -30,21 +32,22 @@ data class SearchScreenState(
         val artist: Flow<PagingData<ArtistUiState>> = flow {},
     )
 
-
     data class MovieUiState(
         val id: String = "",
+        val mediaType: MediaType = MediaType.MOVIE,
         val title: String = "",
         val imageUrl: String = "",
         val rating: String = "",
-        val category: String = ""
+        val category: String = "",
     )
 
     data class SeriesUiState(
         val id: String = "",
+        val mediaType: MediaType = MediaType.TV_SERIES,
         val title: String = "",
         val imageUrl: String = "",
         val rating: String = "",
-        val category: String = ""
+        val category: String = "",
     )
 
     data class ArtistUiState(

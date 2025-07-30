@@ -6,16 +6,17 @@ import com.madrid.data.dataSource.local.dao.MovieDao
 import com.madrid.data.dataSource.local.dao.RecentSearchDao
 import com.madrid.data.dataSource.local.dao.SeriesDao
 import com.madrid.data.dataSource.local.dao.SeriesGenreDao
-import com.madrid.data.dataSource.local.entity.ArtistEntity
-import com.madrid.data.dataSource.local.entity.MovieGenreEntity
-import com.madrid.data.dataSource.local.entity.MovieEntity
-import com.madrid.data.dataSource.local.entity.RecentSearchEntity
-import com.madrid.data.dataSource.local.entity.SeriesEntity
-import com.madrid.data.dataSource.local.entity.SeriesGenreEntity
-import com.madrid.data.dataSource.local.entity.relationship.GenreWithMovies
-import com.madrid.data.dataSource.local.entity.relationship.GenreWithSeries
-import com.madrid.data.dataSource.local.entity.relationship.MovieGenreCrossRef
-import com.madrid.data.dataSource.local.entity.relationship.SeriesGenreCrossRef
+import com.madrid.data.dataSource.local.table.ArtistTable
+import com.madrid.data.dataSource.local.table.MovieGenreTable
+import com.madrid.data.dataSource.local.table.MovieTable
+import com.madrid.data.dataSource.local.table.RecentSearchTable
+import com.madrid.data.dataSource.local.table.SeriesTable
+import com.madrid.data.dataSource.local.table.SeriesGenreTable
+import com.madrid.data.dataSource.local.table.relationship.GenreWithMovies
+import com.madrid.data.dataSource.local.table.relationship.GenreWithSeries
+import com.madrid.data.dataSource.local.table.relationship.MovieGenreCrossRef
+import com.madrid.data.dataSource.local.table.relationship.SeriesGenreCrossRef
+import com.madrid.data.dataSource.local.util.calculateOffset
 import com.madrid.data.repositories.local.LocalDataSource
 
 class LocalDataSourceImpl(
@@ -28,53 +29,53 @@ class LocalDataSourceImpl(
 ) : LocalDataSource {
 
 
-    override suspend fun insertMovie(movie: MovieEntity) {
+    override suspend fun insertMovie(movie: MovieTable) {
         movieDao.insertMovie(movie)
     }
 
-    override suspend fun insertSeries(series: SeriesEntity) {
+    override suspend fun insertSeries(series: SeriesTable) {
         seriesDao.insertSeries(series)
     }
 
-    override suspend fun getTopRatedMovies(): List<MovieEntity> {
+    override suspend fun getTopRatedMovies(): List<MovieTable> {
         return movieDao.getTopRatedMovies()
     }
 
-    override suspend fun insertArtist(artist: ArtistEntity) {
+    override suspend fun insertArtist(artist: ArtistTable) {
         artistDao.insertArtist(artist = artist)
     }
 
-    override suspend fun insertMovieGenre(genre: MovieGenreEntity) {
+    override suspend fun insertMovieGenre(genre: MovieGenreTable) {
         movieGenreDao.insertGenre(genre)
     }
 
-    override suspend fun insertSeriesGenre(genre: SeriesGenreEntity) {
+    override suspend fun insertSeriesGenre(genre: SeriesGenreTable) {
         seriesGenreDao.insertGenre(genre)
     }
 
-    override suspend fun searchMovieByQueryFromDB(query: String, page: Int): List<MovieEntity> {
-        val offset = (page - 1) * 20
+    override suspend fun searchMovieByQueryFromDB(query: String, page: Int): List<MovieTable> {
+        val offset = calculateOffset(page)
         return movieDao.searchMovies("%$query%", offset).map { it.movie }
     }
 
-    override suspend fun searchSeriesByQueryFromDB(query: String, page: Int): List<SeriesEntity> {
-        val offset = (page - 1) * 20
+    override suspend fun searchSeriesByQueryFromDB(query: String, page: Int): List<SeriesTable> {
+        val offset = calculateOffset(page)
         return seriesDao.searchSeries("%$query%", offset).map { it.series }
     }
 
-    override suspend fun searchArtistByQueryFromDB(query: String, page: Int): List<ArtistEntity> {
-        val offset = (page - 1) * 20
+    override suspend fun searchArtistByQueryFromDB(query: String, page: Int): List<ArtistTable> {
+        val offset = calculateOffset(page)
         return artistDao.getArtistByName("%$query%", offset)
     }
 
 
-    override suspend fun getRecentSearches(): List<RecentSearchEntity> {
+    override suspend fun getRecentSearches(): List<RecentSearchTable> {
         return recentSearchDao.getRecentSearches()
     }
 
     override suspend fun addRecentSearch(item: String) {
         recentSearchDao.addRecentSearch(
-            RecentSearchEntity(
+            RecentSearchTable(
                 searchQuery = item,
             )
         )
@@ -90,23 +91,23 @@ class LocalDataSourceImpl(
         recentSearchDao.clearAllRecentSearches()
     }
 
-    override suspend fun relateMovieToCategory(movieCategoryEntity: MovieGenreCrossRef) {
-        movieDao.insertMovieCategoryCrossRef(movieCategoryEntity)
+    override suspend fun relateMovieToGenre(movieGenreCrossRef: MovieGenreCrossRef) {
+        movieDao.insertMovieGenreCrossRef(movieGenreCrossRef)
     }
 
     override suspend fun increaseMovieGenreSeenCount(genreTitle: String) {
-        movieGenreDao.increaseCategorySearchCount(genreTitle)
+        movieGenreDao.increaseGenreSearchCount(genreTitle)
     }
 
-    override suspend fun getAllMovieGenres(): List<MovieGenreEntity> {
-        return movieGenreDao.getAllCategories()
+    override suspend fun getAllMovieGenres(): List<MovieGenreTable> {
+        return movieGenreDao.getAllGenres()
     }
 
     override suspend fun getMoviesByGenres(): List<GenreWithMovies> {
         return movieGenreDao.getMoviesByGenres()
     }
 
-    override suspend fun relateSeriesToCategory(seriesGenreEntity: SeriesGenreCrossRef) {
+    override suspend fun relateSeriesToGenre(seriesGenreEntity: SeriesGenreCrossRef) {
         seriesDao.insertSeriesGenreCrossRef(seriesGenreEntity)
     }
 
@@ -114,7 +115,7 @@ class LocalDataSourceImpl(
         seriesGenreDao.increaseGenreSearchCount(genreTitle)
     }
 
-    override suspend fun getAllSeriesGenres(): List<SeriesGenreEntity> {
+    override suspend fun getAllSeriesGenres(): List<SeriesGenreTable> {
         return seriesGenreDao.getAllGenres()
     }
 

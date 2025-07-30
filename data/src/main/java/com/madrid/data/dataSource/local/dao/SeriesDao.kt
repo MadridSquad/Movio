@@ -7,30 +7,30 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
-import com.madrid.data.dataSource.local.entity.SeriesEntity
-import com.madrid.data.dataSource.local.entity.relationship.SeriesGenreCrossRef
-import com.madrid.data.dataSource.local.entity.relationship.SeriesWithGenres
+import com.madrid.data.dataSource.local.table.SeriesTable
+import com.madrid.data.dataSource.local.table.relationship.SeriesGenreCrossRef
+import com.madrid.data.dataSource.local.table.relationship.SeriesWithGenres
 
 @Dao
 interface SeriesDao {
 
     @Upsert
-    suspend fun insertSeries(series: SeriesEntity)
+    suspend fun insertSeries(series: SeriesTable)
 
     @Delete
-    suspend fun deleteSeries(series: SeriesEntity)
+    suspend fun deleteSeries(series: SeriesTable)
 
     @Query("SELECT * FROM SERIES_TABLE WHERE seriesId = :id")
-    suspend fun getSeriesById(id: Int): SeriesEntity?
+    suspend fun getSeriesById(id: Int): SeriesTable?
 
     @Query("SELECT * FROM SERIES_TABLE WHERE title LIKE :title LIMIT 20 OFFSET :offset")
-    suspend fun getSeriesByTitle(title: String, offset: Int): List<SeriesEntity>
+    suspend fun getSeriesByTitle(title: String, offset: Int): List<SeriesTable>
 
     @Query("SELECT * FROM SERIES_TABLE ORDER BY rate DESC")
-    suspend fun getTopRatedSeries(): List<SeriesEntity>
+    suspend fun getTopRatedSeries(): List<SeriesTable>
 
     @Query("SELECT * FROM SERIES_TABLE")
-    suspend fun getAllSeries(): List<SeriesEntity>
+    suspend fun getAllSeries(): List<SeriesTable>
 
     @Query("DELETE FROM SERIES_TABLE")
     suspend fun deleteAllSeries()

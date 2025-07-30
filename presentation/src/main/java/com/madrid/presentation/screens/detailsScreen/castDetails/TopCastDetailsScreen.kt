@@ -9,38 +9,49 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.madrid.designSystem.theme.Theme
+import androidx.navigation.NavController
 import com.madrid.designSystem.component.TopAppBar
-import com.madrid.designSystem.theme.MovioTheme
+import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
+import com.madrid.presentation.navigation.Destinations
+import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.detailsViewModel.MovieDetailsUiState
-import com.madrid.presentation.viewModel.detailsViewModel.MovieDetailsViewModel
+import com.madrid.presentation.viewModel.detailsViewModel.TopCastViewModel
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TopCastDetailsScreen(
-    movieId: String,
-    viewModel: MovieDetailsViewModel = koinViewModel(),
+    viewModel: TopCastViewModel = koinViewModel(),
 ) {
     val uiState by viewModel.state.collectAsState()
-    TopCastDetailsContent(artist = uiState.cast)
+    val navController = LocalNavController.current
 
-    LaunchedEffect(Unit) {
-        viewModel.loadCast(movieId)
-    }
+    TopCastDetailsContent(
+        artist = uiState.cast,
+        onActorClick = { artistId ->
+            navController.navigate(
+                Destinations.ActorDetails(
+                    artistId,
+                )
+            )
+        },
+        onBackClick = {
+            navController.popBackStack()
+        }
+    )
 }
 
 @Composable
 fun TopCastDetailsContent(
-    artist: List<MovieDetailsUiState.CastUiState>
+    artist: List<MovieDetailsUiState.CastUiState>,
+    onActorClick: (Int) -> Unit,
+    onBackClick: () -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 101.dp),
@@ -55,25 +66,18 @@ fun TopCastDetailsContent(
         item(
             span = { GridItemSpan(maxLineSpan) }
         ) {
-            TopAppBar(stringResource(R.string.top_cast), secondIcon = null, thirdIcon = null)
-        }
-        items(
-            count = artist.size,
-        ) { index ->
-            MovioArtistsCard(
-                artistsName = artist[index].name,
-                imageUrl = artist[index].imageUrl,
-                onClick = { }
+            TopAppBar(
+                stringResource(R.string.top_cast),
+                secondIcon = null, thirdIcon = null,
+                onFirstIconClick = { onBackClick() }
             )
         }
-    }
-}
-
-
-@Preview
-@Composable
-private fun TopCastDetailsScreenPreview(modifier: Modifier = Modifier) {
-    MovioTheme {
-        TopCastDetailsScreen("1")
+        items(artist.size) { castMember ->
+            MovioArtistsCard(
+                artistsName = artist[castMember].actorName,
+                imageUrl = artist[castMember].actorImageUrl,
+                onClick = { onActorClick(artist[castMember].id.toInt()) }
+            )
+        }
     }
 }

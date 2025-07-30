@@ -45,11 +45,9 @@ fun MoviePosterDetailScreen(
                         .size(120.dp)
                         .align(Alignment.Center)
                         .clip(CircleShape)
-                        .background(Color.Black.copy(alpha = 0.7f))
                 ) {
                     ActorOverlay(
                         actorImageUrl = imageUrl,
-                        borderColor = Color.White
                     )
                 }
             } else {

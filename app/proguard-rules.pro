@@ -20,12 +20,6 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-# SLF4J rules to prevent R8 issues
--dontwarn org.slf4j.**
--keep class org.slf4j.** { *; }
--dontwarn org.slf4j.impl.StaticLoggerBinder
--dontwarn org.slf4j.impl.StaticMDCBinder
-
 # Ktor rules
 -dontwarn io.ktor.**
 -keep class io.ktor.** { *; }

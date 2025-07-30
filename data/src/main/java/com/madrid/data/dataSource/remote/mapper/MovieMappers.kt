@@ -1,47 +1,32 @@
 package com.madrid.data.dataSource.remote.mapper
 
-import com.madrid.data.dataSource.remote.response.common.TrailerResponse
-import com.madrid.data.dataSource.remote.response.genre.MovieGenre
-import com.madrid.data.dataSource.remote.response.movie.CastNetwork
-import com.madrid.data.dataSource.remote.response.movie.MovieCreditsResponse
-import com.madrid.data.dataSource.remote.response.movie.MovieDetailsResponse
-import com.madrid.data.dataSource.remote.response.movie.MovieResult
-import com.madrid.data.dataSource.remote.response.movie.MovieReviewResponse
-import com.madrid.data.dataSource.remote.response.movie.MovieReviewResult
-import com.madrid.data.dataSource.remote.response.movie.SearchMovieResponse
-import com.madrid.data.dataSource.remote.response.movie.SimilarMovieNetwork
-import com.madrid.data.dataSource.remote.response.movie.SimilarMoviesResponse
-import com.madrid.domain.entity.Cast
+import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
+import com.madrid.data.dataSource.remote.dto.common.TrailerResult
+import com.madrid.data.dataSource.remote.dto.genre.MovieGenre
+import com.madrid.data.dataSource.remote.dto.movie.CastNetwork
+import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
+import com.madrid.data.dataSource.remote.dto.movie.MovieResult
+import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResult
+import com.madrid.data.dataSource.remote.dto.movie.SimilarMovieNetwork
+import com.madrid.data.dataSource.remote.response.movie.NowPlayingMovieResponse
+import com.madrid.data.dataSource.remote.response.movie.NowPlayingMovieResult
+import com.madrid.data.dataSource.remote.response.movie.UpcomingMovieResult
+import com.madrid.data.dataSource.remote.response.movie.UpcomingMoviesResponse
+import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Review
-import com.madrid.domain.entity.ReviewResult
-import com.madrid.domain.entity.SearchResult
-import com.madrid.domain.entity.SimilarMovie
 import com.madrid.domain.entity.Trailer
 
-// Region Search
-fun SearchMovieResponse.toSearchResult(): SearchResult {
-    return SearchResult(
-        page = this.page,
-        searchResults = this.movieResults?.map { it.toMovie() },
-        totalPages = this.totalPages,
-        totalResults = this.totalResults
-    )
-}
-// End Region
-
-// Region Details
 fun MovieDetailsResponse.toMovie(): Movie {
     return Movie(
         id = this.id ?: 0,
         title = this.title ?: "",
         imageUrl = "https://image.tmdb.org/t/p/original${this.posterPath}",
         rate = this.voteAverage ?: 0.0,
-        yearOfRelease = this.releaseDate ?: "",
+        releaseDate = this.releaseDate ?: "",
         movieDuration = this.runtime?.toString() ?: "",
         description = this.overview ?: "",
-        genre = this.movieGenres?.map { it.toMediaGenre().title } ?: emptyList(),
-        profilePage = this.homepage ?: ""
+        genre = this.movieGenres.map { it.toMediaGenre().title },
     )
 }
 
@@ -51,90 +36,110 @@ fun MovieResult.toMovie(): Movie {
         title = this.title ?: "",
         imageUrl = "https://image.tmdb.org/t/p/original${this.posterPath}",
         rate = this.voteAverage ?: 0.0,
-        yearOfRelease = this.releaseDate ?: "",
+        releaseDate = this.releaseDate ?: "",
         movieDuration = "",
         description = this.overview ?: "",
         genre = listOf(),
-
-        )
-}
-// End Region
-
-// Region Cast
-fun MovieCreditsResponse.toCredits(): Credits {
-    return Credits(
-        id = this.id ?: 0,
-        cast = this.castNetwork?.map { it.toCast() },
     )
 }
 
-fun CastNetwork.toCast(): Cast {
-    return Cast(
+fun KnownForMoviesNetwork.toMovie(): Movie {
+    return Movie(
+        id = this.id ?: 0,
+        title = this.title ?: "",
+        imageUrl = "https://image.tmdb.org/t/p/original${this.posterPath}",
+        rate = this.voteAverage ?: 0.0,
+        releaseDate = this.releaseDate ?: "",
+        movieDuration = "",
+        description = this.overview ?: "",
+        genre = emptyList()
+    )
+}
+
+fun CastNetwork.toArtist(): Artist {
+    return Artist(
         id = this.id ?: 0,
         name = this.name ?: "",
         imageUrl = "https://image.tmdb.org/t/p/original${this.profilePath}",
-    )
-}
-// End Region
-
-// Region Review
-fun MovieReviewResponse.toReviewResult(
-): ReviewResult {
-    return ReviewResult(
-        mediaId = this.id ?: 0,
-        page = this.page ?: 0,
-        results = this.results?.map { it.toReview() } ?: emptyList(),
-        totalPages = this.totalPages ?: 0,
-        totalResults = this.totalResults ?: 0
+        role = this.knownForDepartment ?: "",
+        dateOfBirth = "",
+        country = "",
+        overview = "",
     )
 }
 
 fun MovieReviewResult.toReview(): Review {
     return Review(
-        userId = this.id?.toInt() ?: 0,
+        reviewerName = this.author ?: "",
         rate = this.authorDetails?.rating ?: 0.0,
-        dateOfRelease = this.createdAt ?: "",
-        comment = this.content ?: ""
+        date = this.createdAt ?: "",
+        comment = this.content ?: "",
+        reviewId = this.id ?: "",
+        reviewerPhotoUrl = "https://image.tmdb.org/t/p/original${this.authorDetails?.avatarPath}",
     )
 }
-// End Region
 
-// Region Similar Movie
-fun SimilarMovieNetwork.toSimilarMovie(): SimilarMovie {
-    return SimilarMovie(
+fun SimilarMovieNetwork.toSimilarMovie(): Movie {
+    return Movie(
         id = this.id ?: 0,
         title = this.title ?: "",
         imageUrl = "https://image.tmdb.org/t/p/original${this.posterPath}",
-        rate = this.voteAverage ?: 0.0
+        rate = this.voteAverage ?: 0.0,
+        releaseDate = this.releaseDate ?: "",
+        movieDuration = "",
+        description = this.overview ?: "",
+        genre = emptyList(),
     )
 }
 
-fun SimilarMoviesResponse.toSimilarMovies(): SimilarMedia {
-    return SimilarMedia(
-        page = this.page,
-        results = this.similarMovie?.map { it.toSimilarMovie() },
-        totalPages = this.totalPages,
-        totalResults = this.totalResults
-
-    )
-}
-// End Region
-
-//Region Genre
 fun MovieGenre.toMediaGenre(): MediaGenre {
     return MediaGenre(
         id = this.id ?: 0,
         title = this.name ?: ""
     )
 }
-//End region
 
-// Region Trailer
-
-fun TrailerResponse.toTrailer(): Trailer {
+fun TrailerResult.toTrailer(): Trailer {
     return Trailer(
-        key = this.results.firstOrNull()?.key ?: "",
-        id = this.results.firstOrNull()?.id ?: ""
+        key = this.key,
+        id = this.id
     )
 }
-// End Region
+
+fun NowPlayingMovieResponse.toMovies(): List<Movie> {
+    return this.nowPlayingMovieResults?.map {
+        it.toMovie()
+    } ?: emptyList()
+}
+
+fun NowPlayingMovieResult.toMovie(): Movie {
+    return Movie(
+        id = this.id ?: 0,
+        title = this.title ?: "",
+        imageUrl = "https://image.tmdb.org/t/p/original${this.posterPath}",
+        rate = this.voteAverage ?: 0.0,
+        releaseDate = this.releaseDate ?: "",
+        description = this.overview ?: "",
+        genre = listOf(),
+        movieDuration = "",
+    )
+}
+
+fun UpcomingMoviesResponse.toMovies(): List<Movie> {
+    return this.upcomingMovieResult?.map {
+        it.toMovie()
+    } ?: emptyList()
+}
+
+fun UpcomingMovieResult.toMovie(): Movie {
+    return Movie(
+        id = this.id ?: 0,
+        title = this.title ?: "",
+        imageUrl = "https://image.tmdb.org/t/p/original${this.posterPath}",
+        rate = this.voteAverage ?: 0.0,
+        releaseDate = this.releaseDate ?: "",
+        description = this.overview ?: "",
+        genre = listOf(),
+        movieDuration = "",
+    )
+}

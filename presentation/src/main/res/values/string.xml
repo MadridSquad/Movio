@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="continue_as_a_guest">Continue as a guest</string>
-    <string name="video_library_video_number">Video</string>">
+    <string name="video_library_video_number">Video</string>
     <string name="current_episode">Episode %1$s</string>
     <string name="moive_image">movie image</string>
     <string name="bold_video_circle">start movie icon </string>
@@ -21,7 +21,7 @@
     <string name="Movies">Movies</string>
     <string name="Series">Series</string>
     <string name="Artists">Artists</string>
-    <string name="search_result_count">Search result (%1$s items)</string>//
+    <string name="search_result_count">SearchResult (%1$s items)</string>
     <string name="top_cast">Top Cast</string>
     <string name="selected_similar_movie">Similar Movies</string>
     <string name="Rate_it">Rate it</string>
@@ -34,10 +34,21 @@
     <string name="loading">Loading...</string> // Search
     <string name="search">Search</string>
     <string name="search_content_description">search content description</string>
+    <string name="no_reviews_available">No Reivews yet!</string>
+
     <string name="clock_content_description" translatable="false">description</string>
     <string name="delete_content_description" translatable="false">delete content description</string>
     <string name="empty_recent_search_title">What are you looking for today?</string>
     <string name="empty_recent_search_body">Start typing in the search bar to find what you need.</string>
 
 
+    <!-- Empty state strings -->
+    <string name="empty_no_results_title">No results found</string>
+    <string name="empty_no_results_description">We couldn\'t find anything matching your search. Try checking the spelling or explore something else!</string>
+    <string name="empty_no_internet_title">Internet is not available</string>
+    <string name="empty_no_internet_description">Please make sure you are connected to the internet and try again.</string>
+    <string name="empty_no_history_title">No watch history yet</string>
+    <string name="empty_no_history_description">Start watching movies and shows, and we\'ll keep track of your viewing history here.</string>
+    <string name="empty_search_title">What are you looking for today?</string>
+    <string name="empty_search_description">Start typing in the search bar to find what you need.</string>
 </resources>

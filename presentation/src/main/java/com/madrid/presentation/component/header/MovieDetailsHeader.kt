@@ -1,26 +1,19 @@
 package com.madrid.presentation.component.header
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.component.DetailsChips
 
 @Composable
 fun MovieDetailsHeader(
@@ -57,47 +50,22 @@ fun MovieDetailsHeader(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(vertical = 4.dp)
         ) {
-            Chips(
+            DetailsChips(
                 icon = painterResource(com.madrid.designSystem.R.drawable.bold_star),
                 iconTint = Theme.color.system.warning,
                 text = rate,
             )
-            Chips(
+            DetailsChips(
                 icon = painterResource(com.madrid.designSystem.R.drawable.outline_clock_circle),
                 iconTint = Theme.color.surfaces.onSurfaceVariant,
                 text = time,
             )
-            Chips(
+            DetailsChips(
                 icon = painterResource(com.madrid.designSystem.R.drawable.outline_calendar),
                 iconTint = Theme.color.surfaces.onSurfaceVariant,
                 text = date,
             )
         }
-    }
-}
-
-@Composable
-fun Chips(icon: Painter, iconTint: Color, text: String) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier
-            .background(
-                color = Theme.color.surfaces.surfaceContainer,
-                shape = RoundedCornerShape(24.dp)
-            )
-            .padding(horizontal = 8.dp, vertical = 4.dp)
-    ) {
-        MovioIcon(
-            painter = icon,
-            contentDescription = null,
-            modifier = Modifier.padding(end = 4.dp).size(16.dp),
-            tint = iconTint
-        )
-        MovioText(
-            text = text,
-            color = Theme.color.surfaces.onSurfaceContainer,
-            textStyle = Theme.textStyle.label.smallRegular12
-        )
     }
 }
 

@@ -5,17 +5,15 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.madrid.domain.usecase.GetRecommendedMovieUseCase
-import com.madrid.domain.usecase.searchUseCase.RecentSearchUseCase
+import com.madrid.domain.usecase.search.GetRecommendedMovieUseCase
 import com.madrid.presentation.screens.searchScreen.paging.ForYouPagingSource
-import com.madrid.presentation.viewModel.searchViewModel.SearchScreenState
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import com.madrid.presentation.viewModel.effect.SearchScreenEffect
+import com.madrid.presentation.viewModel.searchViewModel.SearchScreenState
 import kotlinx.coroutines.flow.map
 
 class SeeAllForYouViewModel(
     private val getRecommendedMovieUseCase: GetRecommendedMovieUseCase
-) : BaseViewModel<SeeAllForYouUIState, SearchScreenEffect>(
+) : BaseViewModel<SeeAllForYouUIState, Nothing>(
     SeeAllForYouUIState()
 ) {
 

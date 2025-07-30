@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -29,12 +30,12 @@ fun MovioVerticalCard(
     description: String,
     movieImage: String,
     rate: String,
-    width: Dp,
+    width: Dp? = null, // Make width optional
     height: Dp,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     paddingValue: Dp = 8.dp,
-    ) {
+) {
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
@@ -44,23 +45,22 @@ fun MovioVerticalCard(
             Row(
                 modifier = Modifier
                     .zIndex(1f)
-                    .width(width)
-                    .padding(top = paddingValue , end = paddingValue),
+                    .then(if (width != null) Modifier.width(width) else Modifier.fillMaxWidth())
+                    .padding(top = paddingValue, end = paddingValue),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
             ) {
-                RateIcon(rate = (rate.take(3).toFloat()/2).toString().take(3))
+                RateIcon(rate)
             }
             BasicImageCard(
                 imageUrl = movieImage,
                 radius = 8.dp,
                 modifier = Modifier
                     .padding(bottom = 8.dp)
-                    .width(width)
+                    .then(if (width != null) Modifier.width(width) else Modifier.fillMaxWidth())
                     .height(height)
                     .clip(RoundedCornerShape(8.dp))
             )
-
         }
 
         MovioText(
@@ -69,8 +69,7 @@ fun MovioVerticalCard(
             color = Theme.color.surfaces.onSurface,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier
-                .width(width)
+            modifier = if (width != null) Modifier.width(width) else Modifier.fillMaxWidth()
         )
     }
 }

@@ -17,14 +17,13 @@ import androidx.compose.ui.unit.dp
 import com.madrid.detectImageContent.FilteredImage
 
 @Composable
-fun BoxScope.ActorOverlay(actorImageUrl: String, borderColor: Color) {
+fun BoxScope.ActorOverlay(actorImageUrl: String) {
     Box(
         modifier = Modifier
-            .size(120.dp)
+            .size(160.dp)
             .align(Alignment.Center)
             .shadow(8.dp, CircleShape, clip = false)
             .clip(CircleShape)
-            .border(4.dp, borderColor.copy(alpha = 0.7f), CircleShape)
     ) {
         FilteredImage(
             imageUrl = actorImageUrl,

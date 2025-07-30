@@ -9,7 +9,7 @@
     <string name="season">الجزء %1$s</string>
     <string name="episodes">%1$s حلقات</string>
     <string name="of">من %1$s</string>
-    <string name="video_library_video_number">فيديو</string>">
+    <string name="video_library_video_number">فيديو</string>
     <string name="home">الصفحة الرئيسية</string>
     <string name="searchdot">البحث ...</string>
     <string name="library">المكتبة</string>
@@ -24,17 +24,28 @@
     <string name="top_cast">أفضل طاقم</string>
     <string name="selected_similar_movie">أفلام مشابهة</string>
     <string name="remove">إحذف</string>
-    <string name="Rate_it">التقيم </string>
+    <string name="Rate_it">التقييم </string>
     <string name="Add_to_list">أضف الى القائمة </string>
     <string name="Play">تشغيل </string>
     <string name="for_u">من أجلك</string>
     <string name="see_all">رؤية الكل</string>
-    <string name="reviews">المراجعات</string>
+    <string name="reviews">التقييمات</string>
     <string name="explore_more">البحث عن المزيد</string>
     <string name="loading">جاري التحميل...</string>
     <string name="search">بحث</string>
     <string name="search_content_description">البحث عن وصف المحتويات</string>
+    <string name="no_reviews_available">No Reivews yet!</string>
+
     <string name="empty_recent_search_title">عن ماذا تبحث اليوم؟</string>
     <string name="empty_recent_search_body">ابدأ بالكتابة في شريط البحث للعثور على ما تحتاجه.</string>
 
+    <!-- Empty state strings -->
+    <string name="empty_no_results_title">لا توجد نتائج</string>
+    <string name="empty_no_results_description">لم نعثر على أي نتائج مطابقة لبحثك. حاول التحقق من الإملاء أو استكشاف شيء آخر!</string>
+    <string name="empty_no_internet_title">لا يوجد اتصال بالإنترنت</string>
+    <string name="empty_no_internet_description">يرجى التأكد من أنك متصل بالإنترنت وحاول مرة أخرى.</string>
+    <string name="empty_no_history_title">لا يوجد سجل مشاهدة بعد</string>
+    <string name="empty_no_history_description">ابدأ بمشاهدة الأفلام والمسلسلات وسنقوم بتتبع سجل مشاهداتك هنا.</string>
+    <string name="empty_search_title">ماذا تبحث اليوم؟</string>
+    <string name="empty_search_description">ابدأ بالكتابة في شريط البحث للعثور على ما تحتاجه.</string>
 </resources>

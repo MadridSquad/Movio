@@ -1,33 +1,40 @@
 package com.madrid.presentation.viewModel.detailsViewModel
 
 import android.util.Log
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.madrid.domain.usecase.mediaDeatailsUseCase.SeriesDetailsUseCase
+import com.madrid.domain.entity.Review
+import com.madrid.domain.entity.Series
+import com.madrid.domain.usecase.series.GetEpisodesForSeasonUseCase
+import com.madrid.domain.usecase.series.GetSeriesDetailsUseCase
+import com.madrid.domain.usecase.series.GetSeriesReviewsUseCase
+import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
+import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import kotlinx.coroutines.cancel
+import com.madrid.presentation.viewModel.shared.formatDuration
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class SeriesDetailsViewModel(
     private val savedStateHandle: SavedStateHandle,
-    private val seriesDetailsUseCase: SeriesDetailsUseCase
+    private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
+    private val getSeriesTopCastUseCase: GetSeriesTopCastUseCase,
+    private val getSeriesReviewsUseCase: GetSeriesReviewsUseCase,
+    private val getSimilarSeriesUseCase: GetSimilarSeriesUseCase,
+    private val getEpisodesForSeasonUseCase: GetEpisodesForSeasonUseCase
 ) : BaseViewModel<SeriesDetailsUiState, Nothing>(SeriesDetailsUiState()) {
     private val args = savedStateHandle.toRoute<Destinations.SeriesDetailsScreen>()
 
     init {
         Log.d("loool", ": ")
         loadData()
-        loadCastData()
     }
 
     private fun loadData() {
         tryToExecute(
-            function = { seriesDetailsUseCase.getSeriesDetailsById(args.seriesId) },
+            function = { getSeriesDetailsUseCase(args.seriesId.toInt()) },
             onSuccess = { series ->
                 updateState {
                     it.copy(
@@ -35,44 +42,47 @@ class SeriesDetailsViewModel(
                         topImageUrl = series.imageUrl,
                         seriesName = series.title,
                         rate = series.rate.toString(),
-                        numberOfSeasons = series.seasons.size ,
-                        productionDate = series.yearOfRelease,
-                        description = series.description,
+                        numberOfSeasons = series.seasons.size,
+                        productionDate = series.airDate,
+                        description =formatDuration( series.description),
                         currentSeasonsUiStates = series.seasons.map { season -> season.mapToUiState() },
-                        selectedSeasonUiState = series.seasons[args.seasonNumber -1].mapToUiState()
+                        selectedSeasonUiState = series.seasons[if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber - 1].mapToUiState()
                     )
                 }
                 loadAllSeasonsEpisodes()
+                loadCastData()
+                loadReviews()
+                loadSimilarSeries()
+                loadSeasonEpisodes(if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber)
             },
             onError = {},
         )
-        loadSeasonEpisodes(args.seasonNumber)
     }
 
-    private fun loadAllSeasonsEpisodes(){
+    private fun loadAllSeasonsEpisodes() {
         viewModelScope.launch {
-            val seasonCount = state.first().numberOfSeasons
+            val seasonCount = state.first().currentSeasonsUiStates.size
             Log.d("TAG lol", "loadAllSeasonsEpisodes: ${state.first().numberOfSeasons}")
-            for(i in 0..seasonCount){
+            state.first().currentSeasonsUiStates.forEachIndexed { index, season ->
                 tryToExecute(
-                    function = { seriesDetailsUseCase.getEpisodesBySeriesId(args.seriesId, i + 1) },
+                    function = {
+                        getEpisodesForSeasonUseCase(args.seriesId, season.seasonNumber)
+                    },
                     onSuccess = { episodes ->
                         updateState { currentState ->
                             currentState.copy(
-                                currentSeasonsUiStates = currentState.currentSeasonsUiStates.mapIndexed { index, season ->
-                                    if (index == i) {
-                                        season.copy(
+                                currentSeasonsUiStates = currentState.currentSeasonsUiStates.mapIndexed { seasonIndex, currentSeason ->
+                                    if (season.seasonNumber == currentSeason.seasonNumber)
+                                        currentSeason.copy(
                                             numberOfEpisodes = episodes.size,
-                                            episodesUiStates = episodes.map { episode -> episode.toUiState() }
-                                        )
-                                    } else {
-                                        season
-                                    }
+                                            episodesUiStates = episodes.map { episode -> episode.toUiState() })
+                                    else
+                                        currentSeason
                                 }
                             )
                         }
                     },
-                    onError = {}
+                    onError = { },
                 )
             }
         }
@@ -82,12 +92,21 @@ class SeriesDetailsViewModel(
 
     private fun loadSeasonEpisodes(seasonNumber: Int = 1) {
         tryToExecute(
-            function = { seriesDetailsUseCase.getEpisodesBySeriesId(args.seriesId, seasonNumber) },
+            function = {
+                getEpisodesForSeasonUseCase(args.seriesId.toInt(), seasonNumber)
+            },
             onSuccess = { episodes ->
-                updateState {
-                    it.copy(selectedSeasonUiState = it.selectedSeasonUiState.copy(episodesUiStates = episodes.map { episode ->
-                        episode.toUiState()
-                    }, numberOfEpisodes = episodes.size , seasonNumber = seasonNumber))
+                updateState { state ->
+                    state.copy(
+                        selectedSeasonUiState = state.selectedSeasonUiState.copy(
+                            episodesUiStates = episodes.map { episode ->
+                                episode.toUiState()
+                            },
+                            numberOfEpisodes = episodes.size,
+                            seasonNumber = seasonNumber,
+                            imageUrl = state.currentSeasonsUiStates[if (state.currentSeasonsUiStates.first().seasonNumber == 0) seasonNumber else seasonNumber - 1].imageUrl
+                        )
+                    )
                 }
             },
             onError = { },
@@ -96,7 +115,9 @@ class SeriesDetailsViewModel(
 
     private fun loadCastData() {
         tryToExecute(
-            function = { seriesDetailsUseCase.getSeriesCreditsById(args.seriesId) },
+            function = {
+                getSeriesTopCastUseCase(args.seriesId.toInt())
+            },
             onSuccess = { Artists ->
                 updateState {
                     it.copy(topCast = Artists.map { artist ->
@@ -104,8 +125,67 @@ class SeriesDetailsViewModel(
                     })
                 }
             },
-            onError = { },
+            onError = { e ->
+                Log.d("TAG lol", "loadCastData: ${e.message}")
+            },
         )
     }
+
+    private fun loadReviews() {
+        tryToExecute(
+            function = {
+                getSeriesReviewsUseCase(args.seriesId.toInt())
+            },
+            onSuccess = { reviews ->
+                updateState {
+                    it.copy(reviews = reviews.map { review ->
+                        review.toUiState()
+                    })
+                }
+                Log.d("loadReviews", "loadReviews: ${state.value.reviews}")
+            },
+            onError = { e ->
+                Log.d("TAG lol", "loadCastData: ${e.message}")
+            },
+        )
+    }
+
+    private fun loadSimilarSeries() {
+        tryToExecute(
+            function = {
+                getSimilarSeriesUseCase(args.seriesId.toInt())
+            },
+            onSuccess = { allSeries ->
+                updateState {
+                    it.copy(similarSeries = allSeries.map { series ->
+                        series.toUiState()
+                    })
+                }
+            },
+            onError = { e ->
+                Log.d("TAG lol", "loadCastData: ${e.message}")
+            },
+        )
+    }
+}
+
+fun Series.toUiState(): SeriesUiState {
+    return SeriesUiState(
+        id = this.id,
+        name = this.title,
+        imageUrl = this.imageUrl,
+        rate = this.rate.toString()
+    )
+}
+
+
+fun Review.toUiState(): ReviewUiState {
+    return ReviewUiState(
+        reviewerName = this.reviewerName,
+        reviewerImageUrl = this.reviewerPhotoUrl,
+        rating = this.rate.toFloat(),
+        date = this.date,
+        content = this.comment
+    )
 }
 

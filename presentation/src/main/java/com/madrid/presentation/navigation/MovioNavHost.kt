@@ -7,15 +7,23 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
-import com.madrid.presentation.screens.searchScreen.SeeAllForYou.SeeAllForYouScreen
+import com.madrid.presentation.screens.detailsScreen.castDetails.ActorDetails
+import com.madrid.presentation.screens.detailsScreen.castDetails.TopCastDetailsScreen
 import com.madrid.presentation.screens.detailsScreen.detailsMovieScreen.MovieDetailsScreen
+import com.madrid.presentation.screens.detailsScreen.reviewsScreen.ReviewsScreen
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.EpisodesScreen
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.SeasonsScreen
 import com.madrid.presentation.screens.loginScreen.AuthenticationScreen
 import com.madrid.presentation.screens.loginScreen.component.ForgotPassword
 import com.madrid.presentation.screens.loginScreen.component.WebViewScreen
+import com.madrid.presentation.screens.detailsScreen.seriesDetails.SeriesDetailsScreen
+import com.madrid.presentation.screens.detailsScreen.similarMedia.SeeAllSimilarMediaScreen
+import com.madrid.presentation.screens.homeScreen.HomeScreen
+import com.madrid.presentation.screens.homeScreen.component.FakeHomeScreen
+import com.madrid.presentation.screens.libraryScreen.LibraryScreen
+import com.madrid.presentation.screens.moreScreen.MoreScreen
 import com.madrid.presentation.screens.searchScreen.SearchScreen
+import com.madrid.presentation.screens.searchScreen.SeeAllForYou.SeeAllForYouScreen
 
 @Composable
 fun MovioNavHost(navController: NavHostController) {
@@ -43,9 +51,7 @@ fun MovioNavHost(navController: NavHostController) {
             SearchScreen()
         }
         composable<Destinations.HomeScreen> {
-            FakeHomeScreen(
-
-            )
+            FakeHomeScreen()
         }
         composable<Destinations.EpisodesScreen> {
             EpisodesScreen()
@@ -55,22 +61,28 @@ fun MovioNavHost(navController: NavHostController) {
             MovieDetailsScreen()
         }
         composable<Destinations.SeriesDetailsScreen> {
-            //call SeriesDetailsScreen()
-        }
-        composable<Destinations.TopCastScreen> {
-            //call TopCastScreen()
+            SeriesDetailsScreen()
         }
         composable<Destinations.ReviewsScreen> {
-            //call ReviewsScreen()
+            ReviewsScreen()
         }
         composable<Destinations.SeasonsScreen> {
             SeasonsScreen()
         }
         composable<Destinations.LibraryScreen> {
-            FakeLibraryScreen()
+            LibraryScreen()
         }
         composable<Destinations.MoreScreen> {
-            FakeMoreScreen()
+            MoreScreen()
+        }
+        composable<Destinations.ActorDetails> {
+            ActorDetails()
+        }
+        composable<Destinations.TopCast> {
+            TopCastDetailsScreen()
+        }
+        composable<Destinations.SimilarMediaScreen> {
+            SeeAllSimilarMediaScreen()
         }
         composable<Destinations.AuthenticationScreen> {
             AuthenticationScreen()
