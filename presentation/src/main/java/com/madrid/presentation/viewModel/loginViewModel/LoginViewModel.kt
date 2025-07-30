@@ -1,6 +1,5 @@
 package com.madrid.presentation.viewModel.loginViewModel
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.madrid.domain.entity.LoginResult
 import com.madrid.domain.exceptions.AccountLockedException
@@ -80,7 +79,6 @@ class LoginViewModel(
 
             when (val result = loginUseCase.loginAsGuest()) {
                 is LoginResult.Success -> {
-                    Log.e("TAG lol", "Succ: ")
                     updateState {
                         it.copy(
                             isLoading = false,
@@ -92,7 +90,6 @@ class LoginViewModel(
                 }
 
                 is LoginResult.Error -> {
-                    Log.e("TAG lol", "Error: ${result.exception}")
                     updateState {
                         it.copy(
                             isLoading = false,

@@ -23,6 +23,7 @@ import com.madrid.data.dataSource.remote.response.series.OnAirTvShowsResponse
 import com.madrid.data.dataSource.remote.response.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.response.series.TopRatedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.authentication.AuthenticationResponse
+import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -175,11 +176,9 @@ interface MovieApi {
     @GET("authentication/token/new")
     suspend fun getRequestToken(): AuthenticationResponse
 
-    @POST("/authentication/token/validate_with_login")
+    @POST("authentication/token/validate_with_login")
     suspend fun postCreateSession(
-        @Body username: String,
-        @Body password: String,
-        @Body requestToken: String
+        @Body body: CreateSessionBody
     ): AuthenticationResponse
 
     @GET("authentication/guest_session/new")

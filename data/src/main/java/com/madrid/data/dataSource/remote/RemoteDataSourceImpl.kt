@@ -3,6 +3,7 @@ package com.madrid.data.dataSource.remote
 import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
+import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
 import com.madrid.data.dataSource.remote.dto.genre.GenresResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
@@ -150,9 +151,11 @@ class RemoteDataSourceImpl(
         val requestTokenResponse = api.getRequestToken()
         val requestToken = requestTokenResponse.requestToken
         val sessionResponse = api.postCreateSession(
-            username = username,
-            password = password,
-            requestToken = requestToken
+            CreateSessionBody(
+                username = username,
+                password = password,
+                requestToken = requestToken
+            )
         )
         return sessionResponse.requestToken
     }
