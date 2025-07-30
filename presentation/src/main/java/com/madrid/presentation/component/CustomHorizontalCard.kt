@@ -47,7 +47,6 @@ fun CustomHorizontalCard(
                     rate = media.rating,
                     width = 124.dp,
                     height = 160.dp,
-                    paddingValue = 8.dp,
                     onClick = { onMediaClick(media) }
                 )
             }

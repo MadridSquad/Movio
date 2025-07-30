@@ -33,7 +33,6 @@ fun MovioVerticalCard(
     height: Dp,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    paddingValue: Dp = 8.dp,
 ) {
     Column(
         modifier = modifier
@@ -44,8 +43,7 @@ fun MovioVerticalCard(
             Row(
                 modifier = Modifier
                     .zIndex(1f)
-                    .then(if (width != null) Modifier.width(width) else Modifier.fillMaxWidth())
-                    .padding(top = paddingValue, end = paddingValue),
+                    .then(if (width != null) Modifier.width(width) else Modifier.fillMaxWidth()),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
             ) {
@@ -81,7 +79,6 @@ private fun VerticalCardPreview() {
             movieImage = "https://image.tmdb.org/t/p/w500/5xKGk6q5g7mVmg7k7U1RrLSHwz6.jpg",
             width = 200.dp,
             height = 150.dp,
-            paddingValue = 8.dp,
             onClick = {},
             rate = "4.0",
         )
