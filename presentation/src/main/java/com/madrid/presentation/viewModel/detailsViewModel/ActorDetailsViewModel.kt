@@ -6,6 +6,7 @@ import com.madrid.domain.usecase.artist.GetArtistDetailsUseCase
 import com.madrid.domain.usecase.artist.GetArtistMoviesUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.shared.barser.formatDateOfBirth
 
 class ActorDetailsViewModel(
     private val getArtistDetailsUseCase: GetArtistDetailsUseCase,

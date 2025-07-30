@@ -13,6 +13,7 @@ import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
 import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.shared.barser.formatDateKotlinx
 import com.madrid.presentation.viewModel.shared.formatDuration
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
