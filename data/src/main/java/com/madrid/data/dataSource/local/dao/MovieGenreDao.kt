@@ -22,11 +22,11 @@ interface MovieGenreDao {
 
     @Query(
         """
-        UPDATE MOVIE_GENRE_TABLE SET searchCount = searchCount + 1 
+        UPDATE MOVIE_GENRE_TABLE SET interestPoints = interestPoints + 1 
             WHERE genreTitle = :genreTitle
      """
     )
-    suspend fun increaseGenreSearchCount(genreTitle: String)
+    suspend fun increaseGenreInterestPoints(genreTitle: String)
 
     @Delete
     suspend fun deleteGenre(genre: MovieGenreTable)
@@ -41,7 +41,7 @@ interface MovieGenreDao {
     suspend fun getAllGenres(): List<MovieGenreTable>
 
     // descending order by searchCount
-    @Query("SELECT * FROM MOVIE_GENRE_TABLE ORDER BY searchCount DESC")
+    @Query("SELECT * FROM MOVIE_GENRE_TABLE ORDER BY interestPoints DESC")
     suspend fun getAllGenresBySearchCount(): List<MovieGenreTable>
 
     @Query("DELETE FROM MOVIE_GENRE_TABLE")

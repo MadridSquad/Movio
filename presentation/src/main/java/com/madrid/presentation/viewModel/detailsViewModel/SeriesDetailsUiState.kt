@@ -23,7 +23,8 @@ data class SeriesUiState(
     val id: Int = 0,
     val imageUrl: String = "",
     val rate: String = "",
-    val name: String = ""
+    val name: String = "",
+    val date: String = ""
 )
 
 data class ArtistUiState(
