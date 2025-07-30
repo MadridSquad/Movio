@@ -39,7 +39,7 @@ fun AllMediaLayout() {
     ) {
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
-                primaryTextForCustomTextTitel = "Top Rating",
+                primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.top_rating),
                 secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
                 endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = fakeMediaList,
@@ -59,7 +59,7 @@ fun AllMediaLayout() {
 
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
-                primaryTextForCustomTextTitel = "Free To Watch",
+                primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.free_to_watch),
                 secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
                 endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = fakeMediaList,
@@ -73,7 +73,7 @@ fun AllMediaLayout() {
 
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
-                primaryTextForCustomTextTitel = "Upcoming",
+                primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.upcoming),
                 secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
                 endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = fakeMediaList,
@@ -87,7 +87,7 @@ fun AllMediaLayout() {
 
         item(span = { GridItemSpan(2) }) {
             CustomTextTitel(
-                primaryText = "More Recommended",
+                primaryText = stringResource(com.madrid.presentation.R.string.more_recommended),
                 secondaryText = "See all",
                 endIcon = painterResource(R.drawable.outline_alt_arrow_left),
                 onSeeAllClick = { },

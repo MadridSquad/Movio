@@ -52,4 +52,11 @@
     <string name="empty_no_history_description">ابدأ بمشاهدة الأفلام والمسلسلات وسنقوم بتتبع سجل مشاهداتك هنا.</string>
     <string name="empty_search_title">ماذا تبحث اليوم؟</string>
     <string name="empty_search_description">ابدأ بالكتابة في شريط البحث للعثور على ما تحتاجه.</string>
+    <string name="top_rating">الاعلى تقييم</string>
+    <string name="free_to_watch">مشاهدة مجانية</string>
+    <string name="upcoming">قريبا</string>
+    <string name="more_recommended">مقترح</string>
+    <string name="now_playing">يعرض الان</string>
+    <string name="airing_today">يعرض اليوم</string>
+    <string name="on_tv">يعرض الان</string>
 </resources>

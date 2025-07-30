@@ -36,7 +36,7 @@ fun MoviesLayout() {
     ) {
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
-                primaryTextForCustomTextTitel = "Top Rating",
+                primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.top_rating),
                 secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
                 endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = fakeMediaList,
@@ -50,7 +50,7 @@ fun MoviesLayout() {
 
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
-                primaryTextForCustomTextTitel = "Now Playing",
+                primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.now_playing),
                 secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
                 endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = fakeMediaList,
@@ -64,7 +64,7 @@ fun MoviesLayout() {
 
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
-                primaryTextForCustomTextTitel = "Upcoming",
+                primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.upcoming),
                 secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
                 endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = fakeMediaList,
@@ -78,7 +78,7 @@ fun MoviesLayout() {
 
         item(span = { GridItemSpan(2) }) {
             CustomTextTitel(
-                primaryText = "More Recommended",
+                primaryText = stringResource(com.madrid.presentation.R.string.more_recommended),
                 secondaryText = "See all",
                 endIcon = painterResource(R.drawable.outline_alt_arrow_left),
                 onSeeAllClick = { },

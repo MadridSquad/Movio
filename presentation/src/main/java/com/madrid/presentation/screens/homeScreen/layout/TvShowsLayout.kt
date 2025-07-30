@@ -42,7 +42,7 @@ fun TvShowsLayout(){
     ) {
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
-                primaryTextForCustomTextTitel = "Top Rating",
+                primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.top_rating),
                 secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
                 endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = fakeMediaList,
@@ -56,7 +56,7 @@ fun TvShowsLayout(){
 
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
-                primaryTextForCustomTextTitel = "Airing Today",
+                primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.airing_today),
                 secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
                 endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = fakeMediaList,
@@ -70,7 +70,7 @@ fun TvShowsLayout(){
 
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
-                primaryTextForCustomTextTitel = "On TV",
+                primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.on_tv),
                 secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
                 endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = fakeMediaList,
@@ -84,7 +84,7 @@ fun TvShowsLayout(){
 
         item(span = { GridItemSpan(2) }) {
             CustomTextTitel(
-                primaryText = "More Recommended",
+                primaryText = stringResource(com.madrid.presentation.R.string.more_recommended),
                 secondaryText = "See all",
                 endIcon = painterResource(R.drawable.outline_alt_arrow_left),
                 onSeeAllClick = { },

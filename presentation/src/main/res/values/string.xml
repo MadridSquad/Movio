@@ -43,6 +43,8 @@
     <string name="all">All</string>
     <string name="TV_Shows">TV Shows</string>
     <string name="Categories">Categories</string>
+    <string name="top_rating">Top Rating</string>
+
 
 
 
@@ -55,4 +57,10 @@
     <string name="empty_no_history_description">Start watching movies and shows, and we\'ll keep track of your viewing history here.</string>
     <string name="empty_search_title">What are you looking for today?</string>
     <string name="empty_search_description">Start typing in the search bar to find what you need.</string>
+    <string name="free_to_watch">Free To Watch</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="more_recommended">More Recommended</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="airing_today">Airing Today</string>
+    <string name="on_tv">On TV</string>
 </resources>
