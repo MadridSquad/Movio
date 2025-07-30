@@ -1,4 +1,4 @@
-package com.madrid.presentation.viewModel.shared.barser
+package com.madrid.presentation.viewModel.shared.parser
 
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.toLocalDate

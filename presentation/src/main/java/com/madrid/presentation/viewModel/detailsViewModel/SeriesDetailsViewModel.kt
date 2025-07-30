@@ -13,8 +13,9 @@ import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
 import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import com.madrid.presentation.viewModel.shared.barser.formatDateKotlinx
 import com.madrid.presentation.viewModel.shared.formatDuration
+import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
+import com.madrid.presentation.viewModel.shared.parser.formatDateOfBirth
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -44,7 +45,7 @@ class SeriesDetailsViewModel(
                         seriesName = series.title,
                         rate = series.rate.toString(),
                         numberOfSeasons = series.seasons.size,
-                        productionDate = series.airDate,
+                        productionDate = formatDateKotlinx(series.airDate),
                         description =formatDuration( series.description),
                         currentSeasonsUiStates = series.seasons.map { season -> season.mapToUiState() },
                         selectedSeasonUiState = series.seasons[if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber - 1].mapToUiState()
@@ -174,7 +175,7 @@ fun Series.toUiState(): SeriesUiState {
         id = this.id,
         name = this.title,
         imageUrl = this.imageUrl,
-        rate = this.rate.toString()
+        rate = this.rate.toString(),
     )
 }
 
@@ -184,7 +185,7 @@ fun Review.toUiState(): ReviewUiState {
         reviewerName = this.reviewerName,
         reviewerImageUrl = this.reviewerPhotoUrl,
         rating = this.rate.toFloat(),
-        date = formatDateKotlinx(this.date),
+        date = formatDateOfBirth(this.date),
         content = this.comment
     )
 }

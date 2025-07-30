@@ -1,4 +1,4 @@
-package com.madrid.presentation.viewModel.shared.barser
+package com.madrid.presentation.viewModel.shared.parser
 
 fun formatDateOfBirth(rawDate: String): String {
     val months = listOf(
