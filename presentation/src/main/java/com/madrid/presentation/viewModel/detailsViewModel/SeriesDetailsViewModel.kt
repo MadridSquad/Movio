@@ -13,6 +13,7 @@ import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
 import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.shared.formatDuration
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -43,7 +44,7 @@ class SeriesDetailsViewModel(
                         rate = series.rate.toString(),
                         numberOfSeasons = series.seasons.size,
                         productionDate = series.airDate,
-                        description = series.description,
+                        description =formatDuration( series.description),
                         currentSeasonsUiStates = series.seasons.map { season -> season.mapToUiState() },
                         selectedSeasonUiState = series.seasons[if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber - 1].mapToUiState()
                     )

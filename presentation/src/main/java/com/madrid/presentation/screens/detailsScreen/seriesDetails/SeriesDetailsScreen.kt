@@ -91,6 +91,10 @@ fun SeriesDetailsScreen(
 
             TextWithReadMore(
                 description = uiState.description,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 16.dp),
+                maxLines = 5
             )
 
             Spacer(modifier = Modifier.height(16.dp))
