@@ -16,6 +16,8 @@ import com.madrid.data.dataSource.remote.dto.series.SeriesCreditResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
+import com.madrid.data.dataSource.remote.response.movie.NowPlayingMovieResponse
+import com.madrid.data.dataSource.remote.response.movie.UpcomingMoviesResponse
 import com.madrid.data.dataSource.remote.response.series.AiringTodayTvShowsResponse
 import com.madrid.data.dataSource.remote.response.series.OnAirTvShowsResponse
 import com.madrid.data.dataSource.remote.response.series.RecommendedSeriesResponse
@@ -134,5 +136,13 @@ class RemoteDataSourceImpl(
 
     override suspend fun getRecommendedSeries(page: Int): RecommendedSeriesResponse {
         return api.getPopularTvShows(page = page)
+    }
+
+    override suspend fun getUpcomingMovie(page: Int): UpcomingMoviesResponse {
+        return api.getUpcomingMovies(page)
+    }
+
+    override suspend fun getNowPlayingMovie(page: Int): NowPlayingMovieResponse {
+        return api.getNowPlayingMovies(page)
     }
 }
