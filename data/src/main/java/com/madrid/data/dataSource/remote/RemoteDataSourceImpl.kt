@@ -65,6 +65,14 @@ class RemoteDataSourceImpl(
     override suspend fun getTrendingMovies(page: Int): SearchMovieResponse {
         return api.getTrendingMovies(page = page)
     }
+
+    override suspend fun getMoviesByGenreId(
+        page: Int,
+        genreId: Int,
+        sortBy: String
+    ): SearchMovieResponse {
+        return api.getMoviesByGenreId(page, genreId, sortBy)
+    }
     // endregion
 
     // region Series
@@ -134,5 +142,13 @@ class RemoteDataSourceImpl(
 
     override suspend fun getRecommendedSeries(page: Int): RecommendedSeriesResponse {
         return api.getPopularTvShows(page = page)
+    }
+
+    override suspend fun getSeriesByGenreId(
+        page: Int,
+        genreId: Int,
+        sortBy: String
+    ): SearchSeriesResponse {
+        return api.getSeriesByGenreId(page, genreId, sortBy)
     }
 }

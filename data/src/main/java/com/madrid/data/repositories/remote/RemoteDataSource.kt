@@ -39,6 +39,7 @@ interface RemoteDataSource {
     suspend fun getSimilarMoviesById(movieId: Int): SimilarMoviesResponse
     suspend fun getMovieGenres(): GenresResponse
     suspend fun getTrendingMovies(page: Int): SearchMovieResponse
+    suspend fun getMoviesByGenreId(page: Int, genreId: Int, sortBy: String): SearchMovieResponse
     // endregion
 
     // region Series
@@ -54,6 +55,7 @@ interface RemoteDataSource {
     suspend fun getOnAirSeries(page: Int = 1): OnAirTvShowsResponse
     suspend fun getAiringTodaySeries(page: Int = 1): AiringTodayTvShowsResponse
     suspend fun getRecommendedSeries(page: Int = 1): RecommendedSeriesResponse
+    suspend fun getSeriesByGenreId(page: Int, genreId: Int, sortBy: String): SearchSeriesResponse
     // endregion
 
     // region Artist
