@@ -50,8 +50,8 @@ fun MovieDetailsScreen(
         )
         TopAppBar(
             text = null,
-            modifier = Modifier.padding(start = 16.dp, top = 36.dp),
-            onFirstIconClick = { navController.navigate(Destinations.SearchScreen) }
+            modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
+            onFirstIconClick = { navController.popBackStack() }
         )
         Column(
             modifier = Modifier
@@ -71,24 +71,17 @@ fun MovieDetailsScreen(
                 onRateClick = {},
                 onPlayClick = {},
                 onAddToListClick = {},
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
 
             TextWithReadMore(
                 description = uiState.description,
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 16.dp),
+                maxLines = 5
             )
-
-            Spacer(modifier = Modifier.height(16.dp))
             TopCastSection(
-                castMembers = uiState.casts.map { cast ->
-                    CastMember(
-                        id = cast.id.toString(),
-                        name = cast.name,
-                        imageUrl = cast.imageUrl
-                    )
-                },
                 onSeeAllClick = {
                     navController.navigate(
                         Destinations.TopCast(
@@ -97,11 +90,24 @@ fun MovieDetailsScreen(
                         )
                     )
                 },
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                onCastMemberClick = { castId ->
+                    navController.navigate(
+                        Destinations.ActorDetails(
+                            artistId = castId
+                        )
+                    )
+                },
+                modifier = Modifier.padding( vertical = 8.dp),
+                  castMembers = uiState.casts.map { cast ->
+                    CastMember(
+                        id = cast.id.toString(),
+                        name = cast.name,
+                        imageUrl = cast.imageUrl
+                    )
+                }
             )
             Spacer(modifier = Modifier.height(32.dp))
-
-            if(uiState.reviews.isNotEmpty()){
+            if (uiState.reviews.isNotEmpty()) {
                 ReviewScreen(
                     onSeeAllReviews = {
                         navController.navigate(
@@ -113,9 +119,8 @@ fun MovieDetailsScreen(
                     },
                     uiState = uiState.reviews.toReviewScreenUiState()
                 )
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(24.dp))
             }
-
             SimilarMoviesSection(
                 onSeeAllClick = {
                     navController.navigate(
@@ -132,7 +137,7 @@ fun MovieDetailsScreen(
                         )
                     )
                 },
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                modifier = Modifier.padding(vertical = 8.dp),
                 similarMovies = uiState.similarMovies.map { movie ->
                     SimilarMovie(
                         id = movie.id,
@@ -142,6 +147,7 @@ fun MovieDetailsScreen(
                     )
                 }
             )
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }

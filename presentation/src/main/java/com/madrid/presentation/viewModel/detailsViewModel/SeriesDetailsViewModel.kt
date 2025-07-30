@@ -13,7 +13,6 @@ import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
 import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import com.madrid.presentation.utils.RateFormatter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -44,7 +43,7 @@ class SeriesDetailsViewModel(
                         rate = RateFormatter.formatRate(series.rate), // Format rate here
                         numberOfSeasons = series.seasons.size,
                         productionDate = series.airDate,
-                        description = series.description,
+                        description =formatDuration( series.description),
                         currentSeasonsUiStates = series.seasons.map { season -> season.mapToUiState() },
                         selectedSeasonUiState = series.seasons[if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber - 1].mapToUiState()
                     )
@@ -173,16 +172,18 @@ fun Series.toUiState(): SeriesUiState {
         id = this.id,
         name = this.title,
         imageUrl = this.imageUrl,
-        rate = RateFormatter.formatRate(this.rate) // Format rate here as well
+        rate = RateFormatter.formatRate(this.rate)
     )
 }
+
 
 fun Review.toUiState(): ReviewUiState {
     return ReviewUiState(
         reviewerName = this.reviewerName,
-        reviewerImageUrl = "",
+        reviewerImageUrl = this.reviewerPhotoUrl,
         rating = this.rate.toFloat(),
         date = this.date,
         content = this.comment
     )
 }
+

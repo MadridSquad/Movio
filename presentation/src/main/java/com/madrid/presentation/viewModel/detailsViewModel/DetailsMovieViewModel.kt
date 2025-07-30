@@ -12,6 +12,7 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.utils.RateFormatter
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.shared.formatDuration
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.annotation.KoinViewModel
 
@@ -46,8 +47,8 @@ class DetailsMovieViewModel(
                         topImageUrl = movie.imageUrl,
                         dataMovie = movie.releaseDate,
                         movieName = movie.title,
-                        rate = RateFormatter.formatRate(movie.rate), // Format rate here
-                        movieDuration = movie.movieDuration,
+                        rate = RateFormatter.formatRate(movie.rate),
+                        movieDuration =formatDuration( movie.movieDuration),
                         description = movie.description,
                         genreMovie = movie.genre,
                     )

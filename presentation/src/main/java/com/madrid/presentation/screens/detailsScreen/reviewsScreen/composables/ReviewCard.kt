@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.madrid.designSystem.theme.Theme
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
@@ -61,7 +60,8 @@ fun ReviewCard(
                 MovioText(
                     text = reviewerName,
                     color = Theme.color.surfaces.onSurface,
-                    textStyle = Theme.textStyle.title.mediumMedium14
+                    textStyle = Theme.textStyle.title.mediumMedium14,
+                    modifier = Modifier.padding(bottom = 4.dp)
                 )
                 MovioText(
                     text = date,

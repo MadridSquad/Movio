@@ -3,9 +3,7 @@ package com.madrid.presentation.screens.detailsScreen.similarMedia
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -45,37 +43,36 @@ fun SeeAllSimilarMediaScreenContent(
     Column(
         Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = 4.dp, vertical = 16.dp)
     ) {
         TopAppBar(
             text = uiState.headerName,
-            modifier = Modifier.padding(start = 16.dp, top = 36.dp),
+            secondIcon = null,
+            thirdIcon = null,
+            modifier = Modifier.padding(start = 16.dp, top = 32.dp, end = 16.dp),
             onFirstIconClick = { onClickBack() }
         )
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 100.dp),
+            columns = GridCells.Adaptive(minSize = 101.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .background(Theme.color.surfaces.surface),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(count = uiState.medias.size) { index ->
                 val media = uiState.medias[index]
                 MovioVerticalCard(
-                    modifier = Modifier.fillMaxWidth(fraction = 0.50f),
                     description = media.mediaName,
                     movieImage = media.imageUrl,
                     rate = media.rate,
                     width = 101.dp,
+                    modifier = Modifier.padding(top = 16.dp),
                     height = 136.dp,
                     onClick = {
-                        onClickMedia(media.mediaId,uiState.isMovie)
+                        onClickMedia(media.mediaId, uiState.isMovie)
                     }
                 )
             }
         }
-
     }
 }

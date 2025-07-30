@@ -74,7 +74,7 @@ fun MovieReviewResult.toReview(): Review {
         rate = this.authorDetails?.rating ?: 0.0,
         date = this.createdAt ?: "",
         comment = this.content ?: "",
-        reviewId = this.id?.toInt() ?: 0,
+        reviewId = this.id ?: "",
         reviewerPhotoUrl = "https://image.tmdb.org/t/p/original${this.authorDetails?.avatarPath}",
     )
 }
