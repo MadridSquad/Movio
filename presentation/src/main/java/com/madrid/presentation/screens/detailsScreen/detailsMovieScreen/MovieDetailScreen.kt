@@ -50,7 +50,7 @@ fun MovieDetailsScreen(
         )
         TopAppBar(
             text = null,
-            modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
+            modifier = Modifier.padding(start = 16.dp, top = 36.dp),
             onFirstIconClick = { navController.popBackStack() },
             onThirdIconClick = viewModel::onClickLoveIcon,
             isFavorite = uiState.isLoved
@@ -67,7 +67,6 @@ fun MovieDetailsScreen(
                 date = uiState.dataMovie,
                 time = uiState.movieDuration,
                 rate = uiState.rate.take(3),
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
             )
             BottomMediaActions(
                 onRateClick = {},
