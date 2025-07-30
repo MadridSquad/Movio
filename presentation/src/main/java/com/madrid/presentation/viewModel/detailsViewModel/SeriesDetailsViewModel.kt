@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class SeriesDetailsViewModel(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
     private val getSeriesTopCastUseCase: GetSeriesTopCastUseCase,
     private val getSeriesReviewsUseCase: GetSeriesReviewsUseCase,
@@ -28,13 +28,12 @@ class SeriesDetailsViewModel(
     private val args = savedStateHandle.toRoute<Destinations.SeriesDetailsScreen>()
 
     init {
-        Log.d("loool", ": ")
         loadData()
     }
 
     private fun loadData() {
         tryToExecute(
-            function = { getSeriesDetailsUseCase(args.seriesId.toInt()) },
+            function = { getSeriesDetailsUseCase(args.seriesId) },
             onSuccess = { series ->
                 updateState {
                     it.copy(

@@ -6,13 +6,12 @@ import com.madrid.domain.usecase.artist.GetArtistDetailsUseCase
 import com.madrid.domain.usecase.artist.GetArtistMoviesUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import com.madrid.presentation.viewModel.shared.barser.formatDateKotlinx
 import com.madrid.presentation.viewModel.shared.barser.formatDateOfBirth
 
 class ActorDetailsViewModel(
     private val getArtistDetailsUseCase: GetArtistDetailsUseCase,
     private val getArtistMoviesUseCase: GetArtistMoviesUseCase,
-    private val saveStateHandle: SavedStateHandle
+    saveStateHandle: SavedStateHandle
 ) : BaseViewModel<MovieDetailsUiState, Nothing>(
     MovieDetailsUiState()
 ) {
@@ -30,7 +29,7 @@ class ActorDetailsViewModel(
                 Pair(actor, knownForList)
             },
             onSuccess = { (actor, knownForList) ->
-                val mappedActor = actor?.let {
+                val mappedActor = actor.let {
                     MovieDetailsUiState.CastUiState(
                         actorImageUrl = actor.imageUrl,
                         actorName = actor.name,
@@ -54,7 +53,6 @@ class ActorDetailsViewModel(
                         selectedActor = mappedActor,
                         isLoading = false,
                         errorMessage = null,
-//                        movieId = args.
                     )
                 }
             },
