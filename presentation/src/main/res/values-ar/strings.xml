@@ -5,5 +5,8 @@
     <string name="no_results_found">لا توجد نتائج</string>//لم نعثر على أي شيء يطابق بحثك. حاول التحقق من التهجئة أو استكشف شيئًا آخر!
     <string name="we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else">لم نعثر على أي شيء يطابق بحثك. حاول التحقق من التهجئة أو استكشف شيئًا آخر!</string>
     <string name="please_make_sure_you_are_connected_to_the_internet_and_try_again">تحقق من اتصالك بالانترنيت واعد المحاولة</string>
-
+    <string name="known_for"> معروف ك</string>
+    <string name="loading_actor_details">جار تحميل تفاصيل الممثل...</string>
+    <string name="current_seasons">الموسم الحالي </string>
+    <string name="similar_series">مسلسلات مشابهة</string>
 </resources>

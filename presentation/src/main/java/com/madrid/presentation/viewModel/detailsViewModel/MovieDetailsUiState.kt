@@ -4,7 +4,7 @@ data class MovieDetailsUiState(
     val movieId : String ="",
     val cast: List<CastUiState> = emptyList(),
     val selectedActor: CastUiState? = null,
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val errorMessage: String? = null
 ) {
     data class CastUiState(
