@@ -26,6 +26,12 @@ import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
 import com.madrid.domain.usecase.series.GetSeriesTrailersUseCase
 import com.madrid.domain.usecase.movie.GetTrendingMoviesUseCase
 import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
+import com.madrid.domain.usecase.series.FilterSeriesByCategoryUseCase
+import com.madrid.domain.usecase.series.GetSeriesGenresUseCase
+import com.madrid.domain.usecase.series.GetTopRatedSeriesUseCase
+import com.madrid.domain.usecase.series.GetRecommendedSeriesUseCase
+import com.madrid.domain.usecase.series.GetAiringTodaySeriesUseCase
+import com.madrid.domain.usecase.series.GetOnAirSeriesUseCase
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -63,4 +69,11 @@ val domainModule = module {
     singleOf(::GetSeriesTopCastUseCase)
     singleOf(::GetSeriesTrailersUseCase)
     singleOf(::GetSimilarSeriesUseCase)
+    singleOf(::FilterSeriesByCategoryUseCase)
+    singleOf(::GetSeriesGenresUseCase)
+    singleOf(::GetTopRatedSeriesUseCase)
+    singleOf(::GetRecommendedSeriesUseCase)
+    singleOf(::GetAiringTodaySeriesUseCase)
+    singleOf(::GetOnAirSeriesUseCase)
+
 }

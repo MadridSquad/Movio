@@ -1,11 +1,12 @@
 package com.madrid.presentation.viewModel.seeAll
 
-import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Series
+import com.madrid.domain.usecase.series.FilterSeriesByCategoryUseCase
 import com.madrid.domain.usecase.series.GetOnAirSeriesUseCase
 
 class SeeAllOnTvShow(
-    private val getOnAirSeriesUseCase: GetOnAirSeriesUseCase
+    private val getOnAirSeriesUseCase: GetOnAirSeriesUseCase,
+    private val filterSeriesByCategoryUseCase: FilterSeriesByCategoryUseCase
 ) : SeeAllTVShowsStrategy {
     override fun getTitle(): String {
         return "On TV"
@@ -15,12 +16,9 @@ class SeeAllOnTvShow(
         return getOnAirSeriesUseCase(1)
     }
 
-    override suspend fun getAllTvShowsCategories(): List<Genre> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getTvShowsBasedOnCategory(category: String): List<Series> {
-        TODO("Not yet implemented")
+    override suspend fun getTvShowsBasedOnCategory(categoryId: Int): List<Series> {
+        val tvShows = getAllTvShows(1)
+        return filterSeriesByCategoryUseCase(series = tvShows, category = categoryId)
     }
     override fun showTvShowsCategory(): Boolean {
         return false

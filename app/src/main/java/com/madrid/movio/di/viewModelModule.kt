@@ -1,6 +1,7 @@
 package com.madrid.movio.di
 
 
+import com.madrid.domain.usecase.series.GetSeriesGenresUseCase
 import com.madrid.presentation.screens.searchScreen.SeeAllForYou.SeeAllForYouViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.ActorDetailsViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.DetailsMovieViewModel
@@ -29,8 +30,10 @@ val presentationModule = module {
     viewModelOf(::SeriesDetailsViewModel)
     viewModelOf(::ReviewsScreenViewModel)
     viewModelOf(::SimilarMediaViewModel)
-    viewModel<SeeAllTVShowsViewModel> { (type: SeeAllTvShowType) ->
-        val strategy = SeeAllTVShowsFactory()
-        SeeAllTVShowsViewModel(strategy = strategy.create(type))
+    viewModel { (type: SeeAllTvShowType) ->
+        val factory: SeeAllTVShowsFactory = get()
+        val strategy = factory.create(type)
+        SeeAllTVShowsViewModel(get(), get(), strategy)
     }
+    single { SeeAllTVShowsFactory(get(), get(), get(), get() , get()) }
 }

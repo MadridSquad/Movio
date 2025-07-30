@@ -1,5 +1,6 @@
 package com.madrid.data.repositories
 
+import android.util.Log
 import com.madrid.data.dataSource.local.mappers.toSeries
 import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.mapper.toEpisode

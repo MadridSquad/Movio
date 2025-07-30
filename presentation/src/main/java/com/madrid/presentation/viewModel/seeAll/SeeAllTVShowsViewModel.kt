@@ -1,14 +1,20 @@
 package com.madrid.presentation.viewModel.seeAll
 
+import android.util.Log
 import com.madrid.domain.entity.Series
+import com.madrid.domain.usecase.series.GetSeriesDetailsUseCase
+import com.madrid.domain.usecase.series.GetSeriesGenresUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
 
 class SeeAllTVShowsViewModel(
+    private val getSeriesGenresUseCase: GetSeriesGenresUseCase,
+    private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
     private val strategy: SeeAllTVShowsStrategy,
 ) : BaseViewModel<SeeAllTVShowsUiState, SeeAllEffect>(SeeAllTVShowsUiState()),
     SeeAllTVShowsInteractionListener {
 
     init {
+        Log.d("TAG zoz", "in view model init")
         loadTitle()
         loadGenres()
         loadAllSeries()
@@ -20,9 +26,9 @@ class SeeAllTVShowsViewModel(
 
     private fun loadGenres() {
         tryToExecute(
-            function = { strategy.getAllTvShowsCategories() },
+            function = { getSeriesGenresUseCase() },
             onSuccess = { genres ->
-                updateState { it.copy(genre = genres.map { genre -> genre.name }) }
+                updateState { it.copy(genre = genres.map { genre -> genre.toCategoryUiState() }) }
             },
             onError = { /* Handle if needed */ }
         )
@@ -39,9 +45,14 @@ class SeeAllTVShowsViewModel(
     }
 
 
-    override fun onGenreSelect(genre: String) {
+    override fun onGenreSelect(genre: CategoryUiState) {
+        Log.d("onGenreSelect", "onGenreSelect: genre: $genre")
         tryToExecute(
-            function = { strategy.getTvShowsBasedOnCategory(genre) },
+            function = {
+                val x = strategy.getTvShowsBasedOnCategory(genre.id)
+                Log.d("onGenreSelect", "onGenreSelect: series genres : $x")
+                x
+            },
             onSuccess = { allSeries ->
                 updateState { it.copy(filteredSeries = allSeries.map { series -> series.toUiState() }) }
             },
@@ -68,6 +79,6 @@ fun Series.toUiState(): SeriesUiState {
         imageUrl = imageUrl,
         rate = this.rate.toString(),
         name = this.title,
-        genre = this.genre,
+        genre = this.genre.map { it.toCategoryUiState() },
     )
 }

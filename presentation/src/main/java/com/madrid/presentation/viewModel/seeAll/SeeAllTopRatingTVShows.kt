@@ -1,11 +1,13 @@
 package com.madrid.presentation.viewModel.seeAll
 
-import com.madrid.domain.entity.Genre
+import android.util.Log
 import com.madrid.domain.entity.Series
+import com.madrid.domain.usecase.series.FilterSeriesByCategoryUseCase
 import com.madrid.domain.usecase.series.GetTopRatedSeriesUseCase
 
 class SeeAllTopRatingTVShows(
-    private val getTopRateSeriesUseCase: GetTopRatedSeriesUseCase
+    private val getTopRateSeriesUseCase: GetTopRatedSeriesUseCase,
+    private val filterSeriesByCategoryUseCase: FilterSeriesByCategoryUseCase
 ) : SeeAllTVShowsStrategy {
 
     override fun getTitle(): String {
@@ -16,12 +18,11 @@ class SeeAllTopRatingTVShows(
         return getTopRateSeriesUseCase(1)
     }
 
-    override suspend fun getAllTvShowsCategories(): List<Genre> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getTvShowsBasedOnCategory(category: String): List<Series> {
-        TODO("Not yet implemented")
+    override suspend fun getTvShowsBasedOnCategory(categoryId: Int): List<Series> {
+        Log.d("onGenreSelect", "getTvShowsBasedOnCategory: in strategy: $categoryId")
+        val tvShows = getAllTvShows(1)
+        Log.d("onGenreSelect", "getTvShowsBasedOnCategory: in strategy before filter: $tvShows")
+        return filterSeriesByCategoryUseCase(series = tvShows, category = categoryId)
     }
 
     override fun showTvShowsCategory(): Boolean {

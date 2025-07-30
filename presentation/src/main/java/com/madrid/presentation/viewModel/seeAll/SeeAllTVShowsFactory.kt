@@ -1,25 +1,32 @@
 package com.madrid.presentation.viewModel.seeAll
 
+import com.madrid.domain.usecase.series.FilterSeriesByCategoryUseCase
+import com.madrid.domain.usecase.series.GetAiringTodaySeriesUseCase
+import com.madrid.domain.usecase.series.GetOnAirSeriesUseCase
+import com.madrid.domain.usecase.series.GetRecommendedSeriesUseCase
+import com.madrid.domain.usecase.series.GetTopRatedSeriesUseCase
 import org.koin.java.KoinJavaComponent
 
-class SeeAllTVShowsFactory {
-    fun create(seeAllTvShowType: SeeAllTvShowType): SeeAllTVShowsStrategy {
-        return when (seeAllTvShowType) {
-
+class SeeAllTVShowsFactory(
+    private val getTopRateSeriesUseCase: GetTopRatedSeriesUseCase,
+    private val getOnAirSeriesUseCase: GetOnAirSeriesUseCase,
+    private val getAiringTodaySeriesUseCase: GetAiringTodaySeriesUseCase,
+    private val getRecommendedSeriesUseCase: GetRecommendedSeriesUseCase,
+    private val filterSeriesByCategoryUseCase: FilterSeriesByCategoryUseCase
+) {
+    fun create(type: SeeAllTvShowType): SeeAllTVShowsStrategy {
+        return when (type) {
             SeeAllTvShowType.Top_Rating -> SeeAllTopRatingTVShows(
-                getTopRateSeriesUseCase = KoinJavaComponent.getKoin().get()
+                getTopRateSeriesUseCase, filterSeriesByCategoryUseCase
             )
-
             SeeAllTvShowType.On_TV -> SeeAllOnTvShow(
-                getOnAirSeriesUseCase = KoinJavaComponent.getKoin().get()
+                getOnAirSeriesUseCase, filterSeriesByCategoryUseCase
             )
-
             SeeAllTvShowType.Airing_Today -> SeeAllAiringTodayTvShow(
-                getAiringTodaySeriesUseCase = KoinJavaComponent.getKoin().get()
+                getAiringTodaySeriesUseCase, filterSeriesByCategoryUseCase
             )
-
             SeeAllTvShowType.More_Recommended -> SeeAllRecommendedTVShow(
-                getRecommendedSeriesUseCase = KoinJavaComponent.getKoin().get()
+                getRecommendedSeriesUseCase, filterSeriesByCategoryUseCase
             )
         }
     }

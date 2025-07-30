@@ -48,12 +48,13 @@ fun SeeAllTVShowsScreen(
     Log.d("log items", "TopRatingScreen: $selectedItem")
 
     LaunchedEffect(Unit) {
-        if (uiState.genre!!.isNotEmpty()) {
+        if (uiState.genre.isNotEmpty()) {
             val firstGenre = uiState.selectedGenre
             if (firstGenre != null) {
                 selectedItem = firstGenre
             }
-            viewModel.onGenreSelect(selectedItem)
+            if(selectedItem.isNotEmpty())
+                viewModel.onGenreSelect(uiState.genre.find { it.name == selectedItem }!!)
         }
     }
 
@@ -75,11 +76,11 @@ fun SeeAllTVShowsScreen(
         item(span = { GridItemSpan(maxLineSpan) }) {
             if (items != null) {
                 FilterBar(
-                    items = items,
+                    items = items.map { it.name },
                     selectedItem = selectedItem,
                     onItemClick = { genre ->
                         selectedItem = genre
-                        viewModel.onGenreSelect(selectedItem)
+                        viewModel.onGenreSelect(items.find { it.name == genre }!!)
                     },
                     scrollable = true
                 )
