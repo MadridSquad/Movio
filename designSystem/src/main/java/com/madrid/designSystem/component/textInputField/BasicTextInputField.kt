@@ -47,7 +47,6 @@ fun BasicTextInputField(
     borderBrushColors: Brush = Theme.color.gradients.borderGradient ,
     errorBorderBrush: Brush = Theme.color.gradients.errorBorderGradient,
     isError: Boolean = false,
-
     iconColorInFocus: Color = Theme.color.surfaces.onSurface,
     iconColorNotFocus: Color = Theme.color.surfaces.onSurfaceContainer,
     cursorColor: Color = Theme.color.surfaces.onSurface,
@@ -57,6 +56,20 @@ fun BasicTextInputField(
 ) {
     var isFocused by remember { mutableStateOf(false) }
     val focusRequester = remember { FocusRequester() }
+
+    val borderModifier = when {
+        isError -> Modifier.border(
+            width = 1.dp,
+            brush = errorBorderBrush,
+            shape = RoundedCornerShape(8.dp)
+        )
+        isFocused || value.isNotEmpty() -> Modifier.border(
+            width = 1.dp,
+            brush = borderBrushColors,
+            shape = RoundedCornerShape(8.dp)
+        )
+        else -> Modifier
+    }
 
     BasicTextField(
         value = value,
@@ -72,26 +85,12 @@ fun BasicTextInputField(
         visualTransformation = visualTransformation,
         modifier = modifier
             .fillMaxWidth()
-            .onFocusChanged { focusState -> isFocused = focusState.isFocused }
-            .focusRequester(focusRequester)
-            .focusable()
-            .then(
-                when {
-                    isError -> Modifier.border(
-                        width = 1.dp,
-                        brush = errorBorderBrush,
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    isFocused || value.isNotEmpty() -> Modifier.border(
-                        width = 1.dp,
-                        brush = borderBrushColors,
-                        shape = RoundedCornerShape(8.dp)
-                    )
-                    else -> Modifier
-                }
-            )
             .background(Theme.color.surfaces.surfaceContainer, RoundedCornerShape(8.dp))
+            .then(
+                borderModifier
+            )
             .padding(horizontal = 12.dp, vertical = 14.dp),
+
         decorationBox = { innerTextField ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
