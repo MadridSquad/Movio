@@ -2,6 +2,7 @@ package com.madrid.movio.di
 
 
 import com.madrid.presentation.screens.searchScreen.SeeAllForYou.SeeAllForYouViewModel
+import com.madrid.presentation.viewModel.loginViewModel.LoginViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.ActorDetailsViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.DetailsMovieViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.ReviewsScreenViewModel
@@ -23,13 +24,8 @@ val presentationModule = module {
     viewModelOf(::ActorDetailsViewModel)
     viewModelOf(::HomeViewModel)
     viewModelOf(::SeriesDetailsViewModel)
+    viewModel { LoginViewModel(get(), get()) }
+    viewModelOf(::LoginViewModel)
     viewModelOf(::ReviewsScreenViewModel)
     viewModelOf(::SimilarMediaViewModel)
-    viewModel { LoginViewModel(get(), get()) }
-
-    viewModel { SeriesDetailsViewModel(get(),get()) }
-
-    viewModelOf(::LoginViewModel)
-    // single<UserRepository> { sUserLoggedIn() }
-
 }

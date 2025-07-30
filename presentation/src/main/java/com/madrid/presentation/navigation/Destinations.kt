@@ -28,6 +28,8 @@ sealed interface Destinations {
     @Serializable
     data object SearchScreen : Destinations
 
+
+
     @Serializable
     data class MovieDetailsScreen(
         val movieId: Int,
@@ -71,15 +73,14 @@ sealed interface Destinations {
 
 
     @Serializable
-    data object MoreScreen : Destinations
-
-    @Serializable
     data class WebViewScreen(
         val url: String
     ) : Destinations
 
     @Serializable
     data class ForgotPassword(val url: String): Destinations
+
+    @Serializable
     data class ActorDetails(
         val artistId: Int,
     ) : Destinations

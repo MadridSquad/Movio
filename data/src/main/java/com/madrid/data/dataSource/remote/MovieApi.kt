@@ -22,7 +22,10 @@ import com.madrid.data.dataSource.remote.response.series.AiringTodayTvShowsRespo
 import com.madrid.data.dataSource.remote.response.series.OnAirTvShowsResponse
 import com.madrid.data.dataSource.remote.response.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.response.series.TopRatedSeriesResponse
+import com.madrid.data.dataSource.remote.dto.authentication.AuthenticationResponse
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -167,17 +170,6 @@ interface MovieApi {
     suspend fun getArtistKnownForById(
         @Path("person_id") artistId: Int
     ): ArtistKnownForResponse
-    // endregion
-
-    @GET("movie/now_playing")
-    suspend fun getNowPlayingMovies(
-        @Query("page") page: Int
-    ): NowPlayingMovieResponse
-
-    @GET("movie/upcoming")
-    suspend fun getUpcomingMovies(
-        @Query("page") page: Int
-    ): UpcomingMoviesResponse
 
     // region authentication
     @GET("authentication/token/new")
@@ -190,8 +182,17 @@ interface MovieApi {
         @Body requestToken: String
     ): AuthenticationResponse
 
-
     @GET("authentication/guest_session/new")
     suspend fun getCreateGuestSession(): AuthenticationResponse
     // endregion
+
+    @GET("movie/now_playing")
+    suspend fun getNowPlayingMovies(
+        @Query("page") page: Int
+    ): NowPlayingMovieResponse
+
+    @GET("movie/upcoming")
+    suspend fun getUpcomingMovies(
+        @Query("page") page: Int
+    ): UpcomingMoviesResponse
 }

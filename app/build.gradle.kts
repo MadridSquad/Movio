@@ -144,4 +144,7 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.kotlinx.serialization.json)
 
+
+    implementation(libs.androidx.datasource.preferences)
+
 }

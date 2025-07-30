@@ -1,5 +1,6 @@
 package com.madrid.domain.usecase
 
+
 import com.madrid.domain.entity.LoginResult
 import com.madrid.domain.exceptions.*
 import com.madrid.domain.repository.UserRepository
