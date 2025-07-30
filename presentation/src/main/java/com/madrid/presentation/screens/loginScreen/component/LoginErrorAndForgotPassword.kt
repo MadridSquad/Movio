@@ -1,5 +1,6 @@
 package com.madrid.presentation.screens.loginScreen.component
 
+import LoginUiState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -17,11 +18,16 @@ import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
-import com.madrid.presentation.viewModel.LoginError
-import com.madrid.presentation.viewModel.LoginUiState
+import com.madrid.domain.exceptions.AccountLockedException
+import com.madrid.domain.exceptions.EmptyPasswordException
+import com.madrid.domain.exceptions.EmptyUsernameException
+import com.madrid.domain.exceptions.InvalidCredentialsException
+import com.madrid.domain.exceptions.MovioException
+import com.madrid.domain.exceptions.NetworkException
+
 
 @Composable
-fun  LoginErrorAndForgotPassword(
+fun LoginErrorAndForgotPassword(
     modifier: Modifier = Modifier,
     state: LoginUiState,
     onForgotPasswordClick: () -> Unit,
@@ -33,20 +39,14 @@ fun  LoginErrorAndForgotPassword(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-
-        val errorMessage = buildString {
-            when (val error = state.errorState) {
-                is LoginError.EmptyFields -> {
-                    if (error.usernameEmpty) append("Username is required")
-                    if (error.usernameEmpty && error.passwordEmpty) append(", ")
-                    if (error.passwordEmpty) append("Password is required")
-                }
-                is LoginError.InvalidCredentials -> append("Invalid username or password")
-                is LoginError.AccountLocked -> append("Account locked. Contact support.")
-                is LoginError.NetworkError -> append("Network error. Try again.")
-                is LoginError.GenericError -> append(error.message)
-                else -> {}
-            }
+        val errorMessage = when (val error = state.errorState) {
+            is EmptyUsernameException -> "Username is required"
+            is EmptyPasswordException -> "Password is required"
+            is InvalidCredentialsException -> "Invalid username or password"
+            is AccountLockedException -> "Account locked. Contact support."
+            is NetworkException -> "Network error. Try again."
+            is MovioException -> error.message ?: "Unexpected error"
+            else -> ""
         }
 
         if (errorMessage.isNotEmpty()) {
@@ -81,5 +81,4 @@ fun  LoginErrorAndForgotPassword(
             )
         )
     }
-
 }

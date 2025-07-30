@@ -1,5 +1,6 @@
 package com.madrid.presentation.screens.loginScreen.component
 
+import LoginUiState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -11,17 +12,21 @@ import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.textInputField.BasicTextInputField
 import com.madrid.designSystem.theme.Theme
-import com.madrid.presentation.viewModel.LoginError
-import com.madrid.presentation.viewModel.LoginUiState
+import com.madrid.domain.exceptions.EmptyPasswordException
+import com.madrid.domain.exceptions.EmptyUsernameException
+import com.madrid.domain.exceptions.InvalidCredentialsException
+import com.madrid.domain.exceptions.UsernameTooShortException
+import com.madrid.domain.exceptions.WeakPasswordException
+
 
 @Composable
- fun  LoginInputFields(modifier: Modifier = Modifier,
-                              state: LoginUiState,
-                              onUsernameChange: (String) -> Unit,
-                              onPasswordChange: (String) -> Unit,
-                              onTogglePassword: () -> Unit,
-
-                              ) {
+fun LoginInputFields(
+    modifier: Modifier = Modifier,
+    state: LoginUiState,
+    onUsernameChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onTogglePassword: () -> Unit,
+) {
     Column(modifier = modifier) {
         BasicTextInputField(
             startIconPainter = painterResource(R.drawable.profile_circle),
@@ -29,10 +34,9 @@ import com.madrid.presentation.viewModel.LoginUiState
             value = state.username,
             onValueChange = onUsernameChange,
             modifier = Modifier.padding(bottom = 12.dp),
-            isError = state.errorState is LoginError.EmptyFields &&
-                    (state.errorState as LoginError.EmptyFields).usernameEmpty,
+            isError = state.errorState is EmptyUsernameException ||
+                    state.errorState is UsernameTooShortException,
             endIconPainter = null,
-
             errorBorderBrush = Theme.color.gradients.errorBorderGradient
         )
 
@@ -48,11 +52,10 @@ import com.madrid.presentation.viewModel.LoginUiState
             ),
             onClickEndIcon = onTogglePassword,
             modifier = Modifier.padding(bottom = 12.dp),
-            isError = (state.errorState is LoginError.EmptyFields &&
-                    (state.errorState as LoginError.EmptyFields).passwordEmpty) ||
-                    state.errorState is LoginError.InvalidCredentials,
+            isError = state.errorState is EmptyPasswordException ||
+                    state.errorState is WeakPasswordException ||
+                    state.errorState is InvalidCredentialsException,
             errorBorderBrush = Theme.color.gradients.errorBorderGradient
         )
     }
-
 }
