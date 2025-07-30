@@ -15,11 +15,13 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.utils.RateFormatter
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.shared.formatDuration
+import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
+import com.madrid.presentation.viewModel.shared.parser.formatDateOfBirth
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class SeriesDetailsViewModel(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
     private val getSeriesTopCastUseCase: GetSeriesTopCastUseCase,
     private val getSeriesReviewsUseCase: GetSeriesReviewsUseCase,
@@ -35,7 +37,7 @@ class SeriesDetailsViewModel(
 
     private fun loadData() {
         tryToExecute(
-            function = { getSeriesDetailsUseCase(args.seriesId.toInt()) },
+            function = { getSeriesDetailsUseCase(args.seriesId) },
             onSuccess = { series ->
                 updateState {
                     it.copy(
@@ -44,7 +46,7 @@ class SeriesDetailsViewModel(
                         seriesName = series.title,
                         rate = RateFormatter.formatRate(series.rate), // Format rate here
                         numberOfSeasons = series.seasons.size,
-                        productionDate = series.airDate,
+                        productionDate = formatDateKotlinx(series.airDate),
                         description =formatDuration( series.description),
                         currentSeasonsUiStates = series.seasons.map { season -> season.mapToUiState() },
                         selectedSeasonUiState = series.seasons[if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber - 1].mapToUiState()
@@ -184,7 +186,7 @@ fun Review.toUiState(): ReviewUiState {
         reviewerName = this.reviewerName,
         reviewerImageUrl = this.reviewerPhotoUrl,
         rating = this.rate.toFloat(),
-        date = this.date,
+        date = formatDateOfBirth(this.date),
         content = this.comment
     )
 }

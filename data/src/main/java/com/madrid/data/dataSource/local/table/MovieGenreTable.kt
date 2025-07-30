@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 data class MovieGenreTable(
     val genreTitle: String,
     @PrimaryKey(autoGenerate = false)  val genreId: Int,
-    val searchCount: Int = 0,
+    val interestPoints: Int = 0,
 )

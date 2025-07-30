@@ -1,8 +1,9 @@
 package com.madrid.data.repositories
 
+import com.madrid.data.dataSource.local.mappers.toGenre
 import com.madrid.data.dataSource.local.mappers.toMovie
-import com.madrid.data.dataSource.local.mappers.toMovieGenreTable
 import com.madrid.data.dataSource.local.table.relationship.MovieGenreCrossRef
+import com.madrid.data.dataSource.mapper.toMovieGenreTable
 import com.madrid.data.dataSource.mapper.toMovieTable
 import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.mapper.toGenre
@@ -19,6 +20,7 @@ import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.Trailer
 import com.madrid.domain.repository.MovieRepository
+import kotlin.collections.ifEmpty
 
 class MovieRepositoryImpl(
     private val localDataSource: LocalDataSource,
@@ -26,12 +28,7 @@ class MovieRepositoryImpl(
 ) : MovieRepository {
 
     override suspend fun getMovieDetailsById(movieId: Int): Movie {
-        val movieResponse = remoteDataSource.getMovieDetailsById(movieId)
-        movieResponse.remoteGenreDtos.map { genre ->
-            val genreEntity = genre.toMovieGenreTable()
-            localDataSource.increaseMovieGenreSeenCount(genreEntity.genreTitle)
-        }
-        return movieResponse.toMovie()
+        return remoteDataSource.getMovieDetailsById(movieId).toMovie()
     }
 
     override suspend fun getMovieTrailersById(movieId: Int): List<Trailer> {
@@ -66,6 +63,19 @@ class MovieRepositoryImpl(
     override suspend fun getTrendingMovies(page: Int): List<Movie> {
         return remoteDataSource.getTrendingMovies(page).movieResults?.map { it.toMovie() }
             ?: emptyList()
+    }
+
+    override suspend fun getMoviesGenres(): List<Genre> {
+        return localDataSource.getAllMovieGenres().ifEmpty {
+            remoteDataSource.getMovieGenres().forEach {
+                localDataSource.insertMovieGenre(it.toMovieGenreTable())
+            }
+            localDataSource.getAllMovieGenres()
+        }.map { it.toGenre() }
+    }
+
+    override suspend fun increaseMovieGenreInterestPoints(genreTitle: String) {
+        localDataSource.increaseMovieGenreInterestPoints(genreTitle)
     }
 
     override suspend fun getMoviesByGenres(): Map<String, List<Movie>> {

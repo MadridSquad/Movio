@@ -2,21 +2,22 @@ package com.madrid.data.dataSource.local.mappers
 
 import com.madrid.data.dataSource.local.table.MovieGenreTable
 import com.madrid.data.dataSource.local.table.SeriesGenreTable
-import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
+import com.madrid.domain.entity.Genre
 
-
-fun RemoteGenreDto.toMovieGenreTable(): MovieGenreTable {
-    return MovieGenreTable(
-        genreId = this.id ?: 0,
-        genreTitle = this.name ?: "Unknown",
-        searchCount = 0
+fun MovieGenreTable.toGenre(): Genre {
+    return Genre(
+        id = this.genreId,
+        name = this.genreTitle,
+        interestPoints = this.interestPoints
     )
 }
 
-fun RemoteGenreDto.toSeriesGenreTable(): SeriesGenreTable {
-    return SeriesGenreTable(
-        genreId = this.id ?: 0,
-        genreTitle = this.name ?: "Unknown",
-        searchCount = 0
+fun SeriesGenreTable.toGenre(): Genre {
+    return Genre(
+        id = this.genreId,
+        name = this.genreTitle,
+        interestPoints = this.interestPoints
     )
 }
+
+

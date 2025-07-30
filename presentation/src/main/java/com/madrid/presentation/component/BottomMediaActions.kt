@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.theme.Theme
@@ -46,7 +48,7 @@ fun BottomMediaActions(
     ) {
         if (onRateClick != null) {
             MediaActionItem(
-                label = "Rate it",
+                label = stringResource(com.madrid.presentation.R.string.rate_it),
                 isActive = isRated,
                 activeIcon = R.drawable.bold_star,
                 inactiveIcon = R.drawable.outline_star,
@@ -63,7 +65,7 @@ fun BottomMediaActions(
 
         if (onAddToListClick != null) {
             MediaActionItem(
-                label = "Add to list",
+                label = stringResource(com.madrid.presentation.R.string.add_to_list),
                 isActive = isSaved,
                 activeIcon = R.drawable.bold_bookmark,
                 inactiveIcon = R.drawable.outline_bookmark,
@@ -87,7 +89,7 @@ private fun MediaActionItem(
 ) {
     val animatedColor by animateColorAsState(
         targetValue = if (isActive) activeColor else Theme.color.surfaces.onSurfaceContainer,
-        label = "ActionIconColor"
+        label = stringResource(com.madrid.presentation.R.string.actioniconcolor)
     )
     val icon = if (isActive) activeIcon else inactiveIcon
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -105,8 +107,9 @@ private fun MediaActionItem(
         )
         MovioText(
             text = label,
-            textStyle = Theme.textStyle.label.smallRegular14,
-            color = Theme.color.surfaces.onSurface
+            textStyle = Theme.textStyle.label.smallRegular12,
+            color = Theme.color.surfaces.onSurfaceVariant,
+            modifier = Modifier.padding(top = 6.dp)
         )
     }
 }
@@ -130,7 +133,7 @@ private fun PlayButton(onClick: () -> Unit) {
     ) {
         MovioIcon(
             painter = painterResource(R.drawable.icon_paly),
-            contentDescription = "Play",
+            contentDescription = stringResource(com.madrid.presentation.R.string.play),
             modifier = Modifier.size(28.dp),
             tint = Color.White
         )

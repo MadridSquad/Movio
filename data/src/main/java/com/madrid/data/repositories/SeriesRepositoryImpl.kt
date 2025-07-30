@@ -1,6 +1,8 @@
 package com.madrid.data.repositories
 
+import com.madrid.data.dataSource.local.mappers.toGenre
 import com.madrid.data.dataSource.local.mappers.toSeries
+import com.madrid.data.dataSource.mapper.toSeriesGenreTable
 import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.mapper.toEpisode
 import com.madrid.data.dataSource.remote.mapper.toGenre
@@ -25,11 +27,7 @@ class SeriesRepositoryImpl(
 ) : SeriesRepository {
 
     override suspend fun getSeriesDetailsById(seriesId: Int): Series {
-        val seriesResponse = remoteDataSource.getSeriesDetailsById(seriesId)
-        seriesResponse.genres?.map { genre ->
-            localDataSource.increaseSeriesGenreSeenCount(genre.name ?: "")
-        }
-        return seriesResponse.toSeries()
+        return remoteDataSource.getSeriesDetailsById(seriesId).toSeries()
     }
 
     override suspend fun getSeriesTrailersById(seriesId: Int): List<Trailer> {
@@ -74,8 +72,17 @@ class SeriesRepositoryImpl(
         return remoteDataSource.getRecommendedSeries().toTvShows()
     }
 
+    override suspend fun increaseSeriesGenreInterestPoints(genreTitle: String) {
+        localDataSource.increaseSeriesGenreInterestPoints(genreTitle)
+    }
+
     override suspend fun getSeriesGenres(): List<Genre> {
-        return remoteDataSource.getSeriesGenres().map { it.toGenre() }
+        return localDataSource.getAllSeriesGenres().ifEmpty {
+            remoteDataSource.getSeriesGenres().forEach {
+                localDataSource.insertSeriesGenre(it.toSeriesGenreTable())
+            }
+            localDataSource.getAllSeriesGenres()
+        }.map { it.toGenre() }
     }
 
     override suspend fun getSeriesByGenres(): Map<String, List<Series>> {

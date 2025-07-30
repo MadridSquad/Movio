@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -29,6 +30,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun TrendingLayout(
     modifier: Modifier = Modifier,
+    headerModifier: Modifier  = Modifier,
     trendingViewModel: HomeViewModel = koinViewModel()
 ) {
     val trendingUiState by trendingViewModel.state.collectAsState()
@@ -38,9 +40,10 @@ fun TrendingLayout(
             .background(Theme.color.surfaces.surface)
     ) {
         CustomTextTitel(
-            primaryText = stringResource(com.madrid.presentation.R.string.for_u),
+            primaryText = stringResource(com.madrid.presentation.R.string.trending),
             secondaryText = stringResource(com.madrid.presentation.R.string.see_all),
             endIcon = painterResource(R.drawable.outline_alt_arrow_left),
+            modifier = headerModifier,
             onSeeAllClick = {
 
             }
@@ -83,7 +86,8 @@ fun TrendingLayout(
                             .fillMaxWidth()
                             .height(324.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        contentPadding = PaddingValues(horizontal = 16.dp)
                     ) {
                         items(trendingUiState.trending.take(9)) { item ->
                             TrendingMovieCard(

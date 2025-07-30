@@ -9,4 +9,8 @@
     <string name="loading_actor_details">Loading actor details...</string>
     <string name="current_seasons">Current Seasons</string>
     <string name="similar_series">Similar Series</string>
+    <string name="add_to_list">Add to list</string>
+    <string name="actioniconcolor">ActionIconColor</string>
+    <string name="play">Play</string>
+    <string name="rate_it">Rate it</string>
 </resources>

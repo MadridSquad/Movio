@@ -12,13 +12,15 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.utils.RateFormatter
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
+import com.madrid.presentation.viewModel.shared.parser.formatDateOfBirth
 import com.madrid.presentation.viewModel.shared.formatDuration
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
 class DetailsMovieViewModel(
-    private val saveStateHandle: SavedStateHandle,
+    saveStateHandle: SavedStateHandle,
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val getMovieTopCastUseCase: GetMovieTopCastUseCase,
     private val getSimilarMoviesUseCase: GetSimilarMoviesUseCase,
@@ -45,7 +47,7 @@ class DetailsMovieViewModel(
                     it.copy(
                         movieId = movie.id,
                         topImageUrl = movie.imageUrl,
-                        dataMovie = movie.releaseDate,
+                        dataMovie = formatDateKotlinx(movie.releaseDate),
                         movieName = movie.title,
                         rate = RateFormatter.formatRate(movie.rate),
                         movieDuration =formatDuration( movie.movieDuration),
@@ -71,9 +73,12 @@ class DetailsMovieViewModel(
         tryToExecute(
             function = { getMovieTopCastUseCase(args.movieId) },
             onSuccess = { result ->
-                Log.d("TAG lol", "Cast loaded: ${result.size}")
+                val formattedResult = result.map { artist ->
+                    artist.copy(dateOfBirth = formatDateOfBirth(artist.dateOfBirth))
+                }
+                Log.d("TAG lol", "Cast loaded: ${formattedResult.size}")
                 updateState {
-                    it.copy(casts = result)
+                    it.copy(casts = formattedResult)
                 }
             },
             onError = { error ->
@@ -124,7 +129,7 @@ class DetailsMovieViewModel(
                         reviewerName = review.reviewerName,
                         reviewerImageUrl = "",
                         rating = review.rate.toFloat(),
-                        date = review.date,
+                        date = formatDateKotlinx(review.date),
                         content = review.comment,
                     )
                 }
