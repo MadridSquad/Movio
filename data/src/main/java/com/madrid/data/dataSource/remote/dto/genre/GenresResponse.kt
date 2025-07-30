@@ -6,10 +6,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class GenresResponse(
     @SerializedName("genres")
-    val genres: List<MovieGenre>?,
+    val genres: List<RemoteGenreDto>?,
 )
 @Serializable
-data class MovieGenre(
+data class RemoteGenreDto(
     @SerializedName("id")
     val id: Int?,
     @SerializedName("name")

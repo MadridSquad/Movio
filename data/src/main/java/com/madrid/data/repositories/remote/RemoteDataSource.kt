@@ -4,7 +4,7 @@ import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
-import com.madrid.data.dataSource.remote.dto.genre.GenresResponse
+import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
@@ -39,7 +39,7 @@ interface RemoteDataSource {
     suspend fun getMovieCreditById(movieId: Int): MovieCreditsResponse
     suspend fun getMovieReviewsById(movieId: Int): MovieReviewResponse
     suspend fun getSimilarMoviesById(movieId: Int): SimilarMoviesResponse
-    suspend fun getMovieGenres(): GenresResponse
+    suspend fun getMovieGenres(): List<RemoteGenreDto>
     suspend fun getTrendingMovies(page: Int): SearchMovieResponse
     suspend fun getUpcomingMovie(page: Int = 1): UpcomingMoviesResponse
     suspend fun getNowPlayingMovie(page: Int = 1): NowPlayingMovieResponse
@@ -51,7 +51,7 @@ interface RemoteDataSource {
     suspend fun getSeriesReviewsById(seriesId: Int): SeriesReviewResponse
     suspend fun getSimilarSeriesById(seriesId: Int): SimilarSeriesResponse
     suspend fun getEpisodesBySeasonId(seriesId: Int, seasonNumber: Int): SeasonResponse
-    suspend fun getSeriesGenres(): GenresResponse
+    suspend fun getSeriesGenres(): List<RemoteGenreDto>
     suspend fun getSeriesDetailsById(seriesId: Int): SeriesDetailsResponse
     suspend fun getTrendingSeries(page: Int): SearchSeriesResponse
     suspend fun getTopRatedSeries(page: Int = 1): TopRatedSeriesResponse
