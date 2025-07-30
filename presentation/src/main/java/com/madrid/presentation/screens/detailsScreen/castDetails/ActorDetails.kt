@@ -10,11 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.TextWithReadMore
@@ -23,11 +24,9 @@ import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.header.ActorDetailsHeader
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
-import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.detailsViewModel.ActorDetailsViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.MovieDetailsUiState
-import com.madrid.presentation.viewModel.detailsViewModel.TopCastViewModel
 import org.koin.androidx.compose.koinViewModel
 
 
@@ -58,6 +57,26 @@ fun ActorDetailsContent(
     ) {
         item {
             Box(contentAlignment = Alignment.Center) {
+                MoviePosterDetailScreen(
+                    imageUrl = actor.actorImageUrl,
+                    isActor = true
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .background(
+                            Brush.verticalGradient(
+                                colors = listOf(
+                                    Color.Black.copy(alpha = 0.3f),
+                                    Color.Transparent
+                                ),
+                                startY = 0f,
+                                endY = 400f
+                            )
+                        )
+                        .align(Alignment.TopCenter)
+                )
                 TopAppBar(
                     null,
                     secondIcon = null,
@@ -65,13 +84,9 @@ fun ActorDetailsContent(
                     modifier = Modifier
                         .padding(top = 6.dp)
                         .padding(16.dp)
-                        .align(Alignment.TopCenter),
+                        .align(Alignment.TopCenter)
+                        .background(Color.Transparent),
                     onFirstIconClick = { onBackClick() }
-
-                )
-                MoviePosterDetailScreen(
-                    imageUrl = actor.actorImageUrl,
-                    isActor = true
                 )
             }
         }
