@@ -34,7 +34,10 @@ fun LazyGridScope.filterSearchScreen(
     movies: LazyPagingItems<SearchScreenState.MovieUiState>,
     series: LazyPagingItems<SearchScreenState.SeriesUiState>,
     artist: LazyPagingItems<SearchScreenState.ArtistUiState>,
-    onSeriesClick: (Int) -> Unit = {}
+    onSeriesClick: (Int) -> Unit = {},
+    onMovieClick:(Int) -> Unit,
+    onTopResultClick:(Int) -> Unit,
+    onActorClick :(Int) -> Unit,
 ) {
     item(
         span = { GridItemSpan(maxLineSpan) }
@@ -115,7 +118,6 @@ fun LazyGridScope.filterSearchScreen(
                                 }
                             }
                         }
-
                         topRated.itemCount > 0 -> {
                             items(count = topRated.itemCount) { index ->
                                 MovioVerticalCard(
@@ -124,7 +126,7 @@ fun LazyGridScope.filterSearchScreen(
                                     rate = topRated[index]!!.rating,
                                     width = 101.dp,
                                     height = 136.dp,
-                                    onClick = { }
+                                    onClick = { onTopResultClick(topRated[index]!!.id.toInt()) }
                                 )
                             }
                         }
@@ -203,7 +205,7 @@ fun LazyGridScope.filterSearchScreen(
                                     rate = movies[index]!!.rating,
                                     width = 101.dp,
                                     height = 136.dp,
-                                    onClick = { }
+                                    onClick = { onMovieClick(movies[index]!!.id.toInt())}
                                 )
                             }
                         }
@@ -360,7 +362,7 @@ fun LazyGridScope.filterSearchScreen(
                                 MovioArtistsCard(
                                     artistsName = artist[index]!!.name,
                                     imageUrl = artist[index]!!.imageUrl,
-                                    onClick = { }
+                                    onClick = { onActorClick(artist[index]!!.id.toInt())}
                                 )
                             }
                         }

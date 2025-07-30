@@ -35,6 +35,18 @@
     <string name="search">بحث</string>
     <string name="search_content_description">البحث عن وصف المحتويات</string>
     <string name="no_reviews_available">No Reivews yet!</string>
+    <string name="all">الكل</string>
+    <string name="TV_Shows">المسلسلات</string>
+    <string name="Categories">الفئات</string>
+    <string name="top_rating">الاعلى تقييم</string>
+    <string name="free_to_watch">مشاهدة مجانية</string>
+    <string name="upcoming">قريبا</string>
+    <string name="more_recommended">مقترح</string>
+    <string name="now_playing">يعرض الان</string>
+    <string name="airing_today">يعرض اليوم</string>
+    <string name="on_tv">يعرض الان</string>
+    <string name="trending">الاكثر رواجا</string>
+
 
     <string name="empty_recent_search_title">عن ماذا تبحث اليوم؟</string>
     <string name="empty_recent_search_body">ابدأ بالكتابة في شريط البحث للعثور على ما تحتاجه.</string>

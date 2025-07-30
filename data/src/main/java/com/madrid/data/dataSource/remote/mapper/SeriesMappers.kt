@@ -146,7 +146,7 @@ fun SeriesCastNetwork.toArtist(): Artist {
 
 fun SeriesReviewResult.toReview(): Review {
     return Review(
-        reviewId = this.id?.toInt() ?: 0,
+        reviewId = this.id ?: "",
         reviewerName = this.author ?: "",
         reviewerPhotoUrl = "https://image.tmdb.org/t/p/original${this.authorDetails?.avatarPath}",
         rate = this.authorDetails?.rating ?: 0.0,

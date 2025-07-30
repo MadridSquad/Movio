@@ -3,6 +3,7 @@ package com.madrid.data.repositories
 import com.madrid.data.dataSource.local.mappers.toSeries
 import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.mapper.toEpisode
+import com.madrid.data.dataSource.remote.mapper.toGenre
 import com.madrid.data.dataSource.remote.mapper.toReview
 import com.madrid.data.dataSource.remote.mapper.toSeries
 import com.madrid.data.dataSource.remote.mapper.toSimilarSeries
@@ -12,6 +13,7 @@ import com.madrid.data.repositories.local.LocalDataSource
 import com.madrid.data.repositories.remote.RemoteDataSource
 import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Episode
+import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.Series
 import com.madrid.domain.entity.Trailer
@@ -70,6 +72,10 @@ class SeriesRepositoryImpl(
 
     override suspend fun getRecommendedSeries(page: Int): List<Series> {
         return remoteDataSource.getRecommendedSeries().toTvShows()
+    }
+
+    override suspend fun getSeriesGenres(): List<Genre> {
+        return remoteDataSource.getSeriesGenres().map { it.toGenre() }
     }
 
     override suspend fun getSeriesByGenres(): Map<String, List<Series>> {

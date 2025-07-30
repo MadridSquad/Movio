@@ -1,6 +1,5 @@
 package com.madrid.presentation.screens.detailsScreen.detailsMovieScreen
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +14,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.madrid.designSystem.component.TextWithReadMore
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.BottomMediaActions
@@ -24,7 +24,6 @@ import com.madrid.presentation.component.header.MovieDetailsHeader
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.screens.detailsScreen.componant.ExpandableDescription
 import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.ReviewScreen
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.toReviewScreenUiState
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
@@ -51,8 +50,8 @@ fun MovieDetailsScreen(
         )
         TopAppBar(
             text = null,
-            modifier = Modifier.padding(start = 16.dp, top = 36.dp),
-            onFirstIconClick = { navController.navigate(Destinations.SearchScreen) }
+            modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
+            onFirstIconClick = { navController.popBackStack() }
         )
         Column(
             modifier = Modifier
@@ -72,24 +71,16 @@ fun MovieDetailsScreen(
                 onRateClick = {},
                 onPlayClick = {},
                 onAddToListClick = {},
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
-
-            ExpandableDescription(
+            TextWithReadMore(
                 description = uiState.description,
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 16.dp),
+                maxLines = 5
             )
-
-            Spacer(modifier = Modifier.height(16.dp))
             TopCastSection(
-                castMembers = uiState.casts.map { cast ->
-                    CastMember(
-                        id = cast.id.toString(),
-                        name = cast.name,
-                        imageUrl = cast.imageUrl
-                    )
-                },
                 onSeeAllClick = {
                     navController.navigate(
                         Destinations.TopCast(
@@ -98,11 +89,24 @@ fun MovieDetailsScreen(
                         )
                     )
                 },
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+                onCastMemberClick = { castId ->
+                    navController.navigate(
+                        Destinations.ActorDetails(
+                            artistId = castId
+                        )
+                    )
+                },
+                modifier = Modifier.padding( vertical = 8.dp),
+                  castMembers = uiState.casts.map { cast ->
+                    CastMember(
+                        id = cast.id.toString(),
+                        name = cast.name,
+                        imageUrl = cast.imageUrl
+                    )
+                }
             )
             Spacer(modifier = Modifier.height(32.dp))
-
-            if(uiState.reviews.isNotEmpty()){
+            if (uiState.reviews.isNotEmpty()) {
                 ReviewScreen(
                     onSeeAllReviews = {
                         navController.navigate(
@@ -114,9 +118,8 @@ fun MovieDetailsScreen(
                     },
                     uiState = uiState.reviews.toReviewScreenUiState()
                 )
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(24.dp))
             }
-
             SimilarMoviesSection(
                 onSeeAllClick = {
                     navController.navigate(
@@ -133,7 +136,7 @@ fun MovieDetailsScreen(
                         )
                     )
                 },
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                modifier = Modifier.padding(vertical = 8.dp),
                 similarMovies = uiState.similarMovies.map { movie ->
                     SimilarMovie(
                         id = movie.id,
@@ -143,6 +146,7 @@ fun MovieDetailsScreen(
                     )
                 }
             )
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }

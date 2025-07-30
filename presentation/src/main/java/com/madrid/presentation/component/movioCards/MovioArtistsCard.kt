@@ -46,7 +46,7 @@ fun MovioArtistsCard(
             color = Theme.color.surfaces.onSurface,
             textStyle = Theme.textStyle.body.mediumMedium14,
             maxLines = 1,
-            modifier = Modifier.padding()
+            modifier = Modifier.padding(top = 4.dp)
         )
     }
 }

@@ -8,4 +8,6 @@
     <string name="empty_no_history_description" />
     <string name="empty_search_title" />
     <string name="empty_search_description" />
+    <string name="read_less">Read Less</string>
+    <string name="read_more">Read More</string>
 </resources>

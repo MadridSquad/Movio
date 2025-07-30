@@ -2,7 +2,7 @@ package com.madrid.data.dataSource.remote.mapper
 
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
-import com.madrid.data.dataSource.remote.dto.genre.MovieGenre
+import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
 import com.madrid.data.dataSource.remote.dto.movie.CastNetwork
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieResult
@@ -26,7 +26,7 @@ fun MovieDetailsResponse.toMovie(): Movie {
         releaseDate = this.releaseDate ?: "",
         movieDuration = this.runtime?.toString() ?: "",
         description = this.overview ?: "",
-        genre = this.movieGenres.map { it.toMediaGenre().title },
+        genre = this.remoteGenreDtos.map { it.toMediaGenre().title },
     )
 }
 
@@ -74,7 +74,7 @@ fun MovieReviewResult.toReview(): Review {
         rate = this.authorDetails?.rating ?: 0.0,
         date = this.createdAt ?: "",
         comment = this.content ?: "",
-        reviewId = this.id?.toInt() ?: 0,
+        reviewId = this.id ?: "",
         reviewerPhotoUrl = "https://image.tmdb.org/t/p/original${this.authorDetails?.avatarPath}",
     )
 }
@@ -92,7 +92,7 @@ fun SimilarMovieNetwork.toSimilarMovie(): Movie {
     )
 }
 
-fun MovieGenre.toMediaGenre(): MediaGenre {
+fun RemoteGenreDto.toMediaGenre(): MediaGenre {
     return MediaGenre(
         id = this.id ?: 0,
         title = this.name ?: ""
