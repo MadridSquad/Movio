@@ -22,7 +22,8 @@ import com.madrid.data.dataSource.remote.response.series.AiringTodayTvShowsRespo
 import com.madrid.data.dataSource.remote.response.series.OnAirTvShowsResponse
 import com.madrid.data.dataSource.remote.response.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.response.series.TopRatedSeriesResponse
-import com.madrid.data.dataSource.remote.response.authentication.AuthenticationResponse
+import com.madrid.data.dataSource.remote.dto.authentication.AuthenticationResponse
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -181,10 +182,8 @@ interface MovieApi {
         @Body requestToken: String
     ): AuthenticationResponse
 
-
     @GET("authentication/guest_session/new")
     suspend fun getCreateGuestSession(): AuthenticationResponse
-    // endregion
     // endregion
 
     @GET("movie/now_playing")

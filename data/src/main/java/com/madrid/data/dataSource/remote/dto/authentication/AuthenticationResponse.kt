@@ -1,4 +1,4 @@
-package com.madrid.data.dataSource.remote.response.authentication
+package com.madrid.data.dataSource.remote.dto.authentication
 
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable

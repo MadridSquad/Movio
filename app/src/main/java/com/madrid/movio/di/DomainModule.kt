@@ -1,5 +1,6 @@
 package com.madrid.movio.di
 
+import com.madrid.domain.usecase.LoginUseCase
 import com.madrid.domain.usecase.artist.GetArtistDetailsUseCase
 import com.madrid.domain.usecase.artist.GetArtistMoviesUseCase
 import com.madrid.domain.usecase.movie.GetMovieDetailsUseCase
@@ -25,13 +26,9 @@ import com.madrid.domain.usecase.series.GetSeriesReviewsUseCase
 import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
 import com.madrid.domain.usecase.series.GetSeriesTrailersUseCase
 import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
-import com.madrid.domain.usecase.LoginUseCase
-import org.koin.core.module.dsl.singleOf
-
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import com.madrid.data.repositories.UserRepositoryImpl
-import com.madrid.domain.repository.UserRepository
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -67,7 +64,6 @@ val domainModule = module {
     singleOf(::GetSimilarSeriesUseCase)
 
     // user
-    single<UserRepository> { UserRepositoryImpl(get(),get()) }
-    single { LoginUseCase(get()) }
+    singleOf(::LoginUseCase)
     single<CoroutineDispatcher> { Dispatchers.IO }
 }

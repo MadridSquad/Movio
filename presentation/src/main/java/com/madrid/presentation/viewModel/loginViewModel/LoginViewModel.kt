@@ -1,10 +1,11 @@
 package com.madrid.presentation.viewModel.loginViewModel
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.madrid.domain.entity.LoginResult
 import com.madrid.domain.exceptions.AccountLockedException
 import com.madrid.domain.exceptions.InvalidCredentialsException
-import com.madrid.domain.exceptions.NetworkErrorException
+import com.madrid.domain.exceptions.NetworkException
 import com.madrid.domain.usecase.LoginUseCase
 import com.madrid.presentation.viewModel.LoginError
 import com.madrid.presentation.viewModel.LoginUiState
@@ -60,6 +61,7 @@ class LoginViewModel(
                     }
                     onSuccess()
                 }
+
                 is LoginResult.Error -> {
                     updateState {
                         it.copy(
@@ -78,6 +80,7 @@ class LoginViewModel(
 
             when (val result = loginUseCase.loginAsGuest()) {
                 is LoginResult.Success -> {
+                    Log.e("TAG lol", "Succ: ")
                     updateState {
                         it.copy(
                             isLoading = false,
@@ -87,7 +90,9 @@ class LoginViewModel(
                     }
                     onSuccess()
                 }
+
                 is LoginResult.Error -> {
+                    Log.e("TAG lol", "Error: ${result.exception}")
                     updateState {
                         it.copy(
                             isLoading = false,
@@ -103,7 +108,7 @@ class LoginViewModel(
         return when (val ex = this.exception) {
             is InvalidCredentialsException -> LoginError.InvalidCredentials
             is AccountLockedException -> LoginError.AccountLocked
-            is NetworkErrorException -> LoginError.NetworkError
+            is NetworkException -> LoginError.NetworkError
             else -> LoginError.GenericError(ex.message ?: "Unknown error")
         }
     }

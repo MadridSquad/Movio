@@ -26,8 +26,6 @@ val presentationModule = module {
     viewModelOf(::SeriesDetailsViewModel)
     viewModel { LoginViewModel(get(), get()) }
     viewModelOf(::LoginViewModel)
-    // single<UserRepository> { sUserLoggedIn() }
-
     viewModelOf(::ReviewsScreenViewModel)
     viewModelOf(::SimilarMediaViewModel)
 }

@@ -12,7 +12,7 @@ class SessionExpiredException : AuthorizationException("Session expired. Please 
 class GuestLoginException : AuthorizationException("Guest login failed")
 class UnauthorizedException : AuthorizationException("Unauthorized")
 
-// Validation Exceptions (مضافة حديثًا)
+// Validation Exceptions
 class EmptyUsernameException : AuthorizationException("Username cannot be empty")
 class UsernameTooShortException : AuthorizationException("Username must be at least 3 characters")
 class EmptyPasswordException : AuthorizationException("Password cannot be empty")
