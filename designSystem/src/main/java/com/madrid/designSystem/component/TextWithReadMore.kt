@@ -10,10 +10,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.madrid.designSystem.theme.Theme
+import com.madrid.designSystem.R
 import com.madrid.designSystem.theme.MovioTheme
+import com.madrid.designSystem.theme.Theme
 
 @Composable
 fun TextWithReadMore(
@@ -43,8 +45,8 @@ fun TextWithReadMore(
 
         if (isTextOverflow || description.length > 150) {
             MovioText(
-                text = if (isExpanded) "Read Less" else "Read More",
-                color = Theme.color.brand.primary,
+                text = if (isExpanded) stringResource(R.string.read_less) else stringResource(R.string.read_more),
+                color = Theme.color.surfaces.onSurfaceVariant,
                 textStyle = Theme.textStyle.label.mediumMedium14,
                 modifier = Modifier
                     .padding(top = 4.dp)
