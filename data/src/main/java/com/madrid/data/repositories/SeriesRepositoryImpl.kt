@@ -1,6 +1,7 @@
 package com.madrid.data.repositories
 
 import com.madrid.data.dataSource.local.mappers.toGenre
+import android.util.Log
 import com.madrid.data.dataSource.local.mappers.toSeries
 import com.madrid.data.dataSource.mapper.toSeriesGenreTable
 import com.madrid.data.dataSource.remote.mapper.toArtist
