@@ -118,7 +118,7 @@ fun SearchScreen(
             onClickSeeAll = {
                 navController.navigate(Destinations.SeeAllForYouScreen)
             },
-            highlightrecentSearch = viewModel::highlightCharactersInText,
+            highLightRecentSearch = viewModel::highlightCharactersInText,
             onTopResultClick = { movieId ->
                 navController.navigate(Destinations.MovieDetailsScreen(movieId))
             },
@@ -181,7 +181,7 @@ fun ContentSearchScreen(
     onTopResultClick: (Int) -> Unit,
     onSearchedClick: (Int) -> Unit,
     onArtistClick: (Int) -> Unit,
-    highlightrecentSearch: (String, String, Color, Color, TextStyle) -> AnnotatedString,
+    highLightRecentSearch: (String, String, Color, Color, TextStyle) -> AnnotatedString,
 ) {
     val showSearchResults = searchQuery.isNotBlank()
     var selectedTabIndex by remember { mutableIntStateOf(0) }
@@ -293,7 +293,7 @@ fun ContentSearchScreen(
                 onSearchItemClick = { onSearchItemClick(it) },
                 onRemoveItem = { onRemoveItem(it) },
                 onClearAll = { onClearAll() },
-                highlightCharactersInText = highlightrecentSearch,
+                highlightCharactersInText = highLightRecentSearch,
             )
         }
         if (showRecentSearch == 1 && searchHistory.isEmpty()) {

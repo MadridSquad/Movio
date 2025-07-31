@@ -1,6 +1,5 @@
 package com.madrid.presentation.screens.searchScreen.paging
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 
