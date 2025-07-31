@@ -31,6 +31,7 @@ fun MovioVerticalCard(
     rate: String,
     width: Dp? = null,
     height: Dp,
+    gap: Dp = 0.dp,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {

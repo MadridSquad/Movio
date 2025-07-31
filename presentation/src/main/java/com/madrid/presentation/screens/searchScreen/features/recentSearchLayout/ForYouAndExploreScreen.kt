@@ -94,7 +94,7 @@ fun LazyGridScope.forYouAndExploreScreen(
                 ) {
                     LazyRow(
                         modifier = Modifier
-                            .padding(12.dp,bottom = 10.dp),
+                            .padding(bottom = 32.dp),
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
                         items(forYouMovies) { movie ->
@@ -202,6 +202,7 @@ fun LazyGridScope.forYouAndExploreScreen(
                 items(
                     count = exploreMoreMovies.itemCount,
                 ) { index ->
+
                     MovioVerticalCard(
                         modifier = Modifier
                             .fillMaxWidth(),
@@ -209,6 +210,7 @@ fun LazyGridScope.forYouAndExploreScreen(
                         movieImage = exploreMoreMovies[index]!!.imageUrl,
                         rate = exploreMoreMovies[index]!!.rating,
                         height = 222.dp,
+                        gap = 12.dp,
                         onClick = {
                             onMovieClick(exploreMoreMovies[index]!!)
                         }
