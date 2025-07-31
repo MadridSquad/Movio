@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.TextWithReadMore
@@ -30,6 +32,7 @@ import com.madrid.presentation.screens.detailsScreen.seriesDetails.toReviewScree
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMoviesSection
 import com.madrid.presentation.viewModel.detailsViewModel.DetailsMovieViewModel
+import com.madrid.presentation.viewModel.detailsViewModel.ReviewsScreenUiState
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -99,8 +102,8 @@ fun MovieDetailsScreen(
                         )
                     )
                 },
-                modifier = Modifier.padding( vertical = 8.dp),
-                  castMembers = uiState.casts.map { cast ->
+                modifier = Modifier.padding(vertical = 8.dp),
+                castMembers = uiState.casts.map { cast ->
                     CastMember(
                         id = cast.id.toString(),
                         name = cast.name,
@@ -109,7 +112,6 @@ fun MovieDetailsScreen(
                 }
             )
             Spacer(modifier = Modifier.height(32.dp))
-            if (uiState.reviews.isNotEmpty()) {
                 ReviewScreen(
                     onSeeAllReviews = {
                         navController.navigate(
@@ -122,7 +124,7 @@ fun MovieDetailsScreen(
                     uiState = uiState.reviews.toReviewScreenUiState()
                 )
                 Spacer(modifier = Modifier.height(24.dp))
-            }
+
             SimilarMoviesSection(
                 onSeeAllClick = {
                     navController.navigate(

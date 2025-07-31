@@ -16,7 +16,6 @@ import com.madrid.presentation.utils.RateFormatter
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.shared.formatDuration
 import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
-import com.madrid.presentation.viewModel.shared.parser.formatDateOfBirth
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -186,7 +185,7 @@ fun Review.toUiState(): ReviewUiState {
         reviewerName = this.reviewerName,
         reviewerImageUrl = this.reviewerPhotoUrl,
         rating = this.rate.toFloat(),
-        date = formatDateOfBirth(this.date),
+        date = (this.date),
         content = this.comment
     )
 }
