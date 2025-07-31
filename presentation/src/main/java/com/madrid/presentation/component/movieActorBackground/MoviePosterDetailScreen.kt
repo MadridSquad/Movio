@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -53,9 +54,10 @@ fun MoviePosterDetailScreen(
             } else {
                 Box(
                     modifier = Modifier
+                        .padding(bottom = 16.dp)
                         .size(width = 200.dp, height = 260.dp)
-                        .align(Alignment.Center)
-                        .clip(RoundedCornerShape(12.dp))
+                        .align(Alignment.BottomCenter)
+                        .clip(RoundedCornerShape(8.dp))
                         .background(Color.Black.copy(alpha = 0.7f))
                 ) {
                     PosterCard(
