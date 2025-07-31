@@ -133,7 +133,6 @@ fun MovioPager(
     }
 }
 
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun MovioSliderPreview() {
