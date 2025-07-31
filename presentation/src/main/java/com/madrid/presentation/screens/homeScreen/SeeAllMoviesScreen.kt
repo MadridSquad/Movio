@@ -46,7 +46,7 @@ fun SeeAllMoviesScreen(
                 selectedItem = firstGenre
             }
             if (selectedItem.isNotEmpty())
-                viewModel.onGenreSelect(uiState.genre.find { it.name == selectedItem }!!)
+                viewModel.onGenreSelect(uiState.genre.find { it.name == selectedItem })
         }
     }
 
@@ -63,7 +63,7 @@ fun SeeAllMoviesScreen(
         item(
             span = { GridItemSpan(maxLineSpan) }
         ) {
-            TopAppBar(uiState.title, secondIcon = null, thirdIcon = null)
+            TopAppBar(uiState.title, secondIcon = null, thirdIcon = null, onFirstIconClick = { navController.popBackStack()})
         }
         item(span = { GridItemSpan(maxLineSpan) }) {
 

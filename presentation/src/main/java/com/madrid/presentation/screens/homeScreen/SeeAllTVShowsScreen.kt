@@ -54,7 +54,7 @@ fun SeeAllTVShowsScreen(
                 selectedItem = firstGenre
             }
             if (selectedItem.isNotEmpty())
-                viewModel.onGenreSelect(uiState.genre.find { it.name == selectedItem }!!)
+                viewModel.onGenreSelect(uiState.genre.find { it.name == selectedItem })
         }
     }
 
@@ -71,7 +71,9 @@ fun SeeAllTVShowsScreen(
         item(
             span = { GridItemSpan(maxLineSpan) }
         ) {
-            TopAppBar(uiState.title, secondIcon = null, thirdIcon = null)
+            TopAppBar(uiState.title, secondIcon = null, thirdIcon = null , onFirstIconClick = {
+                Log.d("in all tv shows screen", "SeeAllTVShowsScreen: ")
+                navController.popBackStack()})
         }
         item(span = { GridItemSpan(maxLineSpan) }) {
 
