@@ -35,7 +35,7 @@ fun AllMediaLayout() {
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        contentPadding = PaddingValues(bottom = 16.dp)
+        contentPadding = PaddingValues(bottom = 12.dp)
     ) {
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(

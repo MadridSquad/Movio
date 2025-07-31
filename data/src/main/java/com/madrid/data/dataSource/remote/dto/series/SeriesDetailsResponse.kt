@@ -1,6 +1,7 @@
 package com.madrid.data.dataSource.remote.dto.series
 
 import com.google.gson.annotations.SerializedName
+import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
 import kotlinx.serialization.Serializable
 
 
@@ -17,7 +18,7 @@ data class SeriesDetailsResponse(
     @SerializedName("first_air_date")
     val firstAirDate: String?,
     @SerializedName("genres")
-    val genres: List<SeriesGenres>?,
+    val genres: List<RemoteGenreDto>?,
     @SerializedName("homepage")
     val homepage: String?,
     @SerializedName("id")

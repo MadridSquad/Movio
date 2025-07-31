@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
 import com.madrid.presentation.screens.detailsScreen.castDetails.ActorDetails
 import com.madrid.presentation.screens.detailsScreen.castDetails.TopCastDetailsScreen
 import com.madrid.presentation.screens.detailsScreen.detailsMovieScreen.MovieDetailsScreen
@@ -16,6 +17,7 @@ import com.madrid.presentation.screens.detailsScreen.seriesDetails.SeasonsScreen
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.SeriesDetailsScreen
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SeeAllSimilarMediaScreen
 import com.madrid.presentation.screens.homeScreen.HomeScreen
+import com.madrid.presentation.screens.homeScreen.SeeAllTVShowsScreen
 import com.madrid.presentation.screens.homeScreen.component.FakeHomeScreen
 import com.madrid.presentation.screens.libraryScreen.LibraryScreen
 import com.madrid.presentation.screens.moreScreen.MoreScreen
@@ -82,6 +84,10 @@ fun MovioNavHost(navController: NavHostController) {
         }
         composable<Destinations.SimilarMediaScreen> {
             SeeAllSimilarMediaScreen()
+        }
+        composable<Destinations.SeeAllTvShowsScreen> { backStackEntry ->
+            val destination = backStackEntry.toRoute<Destinations.SeeAllTvShowsScreen>()
+            SeeAllTVShowsScreen(type = destination.type)
         }
 
     }
