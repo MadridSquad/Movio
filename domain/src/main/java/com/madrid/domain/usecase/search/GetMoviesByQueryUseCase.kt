@@ -1,6 +1,5 @@
 package com.madrid.domain.usecase.search
 
-import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.repository.MovieRepository
 import com.madrid.domain.repository.SearchRepository
