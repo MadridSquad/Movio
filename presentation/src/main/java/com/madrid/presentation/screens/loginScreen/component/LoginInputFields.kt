@@ -1,6 +1,5 @@
 package com.madrid.presentation.screens.loginScreen.component
 
-import LoginUiState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -12,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.textInputField.BasicTextInputField
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.viewModel.loginViewModel.LoginUiState
 
 @Composable
 fun LoginInputFields(

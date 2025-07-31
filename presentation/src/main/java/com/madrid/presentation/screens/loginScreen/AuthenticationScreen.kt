@@ -1,6 +1,5 @@
 package com.madrid.presentation.screens.loginScreen
 
-import LoginViewModel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -8,6 +7,7 @@ import androidx.compose.runtime.getValue
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.loginScreen.component.MovieLoginContent
+import com.madrid.presentation.viewModel.loginViewModel.LoginViewModel
 import org.koin.androidx.compose.getViewModel
 
 @Composable

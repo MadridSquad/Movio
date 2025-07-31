@@ -1,6 +1,5 @@
 package com.madrid.presentation.screens.loginScreen.component
 
-import LoginUiState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +17,7 @@ import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.viewModel.loginViewModel.LoginUiState
 
 
 @Composable

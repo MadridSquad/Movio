@@ -1,3 +1,5 @@
+package com.madrid.presentation.viewModel.loginViewModel
+
 import androidx.lifecycle.viewModelScope
 import com.madrid.domain.exceptions.AccountLockedException
 import com.madrid.domain.exceptions.InvalidCredentialsException
