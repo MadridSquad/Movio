@@ -17,6 +17,7 @@ import com.madrid.presentation.screens.detailsScreen.seriesDetails.SeasonsScreen
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.SeriesDetailsScreen
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SeeAllSimilarMediaScreen
 import com.madrid.presentation.screens.homeScreen.HomeScreen
+import com.madrid.presentation.screens.homeScreen.SeeAllMoviesScreen
 import com.madrid.presentation.screens.homeScreen.SeeAllTVShowsScreen
 import com.madrid.presentation.screens.homeScreen.component.FakeHomeScreen
 import com.madrid.presentation.screens.libraryScreen.LibraryScreen
@@ -102,7 +103,7 @@ fun MovioNavHost(
         }
         composable<Destinations.SeeAllMoviesScreen> { backStackEntry ->
             val destination = backStackEntry.toRoute<Destinations.SeeAllMoviesScreen>()
-            Destinations.SeeAllMoviesScreen(type = destination.type)
+            SeeAllMoviesScreen(type = destination.type)
         }
         composable<Destinations.SeeAllTvShowsScreen> { backStackEntry ->
             val destination = backStackEntry.toRoute<Destinations.SeeAllTvShowsScreen>()

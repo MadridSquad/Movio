@@ -77,6 +77,7 @@ val domainModule = module {
     singleOf(::GetRecommendedMovieUseCase)
     singleOf(::GetUpcomingMovieUseCase)
     singleOf(::GetNowPlayingMovieUseCase)
+    singleOf(::GetTrendingMoviesUseCase)
 
 
     // series
