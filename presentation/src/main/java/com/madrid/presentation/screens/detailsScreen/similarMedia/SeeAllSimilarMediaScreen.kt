@@ -1,5 +1,6 @@
 package com.madrid.presentation.screens.detailsScreen.similarMedia
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +18,6 @@ import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.viewModel.detailsViewModel.SimilarMediaUiState
 import com.madrid.presentation.viewModel.detailsViewModel.SimilarMediaViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -28,15 +28,44 @@ fun SeeAllSimilarMediaScreen(
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current
 
-    SeeAllSimilarMediaScreenContent(uiState, onClickBack = { navController.popBackStack() }, onClickMedia = { id,isMovie ->
-        if (!isMovie) navController.navigate(Destinations.SeriesDetailsScreen(id,1))
-        else navController.navigate(Destinations.MovieDetailsScreen(id))
-    })
+    // Log the count of similar media
+    Log.d("SimilarMediaDebug", "Total similar media items: ${uiState.medias.size}")
+
+    val similarMovies = uiState.medias.map { media ->
+        // Log each media's details including rating
+        Log.d("SimilarMediaDebug",
+            "Media ID: ${media.mediaId}, " +
+                    "Title: ${media.mediaName}, " +
+                    "Rating: ${media.rate}, " +
+                    "Image: ${media.imageUrl.take(20)}..."
+        )
+
+        SimilarMovie(
+            id = media.mediaId,
+            title = media.mediaName,
+            imageUrl = media.imageUrl,
+            rating = media.rate
+        )
+    }
+
+    SeeAllSimilarMediaScreenContent(
+        similarMovies = similarMovies,
+        headerName = uiState.headerName,
+        isMovie = uiState.isMovie,
+        onClickBack = { navController.popBackStack() },
+        onClickMedia = { id, isMovie ->
+            Log.d("SimilarMediaDebug", "Navigating to ${if (isMovie) "movie" else "series"} details for ID: $id")
+            if (!isMovie) navController.navigate(Destinations.SeriesDetailsScreen(id, 1))
+            else navController.navigate(Destinations.MovieDetailsScreen(id))
+        }
+    )
 }
 
 @Composable
 fun SeeAllSimilarMediaScreenContent(
-    uiState: SimilarMediaUiState,
+    similarMovies: List<SimilarMovie>,
+    headerName: String,
+    isMovie: Boolean,
     onClickBack: () -> Unit = {},
     onClickMedia: (Int, Boolean) -> Unit = { _, _ -> }
 ) {
@@ -46,12 +75,13 @@ fun SeeAllSimilarMediaScreenContent(
             .padding(horizontal = 4.dp, vertical = 16.dp)
     ) {
         TopAppBar(
-            text = uiState.headerName,
+            text = headerName,
             secondIcon = null,
             thirdIcon = null,
             modifier = Modifier.padding(start = 16.dp, top = 32.dp, end = 16.dp),
             onFirstIconClick = { onClickBack() }
         )
+
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 101.dp),
             modifier = Modifier
@@ -59,17 +89,25 @@ fun SeeAllSimilarMediaScreenContent(
                 .background(Theme.color.surfaces.surface),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            items(count = uiState.medias.size) { index ->
-                val media = uiState.medias[index]
+            items(similarMovies.size) { index ->
+                val movie = similarMovies[index]
+
+                // Log before rendering each card
+                Log.d("SimilarMediaDebug",
+                    "Rendering card #$index: ${movie.title} " +
+                            "| Rating: ${movie.rating} " +
+                            "| Image: ${movie.imageUrl.take(20)}..."
+                )
+
                 MovioVerticalCard(
-                    description = media.mediaName,
-                    movieImage = media.imageUrl,
-                    rate = media.rate,
+                    description = movie.title,
+                    movieImage = movie.imageUrl,
+                    rate = movie.rating,
                     width = 101.dp,
                     modifier = Modifier.padding(top = 16.dp),
                     height = 136.dp,
                     onClick = {
-                        onClickMedia(media.mediaId, uiState.isMovie)
+                        onClickMedia(movie.id, isMovie)
                     }
                 )
             }

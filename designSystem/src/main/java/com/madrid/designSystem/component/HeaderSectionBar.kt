@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
@@ -57,18 +59,18 @@ fun HeaderSectionBar(
                     Theme.color.brand.onPrimaryContainer
                 else
                     Theme.color.surfaces.onSurfaceVariant,
-                animationSpec = tween(300),
+                animationSpec = tween(200),
                 label = "tabTextColor"
             )
 
             val textStyle = if (isSelected)
-                Theme.textStyle.title.mediumMedium14
+                Theme.textStyle.title.mediumMedium16
             else
                 Theme.textStyle.body.smallRegular16
 
             val underlineAlpha by animateFloatAsState(
                 targetValue = if (isSelected) 1f else 0f,
-                animationSpec = tween(300),
+                animationSpec = tween(200),
                 label = "underlineAlpha"
             )
 
@@ -80,7 +82,7 @@ fun HeaderSectionBar(
                         onClick = { onTabSelected(index) }
                     ),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 MovioText(
                     modifier = Modifier
@@ -108,16 +110,13 @@ fun HeaderSectionBar(
 
 @Composable
 fun underlineGlowBrush(): Brush {
-    val glowColor = Theme.color.brand.onPrimaryContainer
-
     return Brush.horizontalGradient(
         colors = listOf(
-            glowColor.copy(alpha = 0f),
-            glowColor.copy(alpha = 0.5f),
-            glowColor.copy(alpha = 0.1f)
+            Color(0x33EBE6FE),Color(0xFFFFF5F3),Color(0x33FFFFFF)
         )
     )
 }
+
 @Preview
 @Composable
 private fun HeaderSectionBarPreview(){

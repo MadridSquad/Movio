@@ -1,10 +1,12 @@
 package com.madrid.domain.usecase.authentication
 
-import com.madrid.domain.exceptions.EmptyPasswordException
-import com.madrid.domain.exceptions.EmptyUsernameException
-import com.madrid.domain.exceptions.UsernameTooShortException
-import com.madrid.domain.exceptions.WeakPasswordException
+
+import com.madrid.domain.exceptions.NetworkException
+import com.madrid.domain.exceptions.UnknownException
+import com.madrid.domain.exceptions.ValidationException
 import com.madrid.domain.repository.UserRepository
+import com.madrid.domain.exceptions.InvalidCredentialsException
+import com.madrid.domain.exceptions.MovioException
 import kotlinx.coroutines.flow.Flow
 
 class LoginUseCase(
@@ -12,8 +14,18 @@ class LoginUseCase(
 ) {
 
     suspend fun execute(username: String, password: String): Boolean {
-        validateCredentials(username, password)
-        return userRepository.login(username, password)
+        try {
+            validateCredentials(username, password)
+            val success = userRepository.login(username, password)
+            if (!success) throw InvalidCredentialsException()
+            return true
+        } catch (e: MovioException) {
+            throw e
+        } catch (e: Exception) {
+            throw when (e) {
+                else -> UnknownException("Wrong username or password")
+            }
+        }
     }
 
     suspend fun loginAsGuest(): Boolean {
@@ -21,15 +33,17 @@ class LoginUseCase(
     }
 
     private fun validateCredentials(username: String, password: String) {
-        when {
-            username.isBlank() -> throw EmptyUsernameException()
-            username.length < 3 -> throw UsernameTooShortException()
-            password.isBlank() -> throw EmptyPasswordException()
-            password.length < 6 -> throw WeakPasswordException()
+        ValidationException.apply {
+            validateField("Username", username, 3)
+            validateField("Password", password, 6)
         }
     }
+
 
     fun checkActiveSession(): Flow<Boolean> {
         return userRepository.isUserLoggedIn()
     }
 }
+
+
+

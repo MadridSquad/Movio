@@ -20,8 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.TextWithReadMore
 import com.madrid.designSystem.component.TopAppBar
@@ -50,6 +50,7 @@ fun ActorDetails(
         uiState.isLoading -> {
             LoadingScreen(message = stringResource(R.string.loading_actor_details))
         }
+
         selectedActor != null -> {
             ActorDetailsContent(
                 actor = selectedActor,
@@ -59,14 +60,21 @@ fun ActorDetails(
                 }
             )
         }
+
         else -> {
-            MovioText(
-                "Actor not found",
-                modifier = Modifier.fillMaxSize(),
-                color = Theme.color.brand.primary,
-                textStyle = Theme.textStyle.label.mediumMedium16,
-                textAlign = TextAlign.Center
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 64.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                EmptySearchLayout(
+                    title = stringResource(R.string.internet_is_not_available),
+                    description =
+                        stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
+                    image = com.madrid.presentation.R.drawable.img_no_internet
+                )
+            }
         }
     }
 }
@@ -134,7 +142,7 @@ fun ActorDetailsContent(
             )
         }
 
-        item(span = { GridItemSpan(maxLineSpan)}) {
+        item(span = { GridItemSpan(maxLineSpan) }) {
             TextWithReadMore(
                 description = actor.description,
                 modifier = Modifier

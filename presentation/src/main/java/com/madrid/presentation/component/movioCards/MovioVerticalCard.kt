@@ -1,11 +1,8 @@
 package com.madrid.presentation.component.movioCards
 
-
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -40,26 +37,29 @@ fun MovioVerticalCard(
             .clip(RoundedCornerShape(8.dp))
             .clickable { onClick() }
     ) {
-        Box(contentAlignment = Alignment.TopCenter, modifier = Modifier.align(Alignment.CenterHorizontally)) {
-            Row(
-                modifier = Modifier
-                    .zIndex(1f)
-                    .then(if (width != null) Modifier.width(width) else Modifier.fillMaxWidth()),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.End
-            ) {
-                RateIcon(rate)
-            }
+        Box(
+            modifier = Modifier
+                .then(if (width != null) Modifier.width(width) else Modifier.fillMaxWidth())
+                .height(height)
+                .padding(bottom = 8.dp)
+        ) {
             BasicImageCard(
                 imageUrl = movieImage,
                 radius = 8.dp,
                 modifier = Modifier
-                    .padding(bottom = 8.dp)
-                    .then(if (width != null) Modifier.width(width) else Modifier.fillMaxWidth())
+                    .fillMaxWidth()
                     .height(height)
                     .clip(RoundedCornerShape(8.dp))
             )
+            RateIcon(
+                rate = rate,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(8.dp)
+                    .zIndex(1f)
+            )
         }
+
         MovioText(
             text = description,
             textStyle = Theme.textStyle.title.mediumMedium14,

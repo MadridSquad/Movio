@@ -56,13 +56,12 @@ fun SearchScreen(
     viewModel: SearchViewModel = koinViewModel()
 ) {
     val uiState by viewModel.state.collectAsState()
-    var searchQuery by remember { mutableStateOf("") }
     var typeOfFilterSearch by remember { mutableStateOf(FilterPagesItem.TOP_RATED) }
     val navController = LocalNavController.current
 
     RefreshScreenHolder(
         refreshState = uiState.searchUiState.refreshState,
-        onRefresh = { viewModel.onRefresh(searchQuery, typeOfFilterSearch) }
+        onRefresh = {viewModel.onRefresh(typeOfFilterSearch)}
     ) {
         ContentSearchScreen(
             isError = uiState.searchUiState.isError,
@@ -85,26 +84,26 @@ fun SearchScreen(
             artist = uiState.filteredScreenUiState.artist.collectAsLazyPagingItems(),
             onClickTopRated = {
                 typeOfFilterSearch = FilterPagesItem.TOP_RATED
-                viewModel.topResult(searchQuery)
+                viewModel.topResult(uiState.searchUiState.searchQuery)
             },
             onClickMovies = {
                 typeOfFilterSearch = FilterPagesItem.MOVIES
-                viewModel.searchFilteredMovies(searchQuery)
+                viewModel.searchFilteredMovies(uiState.searchUiState.searchQuery)
             },
             onClickSeries = {
                 typeOfFilterSearch = FilterPagesItem.SERIES
-                viewModel.searchSeries(searchQuery)
+                viewModel.searchSeries(uiState.searchUiState.searchQuery)
             },
             onClickArtist = {
                 typeOfFilterSearch = FilterPagesItem.ARTISTS
-                viewModel.artists(searchQuery)
+                viewModel.artists(uiState.searchUiState.searchQuery)
             },
 
             forYouMovies = uiState.searchUiState.forYouMovies,
             exploreMoreMovies = uiState.searchUiState.exploreMoreMovies.collectAsLazyPagingItems(),
-            searchQuery = searchQuery,
+            searchQuery = uiState.searchUiState.searchQuery,
             onSearchQueryChange = { query ->
-                searchQuery = query
+                viewModel.updateSearchQuery(query)
 
             },
             onMovieClick = { movie ->
@@ -112,7 +111,7 @@ fun SearchScreen(
             },
             isLoading = uiState.searchUiState.isLoading,
             searchHistory = uiState.recentSearchUiState,
-            onSearchItemClick = { searchQuery = it },
+            onSearchItemClick = {  viewModel.updateSearchQuery(it) },
             onRemoveItem = { viewModel.removeRecentSearch(it) },
             onClearAll = { viewModel.clearAll() },
             onClickSeeAll = {

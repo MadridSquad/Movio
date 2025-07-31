@@ -53,6 +53,7 @@ class DetailsMovieViewModel(
                         movieDuration = formatDuration(movie.movieDuration),
                         description = movie.description,
                         genreMovie = movie.genre.map { it.name },
+                        isLoading = false
                     )
                 }
 
@@ -60,7 +61,7 @@ class DetailsMovieViewModel(
                 loadSimilarMovies()
                 loadReviews()
             },
-            onError = { error -> },
+            onError = { error -> updateState { it.copy(isLoading = true) }},
             scope = viewModelScope,
             dispatcher = Dispatchers.IO
         )
@@ -145,4 +146,13 @@ class DetailsMovieViewModel(
         )
     }
 
+    fun onClickLoveIcon(
+
+    ){
+        updateState {
+            it.copy(
+                isLoved = !it.isLoved
+            )
+        }
+    }
 }

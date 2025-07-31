@@ -61,6 +61,17 @@ class SearchViewModel(
         )
     }
 
+    fun updateSearchQuery(
+        newSearchQuery : String ,
+    ){
+        updateState {searchScreenState->
+            searchScreenState.copy(
+                searchUiState = searchScreenState.searchUiState.copy(
+                    searchQuery = newSearchQuery
+                )
+            )
+        }
+    }
     fun addRecentSearch(recentSearch: String) {
         tryToExecute(
             function = {
@@ -303,8 +314,7 @@ class SearchViewModel(
     }
 
     fun onRefresh(
-        searchQuery: String,
-        typeOfFilterSearch: FilterPagesItem
+        typeOfFilterSearch : FilterPagesItem
     ) {
         updateState { current ->
             current.copy(
@@ -315,7 +325,7 @@ class SearchViewModel(
                 )
             )
         }
-        if (searchQuery.isEmpty()) {
+        if(state.value.searchUiState.searchQuery.isEmpty() ){
             tryToExecute(
                 function = {
                     getRecommendedMovieUseCase(page = 1)
@@ -364,12 +374,13 @@ class SearchViewModel(
                     }
                 }
             )
-        } else {
-            when (typeOfFilterSearch) {
-                FilterPagesItem.TOP_RATED -> topResult(searchQuery)
-                FilterPagesItem.MOVIES -> searchFilteredMovies(searchQuery)
-                FilterPagesItem.SERIES -> searchSeries(searchQuery)
-                FilterPagesItem.ARTISTS -> artists(searchQuery)
+        }
+        else{
+            when(typeOfFilterSearch){
+                FilterPagesItem.TOP_RATED -> topResult(state.value.searchUiState.searchQuery)
+                FilterPagesItem.MOVIES -> searchFilteredMovies(state.value.searchUiState.searchQuery)
+                FilterPagesItem.SERIES -> searchSeries(state.value.searchUiState.searchQuery)
+                FilterPagesItem.ARTISTS -> artists(state.value.searchUiState.searchQuery)
             }
             updateState { current ->
                 current.copy(
