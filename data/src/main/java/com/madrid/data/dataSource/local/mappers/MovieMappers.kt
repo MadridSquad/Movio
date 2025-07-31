@@ -11,7 +11,7 @@ fun Movie.toMovieTable(): MovieTable {
         title = this.title,
         imageUrl = this.imageUrl,
         rate = this.rate,
-        yearOfRelease = this.releaseDate.toString(),
+        yearOfRelease = this.releaseDate,
         movieDuration = this.movieDuration,
         description = this.description,
     )
