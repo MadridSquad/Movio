@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Text
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -27,8 +26,8 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.CustomTextTitel
-import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.LoadingSearchCard
+import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.viewModel.searchViewModel.SearchScreenState
@@ -64,8 +63,7 @@ fun LazyGridScope.forYouAndExploreScreen(
                 ) {
                     Column (
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 64.dp),
+                            .fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
@@ -80,28 +78,6 @@ fun LazyGridScope.forYouAndExploreScreen(
                     }
                 }
             }
-
-            forYouMovies.isEmpty()-> {
-                item(span = { GridItemSpan(maxLineSpan) }) {
-                    Column (
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 64.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            painter = painterResource(id =  com.madrid.presentation.R.drawable.img_no_sesrch_found),
-                            contentDescription = "Search Icon",
-                            modifier = Modifier
-                                .size(128.dp)
-                                .align(CenterHorizontally),
-                            contentScale = ContentScale.Fit
-                        )
-                    }
-                }
-            }
-
             forYouMovies.isNotEmpty() -> {
                 item(
                     span = { GridItemSpan(maxLineSpan) }
@@ -117,8 +93,9 @@ fun LazyGridScope.forYouAndExploreScreen(
                     span = { GridItemSpan(maxLineSpan) }
                 ) {
                     LazyRow(
+                        modifier = Modifier
+                            .padding(bottom = 32.dp),
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.height(200.dp)
                     ) {
                         items(forYouMovies) { movie ->
                             MovioVerticalCard(
@@ -127,7 +104,6 @@ fun LazyGridScope.forYouAndExploreScreen(
                                 rate = movie.rating,
                                 width = 124.dp,
                                 height = 160.dp,
-                                paddingValue = 8.dp,
                                 onClick = { onMovieClick(movie) }
                             )
                         }
@@ -159,22 +135,21 @@ fun LazyGridScope.forYouAndExploreScreen(
                 ) {
                     Column (
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 64.dp),
+                            .fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(
+                        MovioText(
                             text = "Internet is not available",
-                            style = Theme.textStyle.title.mediumMedium16,
+                            textStyle = Theme.textStyle.title.mediumMedium16,
                             color = Theme.color.surfaces.onSurface,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text(
+                        MovioText(
                             text = "Please make sure you are connected to the internet and try again.",
-                            style = Theme.textStyle.label.smallRegular12,
+                            textStyle = Theme.textStyle.label.smallRegular12,
                             color = Theme.color.surfaces.onSurfaceContainer,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
@@ -190,22 +165,21 @@ fun LazyGridScope.forYouAndExploreScreen(
                 item(span = { GridItemSpan(maxLineSpan) }) {
                     Column (
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 64.dp),
+                            .fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(
+                        MovioText(
                             text = "No results found",
-                            style = Theme.textStyle.title.mediumMedium16,
+                            textStyle = Theme.textStyle.title.mediumMedium16,
                             color = Theme.color.surfaces.onSurface,
                             textAlign = TextAlign.Center,
                             modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text(
+                        MovioText(
                             text = stringResource(com.madrid.presentation.R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
-                            style = Theme.textStyle.label.smallRegular12,
+                            textStyle = Theme.textStyle.label.smallRegular12,
                             color = Theme.color.surfaces.onSurfaceContainer,
                             textAlign = TextAlign.Center,
                             modifier = Modifier
@@ -228,12 +202,15 @@ fun LazyGridScope.forYouAndExploreScreen(
                 items(
                     count = exploreMoreMovies.itemCount,
                 ) { index ->
+
                     MovioVerticalCard(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth(),
                         description = exploreMoreMovies[index]!!.title,
                         movieImage = exploreMoreMovies[index]!!.imageUrl,
                         rate = exploreMoreMovies[index]!!.rating,
                         height = 222.dp,
+                        gap = 12.dp,
                         onClick = {
                             onMovieClick(exploreMoreMovies[index]!!)
                         }

@@ -2,13 +2,17 @@ package com.madrid.presentation.viewModel.detailsViewModel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
-import com.madrid.domain.usecase.mediaDeatailsUseCase.ArtistDetailsUseCase
+import com.madrid.domain.usecase.artist.GetArtistDetailsUseCase
+import com.madrid.domain.usecase.artist.GetArtistMoviesUseCase
 import com.madrid.presentation.navigation.Destinations
+import com.madrid.presentation.utils.RateFormatter
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.shared.parser.formatDateOfBirth
 
 class ActorDetailsViewModel(
-    private val actorDetailsUseCase: ArtistDetailsUseCase,
-    private val saveStateHandle: SavedStateHandle
+    private val getArtistDetailsUseCase: GetArtistDetailsUseCase,
+    private val getArtistMoviesUseCase: GetArtistMoviesUseCase,
+    saveStateHandle: SavedStateHandle
 ) : BaseViewModel<MovieDetailsUiState, Nothing>(
     MovieDetailsUiState()
 ) {
@@ -21,25 +25,25 @@ class ActorDetailsViewModel(
     private fun loadActorDetails() {
         tryToExecute(
             function = {
-                val actor = actorDetailsUseCase.getArtistDetailsById(args.artistId)
-                val knownForList = actorDetailsUseCase.getArtistKnownForById(args.artistId)
+                val actor = getArtistDetailsUseCase(args.artistId)
+                val knownForList = getArtistMoviesUseCase(args.artistId)
                 Pair(actor, knownForList)
             },
             onSuccess = { (actor, knownForList) ->
-                val mappedActor = actor?.let {
+                val mappedActor = actor.let {
                     MovieDetailsUiState.CastUiState(
                         actorImageUrl = actor.imageUrl,
                         actorName = actor.name,
                         actorRole = actor.role,
-                        dateOfBirth = actor.dateOfBirth,
+                        dateOfBirth = formatDateOfBirth(actor.dateOfBirth),
                         location = actor.country,
                         id = actor.id.toString(),
-                        description = actor.description,
+                        description = actor.overview,
                         knownFor = knownForList.map { known ->
                             MovieDetailsUiState.KnownMovieUiState(
                                 title = known.title,
                                 imageUrl = known.imageUrl,
-                                rating = known.voteAverage.toString(),
+                                rating = RateFormatter.formatRate(known.rate),
                                 mediaId = known.id,
                             )
                         }
@@ -50,7 +54,6 @@ class ActorDetailsViewModel(
                         selectedActor = mappedActor,
                         isLoading = false,
                         errorMessage = null,
-//                        movieId = args.
                     )
                 }
             },

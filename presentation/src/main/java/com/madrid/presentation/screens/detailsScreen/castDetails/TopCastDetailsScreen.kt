@@ -14,6 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
@@ -53,29 +54,35 @@ fun TopCastDetailsContent(
     onBackClick: () -> Unit
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 101.dp),
+        columns = GridCells.Fixed(3),
         modifier = Modifier
             .fillMaxSize()
             .background(Theme.color.surfaces.surface)
             .statusBarsPadding(),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        contentPadding = PaddingValues(
+            start = 16.dp,
+            end = 16.dp,
+            top = 0.dp,
+            bottom = 16.dp
+        ),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         item(
             span = { GridItemSpan(maxLineSpan) }
         ) {
             TopAppBar(
                 stringResource(R.string.top_cast),
-                secondIcon = null, thirdIcon = null,
+                secondIcon = null,
+                thirdIcon = null,
                 onFirstIconClick = { onBackClick() }
             )
         }
-        items(artist.size) { castMember ->
+        items(artist.size) { index ->
             MovioArtistsCard(
-                artistsName = artist[castMember].actorName,
-                imageUrl = artist[castMember].actorImageUrl,
-                onClick = { onActorClick(artist[castMember].id.toInt()) }
+                artistsName = artist[index].actorName,
+                imageUrl = artist[index].actorImageUrl,
+                onClick = { onActorClick(artist[index].id.toInt()) }
             )
         }
     }

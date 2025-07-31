@@ -30,7 +30,7 @@ val lightThemeColors = MovioColors(
         errorContainer = Color(0xFFEB5A44),
         onErrorContainer = Color(0xFFA53929),
         warning = Color(0xFFDBAF15),
-        onWarning = Color(0xFFB28B00),
+        onWarning = Color(0xFFCDBE87),
         onWarningContainer = Color(0xFF9F893A),
         success = Color(0xFF2C922A),
         onSuccess = Color(0xFFF6FFF6),
@@ -45,6 +45,21 @@ val lightThemeColors = MovioColors(
                 Color(0xFF663EF6),
                 Color(0xFFB7A4FB)
             )
-        )
+        ),
+        borderGradient = Brush.horizontalGradient(
+            colors = listOf(
+                Color(0xFFE6DFFF),
+                Color(0xFF663EF6)
+            )
+        ),
+
+        errorBorderGradient = Brush.horizontalGradient(
+            colors = listOf(
+                Color(0xFFFFDEDF),
+                Color(0xFFB8311D)
+            )
+        ),
+
     )
+
 )

@@ -97,6 +97,7 @@ fun TopAppBar(
             }
         }
         Row(
+            modifier = Modifier.padding(end = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {

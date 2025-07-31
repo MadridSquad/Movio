@@ -56,14 +56,12 @@ fun SearchScreen(
     viewModel: SearchViewModel = koinViewModel()
 ) {
     val uiState by viewModel.state.collectAsState()
-    var searchQuery by remember { mutableStateOf("") }
     var typeOfFilterSearch by remember { mutableStateOf(FilterPagesItem.TOP_RATED) }
     val navController = LocalNavController.current
 
-
     RefreshScreenHolder(
         refreshState = uiState.searchUiState.refreshState,
-        onRefresh = {viewModel.onRefresh(searchQuery , typeOfFilterSearch)}
+        onRefresh = {viewModel.onRefresh(typeOfFilterSearch)}
     ) {
         ContentSearchScreen(
             isError = uiState.searchUiState.isError,
@@ -86,26 +84,26 @@ fun SearchScreen(
             artist = uiState.filteredScreenUiState.artist.collectAsLazyPagingItems(),
             onClickTopRated = {
                 typeOfFilterSearch = FilterPagesItem.TOP_RATED
-                viewModel.topResult(searchQuery)
+                viewModel.topResult(uiState.searchUiState.searchQuery)
             },
             onClickMovies = {
                 typeOfFilterSearch = FilterPagesItem.MOVIES
-                viewModel.searchFilteredMovies(searchQuery)
+                viewModel.searchFilteredMovies(uiState.searchUiState.searchQuery)
             },
             onClickSeries = {
                 typeOfFilterSearch = FilterPagesItem.SERIES
-                viewModel.searchSeries(searchQuery)
+                viewModel.searchSeries(uiState.searchUiState.searchQuery)
             },
             onClickArtist = {
                 typeOfFilterSearch = FilterPagesItem.ARTISTS
-                viewModel.artists(searchQuery)
+                viewModel.artists(uiState.searchUiState.searchQuery)
             },
 
             forYouMovies = uiState.searchUiState.forYouMovies,
             exploreMoreMovies = uiState.searchUiState.exploreMoreMovies.collectAsLazyPagingItems(),
-            searchQuery = searchQuery,
+            searchQuery = uiState.searchUiState.searchQuery,
             onSearchQueryChange = { query ->
-                searchQuery = query
+                viewModel.updateSearchQuery(query)
 
             },
             onMovieClick = { movie ->
@@ -113,14 +111,22 @@ fun SearchScreen(
             },
             isLoading = uiState.searchUiState.isLoading,
             searchHistory = uiState.recentSearchUiState,
-            onSearchItemClick = { searchQuery = it },
+            onSearchItemClick = {  viewModel.updateSearchQuery(it) },
             onRemoveItem = { viewModel.removeRecentSearch(it) },
             onClearAll = { viewModel.clearAll() },
             onClickSeeAll = {
                 navController.navigate(Destinations.SeeAllForYouScreen)
             },
-            highlightrecentSearch = viewModel::highlightCharactersInText
-
+            highlightrecentSearch = viewModel::highlightCharactersInText,
+            onTopResultClick = { movieId ->
+                navController.navigate(Destinations.MovieDetailsScreen(movieId))
+            },
+            onSearchedClick = { movieId ->
+                navController.navigate(Destinations.MovieDetailsScreen(movieId))
+            },
+            onArtistClick = { actorId ->
+                navController.navigate(Destinations.ActorDetails(actorId))
+            }
         )
         uiState.searchUiState.errorMessage?.let { errorMsg ->
             LaunchedEffect(errorMsg) {
@@ -146,8 +152,8 @@ fun SearchScreen(
 @OptIn(FlowPreview::class)
 @Composable
 fun ContentSearchScreen(
-    isError : Boolean,
-    typeOfFilterSearch : FilterPagesItem ,
+    isError: Boolean,
+    typeOfFilterSearch: FilterPagesItem,
     addRecentSearch: (String) -> Unit,
     topRated: LazyPagingItems<SearchScreenState.MovieUiState>,
     movies: LazyPagingItems<SearchScreenState.MovieUiState>,
@@ -170,12 +176,16 @@ fun ContentSearchScreen(
     onClearAll: () -> Unit,
     isLoading: Boolean = false,
     onClickSeeAll: () -> Unit,
-    onSeriesClick: (Int) -> Unit = {},
+    onSeriesClick: (Int) -> Unit,
+    onTopResultClick: (Int) -> Unit,
+    onSearchedClick: (Int) -> Unit,
+    onArtistClick: (Int) -> Unit,
     highlightrecentSearch: (String, String, Color, Color, TextStyle) -> AnnotatedString,
 ) {
     val showSearchResults = searchQuery.isNotBlank()
     var selectedTabIndex by remember { mutableIntStateOf(0) }
     var showRecentSearch by remember { mutableIntStateOf(0) }
+    var previousSelectedTabIndex by remember { mutableIntStateOf(-1) }
 
     LaunchedEffect(searchQuery) {
         snapshotFlow { searchQuery }
@@ -186,10 +196,10 @@ fun ContentSearchScreen(
                     onSearchBarClick()
                     addRecentSearch(query)
                     when (typeOfFilterSearch) {
-                        FilterPagesItem.TOP_RATED-> onClickTopRated()
-                        FilterPagesItem.MOVIES-> onClickMovies()
+                        FilterPagesItem.TOP_RATED -> onClickTopRated()
+                        FilterPagesItem.MOVIES -> onClickMovies()
                         FilterPagesItem.SERIES -> onClickSeries()
-                        FilterPagesItem.ARTISTS-> onClickArtist()
+                        FilterPagesItem.ARTISTS -> onClickArtist()
                     }
                 }
             }
@@ -228,7 +238,7 @@ fun ContentSearchScreen(
             forYouAndExploreScreen(
                 showSearchResults = showSearchResults,
                 isLoading = isLoading,
-                isError =  isError,
+                isError = isError,
                 forYouMovies = forYouMovies,
                 onMovieClick = onMovieClick,
                 exploreMoreMovies = exploreMoreMovies,
@@ -244,30 +254,35 @@ fun ContentSearchScreen(
                 series = series,
                 artist = artist,
                 selectedTabIndex = selectedTabIndex,
-                onChangeSelectedTabIndex = { selectedTabIndex = it },
-                onChangeTypeFilterSearch = {
-                    when (selectedTabIndex) {
-                        0 -> {
-                            onClickTopRated()
-                        }
 
-                        1 -> {
-                            onClickMovies()
-                        }
+                onChangeSelectedTabIndex = { newIndex ->
+                    if (newIndex != selectedTabIndex) {
+                        previousSelectedTabIndex = selectedTabIndex
+                        selectedTabIndex = newIndex
 
-                        2 -> {
-                            onClickSeries()
-                        }
-
-                        else -> {
-                            onClickArtist()
+                        when (newIndex) {
+                            0 -> onClickTopRated()
+                            1 -> onClickMovies()
+                            2 -> onClickSeries()
+                            3 -> onClickArtist()
                         }
                     }
                 },
+                onChangeTypeFilterSearch = {},
                 onSeriesClick = { seriesId ->
                     onSeriesClick(seriesId)
+                },
+                onMovieClick = { moviesId ->
+                    onSearchedClick(moviesId)
+                },
+                onActorClick = { actorId ->
+                    onArtistClick(actorId)
+                },
+                onTopResultClick = { movieId ->
+                    onTopResultClick(movieId)
                 }
             )
+
         }
 
         if (showRecentSearch == 1 && searchHistory.isNotEmpty()) {

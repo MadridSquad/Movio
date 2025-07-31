@@ -50,6 +50,9 @@ data class System(
 )
 
 data class Gradients(
-    val iconGradient: Brush
+    val iconGradient: Brush,
+    val borderGradient: Brush,
+    val errorBorderGradient: Brush,
+
 )
 internal val LocalMovioColor = staticCompositionLocalOf { lightThemeColors }

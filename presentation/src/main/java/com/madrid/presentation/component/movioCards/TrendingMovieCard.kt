@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
+import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.designSystem.theme.Theme
 
@@ -57,10 +57,10 @@ fun TrendingMovieCard(
                 .padding(start = 8.dp, top = 4.dp, bottom = 4.dp)
         ) {
             Column {
-                Text(
+                MovioText(
                     text = movieTitle,
                     color = Theme.color.surfaces.onSurface,
-                    style = Theme.textStyle.title.mediumMedium14,
+                    textStyle = Theme.textStyle.title.mediumMedium14,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
@@ -74,11 +74,11 @@ fun TrendingMovieCard(
                         tint = Theme.color.system.warning,
                         modifier = Modifier.size(24.dp)
                     )
-                    Text(
+                    MovioText(
                         modifier = Modifier.padding(start = 4.dp),
                         text = rating,
                         color = Theme.color.system.onWarning,
-                        style = Theme.textStyle.label.smallRegular12
+                        textStyle = Theme.textStyle.label.smallRegular12
                     )
 
                 }
@@ -92,10 +92,10 @@ fun TrendingMovieCard(
                             )
                             .padding(horizontal = 8.dp, vertical = 4.dp)
                     ) {
-                        Text(
+                        MovioText(
                             text = movieCategory,
                             color = Theme.color.surfaces.onSurfaceVariant,
-                            style = Theme.textStyle.label.smallRegular12
+                            textStyle = Theme.textStyle.label.smallRegular12
                         )
                     }
                 }

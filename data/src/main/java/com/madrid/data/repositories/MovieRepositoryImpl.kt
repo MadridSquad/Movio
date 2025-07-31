@@ -1,0 +1,128 @@
+package com.madrid.data.repositories
+
+import com.madrid.data.dataSource.local.mappers.toGenre
+import com.madrid.data.dataSource.local.mappers.toMovie
+import com.madrid.data.dataSource.local.table.relationship.MovieGenreCrossRef
+import com.madrid.data.dataSource.mapper.toMovieGenreTable
+import com.madrid.data.dataSource.mapper.toMovieTable
+import com.madrid.data.dataSource.remote.mapper.toArtist
+import com.madrid.data.dataSource.remote.mapper.toGenre
+import com.madrid.data.dataSource.remote.mapper.toMovie
+import com.madrid.data.dataSource.remote.mapper.toMovies
+import com.madrid.data.dataSource.remote.mapper.toReview
+import com.madrid.data.dataSource.remote.mapper.toSimilarMovie
+import com.madrid.data.dataSource.remote.mapper.toTrailer
+import com.madrid.data.repositories.local.LocalDataSource
+import com.madrid.data.repositories.remote.RemoteDataSource
+import com.madrid.domain.entity.Artist
+import com.madrid.domain.entity.Genre
+import com.madrid.domain.entity.Movie
+import com.madrid.domain.entity.Review
+import com.madrid.domain.entity.Trailer
+import com.madrid.domain.repository.MovieRepository
+import kotlin.collections.ifEmpty
+
+class MovieRepositoryImpl(
+    private val localDataSource: LocalDataSource,
+    private val remoteDataSource: RemoteDataSource,
+) : MovieRepository {
+
+    override suspend fun getMovieDetailsById(movieId: Int): Movie {
+        return remoteDataSource.getMovieDetailsById(movieId).toMovie()
+    }
+
+    override suspend fun getMovieTrailersById(movieId: Int): List<Trailer> {
+        return remoteDataSource.getMovieTrailersByMovieId(movieId).map { it.toTrailer() }
+    }
+
+    override suspend fun getMovieCreditsById(movieId: Int): List<Artist> {
+        return remoteDataSource.getMovieCreditById(movieId).castNetwork?.map { it.toArtist() }
+            ?: emptyList()
+    }
+
+    override suspend fun getMovieReviewsById(movieId: Int): List<Review> {
+        return remoteDataSource.getMovieReviewsById(movieId).results?.map { it.toReview() }
+            ?: emptyList()
+    }
+
+    override suspend fun getSimilarMoviesById(movieId: Int): List<Movie> {
+        return remoteDataSource.getSimilarMoviesById(movieId).similarMovie?.map { it.toSimilarMovie() }
+            ?: emptyList()
+    }
+
+    override suspend fun getRecommendedMovies(page: Int): List<Movie> {
+        return remoteDataSource.getPopularMovies(page).movieResults?.map { it.toMovie() }
+            ?: emptyList()
+    }
+
+    override suspend fun getExploreMoreMovies(page: Int): List<Movie> {
+        return remoteDataSource.getTopRatedMovies(page).movieResults?.map { it.toMovie() }
+            ?: emptyList()
+    }
+
+    override suspend fun getTrendingMovies(page: Int): List<Movie> {
+        return remoteDataSource.getTrendingMovies(page).movieResults?.map { it.toMovie() }
+            ?: emptyList()
+    }
+
+    override suspend fun getMoviesGenres(): List<Genre> {
+        return localDataSource.getAllMovieGenres().ifEmpty {
+            remoteDataSource.getMovieGenres().forEach {
+                localDataSource.insertMovieGenre(it.toMovieGenreTable())
+            }
+            localDataSource.getAllMovieGenres()
+        }.map { it.toGenre() }
+    }
+
+    override suspend fun increaseMovieGenreInterestPoints(genreTitle: String) {
+        localDataSource.increaseMovieGenreInterestPoints(genreTitle)
+    }
+
+    override suspend fun getMoviesByGenres(): Map<String, List<Movie>> {
+        val genresWithMovies = localDataSource.getMoviesByGenres()
+        return genresWithMovies.associate { genreWithMovies ->
+            val genreTitle = genreWithMovies.genre.genreTitle
+            val movies = genreWithMovies.movies.map { it.toMovie() }
+            genreTitle to movies
+        }
+    }
+
+    override suspend fun getTopRatedMovies(page: Int): List<Movie> {
+        val res = remoteDataSource.getTopRatedMovies(
+            page = page
+        ).movieResults?.map {
+            it.toMovie()
+        } ?: listOf()
+        return res
+    }
+
+    override suspend fun getPopularMovies(page: Int): List<Movie> {
+        val movies = remoteDataSource.getPopularMovies(
+            page = page
+        ).movieResults
+        movies?.map { movie ->
+            localDataSource.insertMovie(movie.toMovieTable())
+            movie.genreIds?.map { genreId ->
+                localDataSource.relateMovieToGenre(
+                    MovieGenreCrossRef(
+                        movieId = movie.id ?: 0,
+                        genreId = genreId
+                    )
+                )
+            }
+        }
+        return movies?.map { it.toMovie() } ?: emptyList()
+    }
+
+    override suspend fun getNowPlayingMovie(page: Int): List<Movie> {
+        return remoteDataSource.getNowPlayingMovie().toMovies()
+    }
+
+    override suspend fun getUpcomingMovie(page: Int): List<Movie> {
+        return remoteDataSource.getUpcomingMovie().toMovies()
+    }
+
+    override suspend fun getMovieGenres(): List<Genre> {
+        return remoteDataSource.getMovieGenres().map { it.toGenre() }
+    }
+}

@@ -1,10 +1,10 @@
 package com.madrid.presentation.component.movioCards
 
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +20,6 @@ import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R.string
 
-
 @Composable
 fun RateIcon(
     rate: String,
@@ -29,17 +28,18 @@ fun RateIcon(
 ) {
     Box(
         modifier = modifier
+            .padding(top = 4.dp, end= 4.dp)
             .height(16.dp),
         contentAlignment = Alignment.Center
     ) {
         Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             MovioIcon(
                 painter = icon,
                 contentDescription = stringResource(
-                   string.stars_icon_rate
+                    string.stars_icon_rate
                 ),
                 tint = Theme.color.system.warning,
                 modifier = Modifier.size(16.dp)
@@ -54,11 +54,11 @@ fun RateIcon(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true , showSystemUi = true)
 @Composable
 private fun RateIconPreview() {
     RateIcon(
         icon = painterResource(id = R.drawable.bold_star),
-        rate = "5.2",
+        rate = "10",
     )
 }

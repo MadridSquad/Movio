@@ -34,7 +34,10 @@ fun LazyGridScope.filterSearchScreen(
     movies: LazyPagingItems<SearchScreenState.MovieUiState>,
     series: LazyPagingItems<SearchScreenState.SeriesUiState>,
     artist: LazyPagingItems<SearchScreenState.ArtistUiState>,
-    onSeriesClick: (Int) -> Unit = {}
+    onSeriesClick: (Int) -> Unit = {},
+    onMovieClick:(Int) -> Unit,
+    onTopResultClick:(Int) -> Unit,
+    onActorClick :(Int) -> Unit,
 ) {
     item(
         span = { GridItemSpan(maxLineSpan) }
@@ -115,7 +118,6 @@ fun LazyGridScope.filterSearchScreen(
                                 }
                             }
                         }
-
                         topRated.itemCount > 0 -> {
                             items(count = topRated.itemCount) { index ->
                                 MovioVerticalCard(
@@ -124,7 +126,7 @@ fun LazyGridScope.filterSearchScreen(
                                     rate = topRated[index]!!.rating,
                                     width = 101.dp,
                                     height = 136.dp,
-                                    onClick = { }
+                                    onClick = { onTopResultClick(topRated[index]!!.id.toInt()) }
                                 )
                             }
                         }
@@ -144,8 +146,8 @@ fun LazyGridScope.filterSearchScreen(
             ) {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(3),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.height(3 * 186.dp)
                 ) {
                     when {
@@ -203,7 +205,7 @@ fun LazyGridScope.filterSearchScreen(
                                     rate = movies[index]!!.rating,
                                     width = 101.dp,
                                     height = 136.dp,
-                                    onClick = { }
+                                    onClick = { onMovieClick(movies[index]!!.id.toInt())}
                                 )
                             }
                         }
@@ -347,7 +349,7 @@ fun LazyGridScope.filterSearchScreen(
                                     contentAlignment = Alignment.Center
                                 ) {
                                     EmptySearchLayout(
-                                        title = stringResource(R.string.internet_is_not_available),
+                                        title = stringResource(R.string.no_results_found),
                                         description = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
                                         image = com.madrid.presentation.R.drawable.img_no_sesrch_found // Use a "no results" image
                                     )
@@ -360,7 +362,7 @@ fun LazyGridScope.filterSearchScreen(
                                 MovioArtistsCard(
                                     artistsName = artist[index]!!.name,
                                     imageUrl = artist[index]!!.imageUrl,
-                                    onClick = { }
+                                    onClick = { onActorClick(artist[index]!!.id.toInt())}
                                 )
                             }
                         }

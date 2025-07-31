@@ -1,24 +1,31 @@
 package com.madrid.presentation.viewModel.detailsViewModel
 
 import android.util.Log
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.madrid.domain.entity.Review
-import com.madrid.domain.entity.SimilarSeries
-import com.madrid.domain.usecase.mediaDeatailsUseCase.SeriesDetailsUseCase
+import com.madrid.domain.entity.Series
+import com.madrid.domain.usecase.series.GetEpisodesForSeasonUseCase
+import com.madrid.domain.usecase.series.GetSeriesDetailsUseCase
+import com.madrid.domain.usecase.series.GetSeriesReviewsUseCase
+import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
+import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
 import com.madrid.presentation.navigation.Destinations
+import com.madrid.presentation.utils.RateFormatter
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import kotlinx.coroutines.cancel
+import com.madrid.presentation.viewModel.shared.formatDuration
+import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlin.text.toInt
 
 class SeriesDetailsViewModel(
-    private val savedStateHandle: SavedStateHandle,
-    private val seriesDetailsUseCase: SeriesDetailsUseCase
+    savedStateHandle: SavedStateHandle,
+    private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
+    private val getSeriesTopCastUseCase: GetSeriesTopCastUseCase,
+    private val getSeriesReviewsUseCase: GetSeriesReviewsUseCase,
+    private val getSimilarSeriesUseCase: GetSimilarSeriesUseCase,
+    private val getEpisodesForSeasonUseCase: GetEpisodesForSeasonUseCase
 ) : BaseViewModel<SeriesDetailsUiState, Nothing>(SeriesDetailsUiState()) {
     private val args = savedStateHandle.toRoute<Destinations.SeriesDetailsScreen>()
 
@@ -29,55 +36,60 @@ class SeriesDetailsViewModel(
 
     private fun loadData() {
         tryToExecute(
-            function = { seriesDetailsUseCase.getSeriesDetailsById(args.seriesId.toInt()) },
+            function = { getSeriesDetailsUseCase(args.seriesId) },
             onSuccess = { series ->
                 updateState {
                     it.copy(
                         seriesId = series.id,
+                        isLoading = false,
                         topImageUrl = series.imageUrl,
                         seriesName = series.title,
-                        rate = series.rate.toString(),
+                        rate = RateFormatter.formatRate(series.rate), // Format rate here
                         numberOfSeasons = series.seasons.size,
-                        productionDate = series.yearOfRelease,
-                        description = series.description,
+                        productionDate = formatDateKotlinx(series.airDate),
+                        description =formatDuration( series.description),
                         currentSeasonsUiStates = series.seasons.map { season -> season.mapToUiState() },
-                        selectedSeasonUiState = series.seasons[args.seasonNumber - 1].mapToUiState()
+                        selectedSeasonUiState = series.seasons[if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber - 1].mapToUiState()
                     )
                 }
                 loadAllSeasonsEpisodes()
                 loadCastData()
                 loadReviews()
                 loadSimilarSeries()
+                loadSeasonEpisodes(if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber)
             },
-            onError = {},
+            onError = {
+                updateState { it.copy(isLoading = true) }
+            },
         )
-        loadSeasonEpisodes(args.seasonNumber)
     }
 
     private fun loadAllSeasonsEpisodes() {
         viewModelScope.launch {
-            val seasonCount = state.first().numberOfSeasons
+            val seasonCount = state.first().currentSeasonsUiStates.size
             Log.d("TAG lol", "loadAllSeasonsEpisodes: ${state.first().numberOfSeasons}")
-            for (i in 0..seasonCount) {
+            state.first().currentSeasonsUiStates.forEachIndexed { index, season ->
                 tryToExecute(
-                    function = { seriesDetailsUseCase.getEpisodesBySeriesId(args.seriesId.toInt(), i + 1) },
+                    function = {
+                        getEpisodesForSeasonUseCase(args.seriesId, season.seasonNumber)
+                    },
                     onSuccess = { episodes ->
                         updateState { currentState ->
                             currentState.copy(
-                                currentSeasonsUiStates = currentState.currentSeasonsUiStates.mapIndexed { index, season ->
-                                    if (index == i) {
-                                        season.copy(
+                                currentSeasonsUiStates = currentState.currentSeasonsUiStates.mapIndexed { seasonIndex, currentSeason ->
+                                    if (season.seasonNumber == currentSeason.seasonNumber)
+                                        currentSeason.copy(
                                             numberOfEpisodes = episodes.size,
-                                            episodesUiStates = episodes.map { episode -> episode.toUiState() }
-                                        )
-                                    } else {
-                                        season
-                                    }
+                                            episodesUiStates = episodes.map { episode -> episode.toUiState() })
+                                    else
+                                        currentSeason
                                 }
                             )
                         }
                     },
-                    onError = {}
+                    onError = {
+                        updateState { it.copy(isLoading = true) }
+                    },
                 )
             }
         }
@@ -87,22 +99,33 @@ class SeriesDetailsViewModel(
 
     private fun loadSeasonEpisodes(seasonNumber: Int = 1) {
         tryToExecute(
-            function = { seriesDetailsUseCase.getEpisodesBySeriesId(args.seriesId.toInt(), seasonNumber) },
+            function = {
+                getEpisodesForSeasonUseCase(args.seriesId.toInt(), seasonNumber)
+            },
             onSuccess = { episodes ->
                 updateState { state ->
-                    state.copy(selectedSeasonUiState = state.selectedSeasonUiState.copy(episodesUiStates = episodes.map { episode ->
-                        episode.toUiState()
-                    }, numberOfEpisodes = episodes.size, seasonNumber = seasonNumber, imageUrl = state.currentSeasonsUiStates[seasonNumber-1].imageUrl))
+                    state.copy(
+                        selectedSeasonUiState = state.selectedSeasonUiState.copy(
+                            episodesUiStates = episodes.map { episode ->
+                                episode.toUiState()
+                            },
+                            numberOfEpisodes = episodes.size,
+                            seasonNumber = seasonNumber,
+                            imageUrl = state.currentSeasonsUiStates[if (state.currentSeasonsUiStates.first().seasonNumber == 0) seasonNumber else seasonNumber - 1].imageUrl
+                        )
+                    )
                 }
             },
-            onError = { },
+            onError = {
+                updateState { it.copy(isLoading = true) }
+            },
         )
     }
 
     private fun loadCastData() {
         tryToExecute(
             function = {
-                seriesDetailsUseCase.getSeriesCreditsById(args.seriesId.toInt())
+                getSeriesTopCastUseCase(args.seriesId.toInt())
             },
             onSuccess = { Artists ->
                 updateState {
@@ -111,16 +134,16 @@ class SeriesDetailsViewModel(
                     })
                 }
             },
-            onError = {e ->
+            onError = { e ->
                 Log.d("TAG lol", "loadCastData: ${e.message}")
             },
         )
     }
 
-    private fun loadReviews(){
+    private fun loadReviews() {
         tryToExecute(
             function = {
-                seriesDetailsUseCase.getSeriesReviewsById(args.seriesId.toInt())
+                getSeriesReviewsUseCase(args.seriesId.toInt())
             },
             onSuccess = { reviews ->
                 updateState {
@@ -129,16 +152,17 @@ class SeriesDetailsViewModel(
                     })
                 }
             },
-            onError = {e ->
+            onError = { e ->
                 Log.d("TAG lol", "loadCastData: ${e.message}")
+                updateState { it.copy(isLoading = true) }
             },
         )
     }
 
-    private fun loadSimilarSeries(){
+    private fun loadSimilarSeries() {
         tryToExecute(
             function = {
-                seriesDetailsUseCase.getSimilarSeriesById(args.seriesId.toInt())
+                getSimilarSeriesUseCase(args.seriesId.toInt())
             },
             onSuccess = { allSeries ->
                 updateState {
@@ -147,29 +171,30 @@ class SeriesDetailsViewModel(
                     })
                 }
             },
-            onError = {e ->
+            onError = { e ->
                 Log.d("TAG lol", "loadCastData: ${e.message}")
+                updateState { it.copy(isLoading = true) }
             },
         )
     }
 }
 
-fun SimilarSeries.toUiState(): SeriesUiState{
+fun Series.toUiState(): SeriesUiState {
     return SeriesUiState(
         id = this.id,
         name = this.title,
         imageUrl = this.imageUrl,
-        rate = this.rate.toString()
+        rate = RateFormatter.formatRate(this.rate)
     )
 }
 
 
-fun Review.toUiState(): ReviewUiState{
+fun Review.toUiState(): ReviewUiState {
     return ReviewUiState(
-        reviewerName = "Anonymous" ,
-        reviewerImageUrl = "",
+        reviewerName = this.reviewerName,
+        reviewerImageUrl = this.reviewerPhotoUrl,
         rating = this.rate.toFloat(),
-        date = this.dateOfRelease,
+        date = (this.date),
         content = this.comment
     )
 }

@@ -5,7 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.madrid.domain.usecase.GetRecommendedMovieUseCase
+import com.madrid.domain.usecase.search.GetRecommendedMovieUseCase
 import com.madrid.presentation.screens.searchScreen.paging.ForYouPagingSource
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.searchViewModel.SearchScreenState

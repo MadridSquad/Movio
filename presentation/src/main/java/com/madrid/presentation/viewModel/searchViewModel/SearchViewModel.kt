@@ -1,9 +1,9 @@
 package com.madrid.presentation.viewModel.searchViewModel
 
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -11,34 +11,40 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.madrid.domain.usecase.GetExploreMoreMovieUseCase
-import com.madrid.domain.usecase.GetRecommendedMovieUseCase
-import com.madrid.domain.usecase.searchUseCase.ArtistUseCase
-import com.madrid.domain.usecase.searchUseCase.MovieUseCase
-import com.madrid.domain.usecase.searchUseCase.RecentSearchUseCase
-import com.madrid.domain.usecase.searchUseCase.SeriesUseCase
+import com.madrid.domain.usecase.search.GetExploreMoreMovieUseCase
+import com.madrid.domain.usecase.search.GetRecommendedMovieUseCase
+import com.madrid.domain.usecase.search.AddRecentSearchUseCase
+import com.madrid.domain.usecase.search.ClearAllRecentSearchesUseCase
+import com.madrid.domain.usecase.search.GetArtistsByQueryUseCase
+import com.madrid.domain.usecase.search.GetMoviesByQueryUseCase
+import com.madrid.domain.usecase.search.GetRecentSearchesUseCase
+import com.madrid.domain.usecase.search.GetSeriesByQueryUseCase
+import com.madrid.domain.usecase.search.RemoveRecentSearchUseCase
 import com.madrid.presentation.screens.searchScreen.paging.ExplorePagingSource
 import com.madrid.presentation.screens.searchScreen.paging.SearchArtistPagingSource
 import com.madrid.presentation.screens.searchScreen.paging.SearchMoviePagingSource
 import com.madrid.presentation.screens.searchScreen.paging.SearchSeriesPagingSource
 import com.madrid.presentation.screens.searchScreen.utils.FilterPagesItem
+import com.madrid.presentation.utils.RateFormatter
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.uiStateMapper.toArtistUiState
 import com.madrid.presentation.viewModel.uiStateMapper.toMovieUiState
 import com.madrid.presentation.viewModel.uiStateMapper.toSeriesUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
 
 @KoinViewModel
 class SearchViewModel(
-    private val artistUseCase: ArtistUseCase,
-    private val movieUseCase: MovieUseCase,
-    private val seriesUseCase: SeriesUseCase,
+    private val getArtistsByQueryUseCase: GetArtistsByQueryUseCase,
+    private val getMoviesByQueryUseCase: GetMoviesByQueryUseCase,
+    private val getSeriesByQueryUseCase: GetSeriesByQueryUseCase,
     private val getRecommendedMovieUseCase: GetRecommendedMovieUseCase,
     private val getExploreMoreMovieUseCase: GetExploreMoreMovieUseCase,
-    private val recentSearchUseCase: RecentSearchUseCase,
+    private val getRecentSearchesUseCase: GetRecentSearchesUseCase,
+    private val addRecentSearchUseCase: AddRecentSearchUseCase,
+    private val removeRecentSearchUseCase: RemoveRecentSearchUseCase,
+    private val clearAllRecentSearchesUseCase: ClearAllRecentSearchesUseCase
 ) : BaseViewModel<SearchScreenState, Nothing>(
     SearchScreenState()
 ) {
@@ -50,17 +56,28 @@ class SearchViewModel(
 
     private fun loadRecentSearches() {
         tryToExecute(
-            function = { recentSearchUseCase.getRecentSearches() },
+            function = { getRecentSearchesUseCase() },
             onSuccess = ::onUpdateRecentSuccess,
             onError = { },
         )
     }
 
+    fun updateSearchQuery(
+        newSearchQuery : String ,
+    ){
+        updateState {searchScreenState->
+            searchScreenState.copy(
+                searchUiState = searchScreenState.searchUiState.copy(
+                    searchQuery = newSearchQuery
+                )
+            )
+        }
+    }
     fun addRecentSearch(recentSearch: String) {
         tryToExecute(
             function = {
-                recentSearchUseCase.addRecentSearch(item = recentSearch)
-                recentSearchUseCase.getRecentSearches()
+                addRecentSearchUseCase(item = recentSearch)
+                getRecentSearchesUseCase()
             },
             onSuccess = { result -> updateState { it.copy(recentSearchUiState = result) } },
             onError = {}
@@ -70,8 +87,8 @@ class SearchViewModel(
     fun clearAll() {
         tryToExecute(
             function = {
-                recentSearchUseCase.clearAllRecentSearches()
-                recentSearchUseCase.getRecentSearches()
+                clearAllRecentSearchesUseCase()
+                getRecentSearchesUseCase()
             },
             onSuccess = { result -> updateState { it.copy(recentSearchUiState = result) } },
             onError = {}
@@ -81,8 +98,8 @@ class SearchViewModel(
     fun removeRecentSearch(searchItem: String) {
         tryToExecute(
             function = {
-                recentSearchUseCase.removeRecentSearch(searchItem)
-                recentSearchUseCase.getRecentSearches()
+                removeRecentSearchUseCase(searchItem)
+                getRecentSearchesUseCase()
             },
             onSuccess = { result ->
                 updateState {
@@ -148,7 +165,7 @@ class SearchViewModel(
     fun searchFilteredMovies(query: String) {
         launchPagingRequest(
             pagingSourceFactory = {
-                SearchMoviePagingSource(query, movieUseCase)
+                SearchMoviePagingSource(query, getMoviesByQueryUseCase)
             },
             onSuccess = { pagingFlow ->
                 val result = pagingFlow.map { pagingData ->
@@ -171,7 +188,7 @@ class SearchViewModel(
     fun searchSeries(query: String) {
         launchPagingRequest(
             pagingSourceFactory = {
-                SearchSeriesPagingSource(query, seriesUseCase)
+                SearchSeriesPagingSource(query, getSeriesByQueryUseCase)
             },
             onSuccess = { pagingFlow ->
                 val result = pagingFlow.map { pagingData ->
@@ -187,7 +204,7 @@ class SearchViewModel(
             pagingSourceFactory = {
                 SearchMoviePagingSource(
                     query = query,
-                    movieUseCase = movieUseCase
+                    getMoviesByQueryUseCase = getMoviesByQueryUseCase
                 )
             },
             onSuccess = { pagingFlow ->
@@ -213,7 +230,7 @@ class SearchViewModel(
     fun artists(query: String) {
         launchPagingRequest(
             pagingSourceFactory = {
-                SearchArtistPagingSource(query, artistUseCase)
+                SearchArtistPagingSource(query, getArtistsByQueryUseCase)
             },
             onSuccess = { pagingFlow ->
                 val result = pagingFlow.map { pagingData ->
@@ -300,7 +317,6 @@ class SearchViewModel(
     }
 
     fun onRefresh(
-        searchQuery : String,
         typeOfFilterSearch : FilterPagesItem
     ) {
         updateState { current ->
@@ -312,7 +328,7 @@ class SearchViewModel(
                 )
             )
         }
-        if(searchQuery.isEmpty() ){
+        if(state.value.searchUiState.searchQuery.isEmpty() ){
             tryToExecute(
                 function = {
                     getRecommendedMovieUseCase(page = 1)
@@ -364,10 +380,10 @@ class SearchViewModel(
         }
         else{
             when(typeOfFilterSearch){
-                FilterPagesItem.TOP_RATED -> topResult(searchQuery)
-                FilterPagesItem.MOVIES -> searchFilteredMovies(searchQuery)
-                FilterPagesItem.SERIES -> searchSeries(searchQuery)
-                FilterPagesItem.ARTISTS -> artists(searchQuery)
+                FilterPagesItem.TOP_RATED -> topResult(state.value.searchUiState.searchQuery)
+                FilterPagesItem.MOVIES -> searchFilteredMovies(state.value.searchUiState.searchQuery)
+                FilterPagesItem.SERIES -> searchSeries(state.value.searchUiState.searchQuery)
+                FilterPagesItem.ARTISTS -> artists(state.value.searchUiState.searchQuery)
             }
             updateState { current ->
                 current.copy(

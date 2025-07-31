@@ -63,7 +63,8 @@ fun MovioEpisodesCard(
         }
         FrameEpisodeCard(
             modifier = Modifier
-                .weight(1f),
+                .weight(1f)
+                .align(Alignment.CenterVertically),
             movieTitle = movieTitle,
             movieRate = movieRate,
             currentMovieEpisode = currentMovieEpisode,
@@ -82,8 +83,8 @@ private fun FrameEpisodeCard(
 ) {
     Column(
         modifier = modifier
-            .padding(top = 15.dp, bottom = 15.dp, start = 8.dp, end = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            .padding(horizontal = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Row {
             MovioText(
@@ -101,21 +102,21 @@ private fun FrameEpisodeCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             MovioText(
-                modifier = Modifier.padding(end = 4.dp),
+                modifier = Modifier.padding(end = 6.dp),
                 text = currentMovieEpisode,
                 color = Theme.color.surfaces.onSurfaceContainer,
-                textStyle = Theme.textStyle.title.mediumMedium14,
+                textStyle = Theme.textStyle.label.smallRegular12,
             )
             MovioIcon(
                 painter = painterResource(R.drawable.dot),
                 contentDescription = "dot icon",
-                modifier = Modifier.size(12.dp),
+                modifier = Modifier.size(8.dp),
                 tint = Theme.color.surfaces.onSurfaceContainer
             )
             MovioText(
                 text = movieTime,
                 color = Theme.color.surfaces.onSurfaceContainer,
-                textStyle = Theme.textStyle.title.mediumMedium14,
+                textStyle = Theme.textStyle.label.smallRegular12,
             )
         }
     }
@@ -136,13 +137,3 @@ private fun EpisodesCardPreview() {
         )
     }
 }
-
-//MovioEpisodesCard(
-//modifier = Modifier.padding(top = 20.dp),
-//movieTitle = "Unimatrix Zero",
-//movieRate = "9",
-//currentMovieEpisode = "Episode 01",
-//movieTime = "44m",
-//movieImageUrl = "https://image.tmdb.org/t/p/w500/5xKGk6q5g7mVmg7k7U1RrLSHwz6.jpg",
-//onClick = { },
-//)

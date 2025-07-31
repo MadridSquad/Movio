@@ -1,23 +1,32 @@
 package com.madrid.data.dataSource.remote
 
-import com.madrid.data.dataSource.remote.response.artist.ArtistDetailsResponse
-import com.madrid.data.dataSource.remote.response.artist.ArtistKnownForResponse
-import com.madrid.data.dataSource.remote.response.artist.SearchArtistResponse
-import com.madrid.data.dataSource.remote.response.common.TrailerResponse
-import com.madrid.data.dataSource.remote.response.genre.GenresResponse
-import com.madrid.data.dataSource.remote.response.movie.MovieCreditsResponse
-import com.madrid.data.dataSource.remote.response.movie.MovieDetailsResponse
-import com.madrid.data.dataSource.remote.response.movie.MovieReviewResponse
-import com.madrid.data.dataSource.remote.response.movie.SearchMovieResponse
-import com.madrid.data.dataSource.remote.response.movie.SimilarMoviesResponse
-import com.madrid.data.dataSource.remote.response.series.SearchSeriesResponse
-import com.madrid.data.dataSource.remote.response.series.SeasonEpisodesResponse
-import com.madrid.data.dataSource.remote.response.series.SeriesCreditResponse
-import com.madrid.data.dataSource.remote.response.series.SeriesDetailsResponse
-import com.madrid.data.dataSource.remote.response.series.SeriesReviewResponse
-import com.madrid.data.dataSource.remote.response.series.SimilarSeriesResponse
-import com.madrid.data.dataSource.remote.response.trending.AllTrendingResponse
+import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
+import com.madrid.data.dataSource.remote.dto.artist.ArtistKnownForResponse
+import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
+import com.madrid.data.dataSource.remote.dto.common.TrailerResponse
+import com.madrid.data.dataSource.remote.dto.genre.GenresResponse
+import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
+import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
+import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
+import com.madrid.data.dataSource.remote.dto.movie.SearchMovieResponse
+import com.madrid.data.dataSource.remote.dto.movie.SimilarMoviesResponse
+import com.madrid.data.dataSource.remote.dto.series.SearchSeriesResponse
+import com.madrid.data.dataSource.remote.dto.series.SeasonResponse
+import com.madrid.data.dataSource.remote.dto.series.SeriesCreditResponse
+import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
+import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
+import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
+import com.madrid.data.dataSource.remote.response.movie.NowPlayingMovieResponse
+import com.madrid.data.dataSource.remote.response.movie.UpcomingMoviesResponse
+import com.madrid.data.dataSource.remote.response.series.AiringTodayTvShowsResponse
+import com.madrid.data.dataSource.remote.response.series.OnAirTvShowsResponse
+import com.madrid.data.dataSource.remote.response.series.RecommendedSeriesResponse
+import com.madrid.data.dataSource.remote.response.series.TopRatedSeriesResponse
+import com.madrid.data.dataSource.remote.dto.authentication.AuthenticationResponse
+import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -67,12 +76,14 @@ interface MovieApi {
         @Path("movie_id") movieId: Int
     ): SimilarMoviesResponse
 
-    // endregion
-
-    // region genre
     @GET("genre/movie/list")
     suspend fun getMovieGenres(): GenresResponse
 
+    @GET("trending/movie/{time_window}")
+    suspend fun getTrendingMovies(
+        @Path("time_window") timeWindow: String = "day",
+        @Query("page") page: Int
+    ): SearchMovieResponse
     // endregion
 
     // region Series
@@ -111,20 +122,38 @@ interface MovieApi {
     suspend fun getEpisodesBySeasonId(
         @Path("series_id") seriesId: Int,
         @Path("season_number") seasonNumber: Int
-    ): SeasonEpisodesResponse
+    ): SeasonResponse
 
-    // endregion
-
-    // region Series
-    @GET("tv/top_rated")
-    suspend fun getTopRatedSeries(
+    @GET("trending/tv/{time_window}")
+    suspend fun getTrendingSeries(
+        @Path("time_window") timeWindow: String = "day",
         @Query("page") page: Int
     ): SearchSeriesResponse
 
+    @GET("tv/top_rated")
+    suspend fun getTopRatedSeries(
+        @Query("page") page: Int
+    ): TopRatedSeriesResponse
+
+    @GET("tv/airing_today")
+    suspend fun getAiringTvShowsToday(
+        @Query("page") page: Int
+    ): AiringTodayTvShowsResponse
+
+    @GET("tv/on_the_air")
+    suspend fun getOnTheAirTvShows(
+        @Query("page") page: Int
+    ): OnAirTvShowsResponse
+
+    @GET("tv/popular")
+    suspend fun getPopularTvShows(
+        @Query("page") page: Int
+    ): RecommendedSeriesResponse
+
     @GET("genre/tv/list")
     suspend fun getSeriesGenres(): GenresResponse
-
     // endregion
+
 
     // region Artist
     @GET("search/person")
@@ -143,14 +172,26 @@ interface MovieApi {
         @Path("person_id") artistId: Int
     ): ArtistKnownForResponse
 
+    // region authentication
+    @GET("authentication/token/new")
+    suspend fun getRequestToken(): AuthenticationResponse
+
+    @POST("authentication/token/validate_with_login")
+    suspend fun postCreateSession(
+        @Body body: CreateSessionBody
+    ): AuthenticationResponse
+
+    @GET("authentication/guest_session/new")
+    suspend fun getCreateGuestSession(): AuthenticationResponse
     // endregion
 
-    // region Home Features
-    @GET("trending/all/{time_window}")
-    suspend fun getAllTrending(
-        @Path("time_window") timeWindow: String = "day",
+    @GET("movie/now_playing")
+    suspend fun getNowPlayingMovies(
         @Query("page") page: Int
-    ): AllTrendingResponse
+    ): NowPlayingMovieResponse
 
-    // endregion
+    @GET("movie/upcoming")
+    suspend fun getUpcomingMovies(
+        @Query("page") page: Int
+    ): UpcomingMoviesResponse
 }

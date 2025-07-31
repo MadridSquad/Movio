@@ -5,11 +5,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.designSystem.theme.Theme
 
 @Composable
@@ -23,9 +26,10 @@ fun CustomTextTitel(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding( vertical = 8.dp),
+            .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
-    ) { MovioText(
+    ) {
+        MovioText(
             text = primaryText,
             color = Theme.color.surfaces.onSurface,
             textStyle = Theme.textStyle.title.mediumMedium16,
@@ -50,6 +54,7 @@ fun CustomTextTitel(
                         painter = it,
                         contentDescription = "See all",
                         tint = Theme.color.surfaces.onSurfaceVariant,
+                        modifier = Modifier.size(16.dp)
                     )
                 }
             }
@@ -57,4 +62,13 @@ fun CustomTextTitel(
     }
 }
 
-
+@Preview(showBackground = true)
+@Composable
+private fun CustomTextTitelPreview() {
+    MovioTheme {
+        CustomTextTitel(
+            primaryText = "Top Rating",
+            secondaryText = "See all",
+        )
+    }
+}

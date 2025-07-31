@@ -12,21 +12,23 @@ data class SeriesDetailsUiState(
     val isRated: Boolean = false,
     val isAddedToList: Boolean = false,
     val description: String = "",
-    val topCast: List<Artist> = emptyList(),
+    val topCast: List<ArtistUiState> = emptyList(),
     val currentSeasonsUiStates: List<SeasonUiState> = emptyList(),
     val reviews: List<ReviewUiState> = emptyList(),
     val similarSeries: List<SeriesUiState> = emptyList(),
     val selectedSeasonUiState: SeasonUiState = SeasonUiState(),
+    val isLoading :Boolean = false
 )
 
 data class SeriesUiState(
     val id: Int = 0,
     val imageUrl: String = "",
     val rate: String = "",
-    val name: String = ""
+    val name: String = "",
+    val date: String = ""
 )
 
-data class Artist(
+data class ArtistUiState(
     val id: Int,
     val imageUrl: String,
     val name: String

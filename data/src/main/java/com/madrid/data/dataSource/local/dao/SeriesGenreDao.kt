@@ -7,42 +7,42 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import com.madrid.data.dataSource.local.entity.SeriesGenreEntity
-import com.madrid.data.dataSource.local.entity.relationship.GenreWithSeries
+import com.madrid.data.dataSource.local.table.SeriesGenreTable
+import com.madrid.data.dataSource.local.table.relationship.GenreWithSeries
 
 
 @Dao
 interface SeriesGenreDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertGenre(genre: SeriesGenreEntity)
+    suspend fun insertGenre(genre: SeriesGenreTable)
 
     @Update
-    suspend fun updateGenre(genre: SeriesGenreEntity)
+    suspend fun updateGenre(genre: SeriesGenreTable)
 
     @Query(
         """
-        UPDATE SERIES_GENRE_TABLE SET searchCount = searchCount + 1 
+        UPDATE SERIES_GENRE_TABLE SET interestPoints = interestPoints + 1 
             WHERE genreTitle = :genreTitle
      """
     )
-    suspend fun increaseGenreSearchCount(genreTitle: String)
+    suspend fun increaseGenreInterestPoints(genreTitle: String)
 
     @Delete
-    suspend fun deleteGenre(genre: SeriesGenreEntity)
+    suspend fun deleteGenre(genre: SeriesGenreTable)
 
     @Query("SELECT * FROM SERIES_GENRE_TABLE WHERE genreId = :id")
-    suspend fun getGenreById(id: Int): SeriesGenreEntity?
+    suspend fun getGenreById(id: Int): SeriesGenreTable?
 
     @Query("SELECT * FROM SERIES_GENRE_TABLE WHERE genreTitle = :title")
-    suspend fun getGenreByTitle(title: String): SeriesGenreEntity?
+    suspend fun getGenreByTitle(title: String): SeriesGenreTable?
 
     @Query("SELECT * FROM SERIES_GENRE_TABLE")
-    suspend fun getAllGenres(): List<SeriesGenreEntity>
+    suspend fun getAllGenres(): List<SeriesGenreTable>
 
     // descending order by searchCount
-    @Query("SELECT * FROM SERIES_GENRE_TABLE ORDER BY searchCount DESC")
-    suspend fun getAllGenresBySearchCount(): List<SeriesGenreEntity>
+    @Query("SELECT * FROM SERIES_GENRE_TABLE ORDER BY interestPoints DESC")
+    suspend fun getAllGenresBySearchCount(): List<SeriesGenreTable>
 
     @Query("DELETE FROM SERIES_GENRE_TABLE")
     suspend fun deleteAllGenres()
