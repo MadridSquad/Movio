@@ -36,8 +36,8 @@ import kotlin.math.absoluteValue
 @Composable
 fun MovioPager(
     movies: List<MediaUiState>,
-    onClickItem: () -> Unit,
     modifier: Modifier = Modifier,
+    onClickItem: () -> Unit = {},
 ) {
 
     val pagerState = rememberPagerState(
@@ -99,8 +99,8 @@ fun MovioPager(
                             .clip(RoundedCornerShape(8.dp))
                             .size(width = 200.dp, height = 260.dp),
                         movieId = movies[page].imageUrl,
-                        name = "Movie $page",
-                        genres = listOf("Action", "Adventure"),
+                        name = movies[page].title,
+                        genres = listOf<String>(movies[page].category),
                         onClick = onClickItem,
                     )
                 }

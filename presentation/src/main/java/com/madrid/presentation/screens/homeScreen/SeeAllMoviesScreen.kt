@@ -1,6 +1,5 @@
 package com.madrid.presentation.screens.homeScreen
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,7 +15,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.madrid.designSystem.component.FilterBar
@@ -25,27 +23,21 @@ import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTVShowsViewModel
-import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTvShowType
+import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesType
+import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
-fun SeeAllTVShowsScreen(
-    type: SeeAllTvShowType,
-    viewModel: SeeAllTVShowsViewModel = koinViewModel { parametersOf(type) }
+fun SeeAllMoviesScreen(
+    type: SeeAllMoviesType,
+    viewModel: SeeAllMoviesViewModel = koinViewModel { parametersOf(type) }
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val navController = LocalNavController.current
     val items = uiState.genre
 
-    Log.d("log items", "TopRatingScreen: $items")
-    Log.d("log items", "GenreMovie: ${uiState.genre}")
-    Log.d("log items", "Filtered: ${uiState.filteredSeries}")
-
     var selectedItem by remember { mutableStateOf("All") }
-
-    Log.d("log items", "TopRatingScreen: $selectedItem")
 
     LaunchedEffect(Unit) {
         if (uiState.genre.isNotEmpty()) {
@@ -91,8 +83,8 @@ fun SeeAllTVShowsScreen(
 
         }
 
-        items(uiState.filteredSeries.size) { index ->
-            val movie = uiState.filteredSeries[index]
+        items(uiState.filteredMovies.size) { index ->
+            val movie = uiState.filteredMovies[index]
             MovioVerticalCard(
                 description = movie.name,
                 movieImage = movie.imageUrl,
@@ -101,20 +93,12 @@ fun SeeAllTVShowsScreen(
                 height = 200.dp,
                 onClick = {
                     navController.navigate(
-                        Destinations.SeriesDetailsScreen(
-                            uiState.filteredSeries[index].id.toInt(),
-                            seasonNumber = 1
+                        Destinations.MovieDetailsScreen(
+                            uiState.filteredMovies[index].id.toInt(),
                         )
                     )
                 }
             )
         }
     }
-}
-
-
-@Preview
-@Composable
-private fun TopRatingScreenPreview(modifier: Modifier = Modifier) {
-//    SeeAllTVShowsScreen()
 }

@@ -18,10 +18,11 @@ import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.CustomTextTitel
 import com.madrid.presentation.component.CustomHorizontalCard
+import com.madrid.presentation.component.MovioPager
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.viewModel.seeAll.SeeAllTvShowType
+import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTvShowType
 
 @Composable
 fun TvShowsLayout(){
@@ -37,12 +38,18 @@ fun TvShowsLayout(){
         contentPadding = PaddingValues(bottom = 16.dp)
     ) {
         item(span = { GridItemSpan(2) }) {
+            MovioPager(
+                movies = fakeMediaList,
+            )
+        }
+        item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
                 primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.top_rating),
                 secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
                 endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = fakeMediaList,
-                onSeeAllClick = { navController.navigate(Destinations.SeeAllTvShowsScreen(SeeAllTvShowType.TOP_RATING))},
+                onSeeAllClick = { navController.navigate(Destinations.SeeAllTvShowsScreen(
+                    SeeAllTvShowType.TOP_RATING))},
                 onMediaClick = {},
                 headerModifier = Modifier.padding(horizontal = 16.dp)
             )
@@ -56,7 +63,8 @@ fun TvShowsLayout(){
                 secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
                 endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = fakeMediaList,
-                onSeeAllClick = { navController.navigate(Destinations.SeeAllTvShowsScreen(SeeAllTvShowType.AIRING_TODAY))},
+                onSeeAllClick = { navController.navigate(Destinations.SeeAllTvShowsScreen(
+                    SeeAllTvShowType.AIRING_TODAY))},
                 onMediaClick = {},
                 headerModifier = Modifier.padding(horizontal = 16.dp)
             )
@@ -70,7 +78,8 @@ fun TvShowsLayout(){
                 secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
                 endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = fakeMediaList,
-                onSeeAllClick = { navController.navigate(Destinations.SeeAllTvShowsScreen(SeeAllTvShowType.ON_TV))},
+                onSeeAllClick = { navController.navigate(Destinations.SeeAllTvShowsScreen(
+                    SeeAllTvShowType.ON_TV))},
                 onMediaClick = {},
                 headerModifier = Modifier.padding(horizontal = 16.dp)
             )
@@ -83,7 +92,8 @@ fun TvShowsLayout(){
                 primaryText = stringResource(com.madrid.presentation.R.string.more_recommended),
                 secondaryText = "See all",
                 endIcon = painterResource(R.drawable.outline_alt_arrow_left),
-                onSeeAllClick = { navController.navigate(Destinations.SeeAllTvShowsScreen(SeeAllTvShowType.MORE_RECOMMENDED))},
+                onSeeAllClick = { navController.navigate(Destinations.SeeAllTvShowsScreen(
+                    SeeAllTvShowType.MORE_RECOMMENDED))},
                 modifier = Modifier.padding(horizontal = 16.dp)
             )
         }
