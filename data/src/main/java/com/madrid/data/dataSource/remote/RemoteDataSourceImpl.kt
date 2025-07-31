@@ -20,10 +20,10 @@ import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.UpcomingMoviesResponse
-import com.madrid.data.dataSource.remote.response.series.AiringTodayTvShowsResponse
-import com.madrid.data.dataSource.remote.response.series.OnAirTvShowsResponse
-import com.madrid.data.dataSource.remote.response.series.RecommendedSeriesResponse
-import com.madrid.data.dataSource.remote.response.series.TopRatedSeriesResponse
+import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
+import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
+import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
+import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
 import com.madrid.data.repositories.remote.RemoteDataSource
 
 class RemoteDataSourceImpl(
