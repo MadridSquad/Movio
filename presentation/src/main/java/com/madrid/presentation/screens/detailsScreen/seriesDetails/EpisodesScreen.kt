@@ -49,43 +49,27 @@ fun EpisodesScreenContent(
     onClickBack: () -> Unit = {},
 ) {
     val episodes: List<EpisodeUiState> = uiState.selectedSeasonUiState.episodesUiStates
-    Column {
-        Box() {
-            MoviePosterDetailScreen(
-                imageUrl = uiState.selectedSeasonUiState.imageUrl,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(color = Theme.color.surfaces.surface)
-            )
-            TopAppBar(
-                text = null,
-                secondIcon = null,
-                thirdIcon = null,
-                modifier = Modifier.padding(start = 16.dp, top = 36.dp),
-                onFirstIconClick = { onClickBack() }
-            )
-            LazyColumn(
-                modifier = Modifier
-                    .padding(top = 412.dp)
-                    .padding(horizontal = 16.dp),
-                contentPadding = PaddingValues(bottom = 40.dp)
-            ) {
-                items(episodes) { episode ->
-                    MovioEpisodesCard(
-                        movieTitle = episode.episodeName,
-                        movieRate = (episode.rate.toFloat() / 2).toString().take(3),
-                        currentMovieEpisode = "Episode ${episode.episodeNumber}",
-                        movieTime = "${episode.episodeDuration} m",
-                        movieImageUrl = episode.imageUrl,
-                        onClick = {
-                        },
-                        modifier = Modifier.padding(bottom = 12.dp)
-                    )
-                }
+    LazyColumn() {
+        item {
+            Box(){
+                TopAppBar(
+                    text = null,
+                    secondIcon = null,
+                    thirdIcon = null,
+                    modifier = Modifier.padding(start = 24.dp, top = 12.dp),
+                    onFirstIconClick = { onClickBack() }
+                )
+                MoviePosterDetailScreen(
+                    imageUrl = uiState.selectedSeasonUiState.imageUrl,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = Theme.color.surfaces.surface)
+                )
             }
+        }
+        item {
             Row(
                 modifier = Modifier
-                    .padding(top = 370.dp)
                     .padding(horizontal = 16.dp)
             ) {
                 MovioText(
@@ -110,14 +94,27 @@ fun EpisodesScreenContent(
                 }
             }
         }
+        items(episodes) { episode ->
+            MovioEpisodesCard(
+                movieTitle = episode.episodeName,
+                movieRate = (episode.rate.toFloat() / 2).toString().take(3),
+                currentMovieEpisode = "Episode ${episode.episodeNumber}",
+                movieTime = "${episode.episodeDuration} m",
+                movieImageUrl = episode.imageUrl,
+                onClick = {
+                },
+                modifier = Modifier.padding(bottom = 12.dp, start = 16.dp, end = 16.dp)
+            )
+        }
     }
 }
+
 
 private fun getSeasonsNames(numberOfSeasons: Int, uiState: SeriesDetailsUiState): List<String> {
     return if (uiState.currentSeasonsUiStates.first().seasonNumber == 0)
         (0..<numberOfSeasons).map { "Season $it" }
     else
-        (1..<numberOfSeasons +1).map { "Season $it" }
+        (1..<numberOfSeasons + 1).map { "Season $it" }
 }
 
 
