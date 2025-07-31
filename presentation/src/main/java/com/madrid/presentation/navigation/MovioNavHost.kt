@@ -100,10 +100,11 @@ fun MovioNavHost(
         composable<Destinations.WebViewScreen> {
             val url = it.toRoute<Destinations.WebViewScreen>().url
             WebViewScreen(url = url)
-        composable<Destinations.SeeAllTvShowsScreen> { backStackEntry ->
-            val destination = backStackEntry.toRoute<Destinations.SeeAllTvShowsScreen>()
-            SeeAllTVShowsScreen(type = destination.type)
-        }
+            composable<Destinations.SeeAllTvShowsScreen> { backStackEntry ->
+                val destination = backStackEntry.toRoute<Destinations.SeeAllTvShowsScreen>()
+                SeeAllTVShowsScreen(type = destination.type)
+            }
 
+        }
     }
 }
