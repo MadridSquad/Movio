@@ -8,5 +8,5 @@ data class Series(
     val airDate: String,
     val seasons: List<Season>,
     val description: String,
-    val genre: List<String>,
+    val genre: List<Genre>,
 )

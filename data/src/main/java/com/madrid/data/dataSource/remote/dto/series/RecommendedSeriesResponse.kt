@@ -17,7 +17,7 @@ data class RecommendedSeriesResponse(
 
 @Serializable
 data class RecommendedSeriesResult(
-    @SerializedName("total_results")
+    @SerializedName("adult")
     val adult: Boolean,
     @SerializedName("backdrop_path")
     val backDropPath: String?,
@@ -43,6 +43,6 @@ data class RecommendedSeriesResult(
     val posterPath: String?,
     @SerializedName("vote_average")
     val voteAverage: Double?,
-    @SerializedName("total_results")
+    @SerializedName("vote_count")
     val voteCount: Double?
 )

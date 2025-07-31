@@ -19,6 +19,7 @@ import com.madrid.data.dataSource.remote.response.series.TopRatedSeriesResponse
 import com.madrid.data.dataSource.remote.response.series.TopRatedSeriesResults
 import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Episode
+import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.Season
 import com.madrid.domain.entity.Series
@@ -75,7 +76,7 @@ fun TopRatedSeriesResults.toSeries(): Series {
         rate = this.voteAverage ?: 0.0,
         airDate = this.firstAirDate ?: "",
         description = this.overview ?: "",
-        genre = listOf(),
+        genre = this.genreIds?.map { Genre(id = it?:0,name = "") } ?: listOf(),
         seasons = emptyList(),
     )
 }
@@ -88,7 +89,7 @@ fun OnAirTvShowsResult.toSeries(): Series {
         rate = this.voteAverage ?: 0.0,
         airDate = "",
         description = this.overview ?: "",
-        genre = listOf(),
+        genre = this.genreIds?.map { Genre(id = it?:0,name = "") } ?: listOf(),
         seasons = emptyList(),
     )
 }
@@ -101,7 +102,7 @@ fun AiringTodaySeriesResult.toSeries(): Series {
         rate = this.voteAverage ?: 0.0,
         airDate = this.firstAirDate ?: "",
         description = this.overview ?: "",
-        genre = listOf(),
+        genre = this.genreIds?.map { Genre(id = it?:0,name = "") } ?: listOf(),
         seasons = emptyList(),
     )
 }
@@ -114,7 +115,7 @@ fun RecommendedSeriesResult.toSeries(): Series {
         rate = this.voteAverage ?: 0.0,
         airDate = this.firstAirDate ?: "",
         description = this.overview ?: "",
-        genre = listOf(),
+        genre = this.genreIds?.map { Genre(id = it?:0,name = "") } ?: listOf(),
         seasons = emptyList(),
     )
 }
@@ -128,7 +129,7 @@ fun SeriesDetailsResponse.toSeries(): Series {
         airDate = this.firstAirDate ?: "",
         seasons = this.seasons?.map { it.toSeason() } ?: emptyList(),
         description = this.overview ?: "",
-        genre = this.genres?.map { it.name ?: "" } ?: emptyList(),
+        genre = this.genres?.map { it.toGenre() } ?: emptyList(),
     )
 }
 

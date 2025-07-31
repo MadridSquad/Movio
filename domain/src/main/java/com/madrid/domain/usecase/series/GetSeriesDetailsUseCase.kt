@@ -10,7 +10,7 @@ class GetSeriesDetailsUseCase(
         return seriesRepository.getSeriesDetailsById(seriesId)
             .also { series ->
                 series.genre.forEach {
-                    seriesRepository.increaseSeriesGenreInterestPoints(it)
+                    seriesRepository.increaseSeriesGenreInterestPoints(it.name)
                 }
             }
     }

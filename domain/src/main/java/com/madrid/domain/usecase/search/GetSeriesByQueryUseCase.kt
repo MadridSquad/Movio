@@ -14,9 +14,9 @@ class GetSeriesByQueryUseCase(
         val genres = seriesRepository.getSeriesGenres()
         val genresMap = genres.associateBy { it.name }
         return searchRepository.getSeriesByQuery(query = query, page = page)
-            .sortedByDescending { movie ->
-                movie.genre.sumOf { genre ->
-                    genresMap[genre]?.interestPoints ?: 0
+            .sortedByDescending { series ->
+                series.genre.sumOf { genre ->
+                    genresMap[genre.name]?.interestPoints ?: 0
                 }
             }
     }

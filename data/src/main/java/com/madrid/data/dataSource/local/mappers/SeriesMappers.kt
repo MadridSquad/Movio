@@ -37,7 +37,7 @@ fun SeriesWithGenres.toSeries(): Series {
         rate = this.series.rate,
         airDate = this.series.yearOfRelease,
         description = this.series.description,
-        genre = this.genres.map { it.genreTitle },
+        genre = this.genres.map { it.toGenre() },
         seasons = emptyList()
     )
 }
