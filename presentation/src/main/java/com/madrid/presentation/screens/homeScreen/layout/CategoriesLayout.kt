@@ -67,8 +67,8 @@ fun CategoriesLayout(
                     description = mediaItems[index]?.title ?: "",
                     movieImage = mediaItems[index]?.imageUrl ?: "",
                     rate = mediaItems[index]?.rating?.take(3) ?: "",
-                    width = 136.dp,
-                    height = 100.dp,
+                    width = 100.dp,
+                    height = 136.dp,
                     onClick = {}
                 )
             }
