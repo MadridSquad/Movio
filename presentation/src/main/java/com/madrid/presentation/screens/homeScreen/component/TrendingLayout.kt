@@ -26,14 +26,15 @@ import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.movioCards.TrendingMovieCard
 import com.madrid.presentation.viewModel.homeViewModel.HomeViewModel
 import org.koin.androidx.compose.koinViewModel
+import kotlin.collections.first
 
 @Composable
 fun TrendingLayout(
     modifier: Modifier = Modifier,
-    headerModifier: Modifier  = Modifier,
+    headerModifier: Modifier = Modifier,
     trendingViewModel: HomeViewModel = koinViewModel()
 ) {
-    val trendingUiState by trendingViewModel.state.collectAsState()
+    val homeState by trendingViewModel.state.collectAsState()
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -55,7 +56,7 @@ fun TrendingLayout(
                 .background(Theme.color.surfaces.surface)
         ) {
             when {
-                trendingUiState.isLoading -> {
+                homeState.isLoading -> {
                     LazyHorizontalGrid(
                         rows = GridCells.Fixed(3),
                         modifier = Modifier
@@ -70,9 +71,9 @@ fun TrendingLayout(
                     }
                 }
 
-                trendingUiState.errorMessage.isNotEmpty() -> {
+                homeState.errorMessage.isNotEmpty() -> {
                     MovioText(
-                        text = trendingUiState.errorMessage,
+                        text = homeState.errorMessage,
                         modifier = Modifier.align(Alignment.Center),
                         color = Theme.color.surfaces.onSurface,
                         textStyle = Theme.textStyle.title.mediumMedium16
@@ -89,12 +90,12 @@ fun TrendingLayout(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         contentPadding = PaddingValues(horizontal = 16.dp)
                     ) {
-                        items(trendingUiState.trending.take(9)) { item ->
+                        items(homeState.allTabUiState.trending.media) { item ->
                             TrendingMovieCard(
-                                imgUrl = item.posterPath,
+                                imgUrl = item.imageUrl,
                                 movieTitle = item.title,
-                                movieCategory = item.mediaType,
-                                rating = item.voteAverage.toString(),
+                                movieCategory = item.category.first(),
+                                rating = item.rating,
                             )
                         }
                     }

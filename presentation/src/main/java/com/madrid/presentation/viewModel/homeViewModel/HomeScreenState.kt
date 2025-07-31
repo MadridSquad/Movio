@@ -54,7 +54,7 @@ data class CategoryUiState(
     val name: String = "",
 )
 
-enum class SortingType(value: String) {
+enum class SortingType(val value: String) {
     ALL("All"),
     POPULARITY("Popularity"),
     LATEST("Latest")
