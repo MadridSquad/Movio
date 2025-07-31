@@ -1,5 +1,6 @@
 package com.madrid.presentation.screens.loginScreen.component
 
+
 import LoginUiState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 
 
+
 @Composable
 fun MovieLoginContent(
     state: LoginUiState,
@@ -27,7 +29,6 @@ fun MovieLoginContent(
     onForgotPasswordClick: () -> Unit,
     onSignUpClick: () -> Unit,
     onGuestLogin: () -> Unit,
-   // onNavigateToLogin:() -> Unit = {},
 ) {
     Column(
         modifier = Modifier

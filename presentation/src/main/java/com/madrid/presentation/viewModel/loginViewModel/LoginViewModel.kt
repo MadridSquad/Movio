@@ -1,18 +1,15 @@
-package com.madrid.presentation.viewModel.loginViewModel
-
 import androidx.lifecycle.viewModelScope
-import com.madrid.domain.entity.LoginResult
 import com.madrid.domain.exceptions.AccountLockedException
 import com.madrid.domain.exceptions.InvalidCredentialsException
-import com.madrid.domain.exceptions.NetworkException
+import com.madrid.domain.exceptions.MovioException
+import com.madrid.domain.exceptions.ValidationException
 import com.madrid.domain.usecase.authentication.LoginUseCase
-import com.madrid.presentation.viewModel.LoginError
-import com.madrid.presentation.viewModel.LoginUiState
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.annotation.KoinViewModel
+import com.madrid.domain.exceptions.NetworkException
 
 @KoinViewModel
 class LoginViewModel(
@@ -24,7 +21,7 @@ class LoginViewModel(
         updateState {
             it.copy(
                 username = username,
-                errorState = if (username.isNotBlank()) it.errorState?.clearUsernameError() else it.errorState
+                errorMessage = if (username.isNotBlank()) null else it.errorMessage
             )
         }
     }
@@ -33,7 +30,7 @@ class LoginViewModel(
         updateState {
             it.copy(
                 password = password,
-                errorState = if (password.isNotBlank()) it.errorState?.clearPasswordError() else it.errorState
+                errorMessage = if (password.isNotBlank()) null else it.errorMessage
             )
         }
     }
@@ -47,10 +44,11 @@ class LoginViewModel(
         if (!currentState.canLogin) return
 
         viewModelScope.launch(dispatcher) {
-            updateState { it.copy(isLoading = true, errorState = null) }
+            updateState { it.copy(isLoading = true, errorMessage = null) }
 
-            when (val result = loginUseCase.execute(currentState.username, currentState.password)) {
-                true -> {
+            try {
+                val success = loginUseCase.execute(currentState.username, currentState.password)
+                if (success) {
                     updateState {
                         it.copy(
                             isLoading = false,
@@ -60,14 +58,12 @@ class LoginViewModel(
                     }
                     onSuccess()
                 }
-
-                false -> {
-                    updateState {
-                        it.copy(
-                            isLoading = false,
-                            // TODO errorState =
-                        )
-                    }
+            } catch (ex: MovioException) {
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = getErrorMessage(ex)
+                    )
                 }
             }
         }
@@ -75,10 +71,11 @@ class LoginViewModel(
 
     fun loginAsGuest(onSuccess: () -> Unit) {
         viewModelScope.launch(dispatcher) {
-            updateState { it.copy(isLoading = true, errorState = null) }
+            updateState { it.copy(isLoading = true, errorMessage = null) }
 
-            when (val result = loginUseCase.loginAsGuest()) {
-                true -> {
+            try {
+                val success = loginUseCase.loginAsGuest()
+                if (success) {
                     updateState {
                         it.copy(
                             isLoading = false,
@@ -88,40 +85,27 @@ class LoginViewModel(
                     }
                     onSuccess()
                 }
-
-                false -> {
-                    updateState {
-                        it.copy(
-                            isLoading = false,
-                            // TODO errorState = result.toLoginError()
-                        )
-                    }
+            } catch (ex: MovioException) {
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = getErrorMessage(ex)
+                    )
                 }
             }
         }
     }
 
-    private fun LoginResult.Error.toLoginError(): LoginError {
-        return when (val ex = this.exception) {
-            is InvalidCredentialsException -> LoginError.InvalidCredentials
-            is AccountLockedException -> LoginError.AccountLocked
-            is NetworkException -> LoginError.NetworkError
-            else -> LoginError.GenericError(ex.message ?: "Unknown error")
-        }
-    }
-
-
-    private fun LoginError.clearUsernameError(): LoginError {
-        return when (this) {
-            is LoginError.EmptyFields -> this.copy(usernameEmpty = false)
-            else -> this
-        }
-    }
-
-    private fun LoginError.clearPasswordError(): LoginError {
-        return when (this) {
-            is LoginError.EmptyFields -> this.copy(passwordEmpty = false)
-            else -> this
+    private fun getErrorMessage(exception: MovioException): String {
+        return when (exception) {
+            is InvalidCredentialsException -> "Invalid username or password"
+            is AccountLockedException -> "Account locked. Contact support."
+            is NetworkException -> "Network error. Try again."
+            is ValidationException.EmptyField.Username -> "Username cannot be empty"
+            is ValidationException.EmptyField.Password -> "Password cannot be empty"
+            is ValidationException.MinimumLength.Username -> "Username must be at least 3 characters"
+            is ValidationException.MinimumLength.Password -> "Password must be at least 6 characters"
+            else -> exception.message ?: "Unknown error occurred"
         }
     }
 }

@@ -18,12 +18,6 @@ import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
-import com.madrid.domain.exceptions.AccountLockedException
-import com.madrid.domain.exceptions.EmptyPasswordException
-import com.madrid.domain.exceptions.EmptyUsernameException
-import com.madrid.domain.exceptions.InvalidCredentialsException
-import com.madrid.domain.exceptions.MovioException
-import com.madrid.domain.exceptions.NetworkException
 
 
 @Composable
@@ -39,17 +33,7 @@ fun LoginErrorAndForgotPassword(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        val errorMessage = when (val error = state.errorState) {
-            is EmptyUsernameException -> "Username is required"
-            is EmptyPasswordException -> "Password is required"
-            is InvalidCredentialsException -> "Invalid username or password"
-            is AccountLockedException -> "Account locked. Contact support."
-            is NetworkException -> "Network error. Try again."
-            is MovioException -> error.message ?: "Unexpected error"
-            else -> ""
-        }
-
-        if (errorMessage.isNotEmpty()) {
+        if (state.errorMessage != null) {
             MovioIcon(
                 painterResource(R.drawable.info_circle),
                 tint = Theme.color.system.onError,
@@ -58,7 +42,7 @@ fun LoginErrorAndForgotPassword(
             )
 
             MovioText(
-                text = errorMessage,
+                text = state.errorMessage,
                 textStyle = Theme.textStyle.label.mediumMedium12,
                 color = Theme.color.system.onError,
                 maxLines = 2,

@@ -12,12 +12,6 @@ import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.textInputField.BasicTextInputField
 import com.madrid.designSystem.theme.Theme
-import com.madrid.domain.exceptions.EmptyPasswordException
-import com.madrid.domain.exceptions.EmptyUsernameException
-import com.madrid.domain.exceptions.InvalidCredentialsException
-import com.madrid.domain.exceptions.UsernameTooShortException
-import com.madrid.domain.exceptions.WeakPasswordException
-
 
 @Composable
 fun LoginInputFields(
@@ -34,10 +28,10 @@ fun LoginInputFields(
             value = state.username,
             onValueChange = onUsernameChange,
             modifier = Modifier.padding(bottom = 12.dp),
-            isError = state.errorState is EmptyUsernameException ||
-                    state.errorState is UsernameTooShortException,
-            endIconPainter = null,
-            errorBorderBrush = Theme.color.gradients.errorBorderGradient
+            isError = state.errorMessage != null &&
+                    (state.errorMessage.contains("Username")),
+            errorBorderBrush = Theme.color.gradients.errorBorderGradient,
+            endIconPainter = null
         )
 
         BasicTextInputField(
@@ -52,9 +46,9 @@ fun LoginInputFields(
             ),
             onClickEndIcon = onTogglePassword,
             modifier = Modifier.padding(bottom = 12.dp),
-            isError = state.errorState is EmptyPasswordException ||
-                    state.errorState is WeakPasswordException ||
-                    state.errorState is InvalidCredentialsException,
+            isError = state.errorMessage != null &&
+                    (state.errorMessage.contains("Password") ||
+                            state.errorMessage.contains("Invalid")),
             errorBorderBrush = Theme.color.gradients.errorBorderGradient
         )
     }
