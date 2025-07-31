@@ -1,5 +1,6 @@
 package com.madrid.presentation.screens.detailsScreen.detailsMovieScreen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -51,7 +52,8 @@ fun MovieDetailsScreen(
         TopAppBar(
             text = null,
             modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
-            onFirstIconClick = { navController.popBackStack() }
+            onFirstIconClick = {
+                navController.popBackStack() }
         )
         Column(
             modifier = Modifier

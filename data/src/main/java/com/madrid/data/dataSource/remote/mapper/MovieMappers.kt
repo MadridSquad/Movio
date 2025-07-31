@@ -13,6 +13,7 @@ import com.madrid.data.dataSource.remote.response.movie.NowPlayingMovieResult
 import com.madrid.data.dataSource.remote.response.movie.UpcomingMovieResult
 import com.madrid.data.dataSource.remote.response.movie.UpcomingMoviesResponse
 import com.madrid.domain.entity.Artist
+import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.Trailer
@@ -26,7 +27,7 @@ fun MovieDetailsResponse.toMovie(): Movie {
         releaseDate = this.releaseDate ?: "",
         movieDuration = this.runtime?.toString() ?: "",
         description = this.overview ?: "",
-        genre = this.remoteGenreDtos.map { it.name ?: "" },
+        genre = this.remoteGenreDtos.map { it.toGenre()},
     )
 }
 
@@ -39,7 +40,8 @@ fun MovieResult.toMovie(): Movie {
         releaseDate = this.releaseDate ?: "",
         movieDuration = "",
         description = this.overview ?: "",
-        genre = listOf(),
+        genre = this.genreIds?.map { Genre(id = it, name = "") } ?: emptyList(),
+
     )
 }
 
@@ -114,7 +116,7 @@ fun NowPlayingMovieResult.toMovie(): Movie {
         rate = this.voteAverage ?: 0.0,
         releaseDate = this.releaseDate ?: "",
         description = this.overview ?: "",
-        genre = listOf(),
+        genre = this.genreIds?.map { Genre(id = it, name = "") } ?: emptyList(),
         movieDuration = "",
     )
 }
@@ -133,7 +135,7 @@ fun UpcomingMovieResult.toMovie(): Movie {
         rate = this.voteAverage ?: 0.0,
         releaseDate = this.releaseDate ?: "",
         description = this.overview ?: "",
-        genre = listOf(),
+        genre = this.genreIds?.map { Genre(id = it, name = "") } ?: emptyList(),
         movieDuration = "",
     )
 }

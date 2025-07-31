@@ -1,5 +1,6 @@
 package com.madrid.movio.di
 
+import com.madrid.domain.usecase.authentication.LoginUseCase
 import com.madrid.domain.usecase.artist.GetArtistDetailsUseCase
 import com.madrid.domain.usecase.artist.GetArtistMoviesUseCase
 import com.madrid.domain.usecase.movie.GetMovieDetailsUseCase
@@ -15,7 +16,6 @@ import com.madrid.domain.usecase.search.GetExploreMoreMovieUseCase
 import com.madrid.domain.usecase.search.GetMoviesByQueryUseCase
 import com.madrid.domain.usecase.search.GetPopularMoviesUseCase
 import com.madrid.domain.usecase.search.GetRecentSearchesUseCase
-import com.madrid.domain.usecase.search.GetRecommendedMovieUseCase
 import com.madrid.domain.usecase.search.GetSeriesByQueryUseCase
 import com.madrid.domain.usecase.search.RemoveRecentSearchUseCase
 import com.madrid.domain.usecase.series.GetEpisodesForSeasonUseCase
@@ -26,12 +26,24 @@ import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
 import com.madrid.domain.usecase.series.GetSeriesTrailersUseCase
 import com.madrid.domain.usecase.movie.GetTrendingMoviesUseCase
 import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import com.madrid.domain.usecase.series.FilterSeriesByCategoryUseCase
 import com.madrid.domain.usecase.series.GetSeriesGenresUseCase
 import com.madrid.domain.usecase.series.GetTopRatedSeriesUseCase
 import com.madrid.domain.usecase.series.GetRecommendedSeriesUseCase
 import com.madrid.domain.usecase.series.GetAiringTodaySeriesUseCase
 import com.madrid.domain.usecase.series.GetOnAirSeriesUseCase
+import com.madrid.domain.usecase.movie.FilterMoviesByCategoryUseCase
+import com.madrid.domain.usecase.movie.GetMovieGenresUseCase
+import com.madrid.domain.usecase.movie.GetTopRatedMoviesUseCase
+import com.madrid.domain.usecase.search.GetRecommendedMovieUseCase
+import com.madrid.domain.usecase.movie.GetUpcomingMovieUseCase
+import com.madrid.domain.usecase.movie.GetNowPlayingMovieUseCase
+
+
+
+
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -58,6 +70,13 @@ val domainModule = module {
     singleOf(::GetMovieTrailersUseCase)
     singleOf(::GetSimilarMoviesUseCase)
     singleOf(::GetMovieTrailersUseCase)
+
+    singleOf(::FilterMoviesByCategoryUseCase)
+    singleOf(::GetMovieGenresUseCase)
+    singleOf(::GetTopRatedMoviesUseCase)
+    singleOf(::GetRecommendedMovieUseCase)
+    singleOf(::GetUpcomingMovieUseCase)
+    singleOf(::GetNowPlayingMovieUseCase)
     singleOf(::GetTrendingMoviesUseCase)
 
 
@@ -75,5 +94,10 @@ val domainModule = module {
     singleOf(::GetRecommendedSeriesUseCase)
     singleOf(::GetAiringTodaySeriesUseCase)
     singleOf(::GetOnAirSeriesUseCase)
+
+    // user
+    singleOf(::LoginUseCase)
+    single<CoroutineDispatcher> { Dispatchers.IO }
+
 
 }

@@ -6,8 +6,18 @@ open class MovioException(message: String) : Exception(message)
 class UnknownException(message: String) : MovioException(message)
 
 open class AuthorizationException(message: String) : MovioException(message)
-class UnauthorizedException : AuthorizationException(message = "Unauthorized")
-class ValidationException : AuthorizationException(message = "Validation")
+class InvalidCredentialsException : AuthorizationException("Invalid username or password")
+class AccountLockedException : AuthorizationException("Account locked. Contact support.")
+class SessionExpiredException : AuthorizationException("Session expired. Please login again.")
+class GuestLoginException : AuthorizationException("Guest login failed")
+class UnauthorizedException : AuthorizationException("Unauthorized")
+
+// Validation Exceptions
+class EmptyUsernameException : AuthorizationException("Username cannot be empty")
+class UsernameTooShortException : AuthorizationException("Username must be at least 3 characters")
+class EmptyPasswordException : AuthorizationException("Password cannot be empty")
+class WeakPasswordException : AuthorizationException("Password must be at least 6 characters")
+
 
 open class ServerException(message: String) : MovioException(message)
 

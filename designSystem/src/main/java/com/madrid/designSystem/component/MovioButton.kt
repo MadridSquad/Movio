@@ -22,13 +22,17 @@ fun MovioButton(
     color: Color = Theme.color.brand.primary,
     backgroundColor: Color? = color,
     onClick: () -> Unit,
+    enabled: Boolean = true,
     content: @Composable RowScope.() -> Unit,
 ) {
     val buttonModifier = if (backgroundColor != null) {
         modifier
             .clip(RoundedCornerShape(32.dp))
             .background(backgroundColor)
-            .clickable { onClick() }
+            .clickable(
+                enabled = enabled,
+                onClick = onClick
+            )
             .padding(horizontal = 16.dp, vertical = 8.dp)
     } else {
         modifier

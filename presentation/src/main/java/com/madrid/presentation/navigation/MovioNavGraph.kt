@@ -24,14 +24,18 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No Nav C
 
 
 @Composable
-fun MovioNavGraph(navController: NavHostController) {
+fun MovioNavGraph(
+    navController: NavHostController,
+    isLoggedIn : Boolean
+) {
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     val currentRoute = navBackStackEntry?.destination?.route
 
     val currentDestination = navBarDestinations.find { destinationItem ->
-        destinationItem.destination.toString() == currentRoute?.substringAfterLast(".")    }
+        destinationItem.destination.toString() == currentRoute?.substringAfterLast(".")
+    }
 
     Column(
         Modifier
@@ -47,18 +51,18 @@ fun MovioNavGraph(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            MovioNavHost(navController)
+            MovioNavHost(navController, isLoggedIn)
         }
 
         AnimatedVisibility(
             visible = currentDestination != null,
             enter = slideInVertically(
                 animationSpec = tween(0),
-                initialOffsetY = { it}
+                initialOffsetY = { it }
             ),
             exit = slideOutVertically(
                 animationSpec = tween(0),
-                targetOffsetY = {it}
+                targetOffsetY = { it }
             )
         ) {
             CustomBottomBar(

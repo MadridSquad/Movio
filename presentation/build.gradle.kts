@@ -81,4 +81,4 @@ dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.serialization.core)
-}
+    implementation("androidx.webkit:webkit:1.9.0")}

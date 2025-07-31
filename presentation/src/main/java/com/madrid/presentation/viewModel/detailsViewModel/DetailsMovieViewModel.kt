@@ -31,15 +31,15 @@ class DetailsMovieViewModel(
     val args = saveStateHandle.toRoute<Destinations.MovieDetailsScreen>()
 
     init {
-        Log.e("MY_TAG", "args: ${args.movieId}")
         loadData()
     }
 
-    internal fun loadData() {
+     private fun loadData() {
         Log.d("TAG lol", "=== LOADING MOVIE DETAILS ===")
         tryToExecute(
             function = {
-                getMovieDetailsUseCase(args.movieId)
+                getMovieDetailsUseCase.invoke(args.movieId)
+
             },
             onSuccess = { movie ->
 
@@ -50,9 +50,9 @@ class DetailsMovieViewModel(
                         dataMovie = formatDateKotlinx(movie.releaseDate),
                         movieName = movie.title,
                         rate = RateFormatter.formatRate(movie.rate),
-                        movieDuration =formatDuration( movie.movieDuration),
+                        movieDuration = formatDuration(movie.movieDuration),
                         description = movie.description,
-                        genreMovie = movie.genre,
+                        genreMovie = movie.genre.map { it.toString() },
                     )
                 }
 
@@ -60,9 +60,7 @@ class DetailsMovieViewModel(
                 loadSimilarMovies()
                 loadReviews()
             },
-            onError = { error ->
-                Log.e("TAG lol", "Movie details error: $error")
-            },
+            onError = { error -> },
             scope = viewModelScope,
             dispatcher = Dispatchers.IO
         )
@@ -82,7 +80,6 @@ class DetailsMovieViewModel(
                 }
             },
             onError = { error ->
-                Log.e("TAG lol", "Cast error: $error")
             },
             scope = viewModelScope,
             dispatcher = Dispatchers.IO

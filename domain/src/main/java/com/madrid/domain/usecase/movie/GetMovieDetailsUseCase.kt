@@ -10,7 +10,7 @@ class GetMovieDetailsUseCase(
         return movieRepository.getMovieDetailsById(movieId)
             .also { movie ->
                 movie.genre.forEach { genreTitle ->
-                    movieRepository.increaseMovieGenreInterestPoints(genreTitle)
+                    movieRepository.increaseMovieGenreInterestPoints(genreTitle.name)
                 }
             }
     }

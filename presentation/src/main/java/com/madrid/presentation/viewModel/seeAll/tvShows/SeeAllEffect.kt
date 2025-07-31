@@ -1,4 +1,4 @@
-package com.madrid.presentation.viewModel.seeAll
+package com.madrid.presentation.viewModel.seeAll.tvShows
 
 sealed interface SeeAllEffect {
     data object OnNavigateBack : SeeAllEffect

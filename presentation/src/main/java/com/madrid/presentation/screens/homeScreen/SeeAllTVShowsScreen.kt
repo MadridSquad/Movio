@@ -25,8 +25,8 @@ import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.viewModel.seeAll.SeeAllTVShowsViewModel
-import com.madrid.presentation.viewModel.seeAll.SeeAllTvShowType
+import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTVShowsViewModel
+import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTvShowType
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -39,13 +39,7 @@ fun SeeAllTVShowsScreen(
     val navController = LocalNavController.current
     val items = uiState.genre
 
-    Log.d("log items", "TopRatingScreen: $items")
-    Log.d("log items", "GenreMovie: ${uiState.genre}")
-    Log.d("log items", "Filtered: ${uiState.filteredSeries}")
-
     var selectedItem by remember { mutableStateOf("All") }
-
-    Log.d("log items", "TopRatingScreen: $selectedItem")
 
     LaunchedEffect(Unit) {
         if (uiState.genre.isNotEmpty()) {
@@ -54,7 +48,7 @@ fun SeeAllTVShowsScreen(
                 selectedItem = firstGenre
             }
             if (selectedItem.isNotEmpty())
-                viewModel.onGenreSelect(uiState.genre.find { it.name == selectedItem }!!)
+                viewModel.onGenreSelect(uiState.genre.find { it.name == selectedItem })
         }
     }
 
@@ -71,7 +65,8 @@ fun SeeAllTVShowsScreen(
         item(
             span = { GridItemSpan(maxLineSpan) }
         ) {
-            TopAppBar(uiState.title, secondIcon = null, thirdIcon = null)
+            TopAppBar(uiState.title, secondIcon = null, thirdIcon = null , onFirstIconClick = {
+                navController.popBackStack()})
         }
         item(span = { GridItemSpan(maxLineSpan) }) {
 
