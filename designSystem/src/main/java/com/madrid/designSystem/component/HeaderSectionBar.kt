@@ -82,7 +82,7 @@ fun HeaderSectionBar(
                         onClick = { onTabSelected(index) }
                     ),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 MovioText(
                     modifier = Modifier
