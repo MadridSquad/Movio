@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.ui.Alignment
@@ -12,11 +13,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.MovioText
+import com.madrid.designSystem.component.MoviosText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
-import com.madrid.presentation.component.RecentSearchItem
-
+import com.madrid.presentation.component.RecentSearchItem // Assuming this is still a valid import
 
 fun LazyGridScope.recentSearchScreen(
     searchHistory: List<String>,
@@ -27,12 +30,11 @@ fun LazyGridScope.recentSearchScreen(
     highlightCharactersInText: (String, String, Color, Color, TextStyle) -> AnnotatedString,
     modifier: Modifier = Modifier
 ) {
-    item(
-        span = { GridItemSpan(maxLineSpan) }
-    ) {
+    item(span = { GridItemSpan(maxLineSpan) }) {
         Row(
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -49,16 +51,34 @@ fun LazyGridScope.recentSearchScreen(
             )
         }
     }
+
     items(
-       count =  searchHistory.size,
+        count = searchHistory.size,
         span = { GridItemSpan(maxLineSpan) }
-    ) { searchItem ->
-        RecentSearchItem(
-            searchText = searchHistory[searchItem],
-            searchQuery = searchQuery,
-            onItemClick = { onSearchItemClick(searchHistory[searchItem]) },
-            onRemoveClick = { onRemoveItem(searchHistory[searchItem]) },
-            highlightCharactersInText = highlightCharactersInText,
-        )
+    ) { index ->
+        val searchText = searchHistory[index]
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onSearchItemClick(searchText) }
+                .padding(vertical = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            MoviosText(
+                text = highlightCharactersInText(
+                    searchText,
+                    searchQuery,
+                    Theme.color.brand.primary,
+                    Theme.color.surfaces.onSurface,
+                    Theme.textStyle.label.smallRegular12
+                ),
+                modifier = Modifier.weight(1f),
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                textStyle = Theme.textStyle.label.smallRegular12,
+                textAlign = null
+            )
+        }
     }
 }

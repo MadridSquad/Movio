@@ -38,13 +38,19 @@ fun ReviewScreen(
             onSeeAllClick = { onSeeAllReviews() },
             modifier = Modifier.padding(horizontal = 16.dp)
         )
+
         Spacer(modifier = Modifier.height(8.dp))
 
-        if (uiState.reviews.isEmpty()) {
-            EmptyReviewsMessage()
-        } else {
-            ReviewsList(reviews = uiState.reviews)
-        }
+        ReviewsSectionContent(reviews = uiState.reviews)
+    }
+}
+
+@Composable
+private fun ReviewsSectionContent(reviews: List<ReviewUiState>) {
+    if (reviews.isEmpty()) {
+        EmptyReviewsMessage()
+    } else {
+        ReviewsList(reviews = reviews)
     }
 }
 

@@ -70,7 +70,9 @@ fun SeriesDetailsScreen(
         TopAppBar(
             text = null,
             modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
-            onFirstIconClick = { navController.popBackStack() }
+            onFirstIconClick = {
+                Log.d("in series details screen naviagtion", "SeriesDetailsScreen: ")
+                navController.popBackStack() }
         )
         Column(
             modifier = Modifier

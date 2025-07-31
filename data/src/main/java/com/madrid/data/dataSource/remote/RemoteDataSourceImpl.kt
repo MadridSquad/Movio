@@ -4,6 +4,7 @@ import android.util.Log
 import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
+import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
 import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
@@ -172,4 +173,22 @@ class RemoteDataSourceImpl(
     ): SearchSeriesResponse {
         return api.getSeriesByGenreId(page, genreId, sortBy)
     }
+
+    override suspend fun login(username: String, password: String): String {
+        val requestTokenResponse = api.getRequestToken()
+        val requestToken = requestTokenResponse.requestToken
+        val sessionResponse = api.postCreateSession(
+            CreateSessionBody(
+                username = username,
+                password = password,
+                requestToken = requestToken
+            )
+        )
+        return sessionResponse.requestToken
+    }
+
+    override suspend fun loginAsGuest(): String {
+        return api.getCreateGuestSession().requestToken
+    }
+
 }

@@ -18,7 +18,9 @@ import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.madrid.detectimagecontent.R
 
 
 @Composable
@@ -65,22 +67,31 @@ fun FilteredImageContent(
     image: Bitmap?,
     isNSFW: Boolean,
     contentDescription: String?,
-    modifier: Modifier,
-    alignment: Alignment,
-    contentScale: ContentScale,
-    alpha: Float,
-    colorFilter: ColorFilter?
+    modifier: Modifier = Modifier,
+    alignment: Alignment = Alignment.Center,
+    contentScale: ContentScale = ContentScale.Crop,
+    alpha: Float = 1f,
+    colorFilter: ColorFilter? = null
 ) {
-    image?.let {
+    if (image == null) {
         Image(
-            bitmap = it.asImageBitmap(),
+            painter = painterResource(R.drawable.place_holder),
             contentDescription = contentDescription,
             modifier = modifier
                 .size(300.dp)
-                .then(
-                    if (isNSFW) Modifier.blur(16.dp)
-                    else Modifier
-                ),
+                .then(if (isNSFW) Modifier.blur(16.dp) else Modifier),
+            contentScale = contentScale,
+            alignment = alignment,
+            alpha = alpha,
+            colorFilter = colorFilter
+        )
+    } else {
+        Image(
+            bitmap = image.asImageBitmap(),
+            contentDescription = contentDescription,
+            modifier = modifier
+                .size(300.dp)
+                .then(if (isNSFW) Modifier.blur(16.dp) else Modifier),
             contentScale = contentScale,
             alignment = alignment,
             alpha = alpha,

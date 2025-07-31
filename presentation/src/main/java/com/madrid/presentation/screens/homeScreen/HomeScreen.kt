@@ -1,7 +1,7 @@
 package com.madrid.presentation.screens.homeScreen
 
-import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -58,35 +58,31 @@ fun HomeScreenContent(
 ) {
     var selectedTabIndex by remember { mutableIntStateOf(0) }
 
-    Column(
+    Box(
         Modifier
             .fillMaxSize()
             .background(Theme.color.surfaces.surface)
             .padding(top = 32.dp),
     ) {
-
-        HomeAppBar(modifier = Modifier.padding(horizontal = 16.dp))
-        HeaderSectionBar(
-            tabs = listOf(
-                stringResource(R.string.all),
-                stringResource(R.string.Movies),
-                stringResource(R.string.TV_Shows),
-                stringResource(R.string.Categories),
-            ),
-            selectedTabIndex = selectedTabIndex,
-            onTabSelected = { index ->
-                selectedTabIndex = index
-            },
-            modifier = Modifier.padding(horizontal = 16.dp)
-        )
-        LayoutContent(
-            HomeTab.entries[selectedTabIndex],
-            state,
-            interactionListener
-        )
+        LayoutContent(HomeTab.entries[selectedTabIndex])
+        Column {
+            HomeAppBar(modifier = Modifier.padding(horizontal = 16.dp))
+            HeaderSectionBar(
+                tabs = listOf(
+                    stringResource(R.string.all),
+                    stringResource(R.string.Movies),
+                    stringResource(R.string.TV_Shows),
+                    stringResource(R.string.Categories),
+                ),
+                selectedTabIndex = selectedTabIndex,
+                onTabSelected = { index ->
+                    selectedTabIndex = index
+                },
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+        }
     }
 }
-
 
 @Composable
 private fun LayoutContent(
@@ -94,10 +90,6 @@ private fun LayoutContent(
     state: HomeScreenState,
     interactionListener: HomeInteractionListener
 ) {
-    Log.d(
-        "HomeScreen: ",
-        "${state.categoryTabUiState.media.collectAsLazyPagingItems().itemCount}"
-    )
     when (selectedTab) {
         HomeTab.ALL -> AllMediaLayout()
         HomeTab.MOVIES -> MoviesLayout()

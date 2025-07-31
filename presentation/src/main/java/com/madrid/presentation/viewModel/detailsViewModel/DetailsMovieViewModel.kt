@@ -31,15 +31,15 @@ class DetailsMovieViewModel(
     val args = saveStateHandle.toRoute<Destinations.MovieDetailsScreen>()
 
     init {
-        Log.e("MY_TAG", "args: ${args.movieId}")
         loadData()
     }
 
-    internal fun loadData() {
+     private fun loadData() {
         Log.d("TAG lol", "=== LOADING MOVIE DETAILS ===")
         tryToExecute(
             function = {
-                getMovieDetailsUseCase(args.movieId)
+                getMovieDetailsUseCase.invoke(args.movieId)
+
             },
             onSuccess = { movie ->
 
@@ -60,9 +60,7 @@ class DetailsMovieViewModel(
                 loadSimilarMovies()
                 loadReviews()
             },
-            onError = { error ->
-                Log.e("TAG lol", "Movie details error: $error")
-            },
+            onError = { error -> },
             scope = viewModelScope,
             dispatcher = Dispatchers.IO
         )
@@ -82,7 +80,6 @@ class DetailsMovieViewModel(
                 }
             },
             onError = { error ->
-                Log.e("TAG lol", "Cast error: $error")
             },
             scope = viewModelScope,
             dispatcher = Dispatchers.IO
@@ -119,6 +116,7 @@ class DetailsMovieViewModel(
     }
 
     private fun loadReviews() {
+        Log.d("REVIEW_DEBUG", ">>> loadReviews started <<<")
         tryToExecute(
             function = {
                 getMovieReviewsUseCase(args.movieId)
@@ -129,7 +127,7 @@ class DetailsMovieViewModel(
                         reviewerName = review.reviewerName,
                         reviewerImageUrl = "",
                         rating = review.rate.toFloat(),
-                        date = formatDateKotlinx(review.date),
+                        date = review.date,
                         content = review.comment,
                     )
                 }
@@ -146,4 +144,5 @@ class DetailsMovieViewModel(
             dispatcher = Dispatchers.IO
         )
     }
+
 }
