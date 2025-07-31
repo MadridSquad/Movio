@@ -68,15 +68,15 @@ fun CustomHorizontalCardPreview() {
             title = "Inception",
             imageUrl = "https://via.placeholder.com/150",
             rating = "8.8",
-            category = "Sci-Fi"
+            category = listOf("Sci-Fi")
         ),
         MediaUiState(
             id = "2",
-            mediaType = MediaType.TV_SERIES,
+            mediaType = MediaType.TV_SHOW,
             title = "Breaking Bad",
             imageUrl = "https://via.placeholder.com/150",
             rating = "9.5",
-            category = "Drama"
+            category = listOf("Drama")
         ),
         MediaUiState(
             id = "3",
@@ -84,7 +84,7 @@ fun CustomHorizontalCardPreview() {
             title = "The Dark Knight",
             imageUrl = "https://via.placeholder.com/150",
             rating = "9.0",
-            category = "Action"
+            category = listOf("Action")
         )
     )
 

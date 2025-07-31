@@ -45,6 +45,6 @@ fun SearchScreenState.MovieUiState.toMediaUiState(): MediaUiState {
         title = this.title,
         imageUrl = this.imageUrl,
         rating = this.rating,
-        category = this.category
+        category = listOf(this.category)
     )
 }

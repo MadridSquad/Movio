@@ -6,11 +6,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -95,11 +93,11 @@ fun AllMediaLayout() {
             )
         }
 
-        itemsIndexed(fakeMediaList) { index , media ->
+        itemsIndexed(fakeMediaList) { index, media ->
             var endPaddingValue = 0
             var startPaddingValue = 0
 
-            if(index % 2 ==0)
+            if (index % 2 == 0)
                 startPaddingValue = 16
             else
                 endPaddingValue = 16
@@ -116,7 +114,6 @@ fun AllMediaLayout() {
 }
 
 
-
 fun getFakeMedia(): List<MediaUiState> {
     return listOf(
         MediaUiState(
@@ -125,15 +122,15 @@ fun getFakeMedia(): List<MediaUiState> {
             title = "Inception",
             imageUrl = "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg\n",
             rating = "8.8",
-            category = "Sci-Fi"
+            category = listOf("Sci-Fi")
         ),
         MediaUiState(
             id = "2",
-            mediaType = MediaType.TV_SERIES,
+            mediaType = MediaType.TV_SHOW,
             title = "Breaking Bad",
             imageUrl = "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg\n",
             rating = "9.5",
-            category = "Drama"
+            category = listOf("Drama")
         ),
         MediaUiState(
             id = "3",
@@ -141,7 +138,7 @@ fun getFakeMedia(): List<MediaUiState> {
             title = "The Dark Knight",
             imageUrl = "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg\n",
             rating = "9.0",
-            category = "Action"
+            category = listOf("Action")
         ),
         MediaUiState(
             id = "4",
@@ -149,9 +146,7 @@ fun getFakeMedia(): List<MediaUiState> {
             title = "The Dark Knight",
             imageUrl = "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg\n",
             rating = "9.0",
-            category = "Action"
+            category = listOf("Action")
         )
-
-
     )
 }
