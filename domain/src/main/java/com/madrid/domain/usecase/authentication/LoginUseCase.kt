@@ -6,6 +6,7 @@ import com.madrid.domain.exceptions.UnknownException
 import com.madrid.domain.exceptions.ValidationException
 import com.madrid.domain.repository.UserRepository
 import com.madrid.domain.exceptions.InvalidCredentialsException
+import com.madrid.domain.exceptions.MovioException
 import kotlinx.coroutines.flow.Flow
 
 class LoginUseCase(
@@ -18,15 +19,15 @@ class LoginUseCase(
             val success = userRepository.login(username, password)
             if (!success) throw InvalidCredentialsException()
             return true
-        } catch (e: ValidationException) {
+        } catch (e: MovioException) {
             throw e
         } catch (e: Exception) {
             throw when (e) {
-                is NetworkException -> e
-                else -> UnknownException("Login failed: ${e.message}")
+                else -> UnknownException("Wrong username or password")
             }
         }
     }
+
     suspend fun loginAsGuest(): Boolean {
         return userRepository.loginAsGuest()
     }
