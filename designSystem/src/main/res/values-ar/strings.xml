@@ -2,4 +2,12 @@
 <resources>
     <string name="read_less">عرض اقل</string>
     <string name="read_more">عرض المزيد</string>
+    <string name="empty_no_results_title">لا توجد نتائج</string>
+    <string name="empty_no_results_description">لم يتم العثور على أي نتائج تطابق بحثك.</string>
+    <string name="empty_no_internet_title">لا يوجد اتصال بالإنترنت</string>
+    <string name="empty_no_internet_description">يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.</string>
+    <string name="empty_no_history_title">لا يوجد سجل</string>
+    <string name="empty_no_history_description">لم يتم العثور على أي سجل حتى الآن.</string>
+    <string name="empty_search_title">ابدأ البحث</string>
+    <string name="empty_search_description">اكتب شيئًا في شريط البحث لبدء البحث.</string>
 </resources>
