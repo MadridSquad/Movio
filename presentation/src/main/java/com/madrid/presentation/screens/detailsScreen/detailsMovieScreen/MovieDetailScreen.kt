@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -129,20 +128,19 @@ fun MovieDetailsScreen(
                     }
                 )
                 Spacer(modifier = Modifier.height(32.dp))
-                if (uiState.reviews.isNotEmpty()) {
-                    ReviewScreen(
-                        onSeeAllReviews = {
-                            navController.navigate(
-                                Destinations.ReviewsScreen(
-                                    uiState.movieId,
-                                    isMovie = true
-                                )
+                ReviewScreen(
+                    onSeeAllReviews = {
+                        navController.navigate(
+                            Destinations.ReviewsScreen(
+                                uiState.movieId,
+                                isMovie = true
                             )
-                        },
-                        uiState = uiState.reviews.toReviewScreenUiState()
-                    )
-                    Spacer(modifier = Modifier.height(24.dp))
-                }
+                        )
+                    },
+                    uiState = uiState.reviews.toReviewScreenUiState()
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+
                 SimilarMoviesSection(
                     onSeeAllClick = {
                         navController.navigate(
@@ -159,17 +157,17 @@ fun MovieDetailsScreen(
                             )
                         )
                     },
-                    modifier = Modifier
-                        .navigationBarsPadding(),
+                    modifier = Modifier.padding(vertical = 8.dp),
                     similarMovies = uiState.similarMovies.map { movie ->
                         SimilarMovie(
                             id = movie.id,
                             title = movie.title,
                             imageUrl = movie.imageUrl,
-                            rating = movie.rating,
+                            rating = movie.rating
                         )
                     }
                 )
+                Spacer(modifier = Modifier.height(32.dp))
             }
         }
     }
