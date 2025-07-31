@@ -68,4 +68,5 @@ interface RemoteDataSource {
     suspend fun login(username: String, password: String): String
     suspend fun loginAsGuest(): String
     // endregion
+
 }

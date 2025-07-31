@@ -145,4 +145,13 @@ class DetailsMovieViewModel(
         )
     }
 
+    fun onClickLoveIcon(
+
+    ){
+        updateState {
+            it.copy(
+                isLoved = !it.isLoved
+            )
+        }
+    }
 }

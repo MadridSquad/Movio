@@ -1,11 +1,13 @@
 package com.madrid.data.dataSource.remote.utils
 
-import com.madrid.domain.exceptions.ServerException
-import com.madrid.domain.exceptions.TimeoutException
+
 
 import com.madrid.domain.exceptions.UnauthorizedException
 import com.madrid.domain.exceptions.UnknownException
+import com.madrid.domain.exceptions.ServerException
+import com.madrid.domain.exceptions.TimeoutException
 import okhttp3.Response
+
 
 inline fun responseWrapper(
     response: Response,
