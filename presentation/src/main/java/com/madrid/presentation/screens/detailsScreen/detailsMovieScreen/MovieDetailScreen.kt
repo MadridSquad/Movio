@@ -55,7 +55,8 @@ fun MovieDetailsScreen(
         TopAppBar(
             text = null,
             modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
-            onFirstIconClick = { navController.popBackStack() }
+            onFirstIconClick = {
+                navController.popBackStack() }
         )
         Column(
             modifier = Modifier
