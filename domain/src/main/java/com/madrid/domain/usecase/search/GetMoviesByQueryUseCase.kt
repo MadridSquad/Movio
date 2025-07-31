@@ -17,7 +17,7 @@ class GetMoviesByQueryUseCase(
         return searchRepository.getMoviesByQuery(query = query, page = page)
             .sortedByDescending { movie ->
                 movie.genre.sumOf { genre ->
-                    genresMap[genre]?.interestPoints ?: 0
+                    genresMap[genre.name]?.interestPoints ?: 0
                 }
             }
     }

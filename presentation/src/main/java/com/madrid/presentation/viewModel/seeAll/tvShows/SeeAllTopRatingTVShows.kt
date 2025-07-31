@@ -1,27 +1,32 @@
-package com.madrid.presentation.viewModel.seeAll
+package com.madrid.presentation.viewModel.seeAll.tvShows
 
+import android.util.Log
 import com.madrid.domain.entity.Series
 import com.madrid.domain.usecase.series.FilterSeriesByCategoryUseCase
-import com.madrid.domain.usecase.series.GetRecommendedSeriesUseCase
+import com.madrid.domain.usecase.series.GetTopRatedSeriesUseCase
 
-class SeeAllRecommendedTVShow(
-    private val getRecommendedSeriesUseCase: GetRecommendedSeriesUseCase,
+class SeeAllTopRatingTVShows(
+    private val getTopRateSeriesUseCase: GetTopRatedSeriesUseCase,
     private val filterSeriesByCategoryUseCase: FilterSeriesByCategoryUseCase
 ) : SeeAllTVShowsStrategy {
+
     override fun getTitle(): String {
-        return "More Recommended"
+        return "Top Rating"
     }
 
     override suspend fun getAllTvShows(page: Int): List<Series> {
-        return getRecommendedSeriesUseCase(1)
+        return getTopRateSeriesUseCase(1)
     }
 
     override suspend fun getTvShowsBasedOnCategory(categoryId: Int): List<Series> {
+        Log.d("onGenreSelect", "getTvShowsBasedOnCategory: in strategy: $categoryId")
         val tvShows = getAllTvShows(1)
+        Log.d("onGenreSelect", "getTvShowsBasedOnCategory: in strategy before filter: $tvShows")
         return filterSeriesByCategoryUseCase(series = tvShows, category = categoryId)
     }
+
     override fun showTvShowsCategory(): Boolean {
-        return false
+        return true
     }
 
 }

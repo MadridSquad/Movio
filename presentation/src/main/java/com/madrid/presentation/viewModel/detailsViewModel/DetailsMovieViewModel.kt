@@ -34,11 +34,12 @@ class DetailsMovieViewModel(
         loadData()
     }
 
-    internal fun loadData() {
+     private fun loadData() {
         Log.d("TAG lol", "=== LOADING MOVIE DETAILS ===")
         tryToExecute(
             function = {
-                getMovieDetailsUseCase(args.movieId)
+                getMovieDetailsUseCase.invoke(args.movieId)
+
             },
             onSuccess = { movie ->
 
@@ -49,9 +50,9 @@ class DetailsMovieViewModel(
                         dataMovie = formatDateKotlinx(movie.releaseDate),
                         movieName = movie.title,
                         rate = RateFormatter.formatRate(movie.rate),
-                        movieDuration =formatDuration( movie.movieDuration),
+                        movieDuration = formatDuration(movie.movieDuration),
                         description = movie.description,
-                        genreMovie = movie.genre,
+                        genreMovie = movie.genre.map { it.toString() },
                     )
                 }
 

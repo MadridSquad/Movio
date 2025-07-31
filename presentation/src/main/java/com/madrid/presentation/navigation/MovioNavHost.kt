@@ -17,6 +17,7 @@ import com.madrid.presentation.screens.detailsScreen.seriesDetails.SeasonsScreen
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.SeriesDetailsScreen
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SeeAllSimilarMediaScreen
 import com.madrid.presentation.screens.homeScreen.HomeScreen
+import com.madrid.presentation.screens.homeScreen.SeeAllMoviesScreen
 import com.madrid.presentation.screens.homeScreen.SeeAllTVShowsScreen
 import com.madrid.presentation.screens.homeScreen.component.FakeHomeScreen
 import com.madrid.presentation.screens.libraryScreen.LibraryScreen
@@ -96,15 +97,17 @@ fun MovioNavHost(
             val url = it.toRoute<Destinations.ForgotPassword>().url
             ForgotPassword(url = url)
         }
-
         composable<Destinations.WebViewScreen> {
             val url = it.toRoute<Destinations.WebViewScreen>().url
             WebViewScreen(url = url)
-            composable<Destinations.SeeAllTvShowsScreen> { backStackEntry ->
-                val destination = backStackEntry.toRoute<Destinations.SeeAllTvShowsScreen>()
-                SeeAllTVShowsScreen(type = destination.type)
-            }
-
+        }
+        composable<Destinations.SeeAllMoviesScreen> { backStackEntry ->
+            val destination = backStackEntry.toRoute<Destinations.SeeAllMoviesScreen>()
+            SeeAllMoviesScreen(type = destination.type)
+        }
+        composable<Destinations.SeeAllTvShowsScreen> { backStackEntry ->
+            val destination = backStackEntry.toRoute<Destinations.SeeAllTvShowsScreen>()
+            SeeAllTVShowsScreen(type = destination.type)
         }
     }
 }

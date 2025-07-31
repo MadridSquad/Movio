@@ -16,7 +16,6 @@ import com.madrid.domain.usecase.search.GetExploreMoreMovieUseCase
 import com.madrid.domain.usecase.search.GetMoviesByQueryUseCase
 import com.madrid.domain.usecase.search.GetPopularMoviesUseCase
 import com.madrid.domain.usecase.search.GetRecentSearchesUseCase
-import com.madrid.domain.usecase.search.GetRecommendedMovieUseCase
 import com.madrid.domain.usecase.search.GetSeriesByQueryUseCase
 import com.madrid.domain.usecase.search.RemoveRecentSearchUseCase
 import com.madrid.domain.usecase.series.GetEpisodesForSeasonUseCase
@@ -35,6 +34,16 @@ import com.madrid.domain.usecase.series.GetTopRatedSeriesUseCase
 import com.madrid.domain.usecase.series.GetRecommendedSeriesUseCase
 import com.madrid.domain.usecase.series.GetAiringTodaySeriesUseCase
 import com.madrid.domain.usecase.series.GetOnAirSeriesUseCase
+import com.madrid.domain.usecase.movie.FilterMoviesByCategoryUseCase
+import com.madrid.domain.usecase.movie.GetMovieGenresUseCase
+import com.madrid.domain.usecase.movie.GetTopRatedMoviesUseCase
+import com.madrid.domain.usecase.search.GetRecommendedMovieUseCase
+import com.madrid.domain.usecase.movie.GetUpcomingMovieUseCase
+import com.madrid.domain.usecase.movie.GetNowPlayingMovieUseCase
+
+
+
+
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
@@ -61,6 +70,13 @@ val domainModule = module {
     singleOf(::GetMovieTrailersUseCase)
     singleOf(::GetSimilarMoviesUseCase)
     singleOf(::GetMovieTrailersUseCase)
+
+    singleOf(::FilterMoviesByCategoryUseCase)
+    singleOf(::GetMovieGenresUseCase)
+    singleOf(::GetTopRatedMoviesUseCase)
+    singleOf(::GetRecommendedMovieUseCase)
+    singleOf(::GetUpcomingMovieUseCase)
+    singleOf(::GetNowPlayingMovieUseCase)
     singleOf(::GetTrendingMoviesUseCase)
 
 
@@ -72,15 +88,16 @@ val domainModule = module {
     singleOf(::GetSeriesTopCastUseCase)
     singleOf(::GetSeriesTrailersUseCase)
     singleOf(::GetSimilarSeriesUseCase)
-
-    // user
-    singleOf(::LoginUseCase)
-    single<CoroutineDispatcher> { Dispatchers.IO }
     singleOf(::FilterSeriesByCategoryUseCase)
     singleOf(::GetSeriesGenresUseCase)
     singleOf(::GetTopRatedSeriesUseCase)
     singleOf(::GetRecommendedSeriesUseCase)
     singleOf(::GetAiringTodaySeriesUseCase)
     singleOf(::GetOnAirSeriesUseCase)
+
+    // user
+    singleOf(::LoginUseCase)
+    single<CoroutineDispatcher> { Dispatchers.IO }
+
 
 }

@@ -1,23 +1,21 @@
-package com.madrid.presentation.viewModel.seeAll
+package com.madrid.presentation.viewModel.seeAll.movies
 
 import android.util.Log
-import com.madrid.domain.entity.Series
-import com.madrid.domain.usecase.series.GetSeriesDetailsUseCase
-import com.madrid.domain.usecase.series.GetSeriesGenresUseCase
+import com.madrid.domain.entity.Movie
+import com.madrid.domain.usecase.movie.GetMovieGenresUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
 
-class SeeAllTVShowsViewModel(
-    private val getSeriesGenresUseCase: GetSeriesGenresUseCase,
-    private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
-    private val strategy: SeeAllTVShowsStrategy,
-) : BaseViewModel<SeeAllTVShowsUiState, SeeAllEffect>(SeeAllTVShowsUiState()),
-    SeeAllTVShowsInteractionListener {
+class SeeAllMoviesViewModel(
+    private val getMoviesGenresUseCase: GetMovieGenresUseCase,
+    private val strategy: SeeAllMoviesStrategy,
+) : BaseViewModel<SeeAllMoviesUiState, SeeAllEffect>(SeeAllMoviesUiState()),
+    SeeAllMoviesInteractionListener {
 
     init {
         Log.d("TAG zoz", "in view model init")
         loadTitle()
         loadGenres()
-        loadAllSeries()
+        loadAllMovies()
     }
 
     private fun loadTitle() {
@@ -26,7 +24,7 @@ class SeeAllTVShowsViewModel(
 
     private fun loadGenres() {
         tryToExecute(
-            function = { getSeriesGenresUseCase() },
+            function = { getMoviesGenresUseCase() },
             onSuccess = { genres ->
                 Log.d("TAG zoz", "in view model init")
                 updateState { it.copy(genre = genres.map { genre -> genre.toCategoryUiState() }) }
@@ -35,11 +33,11 @@ class SeeAllTVShowsViewModel(
         )
     }
 
-    private fun loadAllSeries() {
+    private fun loadAllMovies() {
         tryToExecute(
-            function = { strategy.getAllTvShows(1) },
-            onSuccess = { allSeries ->
-                updateState { it.copy(filteredSeries = allSeries.map { series -> series.toUiState() }) }
+            function = { strategy.getAllMovies(1) },
+            onSuccess = { movies ->
+                updateState { it.copy(filteredMovies = movies.map { movie -> movie.toUiState() }) }
             },
             onError = { /* Handle if needed */ }
         )
@@ -48,25 +46,25 @@ class SeeAllTVShowsViewModel(
 
     override fun onGenreSelect(genre: CategoryUiState?) {
         if (genre == null)
-            loadAllSeries()
+            loadAllMovies()
         else {
             Log.d("onGenreSelect", "onGenreSelect: genre: $genre")
             tryToExecute(
                 function = {
-                    val x = strategy.getTvShowsBasedOnCategory(genre.id)
-                    Log.d("onGenreSelect", "onGenreSelect: series genres : $x")
+                    val x = strategy.getMoviesBasedOnCategory(genre.id, page = 1)
+                    Log.d("onGenreSelect", "onGenreSelect: movie genres : $x")
                     x
                 },
-                onSuccess = { allSeries ->
-                    updateState { it.copy(filteredSeries = allSeries.map { series -> series.toUiState() }) }
+                onSuccess = { movies ->
+                    updateState { it.copy(filteredMovies = movies.map { movie -> movie.toUiState() }) }
                 },
                 onError = { /* Handle if needed */ }
             )
         }
     }
 
-    override fun onSeriesClick(seriesId: Int) {
-        emitNewEffect(SeeAllEffect.NavigateToSeriesDetails(seriesId))
+    override fun onMovieClick(movieId: Int) {
+        emitNewEffect(SeeAllEffect.NavigateToMovieDetails(movieId))
     }
 
     override fun onBackClick() {
@@ -74,12 +72,12 @@ class SeeAllTVShowsViewModel(
     }
 
     override fun onClickAllChip() {
-        loadAllSeries()
+        loadAllMovies()
     }
 }
 
-fun Series.toUiState(): SeriesUiState {
-    return SeriesUiState(
+fun Movie.toUiState(): MoviesUiState {
+    return MoviesUiState(
         id = this.id.toString(),
         imageUrl = imageUrl,
         rate = this.rate.toString(),
@@ -87,3 +85,4 @@ fun Series.toUiState(): SeriesUiState {
         genre = this.genre.map { it.toCategoryUiState() },
     )
 }
+
