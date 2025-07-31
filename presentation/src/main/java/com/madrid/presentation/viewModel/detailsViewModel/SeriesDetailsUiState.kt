@@ -17,6 +17,7 @@ data class SeriesDetailsUiState(
     val reviews: List<ReviewUiState> = emptyList(),
     val similarSeries: List<SeriesUiState> = emptyList(),
     val selectedSeasonUiState: SeasonUiState = SeasonUiState(),
+    val isLoading :Boolean = false
 )
 
 data class SeriesUiState(

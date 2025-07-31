@@ -41,6 +41,7 @@ class SeriesDetailsViewModel(
                 updateState {
                     it.copy(
                         seriesId = series.id,
+                        isLoading = false,
                         topImageUrl = series.imageUrl,
                         seriesName = series.title,
                         rate = RateFormatter.formatRate(series.rate), // Format rate here
@@ -57,7 +58,9 @@ class SeriesDetailsViewModel(
                 loadSimilarSeries()
                 loadSeasonEpisodes(if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber)
             },
-            onError = {},
+            onError = {
+                updateState { it.copy(isLoading = true) }
+            },
         )
     }
 
@@ -84,7 +87,9 @@ class SeriesDetailsViewModel(
                             )
                         }
                     },
-                    onError = { },
+                    onError = {
+                        updateState { it.copy(isLoading = true) }
+                    },
                 )
             }
         }
@@ -111,7 +116,9 @@ class SeriesDetailsViewModel(
                     )
                 }
             },
-            onError = { },
+            onError = {
+                updateState { it.copy(isLoading = true) }
+            },
         )
     }
 
@@ -147,6 +154,7 @@ class SeriesDetailsViewModel(
             },
             onError = { e ->
                 Log.d("TAG lol", "loadCastData: ${e.message}")
+                updateState { it.copy(isLoading = true) }
             },
         )
     }
@@ -165,6 +173,7 @@ class SeriesDetailsViewModel(
             },
             onError = { e ->
                 Log.d("TAG lol", "loadCastData: ${e.message}")
+                updateState { it.copy(isLoading = true) }
             },
         )
     }

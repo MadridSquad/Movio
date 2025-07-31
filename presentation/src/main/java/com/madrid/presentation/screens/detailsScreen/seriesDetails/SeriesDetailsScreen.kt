@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -26,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.CustomTextTitel
+import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
@@ -56,161 +58,177 @@ fun SeriesDetailsScreen(
     val navController = LocalNavController.current
     val seasons = uiState.currentSeasonsUiStates
     val artists = uiState.topCast
-
-    Box(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .fillMaxSize()
-            .background(Theme.color.surfaces.surfaceContainer)
-    ) {
-        MoviePosterDetailScreen(
-            imageUrl = uiState.topImageUrl,
-            modifier = Modifier.fillMaxSize()
-        )
-        TopAppBar(
-            text = null,
-            modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
-            onFirstIconClick = {
-                Log.d("in series details screen naviagtion", "SeriesDetailsScreen: ")
-                navController.popBackStack() }
-        )
-        Column(
+    if (uiState.isLoading) {
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 32.dp)
+                .padding(top = 64.dp),
+            contentAlignment = Alignment.Center
         ) {
-            Spacer(modifier = Modifier.height(360.dp))
-            SeriesDetailsHeader(
-                movieName = uiState.seriesName,
-                seriesCategory = uiState.seriesGenre,
-                date = uiState.productionDate,
-                time = "${uiState.numberOfSeasons} Seasons",
-                rate = uiState.rate.take(3),
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
+            EmptySearchLayout(
+                title = stringResource(R.string.internet_is_not_available),
+                description =
+                    stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
+                image = com.madrid.presentation.R.drawable.img_no_internet
             )
-            BottomMediaActions(
-                onRateClick = {},
-                onPlayClick = {},
-                onAddToListClick = {},
-                modifier = Modifier.padding(vertical = 16.dp)
+        }
+    } else {
+        Box(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .fillMaxSize()
+                .background(Theme.color.surfaces.surfaceContainer)
+        ) {
+            MoviePosterDetailScreen(
+                imageUrl = uiState.topImageUrl,
+                modifier = Modifier.fillMaxSize()
             )
-            Spacer(modifier = Modifier.height(16.dp))
-
-            TextWithReadMore(
-                description = uiState.description,
+            TopAppBar(
+                text = null,
+                modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
+                onFirstIconClick = { navController.popBackStack() }
+            )
+            Column(
                 modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 16.dp),
-                maxLines = 5
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-            TopCastSection(
-                castMembers = uiState.topCast.map { cast ->
-                    CastMember(
-                        id = cast.id.toString(),
-                        name = cast.name,
-                        imageUrl = cast.imageUrl
-                    )
-                },
-                onSeeAllClick = {
-                    navController.navigate(
-                        Destinations.TopCast(
-                            mediaId = uiState.seriesId,
-                            isMovie = false
-                        )
-                    )
-                },
-                onCastMemberClick = { castId ->
-                    navController.navigate(
-                        Destinations.ActorDetails(
-                            artistId = castId
-                        )
-                    )
-                },
-            )
-            CustomTextTitel(
-                primaryText = stringResource(R.string.current_seasons),
-                secondaryText = stringResource(R.string.see_all),
-                endIcon = painterResource(com.madrid.designSystem.R.drawable.outline_alt_arrow_left),
-                onSeeAllClick = {
-                    navController.navigate(
-                        Destinations.SeasonsScreen(
-                            uiState.seriesId,
-                            1
-                        )
-                    )
-                },
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
-            )
-            LazyRow(
-                contentPadding = PaddingValues(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                    .fillMaxSize()
+                    .padding(bottom = 32.dp)
             ) {
-                itemsIndexed(seasons) { index, season ->
-                    MovioSeasonCard(
-                        movieTitle = "",
-                        movieImage = season.imageUrl,
-                        movieRate = season.rate,
-                        totalNumberOfEpisodes = season.numberOfEpisodes.toString(),
-                        onClick = {
-                            navController.navigate(
-                                Destinations.EpisodesScreen(
-                                    seriesId = uiState.seriesId,
-                                    seasonNumber = season.seasonNumber
-                                )
-                            )
-                        },
-                        yearOfPublish = season.productionDate,
-                        currentSeason = (season.seasonNumber).toString(),
-                        timeOfPublish = season.productionDate
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(32.dp))
-            if(uiState.reviews.isNotEmpty()){
-                ReviewScreen(
-                    onSeeAllReviews = {
-                        navController.navigate(
-                            Destinations.ReviewsScreen(
-                                uiState.seriesId,
-                                isMovie = false
-                            )
-                        )
-                    },
-                    uiState = uiState.reviews.toReviewScreenUiState()
+                Spacer(modifier = Modifier.height(360.dp))
+                SeriesDetailsHeader(
+                    movieName = uiState.seriesName,
+                    seriesCategory = uiState.seriesGenre,
+                    date = uiState.productionDate,
+                    time = "${uiState.numberOfSeasons} Seasons",
+                    rate = uiState.rate.take(3),
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                 )
-                Spacer(modifier = Modifier.height(32.dp))
-            }
-            if (uiState.similarSeries.isNotEmpty()) {
-                Log.d("in series details screen", "SeriesDetailsScreen: ${uiState.similarSeries}")
-                SimilarSeriesSection(
-                    similarSeries = uiState.similarSeries.map { series ->
-                        SimilarSeries(
-                            id = series.id,
-                            title = series.name,
-                            imageUrl = series.imageUrl,
-                            rating = (series.rate.take(3)).toDouble()
+                BottomMediaActions(
+                    onRateClick = {},
+                    onPlayClick = {},
+                    onAddToListClick = {},
+                    modifier = Modifier.padding(vertical = 16.dp)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+
+                TextWithReadMore(
+                    description = uiState.description,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 16.dp),
+                    maxLines = 5
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+                TopCastSection(
+                    castMembers = uiState.topCast.map { cast ->
+                        CastMember(
+                            id = cast.id.toString(),
+                            name = cast.name,
+                            imageUrl = cast.imageUrl
                         )
                     },
                     onSeeAllClick = {
                         navController.navigate(
-                            Destinations.SimilarMediaScreen(
+                            Destinations.TopCast(
                                 mediaId = uiState.seriesId,
                                 isMovie = false
                             )
                         )
                     },
-                    onSeriesClick = { series ->
+                    onCastMemberClick = { castId ->
                         navController.navigate(
-                            Destinations.SeriesDetailsScreen(
-                                seriesId = series.id,
+                            Destinations.ActorDetails(
+                                artistId = castId
+                            )
+                        )
+                    },
+                )
+                CustomTextTitel(
+                    primaryText = stringResource(R.string.current_seasons),
+                    secondaryText = stringResource(R.string.see_all),
+                    endIcon = painterResource(com.madrid.designSystem.R.drawable.outline_alt_arrow_left),
+                    onSeeAllClick = {
+                        navController.navigate(
+                            Destinations.SeasonsScreen(
+                                uiState.seriesId,
                                 1
                             )
                         )
                     },
-                    modifier = Modifier.padding(vertical = 8.dp),
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
                 )
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    itemsIndexed(seasons) { index, season ->
+                        MovioSeasonCard(
+                            movieTitle = "",
+                            movieImage = season.imageUrl,
+                            movieRate = season.rate,
+                            totalNumberOfEpisodes = season.numberOfEpisodes.toString(),
+                            onClick = {
+                                navController.navigate(
+                                    Destinations.EpisodesScreen(
+                                        seriesId = uiState.seriesId,
+                                        seasonNumber = season.seasonNumber
+                                    )
+                                )
+                            },
+                            yearOfPublish = season.productionDate,
+                            currentSeason = (season.seasonNumber).toString(),
+                            timeOfPublish = season.productionDate
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(32.dp))
+                if (uiState.reviews.isNotEmpty()) {
+                    ReviewScreen(
+                        onSeeAllReviews = {
+                            navController.navigate(
+                                Destinations.ReviewsScreen(
+                                    uiState.seriesId,
+                                    isMovie = false
+                                )
+                            )
+                        },
+                        uiState = uiState.reviews.toReviewScreenUiState()
+                    )
+                    Spacer(modifier = Modifier.height(32.dp))
+                }
+                if (uiState.similarSeries.isNotEmpty()) {
+                    Log.d(
+                        "in series details screen",
+                        "SeriesDetailsScreen: ${uiState.similarSeries}"
+                    )
+                    SimilarSeriesSection(
+                        similarSeries = uiState.similarSeries.map { series ->
+                            SimilarSeries(
+                                id = series.id,
+                                title = series.name,
+                                imageUrl = series.imageUrl,
+                                rating = (series.rate.take(3)).toDouble()
+                            )
+                        },
+                        onSeeAllClick = {
+                            navController.navigate(
+                                Destinations.SimilarMediaScreen(
+                                    mediaId = uiState.seriesId,
+                                    isMovie = false
+                                )
+                            )
+                        },
+                        onSeriesClick = { series ->
+                            navController.navigate(
+                                Destinations.SeriesDetailsScreen(
+                                    seriesId = series.id,
+                                    1
+                                )
+                            )
+                        },
+                        modifier = Modifier.padding(vertical = 8.dp),
+                    )
+                }
             }
         }
     }
