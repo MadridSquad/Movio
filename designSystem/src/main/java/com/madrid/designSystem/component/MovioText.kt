@@ -10,7 +10,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 
-// Original MovioText composable that accepts a String
 @Composable
 fun MovioText(
     text: String,
@@ -35,19 +34,16 @@ fun MovioText(
         overflow = overflow
     )
 }
-
-// Overloaded MovioText composable that accepts an AnnotatedString
+// FOR RECENTLY SEARCH SEARCH LIMITATION ONLY
 @Composable
 fun MoviosText(
     text: AnnotatedString,
     modifier: Modifier = Modifier,
-    textStyle: TextStyle, // textStyle is a required parameter
+    textStyle: TextStyle,
     maxLines: Int = Int.MAX_VALUE,
     textAlign: TextAlign? = null,
     overflow: TextOverflow = TextOverflow.Ellipsis
 ) {
-    // This version doesn't need to handle color/brush separately
-    // because AnnotatedString handles spans and colors internally.
     Text(
         text = text,
         textAlign = textAlign,
