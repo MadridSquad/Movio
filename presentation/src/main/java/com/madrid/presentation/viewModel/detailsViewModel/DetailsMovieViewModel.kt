@@ -31,7 +31,6 @@ class DetailsMovieViewModel(
     val args = saveStateHandle.toRoute<Destinations.MovieDetailsScreen>()
 
     init {
-        Log.e("MY_TAG", "args: ${args.movieId}")
         loadData()
     }
 
@@ -60,9 +59,7 @@ class DetailsMovieViewModel(
                 loadSimilarMovies()
                 loadReviews()
             },
-            onError = { error ->
-                Log.e("TAG lol", "Movie details error: $error")
-            },
+            onError = { error -> },
             scope = viewModelScope,
             dispatcher = Dispatchers.IO
         )
@@ -82,7 +79,6 @@ class DetailsMovieViewModel(
                 }
             },
             onError = { error ->
-                Log.e("TAG lol", "Cast error: $error")
             },
             scope = viewModelScope,
             dispatcher = Dispatchers.IO

@@ -1,5 +1,6 @@
 package com.madrid.movio.di
 
+import com.madrid.domain.usecase.authentication.LoginUseCase
 import com.madrid.domain.usecase.artist.GetArtistDetailsUseCase
 import com.madrid.domain.usecase.artist.GetArtistMoviesUseCase
 import com.madrid.domain.usecase.movie.GetMovieDetailsUseCase
@@ -26,6 +27,8 @@ import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
 import com.madrid.domain.usecase.series.GetSeriesTrailersUseCase
 import com.madrid.domain.usecase.movie.GetTrendingMoviesUseCase
 import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import com.madrid.domain.usecase.series.FilterSeriesByCategoryUseCase
 import com.madrid.domain.usecase.series.GetSeriesGenresUseCase
 import com.madrid.domain.usecase.series.GetTopRatedSeriesUseCase
@@ -69,6 +72,10 @@ val domainModule = module {
     singleOf(::GetSeriesTopCastUseCase)
     singleOf(::GetSeriesTrailersUseCase)
     singleOf(::GetSimilarSeriesUseCase)
+
+    // user
+    singleOf(::LoginUseCase)
+    single<CoroutineDispatcher> { Dispatchers.IO }
     singleOf(::FilterSeriesByCategoryUseCase)
     singleOf(::GetSeriesGenresUseCase)
     singleOf(::GetTopRatedSeriesUseCase)

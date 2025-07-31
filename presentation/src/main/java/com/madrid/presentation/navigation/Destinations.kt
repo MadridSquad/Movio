@@ -29,6 +29,8 @@ sealed interface Destinations {
     @Serializable
     data object SearchScreen : Destinations
 
+
+
     @Serializable
     data class SeeAllTvShowsScreen(
         val type: SeeAllTvShowType
@@ -75,6 +77,14 @@ sealed interface Destinations {
         val seasonNumber: Int
     ) : Destinations
 
+
+    @Serializable
+    data class WebViewScreen(
+        val url: String
+    ) : Destinations
+
+    @Serializable
+    data class ForgotPassword(val url: String): Destinations
 
     @Serializable
     data class ActorDetails(

@@ -64,4 +64,8 @@ interface RemoteDataSource {
     suspend fun getArtistDetailsById(artistId: Int): ArtistDetailsResponse
     suspend fun getArtistMovies(artistId: Int): List<KnownForMoviesNetwork>
     // endregion
+    // region authentication
+    suspend fun login(username: String, password: String): String
+    suspend fun loginAsGuest(): String
+    // endregion
 }
