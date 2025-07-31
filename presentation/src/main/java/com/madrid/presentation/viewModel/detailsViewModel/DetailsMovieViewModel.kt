@@ -52,7 +52,7 @@ class DetailsMovieViewModel(
                         rate = RateFormatter.formatRate(movie.rate),
                         movieDuration =formatDuration( movie.movieDuration),
                         description = movie.description,
-                        genreMovie = movie.genre,
+                        genreMovie = movie.genre.map { it.name },
                         isLoading = false
                     )
                 }
