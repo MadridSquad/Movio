@@ -2,17 +2,13 @@ package com.madrid.presentation.screens.detailsScreen.seriesDetails
 
 import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -28,14 +24,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.CustomTextTitel
 import com.madrid.designSystem.component.EmptySearchLayout
-import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 import com.madrid.presentation.component.BottomMediaActions
 import com.madrid.presentation.component.CastMember
-import com.madrid.presentation.component.TopCastSection
-import com.madrid.presentation.component.header.MovieDetailsHeader
+import com.madrid.presentation.component.TopCastHorizontalScroll
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.component.movioCards.MovioSeasonCard
 import com.madrid.presentation.navigation.Destinations
@@ -117,12 +111,10 @@ fun SeriesDetailsScreen(
                     description = uiState.description,
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
-                        .padding(bottom = 16.dp),
+                        .padding(bottom = 32.dp),
                     maxLines = 5
                 )
-
-                Spacer(modifier = Modifier.height(16.dp))
-                TopCastSection(
+                TopCastHorizontalScroll(
                     castMembers = uiState.topCast.map { cast ->
                         CastMember(
                             id = cast.id.toString(),
@@ -158,7 +150,7 @@ fun SeriesDetailsScreen(
                             )
                         )
                     },
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 32.dp, bottom = 12.dp)
                 )
                 LazyRow(
                     contentPadding = PaddingValues(horizontal = 16.dp),

@@ -26,21 +26,19 @@ import com.madrid.presentation.viewModel.detailsViewModel.ReviewsScreenUiState
 @Composable
 fun ReviewScreen(
     uiState: ReviewsScreenUiState,
+    modifier: Modifier = Modifier,
     onSeeAllReviews: () -> Unit = {},
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         CustomTextTitel(
             primaryText = stringResource(com.madrid.presentation.R.string.reviews),
             secondaryText = stringResource(com.madrid.presentation.R.string.see_all),
             endIcon = painterResource(com.madrid.designSystem.R.drawable.outline_alt_arrow_left),
             onSeeAllClick = { onSeeAllReviews() },
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp)
         )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
         ReviewsSectionContent(reviews = uiState.reviews)
     }
 }

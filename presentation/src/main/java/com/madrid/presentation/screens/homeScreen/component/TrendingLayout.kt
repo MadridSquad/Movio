@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -41,13 +42,11 @@ fun TrendingLayout(
             .background(Theme.color.surfaces.surface)
     ) {
         CustomTextTitel(
+            modifier = headerModifier.padding(bottom = 12.dp),
             primaryText = stringResource(com.madrid.presentation.R.string.trending),
             secondaryText = stringResource(com.madrid.presentation.R.string.see_all),
             endIcon = painterResource(R.drawable.outline_alt_arrow_left),
-            modifier = headerModifier,
-            onSeeAllClick = {
-
-            }
+            onSeeAllClick = {}
         )
         Box(
             modifier = modifier

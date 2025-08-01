@@ -23,7 +23,7 @@ import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 import com.madrid.presentation.component.BottomMediaActions
 import com.madrid.presentation.component.CastMember
-import com.madrid.presentation.component.TopCastSection
+import com.madrid.presentation.component.TopCastHorizontalScroll
 import com.madrid.presentation.component.header.MovieDetailsHeader
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.navigation.Destinations
@@ -98,11 +98,10 @@ fun MovieDetailsScreen(
                 TextWithReadMore(
                     description = uiState.description,
                     modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .padding(bottom = 16.dp),
+                        .padding(horizontal = 16.dp),
                     maxLines = 5
                 )
-                TopCastSection(
+                TopCastHorizontalScroll(
                     onSeeAllClick = {
                         navController.navigate(
                             Destinations.TopCast(
@@ -118,7 +117,7 @@ fun MovieDetailsScreen(
                             )
                         )
                     },
-                    modifier = Modifier.padding(vertical = 8.dp),
+                    modifier = Modifier.padding(top = 32.dp),
                     castMembers = uiState.casts.map { cast ->
                         CastMember(
                             id = cast.id.toString(),
@@ -127,8 +126,8 @@ fun MovieDetailsScreen(
                         )
                     }
                 )
-                Spacer(modifier = Modifier.height(32.dp))
                 ReviewScreen(
+                    modifier = Modifier.padding(top = 32.dp),
                     onSeeAllReviews = {
                         navController.navigate(
                             Destinations.ReviewsScreen(
@@ -139,9 +138,8 @@ fun MovieDetailsScreen(
                     },
                     uiState = uiState.reviews.toReviewScreenUiState()
                 )
-                Spacer(modifier = Modifier.height(24.dp))
-
                 SimilarMoviesSection(
+                    modifier = Modifier.padding(vertical = 32.dp),
                     onSeeAllClick = {
                         navController.navigate(
                             Destinations.SimilarMediaScreen(
@@ -157,7 +155,6 @@ fun MovieDetailsScreen(
                             )
                         )
                     },
-                    modifier = Modifier.padding(vertical = 8.dp),
                     similarMovies = uiState.similarMovies.map { movie ->
                         SimilarMovie(
                             id = movie.id,
