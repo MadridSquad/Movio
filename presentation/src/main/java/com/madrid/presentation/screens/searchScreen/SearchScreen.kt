@@ -1,7 +1,6 @@
 package com.madrid.presentation.screens.searchScreen
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -12,6 +11,8 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -24,10 +25,12 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -61,7 +64,7 @@ fun SearchScreen(
 
     RefreshScreenHolder(
         refreshState = uiState.searchUiState.refreshState,
-        onRefresh = {viewModel.onRefresh(typeOfFilterSearch)}
+        onRefresh = { viewModel.onRefresh(typeOfFilterSearch) }
     ) {
         ContentSearchScreen(
             isError = uiState.searchUiState.isError,
@@ -111,13 +114,13 @@ fun SearchScreen(
             },
             isLoading = uiState.searchUiState.isLoading,
             searchHistory = uiState.recentSearchUiState,
-            onSearchItemClick = {  viewModel.updateSearchQuery(it) },
+            onSearchItemClick = { viewModel.updateSearchQuery(it) },
             onRemoveItem = { viewModel.removeRecentSearch(it) },
             onClearAll = { viewModel.clearAll() },
             onClickSeeAll = {
                 navController.navigate(Destinations.SeeAllForYouScreen)
             },
-            highlightrecentSearch = viewModel::highlightCharactersInText,
+            highlightRecentSearch = viewModel::highlightCharactersInText,
             onTopResultClick = { movieId ->
                 navController.navigate(Destinations.MovieDetailsScreen(movieId))
             },
@@ -180,27 +183,23 @@ fun ContentSearchScreen(
     onTopResultClick: (Int) -> Unit,
     onSearchedClick: (Int) -> Unit,
     onArtistClick: (Int) -> Unit,
-    highlightrecentSearch: (String, String, Color, Color, TextStyle) -> AnnotatedString,
+    highlightRecentSearch: (String, String, Color, Color, TextStyle) -> AnnotatedString,
 ) {
-    val showSearchResults = searchQuery.isNotBlank()
+    var showSearchResults by remember { mutableStateOf(false) }
     var selectedTabIndex by remember { mutableIntStateOf(0) }
     var showRecentSearch by remember { mutableIntStateOf(0) }
     var previousSelectedTabIndex by remember { mutableIntStateOf(-1) }
-
+    val keyboardFocusManager = LocalFocusManager.current
     LaunchedEffect(searchQuery) {
         snapshotFlow { searchQuery }
             .debounce(1000)
             .collect { query ->
-                showRecentSearch = 0
+
                 if (query.isNotBlank()) {
-                    onSearchBarClick()
+                    showRecentSearch = 1
                     addRecentSearch(query)
-                    when (typeOfFilterSearch) {
-                        FilterPagesItem.TOP_RATED -> onClickTopRated()
-                        FilterPagesItem.MOVIES -> onClickMovies()
-                        FilterPagesItem.SERIES -> onClickSeries()
-                        FilterPagesItem.ARTISTS -> onClickArtist()
-                    }
+                } else {
+                    showRecentSearch = 0
                 }
             }
     }
@@ -228,13 +227,27 @@ fun ContentSearchScreen(
                 endIconPainter = painterResource(R.drawable.outline_add),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onSearchBarClick() }
                     .padding(top = 16.dp),
-                onClickEndIcon = { onSearchQueryChange("") }
+                onClickEndIcon = { onSearchQueryChange("") },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                keyboardActions = KeyboardActions(onSearch = {
+
+                    if (searchQuery.isNotBlank()) {
+                        showRecentSearch = 0
+                        showSearchResults = true
+                        when (typeOfFilterSearch) {
+                            FilterPagesItem.TOP_RATED -> onClickTopRated()
+                            FilterPagesItem.MOVIES -> onClickMovies()
+                            FilterPagesItem.SERIES -> onClickSeries()
+                            FilterPagesItem.ARTISTS -> onClickArtist()
+                        }
+                    }
+                    keyboardFocusManager.clearFocus()
+                })
             )
         }
 
-        if (searchQuery.isEmpty() && showRecentSearch != 1) {
+        if (!showSearchResults && showRecentSearch != 1) {
             forYouAndExploreScreen(
                 showSearchResults = showSearchResults,
                 isLoading = isLoading,
@@ -245,8 +258,7 @@ fun ContentSearchScreen(
                 onClickSeeAll = { onClickSeeAll() }
             )
         }
-        if (searchQuery.isNotEmpty() && showRecentSearch != 1) {
-
+        if (showSearchResults && showRecentSearch != 1) {
             filterSearchScreen(
                 typeOfFilterSearch = typeOfFilterSearch,
                 topRated = topRated,
@@ -292,7 +304,7 @@ fun ContentSearchScreen(
                 onSearchItemClick = { onSearchItemClick(it) },
                 onRemoveItem = { onRemoveItem(it) },
                 onClearAll = { onClearAll() },
-                highlightCharactersInText = highlightrecentSearch,
+                highlightCharactersInText = highlightRecentSearch,
             )
         }
         if (showRecentSearch == 1 && searchHistory.isEmpty()) {
