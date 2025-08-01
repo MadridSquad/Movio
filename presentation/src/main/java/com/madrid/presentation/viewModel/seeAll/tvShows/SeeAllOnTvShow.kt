@@ -13,11 +13,11 @@ class SeeAllOnTvShow(
     }
 
     override suspend fun getAllTvShows(page: Int): List<Series> {
-        return getOnAirSeriesUseCase(1)
+        return getOnAirSeriesUseCase(page)
     }
 
-    override suspend fun getTvShowsBasedOnCategory(categoryId: Int): List<Series> {
-        val tvShows = getAllTvShows(1)
+    override suspend fun getTvShowsBasedOnCategory(categoryId: Int, page: Int): List<Series> {
+        val tvShows = getAllTvShows(page)
         return filterSeriesByCategoryUseCase(series = tvShows, category = categoryId)
     }
     override fun showTvShowsCategory(): Boolean {

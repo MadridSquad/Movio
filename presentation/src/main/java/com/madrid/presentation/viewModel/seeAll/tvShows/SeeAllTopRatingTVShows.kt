@@ -15,12 +15,12 @@ class SeeAllTopRatingTVShows(
     }
 
     override suspend fun getAllTvShows(page: Int): List<Series> {
-        return getTopRateSeriesUseCase(1)
+        return getTopRateSeriesUseCase(page)
     }
 
-    override suspend fun getTvShowsBasedOnCategory(categoryId: Int): List<Series> {
+    override suspend fun getTvShowsBasedOnCategory(categoryId: Int,page: Int): List<Series> {
         Log.d("onGenreSelect", "getTvShowsBasedOnCategory: in strategy: $categoryId")
-        val tvShows = getAllTvShows(1)
+        val tvShows = getAllTvShows(page)
         Log.d("onGenreSelect", "getTvShowsBasedOnCategory: in strategy before filter: $tvShows")
         return filterSeriesByCategoryUseCase(series = tvShows, category = categoryId)
     }

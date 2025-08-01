@@ -17,6 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.madrid.designSystem.component.FilterBar
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
@@ -36,6 +37,7 @@ fun SeeAllMoviesScreen(
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val navController = LocalNavController.current
     val items = uiState.genre
+    val listOfItem = uiState.filteredMovies.collectAsLazyPagingItems()
 
     var selectedItem by remember { mutableStateOf("All") }
 
@@ -83,10 +85,10 @@ fun SeeAllMoviesScreen(
 
         }
 
-        items(uiState.filteredMovies.size) { index ->
-            val movie = uiState.filteredMovies[index]
+        items(listOfItem.itemCount) { index ->
+            val movie = listOfItem[index]
             MovioVerticalCard(
-                description = movie.name,
+                description = movie!!.name,
                 movieImage = movie.imageUrl,
                 rate = movie.rate.take(3),
                 width = 130.dp,
@@ -94,7 +96,7 @@ fun SeeAllMoviesScreen(
                 onClick = {
                     navController.navigate(
                         Destinations.MovieDetailsScreen(
-                            uiState.filteredMovies[index].id.toInt(),
+                            listOfItem[index]!!.id.toInt(),
                         )
                     )
                 }

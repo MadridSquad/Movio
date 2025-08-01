@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.madrid.designSystem.component.FilterBar
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
@@ -38,6 +39,7 @@ fun SeeAllTVShowsScreen(
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val navController = LocalNavController.current
     val items = uiState.genre
+    val listOfItem = uiState.filteredSeries.collectAsLazyPagingItems()
 
     var selectedItem by remember { mutableStateOf("All") }
 
@@ -86,10 +88,10 @@ fun SeeAllTVShowsScreen(
 
         }
 
-        items(uiState.filteredSeries.size) { index ->
-            val movie = uiState.filteredSeries[index]
+        items(listOfItem.itemCount) { index ->
+            val movie = listOfItem[index]
             MovioVerticalCard(
-                description = movie.name,
+                description = movie!!.name,
                 movieImage = movie.imageUrl,
                 rate = movie.rate.take(3),
                 width = 130.dp,
@@ -97,7 +99,7 @@ fun SeeAllTVShowsScreen(
                 onClick = {
                     navController.navigate(
                         Destinations.SeriesDetailsScreen(
-                            uiState.filteredSeries[index].id.toInt(),
+                            listOfItem[index]!!.id.toInt(),
                             seasonNumber = 1
                         )
                     )

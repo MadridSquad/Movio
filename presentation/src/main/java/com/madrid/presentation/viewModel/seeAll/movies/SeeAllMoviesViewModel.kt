@@ -1,9 +1,23 @@
 package com.madrid.presentation.viewModel.seeAll.movies
 
 import android.util.Log
+import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.PagingSource
+import androidx.paging.cachedIn
+import androidx.paging.flatMap
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.usecase.movie.GetMovieGenresUseCase
+import com.madrid.presentation.screens.homeScreen.paging.SeeAllMoviesPagingSource
+import com.madrid.presentation.screens.homeScreen.paging.SeeAllMoviesWithGenrePagingSource
+import com.madrid.presentation.screens.searchScreen.paging.ExplorePagingSource
+import com.madrid.presentation.utils.RateFormatter
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.uiStateMapper.toMovieUiState
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class SeeAllMoviesViewModel(
     private val getMoviesGenresUseCase: GetMovieGenresUseCase,
@@ -33,13 +47,57 @@ class SeeAllMoviesViewModel(
         )
     }
 
+    fun <T : Any> launchPagingRequest(
+        pagingSourceFactory: () -> PagingSource<Int, T>,
+        onSuccess: (Flow<PagingData<T>>) -> Unit,
+        config: PagingConfig = PagingConfig(pageSize = 20),
+    ) {
+        try {
+            updateState {
+                it.copy(
+                    isLoading = true,
+                )
+            }
+            val result = Pager(
+                config = config,
+                pagingSourceFactory = pagingSourceFactory
+            ).flow.cachedIn(viewModelScope)
+
+            onSuccess(result)
+
+        } catch (e: Exception) {
+            updateState {
+                it.copy(
+                    isLoading = false,
+                    errorMessage = e.message
+                )
+            }
+        }
+    }
     private fun loadAllMovies() {
-        tryToExecute(
-            function = { strategy.getAllMovies(1) },
-            onSuccess = { movies ->
-                updateState { it.copy(filteredMovies = movies.map { movie -> movie.toUiState() }) }
+        launchPagingRequest(
+            pagingSourceFactory = {
+                SeeAllMoviesPagingSource(strategy::getAllMovies)
             },
-            onError = { /* Handle if needed */ }
+            onSuccess = { pagingFlow ->
+                val result = pagingFlow.map { pagingData ->
+                    pagingData.flatMap { it.map { MoviesUiState(
+                        id = it.id.toString(),
+                        imageUrl = it.imageUrl,
+                        rate = RateFormatter.formatRate(it.rate),
+                        name = it.title,
+                        genre = it.genre.map { it.toCategoryUiState() },
+                    ) } }
+                }
+
+                updateState {
+                    it.copy(
+                        filteredMovies = result,
+                        isLoading = false
+                    )
+                }
+
+            }
         )
     }
 
@@ -48,17 +106,29 @@ class SeeAllMoviesViewModel(
         if (genre == null)
             loadAllMovies()
         else {
-            Log.d("onGenreSelect", "onGenreSelect: genre: $genre")
-            tryToExecute(
-                function = {
-                    val x = strategy.getMoviesBasedOnCategory(genre.id, page = 1)
-                    Log.d("onGenreSelect", "onGenreSelect: movie genres : $x")
-                    x
+            launchPagingRequest(
+                pagingSourceFactory = {
+                    SeeAllMoviesWithGenrePagingSource(genreId =  genre.id , strategy::getMoviesBasedOnCategory)
                 },
-                onSuccess = { movies ->
-                    updateState { it.copy(filteredMovies = movies.map { movie -> movie.toUiState() }) }
-                },
-                onError = { /* Handle if needed */ }
+                onSuccess = { pagingFlow ->
+                    val result = pagingFlow.map { pagingData ->
+                        pagingData.flatMap { it.map { MoviesUiState(
+                            id = it.id.toString(),
+                            imageUrl = it.imageUrl,
+                            rate = RateFormatter.formatRate(it.rate),
+                            name = it.title,
+                            genre = it.genre.map { it.toCategoryUiState() },
+                        ) } }
+                    }
+
+                    updateState {
+                        it.copy(
+                            filteredMovies = result,
+                            isLoading = false
+                        )
+                    }
+
+                }
             )
         }
     }
