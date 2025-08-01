@@ -45,7 +45,7 @@ fun MoviesLayout(
     ) {
         item(span = { GridItemSpan(2) }) {
             MovioPager(
-                medias = trendingMovies.shuffled().take(7),
+                medias = trendingMovies.take(7),
             )
         }
         item(span = { GridItemSpan(2) }) {
@@ -62,7 +62,6 @@ fun MoviesLayout(
             )
         }
 
-        item(span = { GridItemSpan(2) }) { Spacer(Modifier.height(4.dp)) }
 
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
@@ -78,7 +77,6 @@ fun MoviesLayout(
             )
         }
 
-        item(span = { GridItemSpan(2) }) { Spacer(Modifier.height(4.dp)) }
 
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
@@ -93,8 +91,6 @@ fun MoviesLayout(
                 headerModifier = Modifier.padding(horizontal = 16.dp)
             )
         }
-
-        item(span = { GridItemSpan(2) }) { Spacer(Modifier.height(4.dp)) }
 
         item(span = { GridItemSpan(2) }) {
             CustomTextTitel(

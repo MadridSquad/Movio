@@ -45,7 +45,7 @@ fun TvShowsLayout(
     ) {
         item(span = { GridItemSpan(2) }) {
             MovioPager(
-                medias = trendingSeries.shuffled().take(7),
+                medias = trendingSeries.take(7),
             )
         }
         item(span = { GridItemSpan(2) }) {
@@ -73,8 +73,6 @@ fun TvShowsLayout(
             )
         }
 
-        item(span = { GridItemSpan(2) }) { Spacer(Modifier.height(4.dp)) }
-
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
                 primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.airing_today),
@@ -100,8 +98,6 @@ fun TvShowsLayout(
             )
         }
 
-        item(span = { GridItemSpan(2) }) { Spacer(Modifier.height(4.dp)) }
-
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
                 primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.on_tv),
@@ -126,8 +122,6 @@ fun TvShowsLayout(
                 headerModifier = Modifier.padding(horizontal = 16.dp)
             )
         }
-
-        item(span = { GridItemSpan(2) }) { Spacer(Modifier.height(4.dp)) }
 
         item(span = { GridItemSpan(2) }) {
             CustomTextTitel(
