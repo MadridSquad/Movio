@@ -27,18 +27,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioBottomSheet
 import com.madrid.designSystem.component.MovioButton
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.navigation.Destinations
 
 @Composable
 fun LogoutConfirmationBottomSheet(
     isVisible: Boolean,
     onDismiss: () -> Unit,
     onLogoutConfirm: () -> Unit,
+    navController: NavController? = null,
     modifier: Modifier = Modifier
 ) {
     MovioBottomSheet(
@@ -47,7 +50,15 @@ fun LogoutConfirmationBottomSheet(
         containerColor = Theme.color.surfaces.surface
     ) {
         LogoutConfirmationContent(
-            onLogoutConfirm = onLogoutConfirm,
+            onLogoutConfirm = {
+                onLogoutConfirm()
+                navController?.navigate(Destinations.AuthenticationScreen) {
+                    popUpTo(0) {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                }
+            },
             modifier = modifier
         )
     }
@@ -163,7 +174,8 @@ fun LogoutConfirmationBottomSheetPreview() {
             onLogoutConfirm = {
                 println("Logout confirmed")
                 showBottomSheet = false
-            }
+            },
+            navController = null
         )
     }
 }
