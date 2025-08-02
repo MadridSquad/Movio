@@ -11,6 +11,7 @@ import com.madrid.presentation.viewModel.detailsViewModel.SimilarMediaViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.TopCastViewModel
 import com.madrid.presentation.viewModel.homeViewModel.HomeViewModel
 import com.madrid.presentation.viewModel.loginViewModel.LoginViewModel
+import com.madrid.presentation.viewModel.moreViewModel.MoreViewModel
 import com.madrid.presentation.viewModel.searchViewModel.SearchViewModel
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesFactory
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesType
@@ -35,6 +36,7 @@ val presentationModule = module {
     viewModelOf(::ReviewsScreenViewModel)
     viewModelOf(::SimilarMediaViewModel)
     viewModelOf(::MainViewModel)
+    viewModelOf(::MoreViewModel)
     viewModel { (type: SeeAllTvShowType) ->
         val factory: SeeAllTVShowsFactory = get()
         val strategy = factory.create(type)
