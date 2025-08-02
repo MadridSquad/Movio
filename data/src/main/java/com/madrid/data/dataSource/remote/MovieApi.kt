@@ -24,6 +24,8 @@ import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.response.series.TopRatedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.authentication.AuthenticationResponse
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
+import com.madrid.data.dataSource.remote.dto.rate.RatingMovieResponse
+import com.madrid.data.dataSource.remote.dto.rate.RatingSeriesResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -209,6 +211,20 @@ interface MovieApi {
     suspend fun getUpcomingMovies(
         @Query("page") page: Int
     ): UpcomingMoviesResponse
+
+    // region EpisodeRating
+
+    @GET("/account/{account_id}/rated/movies")
+    suspend fun getUserRatingForMovie(
+        @Path("account_id") seriesId: Int,
+    ): RatingMovieResponse
+
+    @GET("/account/{account_id}/rated/tv")
+    suspend fun getUserRatingForSeries(
+        @Path("account_id") seriesId: Int,
+    ): RatingSeriesResponse
+
+    // endregion
 
     companion object {
         private const val DISCOVER_MOVIE = "discover/movie"
