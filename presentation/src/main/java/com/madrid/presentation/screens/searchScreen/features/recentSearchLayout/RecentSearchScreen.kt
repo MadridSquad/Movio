@@ -19,7 +19,6 @@ import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.MoviosText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
-import com.madrid.presentation.component.RecentSearchItem // Assuming this is still a valid import
 
 fun LazyGridScope.recentSearchScreen(
     searchHistory: List<String>,

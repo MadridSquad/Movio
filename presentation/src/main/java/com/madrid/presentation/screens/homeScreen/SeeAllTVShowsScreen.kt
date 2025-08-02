@@ -1,6 +1,5 @@
 package com.madrid.presentation.screens.homeScreen
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

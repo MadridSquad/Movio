@@ -15,7 +15,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.CustomTextTitle
-import com.madrid.designSystem.component.CustomTextTitel
 import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 

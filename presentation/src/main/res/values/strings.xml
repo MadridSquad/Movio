@@ -13,14 +13,6 @@
     <string name="actioniconcolor">ActionIconColor</string>
     <string name="play">Play</string>
     <string name="rate_it">Rate it</string>
-    <string name="login">Login</string>
-    <string name="forgot_password">Forgot Password?</string>
-    <string name="welcome_back">Welcome back</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
-    <string name="or">or</string>
-    <string name="don_t_have_an_account">Don\'t have an account?</string>
-    <string name="sign_up">Sign up</string>
     <string name="more_screen">More Screen</string>
     <string name="episodes_count">Episodes %1$d</string>
     <string name="episode_number">Episode %1$d</string>
@@ -38,10 +30,11 @@
     <string name="season">season %1$s</string>
     <string name="episodes">%1$s Episodes</string>
     <string name="of">of %1$s</string>
-    <string name="home">Home</string>
     <string name="searchdot">Search ...</string>
     <string name="library">Library</string>
     <string name="more">More</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
     <string name="recent_search">Recent Search</string>
     <string name="clear_all">Clear All</string>
     <string name="remove">Remove</string>
@@ -62,7 +55,7 @@
     <string name="explore_more">Explore more</string>
     <string name="loading">Loading...</string>
     // Search
-    <string name="search">Search</string>
+    <string name="Search">Search</string>
     <string name="search_content_description">search content description</string>
     <string name="no_reviews_available">No Reivews yet!</string>
     <string name="clock_content_description" translatable="false">description</string>
@@ -103,4 +96,7 @@
     <string name="login">Login</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="continue_as_a_guest">Continue as a guest</string>
+    <string name="Home">Home</string>
+    <string name="Library">Library</string>
+    <string name="More">More</string>
 </resources>

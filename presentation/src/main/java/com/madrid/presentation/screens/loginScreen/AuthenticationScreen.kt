@@ -7,8 +7,6 @@ import androidx.compose.runtime.getValue
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.loginScreen.component.MovieLoginContent
-import com.madrid.presentation.viewModel.loginViewModel.LoginError
-import com.madrid.presentation.viewModel.loginViewModel.LoginUiState
 import com.madrid.presentation.viewModel.loginViewModel.LoginViewModel
 import org.koin.androidx.compose.getViewModel
 

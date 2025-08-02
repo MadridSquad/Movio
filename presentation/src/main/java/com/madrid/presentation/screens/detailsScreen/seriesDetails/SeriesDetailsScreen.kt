@@ -17,13 +17,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.madrid.designSystem.component.CustomTextTitel
-import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.CustomTextTitle
+import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.TextWithReadMore
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
@@ -31,7 +31,6 @@ import com.madrid.presentation.R
 import com.madrid.presentation.component.BottomMediaActions
 import com.madrid.presentation.component.CastMember
 import com.madrid.presentation.component.TopCastHorizontalScroll
-import com.madrid.presentation.component.TopCastSection
 import com.madrid.presentation.component.header.SeriesDetailsHeader
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.component.movioCards.MovioSeasonCard
@@ -64,7 +63,7 @@ fun SeriesDetailsScreen(
                 title = stringResource(R.string.internet_is_not_available),
                 description =
                     stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
-                image = com.madrid.presentation.R.drawable.img_no_internet
+                image = R.drawable.img_no_internet
             )
         }
     } else {

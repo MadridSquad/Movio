@@ -1,7 +1,6 @@
 package com.madrid.presentation.screens.searchScreen.paging
 
 import com.madrid.domain.entity.Artist
-import com.madrid.domain.entity.Movie
 import com.madrid.domain.usecase.search.GetArtistsByQueryUseCase
 
 class SearchArtistPagingSource(
