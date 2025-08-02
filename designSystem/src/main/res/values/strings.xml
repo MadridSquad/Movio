@@ -10,4 +10,6 @@
     <string name="empty_search_description" />
     <string name="read_less">Read Less</string>
     <string name="read_more">Read More</string>
+    <string name="log_out">You\'ll lose access to your library, favorites, and history until you sign back in.</string>
+    <string name="logout">logout</string>
 </resources>

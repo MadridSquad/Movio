@@ -2,4 +2,6 @@
 <resources>
     <string name="read_less">عرض اقل</string>
     <string name="read_more">عرض المزيد</string>
+    <string name="log_out">ستفقد الوصول إلى مكتبتك والمفضلة وسجل المشاهدة حتى تسجل الدخول مرة أخرى.</string>
+    <string name="logout">تسجيل خروج</string>
 </resources>
