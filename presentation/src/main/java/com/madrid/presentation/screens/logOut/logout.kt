@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,38 +37,66 @@ import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.navigation.Destinations
+import com.madrid.presentation.viewModel.logoutViewModel.LogoutViewModel
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun LogoutConfirmationBottomSheet(
     isVisible: Boolean,
     onDismiss: () -> Unit,
-    onLogoutConfirm: () -> Unit,
     navController: NavController? = null,
     modifier: Modifier = Modifier
 ) {
+    val viewModel: LogoutViewModel = getViewModel()
+    val uiState by viewModel.state.collectAsState()
+
+    LaunchedEffect(uiState.logoutSuccess) {
+        if (uiState.logoutSuccess) {
+            onDismiss()
+            navController?.navigate(Destinations.AuthenticationScreen) {
+                popUpTo(0) {
+                    inclusive = true
+                }
+                launchSingleTop = true
+                restoreState = false
+            }
+        }
+    }
+
     MovioBottomSheet(
         show = isVisible,
-        onDismiss = onDismiss,
+        onDismiss = {
+            if (!uiState.isLoading) {
+                viewModel.clearError()
+                onDismiss()
+            }
+        },
         containerColor = Theme.color.surfaces.surface
     ) {
         LogoutConfirmationContent(
+            uiState = uiState,
             onLogoutConfirm = {
-                onLogoutConfirm()
-                navController?.navigate(Destinations.AuthenticationScreen) {
-                    popUpTo(0) {
-                        inclusive = true
+                viewModel.logout {
+                    onDismiss()
+                    navController?.navigate(Destinations.AuthenticationScreen) {
+                        popUpTo(0) {
+                            inclusive = true
+                        }
+                        launchSingleTop = true
                     }
-                    launchSingleTop = true
+
                 }
             },
-            modifier = modifier
+            onClearError = { viewModel.clearError() },
         )
     }
 }
 
 @Composable
 private fun LogoutConfirmationContent(
+    uiState: com.madrid.presentation.viewModel.logoutViewModel.LogoutUiState,
     onLogoutConfirm: () -> Unit,
+    onClearError: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -83,7 +113,7 @@ private fun LogoutConfirmationContent(
             MovioIcon(
                 painter = painterResource(R.drawable.library_main_icon),
                 contentDescription = "App Icon",
-                modifier = Modifier.size(60.dp , 66.dp)
+                modifier = Modifier.size(60.dp, 66.dp)
             )
         }
 
@@ -97,7 +127,7 @@ private fun LogoutConfirmationContent(
         ) {
             MovioText(
                 modifier = Modifier.height(19.dp),
-                text =  stringResource(id = R.string.conform_log_out),
+                text = stringResource(id = R.string.conform_log_out),
                 textStyle = Theme.textStyle.title.mediumMedium16,
                 color = Theme.color.surfaces.onSurface,
                 textAlign = TextAlign.Center
@@ -110,28 +140,58 @@ private fun LogoutConfirmationContent(
                 modifier = Modifier.height(35.dp)
             )
         }
+
+        if (uiState.errorMessage != null) {
+            Spacer(modifier = Modifier.height(16.dp))
+            MovioText(
+                text = uiState.errorMessage,
+                textStyle = Theme.textStyle.label.smallRegular12,
+                color = Theme.color.system.error,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            )
+        }
+
         Spacer(modifier = Modifier.height(40.dp))
 
         MovioButton(
-            onClick = onLogoutConfirm,
+            onClick = {
+                if (!uiState.isLoading) {
+                    onClearError()
+                    onLogoutConfirm()
+                }
+            },
+            enabled = !uiState.isLoading,
             modifier = Modifier
                 .width(328.dp)
                 .height(48.dp)
                 .clip(RoundedCornerShape(24.dp))
-                .background(Theme.color.brand.primary),
+                .background(
+                    if (uiState.isLoading) Theme.color.surfaces.surfaceContainer
+                    else Theme.color.brand.primary
+                ),
         ) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.fillMaxSize()
             ) {
-                MovioText(
-                    text = stringResource(id = R.string.logout),
-                    textStyle = Theme.textStyle.label.mediumMedium14,
-                    color = Color.White
-                )
+                if (uiState.isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(20.dp),
+                        color = Theme.color.brand.primary,
+                        strokeWidth = 2.dp
+                    )
+                } else {
+                    MovioText(
+                        text = stringResource(id = R.string.logout),
+                        textStyle = Theme.textStyle.label.mediumMedium14,
+                        color = Color.White
+                    )
+                }
             }
         }
-
     }
 }
 
@@ -145,7 +205,6 @@ fun LogoutConfirmationBottomSheetPreview() {
             .fillMaxSize()
             .background(Theme.color.surfaces.surface)
     ) {
-        // Test button to open the bottom sheet
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -168,14 +227,25 @@ fun LogoutConfirmationBottomSheetPreview() {
             }
         }
 
-        LogoutConfirmationBottomSheet(
-            isVisible = showBottomSheet,
-            onDismiss = { showBottomSheet = false },
-            onLogoutConfirm = {
-                println("Logout confirmed")
-                showBottomSheet = false
-            },
-            navController = null
-        )
+        if (showBottomSheet) {
+            MovioBottomSheet(
+                show = showBottomSheet,
+                onDismiss = { showBottomSheet = false },
+                containerColor = Theme.color.surfaces.surface
+            ) {
+                LogoutConfirmationContent(
+                    uiState = com.madrid.presentation.viewModel.logoutViewModel.LogoutUiState(
+                        isLoading = false,
+                        errorMessage = null,
+                        logoutSuccess = false
+                    ),
+                    onLogoutConfirm = {
+                        println("Logout confirmed")
+                        showBottomSheet = false
+                    },
+                    onClearError = { }
+                )
+             }
+        }
     }
 }
