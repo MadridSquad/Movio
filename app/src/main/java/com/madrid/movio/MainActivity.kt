@@ -41,9 +41,10 @@ class MainActivity : ComponentActivity(), KoinComponent {
 fun MainScreen(viewModel: MainViewModel) {
     val navController = rememberNavController()
     val isLoggedIn by viewModel.isLoggedIn.collectAsStateWithLifecycle()
+    val isFirstLaunch by viewModel.isFirstLaunch.collectAsStateWithLifecycle()
 
     CompositionLocalProvider(LocalNavController provides navController) {
-        MovioNavGraph(navController = navController, isLoggedIn = isLoggedIn)
+        MovioNavGraph(navController = navController, isLoggedIn = isLoggedIn, isFirstLaunch = isFirstLaunch)
     }
 }
 

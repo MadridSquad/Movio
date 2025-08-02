@@ -25,17 +25,19 @@ import com.madrid.presentation.screens.loginScreen.AuthenticationScreen
 import com.madrid.presentation.screens.loginScreen.component.ForgotPassword
 import com.madrid.presentation.screens.loginScreen.component.WebViewScreen
 import com.madrid.presentation.screens.moreScreen.MoreScreen
+import com.madrid.presentation.screens.onboarding.OnBoardingScreen
 import com.madrid.presentation.screens.searchScreen.SearchScreen
 import com.madrid.presentation.screens.searchScreen.SeeAllForYou.SeeAllForYouScreen
 
 @Composable
 fun MovioNavHost(
     navController: NavHostController,
-    isLoggedIn: Boolean
+    isLoggedIn: Boolean,
+    isFirstLaunch: Boolean
 ) {
     NavHost(
         navController = navController,
-        startDestination = if (isLoggedIn.not()) Destinations.AuthenticationScreen else Destinations.HomeScreen,
+        startDestination = if (isFirstLaunch) Destinations.OnBoarding else if (isLoggedIn.not()) Destinations.AuthenticationScreen else Destinations.HomeScreen,
         enterTransition = {
             fadeIn(tween(0))
         },
@@ -50,7 +52,7 @@ fun MovioNavHost(
             //call SplashScreen()
         }
         composable<Destinations.OnBoarding> {
-            //call OnBoarding()
+            OnBoardingScreen()
         }
 
         composable<Destinations.SearchScreen> {

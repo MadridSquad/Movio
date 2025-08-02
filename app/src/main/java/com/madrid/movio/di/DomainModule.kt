@@ -3,6 +3,7 @@ package com.madrid.movio.di
 import com.madrid.domain.usecase.artist.GetArtistDetailsUseCase
 import com.madrid.domain.usecase.artist.GetArtistMoviesUseCase
 import com.madrid.domain.usecase.authentication.LoginUseCase
+import com.madrid.domain.usecase.authentication.CheckFirstLaunchUseCase
 import com.madrid.domain.usecase.movie.FilterMoviesByCategoryUseCase
 import com.madrid.domain.usecase.movie.GetMovieDetailsUseCase
 import com.madrid.domain.usecase.movie.GetMovieGenresUseCase
@@ -102,6 +103,7 @@ val domainModule = module {
 
     // user
     singleOf(::LoginUseCase)
+    singleOf(::CheckFirstLaunchUseCase)
     single<CoroutineDispatcher> { Dispatchers.IO }
 
 
