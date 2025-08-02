@@ -94,7 +94,6 @@ fun MovieDetailsScreen(
                     onRateClick = {},
                     onPlayClick = {},
                     onAddToListClick = {
-                        viewModel.showAddToListBottomSheet()
                     },
                 )
                 Spacer(modifier = Modifier.height(16.dp))
