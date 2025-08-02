@@ -86,7 +86,7 @@ private fun LogoutConfirmationContent(
         ) {
             MovioText(
                 modifier = Modifier.height(19.dp),
-                text = "Confirm Logout",
+                text =  stringResource(id = R.string.conform_log_out),
                 textStyle = Theme.textStyle.title.mediumMedium16,
                 color = Theme.color.surfaces.onSurface,
                 textAlign = TextAlign.Center
