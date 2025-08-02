@@ -4,8 +4,11 @@ import android.util.Log
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.usecase.movie.GetMovieGenresUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SeeAllMoviesViewModel(
+@HiltViewModel
+class SeeAllMoviesViewModel @Inject constructor (
     private val getMoviesGenresUseCase: GetMovieGenresUseCase,
     private val strategy: SeeAllMoviesStrategy,
 ) : BaseViewModel<SeeAllMoviesUiState, SeeAllEffect>(SeeAllMoviesUiState()),

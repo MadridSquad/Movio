@@ -5,8 +5,11 @@ import com.madrid.domain.entity.Series
 import com.madrid.domain.usecase.series.GetSeriesDetailsUseCase
 import com.madrid.domain.usecase.series.GetSeriesGenresUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SeeAllTVShowsViewModel(
+@HiltViewModel
+class SeeAllTVShowsViewModel @Inject constructor(
     private val getSeriesGenresUseCase: GetSeriesGenresUseCase,
     private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
     private val strategy: SeeAllTVShowsStrategy,

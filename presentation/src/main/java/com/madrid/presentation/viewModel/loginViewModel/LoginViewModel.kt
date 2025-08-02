@@ -4,17 +4,18 @@ import androidx.lifecycle.viewModelScope
 import com.madrid.domain.exceptions.AccountLockedException
 import com.madrid.domain.exceptions.InvalidCredentialsException
 import com.madrid.domain.exceptions.MovioException
+import com.madrid.domain.exceptions.NetworkException
 import com.madrid.domain.exceptions.ValidationException
 import com.madrid.domain.usecase.authentication.LoginUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.koin.android.annotation.KoinViewModel
-import com.madrid.domain.exceptions.NetworkException
+import javax.inject.Inject
 
-@KoinViewModel
-class LoginViewModel(
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseViewModel<LoginUiState, Nothing>(LoginUiState()) {

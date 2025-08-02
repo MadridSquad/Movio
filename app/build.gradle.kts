@@ -144,6 +144,9 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.kotlinx.serialization.json)
 
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation)
+    implementation (libs.dagger)
 
     implementation(libs.androidx.datasource.preferences)
 

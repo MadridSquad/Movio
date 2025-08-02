@@ -9,8 +9,9 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.madrid.data.repositories.datasource.AuthenticationDataSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class AuthenticationDatastoreImpl(
+class AuthenticationDatastoreImpl @Inject constructor(
     private val context: Context
 ) : AuthenticationDataSource {
     val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings") //TODO: Move to secrets

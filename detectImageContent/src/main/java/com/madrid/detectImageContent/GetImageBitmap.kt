@@ -7,7 +7,7 @@ import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 
-class GetImageBitmap(private val context: Context) {
+class GetImageBitmap/* @Inject constructor*/(private val context: Context) {
 
     suspend fun getImageBitmapFromUrl(url: String): Bitmap {
         val loader = ImageLoader(context)

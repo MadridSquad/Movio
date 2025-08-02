@@ -81,4 +81,9 @@ dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.serialization.core)
-    implementation("androidx.webkit:webkit:1.9.0")}
+    implementation("androidx.webkit:webkit:1.9.0")
+
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation)
+    implementation (libs.dagger)
+}

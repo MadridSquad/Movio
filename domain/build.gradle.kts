@@ -1,5 +1,5 @@
 plugins {
-    id("java-library")
+
     alias(libs.plugins.jetbrains.kotlin.jvm)
 }
 java {
@@ -13,4 +13,8 @@ kotlin {
 }
 dependencies {
     implementation(libs.kotlinx.coroutines.core)
+
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation)
+    implementation (libs.dagger)
 }

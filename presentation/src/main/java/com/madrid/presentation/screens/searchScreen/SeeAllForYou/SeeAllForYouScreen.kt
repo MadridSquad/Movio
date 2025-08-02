@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -38,11 +39,10 @@ import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.searchViewModel.SearchScreenState
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SeeAllForYouScreen(
-    viewModel: SeeAllForYouViewModel = koinViewModel(),
+    viewModel: SeeAllForYouViewModel = hiltViewModel(),
 ) {
     val navController = LocalNavController.current
     val uiState by viewModel.state.collectAsState()

@@ -84,4 +84,9 @@ dependencies {
     implementation(libs.logging.interceptor)
 
     implementation(libs.androidx.datasource.preferences)
+
+
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation)
+    implementation (libs.dagger)
 }

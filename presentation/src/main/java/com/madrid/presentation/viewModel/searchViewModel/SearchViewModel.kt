@@ -29,12 +29,13 @@ import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.uiStateMapper.toArtistUiState
 import com.madrid.presentation.viewModel.uiStateMapper.toMovieUiState
 import com.madrid.presentation.viewModel.uiStateMapper.toSeriesUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import org.koin.android.annotation.KoinViewModel
+import javax.inject.Inject
 
-@KoinViewModel
-class SearchViewModel(
+@HiltViewModel
+class SearchViewModel @Inject constructor(
     private val getArtistsByQueryUseCase: GetArtistsByQueryUseCase,
     private val getMoviesByQueryUseCase: GetMoviesByQueryUseCase,
     private val getSeriesByQueryUseCase: GetSeriesByQueryUseCase,

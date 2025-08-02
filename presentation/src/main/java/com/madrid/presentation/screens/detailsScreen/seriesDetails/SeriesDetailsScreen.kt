@@ -22,31 +22,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.CustomTextTitel
 import com.madrid.designSystem.component.EmptySearchLayout
+import com.madrid.designSystem.component.TextWithReadMore
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 import com.madrid.presentation.component.BottomMediaActions
 import com.madrid.presentation.component.CastMember
 import com.madrid.presentation.component.TopCastHorizontalScroll
+import com.madrid.presentation.component.header.SeriesDetailsHeader
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.component.movioCards.MovioSeasonCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.designSystem.component.TextWithReadMore
-import com.madrid.presentation.component.header.SeriesDetailsHeader
 import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.ReviewScreen
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarSeries
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarSeriesSection
 import com.madrid.presentation.viewModel.detailsViewModel.ReviewUiState
 import com.madrid.presentation.viewModel.detailsViewModel.ReviewsScreenUiState
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SeriesDetailsScreen(
-    viewModel: SeriesDetailsViewModel = koinViewModel()
+    viewModel: SeriesDetailsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current

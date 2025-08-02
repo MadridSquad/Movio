@@ -1,15 +1,15 @@
 package com.madrid.domain.usecase.authentication
 
 
-import com.madrid.domain.exceptions.NetworkException
+import com.madrid.domain.exceptions.InvalidCredentialsException
+import com.madrid.domain.exceptions.MovioException
 import com.madrid.domain.exceptions.UnknownException
 import com.madrid.domain.exceptions.ValidationException
 import com.madrid.domain.repository.UserRepository
-import com.madrid.domain.exceptions.InvalidCredentialsException
-import com.madrid.domain.exceptions.MovioException
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class LoginUseCase(
+class LoginUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
 

@@ -3,8 +3,6 @@ package com.madrid.presentation.screens.detailsScreen.seriesDetails
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
@@ -28,15 +27,13 @@ import com.madrid.presentation.R
 import com.madrid.presentation.component.CustomDropdown
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.component.movioCards.MovioEpisodesCard
-import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.detailsViewModel.EpisodeUiState
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun EpisodesScreen(viewModel: SeriesDetailsViewModel = koinViewModel()) {
+fun EpisodesScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()) {
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current
     EpisodesScreenContent(

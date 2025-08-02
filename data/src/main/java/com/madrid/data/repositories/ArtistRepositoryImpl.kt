@@ -6,8 +6,9 @@ import com.madrid.data.repositories.remote.RemoteDataSource
 import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.repository.ArtistRepository
+import javax.inject.Inject
 
-class ArtistRepositoryImpl(
+class ArtistRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) : ArtistRepository {
     override suspend fun getArtistDetailsById(artistId: Int): Artist {
