@@ -60,7 +60,7 @@ private fun LogoutConfirmationContent(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp, bottom = 32.dp, top = 16.dp),
+            .padding(horizontal = 16.dp, vertical = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
@@ -78,6 +78,8 @@ private fun LogoutConfirmationContent(
         Spacer(modifier = Modifier.height(16.dp))
 
         Column(
+            modifier = Modifier
+                .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -93,7 +95,7 @@ private fun LogoutConfirmationContent(
                 textStyle = Theme.textStyle.label.smallRegular12,
                 color = Theme.color.surfaces.onSurfaceContainer,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.height(30.dp)
+                modifier = Modifier.height(35.dp)
             )
         }
         Spacer(modifier = Modifier.height(40.dp))
