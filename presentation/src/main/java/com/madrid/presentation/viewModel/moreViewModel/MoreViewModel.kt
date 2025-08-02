@@ -1,7 +1,6 @@
 package com.madrid.presentation.viewModel.moreViewModel
 
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import kotlin.Boolean
 
 class MoreViewModel() :
     BaseViewModel<MoreUiState, MoreEffect>(MoreUiState()),
