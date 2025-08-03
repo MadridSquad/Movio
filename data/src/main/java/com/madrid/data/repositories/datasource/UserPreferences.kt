@@ -9,4 +9,6 @@ interface UserPreferences {
     suspend fun clearAuthToken()
     fun isGuest(): Flow<Boolean>
     suspend fun setIsGuest(isGuest: Boolean)
+    fun isFirstLaunch(): Flow<Boolean>
+    suspend fun setOnBoardingCompleted(isCompleted: Boolean)
 }
