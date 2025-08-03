@@ -10,19 +10,19 @@ import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
+import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SearchMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SimilarMoviesResponse
+import com.madrid.data.dataSource.remote.dto.movie.UpcomingMoviesResponse
+import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
+import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
+import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SearchSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SeasonResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesCreditResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
-import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResponse
-import com.madrid.data.dataSource.remote.dto.movie.UpcomingMoviesResponse
-import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
-import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
-import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
 import com.madrid.data.repositories.remote.RemoteDataSource
 
@@ -147,14 +147,6 @@ class RemoteDataSourceImpl(
     }
 
     override suspend fun getRecommendedSeries(page: Int): RecommendedSeriesResponse {
-        Log.d("getRecommendedSeries", "in getRecommendedSeries: ")
-        try {
-            api.getPopularTvShows(page = page)
-        }catch (e: Exception){
-            Log.d("getRecommendedSeries", "cached getRecommendedSeries: ${e.message} ")
-        }
-//        val x = api.getPopularTvShows(page = page)
-//        Log.d("getRecommendedSeries", "getRecommendedSeries: ${x.recommendedSeriesResults} ")
         return api.getPopularTvShows(page = page)
     }
 
