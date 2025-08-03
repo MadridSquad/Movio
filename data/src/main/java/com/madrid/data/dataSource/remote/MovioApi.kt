@@ -3,6 +3,7 @@ package com.madrid.data.dataSource.remote
 import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.ArtistKnownForResponse
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
+import com.madrid.data.dataSource.remote.dto.authentication.AccountDetailsResponse
 import com.madrid.data.dataSource.remote.dto.authentication.AuthenticationResponse
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
 import com.madrid.data.dataSource.remote.dto.common.TrailerResponse
@@ -24,8 +25,8 @@ import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
-
-
+import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
+import com.madrid.data.dataSource.remote.dto.authentication.SessionIdResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -190,15 +191,27 @@ interface MovioApi {
 
     // region authentication
     @GET("authentication/token/new")
-    suspend fun getRequestToken(): AuthenticationResponse
+    suspend fun getRequestToken(): AuthenticationResponse       // first
 
-    @POST("authentication/token/validate_with_login")
+    @POST("authentication/token/validate_with_login")       // second
     suspend fun postCreateSession(
         @Body body: CreateSessionBody
     ): AuthenticationResponse
 
+    @POST("authentication/session/new")                     // third
+    suspend fun createSession(
+        @Body body: CreateSessionRawBody
+    ): SessionIdResponse
+
+
+
     @GET("authentication/guest_session/new")
     suspend fun getCreateGuestSession(): AuthenticationResponse
+
+    @GET("account")
+    suspend fun getAccountDetails(
+        @Query("session_id") sessionId: String          // fourth
+    ): AccountDetailsResponse
     // endregion
 
 

@@ -40,6 +40,19 @@ class UserPreferencesImpl @Inject constructor(
         }
     }
 
+    override fun isGuest(): Flow<Boolean> {
+        return dataStore.data
+            .map { preferences ->
+                preferences[IS_GUEST] ?: true
+            }
+    }
+
+    override suspend fun setIsGuest(isGuest: Boolean) {
+        dataStore.edit { settings ->
+            settings[IS_GUEST] = isGuest
+        }
+    }
+
     override fun isFirstLaunch(): Flow<Boolean> {
         return dataStore.data.map { prefs ->
             prefs[ONBOARDING_COMPLETED]?.not() ?: true
@@ -54,6 +67,7 @@ class UserPreferencesImpl @Inject constructor(
 
     companion object {
         val TOKEN = stringPreferencesKey("token") //TODO: Move to secrets
+        val IS_GUEST = booleanPreferencesKey("is_guest")
         val ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
     }
 }

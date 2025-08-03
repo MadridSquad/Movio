@@ -27,6 +27,15 @@
     <string name="library_screen">المكتبة</string>
     <string name="episode_number">الحلقة %1$d</string>
     <string name="episode_duration">%1$d د</string>
+    <string name="my_ratings">تقييماتي</string>
+    <string name="theme">المظهر</string>
+    <string name="language">اللغة</string>
+    <string name="app_version">نسخة التطبيق</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="unlock_your_personal_library">سجل الدخول للحصول علي مكتبتك الخاصة</string>
+    <string name="access_your_watch_history_favorites_and_watchlist_all_in_one_place">صل إلي تاريخ مشاهدتك, المفضلة, و قائمة المشاهدة. كله في مكان واحد.</string>
+    <string name="dark">داكن</string>
+    <string name="light">فاتح</string>
 
     <string name="current_episode">حلقة %1$s</string>
     <string name="moive_image">صورة الحلقة</string>

@@ -23,8 +23,6 @@ class MovieInterceptor(
             .url(url)
             .build()
 
-        Log.e("MY_TAG", newRequest.url.toString())
-
         val response : Response = chain.proceed(newRequest)
 
         return responseWrapper(response)
