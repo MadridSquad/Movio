@@ -2,9 +2,9 @@ package com.madrid.domain.usecase.authentication
 
 import com.madrid.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
+import javax.inject.Inject
 
-class CheckFirstLaunchUseCase(private val userRepository: UserRepository) {
+class CheckFirstLaunchUseCase @Inject constructor(private val userRepository: UserRepository) {
     fun isFirstLaunch() : Flow<Boolean>{
         return userRepository.isFirstLaunch()
     }

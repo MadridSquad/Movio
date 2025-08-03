@@ -25,9 +25,10 @@ import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
 import com.madrid.data.repositories.remote.RemoteDataSource
+import javax.inject.Inject
 
-class RemoteDataSourceImpl(
-    private val api: MovieApi
+class RemoteDataSourceImpl @Inject constructor(
+    private val api: MovioApi
 ) : RemoteDataSource {
     //  region Movies
     override suspend fun searchMoviesByQuery(name: String, page: Int): SearchMovieResponse {

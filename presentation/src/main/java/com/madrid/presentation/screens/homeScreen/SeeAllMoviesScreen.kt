@@ -23,15 +23,11 @@ import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesType
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesViewModel
-import org.koin.androidx.compose.koinViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
 fun SeeAllMoviesScreen(
-    type: SeeAllMoviesType,
-    viewModel: SeeAllMoviesViewModel = koinViewModel { parametersOf(type) }
+    viewModel: SeeAllMoviesViewModel
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val navController = LocalNavController.current

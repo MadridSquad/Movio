@@ -5,8 +5,9 @@ import com.madrid.domain.usecase.series.GetAiringTodaySeriesUseCase
 import com.madrid.domain.usecase.series.GetOnAirSeriesUseCase
 import com.madrid.domain.usecase.series.GetRecommendedSeriesUseCase
 import com.madrid.domain.usecase.series.GetTopRatedSeriesUseCase
+import javax.inject.Inject
 
-class SeeAllTVShowsFactory(
+class SeeAllTVShowsFactory @Inject constructor(
     private val getTopRateSeriesUseCase: GetTopRatedSeriesUseCase,
     private val getOnAirSeriesUseCase: GetOnAirSeriesUseCase,
     private val getAiringTodaySeriesUseCase: GetAiringTodaySeriesUseCase,

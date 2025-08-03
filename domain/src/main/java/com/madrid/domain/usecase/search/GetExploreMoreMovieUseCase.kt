@@ -1,7 +1,8 @@
 package com.madrid.domain.usecase.search
 
 import com.madrid.domain.repository.MovieRepository
+import javax.inject.Inject
 
-class GetExploreMoreMovieUseCase(private val movieRepository: MovieRepository) {
+class GetExploreMoreMovieUseCase @Inject constructor(private val movieRepository: MovieRepository) {
     suspend operator fun invoke(page: Int) = movieRepository.getExploreMoreMovies(page)
 }

@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
@@ -14,11 +15,10 @@ import com.madrid.presentation.R
 import com.madrid.presentation.viewModel.moreViewModel.MoreInteractionListener
 import com.madrid.presentation.viewModel.moreViewModel.MoreUiState
 import com.madrid.presentation.viewModel.moreViewModel.MoreViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MoreScreen(
-    viewModel: MoreViewModel = koinViewModel()
+    viewModel: MoreViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
     MoreScreenContent(

@@ -21,11 +21,12 @@ import com.madrid.domain.usecase.series.GetTopRatedSeriesUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.shared.MediaType
 import com.madrid.presentation.viewModel.shared.toMediaUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
-import org.koin.android.annotation.KoinViewModel
+import javax.inject.Inject
 
-@KoinViewModel
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val getMovieGenresUseCase: GetMovieGenresUseCase,
     private val getSeriesGenresUseCase: GetSeriesGenresUseCase,
     private val getMoviesByGenreIdUseCase: GetMoviesByGenreIdUseCase,
