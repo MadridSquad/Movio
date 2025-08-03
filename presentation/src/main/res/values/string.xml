@@ -69,5 +69,5 @@
     <string name="open">Open </string>
     <string name="movio">Movio</string>
     <string name="and_let_the_noise_fade_away">and let the noise fade away</string>
-    <string name="swipe_pick_dive_in_and_be_the_star_of_the_scene">Swipe, pick, dive in… and be the star of the scene.</string>
+    <string name="onboarding_sub_description">Swipe, pick, dive in… and be the star of the scene.</string>
 </resources>

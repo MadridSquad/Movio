@@ -65,5 +65,5 @@
     <string name="open">افتح </string>
     <string name="movio">موفيو</string>
     <string name="and_let_the_noise_fade_away">و دع الضوضاء تتلاشى</string>
-    <string name="swipe_pick_dive_in_and_be_the_star_of_the_scene">اسحب، اختر، انطلق… وكن أنت نجم الساحة.</string>
+    <string name="onboarding_sub_description">اسحب، اختر، انطلق… وكن أنت نجم الساحة.</string>
 </resources>

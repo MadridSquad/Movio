@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -74,7 +73,7 @@ fun OnBoardingScreen() {
                     text = stringResource(R.string.movio),
                     textStyle = Theme.textStyle.headline.largeBold18,
                     brush = Brush.verticalGradient(
-                        colors = listOf(Color(0xFFEBE6FE), Color(0xFF7C5DF6))
+                        colors = listOf(Theme.color.brand.onPrimary, Color(0xFF7C5DF6))
                     )
                 )
             }
@@ -85,7 +84,7 @@ fun OnBoardingScreen() {
             )
             Spacer(Modifier.height(12.dp))
             MovioText(
-                text = stringResource(R.string.swipe_pick_dive_in_and_be_the_star_of_the_scene),
+                text = stringResource(R.string.onboarding_sub_description),
                 textStyle = Theme.textStyle.label.smallRegular12,
                 color = Theme.color.surfaces.onSurfaceContainer
             )
@@ -102,7 +101,7 @@ fun OnBoardingScreen() {
     }
 }
 
-@Preview(showBackground = true, showSystemUi = true)
+private @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewOnBoardingScreen() {
     MovioTheme {
