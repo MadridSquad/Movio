@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose)
     alias(libs.plugins.kotlin.serialization)
-    id("kotlin-kapt")
+    alias(libs.plugins.ksp)
     id("com.google.dagger.hilt.android")
 }
 
@@ -68,9 +68,6 @@ dependencies {
     implementation(libs.androidx.navigation.common.ktx)
 
     // Koin
-    implementation(libs.koin.androidx.compose)
-    api(libs.koin.annotations)
-    implementation(libs.koin.android)
 
     //coil
     implementation(libs.coil.kt.coil.compose)
@@ -86,7 +83,7 @@ dependencies {
     implementation("androidx.webkit:webkit:1.9.0")
 
     implementation("com.google.dagger:hilt-android:2.51.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
+    ksp("com.google.dagger:hilt-android-compiler:2.51.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
 
 

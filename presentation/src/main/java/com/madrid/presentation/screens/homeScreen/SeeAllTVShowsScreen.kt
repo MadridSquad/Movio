@@ -1,6 +1,5 @@
 package com.madrid.presentation.screens.homeScreen
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -26,15 +25,12 @@ import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTVShowsViewModel
-import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTvShowType
-import org.koin.androidx.compose.koinViewModel
-import org.koin.core.parameter.parametersOf
 
 @Composable
 fun SeeAllTVShowsScreen(
-    type: SeeAllTvShowType,
-    viewModel: SeeAllTVShowsViewModel = koinViewModel { parametersOf(type) }
+   viewModel: SeeAllTVShowsViewModel
 ) {
+
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val navController = LocalNavController.current
     val items = uiState.genre

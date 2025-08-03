@@ -9,17 +9,17 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-/*    private val remoteDataSource: RemoteDataSource,
+    private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
-    private val authenticationDatasource: AuthenticationDataSource*/
+    private val authenticationDatasource: AuthenticationDataSource
 ) : UserRepository {
 
     override suspend fun login(
         username: String,
         password: String
     ): Boolean {
-//        val userToken = remoteDataSource.login(username, password)
-//        authenticationDatasource.setAuthToken(userToken)
+       val userToken = remoteDataSource.login(username, password)
+       authenticationDatasource.setAuthToken(userToken)
         return true
     }
 
@@ -32,7 +32,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun logout() {
-//        authenticationDatasource.clearAuthToken()
+        authenticationDatasource.clearAuthToken()
     }
 
     override suspend fun getCurrentUser(): User? {
@@ -40,10 +40,7 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override fun isUserLoggedIn(): Flow<Boolean> {
-//        return authenticationDatasource.isUserLoggedIn()
-        return flow {
-            emit(false)
-        }
+       return authenticationDatasource.isUserLoggedIn()
     }
 
     override suspend fun refreshToken(): Boolean {
@@ -68,8 +65,8 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun loginAsGuest(): Boolean {
-//        val guest = remoteDataSource.loginAsGuest()
-//        authenticationDatasource.setAuthToken(guest)
+       val guest = remoteDataSource.loginAsGuest()
+      authenticationDatasource.setAuthToken(guest)
         return true
     }
 }
