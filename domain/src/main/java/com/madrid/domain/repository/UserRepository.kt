@@ -19,4 +19,5 @@ interface UserRepository {
     suspend fun isTokenExpired(token: String?): Boolean
 
     suspend fun loginAsGuest(): Boolean
+    fun isGuest(): Flow<Boolean>
 }

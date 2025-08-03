@@ -2,6 +2,7 @@ package com.madrid.data.dataSource.datastore
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.madrid.data.repositories.datasource.UserPreferences
@@ -38,7 +39,21 @@ class UserPreferencesImpl(
         }
     }
 
+    override fun isGuest(): Flow<Boolean> {
+        return dataStore.data
+            .map { preferences ->
+                preferences[IS_GUEST] ?: true
+            }
+    }
+
+    override suspend fun setIsGuest(isGuest: Boolean) {
+        dataStore.edit { settings ->
+            settings[IS_GUEST] = isGuest
+        }
+    }
+
     companion object {
         val TOKEN = stringPreferencesKey("token") //TODO: Move to secrets
+        val IS_GUEST = booleanPreferencesKey("is_guest")
     }
 }

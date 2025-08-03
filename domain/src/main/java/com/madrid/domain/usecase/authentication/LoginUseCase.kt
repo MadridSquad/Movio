@@ -39,9 +39,12 @@ class LoginUseCase(
         }
     }
 
-
     fun checkActiveSession(): Flow<Boolean> {
         return userRepository.isUserLoggedIn()
+    }
+
+    fun isGuest(): Flow<Boolean> {
+        return userRepository.isGuest()
     }
 }
 

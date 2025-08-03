@@ -7,4 +7,6 @@ interface UserPreferences {
     fun isUserLoggedIn(): Flow<Boolean>
     suspend fun setAuthToken(token: String)
     suspend fun clearAuthToken()
+    fun isGuest(): Flow<Boolean>
+    suspend fun setIsGuest(isGuest: Boolean)
 }

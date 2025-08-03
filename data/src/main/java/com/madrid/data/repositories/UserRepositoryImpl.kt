@@ -19,6 +19,7 @@ class UserRepositoryImpl(
     ): Boolean {
         val userToken = remoteDataSource.login(username, password)
         authenticationDatasource.setAuthToken(userToken)
+        authenticationDatasource.setIsGuest(false)
         return true
     }
 
@@ -66,6 +67,11 @@ class UserRepositoryImpl(
     override suspend fun loginAsGuest(): Boolean {
         val guest = remoteDataSource.loginAsGuest()
         authenticationDatasource.setAuthToken(guest)
+        authenticationDatasource.setIsGuest(true)
         return true
+    }
+
+    override fun isGuest(): Flow<Boolean> {
+        return authenticationDatasource.isGuest()
     }
 }

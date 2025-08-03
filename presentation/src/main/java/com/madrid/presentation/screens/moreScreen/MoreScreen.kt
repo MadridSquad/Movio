@@ -45,7 +45,6 @@ fun MoreScreen(
             }
         }
     }
-
     MoreScreenContent(
         state = state,
         interactionListener = viewModel as MoreInteractionListener
