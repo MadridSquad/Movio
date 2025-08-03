@@ -29,7 +29,7 @@ class SimilarMediaViewModel @Inject constructor(
     private fun loadSimilarMedia() {
         tryToExecute(
             function = {
-                getSimilarMoviesUseCase(args.mediaId.toInt())
+                getSimilarMoviesUseCase(args.mediaId)
             },
             onSuccess = { allMovies ->
                 updateState {
@@ -49,7 +49,7 @@ class SimilarMediaViewModel @Inject constructor(
     private fun loadSimilarSeries() {
         tryToExecute(
             function = {
-                getSimilarSeriesUseCase(args.mediaId.toInt())
+                getSimilarSeriesUseCase(args.mediaId)
             },
             onSuccess = { allSeries ->
                 updateState {

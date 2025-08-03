@@ -1,6 +1,5 @@
 package com.madrid.presentation.screens.loginScreen.component
 
-import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.runtime.Composable
@@ -21,7 +20,6 @@ fun WebViewScreen(url: String) {
                 webViewClient = object : WebViewClient() {
                     override fun onReceivedError(view: WebView, errorCode: Int,
                                                  description: String, failingUrl: String) {
-                        Log.e("WebView", "Error: $description")
                     }
                 }
                 loadUrl(url)

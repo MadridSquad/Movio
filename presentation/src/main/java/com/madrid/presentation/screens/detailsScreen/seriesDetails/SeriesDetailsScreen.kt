@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.CustomTextTitel
+import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.TextWithReadMore
 import com.madrid.designSystem.component.TopAppBar
@@ -63,7 +64,7 @@ fun SeriesDetailsScreen(
                 title = stringResource(R.string.internet_is_not_available),
                 description =
                     stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
-                image = com.madrid.presentation.R.drawable.img_no_internet
+                image = R.drawable.img_no_internet
             )
         }
     } else {
@@ -138,7 +139,7 @@ fun SeriesDetailsScreen(
                         )
                     },
                 )
-                CustomTextTitel(
+                CustomTextTitle(
                     primaryText = stringResource(R.string.current_seasons),
                     secondaryText = stringResource(R.string.see_all),
                     endIcon = painterResource(com.madrid.designSystem.R.drawable.outline_alt_arrow_left),

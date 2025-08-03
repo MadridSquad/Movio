@@ -1,11 +1,12 @@
 package com.madrid.presentation.utils
 
 import java.text.DecimalFormat
+import kotlin.math.floor
 
 object RateFormatter {
     fun formatRate(rate: Double): String {
         return try {
-            val truncated = Math.floor(rate * 10) / 10
+            val truncated = floor(rate * 10) / 10
             if (truncated == truncated.toInt().toDouble()) {
                 truncated.toInt().toString()
             } else {

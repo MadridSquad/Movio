@@ -1,4 +1,4 @@
-package com.madrid.data.dataSource.remote.response.movie
+package com.madrid.data.dataSource.remote.dto.movie
 
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable

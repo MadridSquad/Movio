@@ -18,7 +18,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.CustomBottomBar
-import com.madrid.presentation.component.navBarDestinations
+import com.madrid.presentation.component.getNavBarDestinations
 
 val LocalNavController = compositionLocalOf<NavHostController> { error("No Nav Controller Found") }
 
@@ -33,7 +33,7 @@ fun MovioNavGraph(
 
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val currentDestination = navBarDestinations.find { destinationItem ->
+    val currentDestination = getNavBarDestinations().find { destinationItem ->
         destinationItem.destination.toString() == currentRoute?.substringAfterLast(".")
     }
 
@@ -67,7 +67,7 @@ fun MovioNavGraph(
         ) {
             CustomBottomBar(
                 currentDestination = currentDestination?.destination ?: Destinations.HomeScreen,
-                navItems = navBarDestinations,
+                navItems = getNavBarDestinations(),
                 onNavDestinationClicked = { destination ->
                     navController.navigate(destination)
                 },

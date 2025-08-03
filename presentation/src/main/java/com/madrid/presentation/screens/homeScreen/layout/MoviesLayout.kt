@@ -2,9 +2,7 @@ package com.madrid.presentation.screens.homeScreen.layout
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -16,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
-import com.madrid.designSystem.component.CustomTextTitel
+import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.presentation.component.CustomHorizontalCard
 import com.madrid.presentation.component.MovioPager
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
@@ -50,9 +48,9 @@ fun MoviesLayout(
         }
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
-                primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.top_rating),
-                secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
-                endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
+                primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.top_rating),
+                secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
+                endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = topRatingMovies,
                 onSeeAllClick = { navController.navigate(Destinations.SeeAllMoviesScreen(type = SeeAllMoviesType.TOP_RATING)) },
                 onMediaClick = { mediaUiState ->
@@ -65,9 +63,9 @@ fun MoviesLayout(
 
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
-                primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.now_playing),
-                secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
-                endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
+                primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.now_playing),
+                secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
+                endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = nowPlayingMovies,
                 onSeeAllClick = { navController.navigate(Destinations.SeeAllMoviesScreen(type = SeeAllMoviesType.NOW_PLAYING)) },
                 onMediaClick = { mediaUiState ->
@@ -80,9 +78,9 @@ fun MoviesLayout(
 
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
-                primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.upcoming),
-                secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
-                endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
+                primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.upcoming),
+                secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
+                endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = upComingMovies,
                 onSeeAllClick = { navController.navigate(Destinations.SeeAllMoviesScreen(type = SeeAllMoviesType.UPCOMING)) },
                 onMediaClick = { mediaUiState ->
@@ -93,7 +91,7 @@ fun MoviesLayout(
         }
 
         item(span = { GridItemSpan(2) }) {
-            CustomTextTitel(
+            CustomTextTitle(
                 primaryText = stringResource(com.madrid.presentation.R.string.more_recommended),
                 secondaryText = stringResource(com.madrid.presentation.R.string.see_all),
                 endIcon = painterResource(R.drawable.outline_alt_arrow_left),

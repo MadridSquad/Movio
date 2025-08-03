@@ -30,7 +30,7 @@ class ReviewsScreenViewModel @Inject constructor(
 
     private fun loadMovieReviews() {
         tryToExecute(
-            function = { getMovieReviewsUseCase(args.mediaId.toInt()) },
+            function = { getMovieReviewsUseCase(args.mediaId) },
             onSuccess = { reviews ->
                 updateState {
                     it.copy(reviews = reviews.map { review ->
@@ -44,7 +44,7 @@ class ReviewsScreenViewModel @Inject constructor(
 
     private fun loadSeriesReviews() {
         tryToExecute(
-            function = { getSeriesReviewsUseCase(args.mediaId.toInt()) },
+            function = { getSeriesReviewsUseCase(args.mediaId) },
             onSuccess = { reviews ->
                 updateState {
                     it.copy(reviews = reviews.map { review ->

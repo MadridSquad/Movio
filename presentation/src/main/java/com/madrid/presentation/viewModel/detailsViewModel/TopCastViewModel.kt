@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TopCastViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val getMovieTopCastUseCase: GetMovieTopCastUseCase,
     private val getSeriesTopCastUseCase: GetSeriesTopCastUseCase
 ) : BaseViewModel<MovieDetailsUiState, Nothing>(

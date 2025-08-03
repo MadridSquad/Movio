@@ -44,7 +44,7 @@ class DetailsMovieViewModel @Inject constructor(
             },
             onSuccess = { movie ->
 
-                updateState {
+                updateState { it ->
                     it.copy(
                         movieId = movie.id,
                         topImageUrl = movie.imageUrl,

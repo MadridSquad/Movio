@@ -1,6 +1,5 @@
 package com.madrid.presentation.screens.detailsScreen.seriesDetails
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -49,9 +48,9 @@ fun EpisodesScreenContent(
     onClickBack: () -> Unit = {},
 ) {
     val episodes: List<EpisodeUiState> = uiState.selectedSeasonUiState.episodesUiStates
-    LazyColumn() {
+    LazyColumn {
         item {
-            Box() {
+            Box {
                 TopAppBar(
                     text = null,
                     secondIcon = null,
@@ -85,7 +84,6 @@ fun EpisodesScreenContent(
                 )
                 Spacer(Modifier.weight(1f))
                 var selectedItem by remember { mutableStateOf("Season ${uiState.selectedSeasonUiState.seasonNumber}") }
-                Log.d("TAG lolooo", "EpisodesScreenContent: ${uiState.currentSeasonsUiStates.size}")
                 if (uiState.currentSeasonsUiStates.isNotEmpty()) {
                     CustomDropdown(
                         items = getSeasonsNames(uiState.currentSeasonsUiStates.size, uiState),

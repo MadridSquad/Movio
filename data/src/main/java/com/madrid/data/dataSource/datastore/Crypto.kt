@@ -1,4 +1,4 @@
-package com.madrid.data.dataSource.encrypted
+package com.madrid.data.dataSource.datastore
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
@@ -41,7 +41,6 @@ object Crypto {
                         .setEncryptionPaddings(ENCRYPTION_PADDING)
                         .setRandomizedEncryptionRequired(true)
                         .setUserAuthenticationRequired(false)
-//                        .setKeySize(256)
                         .build()
                 )
             }

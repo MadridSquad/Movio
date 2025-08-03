@@ -1,4 +1,4 @@
-package com.madrid.data.dataSource.remote.response.series
+package com.madrid.data.dataSource.remote.dto.series
 
 
 import com.google.gson.annotations.SerializedName

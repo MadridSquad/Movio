@@ -33,7 +33,6 @@ class SeriesDetailsViewModel @Inject constructor(
     private val args = savedStateHandle.toRoute<Destinations.SeriesDetailsScreen>()
 
     init {
-        Log.d("loool", ": ")
         loadData()
     }
 
@@ -103,7 +102,7 @@ class SeriesDetailsViewModel @Inject constructor(
     private fun loadSeasonEpisodes(seasonNumber: Int = 1) {
         tryToExecute(
             function = {
-                getEpisodesForSeasonUseCase(args.seriesId.toInt(), seasonNumber)
+                getEpisodesForSeasonUseCase(args.seriesId, seasonNumber)
             },
             onSuccess = { episodes ->
                 updateState { state ->
@@ -128,11 +127,11 @@ class SeriesDetailsViewModel @Inject constructor(
     private fun loadCastData() {
         tryToExecute(
             function = {
-                getSeriesTopCastUseCase(args.seriesId.toInt())
+                getSeriesTopCastUseCase(args.seriesId)
             },
-            onSuccess = { Artists ->
+            onSuccess = { artists ->
                 updateState {
-                    it.copy(topCast = Artists.map { artist ->
+                    it.copy(topCast = artists.map { artist ->
                         artist.mapToUiState()
                     })
                 }
@@ -146,7 +145,7 @@ class SeriesDetailsViewModel @Inject constructor(
     private fun loadReviews() {
         tryToExecute(
             function = {
-                getSeriesReviewsUseCase(args.seriesId.toInt())
+                getSeriesReviewsUseCase(args.seriesId)
             },
             onSuccess = { reviews ->
                 updateState {
@@ -165,7 +164,7 @@ class SeriesDetailsViewModel @Inject constructor(
     private fun loadSimilarSeries() {
         tryToExecute(
             function = {
-                getSimilarSeriesUseCase(args.seriesId.toInt())
+                getSimilarSeriesUseCase(args.seriesId)
             },
             onSuccess = { allSeries ->
                 updateState {
