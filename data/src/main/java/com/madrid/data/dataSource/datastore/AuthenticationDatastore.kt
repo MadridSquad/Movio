@@ -6,13 +6,13 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.madrid.data.repositories.datasource.AuthenticationDataSource
+import com.madrid.data.repositories.datasource.UserPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class AuthenticationDatastoreImpl(
+class UserPreferencesImpl(
     private val context: Context
-) : AuthenticationDataSource {
+) : UserPreferences {
     val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings") //TODO: Move to secrets
 
     val TOKEN = stringPreferencesKey("token") //TODO: Move to secrets
