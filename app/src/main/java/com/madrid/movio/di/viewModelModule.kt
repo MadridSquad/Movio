@@ -1,6 +1,5 @@
 package com.madrid.movio.di
 
-
 import com.madrid.presentation.screens.searchScreen.SeeAllForYou.SeeAllForYouViewModel
 import com.madrid.presentation.viewModel.authentication.MainViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.ActorDetailsViewModel
@@ -11,6 +10,7 @@ import com.madrid.presentation.viewModel.detailsViewModel.SimilarMediaViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.TopCastViewModel
 import com.madrid.presentation.viewModel.homeViewModel.HomeViewModel
 import com.madrid.presentation.viewModel.loginViewModel.LoginViewModel
+import com.madrid.presentation.viewModel.logoutViewModel.LogoutViewModel
 import com.madrid.presentation.viewModel.moreViewModel.MoreViewModel
 import com.madrid.presentation.viewModel.searchViewModel.SearchViewModel
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesFactory
@@ -22,7 +22,6 @@ import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTvShowType
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
-
 
 val presentationModule = module {
     viewModelOf(::SearchViewModel)
@@ -37,6 +36,10 @@ val presentationModule = module {
     viewModelOf(::SimilarMediaViewModel)
     viewModelOf(::MainViewModel)
     viewModelOf(::MoreViewModel)
+
+    viewModelOf(::LogoutViewModel)
+
+
     viewModel { (type: SeeAllTvShowType) ->
         val factory: SeeAllTVShowsFactory = get()
         val strategy = factory.create(type)
@@ -47,6 +50,6 @@ val presentationModule = module {
         val strategy = factory.create(type)
         SeeAllMoviesViewModel(get(), strategy)
     }
-    single { SeeAllTVShowsFactory(get(), get(), get(), get() , get()) }
-    single { SeeAllMoviesFactory(get(), get(), get(), get() , get()) }
+    single { SeeAllTVShowsFactory(get(), get(), get(), get(), get()) }
+    single { SeeAllMoviesFactory(get(), get(), get(), get(), get()) }
 }

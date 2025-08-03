@@ -9,12 +9,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.madrid.designSystem.R
+import com.madrid.designSystem.component.ButtomSheet.LogoutConfirmationBottomSheet
 import com.madrid.designSystem.component.DialogWithButtonLayout
 import com.madrid.designSystem.component.SettingsItem
 import com.madrid.presentation.navigation.Destinations
@@ -31,6 +36,7 @@ import com.madrid.presentation.R as presentationR
 fun MoreScreen(
     viewModel: MoreViewModel = koinViewModel()
 ) {
+    var showLogoutBottomSheet by remember { mutableStateOf(false) }
     val state = viewModel.state.collectAsStateWithLifecycle().value
     val navController = LocalNavController.current
 
@@ -45,16 +51,31 @@ fun MoreScreen(
             }
         }
     }
+
     MoreScreenContent(
         state = state,
-        interactionListener = viewModel as MoreInteractionListener
+        interactionListener = viewModel as MoreInteractionListener,
+        showLogoutBottomSheet = showLogoutBottomSheet,
+        onShowLogoutBottomSheet = { showLogoutBottomSheet = true }
+    )
+
+    LogoutConfirmationBottomSheet(
+        isVisible = showLogoutBottomSheet,
+        onDismiss = { showLogoutBottomSheet = false },
+        onNavigateToAuth = {
+            navController.navigate(Destinations.AuthenticationScreen) {
+                popUpTo(0) { inclusive = true }
+            }
+        },
     )
 }
 
 @Composable
 private fun MoreScreenContent(
     state: MoreUiState,
-    interactionListener: MoreInteractionListener
+    interactionListener: MoreInteractionListener,
+    showLogoutBottomSheet: Boolean,
+    onShowLogoutBottomSheet: () -> Unit
 ) {
     if (state.isGuest) {
         DialogWithButtonLayout(
@@ -120,7 +141,7 @@ private fun MoreScreenContent(
                     icon = R.drawable.outline_arrows_logout,
                     title = stringResource(presentationR.string.logout),
                     clickable = true,
-                    onClick = { interactionListener.onLogoutBtnClick() }
+                    onClick = onShowLogoutBottomSheet
                 )
             }
         }

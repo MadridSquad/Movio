@@ -29,14 +29,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioBottomSheet
 import com.madrid.designSystem.component.MovioButton
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
-import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.logoutViewModel.LogoutViewModel
 import org.koin.androidx.compose.getViewModel
 
@@ -44,7 +42,7 @@ import org.koin.androidx.compose.getViewModel
 fun LogoutConfirmationBottomSheet(
     isVisible: Boolean,
     onDismiss: () -> Unit,
-    navController: NavController? = null,
+    onNavigateToAuth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val viewModel: LogoutViewModel = getViewModel()
@@ -53,13 +51,7 @@ fun LogoutConfirmationBottomSheet(
     LaunchedEffect(uiState.logoutSuccess) {
         if (uiState.logoutSuccess) {
             onDismiss()
-            navController?.navigate(Destinations.AuthenticationScreen) {
-                popUpTo(0) {
-                    inclusive = true
-                }
-                launchSingleTop = true
-                restoreState = false
-            }
+            onNavigateToAuth()
         }
     }
 
@@ -76,16 +68,7 @@ fun LogoutConfirmationBottomSheet(
         LogoutConfirmationContent(
             uiState = uiState,
             onLogoutConfirm = {
-                viewModel.logout {
-                    onDismiss()
-                    navController?.navigate(Destinations.AuthenticationScreen) {
-                        popUpTo(0) {
-                            inclusive = true
-                        }
-                        launchSingleTop = true
-                    }
-
-                }
+                viewModel.logout(onSuccess = {})
             },
             onClearError = { viewModel.clearError() },
         )
@@ -194,7 +177,6 @@ private fun LogoutConfirmationContent(
         }
     }
 }
-
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LogoutConfirmationBottomSheetPreview() {
@@ -245,7 +227,7 @@ fun LogoutConfirmationBottomSheetPreview() {
                     },
                     onClearError = { }
                 )
-             }
+            }
         }
     }
 }
