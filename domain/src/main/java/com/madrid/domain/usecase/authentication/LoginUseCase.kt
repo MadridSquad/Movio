@@ -1,22 +1,21 @@
 package com.madrid.domain.usecase.authentication
 
 
-import com.madrid.domain.exceptions.NetworkException
 import com.madrid.domain.exceptions.UnknownException
 import com.madrid.domain.exceptions.ValidationException
-import com.madrid.domain.repository.UserRepository
+import com.madrid.domain.repository.AuthenticationRepository
 import com.madrid.domain.exceptions.InvalidCredentialsException
 import com.madrid.domain.exceptions.MovioException
 import kotlinx.coroutines.flow.Flow
 
 class LoginUseCase(
-    private val userRepository: UserRepository
+    private val authenticationRepository: AuthenticationRepository
 ) {
 
     suspend fun execute(username: String, password: String): Boolean {
         try {
             validateCredentials(username, password)
-            val success = userRepository.login(username, password)
+            val success = authenticationRepository.login(username, password)
             if (!success) throw InvalidCredentialsException()
             return true
         } catch (e: MovioException) {
@@ -29,7 +28,7 @@ class LoginUseCase(
     }
 
     suspend fun loginAsGuest(): Boolean {
-        return userRepository.loginAsGuest()
+        return authenticationRepository.loginAsGuest()
     }
 
     private fun validateCredentials(username: String, password: String) {
@@ -41,7 +40,7 @@ class LoginUseCase(
 
 
     fun checkActiveSession(): Flow<Boolean> {
-        return userRepository.isUserLoggedIn()
+        return authenticationRepository.isUserLoggedIn()
     }
 }
 

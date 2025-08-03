@@ -11,7 +11,7 @@ import com.madrid.data.repositories.ArtistRepositoryImpl
 import com.madrid.data.repositories.MovieRepositoryImpl
 import com.madrid.data.repositories.SearchRepositoryImpl
 import com.madrid.data.repositories.SeriesRepositoryImpl
-import com.madrid.data.repositories.UserRepositoryImpl
+import com.madrid.data.repositories.AuthenticationRepositoryImpl
 import com.madrid.data.repositories.datasource.UserPreferences
 import com.madrid.data.repositories.local.LocalDataSource
 import com.madrid.detectImageContent.GetImageBitmap
@@ -20,7 +20,7 @@ import com.madrid.domain.repository.ArtistRepository
 import com.madrid.domain.repository.MovieRepository
 import com.madrid.domain.repository.SearchRepository
 import com.madrid.domain.repository.SeriesRepository
-import com.madrid.domain.repository.UserRepository
+import com.madrid.domain.repository.AuthenticationRepository
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -46,5 +46,5 @@ val dataModule = module {
     single { GetImageBitmap(get()) }
     single { SensitiveContentDetection(get()) }
     single<ArtistRepository> { ArtistRepositoryImpl(get()) }
-    single<UserRepository> { UserRepositoryImpl(get(), get(), get()) }
+    single<AuthenticationRepository> { AuthenticationRepositoryImpl(get(), get(), get()) }
 }
