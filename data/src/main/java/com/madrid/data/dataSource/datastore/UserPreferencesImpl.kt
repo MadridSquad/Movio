@@ -53,8 +53,6 @@ class UserPreferencesImpl(
 
     companion object {
         val TOKEN = stringPreferencesKey("token") //TODO: Move to secrets
-    }
-    companion object {
         val ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
     }
 }
