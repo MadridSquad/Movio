@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.madrid.designSystem.R
-import com.madrid.designSystem.component.CustomTextTitel
+import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.designSystem.component.LoadingSearchCard
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
@@ -64,7 +64,7 @@ fun LazyGridScope.forYouAndExploreScreen(
                     Column (
                         modifier = Modifier
                             .fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
+                        horizontalAlignment = CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
                         Image(
@@ -82,7 +82,7 @@ fun LazyGridScope.forYouAndExploreScreen(
                 item(
                     span = { GridItemSpan(maxLineSpan) }
                 ) {
-                    CustomTextTitel(
+                    CustomTextTitle(
                         modifier = Modifier.padding(top = 24.dp),
                         primaryText = stringResource(com.madrid.presentation.R.string.for_u),
                         secondaryText = stringResource(com.madrid.presentation.R.string.see_all),
@@ -138,7 +138,7 @@ fun LazyGridScope.forYouAndExploreScreen(
                         modifier = Modifier
                             .fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = CenterHorizontally
                     ) {
                         MovioText(
                             text = stringResource(com.madrid.presentation.R.string.internet_is_not_available),
@@ -168,7 +168,7 @@ fun LazyGridScope.forYouAndExploreScreen(
                         modifier = Modifier
                             .fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = CenterHorizontally
                     ) {
                         MovioText(
                             text = "No results found",
@@ -196,7 +196,7 @@ fun LazyGridScope.forYouAndExploreScreen(
                 item(
                     span = { GridItemSpan(maxLineSpan) }
                 ) {
-                    CustomTextTitel(
+                    CustomTextTitle(
                         primaryText = stringResource(com.madrid.presentation.R.string.explore_more)
                     )
                 }

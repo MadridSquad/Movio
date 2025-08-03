@@ -17,7 +17,7 @@ import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 
-fun LazyGridScope.EmptyRececntSearch() {
+fun LazyGridScope.emptyRecentSearch() {
     item(span = { GridItemSpan(maxLineSpan) }) {
 
         Column(

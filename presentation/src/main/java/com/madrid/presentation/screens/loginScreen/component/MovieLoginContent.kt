@@ -19,7 +19,6 @@ import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 import com.madrid.presentation.viewModel.loginViewModel.LoginUiState
 
-
 @Composable
 fun MovieLoginContent(
     state: LoginUiState,
@@ -86,6 +85,6 @@ fun MovieLoginContent(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        SignUpRow(onSignUpClick = onSignUpClick,)
+        SignUpRow(onSignUpClick = onSignUpClick)
     }
 }

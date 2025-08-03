@@ -21,7 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
-fun showSnackbar(
+fun showSnackBar(
     scope: CoroutineScope,
     hostState: SnackbarHostState,
     message: String,
@@ -37,24 +37,24 @@ fun showSnackbar(
 }
 
 @Composable
-fun CustomSnackbarHost(
-    snackbarHostState: SnackbarHostState,
+fun CustomSnackBarHost(
+    snackBarHostState: SnackbarHostState,
     imagePainter: Painter,
     onUndoClick: (() -> Unit)? = null
 ) {
     SnackbarHost(
-        hostState = snackbarHostState,
-        snackbar = { snackbarData ->
+        hostState = snackBarHostState,
+        snackbar = { snackBarData ->
             Snackbar(
                 modifier = Modifier.padding(vertical = 14.dp, horizontal = 16.dp),
                 containerColor = Theme.color.surfaces.surfaceContainer,
                 contentColor = Theme.color.surfaces.onSurface,
                 shape = RoundedCornerShape(8.dp),
                 action = {
-                    snackbarData.visuals.actionLabel?.let { label ->
+                    snackBarData.visuals.actionLabel?.let { label ->
                         TextButton(
                             onClick = {
-                                snackbarData.dismiss()
+                                snackBarData.dismiss()
                                 onUndoClick?.invoke()
                             }
                         ) {
@@ -75,7 +75,7 @@ fun CustomSnackbarHost(
                     )
                     Spacer(modifier = Modifier.padding(horizontal = 8.dp))
                     MovioText(
-                        text = snackbarData.visuals.message,
+                        text = snackBarData.visuals.message,
                         color = LocalContentColor.current,
                         textStyle = Theme.textStyle.label.smallRegular14
                     )

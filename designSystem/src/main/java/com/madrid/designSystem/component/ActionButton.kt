@@ -1,4 +1,4 @@
-package com.madrid.designsystem.component
+package com.madrid.designSystem.component
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -8,11 +8,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.madrid.designSystem.theme.Theme
 import com.madrid.designSystem.R
-import com.madrid.designSystem.component.MovioButton
-import com.madrid.designSystem.component.MovioIcon
-import com.madrid.designSystem.component.MovioText
+import com.madrid.designSystem.theme.Theme
 
 @Composable
 fun ActionButton(
