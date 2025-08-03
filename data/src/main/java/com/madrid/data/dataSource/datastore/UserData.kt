@@ -1,4 +1,4 @@
-package com.madrid.data.dataSource.encrypted
+package com.madrid.data.dataSource.datastore
 
 import androidx.datastore.core.Serializer
 import kotlinx.coroutines.Dispatchers
