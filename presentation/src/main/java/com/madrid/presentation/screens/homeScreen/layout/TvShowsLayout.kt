@@ -94,7 +94,7 @@ fun TvShowsLayout(
                         )
                     )
                 },
-                headerModifier = Modifier.padding(horizontal = 16.dp)
+                headerModifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 20.dp)
             )
         }
 
@@ -119,7 +119,7 @@ fun TvShowsLayout(
                         )
                     )
                 },
-                headerModifier = Modifier.padding(horizontal = 16.dp)
+                headerModifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 20.dp)
             )
         }
 
@@ -135,7 +135,7 @@ fun TvShowsLayout(
                         )
                     )
                 },
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 20.dp)
             )
         }
 

@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.MovioTheme
@@ -22,22 +23,20 @@ import com.madrid.designSystem.theme.Theme
 @Composable
 fun MovioArtistsCard(
     imageUrl: String,
+    circleImageSize: Dp,
     artistsName: String,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
-            .width(102.dp)
-            .height(111.dp)
-            .clip(RoundedCornerShape(8.dp))
             .clickable { onClick() },
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         BasicImageCard(
-            modifier = modifier
-                .size(88.dp),
+            modifier = Modifier
+                .size(circleImageSize),
             imageUrl = imageUrl,
             radius = 1000.dp,
         )
@@ -57,7 +56,8 @@ fun MovioArtistsCardPreview() {
     MovioTheme {
         MovioArtistsCard(
             imageUrl = "https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg",
-            artistsName = "Leonardo DiCaprio"
+            artistsName = "Leonardo DiCaprio",
+            circleImageSize = 88.dp
         )
     }
 }

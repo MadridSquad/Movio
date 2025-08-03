@@ -1,6 +1,10 @@
 package com.madrid.movio.di
 
-import com.madrid.data.dataSource.encrypted.AuthenticationDatastoreImpl
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStoreFile
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import com.madrid.data.dataSource.datastore.UserPreferencesImpl
 import com.madrid.data.dataSource.local.LocalDataSourceImpl
 import com.madrid.data.dataSource.local.database.MovioDatabase
 import com.madrid.data.dataSource.remote.dto.rate.RatingSeriesResponse
@@ -9,7 +13,7 @@ import com.madrid.data.repositories.MovieRepositoryImpl
 import com.madrid.data.repositories.SearchRepositoryImpl
 import com.madrid.data.repositories.SeriesRepositoryImpl
 import com.madrid.data.repositories.UserRepositoryImpl
-import com.madrid.data.repositories.datasource.AuthenticationDataSource
+import com.madrid.data.repositories.datasource.UserPreferences
 import com.madrid.data.repositories.local.LocalDataSource
 import com.madrid.data.repositories.remote.rateRepositoryImpl.MovieRateRepositoryImpl
 import com.madrid.detectImageContent.GetImageBitmap
@@ -20,6 +24,7 @@ import com.madrid.domain.repository.MovieRepository
 import com.madrid.domain.repository.SearchRepository
 import com.madrid.domain.repository.SeriesRepository
 import com.madrid.domain.repository.UserRepository
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -33,7 +38,12 @@ val dataModule = module {
     single { get<MovioDatabase>().seriesGenreDao() }
     single { get<MovioDatabase>().recentSearchDao() }
     single<LocalDataSource> { LocalDataSourceImpl(get(), get(), get(), get(), get(), get()) }
-    single <AuthenticationDataSource>{ AuthenticationDatastoreImpl(androidContext()) }
+    single<DataStore<Preferences>> {
+        PreferenceDataStoreFactory.create(
+            produceFile = { androidApplication().dataStoreFile("user_preferences.preferences_pb") }
+        )
+    }
+    single<UserPreferences> { UserPreferencesImpl(get()) }
     single<MovieRepository> { MovieRepositoryImpl(get(), get()) }
     single<SeriesRepository> { SeriesRepositoryImpl(get(), get()) }
     single { GetImageBitmap(get()) }

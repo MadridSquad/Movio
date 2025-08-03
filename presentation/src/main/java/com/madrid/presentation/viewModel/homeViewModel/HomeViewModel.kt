@@ -117,14 +117,8 @@ class HomeViewModel(
                 )
             )
         }
-        if (category.id == -1) {
-            fetchMediaByCategory(null, state.value.categoryTabUiState.sortingType)
-            return
-        }
-        fetchMediaByCategory(
-            state.value.categoryTabUiState.selectedCategory.id,
-            state.value.categoryTabUiState.sortingType
-        )
+        val genreId = if (category.id == -1) null else category.id
+        fetchMediaByCategory(genreId, state.value.categoryTabUiState.sortingType)
     }
 
     override fun onSelectSortingType(sortType: SortingType) {
@@ -135,8 +129,9 @@ class HomeViewModel(
                 )
             )
         }
-        val id = state.value.categoryTabUiState.selectedCategory.id
-        fetchMediaByCategory(id, sortType)
+        val selectedCategoryId = state.value.categoryTabUiState.selectedCategory.id
+        val genreId = if (selectedCategoryId == -1) null else selectedCategoryId
+        fetchMediaByCategory(genreId, sortType)
     }
 
     override fun onMediaSelected(mediaId: Int, mediaType: MediaType) {
