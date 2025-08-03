@@ -71,7 +71,9 @@ interface RemoteDataSource {
     // region authentication
     suspend fun login(username: String, password: String): String
     suspend fun loginAsGuest(): String
-    suspend fun getCurrentUserDetails(accountId: Int, sessionId: String): AccountDetailsResponse
+    suspend fun getCurrentUserDetails(sessionId: String): AccountDetailsResponse
+
+    suspend fun getSessionId(username: String, password: String): String
     // endregion
 
 }

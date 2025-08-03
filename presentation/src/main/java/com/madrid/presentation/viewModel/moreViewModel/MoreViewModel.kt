@@ -46,7 +46,9 @@ class MoreViewModel @Inject constructor(
         updateState { it.copy(isLoading = true) }
         viewModelScope.launch(Dispatchers.IO) {
             try {
+                Log.d("Tag fetchCurrentUserDetails"," user is:   ")
                 val user = getCurrentUserDetailsUseCase()
+                Log.d("Tag fetchCurrentUserDetails"," user is:   $user")
                 updateState {
                     it.copy(
                         isLoading = false,

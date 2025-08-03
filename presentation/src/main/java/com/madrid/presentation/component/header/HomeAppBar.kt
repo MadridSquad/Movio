@@ -23,7 +23,8 @@ import com.madrid.designSystem.theme.Theme
 
 @Composable
 fun HomeAppBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    image : String? ,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -45,7 +46,7 @@ fun HomeAppBar(
         )
         Spacer(Modifier.weight(1f))
         ProfilePicture(
-            image = R.drawable.profile_pic_holder,
+            image = image,
             size = 24.dp,
             modifier = Modifier
                 .size(24.dp)
@@ -57,5 +58,5 @@ fun HomeAppBar(
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewHomeAppBar() {
-    HomeAppBar()
+    HomeAppBar(image = null)
 }

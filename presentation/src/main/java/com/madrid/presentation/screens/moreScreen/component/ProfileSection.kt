@@ -17,9 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.ProfilePicture
@@ -28,9 +30,10 @@ import com.madrid.designSystem.theme.Theme
 @Composable
 fun ProfileSection(
     username: String,
-    @DrawableRes profilePicture: Int,
+    profilePicture: String?,
     onProfileClick: () -> Unit = {}
 ) {
+
     Column {
         Box(
             modifier = Modifier
@@ -91,7 +94,7 @@ fun ProfileSection(
 fun ProfileSectionPreview() {
     ProfileSection(
         username = "John Doe",
-        profilePicture = R.drawable.profile_pic_holder,
+        profilePicture = null,
         onProfileClick = {}
     )
 }

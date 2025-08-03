@@ -8,7 +8,7 @@ interface UserRepository {
     suspend fun register(email: String, password: String, username: String): User
     suspend fun logout()
 
-    suspend fun getCurrentUser(accountId: Int, sessionId: String): User?
+    suspend fun getCurrentUser(sessionId: String): User?
     suspend fun getSessionId():  Flow<String>
     fun isUserLoggedIn(): Flow<Boolean>
     suspend fun refreshToken(): Boolean
