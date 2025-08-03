@@ -1,4 +1,4 @@
-package com.madrid.data.dataSource.encrypted
+package com.madrid.data.dataSource.datastore
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties

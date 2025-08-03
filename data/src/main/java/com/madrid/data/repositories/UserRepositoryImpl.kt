@@ -1,6 +1,6 @@
 package com.madrid.data.repositories
 
-import com.madrid.data.repositories.datasource.AuthenticationDataSource
+import com.madrid.data.repositories.datasource.UserPreferences
 import com.madrid.data.repositories.local.LocalDataSource
 import com.madrid.data.repositories.remote.RemoteDataSource
 import com.madrid.domain.entity.User
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 class UserRepositoryImpl(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
-    private val authenticationDatasource: AuthenticationDataSource
+    private val authenticationDatasource: UserPreferences
 ) : UserRepository {
 
     override suspend fun login(

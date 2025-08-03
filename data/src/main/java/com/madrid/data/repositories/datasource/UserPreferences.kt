@@ -2,7 +2,7 @@ package com.madrid.data.repositories.datasource
 
 import kotlinx.coroutines.flow.Flow
 
-interface AuthenticationDataSource {
+interface UserPreferences {
     fun getAuthToken(): Flow<String>
     fun isUserLoggedIn(): Flow<Boolean>
     suspend fun setAuthToken(token: String)
