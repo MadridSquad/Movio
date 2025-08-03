@@ -109,7 +109,7 @@ private fun LogoutConfirmationContent(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             MovioText(
-                modifier = Modifier.height(19.dp),
+                modifier = Modifier.height(25.dp),
                 text = stringResource(id = R.string.conform_log_out),
                 textStyle = Theme.textStyle.title.mediumMedium16,
                 color = Theme.color.surfaces.onSurface,
