@@ -4,6 +4,7 @@ import android.util.Log
 import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
+import com.madrid.data.dataSource.remote.dto.authentication.AccountDetailsResponse
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
 import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
@@ -181,6 +182,16 @@ class RemoteDataSourceImpl(
 
     override suspend fun loginAsGuest(): String {
         return api.getCreateGuestSession().requestToken
+    }
+
+    override suspend fun getCurrentUserDetails(
+        accountId: Int,
+        sessionId: String
+    ): AccountDetailsResponse {
+        return api.getAccountDetails(
+            accountId = accountId,
+            sessionId = sessionId
+        )
     }
 
 }

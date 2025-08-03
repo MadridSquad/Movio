@@ -1,5 +1,6 @@
 package com.madrid.data.repositories
 
+import com.madrid.data.dataSource.remote.mapper.toUser
 import com.madrid.data.repositories.datasource.UserPreferences
 import com.madrid.data.repositories.local.LocalDataSource
 import com.madrid.data.repositories.remote.RemoteDataSource
@@ -35,8 +36,12 @@ class UserRepositoryImpl(
         authenticationDatasource.clearAuthToken()
     }
 
-    override suspend fun getCurrentUser(): User? {
-        TODO("Not yet implemented")
+    override suspend fun getCurrentUser(accountId: Int, sessionId: String): User? {
+        return remoteDataSource.getCurrentUserDetails(accountId, sessionId).toUser()
+    }
+
+    override suspend fun getSessionId(): Flow<String> {
+        return authenticationDatasource.getAuthToken()
     }
 
     override fun isUserLoggedIn(): Flow<Boolean> {

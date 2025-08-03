@@ -2,6 +2,7 @@ package com.madrid.movio.di
 
 import com.madrid.domain.usecase.artist.GetArtistDetailsUseCase
 import com.madrid.domain.usecase.artist.GetArtistMoviesUseCase
+import com.madrid.domain.usecase.authentication.GetCurrentUserDetailsUseCase
 import com.madrid.domain.usecase.authentication.LoginUseCase
 import com.madrid.domain.usecase.movie.FilterMoviesByCategoryUseCase
 import com.madrid.domain.usecase.movie.GetMovieDetailsUseCase
@@ -102,6 +103,7 @@ val domainModule = module {
 
     // user
     singleOf(::LoginUseCase)
+    singleOf(::GetCurrentUserDetailsUseCase)
     single<CoroutineDispatcher> { Dispatchers.IO }
 
 

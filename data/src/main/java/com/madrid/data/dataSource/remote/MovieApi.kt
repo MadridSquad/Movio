@@ -3,6 +3,7 @@ package com.madrid.data.dataSource.remote
 import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.ArtistKnownForResponse
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
+import com.madrid.data.dataSource.remote.dto.authentication.AccountDetailsResponse
 import com.madrid.data.dataSource.remote.dto.common.TrailerResponse
 import com.madrid.data.dataSource.remote.dto.genre.GenresResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
@@ -197,6 +198,12 @@ interface MovieApi {
 
     @GET("authentication/guest_session/new")
     suspend fun getCreateGuestSession(): AuthenticationResponse
+
+    @GET("account")  // This
+    suspend fun getAccountDetails(
+        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String
+    ): AccountDetailsResponse
     // endregion
 
 
