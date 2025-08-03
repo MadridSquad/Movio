@@ -4,7 +4,7 @@ import com.madrid.domain.usecase.movie.GetUserRatedMovie
 import com.madrid.domain.usecase.series.GetUserRatedSeries
 import com.madrid.presentation.viewModel.shared.MediaType
 
-fun GetUserRatedMovie.RatedMovie.toRatedMovieUiState(): RatedMediaState {
+fun GetUserRatedMovie.RatedMovie.toRatedMediaUiState(): RatedMediaState {
     return RatedMediaState(
         imageUrL = this.movie.imageUrl,
         mediaTitle = this.movie.title,
@@ -13,7 +13,7 @@ fun GetUserRatedMovie.RatedMovie.toRatedMovieUiState(): RatedMediaState {
     )
 }
 
-fun GetUserRatedSeries.RatedSeries.toRatedSeriesUiState(): RatedMediaState {
+fun GetUserRatedSeries.RatedSeries.toRatedMediaUiState(): RatedMediaState {
     return RatedMediaState(
         imageUrL = this.series.imageUrl,
         mediaTitle = this.series.title,
