@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.DialogWithButtonLayout
@@ -29,7 +30,7 @@ import com.madrid.presentation.R as presentationR
 
 @Composable
 fun MoreScreen(
-    viewModel: MoreViewModel = koinViewModel()
+    viewModel: MoreViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
     val navController = LocalNavController.current

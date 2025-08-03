@@ -7,8 +7,11 @@ import com.madrid.domain.usecase.movie.GetMovieTopCastUseCase
 import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class TopCastViewModel(
+@HiltViewModel
+class TopCastViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getMovieTopCastUseCase: GetMovieTopCastUseCase,
     private val getSeriesTopCastUseCase: GetSeriesTopCastUseCase

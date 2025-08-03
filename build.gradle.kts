@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.hilt.android)apply false
 }
 
 // Custom clean task to handle file system issues

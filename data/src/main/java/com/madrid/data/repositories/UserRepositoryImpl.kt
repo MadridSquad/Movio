@@ -7,8 +7,9 @@ import com.madrid.data.repositories.remote.RemoteDataSource
 import com.madrid.domain.entity.User
 import com.madrid.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class UserRepositoryImpl(
+class UserRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
     private val authenticationDatasource: UserPreferences
@@ -45,7 +46,7 @@ class UserRepositoryImpl(
     }
 
     override fun isUserLoggedIn(): Flow<Boolean> {
-        return authenticationDatasource.isUserLoggedIn()
+       return authenticationDatasource.isUserLoggedIn()
     }
 
     override suspend fun refreshToken(): Boolean {

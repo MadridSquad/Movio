@@ -1,10 +1,10 @@
 package com.madrid.presentation.navigation
 
-import android.util.Log
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,7 +28,21 @@ import com.madrid.presentation.screens.moreScreen.MoreScreen
 import com.madrid.presentation.screens.onboarding.OnBoardingScreen
 import com.madrid.presentation.screens.searchScreen.SearchScreen
 import com.madrid.presentation.screens.searchScreen.SeeAllForYou.SeeAllForYouScreen
-import kotlin.math.log
+import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesFactory
+import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesViewModel
+import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTVShowsFactory
+import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTVShowsViewModel
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
+
+@EntryPoint
+@InstallIn(SingletonComponent::class)
+interface StrategyFactoryEntryPoint {
+    fun moviesFactory(): SeeAllMoviesFactory
+    fun tvShowsFactory(): SeeAllTVShowsFactory
+}
 
 @Composable
 fun MovioNavHost(
@@ -113,11 +127,26 @@ fun MovioNavHost(
         }
         composable<Destinations.SeeAllMoviesScreen> { backStackEntry ->
             val destination = backStackEntry.toRoute<Destinations.SeeAllMoviesScreen>()
-            SeeAllMoviesScreen(type = destination.type)
+            val context = androidx.compose.ui.platform.LocalContext.current
+            val entryPoint =
+                EntryPointAccessors.fromApplication(context, StrategyFactoryEntryPoint::class.java)
+            val strategy = entryPoint.moviesFactory().create(destination.type)
+            SeeAllMoviesScreen(
+                viewModel = hiltViewModel<SeeAllMoviesViewModel, SeeAllMoviesViewModel.Factory>(
+                    key = destination.type.toString()
+                ) { factory -> factory.create(strategy) }
+            )
         }
         composable<Destinations.SeeAllTvShowsScreen> { backStackEntry ->
             val destination = backStackEntry.toRoute<Destinations.SeeAllTvShowsScreen>()
-            SeeAllTVShowsScreen(type = destination.type)
+            val context = androidx.compose.ui.platform.LocalContext.current
+            val entryPoint =
+                EntryPointAccessors.fromApplication(context, StrategyFactoryEntryPoint::class.java)
+            val strategy = entryPoint.tvShowsFactory().create(destination.type)
+            SeeAllTVShowsScreen(
+                viewModel = hiltViewModel<SeeAllTVShowsViewModel, SeeAllTVShowsViewModel.Factory>(
+                key = destination.type.toString()
+                ) { factory -> factory.create(strategy) })
         }
     }
 }

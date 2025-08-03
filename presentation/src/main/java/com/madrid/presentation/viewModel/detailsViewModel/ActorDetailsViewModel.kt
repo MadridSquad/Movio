@@ -8,8 +8,11 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.utils.RateFormatter
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.shared.parser.formatDateOfBirth
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ActorDetailsViewModel(
+@HiltViewModel
+class ActorDetailsViewModel @Inject constructor(
     private val getArtistDetailsUseCase: GetArtistDetailsUseCase,
     private val getArtistMoviesUseCase: GetArtistMoviesUseCase,
     saveStateHandle: SavedStateHandle
