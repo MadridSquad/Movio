@@ -25,13 +25,7 @@ class MyRateViewModel(
             onSuccess = { result ->
                 updateState {
                     it.copy(
-                        ratedSeries = result.map {
-                            RatedSeriesState(
-                                imageUrL = it.series.imageUrl,
-                                mediaTitle = it.series.title,
-                                rate = it.rate.toString(),
-                            )
-                        },
+                        ratedSeries = result.map { it.toRatedSeriesUiState() },
                         isLoading = false
                     )
                 }
@@ -48,13 +42,7 @@ class MyRateViewModel(
             onSuccess = { result ->
                 updateState {
                     it.copy(
-                        ratedMovie = result.map {
-                            RatedMovieState(
-                                imageUrL = it.movie.imageUrl,
-                                mediaTitle = it.movie.title,
-                                rate = it.rate.toString()
-                            )
-                        },
+                        ratedMovie = result.map { it.toRatedMovieUiState() },
                         isLoading = false
                     )
                 }
