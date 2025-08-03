@@ -1,5 +1,6 @@
 package com.madrid.presentation.screens.moreScreen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -31,6 +32,7 @@ import com.madrid.presentation.R as presentationR
 fun MoreScreen(
     viewModel: MoreViewModel = koinViewModel()
 ) {
+
     val state = viewModel.state.collectAsStateWithLifecycle().value
     val navController = LocalNavController.current
 
@@ -56,6 +58,7 @@ private fun MoreScreenContent(
     state: MoreUiState,
     interactionListener: MoreInteractionListener
 ) {
+
     if (state.isGuest) {
         DialogWithButtonLayout(
             modifier = Modifier
@@ -74,6 +77,7 @@ private fun MoreScreenContent(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
+            Log.e("MY_TAG" ," More screen ${ state.profilePictureUrl.toString() }")
             ProfileSection(
                 username = state.username,
                 profilePicture = state.profilePictureUrl,

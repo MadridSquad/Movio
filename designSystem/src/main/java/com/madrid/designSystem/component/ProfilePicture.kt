@@ -15,18 +15,23 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.madrid.designSystem.R
 
 @Composable
 fun ProfilePicture(
     modifier: Modifier = Modifier,
-    image: String? =null,
+    image: String? = null,
     size: Dp,
 ) {
+
     Box(
         modifier = modifier
             .size(size)
@@ -40,19 +45,18 @@ fun ProfilePicture(
                 )
             )
     ) {
-        if (image == null) {
-            Image(
-                painter = painterResource(R.drawable.bold_profile_circle),
-                contentDescription = "Profile Picture",
-                modifier = Modifier
-                    .align(Alignment.Center),
-                contentScale = androidx.compose.ui.layout.ContentScale.Crop
-            )
-
-        } else {
-            TODO()
-        }
-
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(image)
+                .crossfade(true)
+                .build(),
+            contentDescription = "Profile Picture",
+            placeholder = painterResource(R.drawable.bold_profile_circle),
+            error = painterResource(R.drawable.bold_profile_circle),
+            modifier = Modifier
+                .align(Alignment.Center),
+            contentScale = ContentScale.Crop
+        )
     }
 }
 

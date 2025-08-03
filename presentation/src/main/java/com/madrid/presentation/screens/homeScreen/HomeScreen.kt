@@ -77,7 +77,10 @@ fun HomeScreenContent(
             onClickSeriesTab = interactionListener::loadSeriesLayoutData
         )
         Column(modifier = Modifier.padding(top = 32.dp)) {
-            HomeAppBar(modifier = Modifier.padding(horizontal = 16.dp))
+            HomeAppBar(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                image = state.profileImage
+            )
             HeaderSectionBar(
                 tabs = listOf(
                     stringResource(R.string.Movies),

@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.ProfilePicture
@@ -32,6 +33,7 @@ fun ProfileSection(
     profilePicture: String?,
     onProfileClick: () -> Unit = {}
 ) {
+
     Column {
         Box(
             modifier = Modifier
