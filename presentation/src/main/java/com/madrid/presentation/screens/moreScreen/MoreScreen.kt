@@ -25,7 +25,6 @@ import com.madrid.presentation.viewModel.moreViewModel.MoreEffect
 import com.madrid.presentation.viewModel.moreViewModel.MoreInteractionListener
 import com.madrid.presentation.viewModel.moreViewModel.MoreUiState
 import com.madrid.presentation.viewModel.moreViewModel.MoreViewModel
-import org.koin.androidx.compose.koinViewModel
 import com.madrid.presentation.R as presentationR
 
 @Composable

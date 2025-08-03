@@ -8,8 +8,12 @@ import com.madrid.presentation.viewModel.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MoreViewModel(
+
+@HiltViewModel
+class MoreViewModel @Inject constructor(
     private val isGuestUseCase: LoginUseCase,
     private val getCurrentUserDetailsUseCase: GetCurrentUserDetailsUseCase
 ) :
