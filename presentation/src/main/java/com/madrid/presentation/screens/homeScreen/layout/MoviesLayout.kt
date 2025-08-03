@@ -73,7 +73,7 @@ fun MoviesLayout(
                 onMediaClick = { mediaUiState ->
                     navController.navigate(Destinations.MovieDetailsScreen(mediaUiState.id.toInt()))
                 },
-                headerModifier = Modifier.padding(horizontal = 16.dp)
+                headerModifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 20.dp)
             )
         }
 
@@ -88,7 +88,7 @@ fun MoviesLayout(
                 onMediaClick = { mediaUiState ->
                     navController.navigate(Destinations.MovieDetailsScreen(mediaUiState.id.toInt()))
                 },
-                headerModifier = Modifier.padding(horizontal = 16.dp)
+                headerModifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 20.dp)
             )
         }
 
@@ -98,7 +98,7 @@ fun MoviesLayout(
                 secondaryText = stringResource(com.madrid.presentation.R.string.see_all),
                 endIcon = painterResource(R.drawable.outline_alt_arrow_left),
                 onSeeAllClick = { navController.navigate(Destinations.SeeAllMoviesScreen(type = SeeAllMoviesType.MORE_RECOMMENDED)) },
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 20.dp)
             )
         }
 

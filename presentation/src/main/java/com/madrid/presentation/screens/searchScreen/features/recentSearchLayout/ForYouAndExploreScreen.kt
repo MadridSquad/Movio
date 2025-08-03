@@ -83,6 +83,7 @@ fun LazyGridScope.forYouAndExploreScreen(
                     span = { GridItemSpan(maxLineSpan) }
                 ) {
                     CustomTextTitel(
+                        modifier = Modifier.padding(top = 24.dp),
                         primaryText = stringResource(com.madrid.presentation.R.string.for_u),
                         secondaryText = stringResource(com.madrid.presentation.R.string.see_all),
                         endIcon = painterResource(R.drawable.outline_alt_arrow_left),

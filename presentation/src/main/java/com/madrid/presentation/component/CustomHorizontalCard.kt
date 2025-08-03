@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -34,11 +35,11 @@ fun CustomHorizontalCard(
 ) {
     Column(modifier = modifier) {
         CustomTextTitel(
+            modifier = headerModifier.padding(bottom = 12.dp),
             primaryText = primaryTextForCustomTextTitel,
             secondaryText = secondaryTextForCustomTextTitel,
             endIcon = endIconForCustomTextTitel,
             onSeeAllClick = onSeeAllClick,
-            modifier = headerModifier
         )
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(12.dp),

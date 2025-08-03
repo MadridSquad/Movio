@@ -25,8 +25,8 @@ fun CustomTextTitel(
 ) {
     Row(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .fillMaxWidth(),
+//            .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         MovioText(

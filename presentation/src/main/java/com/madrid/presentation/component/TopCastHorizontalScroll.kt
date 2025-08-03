@@ -2,6 +2,7 @@ package com.madrid.presentation.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,7 +27,7 @@ data class CastMember(
 )
 
 @Composable
-fun TopCastSection(
+fun TopCastHorizontalScroll(
     modifier: Modifier = Modifier,
     castMembers: List<CastMember>,
     onSeeAllClick: () -> Unit = {},
@@ -41,13 +42,15 @@ fun TopCastSection(
             secondaryText = stringResource(com.madrid.presentation.R.string.see_all),
             endIcon = painterResource(R.drawable.outline_alt_arrow_left),
             onSeeAllClick = { onSeeAllClick() },
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp)
         )
         LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            contentPadding = PaddingValues(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             items(castMembers) { castMember ->
                 CastMemberItem(
+                    modifier = Modifier.size(width = 86.dp, height = 87.dp),
                     castMember = castMember,
                     onCastMemberClick = { castId ->
                         onCastMemberClick(castId)
@@ -66,12 +69,13 @@ private fun CastMemberItem(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.size(height = 111.dp, width = 86.dp),
+        modifier = modifier
     ) {
         MovioArtistsCard(
             imageUrl = castMember.imageUrl,
             artistsName = castMember.name,
-            onClick = { onCastMemberClick(castMember.id.toInt()) }
+            onClick = { onCastMemberClick(castMember.id.toInt()) },
+            circleImageSize = 68.dp
         )
     }
 }
@@ -80,7 +84,7 @@ private fun CastMemberItem(
 @Composable
 private fun TopCastSectionPreview() {
     MovioTheme {
-        TopCastSection(
+        TopCastHorizontalScroll(
             castMembers = listOf(
                 CastMember(
                     id = "1",
