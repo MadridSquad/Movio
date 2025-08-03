@@ -1,6 +1,7 @@
 package com.madrid.presentation.component
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
@@ -93,7 +94,7 @@ fun OnBoardingPager(modifier: Modifier = Modifier) {
     )
 
     val textColor by animateColorAsState(
-        if (swipeProgress >= 0.5) Theme.color.brand.onPrimary else Theme.color.surfaces.onSurface
+        if(swipeProgress >= 0.5 ) Theme.color.brand.onPrimary else Theme.color.surfaces.onSurface
     )
 
 
@@ -193,8 +194,7 @@ fun PreviewPager() {
     }
 }
 
-
-@RequiresPermission(Manifest.permission.VIBRATE)
+@SuppressLint("MissingPermission")
 fun Context.vibrateDevice(durationMillis: Long = 50) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         val vibratorManager = getSystemService(VibratorManager::class.java)
