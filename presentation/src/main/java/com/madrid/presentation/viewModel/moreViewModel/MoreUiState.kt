@@ -10,6 +10,6 @@ data class MoreUiState(
     val isLanguageSheetVisible: Boolean = false,
     val language: String = "English",
     val appVersion: String = "1.1.0v",
-    val isGuest: Boolean = false,
+    val isGuest: Boolean = true,
     val isLogoutSheetVisible: Boolean = false
 )

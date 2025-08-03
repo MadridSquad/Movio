@@ -24,6 +24,14 @@ class MoreViewModel() :
 //        }
     }
 
+    override fun onLoginBtnClick() {
+        emitNewEffect(MoreEffect.navigateToLogin)
+    }
+
+    override fun onMyRatingsBtnClick() {
+        emitNewEffect(MoreEffect.navigateToMyRatings)
+    }
+
     override fun onThemeClick() {
         TODO("Not yet implemented")
     }
@@ -39,6 +47,7 @@ class MoreViewModel() :
     private fun isGuest(): Boolean {
         TODO("Not yet implemented")
     }
+
     override fun setDarkMode(isEnabled: Boolean) {
         TODO("Not yet implemented")
     }

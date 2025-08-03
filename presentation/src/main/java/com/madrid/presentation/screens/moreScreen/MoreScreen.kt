@@ -8,26 +8,44 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.madrid.designSystem.R
-import com.madrid.presentation.R as presentationR
-import com.madrid.designSystem.component.EmptySearchLayout
+import com.madrid.designSystem.component.DialogWithButtonLayout
 import com.madrid.designSystem.component.SettingsItem
+import com.madrid.presentation.navigation.Destinations
+import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.moreScreen.component.ProfileSection
+import com.madrid.presentation.viewModel.moreViewModel.MoreEffect
 import com.madrid.presentation.viewModel.moreViewModel.MoreInteractionListener
 import com.madrid.presentation.viewModel.moreViewModel.MoreUiState
 import com.madrid.presentation.viewModel.moreViewModel.MoreViewModel
 import org.koin.androidx.compose.koinViewModel
+import com.madrid.presentation.R as presentationR
 
 @Composable
 fun MoreScreen(
     viewModel: MoreViewModel = koinViewModel()
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle().value
+    val navController = LocalNavController.current
+
+    LaunchedEffect(Unit) {
+        viewModel.effect.collect { effect ->
+            when (effect) {
+                is MoreEffect.navigateToLogin -> {
+                    navController.navigate(Destinations.AuthenticationScreen)
+                }
+
+                is MoreEffect.navigateToMyRatings -> TODO()
+            }
+        }
+    }
+
     MoreScreenContent(
         state = state,
         interactionListener = viewModel as MoreInteractionListener
@@ -40,11 +58,16 @@ private fun MoreScreenContent(
     interactionListener: MoreInteractionListener
 ) {
     if (state.isGuest) {
-        EmptySearchLayout(
-            title = "Log in to unlock your personal library",
-            description = "Access your watch history, favorites, and watchlist  all in one place.",
+        DialogWithButtonLayout(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 32.dp),
+            title = stringResource(presentationR.string.unlock_your_personal_library),
+            description = stringResource(presentationR.string.access_your_watch_history_favorites_and_watchlist_all_in_one_place),
             image = R.drawable.library_main_icon,
-            modifier = Modifier.padding(16.dp)
+            buttonText = stringResource(presentationR.string.login),
+            onClick = {}
         )
     } else {
         Column(
@@ -55,7 +78,7 @@ private fun MoreScreenContent(
             ProfileSection(
                 username = state.username,
                 profilePicture = R.drawable.profile_pic_holder,
-                onProfileClick = {  }
+                onProfileClick = { }
             )
 
             Column(
@@ -69,12 +92,15 @@ private fun MoreScreenContent(
                     icon = R.drawable.outline_star,
                     title = stringResource(presentationR.string.my_ratings),
                     clickable = true,
-                    onClick = { interactionListener.onThemeClick() }
+                    onClick = { interactionListener.onMyRatingsBtnClick() }
                 )
                 SettingsItem(
                     icon = R.drawable.outline_pallete2,
-                    title =  stringResource(presentationR.string.theme),
-                    text = if (state.isDarkModeEnabled) "Dark" else "Light",
+                    title = stringResource(presentationR.string.theme),
+                    text = if (state.isDarkModeEnabled) stringResource(presentationR.string.dark)
+                    else stringResource(
+                        presentationR.string.light
+                    ),
                     clickable = true,
                     onClick = { interactionListener.onThemeClick() }
                 )

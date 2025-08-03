@@ -33,4 +33,6 @@
     <string name="logout">Logout</string>
     <string name="unlock_your_personal_library">Log in to unlock your personal library</string>
     <string name="access_your_watch_history_favorites_and_watchlist_all_in_one_place">Access your watch history, favorites, and watchlist  all in one place.</string>
+    <string name="dark">Dark</string>
+    <string name="light">Light</string>
 </resources>
