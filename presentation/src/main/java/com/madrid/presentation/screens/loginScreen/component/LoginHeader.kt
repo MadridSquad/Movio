@@ -18,7 +18,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioText
-import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
 
 

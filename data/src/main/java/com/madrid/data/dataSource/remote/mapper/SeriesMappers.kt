@@ -8,14 +8,14 @@ import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesResult
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResult
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesNetwork
-import com.madrid.data.dataSource.remote.response.series.OnAirTvShowsResponse
-import com.madrid.data.dataSource.remote.response.series.OnAirTvShowsResult
+import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
+import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResult
 import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResult
-import com.madrid.data.dataSource.remote.response.series.AiringTodaySeriesResult
-import com.madrid.data.dataSource.remote.response.series.AiringTodayTvShowsResponse
-import com.madrid.data.dataSource.remote.response.series.TopRatedSeriesResponse
-import com.madrid.data.dataSource.remote.response.series.TopRatedSeriesResults
+import com.madrid.data.dataSource.remote.dto.series.AiringTodaySeriesResult
+import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
+import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
+import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResults
 import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Episode
 import com.madrid.domain.entity.Genre
@@ -114,7 +114,7 @@ fun RecommendedSeriesResult.toSeries(): Series {
         rate = this.voteAverage ?: 0.0,
         airDate = this.firstAirDate ?: "",
         description = this.overview ?: "",
-        genre = this.genreIds?.map { Genre(id = it?:0,name = "") } ?: listOf(),
+        genre = this.genreIds.map { Genre(id = it?:0,name = "") },
         seasons = emptyList(),
     )
 }

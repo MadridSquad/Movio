@@ -14,7 +14,6 @@ import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Series
 import com.madrid.domain.repository.SearchRepository
-import com.madrid.data.repositories.SeriesRepositoryImpl
 
 
 class SearchRepositoryImpl(

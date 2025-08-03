@@ -18,9 +18,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.madrid.designSystem.theme.Theme
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.MovioTheme
+import com.madrid.designSystem.theme.Theme
 
 @Composable
 fun MovioHorizontalCard(
@@ -43,7 +43,9 @@ fun MovioHorizontalCard(
     ) {
         BasicImageCard(
             imageUrl = movieImageUrl,
-            modifier = Modifier.fillMaxWidth().height(height),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(height),
             radius = 8.dp
         )
         Column(
@@ -60,14 +62,14 @@ fun MovioHorizontalCard(
                 overflow = TextOverflow.Ellipsis
             )
             RateIcon(rate = movieRate)
-            MovioCatergory(movieCategory, Theme.color.surfaces.onSurfaceAt3)
+            MovioCategory(movieCategory, Theme.color.surfaces.onSurfaceAt3)
         }
     }
 }
 
 @Composable
-private fun MovioCatergory(
-    moviCategory: String,
+private fun MovioCategory(
+    movieCategory: String,
     backgroundColor: Color
 ) {
     Row(
@@ -77,7 +79,7 @@ private fun MovioCatergory(
         horizontalArrangement = Arrangement.Center
     ) {
         MovioText(
-            text = moviCategory, color = Theme.color.surfaces.onSurfaceVariant,
+            text = movieCategory, color = Theme.color.surfaces.onSurfaceVariant,
             textStyle = Theme.textStyle.label.smallRegular12,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis

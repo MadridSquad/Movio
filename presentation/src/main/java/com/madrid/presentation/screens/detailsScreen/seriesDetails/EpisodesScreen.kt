@@ -1,10 +1,7 @@
 package com.madrid.presentation.screens.detailsScreen.seriesDetails
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,7 +25,6 @@ import com.madrid.presentation.R
 import com.madrid.presentation.component.CustomDropdown
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.component.movioCards.MovioEpisodesCard
-import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.detailsViewModel.EpisodeUiState
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
@@ -52,9 +48,9 @@ fun EpisodesScreenContent(
     onClickBack: () -> Unit = {},
 ) {
     val episodes: List<EpisodeUiState> = uiState.selectedSeasonUiState.episodesUiStates
-    LazyColumn() {
+    LazyColumn {
         item {
-            Box() {
+            Box {
                 TopAppBar(
                     text = null,
                     secondIcon = null,
@@ -88,7 +84,6 @@ fun EpisodesScreenContent(
                 )
                 Spacer(Modifier.weight(1f))
                 var selectedItem by remember { mutableStateOf("Season ${uiState.selectedSeasonUiState.seasonNumber}") }
-                Log.d("TAG lolooo", "EpisodesScreenContent: ${uiState.currentSeasonsUiStates.size}")
                 if (uiState.currentSeasonsUiStates.isNotEmpty()) {
                     CustomDropdown(
                         items = getSeasonsNames(uiState.currentSeasonsUiStates.size, uiState),

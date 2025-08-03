@@ -35,7 +35,7 @@ import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.textInputField.BasicTextInputField
 import com.madrid.designSystem.theme.Theme
-import com.madrid.presentation.component.EmptyRececntSearch
+import com.madrid.presentation.component.emptyRecentSearch
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.refreshScreenHolder.RefreshScreenHolder
@@ -117,7 +117,7 @@ fun SearchScreen(
             onClickSeeAll = {
                 navController.navigate(Destinations.SeeAllForYouScreen)
             },
-            highlightrecentSearch = viewModel::highlightCharactersInText,
+            highLightRecentSearch = viewModel::highlightCharactersInText,
             onTopResultClick = { movieId ->
                 navController.navigate(Destinations.MovieDetailsScreen(movieId))
             },
@@ -180,7 +180,7 @@ fun ContentSearchScreen(
     onTopResultClick: (Int) -> Unit,
     onSearchedClick: (Int) -> Unit,
     onArtistClick: (Int) -> Unit,
-    highlightrecentSearch: (String, String, Color, Color, TextStyle) -> AnnotatedString,
+    highLightRecentSearch: (String, String, Color, Color, TextStyle) -> AnnotatedString,
 ) {
     val showSearchResults = searchQuery.isNotBlank()
     var selectedTabIndex by remember { mutableIntStateOf(0) }
@@ -292,11 +292,11 @@ fun ContentSearchScreen(
                 onSearchItemClick = { onSearchItemClick(it) },
                 onRemoveItem = { onRemoveItem(it) },
                 onClearAll = { onClearAll() },
-                highlightCharactersInText = highlightrecentSearch,
+                highlightCharactersInText = highLightRecentSearch,
             )
         }
         if (showRecentSearch == 1 && searchHistory.isEmpty()) {
-            EmptyRececntSearch()
+            emptyRecentSearch()
         }
     }
 }

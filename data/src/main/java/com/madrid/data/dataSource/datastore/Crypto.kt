@@ -41,7 +41,6 @@ object Crypto {
                         .setEncryptionPaddings(ENCRYPTION_PADDING)
                         .setRandomizedEncryptionRequired(true)
                         .setUserAuthenticationRequired(false)
-//                        .setKeySize(256)
                         .build()
                 )
             }

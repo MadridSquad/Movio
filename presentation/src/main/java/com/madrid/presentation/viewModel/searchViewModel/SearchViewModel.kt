@@ -146,7 +146,7 @@ class SearchViewModel(
             },
             onSuccess = { pagingFlow ->
                 val result = pagingFlow.map { pagingData ->
-                    pagingData.flatMap { it.map { it.toMovieUiState() } }
+                    pagingData.flatMap { it -> it.map { it.toMovieUiState() } }
                 }
 
                 updateState {
@@ -168,7 +168,7 @@ class SearchViewModel(
             },
             onSuccess = { pagingFlow ->
                 val result = pagingFlow.map { pagingData ->
-                    pagingData.flatMap { it.map { it.toMovieUiState() } }
+                    pagingData.flatMap { it -> it.map { it.toMovieUiState() } }
                 }
 
                 updateState { current ->
@@ -191,7 +191,7 @@ class SearchViewModel(
             },
             onSuccess = { pagingFlow ->
                 val result = pagingFlow.map { pagingData ->
-                    pagingData.flatMap { it.map { it.toSeriesUiState() } }
+                    pagingData.flatMap { it.map { it -> it.toSeriesUiState() } }
                 }
                 (::onUpdateSeriesSearch)(result)
             }
@@ -208,10 +208,10 @@ class SearchViewModel(
             },
             onSuccess = { pagingFlow ->
                 val result = pagingFlow.map { pagingData ->
-                    pagingData.flatMap { it.map { it.toMovieUiState() } }
+                    pagingData.flatMap { it -> it.map { it.toMovieUiState() } }
                 }
 
-                Log.d("SearchViewModel", "topResult OO: ${result.toString()}")
+                Log.d("SearchViewModel", "topResult OO: $result")
 
                 updateState { current ->
                     current.copy(
@@ -234,7 +234,7 @@ class SearchViewModel(
             },
             onSuccess = { pagingFlow ->
                 val result = pagingFlow.map { pagingData ->
-                    pagingData.flatMap { it.map { it.toArtistUiState() } }
+                    pagingData.flatMap { it.map { it -> it.toArtistUiState() } }
                 }
 
                 updateState { current ->
@@ -360,7 +360,7 @@ class SearchViewModel(
                 },
                 onSuccess = { pagingFlow ->
                     val result = pagingFlow.map { pagingData ->
-                        pagingData.flatMap { it.map { it.toMovieUiState() } }
+                        pagingData.flatMap { it -> it.map { it.toMovieUiState() } }
                     }
 
                     updateState {

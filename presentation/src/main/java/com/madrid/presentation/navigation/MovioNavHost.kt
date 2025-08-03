@@ -19,7 +19,6 @@ import com.madrid.presentation.screens.detailsScreen.similarMedia.SeeAllSimilarM
 import com.madrid.presentation.screens.homeScreen.HomeScreen
 import com.madrid.presentation.screens.homeScreen.SeeAllMoviesScreen
 import com.madrid.presentation.screens.homeScreen.SeeAllTVShowsScreen
-import com.madrid.presentation.screens.homeScreen.component.FakeHomeScreen
 import com.madrid.presentation.screens.libraryScreen.LibraryScreen
 import com.madrid.presentation.screens.loginScreen.AuthenticationScreen
 import com.madrid.presentation.screens.loginScreen.component.ForgotPassword

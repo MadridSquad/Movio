@@ -16,7 +16,7 @@ import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.designSystem.theme.Theme
 
 @Composable
-fun CustomTextTitel(
+fun CustomTextTitle(
     primaryText: String,
     modifier: Modifier = Modifier,
     secondaryText: String? = null,
@@ -64,9 +64,9 @@ fun CustomTextTitel(
 
 @Preview(showBackground = true)
 @Composable
-private fun CustomTextTitelPreview() {
+private fun CustomTextTitlePreview() {
     MovioTheme {
-        CustomTextTitel(
+        CustomTextTitle(
             primaryText = "Top Rating",
             secondaryText = "See all",
         )

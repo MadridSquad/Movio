@@ -1,6 +1,5 @@
 package com.madrid.presentation.screens.loginScreen.component
 
-import android.util.Log
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.runtime.Composable

@@ -9,7 +9,7 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
 
 class TopCastViewModel(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val getMovieTopCastUseCase: GetMovieTopCastUseCase,
     private val getSeriesTopCastUseCase: GetSeriesTopCastUseCase
 ) : BaseViewModel<MovieDetailsUiState, Nothing>(
