@@ -10,7 +10,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -28,6 +30,7 @@ import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 import com.madrid.presentation.component.OnBoardingPager
+import com.madrid.presentation.screens.loginScreen.component.LogoWithBackground
 
 @Composable
 fun OnBoardingScreen() {
@@ -38,13 +41,26 @@ fun OnBoardingScreen() {
             .verticalScroll(rememberScrollState())
     ) {
         Image(
-            painter = painterResource(R.drawable.onboarding),
+            painter = painterResource(R.drawable.onboarding_top),
             contentDescription = "onboarding",
             modifier = Modifier
                 .padding(top = 142.dp)
                 .fillMaxWidth()
-                .height(401.dp)
+                .height(268.dp)
+                .align(Alignment.CenterHorizontally)
         )
+        Image(
+            painter = painterResource(R.drawable.onboarding_mid),
+            contentDescription = "onboarding",
+            modifier = Modifier
+                .width(218.dp)
+                .height(114.dp)
+                .align(Alignment.CenterHorizontally)
+        )
+        Box(modifier = Modifier.align(Alignment.CenterHorizontally).offset(y = -8.dp)){
+            LogoWithBackground()
+        }
+
         Spacer(Modifier.height(40.dp))
         Column(Modifier.padding(horizontal = 16.dp)) {
             Row() {
