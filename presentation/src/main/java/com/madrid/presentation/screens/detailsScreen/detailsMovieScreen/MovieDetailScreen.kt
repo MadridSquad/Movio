@@ -16,13 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.madrid.designSystem.component.BottomSheet.AddToListBottomSheetContent
 import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.TextWithReadMore
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
-import com.madrid.presentation.component.BottomMediaActions
 import com.madrid.presentation.component.CastMember
 import com.madrid.presentation.component.TopCastHorizontalScroll
 import com.madrid.presentation.component.header.MovieDetailsHeader
@@ -90,12 +88,12 @@ fun MovieDetailsScreen(
                     rate = uiState.rate.take(3),
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                 )
-                BottomMediaActions(
-                    onRateClick = {},
-                    onPlayClick = {},
-                    onAddToListClick = {
-                    },
-                )
+//                BottomMediaActions(
+//                    onRateClick = {},
+//                    onPlayClick = {},
+//                    onAddToListClick = {
+//                    },
+//                )
                 Spacer(modifier = Modifier.height(16.dp))
 
                 TextWithReadMore(
