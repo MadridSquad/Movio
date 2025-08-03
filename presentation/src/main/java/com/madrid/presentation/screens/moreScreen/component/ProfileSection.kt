@@ -1,6 +1,5 @@
 package com.madrid.presentation.screens.moreScreen.component
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -12,17 +11,15 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.madrid.designSystem.R
+import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.ProfilePicture
 import com.madrid.designSystem.theme.Theme
@@ -54,7 +51,7 @@ fun ProfileSection(
                     .align(Alignment.BottomCenter)
                     .offset(y = (50).dp)
             )
-            Icon(
+            MovioIcon(
                 painter = painterResource(id = R.drawable.star_img),
                 contentDescription = "star Icon",
                 tint = Theme.color.surfaces.onSurfaceVariant,
@@ -65,7 +62,7 @@ fun ProfileSection(
                     .offset(x = 150.dp, y = (-30).dp)
                     .background(Color.Transparent) // Adjust background if needed
             )
-            Icon(
+            MovioIcon(
                 painter = painterResource(id = R.drawable.star_img_four),
                 contentDescription = "star Icon",
                 tint = Theme.color.surfaces.onSurfaceVariant,
