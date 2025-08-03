@@ -1,15 +1,15 @@
 package com.madrid.movio.di.hilt
 
 import com.madrid.data.repositories.ArtistRepositoryImpl
+import com.madrid.data.repositories.AuthenticationRepositoryImpl
 import com.madrid.data.repositories.MovieRepositoryImpl
 import com.madrid.data.repositories.SearchRepositoryImpl
 import com.madrid.data.repositories.SeriesRepositoryImpl
-import com.madrid.data.repositories.UserRepositoryImpl
 import com.madrid.domain.repository.ArtistRepository
+import com.madrid.domain.repository.AuthenticationRepository
 import com.madrid.domain.repository.MovieRepository
 import com.madrid.domain.repository.SearchRepository
 import com.madrid.domain.repository.SeriesRepository
-import com.madrid.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -37,5 +37,5 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindUserRepository(userRepository: UserRepositoryImpl): UserRepository
+    abstract fun bindAuthenticationRepository(authenticationRepository: AuthenticationRepositoryImpl): AuthenticationRepository
 }

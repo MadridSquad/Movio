@@ -18,7 +18,6 @@ import com.madrid.presentation.navigation.MovioNavGraph
 import com.madrid.presentation.viewModel.authentication.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     val mainViewModel: MainViewModel by viewModels()
