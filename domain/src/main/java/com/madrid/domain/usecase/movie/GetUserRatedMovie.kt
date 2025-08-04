@@ -5,8 +5,9 @@ import com.madrid.domain.entity.Movie
 import com.madrid.domain.repository.MovieRepository
 import com.madrid.domain.repository.UserRepository
 import kotlinx.coroutines.flow.first
+import javax.inject.Inject
 
-class GetUserRatedMovie(
+class GetUserRatedMovie@Inject constructor(
     private val movieRepository: MovieRepository,
     private val userRepository: UserRepository
 ) {

@@ -4,12 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,11 +23,8 @@ import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioRatingCard
-import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.viewModel.moreViewModel.MoreEffect
-import com.madrid.presentation.viewModel.moreViewModel.MoreInteractionListener
 import com.madrid.presentation.viewModel.myRateViewModel.MyRateUiState
 import com.madrid.presentation.viewModel.myRateViewModel.MyRateViewModel
 import com.madrid.presentation.viewModel.myRateViewModel.MyRatingEffect

@@ -4,9 +4,11 @@ import com.madrid.domain.usecase.movie.GetUserRatedMovie
 import com.madrid.domain.usecase.series.GetUserRatedSeries
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.shared.MediaType
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-
-class MyRateViewModel(
+@HiltViewModel
+class MyRateViewModel @Inject constructor(
     private val getUserRatedSeries: GetUserRatedSeries,
     private val getUserRatedMovie: GetUserRatedMovie
 ) : BaseViewModel<MyRateUiState, MyRatingEffect>(MyRateUiState()),
@@ -36,7 +38,7 @@ class MyRateViewModel(
                 }
             },
             onError = {
-               updateState { it.copy(isLoading = true) }
+                updateState { it.copy(isLoading = true) }
             },
         )
     }

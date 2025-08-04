@@ -228,12 +228,12 @@ interface MovioApi {
 
     // region EpisodeRating
 
-    @GET("/account/{account_id}/rated/movies")
+    @GET("account/{account_id}/rated/movies")
     suspend fun getUserRatingForMovie(
         @Path("account_id") accountId: Int
     ): RatingMovieResponse
 
-    @GET("/account/{account_id}/rated/tv")
+    @GET("account/{account_id}/rated/tv")
     suspend fun getUserRatingForSeries(
         @Path("account_id") accountId: Int
     ): RatingSeriesResponse

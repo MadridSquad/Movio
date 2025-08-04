@@ -147,7 +147,7 @@ class MovieRepositoryImpl @Inject constructor(
         val result = remoteDataSource.getUserRatingForMovie(
             sessionId = sessionId
         )
-        Log.d("result", "getUserMovieRate: $result")
+        Log.d("Rated result", "getUserMovieRate: ${result.ratedMovie.map { it.toRatedMovie() }}")
         return result.ratedMovie.map { it.toRatedMovie() }
     }
 }

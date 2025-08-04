@@ -4,8 +4,9 @@ import com.madrid.domain.entity.Series
 import com.madrid.domain.repository.SeriesRepository
 import com.madrid.domain.repository.UserRepository
 import kotlinx.coroutines.flow.first
+import javax.inject.Inject
 
-class GetUserRatedSeries(
+class GetUserRatedSeries @Inject constructor(
     private val seriesRepository: SeriesRepository,
     private val userRepository: UserRepository
 ) {
