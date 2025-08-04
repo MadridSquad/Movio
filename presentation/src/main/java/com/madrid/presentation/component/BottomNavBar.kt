@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,7 +34,7 @@ fun CustomBottomBarPreview() {
     MovioTheme {
         CustomBottomBar(
             currentDestination = Destinations.HomeScreen,
-            navItems = navBarDestinations,
+            navItems = getNavBarDestinations(),
             onNavDestinationClicked = {},
             modifier = Modifier
                 .fillMaxWidth()
@@ -48,29 +49,31 @@ data class NavBarItem(
     @DrawableRes val selectedIcon: Int,
     @DrawableRes val unSelectedIcon: Int,
 )
-val navBarDestinations = listOf(
+
+@Composable
+fun getNavBarDestinations() = listOf(
     NavBarItem(
         destination = Destinations.HomeScreen,
-        label = "Home",
+        label = stringResource(R.string.home),
         contentDescription = "Home Screen",
         selectedIcon = R.drawable.icon_home_selected,
         unSelectedIcon = R.drawable.icon_home
     ),
     NavBarItem(
         destination = Destinations.SearchScreen,
-        label = "Search",
+        label = stringResource(R.string.search),
         selectedIcon = R.drawable.icon_search_selected,
         unSelectedIcon = R.drawable.icon_search
     ),
     NavBarItem(
         destination = Destinations.LibraryScreen,
-        label = "Library",
+        label = stringResource(R.string.library),
         selectedIcon = R.drawable.icon_library_selected,
         unSelectedIcon = R.drawable.icon_library,
     ),
     NavBarItem(
         destination = Destinations.MoreScreen,
-        label = "More",
+        label = stringResource(R.string.more),
         selectedIcon = R.drawable.icon_more_selected,
         unSelectedIcon = R.drawable.icon_more
     )
@@ -92,7 +95,7 @@ fun CustomBottomBar(
             .fillMaxWidth()
             .height(74.dp)
             .background(color = backgroundColor)
-            .padding(horizontal = 20.dp, vertical = 16.dp),
+            .padding(horizontal = 20.dp, vertical = 14.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {

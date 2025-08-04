@@ -10,8 +10,9 @@ import com.madrid.presentation.screens.searchScreen.paging.ForYouPagingSource
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.uiStateMapper.toMovieUiState
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class SeeAllForYouViewModel(
+class SeeAllForYouViewModel @Inject constructor(
     private val getRecommendedMovieUseCase: GetRecommendedMovieUseCase
 ) : BaseViewModel<SeeAllForYouUIState, Nothing>(
     SeeAllForYouUIState()

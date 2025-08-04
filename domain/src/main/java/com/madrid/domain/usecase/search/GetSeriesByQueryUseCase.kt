@@ -3,8 +3,9 @@ package com.madrid.domain.usecase.search
 import com.madrid.domain.entity.Series
 import com.madrid.domain.repository.SearchRepository
 import com.madrid.domain.repository.SeriesRepository
+import javax.inject.Inject
 
-class GetSeriesByQueryUseCase(
+class GetSeriesByQueryUseCase @Inject constructor(
     private val seriesRepository: SeriesRepository,
     private val searchRepository: SearchRepository
 ) {

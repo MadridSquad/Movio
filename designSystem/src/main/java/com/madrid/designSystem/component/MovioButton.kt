@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.theme.Theme
 
@@ -51,6 +52,7 @@ fun MovioButton(
         )
     }
 }
+
 @Composable
 fun MovioTextButton(
     text: String,
@@ -64,5 +66,21 @@ fun MovioTextButton(
         color = textColor,
         textStyle = textStyle,
         modifier = modifier.clickable { onClick() }
+    )
+}
+
+
+@Preview
+@Composable
+fun MovioButtonPreview() {
+    MovioButton(
+        onClick = {},
+        content = {
+            MovioText(
+                text = "Click Me",
+                color = Color.White,
+                textStyle = Theme.textStyle.label.smallRegular14
+            )
+        }
     )
 }

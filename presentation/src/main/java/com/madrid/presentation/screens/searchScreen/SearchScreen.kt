@@ -32,13 +32,14 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.textInputField.BasicTextInputField
 import com.madrid.designSystem.theme.Theme
-import com.madrid.presentation.component.EmptyRececntSearch
+import com.madrid.presentation.component.emptyRecentSearch
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.refreshScreenHolder.RefreshScreenHolder
@@ -50,13 +51,12 @@ import com.madrid.presentation.viewModel.searchViewModel.SearchScreenState
 import com.madrid.presentation.viewModel.searchViewModel.SearchViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
-import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
-    viewModel: SearchViewModel = koinViewModel()
+    viewModel: SearchViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsState()
     var typeOfFilterSearch by remember { mutableStateOf(FilterPagesItem.TOP_RATED) }
@@ -120,7 +120,7 @@ fun SearchScreen(
             onClickSeeAll = {
                 navController.navigate(Destinations.SeeAllForYouScreen)
             },
-            highlightRecentSearch = viewModel::highlightCharactersInText,
+            highLightRecentSearch = viewModel::highlightCharactersInText,
             onTopResultClick = { movieId ->
                 navController.navigate(Destinations.MovieDetailsScreen(movieId))
             },
@@ -183,7 +183,7 @@ fun ContentSearchScreen(
     onTopResultClick: (Int) -> Unit,
     onSearchedClick: (Int) -> Unit,
     onArtistClick: (Int) -> Unit,
-    highlightRecentSearch: (String, String, Color, Color, TextStyle) -> AnnotatedString,
+    highLightRecentSearch: (String, String, Color, Color, TextStyle) -> AnnotatedString,
 ) {
     var showSearchResults by remember { mutableStateOf(false) }
     var selectedTabIndex by remember { mutableIntStateOf(0) }
@@ -304,11 +304,11 @@ fun ContentSearchScreen(
                 onSearchItemClick = { onSearchItemClick(it) },
                 onRemoveItem = { onRemoveItem(it) },
                 onClearAll = { onClearAll() },
-                highlightCharactersInText = highlightRecentSearch,
+                highlightCharactersInText = highLightRecentSearch,
             )
         }
         if (showRecentSearch == 1 && searchHistory.isEmpty()) {
-            EmptyRececntSearch()
+            emptyRecentSearch()
         }
     }
 }

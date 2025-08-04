@@ -15,11 +15,12 @@ import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.shared.formatDuration
 import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
 import com.madrid.presentation.viewModel.shared.parser.formatDateOfBirth
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import org.koin.android.annotation.KoinViewModel
+import javax.inject.Inject
 
-@KoinViewModel
-class DetailsMovieViewModel(
+@HiltViewModel
+class DetailsMovieViewModel @Inject constructor(
     saveStateHandle: SavedStateHandle,
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val getMovieTopCastUseCase: GetMovieTopCastUseCase,
@@ -43,7 +44,7 @@ class DetailsMovieViewModel(
             },
             onSuccess = { movie ->
 
-                updateState {
+                updateState { it ->
                     it.copy(
                         movieId = movie.id,
                         topImageUrl = movie.imageUrl,

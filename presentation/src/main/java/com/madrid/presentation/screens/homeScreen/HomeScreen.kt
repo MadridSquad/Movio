@@ -3,21 +3,19 @@ package com.madrid.presentation.screens.homeScreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.madrid.designSystem.component.HeaderSectionBar
 import com.madrid.designSystem.theme.Theme
@@ -25,7 +23,6 @@ import com.madrid.presentation.R
 import com.madrid.presentation.component.header.HomeAppBar
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.screens.homeScreen.layout.AllMediaLayout
 import com.madrid.presentation.screens.homeScreen.layout.CategoriesLayout
 import com.madrid.presentation.screens.homeScreen.layout.MoviesLayout
 import com.madrid.presentation.screens.homeScreen.layout.TvShowsLayout
@@ -34,11 +31,10 @@ import com.madrid.presentation.viewModel.homeViewModel.HomeScreenEffect
 import com.madrid.presentation.viewModel.homeViewModel.HomeScreenState
 import com.madrid.presentation.viewModel.homeViewModel.HomeViewModel
 import com.madrid.presentation.viewModel.shared.MediaType
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreen(
-    homeViewModel: HomeViewModel = koinViewModel()
+    homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val state by homeViewModel.state.collectAsState()
     val navController = LocalNavController.current
@@ -81,7 +77,10 @@ fun HomeScreenContent(
             onClickSeriesTab = interactionListener::loadSeriesLayoutData
         )
         Column(modifier = Modifier.padding(top = 32.dp)) {
-            HomeAppBar(modifier = Modifier.padding(horizontal = 16.dp))
+            HomeAppBar(
+                modifier = Modifier.padding(horizontal = 16.dp),
+                image = state.profileImage
+            )
             HeaderSectionBar(
                 tabs = listOf(
                     stringResource(R.string.Movies),

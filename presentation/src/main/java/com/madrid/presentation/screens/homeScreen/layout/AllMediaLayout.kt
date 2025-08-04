@@ -16,7 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
-import com.madrid.designSystem.component.CustomTextTitel
+import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.presentation.component.CustomHorizontalCard
 import com.madrid.presentation.component.MovioPager
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
@@ -44,9 +44,9 @@ fun AllMediaLayout() {
         }
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
-                primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.top_rating),
-                secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
-                endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
+                primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.top_rating),
+                secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
+                endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = fakeMediaList,
                 onSeeAllClick = {},
                 onMediaClick = {},
@@ -64,9 +64,9 @@ fun AllMediaLayout() {
 
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
-                primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.free_to_watch),
-                secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
-                endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
+                primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.free_to_watch),
+                secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
+                endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = fakeMediaList,
                 onSeeAllClick = {},
                 onMediaClick = {},
@@ -78,9 +78,9 @@ fun AllMediaLayout() {
 
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(
-                primaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.upcoming),
-                secondaryTextForCustomTextTitel = stringResource(com.madrid.presentation.R.string.see_all),
-                endIconForCustomTextTitel = painterResource(R.drawable.outline_alt_arrow_left),
+                primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.upcoming),
+                secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
+                endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
                 listOfMedia = fakeMediaList,
                 onSeeAllClick = {},
                 onMediaClick = {},
@@ -91,7 +91,7 @@ fun AllMediaLayout() {
         item(span = { GridItemSpan(2) }) { Spacer(Modifier.height(4.dp)) }
 
         item(span = { GridItemSpan(2) }) {
-            CustomTextTitel(
+            CustomTextTitle(
                 primaryText = stringResource(com.madrid.presentation.R.string.more_recommended),
                 secondaryText = stringResource(com.madrid.presentation.R.string.see_all),
                 endIcon = painterResource(R.drawable.outline_alt_arrow_left),

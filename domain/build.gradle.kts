@@ -1,6 +1,7 @@
 plugins {
     id("java-library")
     alias(libs.plugins.jetbrains.kotlin.jvm)
+    alias(libs.plugins.ksp)
 }
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -13,4 +14,6 @@ kotlin {
 }
 dependencies {
     implementation(libs.kotlinx.coroutines.core)
+    implementation (libs.dagger)
+    ksp(libs.hilt.android.compiler.v2511)
 }

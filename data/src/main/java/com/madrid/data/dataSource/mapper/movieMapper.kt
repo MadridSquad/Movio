@@ -8,7 +8,7 @@ fun MovieResult.toMovieTable(): MovieTable {
     return MovieTable(
         movieId = this.id ?: 0,
         title = this.title ?: "",
-        imageUrl = ("https://image.tmdb.org/t/p/original" + this.posterPath) ?: "",
+        imageUrl = ("https://image.tmdb.org/t/p/original" + this.posterPath),
         rate = this.voteAverage ?: 0.0,
         yearOfRelease = this.releaseDate ?: "",
         movieDuration = 0.toString(),

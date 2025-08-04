@@ -29,12 +29,13 @@ import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.uiStateMapper.toArtistUiState
 import com.madrid.presentation.viewModel.uiStateMapper.toMovieUiState
 import com.madrid.presentation.viewModel.uiStateMapper.toSeriesUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import org.koin.android.annotation.KoinViewModel
+import javax.inject.Inject
 
-@KoinViewModel
-class SearchViewModel(
+@HiltViewModel
+class SearchViewModel @Inject constructor(
     private val getArtistsByQueryUseCase: GetArtistsByQueryUseCase,
     private val getMoviesByQueryUseCase: GetMoviesByQueryUseCase,
     private val getSeriesByQueryUseCase: GetSeriesByQueryUseCase,
@@ -146,7 +147,7 @@ class SearchViewModel(
             },
             onSuccess = { pagingFlow ->
                 val result = pagingFlow.map { pagingData ->
-                    pagingData.flatMap { it.map { it.toMovieUiState() } }
+                    pagingData.flatMap { it -> it.map { it.toMovieUiState() } }
                 }
 
                 updateState {
@@ -168,7 +169,7 @@ class SearchViewModel(
             },
             onSuccess = { pagingFlow ->
                 val result = pagingFlow.map { pagingData ->
-                    pagingData.flatMap { it.map { it.toMovieUiState() } }
+                    pagingData.flatMap { it -> it.map { it.toMovieUiState() } }
                 }
 
                 updateState { current ->
@@ -191,7 +192,7 @@ class SearchViewModel(
             },
             onSuccess = { pagingFlow ->
                 val result = pagingFlow.map { pagingData ->
-                    pagingData.flatMap { it.map { it.toSeriesUiState() } }
+                    pagingData.flatMap { it.map { it -> it.toSeriesUiState() } }
                 }
                 (::onUpdateSeriesSearch)(result)
             }
@@ -208,10 +209,10 @@ class SearchViewModel(
             },
             onSuccess = { pagingFlow ->
                 val result = pagingFlow.map { pagingData ->
-                    pagingData.flatMap { it.map { it.toMovieUiState() } }
+                    pagingData.flatMap { it -> it.map { it.toMovieUiState() } }
                 }
 
-                Log.d("SearchViewModel", "topResult OO: ${result.toString()}")
+                Log.d("SearchViewModel", "topResult OO: $result")
 
                 updateState { current ->
                     current.copy(
@@ -234,7 +235,7 @@ class SearchViewModel(
             },
             onSuccess = { pagingFlow ->
                 val result = pagingFlow.map { pagingData ->
-                    pagingData.flatMap { it.map { it.toArtistUiState() } }
+                    pagingData.flatMap { it.map { it -> it.toArtistUiState() } }
                 }
 
                 updateState { current ->
@@ -360,7 +361,7 @@ class SearchViewModel(
                 },
                 onSuccess = { pagingFlow ->
                     val result = pagingFlow.map { pagingData ->
-                        pagingData.flatMap { it.map { it.toMovieUiState() } }
+                        pagingData.flatMap { it -> it.map { it.toMovieUiState() } }
                     }
 
                     updateState {

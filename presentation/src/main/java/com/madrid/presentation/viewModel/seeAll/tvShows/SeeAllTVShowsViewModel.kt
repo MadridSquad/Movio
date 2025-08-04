@@ -5,14 +5,27 @@ import com.madrid.domain.entity.Series
 import com.madrid.domain.usecase.series.GetSeriesDetailsUseCase
 import com.madrid.domain.usecase.series.GetSeriesGenresUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SeeAllTVShowsViewModel(
+@HiltViewModel(assistedFactory = SeeAllTVShowsViewModel.Factory::class)
+class SeeAllTVShowsViewModel @AssistedInject constructor(
     private val getSeriesGenresUseCase: GetSeriesGenresUseCase,
     private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
-    private val strategy: SeeAllTVShowsStrategy,
+    @Assisted private val strategy: SeeAllTVShowsStrategy,
 ) : BaseViewModel<SeeAllTVShowsUiState, SeeAllEffect>(SeeAllTVShowsUiState()),
     SeeAllTVShowsInteractionListener {
 
+
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            strategy: SeeAllTVShowsStrategy,
+        ): SeeAllTVShowsViewModel
+    }
     init {
         Log.d("TAG zoz", "in view model init")
         loadTitle()

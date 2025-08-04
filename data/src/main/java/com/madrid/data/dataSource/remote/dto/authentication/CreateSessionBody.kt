@@ -10,3 +10,9 @@ data class CreateSessionBody(
     @SerializedName("request_token")
     val requestToken: String
 )
+
+@Serializable
+data class CreateSessionRawBody(
+    @SerializedName("request_token")
+    val requestToken: String
+)
