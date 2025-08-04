@@ -42,7 +42,7 @@ class LoginUseCase @Inject constructor(
     }
 
     fun isGuest(): Flow<Boolean> {
-        return userRepository.isGuest()
+        return authenticationRepository.isGuest()
     }
 }
 
