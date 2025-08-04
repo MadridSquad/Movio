@@ -1,6 +1,5 @@
 package com.madrid.data.dataSource.local
 
-import android.util.Log
 import com.madrid.data.dataSource.local.dao.ArtistDao
 import com.madrid.data.dataSource.local.dao.MovieDao
 import com.madrid.data.dataSource.local.dao.MovieGenreDao
@@ -68,7 +67,10 @@ class LocalDataSourceImpl @Inject constructor(
         return movieDao.searchMovies("%$query%", offset)
     }
 
-    override suspend fun searchSeriesByQueryFromDB(query: String, page: Int): List<SeriesWithGenres> {
+    override suspend fun searchSeriesByQueryFromDB(
+        query: String,
+        page: Int
+    ): List<SeriesWithGenres> {
         val offset = calculateOffset(page)
         return seriesDao.searchSeries("%$query%", offset)
     }
