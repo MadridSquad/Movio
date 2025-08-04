@@ -1,6 +1,5 @@
 package com.madrid.presentation.screens.moreScreen
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.madrid.designSystem.R
+import com.madrid.presentation.screens.logOut.LogoutConfirmationBottomSheet
 import com.madrid.designSystem.component.DialogWithButtonLayout
 import com.madrid.designSystem.component.SettingsItem
 import com.madrid.presentation.navigation.Destinations
@@ -32,7 +32,6 @@ import com.madrid.presentation.R as presentationR
 fun MoreScreen(
     viewModel: MoreViewModel = hiltViewModel()
 ) {
-
     val state = viewModel.state.collectAsStateWithLifecycle().value
     val navController = LocalNavController.current
 
@@ -47,9 +46,20 @@ fun MoreScreen(
             }
         }
     }
+
     MoreScreenContent(
         state = state,
         interactionListener = viewModel as MoreInteractionListener
+    )
+
+    LogoutConfirmationBottomSheet(
+        isVisible = state.isLogoutSheetVisible,
+        onDismiss = { viewModel.dismissLogoutSheet() },
+        onNavigateToAuth = {
+            navController.navigate(Destinations.AuthenticationScreen) {
+                popUpTo(0) { inclusive = true }
+            }
+        },
     )
 }
 
@@ -58,7 +68,6 @@ private fun MoreScreenContent(
     state: MoreUiState,
     interactionListener: MoreInteractionListener
 ) {
-
     if (state.isGuest) {
         DialogWithButtonLayout(
             modifier = Modifier
@@ -77,7 +86,6 @@ private fun MoreScreenContent(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            Log.e("MY_TAG" ," More screen ${ state.profilePictureUrl.toString() }")
             ProfileSection(
                 username = state.username,
                 profilePicture = state.profilePictureUrl,
