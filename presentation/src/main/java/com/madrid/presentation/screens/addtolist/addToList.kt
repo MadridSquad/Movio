@@ -66,9 +66,13 @@ fun ListManagementBottomSheet(
                     )
                 }
                 ListBottomSheetMode.CREATE_NEW_LIST -> {
-                    CreateListContent(
+                    CreateListBottomSheet(
+                        show = true,
                         onCreateClick = { listName ->
                             onListCreated(listName)
+                            currentMode = ListBottomSheetMode.LIST_SELECTION
+                        },
+                        onDismiss = {
                             currentMode = ListBottomSheetMode.LIST_SELECTION
                         },
                     )
