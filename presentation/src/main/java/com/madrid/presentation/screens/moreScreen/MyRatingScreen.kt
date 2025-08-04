@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -79,12 +80,26 @@ fun MyRatingScreen(
                 image = R.drawable.img_no_internet
             )
         }
-    }else
-    MyRatingScreenContent(
-        state = state,
-        interaction = viewModel as MyRatingInteractionListener,
-        onBackClick = { viewModel.onBackClick() }
-    )
+    } else if (state.ratedMedia.isEmpty()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 64.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            EmptySearchLayout(
+                stringResource(R.string.no_ratings_yet),
+                description =
+                    stringResource(R.string.you_haven_t_rated_anything_yet_start_exploring_and_share_your_thoughts),
+                image = R.drawable.img_empty_more
+            )
+        }
+    } else
+        MyRatingScreenContent(
+            state = state,
+            interaction = viewModel as MyRatingInteractionListener,
+            onBackClick = { viewModel.onBackClick() }
+        )
 }
 
 @Composable
@@ -93,7 +108,12 @@ private fun MyRatingScreenContent(
     onBackClick: () -> Unit,
     interaction: MyRatingInteractionListener,
 ) {
-    Column(Modifier.padding(16.dp)) {
+    Column(
+        Modifier
+            .padding(16.dp)
+            .background(Theme.color.surfaces.surface)
+            .statusBarsPadding()
+    ) {
         TopAppBar(
             text = stringResource(R.string.my_ratings),
             secondIcon = null,
@@ -101,12 +121,10 @@ private fun MyRatingScreenContent(
             onFirstIconClick = { onBackClick() },
         )
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 101.dp),
+            columns = GridCells.Fixed(1),
             modifier = Modifier
                 .fillMaxSize()
-                .background(Theme.color.surfaces.surface)
-                .statusBarsPadding(),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .background(Theme.color.surfaces.surface),
         ) {
             items(
                 count = state.ratedMedia.size
@@ -117,6 +135,7 @@ private fun MyRatingScreenContent(
                     movieImageUrl = Media.imageUrL,
                     height = 100.dp,
                     rate = Media.rate,
+                    modifier = Modifier.padding(top = 16.dp),
                     onClick = {
                         interaction.onMediaClick(
                             mediaType = state.ratedMedia[index].mediaType,

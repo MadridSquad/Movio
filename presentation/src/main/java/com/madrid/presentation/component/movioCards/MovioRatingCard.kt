@@ -32,7 +32,7 @@ fun MovioRatingCard(
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
             .clickable { onClick() },
@@ -46,8 +46,9 @@ fun MovioRatingCard(
             radius = 8.dp
         )
         Column(
-            modifier = modifier
+            modifier = Modifier
                 .height(height)
+                .weight(1f)
                 .padding(vertical = 16.dp),
             verticalArrangement = Arrangement.Center
         ) {

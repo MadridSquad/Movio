@@ -110,4 +110,6 @@
     <string name="movio">موفيو</string>
     <string name="and_let_the_noise_fade_away">و دع الضوضاء تتلاشى</string>
     <string name="onboarding_sub_description">اسحب، اختر، انطلق… وكن أنت نجم الساحة.</string>
+    <string name="no_ratings_yet">لا يوجد تقييمات للان !</string>
+    <string name="you_haven_t_rated_anything_yet_start_exploring_and_share_your_thoughts">لم تُقيّم أي شيء بعد. ابدأ الاستكشاف وشاركنا أفكارك!</string>
 </resources>
