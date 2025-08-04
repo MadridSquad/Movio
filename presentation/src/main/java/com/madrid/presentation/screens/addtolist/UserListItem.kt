@@ -32,7 +32,7 @@ fun UserListItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(56.dp)
+            .height(40.dp)
             .clickable(
                 enabled = !userList.isLoading,
                 role = Role.Checkbox,
@@ -44,9 +44,9 @@ fun UserListItem(
     ) {
         MovioText(
             text = userList.name,
-            textStyle = Theme.textStyle.body.mediumMedium12,
-            color = Color.White,
-            modifier = Modifier.weight(1f)
+            textStyle = Theme.textStyle.body.mediumMedium14,
+            color = Theme.color.surfaces.onSurface,
+            modifier = Modifier.height(17.dp)
         )
 
         Box(
@@ -58,7 +58,7 @@ fun UserListItem(
                     MovioIcon(
                         painter = painterResource(id = R.drawable.loading),
                         contentDescription = null,
-                        tint = Color.White,
+                        tint = Theme.color.surfaces.onSurfaceContainer,
                         modifier = Modifier.size(24.dp)
                     )
                 }
@@ -72,30 +72,21 @@ fun UserListItem(
                     ) {
                         MovioIcon(
                             painter = painterResource(id = R.drawable.bold_check_circle),
-                            contentDescription = null,
-                            tint = Color(0xFF8B5CF6),
-                            modifier = Modifier.size(40.dp)
+                            contentDescription = "bold check circle",
+                            tint = Theme.color.brand.primary,
+                            modifier = Modifier.size(24.dp)
                         )
                     }
                 }
 
                 else -> {
                     Box(
-                        modifier = Modifier
-                            .size(32.dp)
-                            .border(
-                                width = 2.dp,
-                                color = Theme.color.surfaces.onSurfaceContainer,
-                                shape = CircleShape
-                            )
-                            .clip(CircleShape),
                         contentAlignment = Alignment.Center
                     ) {
                         MovioIcon(
-                            painter = painterResource(id = R.drawable.add),
-                            tint = Theme.color.surfaces.onSurfaceContainer,
+                            painter = painterResource(id = com.madrid.presentation.R.drawable.ic_add_continer),
                             contentDescription = null,
-                            modifier = Modifier.size(40.dp)
+                            modifier = Modifier.size(24.dp)
                         )
                     }
                 }

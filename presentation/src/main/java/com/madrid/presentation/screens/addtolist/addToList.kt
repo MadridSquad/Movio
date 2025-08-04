@@ -44,7 +44,8 @@ fun ListManagementBottomSheet(
             currentMode = ListBottomSheetMode.LIST_SELECTION
             onDismiss()
         },
-        containerColor = if (currentMode == ListBottomSheetMode.CREATE_NEW_LIST) Color.Transparent else Color(0xFF1A1B23)
+        containerColor = if (currentMode == ListBottomSheetMode.CREATE_NEW_LIST)
+            Color.Transparent else com.madrid.designSystem.theme.Theme.color.surfaces.surface,
     ) {
         AnimatedContent(
             targetState = currentMode,
@@ -78,7 +79,6 @@ fun ListManagementBottomSheet(
 }
 
 
-// Usage Example
 @Preview(showBackground = true)
 @Composable
 fun PreviewListManagementBottomSheet() {

@@ -1,15 +1,18 @@
 package com.madrid.presentation.screens.addtolist
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
@@ -38,17 +41,25 @@ fun CreateNewListItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            MovioIcon(
-                painter = painterResource(id = R.drawable.add),
-                contentDescription = "Add new list",
-                tint = Theme.color.brand.primary,
-                modifier = Modifier.size(24.dp)
-            )
-
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .padding(8.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Theme.color.surfaces.surface), // Use background modifier instead
+                contentAlignment = Alignment.Center
+            ) {
+                MovioIcon(
+                    painter = painterResource(id = R.drawable.add), // Adjust path as needed
+                    contentDescription = "Add new list",
+                    modifier = Modifier.size(24.dp),
+                    tint = Theme.color.surfaces.onSurface
+                )
+            }
             MovioText(
                 text = "Create a new list",
-                textStyle = Theme.textStyle.body.mediumMedium14,
-                color = Color.White,
+                textStyle = Theme.textStyle.label.smallRegular14,
+                color = Theme.color.surfaces.onSurface,
             )
         }
     }
