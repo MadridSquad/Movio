@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,92 +21,104 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioButton
-import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
+import com.madrid.designSystem.component.textInputField.BasicTextInputField
 import com.madrid.designSystem.theme.Theme
 
 @Composable
 fun CreateListContent(
     onCreateClick: (String) -> Unit,
 ) {
-    var listName by remember { mutableStateOf(TextFieldValue("")) }
+    var listName by remember { mutableStateOf("") }
 
-    Box(
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
-            .clip(RoundedCornerShape(24.dp))
+            .clip(
+                RoundedCornerShape(
+                    topStart = 24.dp,
+                    topEnd = 24.dp,
+                )
+            )
             .background(color = Theme.color.surfaces.surface)
+            .padding(
+                start = 16.dp,
+                end = 16.dp,
+                top = 16.dp,
+                bottom = 24.dp
+            )
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+        MovioText(
+            text = "Create New List",
+            textStyle = Theme.textStyle.body.mediumMedium14,
+            color = Theme.color.surfaces.onSurface,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        MovioText(
+            text = "Create a new list and keep track of your series that you want to access easily.",
+            textStyle = Theme.textStyle.label.smallRegular12,
+            color = Theme.color.surfaces.onSurfaceContainer,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp)
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        BasicTextInputField(
+            value = listName,
+            onValueChange = { listName = it },
+            hintText = "List name",
+            startIconPainter = painterResource(id = R.drawable.outline_minimalistic),
+            endIconPainter = null,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+        )
+
+        MovioButton(
+            onClick = {
+                if (listName.isNotBlank()) {
+                    onCreateClick(listName)
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp),
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        color = Theme.color.brand.primary,
+                        shape = RoundedCornerShape(28.dp)
+                    ),
+                contentAlignment = Alignment.Center
             ) {
                 MovioText(
-                    text = "Create New List",
-                    textStyle = Theme.textStyle.body.mediumMedium14,
-                    color = Theme.color.surfaces.onSurface,
-                    modifier = Modifier.weight(1f),
-                    textAlign = TextAlign.Center
+                    text = "Create",
+                    color = Color.White,
+                    textStyle = Theme.textStyle.label.mediumMedium16
                 )
-
-                Spacer(modifier = Modifier.size(40.dp))
-            }
-
-            MovioText(
-                text = "Create a new list and keep track of your series that you want to access easily.",
-                textStyle = Theme.textStyle.label.smallRegular12,
-                color = Theme.color.surfaces.onSurfaceContainer,
-                textAlign = TextAlign.Center
-            )
-            MovioText(
-                text = "List name",
-                color = Color.White.copy(alpha = 0.5f),
-                textStyle = Theme.textStyle.body.mediumMedium12
-           )
-            MovioIcon(
-                painter = painterResource(id = R.drawable.outline_minimalistic),
-                contentDescription = "List Icon",
-                tint = Color.White.copy(alpha = 0.7f),
-                modifier = Modifier.size(20.dp)
-           )
-
-            Spacer(modifier = Modifier.height(8.dp))
-
-            MovioButton(
-                onClick = {
-                    if (listName.text.isNotBlank()) {
-                        onCreateClick(listName.text)
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Theme.color.brand.primary),
-                    contentAlignment = Alignment.Center
-                ) {
-                    MovioText(
-                        text = "Create",
-                        color = Color.White,
-                        textStyle = Theme.textStyle.label.mediumMedium16
-                    )
-                }
             }
         }
     }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun CreateListContentPreview() {
+    CreateListContent(
+        onCreateClick = {}
+    )
 }

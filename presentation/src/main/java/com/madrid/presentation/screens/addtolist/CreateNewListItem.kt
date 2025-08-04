@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
@@ -46,11 +47,11 @@ fun CreateNewListItem(
                     .size(40.dp)
                     .padding(8.dp)
                     .clip(RoundedCornerShape(8.dp))
-                    .background(Theme.color.surfaces.surface), // Use background modifier instead
+                    .background(Theme.color.surfaces.surface),
                 contentAlignment = Alignment.Center
             ) {
                 MovioIcon(
-                    painter = painterResource(id = R.drawable.add), // Adjust path as needed
+                    painter = painterResource(id = R.drawable.add),
                     contentDescription = "Add new list",
                     modifier = Modifier.size(24.dp),
                     tint = Theme.color.surfaces.onSurface
@@ -63,4 +64,12 @@ fun CreateNewListItem(
             )
         }
     }
+}
+
+@Preview(showBackground = true , showSystemUi = true)
+@Composable
+fun CreateNewListItemPreview() {
+    CreateNewListItem(
+        onListCreated = {}
+    )
 }
