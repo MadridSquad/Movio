@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
@@ -58,7 +59,7 @@ fun LazyGridScope.filterSearchScreen(
     }
 
     when (typeOfFilterSearch) {
-        FilterPagesItem.TOP_RATED-> {
+        FilterPagesItem.TOP_RATED -> {
             item(
                 span = { GridItemSpan(maxLineSpan) }
             ) {
@@ -93,7 +94,7 @@ fun LazyGridScope.filterSearchScreen(
                                     EmptySearchLayout(
                                         title = stringResource(R.string.no_results_found),
                                         description = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
-                                        image = com.madrid.presentation.R.drawable.img_no_sesrch_found // Use a "no results" image
+                                        image = R.drawable.img_no_sesrch_found // Use a "no results" image
                                     )
                                 }
                             }
@@ -101,9 +102,9 @@ fun LazyGridScope.filterSearchScreen(
 
                         topRated.itemCount == 0 &&
                                 topRated.loadState.refresh is LoadState.NotLoading -> {
-                            item (
+                            item(
                                 span = { GridItemSpan(maxLineSpan) }
-                            ){
+                            ) {
                                 Box(
                                     modifier = Modifier
                                         .fillMaxSize()
@@ -113,11 +114,12 @@ fun LazyGridScope.filterSearchScreen(
                                     EmptySearchLayout(
                                         title = stringResource(R.string.no_results_found),
                                         description = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
-                                        image = com.madrid.presentation.R.drawable.img_no_sesrch_found // Use a "no results" image
+                                        image = R.drawable.img_no_sesrch_found // Use a "no results" image
                                     )
                                 }
                             }
                         }
+
                         topRated.itemCount > 0 -> {
                             items(count = topRated.itemCount) { index ->
                                 MovioVerticalCard(
@@ -135,7 +137,7 @@ fun LazyGridScope.filterSearchScreen(
             }
         }
 
-        FilterPagesItem.MOVIES-> {
+        FilterPagesItem.MOVIES -> {
             item(
                 span = { GridItemSpan(maxLineSpan) }
             ) {
@@ -170,7 +172,7 @@ fun LazyGridScope.filterSearchScreen(
                                     EmptySearchLayout(
                                         title = stringResource(R.string.no_results_found),
                                         description = stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
-                                        image = com.madrid.presentation.R.drawable.img_no_internet
+                                        image = R.drawable.img_no_internet
                                     )
                                 }
                             }
@@ -190,8 +192,8 @@ fun LazyGridScope.filterSearchScreen(
                                 ) {
                                     EmptySearchLayout(
                                         title = stringResource(R.string.no_results_found),
-                                        description =  stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
-                                        image = com.madrid.presentation.R.drawable.img_no_sesrch_found // Use a "no results" image
+                                        description = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
+                                        image = R.drawable.img_no_sesrch_found // Use a "no results" image
                                     )
                                 }
                             }
@@ -205,7 +207,7 @@ fun LazyGridScope.filterSearchScreen(
                                     rate = movies[index]!!.rating,
                                     width = 101.dp,
                                     height = 136.dp,
-                                    onClick = { onMovieClick(movies[index]!!.id.toInt())}
+                                    onClick = { onMovieClick(movies[index]!!.id.toInt()) }
                                 )
                             }
                         }
@@ -250,7 +252,7 @@ fun LazyGridScope.filterSearchScreen(
                                         title = stringResource(R.string.internet_is_not_available),
                                         description =
                                             stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
-                                        image = com.madrid.presentation.R.drawable.img_no_internet
+                                        image = R.drawable.img_no_internet
                                     )
                                 }
                             }
@@ -258,10 +260,10 @@ fun LazyGridScope.filterSearchScreen(
 
                         series.itemCount == 0 &&
                                 series.loadState.refresh is LoadState.NotLoading -> {
-                            item (
+                            item(
                                 span = { GridItemSpan(maxLineSpan) }
 
-                            ){
+                            ) {
                                 Box(
                                     modifier = Modifier
                                         .fillMaxSize()
@@ -271,7 +273,7 @@ fun LazyGridScope.filterSearchScreen(
                                     EmptySearchLayout(
                                         title = stringResource(R.string.no_results_found),
                                         description = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
-                                        image = com.madrid.presentation.R.drawable.img_no_sesrch_found // Use a "no results" image
+                                        image = R.drawable.img_no_sesrch_found // Use a "no results" image
                                     )
                                 }
                             }
@@ -318,7 +320,7 @@ fun LazyGridScope.filterSearchScreen(
                         }
 
 
-                        artist.itemCount == 0 && artist.loadState.refresh is  LoadState.Error -> {
+                        artist.itemCount == 0 && artist.loadState.refresh is LoadState.Error -> {
                             item(
                                 span = { GridItemSpan(maxLineSpan) }
                             ) {
@@ -331,7 +333,7 @@ fun LazyGridScope.filterSearchScreen(
                                     EmptySearchLayout(
                                         title = stringResource(R.string.internet_is_not_available),
                                         description = "Please make sure you are connected to the internet and try again.",
-                                        image = com.madrid.presentation.R.drawable.img_no_internet
+                                        image = R.drawable.img_no_internet
                                     )
                                 }
                             }
@@ -351,7 +353,7 @@ fun LazyGridScope.filterSearchScreen(
                                     EmptySearchLayout(
                                         title = stringResource(R.string.no_results_found),
                                         description = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
-                                        image = com.madrid.presentation.R.drawable.img_no_sesrch_found // Use a "no results" image
+                                        image = R.drawable.img_no_sesrch_found // Use a "no results" image
                                     )
                                 }
                             }
@@ -360,9 +362,11 @@ fun LazyGridScope.filterSearchScreen(
                         artist.itemCount > 0 -> {
                             items(count = artist.itemCount) { index ->
                                 MovioArtistsCard(
+                                    modifier = Modifier.size(width = 101.dp, height = 111.dp),
                                     artistsName = artist[index]!!.name,
                                     imageUrl = artist[index]!!.imageUrl,
-                                    onClick = { onActorClick(artist[index]!!.id.toInt())}
+                                    onClick = { onActorClick(artist[index]!!.id.toInt()) },
+                                    circleImageSize = 88.dp
                                 )
                             }
                         }

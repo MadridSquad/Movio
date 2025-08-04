@@ -2,16 +2,15 @@ package com.madrid.data.dataSource.remote.mapper
 
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
-import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
 import com.madrid.data.dataSource.remote.dto.movie.CastNetwork
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieResult
 import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResult
 import com.madrid.data.dataSource.remote.dto.movie.SimilarMovieNetwork
-import com.madrid.data.dataSource.remote.response.movie.NowPlayingMovieResponse
-import com.madrid.data.dataSource.remote.response.movie.NowPlayingMovieResult
-import com.madrid.data.dataSource.remote.response.movie.UpcomingMovieResult
-import com.madrid.data.dataSource.remote.response.movie.UpcomingMoviesResponse
+import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResponse
+import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResult
+import com.madrid.data.dataSource.remote.dto.movie.UpcomingMovieResult
+import com.madrid.data.dataSource.remote.dto.movie.UpcomingMoviesResponse
 import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie

@@ -6,11 +6,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.MovioButton
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.R
 
 @Composable
 fun AnimatedLoginButton(
@@ -34,7 +36,7 @@ fun AnimatedLoginButton(
             )
         } else {
             MovioText(
-                text = "Login",
+                text = stringResource(R.string.login),
                 textStyle = Theme.textStyle.label.mediumMedium14,
                 color = Theme.color.brand.onPrimary,
                 textAlign = TextAlign.Center,

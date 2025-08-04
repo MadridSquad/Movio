@@ -1,8 +1,8 @@
 package com.madrid.data.dataSource.local
 
 import com.madrid.data.dataSource.local.dao.ArtistDao
-import com.madrid.data.dataSource.local.dao.MovieGenreDao
 import com.madrid.data.dataSource.local.dao.MovieDao
+import com.madrid.data.dataSource.local.dao.MovieGenreDao
 import com.madrid.data.dataSource.local.dao.RecentSearchDao
 import com.madrid.data.dataSource.local.dao.SeriesDao
 import com.madrid.data.dataSource.local.dao.SeriesGenreDao
@@ -10,8 +10,8 @@ import com.madrid.data.dataSource.local.table.ArtistTable
 import com.madrid.data.dataSource.local.table.MovieGenreTable
 import com.madrid.data.dataSource.local.table.MovieTable
 import com.madrid.data.dataSource.local.table.RecentSearchTable
-import com.madrid.data.dataSource.local.table.SeriesTable
 import com.madrid.data.dataSource.local.table.SeriesGenreTable
+import com.madrid.data.dataSource.local.table.SeriesTable
 import com.madrid.data.dataSource.local.table.relationship.GenreWithMovies
 import com.madrid.data.dataSource.local.table.relationship.GenreWithSeries
 import com.madrid.data.dataSource.local.table.relationship.MovieGenreCrossRef
@@ -20,8 +20,9 @@ import com.madrid.data.dataSource.local.table.relationship.SeriesGenreCrossRef
 import com.madrid.data.dataSource.local.table.relationship.SeriesWithGenres
 import com.madrid.data.dataSource.local.util.calculateOffset
 import com.madrid.data.repositories.local.LocalDataSource
+import javax.inject.Inject
 
-class LocalDataSourceImpl(
+class LocalDataSourceImpl @Inject constructor(
     private val movieDao: MovieDao,
     private val seriesDao: SeriesDao,
     private val artistDao: ArtistDao,

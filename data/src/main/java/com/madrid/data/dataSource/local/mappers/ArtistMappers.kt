@@ -11,7 +11,7 @@ fun Artist.toArtistTable(): ArtistTable {
         imageUrl = this.imageUrl,
         description = this.overview,
         role = this.role,
-        dateOfBirth = this.dateOfBirth.toString(),
+        dateOfBirth = this.dateOfBirth,
         country = this.country
     )
 }

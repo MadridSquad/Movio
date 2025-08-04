@@ -29,108 +29,112 @@ import androidx.compose.ui.util.lerp
 import androidx.compose.ui.zIndex
 import com.madrid.designSystem.theme.Theme
 import com.madrid.detectImageContent.FilteredImage
+import com.madrid.presentation.viewModel.homeViewModel.CategoryUiState
 import com.madrid.presentation.viewModel.shared.MediaType
 import com.madrid.presentation.viewModel.shared.MediaUiState
 import kotlin.math.absoluteValue
 
 @Composable
 fun MovioPager(
-    movies: List<MediaUiState>,
+    medias: List<MediaUiState>,
     modifier: Modifier = Modifier,
     onClickItem: () -> Unit = {},
 ) {
-
-    val pagerState = rememberPagerState(
-        initialPage = movies.size / 2,
-        pageCount = { movies.size }
-    )
-
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(413.dp)
-            .shadow(elevation = 8.dp),
-        contentAlignment = Alignment.BottomCenter
-    ) {
-        FilteredImage(
-            imageUrl = movies[pagerState.currentPage].imageUrl,
-            contentDescription = "null",
-            modifier = Modifier
-                .matchParentSize()
-                .blur(radius = 16.dp, edgeTreatment = Unbounded),
-            contentScale = ContentScale.Crop
+    if(medias.isNotEmpty()){
+        val pagerState = rememberPagerState(
+            initialPage = medias.size / 2,
+            pageCount = { medias.size }
         )
 
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+        Box(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(413.dp)
+                .shadow(elevation = 8.dp),
+            contentAlignment = Alignment.BottomCenter
         ) {
-            HorizontalPager(
+            FilteredImage(
+                imageUrl = medias[pagerState.currentPage].imageUrl,
+                contentDescription = "null",
+                modifier = Modifier
+                    .matchParentSize()
+                    .blur(radius = 16.dp, edgeTreatment = Unbounded),
+                contentScale = ContentScale.Crop
+            )
+
+            Column(
                 modifier = Modifier.fillMaxWidth(),
-                pageSpacing = (-240).dp,
-                state = pagerState,
-                verticalAlignment = Alignment.CenterVertically,
-            ) { page ->
-                val pageOffset =
-                    ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction)
-
-                val absOffset = pageOffset.absoluteValue
-
-                val scale = lerp(0.7f, 1f, 1f - absOffset.coerceIn(0f, 1f))
-                val rotation =
-                    lerp(20f, 0f, 1f - absOffset.coerceIn(0f, 1f)) * if (pageOffset < 0) 1f else -1f
-                val alphaa = lerp(0.4f, 1f, 1f - absOffset.coerceIn(0f, 1f))
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    MovieHomeCard(
-                        modifier = Modifier
-                            .graphicsLayer {
-                                scaleX = scale
-                                scaleY = scale
-                                rotationZ = rotation
-                                alpha = alphaa
-                                cameraDistance = 12 * density
-                            }
-                            .zIndex(1f - absOffset)
-                            .clip(RoundedCornerShape(8.dp))
-                            .size(width = 200.dp, height = 260.dp),
-                        movieId = movies[page].imageUrl,
-                        name = movies[page].title,
-                        genres = listOf<String>(movies[page].category),
-                        onClick = onClickItem,
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                repeat(movies.size) { index ->
-                    val isSelected = pagerState.currentPage == index
+                HorizontalPager(
+                    modifier = Modifier.fillMaxWidth(),
+                    pageSpacing = (-240).dp,
+                    state = pagerState,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) { page ->
+                    val pageOffset =
+                        ((pagerState.currentPage - page) + pagerState.currentPageOffsetFraction)
+
+                    val absOffset = pageOffset.absoluteValue
+
+                    val scale = lerp(0.7f, 1f, 1f - absOffset.coerceIn(0f, 1f))
+                    val rotation =
+                        lerp(20f, 0f, 1f - absOffset.coerceIn(0f, 1f)) * if (pageOffset < 0) 1f else -1f
+                    val alphaa = lerp(0.4f, 1f, 1f - absOffset.coerceIn(0f, 1f))
+
                     Box(
                         modifier = Modifier
-                            .padding(horizontal = 4.dp)
-                            .size(if (isSelected) 15.dp else 5.dp, 5.dp)
-                            .clip(if (isSelected) RoundedCornerShape(50) else CircleShape)
-                            .background(
-                                if (isSelected)
-                                    Theme.color.surfaces.onSurfaceAt1
-                                else
-                                    Theme.color.surfaces.onSurfaceAt2
-                            )
-                    )
+                            .fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        MovieHomeCard(
+                            modifier = Modifier
+                                .graphicsLayer {
+                                    scaleX = scale
+                                    scaleY = scale
+                                    rotationZ = rotation
+                                    alpha = alphaa
+                                    cameraDistance = 12 * density
+                                }
+                                .zIndex(1f - absOffset)
+                                .clip(RoundedCornerShape(8.dp))
+                                .size(width = 200.dp, height = 260.dp),
+                            movieId = medias[page].imageUrl,
+                            name = medias[page].title,
+                            genres = medias[page].category.map { it.name },
+                            onClick = onClickItem,
+                        )
+                    }
                 }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Row(
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    repeat(medias.size) { index ->
+                        val isSelected = pagerState.currentPage == index
+                        Box(
+                            modifier = Modifier
+                                .padding(horizontal = 4.dp)
+                                .size(if (isSelected) 15.dp else 5.dp, 5.dp)
+                                .clip(if (isSelected) RoundedCornerShape(50) else CircleShape)
+                                .background(
+                                    if (isSelected)
+                                        Theme.color.surfaces.onSurfaceAt1
+                                    else
+                                        Theme.color.surfaces.onSurfaceAt2
+                                )
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(4.dp))
             }
-            Spacer(modifier = Modifier.height(4.dp))
         }
     }
+
+
 }
 
 @Preview(showBackground = true, showSystemUi = true)
@@ -143,15 +147,23 @@ fun MovioSliderPreview() {
             title = "Inception",
             imageUrl = "https://image.tmdb.org/t/p/w500/53dsJ3oEnBhTBVMigWJ9tkA5bzJ.jpg",
             rating = "8.8",
-            category = "Sci-Fi"
+            category = listOf(
+                CategoryUiState(
+                    name = "Sci-Fi"
+                )
+            ),
         ),
         MediaUiState(
             id = "2",
-            mediaType = MediaType.TV_SERIES,
+            mediaType = MediaType.TV_SHOW,
             title = "Breaking Bad",
             imageUrl = "https://image.tmdb.org/t/p/w500/x9HeaagUAyyGl1fQ6exQcpELBxP.jpg",
             rating = "9.5",
-            category = "Drama"
+            category = listOf(
+                CategoryUiState(
+                    name = "Drama"
+                )
+            ),
         ),
         MediaUiState(
             id = "3",
@@ -159,11 +171,15 @@ fun MovioSliderPreview() {
             title = "The Dark Knight",
             imageUrl = "https://image.tmdb.org/t/p/w500/aFRDH3P7TX61FVGpaLhKr6QiOC1.jpg",
             rating = "9.0",
-            category = "Action"
+            category = listOf(
+                CategoryUiState(
+                    name = "Action"
+                )
+            ),
         )
     )
     MovioPager(
-        movies = fakeMediaList,
+        medias = fakeMediaList,
         onClickItem = {}
     )
 }

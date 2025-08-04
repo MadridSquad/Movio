@@ -14,10 +14,10 @@ import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Series
 import com.madrid.domain.repository.SearchRepository
-import com.madrid.data.repositories.SeriesRepositoryImpl
+import javax.inject.Inject
 
 
-class SearchRepositoryImpl(
+class SearchRepositoryImpl @Inject constructor (
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
 ) : SearchRepository {

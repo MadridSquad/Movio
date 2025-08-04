@@ -9,8 +9,11 @@ import org.tensorflow.lite.Interpreter
 import java.io.FileInputStream
 import java.nio.ByteBuffer
 import java.nio.channels.FileChannel
+import javax.inject.Inject
 
-class SensitiveContentDetection(private val context: Context) {
+class SensitiveContentDetection @Inject constructor(
+    private val context: Context
+) {
 
     fun sensitiveContentDetection(bitmap: Bitmap): Boolean {
         val model = Interpreter(loadModelFile(context))

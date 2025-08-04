@@ -1,17 +1,17 @@
 package com.madrid.presentation.screens.searchScreen.paging
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 
-abstract class BasePagingSource<T : Any> (private val initialPage: Int = 1) : PagingSource<Int, T>() {
+abstract class BasePagingSource<T : Any>(private val initialPage: Int = 1) :
+    PagingSource<Int, T>() {
 
-    protected abstract suspend fun loadPage(page: Int): List<T>
+    protected abstract suspend fun loadPage(page: Int): T
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, T> {
         return try {
             val currentPage = params.key ?: 1
-            val data = loadPage(currentPage)
+            val data = listOf(loadPage(currentPage))
 
             LoadResult.Page(
                 data = data,

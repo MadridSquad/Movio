@@ -8,7 +8,8 @@ interface UserRepository {
     suspend fun register(email: String, password: String, username: String): User
     suspend fun logout()
 
-    suspend fun getCurrentUser(): User?
+    suspend fun getCurrentUser(sessionId: String): User?
+    suspend fun getSessionId():  Flow<String>
     fun isUserLoggedIn(): Flow<Boolean>
     suspend fun refreshToken(): Boolean
 
@@ -19,4 +20,8 @@ interface UserRepository {
     suspend fun isTokenExpired(token: String?): Boolean
 
     suspend fun loginAsGuest(): Boolean
+    fun isGuest(): Flow<Boolean>
+
+    fun isFirstLaunch(): Flow<Boolean>
+    suspend fun setOnboardingCompleted(isCompleted: Boolean)
 }

@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
@@ -55,7 +56,7 @@ fun LoginErrorAndForgotPassword(
         }
 
         MovioText(
-            text = "Forgot Password?",
+            text = stringResource(com.madrid.presentation.R.string.forgot_password),
             textStyle = Theme.textStyle.label.mediumMedium12,
             color = Theme.color.surfaces.onSurfaceVariant,
             modifier = Modifier.clickable(

@@ -13,11 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioText
-import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
 
 
@@ -30,7 +30,7 @@ fun LoginHeader() {
 
         LogoWithBackground()
         MovioText(
-            text = "Welcome back",
+            text = stringResource(com.madrid.presentation.R.string.welcome_back),
             textStyle = Theme.textStyle.headline.largeBold18,
             color = Theme.color.surfaces.onSurface,
             modifier = Modifier.fillMaxWidth(),

@@ -18,11 +18,12 @@ import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Review
+import com.madrid.domain.entity.SortType
 import com.madrid.domain.entity.Trailer
 import com.madrid.domain.repository.MovieRepository
-import kotlin.collections.ifEmpty
+import javax.inject.Inject
 
-class MovieRepositoryImpl(
+class MovieRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
 ) : MovieRepository {
@@ -124,5 +125,18 @@ class MovieRepositoryImpl(
 
     override suspend fun getMovieGenres(): List<Genre> {
         return remoteDataSource.getMovieGenres().map { it.toGenre() }
+    }
+
+    override suspend fun getMoviesByGenreId(
+        page: Int,
+        genreId: Int?,
+        sortBy: SortType
+    ): List<Movie> {
+        val sortType = getSortType(sortBy)
+        return remoteDataSource.getMoviesByGenreId(
+            page,
+            genreId,
+            sortType
+        ).movieResults?.map { it.toMovie() } ?: emptyList()
     }
 }

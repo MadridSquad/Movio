@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
@@ -14,7 +15,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
@@ -23,11 +24,10 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.detailsViewModel.MovieDetailsUiState
 import com.madrid.presentation.viewModel.detailsViewModel.TopCastViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun TopCastDetailsScreen(
-    viewModel: TopCastViewModel = koinViewModel(),
+    viewModel: TopCastViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current
@@ -80,9 +80,11 @@ fun TopCastDetailsContent(
         }
         items(artist.size) { index ->
             MovioArtistsCard(
+                modifier = Modifier.size(width = 101.dp, height = 111.dp),
                 artistsName = artist[index].actorName,
                 imageUrl = artist[index].actorImageUrl,
-                onClick = { onActorClick(artist[index].id.toInt()) }
+                onClick = { onActorClick(artist[index].id.toInt()) },
+                circleImageSize = 88.dp
             )
         }
     }

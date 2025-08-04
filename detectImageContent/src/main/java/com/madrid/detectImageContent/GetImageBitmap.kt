@@ -6,8 +6,11 @@ import android.graphics.drawable.BitmapDrawable
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
+import javax.inject.Inject
 
-class GetImageBitmap(private val context: Context) {
+class GetImageBitmap @Inject constructor(
+    private val context: Context
+) {
 
     suspend fun getImageBitmapFromUrl(url: String): Bitmap {
         val loader = ImageLoader(context)

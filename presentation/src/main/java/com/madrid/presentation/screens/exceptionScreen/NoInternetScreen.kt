@@ -6,7 +6,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.madrid.presentation.screens.exceptionScreen.EmptyStateCard
 import com.madrid.designSystem.R
 
 @Composable
@@ -22,6 +21,6 @@ fun NoInternetScreen(onTryAgain: () -> Unit = {}) {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun lfg(){
+fun NoInternetScreenPreview() {
     NoInternetScreen()
 }

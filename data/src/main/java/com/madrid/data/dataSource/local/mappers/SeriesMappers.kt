@@ -11,7 +11,7 @@ fun Series.toSeriesTable(): SeriesTable {
         title = this.title,
         imageUrl = this.imageUrl,
         rate = this.rate,
-        yearOfRelease = this.airDate.toString(),
+        yearOfRelease = this.airDate,
         description = this.description,
     )
 }

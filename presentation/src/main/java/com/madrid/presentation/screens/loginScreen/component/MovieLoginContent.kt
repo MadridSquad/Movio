@@ -10,13 +10,14 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.MovioButton
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.R
 import com.madrid.presentation.viewModel.loginViewModel.LoginUiState
-
 
 @Composable
 fun MovieLoginContent(
@@ -74,7 +75,7 @@ fun MovieLoginContent(
                 .height(48.dp)
         ) {
             MovioText(
-                text = "Continue as a guest",
+                text = stringResource(R.string.continue_as_a_guest),
                 textStyle = Theme.textStyle.label.smallRegular14,
                 color = Theme.color.surfaces.onSurface,
                 textAlign = TextAlign.Center,
@@ -84,6 +85,6 @@ fun MovieLoginContent(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        SignUpRow(onSignUpClick = onSignUpClick,)
+        SignUpRow(onSignUpClick = onSignUpClick)
     }
 }

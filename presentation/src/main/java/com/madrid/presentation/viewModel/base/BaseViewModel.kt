@@ -23,7 +23,7 @@ abstract class BaseViewModel<S, E>(initialState: S) : ViewModel() {
     val state = _state.asStateFlow()
 
     private val _effects = MutableSharedFlow<E>()
-    val effects = _effects.asSharedFlow()
+    val effect = _effects.asSharedFlow()
 
     protected fun <T> tryToExecute(
         function: suspend () -> T,

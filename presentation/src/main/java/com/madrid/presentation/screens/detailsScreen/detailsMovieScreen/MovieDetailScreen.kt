@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.TextWithReadMore
 import com.madrid.designSystem.component.TopAppBar
@@ -23,7 +24,7 @@ import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 import com.madrid.presentation.component.BottomMediaActions
 import com.madrid.presentation.component.CastMember
-import com.madrid.presentation.component.TopCastSection
+import com.madrid.presentation.component.TopCastHorizontalScroll
 import com.madrid.presentation.component.header.MovieDetailsHeader
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.navigation.Destinations
@@ -33,11 +34,10 @@ import com.madrid.presentation.screens.detailsScreen.seriesDetails.toReviewScree
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMoviesSection
 import com.madrid.presentation.viewModel.detailsViewModel.DetailsMovieViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MovieDetailsScreen(
-    viewModel: DetailsMovieViewModel = koinViewModel()
+    viewModel: DetailsMovieViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current
@@ -54,7 +54,7 @@ fun MovieDetailsScreen(
                 title = stringResource(R.string.internet_is_not_available),
                 description =
                     stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
-                image = com.madrid.presentation.R.drawable.img_no_internet
+                image = R.drawable.img_no_internet
             )
         }
     } else {
@@ -98,11 +98,10 @@ fun MovieDetailsScreen(
                 TextWithReadMore(
                     description = uiState.description,
                     modifier = Modifier
-                        .padding(horizontal = 16.dp)
-                        .padding(bottom = 16.dp),
+                        .padding(horizontal = 16.dp),
                     maxLines = 5
                 )
-                TopCastSection(
+                TopCastHorizontalScroll(
                     onSeeAllClick = {
                         navController.navigate(
                             Destinations.TopCast(
@@ -118,7 +117,7 @@ fun MovieDetailsScreen(
                             )
                         )
                     },
-                    modifier = Modifier.padding(vertical = 8.dp),
+                    modifier = Modifier.padding(top = 32.dp),
                     castMembers = uiState.casts.map { cast ->
                         CastMember(
                             id = cast.id.toString(),
@@ -127,8 +126,8 @@ fun MovieDetailsScreen(
                         )
                     }
                 )
-                Spacer(modifier = Modifier.height(32.dp))
                 ReviewScreen(
+                    modifier = Modifier.padding(top = 32.dp),
                     onSeeAllReviews = {
                         navController.navigate(
                             Destinations.ReviewsScreen(
@@ -139,9 +138,8 @@ fun MovieDetailsScreen(
                     },
                     uiState = uiState.reviews.toReviewScreenUiState()
                 )
-                Spacer(modifier = Modifier.height(24.dp))
-
                 SimilarMoviesSection(
+                    modifier = Modifier.padding(vertical = 32.dp),
                     onSeeAllClick = {
                         navController.navigate(
                             Destinations.SimilarMediaScreen(
@@ -157,7 +155,6 @@ fun MovieDetailsScreen(
                             )
                         )
                     },
-                    modifier = Modifier.padding(vertical = 8.dp),
                     similarMovies = uiState.similarMovies.map { movie ->
                         SimilarMovie(
                             id = movie.id,

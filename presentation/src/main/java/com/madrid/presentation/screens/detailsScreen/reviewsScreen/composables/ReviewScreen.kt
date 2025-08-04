@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.madrid.designSystem.component.CustomTextTitel
+import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
@@ -26,21 +25,19 @@ import com.madrid.presentation.viewModel.detailsViewModel.ReviewsScreenUiState
 @Composable
 fun ReviewScreen(
     uiState: ReviewsScreenUiState,
+    modifier: Modifier = Modifier,
     onSeeAllReviews: () -> Unit = {},
 ) {
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
-        CustomTextTitel(
-            primaryText = stringResource(com.madrid.presentation.R.string.reviews),
-            secondaryText = stringResource(com.madrid.presentation.R.string.see_all),
+        CustomTextTitle(
+            primaryText = stringResource(R.string.reviews),
+            secondaryText = stringResource(R.string.see_all),
             endIcon = painterResource(com.madrid.designSystem.R.drawable.outline_alt_arrow_left),
             onSeeAllClick = { onSeeAllReviews() },
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp)
         )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
         ReviewsSectionContent(reviews = uiState.reviews)
     }
 }

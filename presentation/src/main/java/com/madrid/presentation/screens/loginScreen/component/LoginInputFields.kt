@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
@@ -24,7 +25,7 @@ fun LoginInputFields(
     Column(modifier = modifier) {
         BasicTextInputField(
             startIconPainter = painterResource(R.drawable.profile_circle),
-            hintText = "Username",
+            hintText = stringResource(com.madrid.presentation.R.string.username),
             value = state.username,
             onValueChange = onUsernameChange,
             modifier = Modifier.padding(bottom = 12.dp),
@@ -36,7 +37,7 @@ fun LoginInputFields(
 
         BasicTextInputField(
             startIconPainter = painterResource(R.drawable.lock),
-            hintText = "Password",
+            hintText = stringResource(com.madrid.presentation.R.string.password),
             value = state.password,
             onValueChange = onPasswordChange,
             visualTransformation = if (state.showPassword) VisualTransformation.None
@@ -52,4 +53,5 @@ fun LoginInputFields(
             errorBorderBrush = Theme.color.gradients.errorBorderGradient
         )
     }
+
 }

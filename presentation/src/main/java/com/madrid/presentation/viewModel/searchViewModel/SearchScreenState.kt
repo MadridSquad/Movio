@@ -44,7 +44,7 @@ data class SearchScreenState(
 
     data class SeriesUiState(
         val id: String = "",
-        val mediaType: MediaType = MediaType.TV_SERIES,
+        val mediaType: MediaType = MediaType.TV_SHOW,
         val title: String = "",
         val imageUrl: String = "",
         val rating: String = "",

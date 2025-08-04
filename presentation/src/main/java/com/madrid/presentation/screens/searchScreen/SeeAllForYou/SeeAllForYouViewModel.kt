@@ -4,14 +4,15 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
-import androidx.paging.map
+import androidx.paging.flatMap
 import com.madrid.domain.usecase.search.GetRecommendedMovieUseCase
 import com.madrid.presentation.screens.searchScreen.paging.ForYouPagingSource
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import com.madrid.presentation.viewModel.searchViewModel.SearchScreenState
+import com.madrid.presentation.viewModel.uiStateMapper.toMovieUiState
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class SeeAllForYouViewModel(
+class SeeAllForYouViewModel @Inject constructor(
     private val getRecommendedMovieUseCase: GetRecommendedMovieUseCase
 ) : BaseViewModel<SeeAllForYouUIState, Nothing>(
     SeeAllForYouUIState()
@@ -40,13 +41,8 @@ class SeeAllForYouViewModel(
         ).flow
             .cachedIn(viewModelScope)
             .map { pagingData ->
-                pagingData.map { movie ->
-                    SearchScreenState.MovieUiState(
-                        id = movie.id.toString(),
-                        title = movie.title,
-                        imageUrl = movie.imageUrl,
-                        rating = movie.rate.toString()
-                    )
+                pagingData.flatMap { movie ->
+                    movie.map { it.toMovieUiState() }
                 }
             }
 

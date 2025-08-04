@@ -12,9 +12,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.compose)
-    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android)
     jacoco
 }
 
@@ -119,6 +120,7 @@ dependencies {
     implementation(libs.firebase.crashlytics.ndk)
     implementation(libs.androidx.foundation.android)
     implementation(libs.foundation.android)
+    implementation(libs.work.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -134,9 +136,6 @@ dependencies {
     implementation (libs.androidx.core.splashscreen)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    implementation(libs.koin.androidx.compose)
-    api(libs.koin.annotations)
-    implementation(libs.koin.android)
     implementation(libs.slf4j.simple)
 
     implementation(libs.retrofit)
@@ -144,7 +143,12 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.kotlinx.serialization.json)
 
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation)
+    implementation (libs.dagger)
 
     implementation(libs.androidx.datasource.preferences)
 
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler.v2511)
 }

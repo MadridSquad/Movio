@@ -37,7 +37,7 @@ data class MediaUiState(
 ) {
     fun toLogString(): String {
         return buildString {
-            append("${mediaName.take(20)}".padEnd(22))
+            append(mediaName.take(20).padEnd(22))
             append("ID:$mediaId".padEnd(10))
             append("Type:${if (isMovie) "Movie" else "TV".padEnd(6)}")
             if (rate.isNotBlank()) {

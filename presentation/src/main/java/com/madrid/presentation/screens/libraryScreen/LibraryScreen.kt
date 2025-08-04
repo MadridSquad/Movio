@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.R
 
 @Composable
 fun LibraryScreen() {
@@ -19,7 +21,7 @@ fun LibraryScreen() {
 
     ) {
         MovioText(
-            text = "Library Screen",
+            text = stringResource(R.string.library_screen),
             textStyle = Theme.textStyle.title.largeBold14,
             color = Theme.color.brand.primary,
         )

@@ -18,8 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.theme.Theme
+import com.madrid.designSystem.R
 
 
 @Composable
@@ -27,6 +29,7 @@ fun EmptySearchLayout(
     title: String,
     description: String,
     @DrawableRes image: Int,
+    imageSize: Int = 128,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -40,10 +43,11 @@ fun EmptySearchLayout(
             painter = painterResource(id = image),
             contentDescription = "Search Icon",
             modifier = Modifier
-                .size(128.dp)
+                .size(imageSize.dp)
                 .align(CenterHorizontally),
             contentScale = ContentScale.Fit
         )
+        Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = title,
             style = Theme.textStyle.title.mediumMedium16,
@@ -64,5 +68,16 @@ fun EmptySearchLayout(
     }
 }
 
+
+@Preview
+@Composable
+private fun EmptySearchLayoutPreview() {
+    EmptySearchLayout(
+        title = "No Results Found",
+        description = "Try searching for something else.",
+        image = R.drawable.empty,
+        modifier = Modifier.padding(16.dp)
+    )
+}
 
 

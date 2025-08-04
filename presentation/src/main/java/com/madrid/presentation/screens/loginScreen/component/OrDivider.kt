@@ -9,9 +9,11 @@ import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.R
 
 @Composable
 fun OrDivider() {
@@ -28,7 +30,7 @@ fun OrDivider() {
             color = Theme.color.surfaces.onSurfaceVariant.copy(alpha = 0.3f)
         )
         MovioText(
-            text = "or",
+            text = stringResource(R.string.or),
             textStyle = Theme.textStyle.label.smallRegular12,
             color = Theme.color.surfaces.onSurfaceVariant,
             modifier = Modifier.padding(horizontal = 8.dp)

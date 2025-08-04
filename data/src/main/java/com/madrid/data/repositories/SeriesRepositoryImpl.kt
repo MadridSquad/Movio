@@ -1,12 +1,10 @@
 package com.madrid.data.repositories
 
 import com.madrid.data.dataSource.local.mappers.toGenre
-import android.util.Log
 import com.madrid.data.dataSource.local.mappers.toSeries
 import com.madrid.data.dataSource.mapper.toSeriesGenreTable
 import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.mapper.toEpisode
-import com.madrid.data.dataSource.remote.mapper.toGenre
 import com.madrid.data.dataSource.remote.mapper.toReview
 import com.madrid.data.dataSource.remote.mapper.toSeries
 import com.madrid.data.dataSource.remote.mapper.toSimilarSeries
@@ -19,10 +17,12 @@ import com.madrid.domain.entity.Episode
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.Series
+import com.madrid.domain.entity.SortType
 import com.madrid.domain.entity.Trailer
 import com.madrid.domain.repository.SeriesRepository
+import javax.inject.Inject
 
-class SeriesRepositoryImpl(
+class SeriesRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
 ) : SeriesRepository {
@@ -84,6 +84,19 @@ class SeriesRepositoryImpl(
             }
             localDataSource.getAllSeriesGenres()
         }.map { it.toGenre() }
+    }
+
+    override suspend fun getSeriesByGenreId(
+        page: Int,
+        genreId: Int?,
+        sortBy: SortType
+    ): List<Series> {
+        val sortType = getSortType(sortBy)
+        return remoteDataSource.getSeriesByGenreId(
+            page,
+            genreId,
+            sortType
+        ).seriesResults?.map { it.toSeries() } ?: emptyList()
     }
 
     override suspend fun getSeriesByGenres(): Map<String, List<Series>> {

@@ -1,11 +1,11 @@
 package com.madrid.domain.usecase.search
 
-import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.repository.MovieRepository
 import com.madrid.domain.repository.SearchRepository
+import javax.inject.Inject
 
-class GetMoviesByQueryUseCase(
+class GetMoviesByQueryUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
     private val searchRepository: SearchRepository
 ) {

@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.madrid.designSystem.component.CustomTextTitel
+import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 
@@ -35,17 +35,16 @@ fun SimilarMoviesSection(
     Column(modifier = modifier) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 4.dp),
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            CustomTextTitel(
+            CustomTextTitle(
                 primaryText = stringResource(R.string.similar_movies),
                 secondaryText = stringResource(R.string.see_all),
                 endIcon = painterResource(com.madrid.designSystem.R.drawable.outline_alt_arrow_left),
                 onSeeAllClick = { onSeeAllClick() },
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp)
             )
         }
         LazyRow(

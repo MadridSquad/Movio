@@ -7,8 +7,11 @@ import com.madrid.domain.usecase.movie.GetMovieReviewsUseCase
 import com.madrid.domain.usecase.series.GetSeriesReviewsUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ReviewsScreenViewModel(
+@HiltViewModel
+class ReviewsScreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getMovieReviewsUseCase: GetMovieReviewsUseCase,
     private val getSeriesReviewsUseCase: GetSeriesReviewsUseCase
@@ -27,7 +30,7 @@ class ReviewsScreenViewModel(
 
     private fun loadMovieReviews() {
         tryToExecute(
-            function = { getMovieReviewsUseCase(args.mediaId.toInt()) },
+            function = { getMovieReviewsUseCase(args.mediaId) },
             onSuccess = { reviews ->
                 updateState {
                     it.copy(reviews = reviews.map { review ->
@@ -41,7 +44,7 @@ class ReviewsScreenViewModel(
 
     private fun loadSeriesReviews() {
         tryToExecute(
-            function = { getSeriesReviewsUseCase(args.mediaId.toInt()) },
+            function = { getSeriesReviewsUseCase(args.mediaId) },
             onSuccess = { reviews ->
                 updateState {
                     it.copy(reviews = reviews.map { review ->

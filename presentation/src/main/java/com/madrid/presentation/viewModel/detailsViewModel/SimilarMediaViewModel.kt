@@ -9,8 +9,11 @@ import com.madrid.domain.usecase.movie.GetSimilarMoviesUseCase
 import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SimilarMediaViewModel(
+@HiltViewModel
+class SimilarMediaViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getSimilarMoviesUseCase: GetSimilarMoviesUseCase,
     private val getSimilarSeriesUseCase: GetSimilarSeriesUseCase,
@@ -26,7 +29,7 @@ class SimilarMediaViewModel(
     private fun loadSimilarMedia() {
         tryToExecute(
             function = {
-                getSimilarMoviesUseCase(args.mediaId.toInt())
+                getSimilarMoviesUseCase(args.mediaId)
             },
             onSuccess = { allMovies ->
                 updateState {
@@ -46,7 +49,7 @@ class SimilarMediaViewModel(
     private fun loadSimilarSeries() {
         tryToExecute(
             function = {
-                getSimilarSeriesUseCase(args.mediaId.toInt())
+                getSimilarSeriesUseCase(args.mediaId)
             },
             onSuccess = { allSeries ->
                 updateState {
