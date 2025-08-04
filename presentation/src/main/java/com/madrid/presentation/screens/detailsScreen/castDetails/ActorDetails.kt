@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.TextWithReadMore
@@ -34,12 +35,11 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.detailsViewModel.ActorDetailsViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.MovieDetailsUiState
-import org.koin.androidx.compose.koinViewModel
 
 
 @Composable
 fun ActorDetails(
-    viewModel: ActorDetailsViewModel = koinViewModel()
+    viewModel: ActorDetailsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current

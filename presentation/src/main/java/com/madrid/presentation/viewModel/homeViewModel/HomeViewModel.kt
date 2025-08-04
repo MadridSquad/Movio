@@ -5,6 +5,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.paging.flatMap
+import com.madrid.domain.entity.User
+import com.madrid.domain.usecase.authentication.GetCurrentUserDetailsUseCase
 import com.madrid.domain.usecase.movie.GetMovieGenresUseCase
 import com.madrid.domain.usecase.movie.GetMoviesByGenreIdUseCase
 import com.madrid.domain.usecase.movie.GetNowPlayingMovieUseCase
@@ -21,11 +23,12 @@ import com.madrid.domain.usecase.series.GetTopRatedSeriesUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.shared.MediaType
 import com.madrid.presentation.viewModel.shared.toMediaUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
-import org.koin.android.annotation.KoinViewModel
+import javax.inject.Inject
 
-@KoinViewModel
-class HomeViewModel(
+@HiltViewModel
+class HomeViewModel @Inject constructor(
     private val getMovieGenresUseCase: GetMovieGenresUseCase,
     private val getSeriesGenresUseCase: GetSeriesGenresUseCase,
     private val getMoviesByGenreIdUseCase: GetMoviesByGenreIdUseCase,
@@ -39,11 +42,30 @@ class HomeViewModel(
     private val getAiringTodaySeriesUseCase: GetAiringTodaySeriesUseCase,
     private val getOnAirSeriesUseCase: GetOnAirSeriesUseCase,
     private val getRecommendedSeriesUseCase: GetRecommendedSeriesUseCase,
+    private val getCurrentUserDetailsUseCase: GetCurrentUserDetailsUseCase
 ) : BaseViewModel<HomeScreenState, HomeScreenEffect>(
     HomeScreenState()
 ), HomeInteractionListener {
     init {
         loadGenres()
+        loadFileImage()
+    }
+
+    private fun loadFileImage() {
+        tryToExecute(
+            function ={
+                getCurrentUserDetailsUseCase()
+            },
+            onSuccess = {user->
+                updateState {
+                    it.copy(
+                        profileImage = user?.profilePicUrl
+                    )
+                }
+                fetchMediaByCategory(null, state.value.categoryTabUiState.sortingType)
+            },
+            onError = { onError() },
+        )
     }
 
     private fun loadGenres() {

@@ -1,20 +1,28 @@
 package com.madrid.presentation.viewModel.moreViewModel
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.madrid.domain.usecase.authentication.GetCurrentUserDetailsUseCase
 import com.madrid.domain.usecase.authentication.LoginUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MoreViewModel(
-    private val isGuestUseCase: LoginUseCase
+
+@HiltViewModel
+class MoreViewModel @Inject constructor(
+    private val isGuestUseCase: LoginUseCase,
+    private val getCurrentUserDetailsUseCase: GetCurrentUserDetailsUseCase
 ) :
     BaseViewModel<MoreUiState, MoreEffect>(MoreUiState()),
     MoreInteractionListener {
 
     init {
         fetchIsGuest()
+        fetchCurrentUserDetails()
 //        getProfilePicture()
 //        getUsername()
 //        getDarkModeState()
@@ -34,12 +42,33 @@ class MoreViewModel(
         TODO("Not yet implemented")
     }
 
-    private fun getProfilePicture(): String {
-        TODO("Not yet implemented")
-    }
-
-    private fun getUsername(): String {
-        TODO("Not yet implemented")
+    private fun fetchCurrentUserDetails() {
+        updateState { it.copy(isLoading = true) }
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                Log.d("Tag fetchCurrentUserDetails"," user is:   ")
+                val user = getCurrentUserDetailsUseCase()
+                Log.d("Tag fetchCurrentUserDetails"," user is:   $user")
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = null,
+                        username = user?.username ?: "",
+                        profilePictureUrl = user?.profilePicUrl ?: ""
+                    )
+                }
+            } catch (e: Exception) {
+                Log.e("MoreViewModel", "Error fetching current user details", e)
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = e.message ?: "An error occurred",
+                        username = "Guest",
+                        profilePictureUrl = null // Add an error for profile picture
+                    )
+                }
+            }
+        }
     }
 
     private fun fetchIsGuest() {

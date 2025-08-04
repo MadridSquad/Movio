@@ -17,16 +17,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.presentation.R
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.ReviewCard
 import com.madrid.presentation.viewModel.detailsViewModel.ReviewsScreenUiState
 import com.madrid.presentation.viewModel.detailsViewModel.ReviewsScreenViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun ReviewsScreen(viewModel: ReviewsScreenViewModel = koinViewModel()) {
+fun ReviewsScreen(viewModel: ReviewsScreenViewModel = hiltViewModel()) {
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current
     ReviewsScreenContent(uiState, onClickBack = { navController.popBackStack() })

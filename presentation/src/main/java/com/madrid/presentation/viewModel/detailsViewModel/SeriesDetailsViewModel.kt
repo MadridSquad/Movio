@@ -16,10 +16,13 @@ import com.madrid.presentation.utils.RateFormatter
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.shared.formatDuration
 import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SeriesDetailsViewModel(
+@HiltViewModel
+class SeriesDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
     private val getSeriesTopCastUseCase: GetSeriesTopCastUseCase,

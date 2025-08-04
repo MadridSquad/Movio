@@ -3,6 +3,7 @@ package com.madrid.data.repositories.remote
 import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
+import com.madrid.data.dataSource.remote.dto.authentication.AccountDetailsResponse
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
 import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
@@ -65,10 +66,14 @@ interface RemoteDataSource {
     // region Artist
     suspend fun getArtistDetailsById(artistId: Int): ArtistDetailsResponse
     suspend fun getArtistMovies(artistId: Int): List<KnownForMoviesNetwork>
+
     // endregion
     // region authentication
     suspend fun login(username: String, password: String): String
     suspend fun loginAsGuest(): String
+    suspend fun getCurrentUserDetails(sessionId: String): AccountDetailsResponse
+
+    suspend fun getSessionId(username: String, password: String): String
     // endregion
 
 }

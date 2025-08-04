@@ -1,13 +1,16 @@
 package com.madrid.data.repositories
 
+import android.util.Log
+import com.madrid.data.dataSource.remote.mapper.toUser
 import com.madrid.data.repositories.datasource.UserPreferences
 import com.madrid.data.repositories.local.LocalDataSource
 import com.madrid.data.repositories.remote.RemoteDataSource
 import com.madrid.domain.entity.User
 import com.madrid.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class UserRepositoryImpl(
+class UserRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
     private val authenticationDatasource: UserPreferences
@@ -17,7 +20,8 @@ class UserRepositoryImpl(
         username: String,
         password: String
     ): Boolean {
-        val userToken = remoteDataSource.login(username, password)
+        val userToken = remoteDataSource.getSessionId(username, password)
+        Log.d("TAG in login", "login: user token $userToken")
         authenticationDatasource.setAuthToken(userToken)
         authenticationDatasource.setIsGuest(false)
         return true
@@ -35,12 +39,16 @@ class UserRepositoryImpl(
         authenticationDatasource.clearAuthToken()
     }
 
-    override suspend fun getCurrentUser(): User? {
-        TODO("Not yet implemented")
+    override suspend fun getCurrentUser(sessionId: String): User {
+        return remoteDataSource.getCurrentUserDetails(sessionId).toUser()
+    }
+
+    override suspend fun getSessionId(): Flow<String> {
+        return authenticationDatasource.getAuthToken()
     }
 
     override fun isUserLoggedIn(): Flow<Boolean> {
-        return authenticationDatasource.isUserLoggedIn()
+       return authenticationDatasource.isUserLoggedIn()
     }
 
     override suspend fun refreshToken(): Boolean {
@@ -73,5 +81,13 @@ class UserRepositoryImpl(
 
     override fun isGuest(): Flow<Boolean> {
         return authenticationDatasource.isGuest()
+    }
+
+    override fun isFirstLaunch(): Flow<Boolean> {
+        return authenticationDatasource.isFirstLaunch()
+    }
+
+    override suspend fun setOnboardingCompleted(isCompleted: Boolean) {
+        return authenticationDatasource.setOnBoardingCompleted(isCompleted = isCompleted)
     }
 }

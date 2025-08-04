@@ -1,5 +1,6 @@
 package com.madrid.presentation.screens.moreScreen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,17 +10,13 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.madrid.designSystem.R
-import com.madrid.designSystem.component.ButtomSheet.LogoutConfirmationBottomSheet
 import com.madrid.designSystem.component.DialogWithButtonLayout
 import com.madrid.designSystem.component.SettingsItem
 import com.madrid.presentation.navigation.Destinations
@@ -29,14 +26,13 @@ import com.madrid.presentation.viewModel.moreViewModel.MoreEffect
 import com.madrid.presentation.viewModel.moreViewModel.MoreInteractionListener
 import com.madrid.presentation.viewModel.moreViewModel.MoreUiState
 import com.madrid.presentation.viewModel.moreViewModel.MoreViewModel
-import org.koin.androidx.compose.koinViewModel
 import com.madrid.presentation.R as presentationR
 
 @Composable
 fun MoreScreen(
-    viewModel: MoreViewModel = koinViewModel()
+    viewModel: MoreViewModel = hiltViewModel()
 ) {
-    var showLogoutBottomSheet by remember { mutableStateOf(false) }
+
     val state = viewModel.state.collectAsStateWithLifecycle().value
     val navController = LocalNavController.current
 
@@ -51,32 +47,18 @@ fun MoreScreen(
             }
         }
     }
-
     MoreScreenContent(
         state = state,
-        interactionListener = viewModel as MoreInteractionListener,
-        showLogoutBottomSheet = showLogoutBottomSheet,
-        onShowLogoutBottomSheet = { showLogoutBottomSheet = true }
-    )
-
-    LogoutConfirmationBottomSheet(
-        isVisible = showLogoutBottomSheet,
-        onDismiss = { showLogoutBottomSheet = false },
-        onNavigateToAuth = {
-            navController.navigate(Destinations.AuthenticationScreen) {
-                popUpTo(0) { inclusive = true }
-            }
-        },
+        interactionListener = viewModel as MoreInteractionListener
     )
 }
 
 @Composable
 private fun MoreScreenContent(
     state: MoreUiState,
-    interactionListener: MoreInteractionListener,
-    showLogoutBottomSheet: Boolean,
-    onShowLogoutBottomSheet: () -> Unit
+    interactionListener: MoreInteractionListener
 ) {
+
     if (state.isGuest) {
         DialogWithButtonLayout(
             modifier = Modifier
@@ -95,9 +77,10 @@ private fun MoreScreenContent(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
+            Log.e("MY_TAG" ," More screen ${ state.profilePictureUrl.toString() }")
             ProfileSection(
                 username = state.username,
-                profilePicture = R.drawable.profile_pic_holder,
+                profilePicture = state.profilePictureUrl,
                 onProfileClick = { }
             )
 
@@ -141,7 +124,7 @@ private fun MoreScreenContent(
                     icon = R.drawable.outline_arrows_logout,
                     title = stringResource(presentationR.string.logout),
                     clickable = true,
-                    onClick = onShowLogoutBottomSheet
+                    onClick = { interactionListener.onLogoutBtnClick() }
                 )
             }
         }

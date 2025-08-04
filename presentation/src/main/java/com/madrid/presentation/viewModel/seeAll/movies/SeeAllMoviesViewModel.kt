@@ -4,13 +4,25 @@ import android.util.Log
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.usecase.movie.GetMovieGenresUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SeeAllMoviesViewModel(
+@HiltViewModel(assistedFactory = SeeAllMoviesViewModel.Factory::class)
+class SeeAllMoviesViewModel @AssistedInject constructor(
     private val getMoviesGenresUseCase: GetMovieGenresUseCase,
-    private val strategy: SeeAllMoviesStrategy,
+    @Assisted private val strategy: SeeAllMoviesStrategy,
 ) : BaseViewModel<SeeAllMoviesUiState, SeeAllEffect>(SeeAllMoviesUiState()),
     SeeAllMoviesInteractionListener {
 
+    @AssistedFactory
+    interface Factory {
+        fun create(
+            strategy: SeeAllMoviesStrategy,
+        ): SeeAllMoviesViewModel
+    }
     init {
         Log.d("TAG zoz", "in view model init")
         loadTitle()

@@ -1,7 +1,8 @@
 package com.madrid.domain.usecase.search
 
 import com.madrid.domain.repository.MovieRepository
+import javax.inject.Inject
 
-class GetRecommendedMovieUseCase(private val movieRepository: MovieRepository) {
+class GetRecommendedMovieUseCase @Inject constructor(private val movieRepository: MovieRepository) {
     suspend operator fun invoke(page: Int) = movieRepository.getRecommendedMovies(page)
 }

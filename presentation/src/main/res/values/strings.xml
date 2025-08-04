@@ -20,6 +20,15 @@
 
     <string name="season_count">%1$d Seasons</string>
     <string name="library_screen">Library Screen</string>
+    <string name="my_ratings">My Ratings</string>
+    <string name="theme">Theme</string>
+    <string name="language">Language</string>
+    <string name="app_version">App Version</string>
+    <string name="logout">Logout</string>
+    <string name="unlock_your_personal_library">Log in to unlock your personal library</string>
+    <string name="access_your_watch_history_favorites_and_watchlist_all_in_one_place">Access your watch history, favorites, and watchlist  all in one place.</string>
+    <string name="dark">Dark</string>
+    <string name="light">Light</string>
 
     <string name="video_library_video_number">Video</string>
     <string name="current_episode">Episode %1$s</string>
@@ -108,4 +117,10 @@
     <string name="access_your_watch_history_favorites_and_watchlist_all_in_one_place">Access your watch history, favorites, and watchlist  all in one place.</string>
     <string name="dark">Dark</string>
     <string name="light">Light</string>
+
+    <string name="start_now">Start now</string>
+    <string name="open">Open </string>
+    <string name="movio">Movio</string>
+    <string name="and_let_the_noise_fade_away">and let the noise fade away</string>
+    <string name="onboarding_sub_description">Swipe, pick, dive in… and be the star of the scene.</string>
 </resources>
