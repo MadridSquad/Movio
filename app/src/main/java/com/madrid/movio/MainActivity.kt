@@ -29,21 +29,30 @@ class MainActivity : ComponentActivity() {
             mainViewModel.isLoading.value
         }
         setContent {
-            MovioTheme {
+            val isDarkTheme by mainViewModel.isDarkTheme.collectAsStateWithLifecycle()
+
+            MovioTheme(isDarkTheme) {
                 MainScreen(mainViewModel)
             }
         }
     }
 }
+
 @Composable
 fun MainScreen(
-    mainViewModel: MainViewModel = hiltViewModel()) {
+    mainViewModel: MainViewModel = hiltViewModel()
+) {
     val navController = rememberNavController()
     val isLoggedIn by mainViewModel.isLoggedIn.collectAsStateWithLifecycle()
     val isFirstLaunch by mainViewModel.isFirstLaunch.collectAsStateWithLifecycle()
 
     CompositionLocalProvider(LocalNavController provides navController) {
-        MovioNavGraph(navController = navController, isLoggedIn = isLoggedIn, isFirstLaunch = isFirstLaunch, setOnBoardingComplete = mainViewModel::setOnBoardingCompleted)
+        MovioNavGraph(
+            navController = navController,
+            isLoggedIn = isLoggedIn,
+            isFirstLaunch = isFirstLaunch,
+            setOnBoardingComplete = mainViewModel::setOnBoardingCompleted
+        )
     }
 }
 
