@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class MoreViewModel @Inject constructor(
     private val isGuestUseCase: LoginUseCase,
@@ -64,7 +63,7 @@ class MoreViewModel @Inject constructor(
                         isLoading = false,
                         errorMessage = e.message ?: "An error occurred",
                         username = "Guest",
-                        profilePictureUrl = null // Add an error for profile picture
+                        profilePictureUrl = null
                     )
                 }
             }
@@ -121,7 +120,11 @@ class MoreViewModel @Inject constructor(
     }
 
     override fun onLogoutBtnClick() {
-        TODO("Not yet implemented")
+        updateState { it.copy(isLogoutSheetVisible = true) }
+    }
+
+    fun dismissLogoutSheet() {
+        updateState { it.copy(isLogoutSheetVisible = false) }
     }
 
     private fun getAppVersion(): String {
