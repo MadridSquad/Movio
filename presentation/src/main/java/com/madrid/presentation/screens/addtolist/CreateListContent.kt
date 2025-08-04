@@ -71,21 +71,20 @@ fun CreateListContent(
                 color = Theme.color.surfaces.onSurfaceContainer,
                 textAlign = TextAlign.Center
             )
-//            MovioText(
-//                text = "List name",
-//                color = Color.White.copy(alpha = 0.5f),
-//                textStyle = Theme.textStyle.body.mediumMedium12
-//            )
-//            MovioIcon(
-//                painter = painterResource(id = R.drawable.outline_minimalistic),
-//                contentDescription = "List Icon",
-//                tint = Color.White.copy(alpha = 0.7f),
-//                modifier = Modifier.size(20.dp)
-//            )
-//
-//            Spacer(modifier = Modifier.height(8.dp))
+            MovioText(
+                text = "List name",
+                color = Color.White.copy(alpha = 0.5f),
+                textStyle = Theme.textStyle.body.mediumMedium12
+           )
+            MovioIcon(
+                painter = painterResource(id = R.drawable.outline_minimalistic),
+                contentDescription = "List Icon",
+                tint = Color.White.copy(alpha = 0.7f),
+                modifier = Modifier.size(20.dp)
+           )
 
-            // Create button
+            Spacer(modifier = Modifier.height(8.dp))
+
             MovioButton(
                 onClick = {
                     if (listName.text.isNotBlank()) {

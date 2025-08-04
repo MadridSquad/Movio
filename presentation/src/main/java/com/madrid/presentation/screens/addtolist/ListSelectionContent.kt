@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 
-
 @Composable
 fun ListSelectionContent(
     initialUserLists: List<UserList>,
@@ -26,11 +25,9 @@ fun ListSelectionContent(
             .fillMaxWidth()
             .padding(vertical = 4.dp)
     ) {
-
-        CreateListContent(
-            onCreateClick = {
-                onCreateNewListClick()
-            }
+        // Use CreateNewListItem instead of CreateListContent
+        CreateNewListItem(
+            onListCreated = onCreateNewListClick
         )
 
         if (userLists.isNotEmpty()) {
