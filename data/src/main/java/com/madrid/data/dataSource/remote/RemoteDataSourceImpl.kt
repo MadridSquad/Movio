@@ -1,6 +1,5 @@
 package com.madrid.data.dataSource.remote
 
-import android.util.Log
 import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
@@ -25,14 +24,15 @@ import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
 import com.madrid.data.repositories.remote.RemoteDataSource
-import retrofit2.HttpException
-import com.madrid.domain.exceptions.NetworkException
-import com.madrid.domain.exceptions.UnknownException
-import com.madrid.domain.exceptions.InvalidCredentialsException
 import com.madrid.domain.exceptions.AccountLockedException
-import com.madrid.domain.exceptions.SessionExpiredException
 import com.madrid.domain.exceptions.AuthorizationException
+import com.madrid.domain.exceptions.InvalidCredentialsException
+import com.madrid.domain.exceptions.NetworkException
+import com.madrid.domain.exceptions.SessionExpiredException
+import com.madrid.domain.exceptions.UnknownException
+import retrofit2.HttpException
 import java.io.IOException
+import java.net.HttpURLConnection.HTTP_UNAUTHORIZED
 
 
 class RemoteDataSourceImpl(
@@ -91,7 +91,6 @@ class RemoteDataSourceImpl(
     // region Series
     override suspend fun getTopRatedSeries(page: Int): TopRatedSeriesResponse {
         val x = api.getTopRatedSeries(page)
-        Log.d("getTopRatedSeries", "getTopRatedSeries: in data source: ${x.results}")
         return x
     }
 
@@ -191,7 +190,7 @@ override suspend fun login(username: String, password: String): String {
         val code = e.code()
         val errorBody = e.response()?.errorBody()?.string()?.lowercase()
 
-        if (code == 401) {
+        if (code == HTTP_UNAUTHORIZED) {
             when {
                 errorBody?.contains("invalid username") == true ||
                         errorBody?.contains("invalid password") == true ||
