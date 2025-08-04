@@ -1,12 +1,14 @@
 package com.madrid.presentation.screens.loginScreen.component
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -61,10 +63,16 @@ fun MovieLoginContent(
             AnimatedLoginButton(
                 isLoading = state.isGuestLoading,
                 onClick = onGuestLogin,
-                buttonColor = Theme.color.surfaces.onSurfaceAt3.copy(alpha = 0.12f),
+                buttonColor = Theme.color.surfaces.surface,
                 textColor = Theme.color.surfaces.onSurface,
                 text = stringResource(R.string.continue_as_a_guest),
-                modifier = Modifier.padding(top = 20.dp)
+                modifier = Modifier
+                    .padding(top = 20.dp)
+                    .border(
+                        width = 1.dp,
+                        color = Theme.color.surfaces.onSurfaceAt3,
+                        shape = RoundedCornerShape(24.dp)
+                    )
             )
         }
         SignUpRow(onSignUpClick = onSignUpClick)
