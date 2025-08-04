@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,20 +40,24 @@ fun CreateListContent(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         modifier = Modifier
             .fillMaxWidth()
+            .height(340.dp)
             .clip(
                 RoundedCornerShape(
                     topStart = 24.dp,
                     topEnd = 24.dp,
+                    bottomStart = 0.dp,
+                    bottomEnd = 0.dp
                 )
             )
             .background(color = Theme.color.surfaces.surface)
             .padding(
                 start = 16.dp,
                 end = 16.dp,
-                top = 16.dp,
+                top = 24.dp,
                 bottom = 24.dp
             )
     ) {
+        // Title
         MovioText(
             text = "Create New List",
             textStyle = Theme.textStyle.body.mediumMedium14,
@@ -63,6 +66,7 @@ fun CreateListContent(
             modifier = Modifier.fillMaxWidth()
         )
 
+        // Description
         MovioText(
             text = "Create a new list and keep track of your series that you want to access easily.",
             textStyle = Theme.textStyle.label.smallRegular12,
@@ -75,6 +79,7 @@ fun CreateListContent(
 
         Spacer(modifier = Modifier.height(8.dp))
 
+        // Text Input Field
         BasicTextInputField(
             value = listName,
             onValueChange = { listName = it },
@@ -86,6 +91,9 @@ fun CreateListContent(
                 .height(56.dp)
         )
 
+        Spacer(modifier = Modifier.weight(1f))
+
+        // Create Button
         MovioButton(
             onClick = {
                 if (listName.isNotBlank()) {
