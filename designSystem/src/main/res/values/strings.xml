@@ -10,4 +10,10 @@
     <string name="empty_search_description" />
     <string name="read_less">Read Less</string>
     <string name="read_more">Read More</string>
+    <string name="light_mode">Light Mode</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="arabic">Arabic</string>
+    <string name="english">English</string>
+    <string name="choose_theme">Choose Theme</string>
+    <string name="choose_language">Choose Language</string>
 </resources>
