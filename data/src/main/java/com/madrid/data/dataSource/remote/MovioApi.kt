@@ -206,7 +206,6 @@ interface MovioApi {
     ): SessionIdResponse
 
 
-
     @GET("authentication/guest_session/new")
     suspend fun getCreateGuestSession(): AuthenticationResponse
 
@@ -230,10 +229,14 @@ interface MovioApi {
     // region EpisodeRating
 
     @GET("/account/{account_id}/rated/movies")
-    suspend fun getUserRatingForMovie(): RatingMovieResponse
+    suspend fun getUserRatingForMovie(
+        @Path("account_id") accountId: Int
+    ): RatingMovieResponse
 
     @GET("/account/{account_id}/rated/tv")
-    suspend fun getUserRatingForSeries(): RatingSeriesResponse
+    suspend fun getUserRatingForSeries(
+        @Path("account_id") accountId: Int
+    ): RatingSeriesResponse
 
     // endregion
 

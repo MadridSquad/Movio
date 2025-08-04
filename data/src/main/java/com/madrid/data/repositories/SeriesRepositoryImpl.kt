@@ -111,9 +111,9 @@ class SeriesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUserSeriesRate(): List<GetUserRatedSeries.RatedSeries> {
+    override suspend fun getUserSeriesRate(sessionId:String): List<GetUserRatedSeries.RatedSeries> {
         val result =
-            remoteDataSource.getUserRatingForSeries()
+            remoteDataSource.getUserRatingForSeries(sessionId)
         Log.d("result", "getUserSeriesRate: $result")
         return result.ratedSeries.map { it.toRatedSeries() }
     }
