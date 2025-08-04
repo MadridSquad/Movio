@@ -134,14 +134,7 @@ class LocalDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getNowPlayingMovies(): List<MovieTable> {
-        try {
-            movieDao.getMoviesBySection(MovieSection.NOW_PLAYING.value)
-        }catch (e: Exception){
-            Log.d("TAG bob in data", " catched exception getNowPlayingMovie: ${e.message}")
-        }
-        val x = movieDao.getMoviesBySection(MovieSection.NOW_PLAYING.value)
-        Log.d("TAG bob in data", "getNowPlayingMovie: $x")
-        return x
+        return movieDao.getMoviesBySection(MovieSection.NOW_PLAYING.value)
     }
 
     override suspend fun getUpComingMovies(): List<MovieTable> {
