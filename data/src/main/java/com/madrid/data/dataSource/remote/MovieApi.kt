@@ -3,6 +3,8 @@ package com.madrid.data.dataSource.remote
 import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.ArtistKnownForResponse
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
+import com.madrid.data.dataSource.remote.dto.authentication.AuthenticationResponse
+import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
 import com.madrid.data.dataSource.remote.dto.common.TrailerResponse
 import com.madrid.data.dataSource.remote.dto.genre.GenresResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
@@ -10,6 +12,8 @@ import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
 import com.madrid.data.dataSource.remote.dto.movie.SearchMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SimilarMoviesResponse
+import com.madrid.data.dataSource.remote.dto.rating.RateRequest
+import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SearchSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SeasonResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesCreditResponse
@@ -20,10 +24,7 @@ import com.madrid.data.dataSource.remote.response.movie.NowPlayingMovieResponse
 import com.madrid.data.dataSource.remote.response.movie.UpcomingMoviesResponse
 import com.madrid.data.dataSource.remote.response.series.AiringTodayTvShowsResponse
 import com.madrid.data.dataSource.remote.response.series.OnAirTvShowsResponse
-import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.response.series.TopRatedSeriesResponse
-import com.madrid.data.dataSource.remote.dto.authentication.AuthenticationResponse
-import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -199,7 +200,7 @@ interface MovieApi {
     suspend fun getCreateGuestSession(): AuthenticationResponse
     // endregion
 
-
+    // region home movies
     @GET("movie/now_playing")
     suspend fun getNowPlayingMovies(
         @Query("page") page: Int
@@ -209,6 +210,23 @@ interface MovieApi {
     suspend fun getUpcomingMovies(
         @Query("page") page: Int
     ): UpcomingMoviesResponse
+    // endregion
+
+    // region add rating
+    @POST("movie/{movie_id}/rating")
+    suspend fun addRatingForMovie(
+        @Path("movie_id") movieId: Int,
+        @Query("session_id") sessionId: String,
+        @Body body: RateRequest
+    )
+
+    @POST("tv/{series_id}/rating")
+    suspend fun addRatingForSeries(
+        @Path("series_id") seriesId: Int,
+        @Query("session_id") sessionId: String,
+        @Body body: RateRequest
+    )
+    // endregion
 
     companion object {
         private const val DISCOVER_MOVIE = "discover/movie"

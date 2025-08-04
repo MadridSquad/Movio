@@ -1,12 +1,10 @@
 package com.madrid.data.repositories
 
 import com.madrid.data.dataSource.local.mappers.toGenre
-import android.util.Log
 import com.madrid.data.dataSource.local.mappers.toSeries
 import com.madrid.data.dataSource.mapper.toSeriesGenreTable
 import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.mapper.toEpisode
-import com.madrid.data.dataSource.remote.mapper.toGenre
 import com.madrid.data.dataSource.remote.mapper.toReview
 import com.madrid.data.dataSource.remote.mapper.toSeries
 import com.madrid.data.dataSource.remote.mapper.toSimilarSeries
@@ -76,6 +74,13 @@ class SeriesRepositoryImpl(
 
     override suspend fun increaseSeriesGenreInterestPoints(genreTitle: String) {
         localDataSource.increaseSeriesGenreInterestPoints(genreTitle)
+    }
+
+    override suspend fun addRatingSeries(
+        seriesId: Int,
+        rate: Double
+    ) {
+        return remoteDataSource.addRatingSeries(seriesId, rate)
     }
 
     override suspend fun getSeriesGenres(): List<Genre> {

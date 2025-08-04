@@ -35,6 +35,6 @@ val remoteModule = module {
 
         retrofit.create(MovieApi::class.java)
     }
-    single<RemoteDataSource> { RemoteDataSourceImpl(get()) }
+    single<RemoteDataSource> { RemoteDataSourceImpl(get(), get()) }
     single { Json { ignoreUnknownKeys = true } }
 }

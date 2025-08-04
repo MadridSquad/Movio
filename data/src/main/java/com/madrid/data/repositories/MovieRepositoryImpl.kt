@@ -12,6 +12,7 @@ import com.madrid.data.dataSource.remote.mapper.toMovies
 import com.madrid.data.dataSource.remote.mapper.toReview
 import com.madrid.data.dataSource.remote.mapper.toSimilarMovie
 import com.madrid.data.dataSource.remote.mapper.toTrailer
+import com.madrid.data.repositories.datasource.AuthenticationDataSource
 import com.madrid.data.repositories.local.LocalDataSource
 import com.madrid.data.repositories.remote.RemoteDataSource
 import com.madrid.domain.entity.Artist
@@ -21,11 +22,11 @@ import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.SortType
 import com.madrid.domain.entity.Trailer
 import com.madrid.domain.repository.MovieRepository
-import kotlin.collections.ifEmpty
 
 class MovieRepositoryImpl(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
+    private val authenticationDatasource: AuthenticationDataSource
 ) : MovieRepository {
 
     override suspend fun getMovieDetailsById(movieId: Int): Movie {
@@ -125,6 +126,13 @@ class MovieRepositoryImpl(
 
     override suspend fun getMovieGenres(): List<Genre> {
         return remoteDataSource.getMovieGenres().map { it.toGenre() }
+    }
+
+    override suspend fun addRatingMovie(
+        movieId: Int,
+        rate: Double
+    ){
+        return remoteDataSource.addRatingMovie(movieId, rate)
     }
 
     override suspend fun getMoviesByGenreId(

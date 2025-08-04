@@ -31,7 +31,7 @@ val dataModule = module {
     single { get<MovioDatabase>().recentSearchDao() }
     single<LocalDataSource> { LocalDataSourceImpl(get(), get(), get(), get(), get(), get()) }
     single <AuthenticationDataSource>{ AuthenticationDatastoreImpl(androidContext()) }
-    single<MovieRepository> { MovieRepositoryImpl(get(), get()) }
+    single<MovieRepository> { MovieRepositoryImpl(get(), get(), get()) }
     single<SeriesRepository> { SeriesRepositoryImpl(get(), get()) }
     single { GetImageBitmap(get()) }
     single { SensitiveContentDetection(get()) }
