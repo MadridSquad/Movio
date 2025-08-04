@@ -7,8 +7,8 @@ import com.madrid.domain.repository.MovieRepository
 class GetUserRatedMovie(
     private val movieRepository: MovieRepository
 ) {
-    suspend operator fun invoke(accountId: Int): List<RatedMovie> =
-        movieRepository.getUserMovieRate(accountId)
+    suspend operator fun invoke(): List<RatedMovie> =
+        movieRepository.getUserMovieRate()
 
     data class RatedMovie(
         val rate: Double,

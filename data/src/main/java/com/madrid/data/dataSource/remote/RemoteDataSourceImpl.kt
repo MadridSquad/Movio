@@ -218,12 +218,12 @@ class RemoteDataSourceImpl @Inject constructor(
         return x
     }
 
-    override suspend fun getUserRatingForMovie(acountId: Int): RatingMovieResponse {
-        return api.getUserRatingForMovie(acountId)
+    override suspend fun getUserRatingForMovie(): RatingMovieResponse {
+        return api.getUserRatingForMovie()
     }
 
-    override suspend fun getUserRatingForSeries(acountId: Int): RatingSeriesResponse {
-        return api.getUserRatingForSeries(acountId)
+    override suspend fun getUserRatingForSeries(): RatingSeriesResponse {
+        return api.getUserRatingForSeries()
     }
 
 }

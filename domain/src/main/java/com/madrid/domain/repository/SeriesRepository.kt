@@ -24,5 +24,5 @@ interface SeriesRepository {
     suspend fun getRecommendedSeries(page: Int): List<Series>
     suspend fun getSeriesGenres(): List<Genre>
     suspend fun getSeriesByGenreId(page: Int, genreId: Int?, sortBy: SortType): List<Series>
-    suspend fun getUserSeriesRate(accountId:Int): List<GetUserRatedSeries.RatedSeries>
+    suspend fun getUserSeriesRate(): List<GetUserRatedSeries.RatedSeries>
 }

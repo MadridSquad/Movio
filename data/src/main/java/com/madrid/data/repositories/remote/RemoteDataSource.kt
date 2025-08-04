@@ -78,6 +78,6 @@ interface RemoteDataSource {
     suspend fun getSessionId(username: String, password: String): String
     // endregion
 
-    suspend fun getUserRatingForMovie(acountId:Int):RatingMovieResponse
-    suspend fun getUserRatingForSeries(acountId:Int):RatingSeriesResponse
+    suspend fun getUserRatingForMovie():RatingMovieResponse
+    suspend fun getUserRatingForSeries():RatingSeriesResponse
 }

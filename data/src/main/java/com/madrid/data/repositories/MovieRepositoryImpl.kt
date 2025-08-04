@@ -143,8 +143,8 @@ class MovieRepositoryImpl @Inject constructor(
             sortType
         ).movieResults?.map { it.toMovie() } ?: emptyList()
     }
-    override suspend fun getUserMovieRate(accountId: Int): List<GetUserRatedMovie.RatedMovie> {
-        val result = remoteDataSource.getUserRatingForMovie(accountId)
+    override suspend fun getUserMovieRate(): List<GetUserRatedMovie.RatedMovie> {
+        val result = remoteDataSource.getUserRatingForMovie()
         Log.d("result", "getUserMovieRate: $result")
         return result.ratedMovie.map { it.toRatedMovie() }
     }
