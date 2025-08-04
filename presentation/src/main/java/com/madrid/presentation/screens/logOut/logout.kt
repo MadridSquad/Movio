@@ -1,4 +1,4 @@
-package com.madrid.designSystem.component.ButtomSheet
+package com.madrid.designSystem.component.BottomSheet
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioBottomSheet
 import com.madrid.designSystem.component.MovioButton
@@ -36,7 +37,7 @@ import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.viewModel.logoutViewModel.LogoutViewModel
-import org.koin.androidx.compose.getViewModel
+import com.madrid.presentation.viewModel.logoutViewModel.LogoutUiState
 
 @Composable
 fun LogoutConfirmationBottomSheet(
@@ -45,7 +46,7 @@ fun LogoutConfirmationBottomSheet(
     onNavigateToAuth: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val viewModel: LogoutViewModel = getViewModel()
+    val viewModel: LogoutViewModel = hiltViewModel()
     val uiState by viewModel.state.collectAsState()
 
     LaunchedEffect(uiState.logoutSuccess) {
@@ -77,7 +78,7 @@ fun LogoutConfirmationBottomSheet(
 
 @Composable
 private fun LogoutConfirmationContent(
-    uiState: com.madrid.presentation.viewModel.logoutViewModel.LogoutUiState,
+    uiState: LogoutUiState,
     onLogoutConfirm: () -> Unit,
     onClearError: () -> Unit,
     modifier: Modifier = Modifier
@@ -88,95 +89,126 @@ private fun LogoutConfirmationContent(
             .padding(horizontal = 16.dp, vertical = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Box(
-            modifier = Modifier
-                .size(60.dp, 66.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            MovioIcon(
-                painter = painterResource(R.drawable.library_main_icon),
-                contentDescription = "App Icon",
-                modifier = Modifier.size(60.dp, 66.dp)
-            )
-        }
+        // App Icon Section
+        LogoutIconSection()
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            MovioText(
-                modifier = Modifier.height(25.dp),
-                text = stringResource(id = R.string.conform_log_out),
-                textStyle = Theme.textStyle.title.mediumMedium16,
-                color = Theme.color.surfaces.onSurface,
-                textAlign = TextAlign.Center
-            )
-            MovioText(
-                text = stringResource(id = R.string.log_out),
-                textStyle = Theme.textStyle.label.smallRegular12,
-                color = Theme.color.surfaces.onSurfaceContainer,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.height(35.dp)
-            )
-        }
+        // Text Content Section
+        LogoutTextSection()
 
+        // Error Message Section
         if (uiState.errorMessage != null) {
             Spacer(modifier = Modifier.height(16.dp))
-            MovioText(
-                text = uiState.errorMessage,
-                textStyle = Theme.textStyle.label.smallRegular12,
-                color = Theme.color.system.error,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            )
+            ErrorMessageSection(errorMessage = uiState.errorMessage)
         }
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        MovioButton(
-            onClick = {
-                if (!uiState.isLoading) {
-                    onClearError()
-                    onLogoutConfirm()
-                }
-            },
-            enabled = !uiState.isLoading,
-            modifier = Modifier
-                .width(328.dp)
-                .height(48.dp)
-                .clip(RoundedCornerShape(24.dp))
-                .background(
-                    if (uiState.isLoading) Theme.color.surfaces.surfaceContainer
-                    else Theme.color.brand.primary
-                ),
+        // Action Button Section
+        LogoutActionButton(
+            isLoading = uiState.isLoading,
+            onLogoutConfirm = onLogoutConfirm,
+            onClearError = onClearError
+        )
+    }
+}
+
+@Composable
+private fun LogoutIconSection() {
+    Box(
+        modifier = Modifier.size(60.dp, 66.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        MovioIcon(
+            painter = painterResource(R.drawable.library_main_icon),
+            contentDescription = "App Icon",
+            modifier = Modifier.size(60.dp, 66.dp)
+        )
+    }
+}
+
+@Composable
+private fun LogoutTextSection() {
+    Column(
+        modifier = Modifier.padding(horizontal = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        MovioText(
+            modifier = Modifier.height(25.dp),
+            text = stringResource(id = R.string.conform_log_out),
+            textStyle = Theme.textStyle.title.mediumMedium16,
+            color = Theme.color.surfaces.onSurface,
+            textAlign = TextAlign.Center
+        )
+        MovioText(
+            text = stringResource(id = R.string.log_out),
+            textStyle = Theme.textStyle.label.smallRegular12,
+            color = Theme.color.surfaces.onSurfaceContainer,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.height(35.dp)
+        )
+    }
+}
+
+@Composable
+private fun ErrorMessageSection(errorMessage: String) {
+    MovioText(
+        text = errorMessage,
+        textStyle = Theme.textStyle.label.smallRegular12,
+        color = Theme.color.system.error,
+        textAlign = TextAlign.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+    )
+}
+
+@Composable
+private fun LogoutActionButton(
+    isLoading: Boolean,
+    onLogoutConfirm: () -> Unit,
+    onClearError: () -> Unit
+) {
+    MovioButton(
+        onClick = {
+            if (!isLoading) {
+                onClearError()
+                onLogoutConfirm()
+            }
+        },
+        enabled = !isLoading,
+        modifier = Modifier
+            .width(328.dp)
+            .height(48.dp)
+            .clip(RoundedCornerShape(24.dp))
+            .background(
+                if (isLoading) Theme.color.surfaces.surfaceContainer
+                else Theme.color.brand.primary
+            ),
+    ) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
         ) {
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                if (uiState.isLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.size(20.dp),
-                        color = Theme.color.brand.primary,
-                        strokeWidth = 2.dp
-                    )
-                } else {
-                    MovioText(
-                        text = stringResource(id = R.string.logout),
-                        textStyle = Theme.textStyle.label.mediumMedium14,
-                        color = Color.White
-                    )
-                }
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(20.dp),
+                    color = Theme.color.brand.primary,
+                    strokeWidth = 2.dp
+                )
+            } else {
+                MovioText(
+                    text = stringResource(id = R.string.logout),
+                    textStyle = Theme.textStyle.label.mediumMedium14,
+                    color = Color.White
+                )
             }
         }
     }
 }
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LogoutConfirmationBottomSheetPreview() {
@@ -216,7 +248,7 @@ fun LogoutConfirmationBottomSheetPreview() {
                 containerColor = Theme.color.surfaces.surface
             ) {
                 LogoutConfirmationContent(
-                    uiState = com.madrid.presentation.viewModel.logoutViewModel.LogoutUiState(
+                    uiState = LogoutUiState(
                         isLoading = false,
                         errorMessage = null,
                         logoutSuccess = false

@@ -5,18 +5,19 @@ import com.madrid.domain.exceptions.MovioException
 import com.madrid.domain.exceptions.NetworkException
 import com.madrid.domain.usecase.authentication.LogoutUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.koin.android.annotation.KoinViewModel
+import javax.inject.Inject
 
-@KoinViewModel
-open class LogoutViewModel(
+@HiltViewModel
+class LogoutViewModel @Inject constructor(
     private val logoutUseCase: LogoutUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseViewModel<LogoutUiState, Nothing>(LogoutUiState()) {
 
-    open fun logout(onSuccess: () -> Unit) {
+    fun logout(onSuccess: () -> Unit) {
         viewModelScope.launch(dispatcher) {
             updateState { it.copy(isLoading = true, errorMessage = null) }
 
@@ -40,7 +41,7 @@ open class LogoutViewModel(
         }
     }
 
-    open fun clearError() {
+    fun clearError() {
         updateState { it.copy(errorMessage = null) }
     }
 
