@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -78,7 +79,8 @@ fun MyRatingScreen(
                 image = R.drawable.img_no_internet,
                 topBarTitle = stringResource(R.string.my_ratings),
                 buttonText = stringResource(R.string.try_again),
-                onClick = {viewModel.onBackClick()}
+                onClick = {navController.navigate(Destinations.MyRatingScreen)},
+                modifier = Modifier.fillMaxSize().navigationBarsPadding()
             )
         }
     } else if (state.ratedMedia.isNotEmpty()) {
@@ -102,7 +104,8 @@ fun MyRatingScreen(
                 image = R.drawable.img_no_internet,
                 topBarTitle = stringResource(R.string.my_ratings),
                 buttonText = stringResource(R.string.try_again),
-                onClick = {viewModel.onBackClick()}
+                onClick = {navController.navigate(Destinations.MyRatingScreen)},
+                modifier = Modifier.fillMaxSize().navigationBarsPadding()
             )
         }
     }
