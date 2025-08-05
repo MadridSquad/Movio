@@ -1,5 +1,10 @@
 package com.madrid.presentation.screens.detailsScreen.detailsMovieScreen
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,12 +17,18 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.EmptySearchLayout
+import com.madrid.designSystem.component.MovioBottomSheet
+import com.madrid.designSystem.component.ShareBottomSheetContent
 import com.madrid.designSystem.component.TextWithReadMore
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
@@ -35,12 +46,41 @@ import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMoviesSection
 import com.madrid.presentation.viewModel.detailsViewModel.DetailsMovieViewModel
 
+
 @Composable
 fun MovieDetailsScreen(
     viewModel: DetailsMovieViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current
+    val context = LocalContext.current
+    var showSheet by remember { mutableStateOf(false) }
+
+    fun copyToClipboard(text: String) {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("Movie Link", text)
+        clipboard.setPrimaryClip(clip)
+        Toast.makeText(context, "Link copied", Toast.LENGTH_SHORT).show()
+    }
+
+    fun shareToApp(appPackage: String, url: String) {
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, url)
+            setPackage(appPackage)
+        }
+
+        try {
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            val fallback = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, url)
+            }
+            context.startActivity(Intent.createChooser(fallback, "Share via"))
+        }
+    }
+
     val casts = uiState.casts
 
     if (uiState.isLoading) {
@@ -69,10 +109,39 @@ fun MovieDetailsScreen(
                 imageUrl = uiState.topImageUrl,
                 modifier = Modifier.fillMaxSize()
             )
+
+            MovioBottomSheet(
+                show = showSheet,
+                onDismiss = { showSheet = false },
+                containerColor = Theme.color.surfaces.surface
+            ) {
+                ShareBottomSheetContent(
+                    onCopyLink = {
+                        copyToClipboard("https://www.themoviedb.org/movie/${uiState.movieId}")
+                        showSheet = false
+                    },
+                    onShareFacebook = {
+                        shareToApp(
+                            "com.facebook.katana",
+                            "https://www.themoviedb.org/movie/${uiState.movieId}"
+                        )
+                        showSheet = false
+                    },
+                    onShareX = {
+                        shareToApp(
+                            "com.twitter.android",
+                            "https://www.themoviedb.org/movie/${uiState.movieId}"
+                        )
+                        showSheet = false
+                    }
+                )
+            }
+
             TopAppBar(
                 text = null,
                 modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
-                onFirstIconClick = { navController.popBackStack() }
+                onFirstIconClick = { navController.popBackStack() },
+                onSecondIconClick = { showSheet = true }
             )
             Column(
                 modifier = Modifier
