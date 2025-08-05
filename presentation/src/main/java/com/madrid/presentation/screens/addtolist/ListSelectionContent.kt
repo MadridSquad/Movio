@@ -25,7 +25,6 @@ fun ListSelectionContent(
             .fillMaxWidth()
             .padding(vertical = 4.dp)
     ) {
-        // Use CreateNewListItem instead of CreateListContent
         CreateNewListItem(
             onListCreated = onCreateNewListClick
         )

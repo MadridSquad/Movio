@@ -67,7 +67,7 @@ fun CreateNewListItem(
     }
 }
 
-@Preview(showBackground = true , showSystemUi = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun CreateNewListItemPreview() {
     CreateNewListItem(

@@ -1,22 +1,41 @@
-// SuccessNotificationRow.kt
 package com.madrid.presentation.screens.addtolist
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.animation.*
-import androidx.compose.animation.core.*
-import androidx.compose.ui.text.TextStyle
 import com.madrid.designSystem.component.MovioBottomSheet
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
@@ -64,16 +83,16 @@ fun SuccessNotificationRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-                MovioIcon(
-                    modifier = Modifier.size(24.dp),
-                    painter = painterResource(id = com.madrid.designSystem.R.drawable.archive_tick),
-                    contentDescription = "Success",
-                )
+            MovioIcon(
+                modifier = Modifier.size(24.dp),
+                painter = painterResource(id = com.madrid.designSystem.R.drawable.archive_tick),
+                contentDescription = "Success",
+            )
 
 
             // Success message
             MovioText(
-                modifier = Modifier.weight(1f), // Modifier should be first
+                modifier = Modifier.weight(1f),
                 text = message,
                 color = Color.White,
                 textStyle = TextStyle(
@@ -150,6 +169,7 @@ fun ListManagementBottomSheetWithNotification(
                             }
                         )
                     }
+
                     ListBottomSheetMode.CREATE_NEW_LIST -> {
                         CreateListBottomSheet(
                             show = true,
