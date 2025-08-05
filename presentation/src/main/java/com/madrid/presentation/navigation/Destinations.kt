@@ -1,5 +1,6 @@
 package com.madrid.presentation.navigation
 
+import com.madrid.presentation.viewModel.libraryViewModel.viewAll.factory.ViewAllType
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesType
 import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTvShowType
 import kotlinx.serialization.Serializable
@@ -95,5 +96,10 @@ sealed interface Destinations {
     @Serializable
     data class ActorDetails(
         val artistId: Int,
+    ) : Destinations
+
+    @Serializable
+    data class ViewAllScreen(
+        val type: ViewAllType
     ) : Destinations
 }
