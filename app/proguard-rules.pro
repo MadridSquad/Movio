@@ -34,3 +34,6 @@
 -keepclasseswithmembers class com.madrid.presentation.navigation.** {
     kotlinx.serialization.KSerializer serializer(...);
 }
+
+-keep enum com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesType { *; }
+-keep enum com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTvShowType { *; }

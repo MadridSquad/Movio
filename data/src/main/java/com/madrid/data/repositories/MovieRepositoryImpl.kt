@@ -1,7 +1,11 @@
 package com.madrid.data.repositories
 
+import android.util.Log
 import com.madrid.data.dataSource.local.mappers.toGenre
 import com.madrid.data.dataSource.local.mappers.toMovie
+import com.madrid.data.dataSource.local.mappers.toMovieTable
+import com.madrid.data.dataSource.local.mappers.toSectionMovieTable
+import com.madrid.data.dataSource.local.table.MovieSection
 import com.madrid.data.dataSource.local.table.relationship.MovieGenreCrossRef
 import com.madrid.data.dataSource.mapper.toMovieGenreTable
 import com.madrid.data.dataSource.mapper.toMovieTable
@@ -116,11 +120,31 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getNowPlayingMovie(page: Int): List<Movie> {
-        return remoteDataSource.getNowPlayingMovie().toMovies()
+        val localMovies = localDataSource.getNowPlayingMovies()
+        if (localMovies.isNotEmpty()) {
+            return localMovies.map { it.toMovie() }
+        }
+        val remoteResult = remoteDataSource.getNowPlayingMovie(page)
+        val remoteMovies = remoteResult.nowPlayingMovieResults?.map { it.toMovie() } ?: emptyList()
+
+        remoteMovies.forEach { movie ->
+            localDataSource.insertSectionMovie(movie.toSectionMovieTable().copy(movieSection = MovieSection.NOW_PLAYING.value))
+        }
+        return remoteMovies
     }
 
     override suspend fun getUpcomingMovie(page: Int): List<Movie> {
-        return remoteDataSource.getUpcomingMovie().toMovies()
+        val localMovies = localDataSource.getUpComingMovies()
+        if (localMovies.isNotEmpty()){
+            return localMovies.map { it.toMovie() }
+        }
+        val remoteResult = remoteDataSource.getUpcomingMovie(page)
+        val remoteMovies = remoteResult.upcomingMovieResult?.map { it.toMovie() } ?: emptyList()
+        remoteMovies.forEach { movie ->
+            localDataSource.insertSectionMovie(movie.toSectionMovieTable().copy(movieSection = MovieSection.UPCOMING.value))
+        }
+
+        return remoteMovies
     }
 
     override suspend fun getMovieGenres(): List<Genre> {

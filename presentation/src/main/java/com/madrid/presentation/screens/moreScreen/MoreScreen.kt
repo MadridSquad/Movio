@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.madrid.designSystem.R
-import com.madrid.designSystem.component.BottomSheet.LogoutConfirmationBottomSheet
+import com.madrid.presentation.screens.logOut.LogoutConfirmationBottomSheet
 import com.madrid.designSystem.component.DialogWithButtonLayout
 import com.madrid.designSystem.component.SettingsItem
 import com.madrid.presentation.navigation.Destinations
