@@ -1,21 +1,52 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# --- General Kotlin rules ---
+-dontwarn kotlin.**
+-keep class kotlin.Metadata { *; }
+-keep class kotlin.jvm.internal.** { *; }
+-keepclassmembers class **$WhenMappings { *; }
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# --- Jetpack Compose ---
+-keep class androidx.compose.** { *; }
+-dontwarn androidx.compose.**
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# --- AndroidX Core, AppCompat ---
+-keep class androidx.** { *; }
+-dontwarn androidx.**
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# --- Material Components ---
+-keep class com.google.android.material.** { *; }
+-dontwarn com.google.android.material.**
+
+# --- Coil (Image loading) ---
+-keep class coil.** { *; }
+-dontwarn coil.**
+
+# --- TensorFlow Lite ---
+-keep class org.tensorflow.lite.** { *; }
+-dontwarn org.tensorflow.lite.**
+
+# --- Hilt / Dagger ---
+-keep class dagger.** { *; }
+-dontwarn dagger.**
+-keep class javax.inject.** { *; }
+-dontwarn javax.inject.**
+-keep class * extends dagger.hilt.android.internal.lifecycle.HiltViewModelFactory { *; }
+-keep class * extends androidx.lifecycle.ViewModel
+-keep class * implements dagger.hilt.internal.GeneratedComponent { *; }
+
+# --- Project-specific (optional, adjust as needed) ---
+-keep class com.madrid.detectimagecontent.** { *; }
+
+# --- Prevent stripping consumer proguard rules (for library consumers) ---
+-keepnames class * {
+    @androidx.annotation.Keep *;
+}
+
+# --- Logging (optional but safe) ---
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** v(...);
+    public static *** i(...);
+}
+
+# --- General optimization (most included in default file) ---
+# (No additional rules needed unless you encounter issues)

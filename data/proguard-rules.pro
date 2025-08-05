@@ -1,21 +1,61 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# --- General Kotlin rules ---
+-dontwarn kotlin.**
+-keep class kotlin.Metadata { *; }
+-keep class kotlin.jvm.internal.** { *; }
+-keepclassmembers class **$WhenMappings { *; }
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# --- Room Database ---
+-keep class androidx.room.** { *; }
+-dontwarn androidx.room.**
+-keepclassmembers class * {
+    @androidx.room.* <methods>;
+}
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# --- Retrofit & Gson ---
+-keep class retrofit2.** { *; }
+-dontwarn retrofit2.**
+-keep class com.google.gson.** { *; }
+-dontwarn com.google.gson.**
+-keepclassmembers class * {
+    @retrofit2.http.* <methods>;
+}
+-keepattributes Signature,RuntimeVisibleAnnotations,RuntimeInvisibleAnnotations
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# --- OkHttp ---
+-keep class okhttp3.** { *; }
+-dontwarn okhttp3.**
+
+# --- Serialization (Kotlinx) ---
+-keep class kotlinx.serialization.** { *; }
+-dontwarn kotlinx.serialization.**
+
+# --- Hilt / Dagger ---
+-keep class dagger.** { *; }
+-dontwarn dagger.**
+-keep class javax.inject.** { *; }
+-dontwarn javax.inject.**
+-keep class * extends dagger.hilt.android.internal.lifecycle.HiltViewModelFactory { *; }
+-keep class * extends androidx.lifecycle.ViewModel
+-keep class * implements dagger.hilt.internal.GeneratedComponent { *; }
+
+# --- AndroidX / AppCompat / Preferences ---
+-keep class androidx.** { *; }
+-dontwarn androidx.**
+
+# --- Project-specific (adjust if needed) ---
+-keep class com.madrid.data.** { *; }
+
+# --- Prevent stripping consumer proguard rules (for library consumers) ---
+-keepnames class * {
+    @androidx.annotation.Keep *;
+}
+
+# --- Logging (optional) ---
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** v(...);
+    public static *** i(...);
+}
+
+# --- General optimization (if needed, most included in default file) ---
+# (No additional rules needed unless you encounter issues)
