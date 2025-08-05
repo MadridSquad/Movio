@@ -1,5 +1,6 @@
-package com.madrid.movio
+package com.madrid.presentation
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.navigation.MovioNavGraph
+import com.madrid.presentation.utils.Language
 import com.madrid.presentation.viewModel.authentication.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,6 +25,8 @@ class MainActivity : ComponentActivity() {
     val mainViewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)
+            Language.configureLocaleOnStartForDevicesLowerThanTiramisu(this)
         enableEdgeToEdge()
         actionBar?.hide()
         installSplashScreen().setKeepOnScreenCondition {
@@ -55,4 +59,3 @@ fun MainScreen(
         )
     }
 }
-

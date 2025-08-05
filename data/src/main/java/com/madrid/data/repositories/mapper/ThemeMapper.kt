@@ -4,8 +4,11 @@ import com.madrid.domain.utils.AppTheme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-fun Flow<Boolean>.toTheme() = this.map { isDarkMode ->
-    if (isDarkMode) AppTheme.DARK else AppTheme.LIGHT
+fun AppTheme.toBoolean(): Boolean = when(this) {
+    AppTheme.DARK -> true
+    AppTheme.LIGHT -> false
 }
 
-fun AppTheme.toBoolean() = this == AppTheme.DARK
+fun Boolean.toAppTheme(): AppTheme = if (this) AppTheme.DARK else AppTheme.LIGHT
+
+fun Flow<Boolean>.toTheme(): Flow<AppTheme> = this.map { it.toAppTheme() }

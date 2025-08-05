@@ -4,10 +4,9 @@ interface MoreInteractionListener {
     fun onLoginBtnClick()
     fun onMyRatingsBtnClick()
     fun onClickTheme()
-    fun onConfirmTheme(themeType: ThemeType)
+    fun onSelectTheme(themeType: ThemeType)
+    fun onConfirmTheme()
     fun onClickLanguage()
-    fun onConfirmLanguage(languageType: LanguageType)
     fun onDismissBottomSheet()
     fun onLogoutBtnClick()
-    fun logout()
 }

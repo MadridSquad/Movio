@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,29 +25,25 @@ import com.madrid.designSystem.component.MovioButton
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
-import com.madrid.presentation.viewModel.moreViewModel.LanguageType
-import com.madrid.presentation.viewModel.moreViewModel.MoreInteractionListener
-import com.madrid.presentation.viewModel.moreViewModel.MoreUiState
-import com.madrid.presentation.viewModel.moreViewModel.SettingType
-import com.madrid.presentation.viewModel.moreViewModel.ThemeType
 
 @Composable
 fun ThemeLanguageSelectionBottomSheet(
-    state: MoreUiState,
-    interaction: MoreInteractionListener,
-    title: String = "",
-    settingType: SettingType
+    title: String,
+    isShown: Boolean,
+    onDismiss: () -> Unit,
+    selectedOption: String,
+    options: List<OptionUiState>,
+    modifier: Modifier = Modifier,
+    onOptionSelected: (OptionUiState) -> Unit,
+    onConfirmButtonClick: () -> Unit,
 ) {
     MovioBottomSheet(
-        show = when (settingType) {
-            SettingType.THEME -> state.isThemeSheetVisible
-            SettingType.LANGUAGE -> state.isLanguageSheetVisible
-        },
-        onDismiss = interaction::onDismissBottomSheet,
+        show = isShown,
+        onDismiss = onDismiss,
         containerColor = Theme.color.surfaces.surface,
     ) {
         LazyColumn(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = modifier.padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
@@ -56,49 +53,53 @@ fun ThemeLanguageSelectionBottomSheet(
                 )
             }
 
-            item {
-                val currentTheme = state.selectedTheme
-                val currentLanguage = state.selectedLanguage
-                when (settingType) {
-                    SettingType.THEME -> {
-                        Option(
-                            option = stringResource(R.string.dark_mode),
-                            leadingIcon = painterResource(R.drawable.outline_moon_stars),
-                            isSelected = currentTheme == ThemeType.DARK,
-                            onClick = { interaction.onConfirmTheme(ThemeType.DARK) }
-                        )
-                        Option(
-                            option = stringResource(R.string.light_mode),
-                            leadingIcon = painterResource(R.drawable.outline_sun),
-                            isSelected = currentTheme == ThemeType.LIGHT,
-                            onClick = { interaction.onConfirmTheme(ThemeType.LIGHT) }
-                        )
-                    }
+            items(options) { option ->
+                Option(
+                    option = option.title,
+                    isSelected = option.id == selectedOption,
+                    onClick = { onOptionSelected(option) },
+                    leadingIcon = option.leadingIcon,
+                    trailingIcon = option.trailingIcon
 
-                    SettingType.LANGUAGE -> {
-                        Option(
-                            option = stringResource(R.string.english),
-                            onClick = { interaction.onConfirmLanguage(LanguageType.ENGLISH) },
-                            isSelected = currentLanguage == LanguageType.ENGLISH
-                        )
-                        Option(
-                            option = stringResource(R.string.arabic),
-                            onClick = { interaction.onConfirmLanguage(LanguageType.ARABIC) },
-                            isSelected = currentLanguage == LanguageType.ARABIC
-                        )
-                    }
-                }
+                )
             }
+            /*      item {
+                      Option(
+                          option = stringResource(R.string.dark_mode),
+                          leadingIcon = painterResource(R.drawable.outline_moon_stars),
+                          isSelected = currentTheme == ThemeType.DARK,
+                          onClick = { interaction.onConfirmTheme(ThemeType.DARK) }
+                      )
+                      Option(
+                          option = stringResource(R.string.light_mode),
+                          leadingIcon = painterResource(R.drawable.outline_sun),
+                          isSelected = currentTheme == ThemeType.LIGHT,
+                          onClick = { interaction.onConfirmTheme(ThemeType.LIGHT) }
+                      )
+
+                      Option(
+                          option = stringResource(R.string.english),
+      //                            onClick = { interaction.onConfirmLanguage(LanguageType.ENGLISH) },
+                          onClick = { onConfirmButtonClick() },
+                          isSelected = currentLanguage == LanguageType.ENGLISH
+                      )
+                      Option(
+                          option = stringResource(R.string.arabic),
+                          onClick = { onClick2() },
+                          isSelected = currentLanguage == LanguageType.ARABIC
+                      )
+
+                  }*/
             item {
                 MovioButton(
                     color = Theme.color.brand.primary,
-                    onClick = interaction::onDismissBottomSheet,
+                    onClick = onConfirmButtonClick,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(16.dp)
                 ) {
                     MovioText(
-                        text = "Confirm",
+                        text = stringResource(com.madrid.presentation.R.string.confirm),
                         color = Theme.color.brand.onPrimary,
                         textStyle = Theme.textStyle.label.mediumMedium14,
                     )
@@ -178,3 +179,10 @@ private fun Option(
         }
     }
 }
+
+data class OptionUiState(
+    val id: String,
+    val title: String,
+    val leadingIcon: Painter? = null,
+    val trailingIcon: Painter
+)

@@ -5,9 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.madrid.domain.usecase.authentication.GetCurrentUserDetailsUseCase
 import com.madrid.domain.usecase.authentication.LoginUseCase
 import com.madrid.domain.usecase.preferences.GetAppThemeUseCase
-import com.madrid.domain.usecase.preferences.GetLanguageUseCase
 import com.madrid.domain.usecase.preferences.SetAppThemeUseCase
-import com.madrid.domain.usecase.preferences.SetLanguageUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,8 +19,6 @@ class MoreViewModel @Inject constructor(
     private val getCurrentUserDetailsUseCase: GetCurrentUserDetailsUseCase,
     private val getAppThemeUseCase: GetAppThemeUseCase,
     private val setAppThemeUseCase: SetAppThemeUseCase,
-    private val getLanguageUseCase: GetLanguageUseCase,
-    private val setLanguageUseCase: SetLanguageUseCase,
 ) :
     BaseViewModel<MoreUiState, MoreEffect>(MoreUiState()),
     MoreInteractionListener {
@@ -30,6 +26,7 @@ class MoreViewModel @Inject constructor(
     init {
         fetchIsGuest()
         fetchCurrentUserDetails()
+        initCurrentTheme()
 //        getAppVersion()
     }
 
@@ -82,32 +79,38 @@ class MoreViewModel @Inject constructor(
         }
     }
 
+    private fun initCurrentTheme() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                getAppThemeUseCase().collectLatest { appTheme ->
+                    updateState {
+                        it.copy(selectedTheme = appTheme.toThemeType())
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("MoreViewModel", "Error theme ====", e)
+            }
+        }
+    }
+
     override fun onClickTheme() {
         updateState { it.copy(isThemeSheetVisible = true) }
     }
 
-    override fun onConfirmTheme(themeType: ThemeType) {
+    override fun onSelectTheme(themeType: ThemeType) {
+        updateState { it.copy(selectedTheme = themeType) }
+    }
+
+    override fun onConfirmTheme() {
         tryToExecute(
-            function = { setAppThemeUseCase(themeType.toAppTheme()) },
-            onSuccess = {
-                updateState { it.copy(selectedTheme = themeType) }
-            },
+            function = { setAppThemeUseCase(state.value.selectedTheme.toAppTheme()) },
+            onSuccess = { onDismissBottomSheet() },
             onError = { onError() },
         )
     }
 
     override fun onClickLanguage() {
         updateState { it.copy(isLanguageSheetVisible = true) }
-    }
-
-    override fun onConfirmLanguage(languageType: LanguageType) {
-        tryToExecute(
-            function = { setLanguageUseCase(languageType.toAppLanguage()) },
-            onSuccess = {
-                updateState { it.copy(selectedLanguage = languageType) }
-            },
-            onError = { onError() },
-        )
     }
 
     override fun onDismissBottomSheet() {
@@ -128,10 +131,6 @@ class MoreViewModel @Inject constructor(
     }
 
     private fun getAppVersion(): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun logout() {
         TODO("Not yet implemented")
     }
 

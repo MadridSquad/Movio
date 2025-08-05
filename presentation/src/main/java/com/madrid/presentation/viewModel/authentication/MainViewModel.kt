@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.madrid.domain.usecase.authentication.CheckFirstLaunchUseCase
 import com.madrid.domain.usecase.authentication.LoginUseCase
 import com.madrid.domain.usecase.preferences.GetAppThemeUseCase
+import com.madrid.domain.usecase.preferences.GetLanguageUseCase
 import com.madrid.domain.usecase.preferences.SetAppThemeUseCase
 import com.madrid.domain.usecase.preferences.SetLanguageUseCase
 import com.madrid.domain.utils.AppLanguage
@@ -26,7 +27,7 @@ class MainViewModel @Inject constructor(
     private val checkFirstLaunchUseCase: CheckFirstLaunchUseCase,
     private val setAppThemeUseCase: SetAppThemeUseCase,
     private val getAppThemeUseCase: GetAppThemeUseCase,
-    private val setLanguageUseCase: SetLanguageUseCase
+    private val setLanguageUseCase: SetLanguageUseCase,
 ) : ViewModel() {
 
     var isLoggedIn = MutableStateFlow(false)

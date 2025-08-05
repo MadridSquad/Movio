@@ -11,11 +11,14 @@ android {
     namespace = "com.madrid.presentation"
     compileSdk = 36
 
+
+
     defaultConfig {
         minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        resourceConfigurations.plus(listOf("en","ar"))
     }
 
     buildTypes {
@@ -84,4 +87,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation)
     implementation (libs.dagger)
+
+    implementation (libs.androidx.core.splashscreen)
+
 }
