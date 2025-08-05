@@ -254,20 +254,11 @@ override suspend fun login(username: String, password: String): String {
 
 
         }
+    }
 
 
     override suspend fun getCurrentUserDetails(sessionId : String): AccountDetailsResponse {
-        Log.d("TAG getCurrentUserDetails", "in dataaaaaa getCurrentUserDetails 1: ")
-
-        try {
-            api.getAccountDetails(sessionId)
-        }catch (e: Exception){
-            Log.d("TAG getCurrentUserDetails", "in dataaaaaa  excpetioooooon getCurrentUserDetails ${e.message}: ")
-
-        }
-        val x = api.getAccountDetails(sessionId)
-        Log.d("TAG getCurrentUserDetails", "in dataaaaaa getCurrentUserDetails: 2 $x")
-        return x
+        return    api.getAccountDetails(sessionId)
     }
 
 }
