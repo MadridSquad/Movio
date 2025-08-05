@@ -45,11 +45,10 @@ fun CreateListBottomSheet(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(290.dp)
+                .height(239.dp)
                 .padding(
                     start = 16.dp,
                     end = 16.dp,
-                    top = 24.dp,
                 )
         ) {
             // Title

@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.MovioBottomSheet
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 data class UserList(
     val id: String,
@@ -47,34 +48,42 @@ fun ListManagementBottomSheet(
     var currentMode by remember { mutableStateOf(ListBottomSheetMode.LIST_SELECTION) }
     var showSuccessNotification by remember { mutableStateOf(false) }
     var successMessage by remember { mutableStateOf("") }
-    var shouldCloseBottomSheet by remember { mutableStateOf(false) }
+    var bottomSheetVisible by remember(isVisible) { mutableStateOf(isVisible) }
 
-    // Close bottom sheet when success notification should show
-    LaunchedEffect(shouldCloseBottomSheet) {
-        if (shouldCloseBottomSheet) {
-            onDismiss()
-            shouldCloseBottomSheet = false
+    // Reset mode when bottom sheet becomes visible
+    LaunchedEffect(isVisible) {
+        if (isVisible) {
+            currentMode = ListBottomSheetMode.LIST_SELECTION
+            bottomSheetVisible = true
+        } else {
+            bottomSheetVisible = false
         }
     }
 
     // Handle showing success notification when lists are selected
     LaunchedEffect(initialUserLists) {
         val selectedLists = initialUserLists.filter { it.isSelected }
-        if (selectedLists.isNotEmpty()) {
+        if (selectedLists.isNotEmpty() && isVisible) {
             successMessage = when (selectedLists.size) {
                 1 -> "Successfully added to ${selectedLists.first().name}."
                 else -> "Successfully added to ${selectedLists.size} lists."
             }
+            // Close bottom sheet first
+            bottomSheetVisible = false
+            // Small delay to ensure bottom sheet closes, then show notification
+            delay(200)
             showSuccessNotification = true
-            shouldCloseBottomSheet = true
+            // Close the parent bottom sheet
+            onDismiss()
         }
     }
 
     Box(modifier = modifier.fillMaxSize()) {
         // Bottom Sheet
         MovioBottomSheet(
-            show = isVisible,
+            show = bottomSheetVisible,
             onDismiss = {
+                bottomSheetVisible = false
                 currentMode = ListBottomSheetMode.LIST_SELECTION
                 onDismiss()
             },
@@ -100,8 +109,14 @@ fun ListManagementBottomSheet(
                                 onSelectionChanged?.invoke(userList, isSelected)
                                 if (isSelected) {
                                     successMessage = "Successfully added to ${userList.name}."
-                                    showSuccessNotification = true
-                                    shouldCloseBottomSheet = true
+                                    // Close bottom sheet immediately
+                                    bottomSheetVisible = false
+                                    // Show notification after a brief delay
+                                    kotlinx.coroutines.MainScope().launch {
+                                        delay(200)
+                                        showSuccessNotification = true
+                                        onDismiss()
+                                    }
                                 }
                             }
                         )
@@ -111,10 +126,15 @@ fun ListManagementBottomSheet(
                             show = true,
                             onCreateClick = { listName ->
                                 onListCreated(listName)
-                                currentMode = ListBottomSheetMode.LIST_SELECTION
                                 successMessage = "Successfully created list: $listName"
-                                showSuccessNotification = true
-                                shouldCloseBottomSheet = true
+                                // Close bottom sheet immediately
+                                bottomSheetVisible = false
+                                // Show notification after a brief delay
+                                kotlinx.coroutines.MainScope().launch {
+                                    delay(200)
+                                    showSuccessNotification = true
+                                    onDismiss()
+                                }
                             },
                             onDismiss = {
                                 currentMode = ListBottomSheetMode.LIST_SELECTION
@@ -125,39 +145,20 @@ fun ListManagementBottomSheet(
             }
         }
 
-        // Success notification - positioned at bottom of screen
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 24.dp)
-        ) {
-            SuccessNotificationRow(
-                isVisible = showSuccessNotification,
-                message = successMessage,
-                onDismiss = { showSuccessNotification = false }
-            )
+        // Success notification - positioned at bottom of screen, outside bottom sheet
+        if (showSuccessNotification) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 24.dp)
+            ) {
+                SuccessNotificationRow(
+                    isVisible = showSuccessNotification,
+                    message = successMessage,
+                    onDismiss = { showSuccessNotification = false }
+                )
+            }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewListManagementBottomSheet() {
-    ListManagementBottomSheet(
-        isVisible = true,
-        onDismiss = { },
-        initialUserLists = listOf(
-            UserList("1", "Watch later", isSelected = true),
-            UserList("2", "Watching after exam", isSelected = false),
-            UserList("3", "Watching soon", isSelected = false),
-            UserList("4", "Adventure movies", isSelected = false)
-        ),
-        onListCreated = { listName ->
-            println("Creating list: $listName")
-        },
-        onSelectionChanged = { userList, isSelected ->
-            println("Selection changed: ${userList.name} -> $isSelected")
-        }
-    )
 }
