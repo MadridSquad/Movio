@@ -12,6 +12,9 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -29,6 +32,8 @@ import com.madrid.presentation.component.header.MovieDetailsHeader
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
+import com.madrid.presentation.screens.addtolist.ListManagementBottomSheet
+import com.madrid.presentation.screens.addtolist.UserList
 import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.ReviewScreen
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.toReviewScreenUiState
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
@@ -42,6 +47,14 @@ fun MovieDetailsScreen(
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current
     val casts = uiState.casts
+    var showAddToListBottomSheet by remember { mutableStateOf(false) }
+    val userLists = remember {
+        mutableStateOf(
+            listOf(
+                UserList("1", "Watch Later", isSelected = false),
+            )
+        )
+    }
 
     if (uiState.isLoading) {
         Box(
@@ -91,7 +104,9 @@ fun MovieDetailsScreen(
                 BottomMediaActions(
                     onRateClick = {},
                     onPlayClick = {},
-                    onAddToListClick = {},
+                    onAddToListClick = {
+                        showAddToListBottomSheet = true
+                    },
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -168,4 +183,34 @@ fun MovieDetailsScreen(
             }
         }
     }
+    ListManagementBottomSheet(
+        isVisible = showAddToListBottomSheet,
+        onDismiss = {
+            showAddToListBottomSheet = false
+        },
+        initialUserLists = userLists.value,
+        onListCreated = { listName ->
+            val newList = UserList(
+                id = (userLists.value.size + 1).toString(),
+                name = listName,
+                isSelected = true
+            )
+            userLists.value = userLists.value + newList
+            println("Created new list: $listName for movie: ${uiState.movieName}")
+        },
+        onSelectionChanged = { userList, isSelected ->
+            userLists.value = userLists.value.map { list ->
+                if (list.id == userList.id) {
+                    list.copy(isSelected = isSelected)
+                } else {
+                    list
+                }
+            }
+            if (isSelected) {
+                println("Added movie ${uiState.movieName} to list: ${userList.name}")
+            } else {
+                println("Removed movie ${uiState.movieName} from list: ${userList.name}")
+            }
+        }
+    )
 }

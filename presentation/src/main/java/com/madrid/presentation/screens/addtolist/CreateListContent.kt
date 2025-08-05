@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -44,17 +45,16 @@ fun CreateListBottomSheet(
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(340.dp)
+                .height(290.dp)
                 .padding(
                     start = 16.dp,
                     end = 16.dp,
                     top = 24.dp,
-                    bottom = 24.dp
                 )
         ) {
             // Title
             MovioText(
-                text = "Create New List",
+                text =stringResource(R.string.create_list_title) ,
                 textStyle = Theme.textStyle.body.mediumMedium14,
                 color = Theme.color.surfaces.onSurface,
                 textAlign = TextAlign.Center,
@@ -63,7 +63,7 @@ fun CreateListBottomSheet(
 
             // Description
             MovioText(
-                text = "Create a new list and keep track of your series that you want to access easily.",
+                text = stringResource(R.string.create_list_description),
                 textStyle = Theme.textStyle.label.smallRegular12,
                 color = Theme.color.surfaces.onSurfaceContainer,
                 textAlign = TextAlign.Center,
@@ -88,7 +88,6 @@ fun CreateListBottomSheet(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            // Create Button
             MovioButton(
                 onClick = {
                     if (listName.isNotBlank()) {
@@ -101,7 +100,7 @@ fun CreateListBottomSheet(
                     .height(56.dp),
             ) {
                 MovioText(
-                    text = "Create",
+                    text =stringResource(R.string.create_list_button),
                     color = Color.White,
                     textStyle = Theme.textStyle.label.mediumMedium16
                 )
