@@ -30,7 +30,7 @@ fun LoginInputFields(
             onValueChange = onUsernameChange,
             modifier = Modifier.padding(bottom = 12.dp),
             isError = state.errorMessage != null &&
-                    (state.errorMessage.contains("Password") ||
+                    (state.errorMessage.contains("Username") ||
                             state.errorMessage.contains("Invalid")),
 
             errorBorderBrush = Theme.color.gradients.errorBorderGradient,
