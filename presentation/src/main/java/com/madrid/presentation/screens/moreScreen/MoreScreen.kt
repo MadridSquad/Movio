@@ -33,7 +33,7 @@ import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.logOut.LogoutConfirmationBottomSheet
 import com.madrid.presentation.screens.moreScreen.component.OptionUiState
 import com.madrid.presentation.screens.moreScreen.component.ProfileSection
-import com.madrid.presentation.screens.moreScreen.component.ThemeLanguageSelectionBottomSheet
+import com.madrid.presentation.screens.moreScreen.component.SelectionBottomSheet
 import com.madrid.presentation.utils.Language
 import com.madrid.presentation.viewModel.moreViewModel.MoreEffect
 import com.madrid.presentation.viewModel.moreViewModel.MoreInteractionListener
@@ -148,7 +148,7 @@ private fun MoreScreenContent(
                 SettingsItem(
                     icon = R.drawable.outline_earth,
                     title = stringResource(presentationR.string.language),
-                    text = if (selectedLanguage == Language.Arabic.code)
+                    text = if (currentLanguage == Language.Arabic.code)
                             stringResource(presentationR.string.arabic)
                         else stringResource(presentationR.string.english),
                     clickable = true,
@@ -168,7 +168,7 @@ private fun MoreScreenContent(
                 )
             }
             AnimatedVisibility(state.isThemeSheetVisible) {
-                ThemeLanguageSelectionBottomSheet(
+                SelectionBottomSheet(
                     title = stringResource(R.string.choose_theme),
                     isShown = state.isThemeSheetVisible,
                     onDismiss = interactionListener::onDismissBottomSheet,
@@ -193,7 +193,7 @@ private fun MoreScreenContent(
 
 
             AnimatedVisibility(state.isLanguageSheetVisible) {
-                ThemeLanguageSelectionBottomSheet(
+                SelectionBottomSheet(
                     title = stringResource(R.string.choose_language),
                     onConfirmButtonClick = {
                         currentLocale.value =
