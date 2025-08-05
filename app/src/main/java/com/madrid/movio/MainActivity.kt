@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity(){
             }
         }
 
-        val uploadWorkRequest = PeriodicWorkRequestBuilder<WorkerClass>(15, TimeUnit.MINUTES).build()
+        val uploadWorkRequest = PeriodicWorkRequestBuilder<WorkerClass>(24, TimeUnit.HOURS).build()
 
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
             uniqueWorkName = "clearHome",
