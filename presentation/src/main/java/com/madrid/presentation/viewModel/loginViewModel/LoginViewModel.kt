@@ -4,19 +4,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.madrid.designSystem.component.MovioToast
 import com.madrid.domain.exceptions.MovioException
+import com.madrid.domain.exceptions.NetworkException
 import com.madrid.domain.exceptions.ValidationException
 import com.madrid.domain.usecase.authentication.LoginUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.koin.android.annotation.KoinViewModel
 
-@KoinViewModel
-class LoginViewModel(
+
+import javax.inject.Inject
+
+
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseViewModel<LoginUiState, Nothing>(LoginUiState()) {

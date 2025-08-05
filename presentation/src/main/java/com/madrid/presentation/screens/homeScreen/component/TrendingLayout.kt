@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.designSystem.component.LoadingSearchCard
@@ -26,14 +27,12 @@ import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.movioCards.TrendingMovieCard
 import com.madrid.presentation.viewModel.homeViewModel.HomeViewModel
-import org.koin.androidx.compose.koinViewModel
-import kotlin.collections.first
 
 @Composable
 fun TrendingLayout(
     modifier: Modifier = Modifier,
     headerModifier: Modifier = Modifier,
-    trendingViewModel: HomeViewModel = koinViewModel()
+    trendingViewModel: HomeViewModel = hiltViewModel()
 ) {
     val homeState by trendingViewModel.state.collectAsState()
     Column(

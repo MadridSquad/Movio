@@ -5,8 +5,9 @@ import com.madrid.domain.usecase.movie.GetNowPlayingMovieUseCase
 import com.madrid.domain.usecase.movie.GetTopRatedMoviesUseCase
 import com.madrid.domain.usecase.movie.GetUpcomingMovieUseCase
 import com.madrid.domain.usecase.search.GetRecommendedMovieUseCase
+import javax.inject.Inject
 
-class SeeAllMoviesFactory(
+class SeeAllMoviesFactory @Inject constructor(
     private val getTopRateMoviesUseCase: GetTopRatedMoviesUseCase,
     private val getNowPlayingMovieUseCase: GetNowPlayingMovieUseCase,
     private val getUpcomingMovieUseCase: GetUpcomingMovieUseCase,

@@ -4,26 +4,27 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.navigation.MovioNavGraph
 import com.madrid.presentation.viewModel.authentication.MainViewModel
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : ComponentActivity(), KoinComponent {
 
-    val mainViewModel: MainViewModel by inject()
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
+    val mainViewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
         actionBar?.hide()
         installSplashScreen().setKeepOnScreenCondition {
             mainViewModel.isLoading.value
@@ -31,19 +32,19 @@ class MainActivity : ComponentActivity(), KoinComponent {
         setContent {
             MovioTheme {
                 MainScreen(mainViewModel)
-                // AuthenticationScreen()
             }
         }
     }
 }
-
 @Composable
-fun MainScreen(viewModel: MainViewModel) {
+fun MainScreen(
+    mainViewModel: MainViewModel = hiltViewModel()) {
     val navController = rememberNavController()
-    val isLoggedIn by viewModel.isLoggedIn.collectAsStateWithLifecycle()
+    val isLoggedIn by mainViewModel.isLoggedIn.collectAsStateWithLifecycle()
+    val isFirstLaunch by mainViewModel.isFirstLaunch.collectAsStateWithLifecycle()
 
     CompositionLocalProvider(LocalNavController provides navController) {
-        MovioNavGraph(navController = navController, isLoggedIn = isLoggedIn)
+        MovioNavGraph(navController = navController, isLoggedIn = isLoggedIn, isFirstLaunch = isFirstLaunch, setOnBoardingComplete = mainViewModel::setOnBoardingCompleted)
     }
 }
 

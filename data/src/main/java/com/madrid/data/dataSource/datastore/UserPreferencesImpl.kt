@@ -2,13 +2,15 @@ package com.madrid.data.dataSource.datastore
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.madrid.data.repositories.datasource.UserPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class UserPreferencesImpl(
+class UserPreferencesImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) : UserPreferences {
 
@@ -38,7 +40,34 @@ class UserPreferencesImpl(
         }
     }
 
+    override fun isGuest(): Flow<Boolean> {
+        return dataStore.data
+            .map { preferences ->
+                preferences[IS_GUEST] ?: true
+            }
+    }
+
+    override suspend fun setIsGuest(isGuest: Boolean) {
+        dataStore.edit { settings ->
+            settings[IS_GUEST] = isGuest
+        }
+    }
+
+    override fun isFirstLaunch(): Flow<Boolean> {
+        return dataStore.data.map { prefs ->
+            prefs[ONBOARDING_COMPLETED]?.not() ?: true
+        }
+    }
+
+    override suspend fun setOnBoardingCompleted(isCompleted: Boolean) {
+        dataStore.edit { prefs ->
+            prefs[ONBOARDING_COMPLETED] = isCompleted
+        }
+    }
+
     companion object {
         val TOKEN = stringPreferencesKey("token") //TODO: Move to secrets
+        val IS_GUEST = booleanPreferencesKey("is_guest")
+        val ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
     }
 }

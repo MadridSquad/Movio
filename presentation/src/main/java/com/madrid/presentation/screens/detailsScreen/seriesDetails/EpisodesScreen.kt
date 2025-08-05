@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
@@ -29,10 +30,9 @@ import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.detailsViewModel.EpisodeUiState
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsViewModel
-import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun EpisodesScreen(viewModel: SeriesDetailsViewModel = koinViewModel()) {
+fun EpisodesScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()) {
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current
     EpisodesScreenContent(

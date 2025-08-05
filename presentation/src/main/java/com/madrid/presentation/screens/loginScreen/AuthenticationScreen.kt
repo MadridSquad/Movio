@@ -7,16 +7,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.MovioToast
 import com.madrid.designSystem.component.ToastDuration
+
+import androidx.hilt.navigation.compose.hiltViewModel
+
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.loginScreen.component.MovieLoginContent
 import com.madrid.presentation.viewModel.loginViewModel.LoginViewModel
-import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun AuthenticationScreen(
@@ -24,7 +27,7 @@ fun AuthenticationScreen(
     onGuestLogin: () -> Unit = {}
 ) {
     val navController = LocalNavController.current
-    val viewModel: LoginViewModel = getViewModel()
+    val viewModel: LoginViewModel = hiltViewModel()
     val state by viewModel.state.collectAsState()
     val toastMessage by viewModel.toastMessage.collectAsState()
 
