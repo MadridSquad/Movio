@@ -1,6 +1,7 @@
 package com.madrid.data.dataSource.local.mappers
 
 import com.madrid.data.dataSource.local.table.MovieTable
+import com.madrid.data.dataSource.local.table.SectionsMovieTable
 import com.madrid.data.dataSource.local.table.relationship.MovieWithGenres
 import com.madrid.domain.entity.Movie
 import kotlinx.datetime.LocalDate
@@ -14,6 +15,32 @@ fun Movie.toMovieTable(): MovieTable {
         yearOfRelease = this.releaseDate,
         movieDuration = this.movieDuration,
         description = this.description,
+    )
+}
+
+fun Movie.toSectionMovieTable(): SectionsMovieTable {
+    return SectionsMovieTable(
+        movieId = this.id,
+        title = this.title,
+        imageUrl = this.imageUrl,
+        rate = this.rate,
+        yearOfRelease = this.releaseDate,
+        movieDuration = this.movieDuration,
+        description = this.description,
+        movieSection = "",
+    )
+}
+
+fun SectionsMovieTable.toMovie(): Movie {
+    return Movie(
+        id = this.movieId,
+        title = this.title,
+        imageUrl = this.imageUrl,
+        rate = this.rate,
+        releaseDate = this.yearOfRelease,
+        movieDuration = this.movieDuration,
+        description = this.description,
+        genre = listOf(),
     )
 }
 

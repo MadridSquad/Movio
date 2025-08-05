@@ -8,7 +8,9 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import androidx.room.Upsert
+import com.madrid.data.dataSource.local.table.MovieSection
 import com.madrid.data.dataSource.local.table.MovieTable
+import com.madrid.data.dataSource.local.table.SectionsMovieTable
 import com.madrid.data.dataSource.local.table.relationship.MovieGenreCrossRef
 import com.madrid.data.dataSource.local.table.relationship.MovieWithGenres
 import com.madrid.data.dataSource.local.util.PAGE_SIZE
@@ -18,6 +20,9 @@ interface MovieDao {
 
     @Upsert
     suspend fun insertMovie(movie: MovieTable)
+
+    @Upsert
+    suspend fun insertSectionMovie(movie: SectionsMovieTable)
 
     @Delete
     suspend fun deleteMovie(movie: MovieTable)
@@ -33,6 +38,9 @@ interface MovieDao {
 
     @Query("SELECT * FROM MOVIE_TABLE ORDER BY rate DESC")
     suspend fun getTopRatedMovies(): List<MovieTable>
+
+    @Query("SELECT * FROM SECTIONS_MOVIES WHERE movieSection = :section")
+    suspend fun getMoviesBySection(section: String): List<MovieTable>
 
     @Query("SELECT * FROM MOVIE_TABLE")
     suspend fun getAllMovies(): List<MovieTable>

@@ -8,8 +8,10 @@ import com.madrid.data.dataSource.local.dao.SeriesDao
 import com.madrid.data.dataSource.local.dao.SeriesGenreDao
 import com.madrid.data.dataSource.local.table.ArtistTable
 import com.madrid.data.dataSource.local.table.MovieGenreTable
+import com.madrid.data.dataSource.local.table.MovieSection
 import com.madrid.data.dataSource.local.table.MovieTable
 import com.madrid.data.dataSource.local.table.RecentSearchTable
+import com.madrid.data.dataSource.local.table.SectionsMovieTable
 import com.madrid.data.dataSource.local.table.SeriesGenreTable
 import com.madrid.data.dataSource.local.table.SeriesTable
 import com.madrid.data.dataSource.local.table.relationship.GenreWithMovies
@@ -34,6 +36,10 @@ class LocalDataSourceImpl @Inject constructor(
 
     override suspend fun insertMovie(movie: MovieTable) {
         movieDao.insertMovie(movie)
+    }
+
+    override suspend fun insertSectionMovie(movie: SectionsMovieTable) {
+        movieDao.insertSectionMovie(movie)
     }
 
     override suspend fun insertSeries(series: SeriesTable) {
@@ -61,7 +67,10 @@ class LocalDataSourceImpl @Inject constructor(
         return movieDao.searchMovies("%$query%", offset)
     }
 
-    override suspend fun searchSeriesByQueryFromDB(query: String, page: Int): List<SeriesWithGenres> {
+    override suspend fun searchSeriesByQueryFromDB(
+        query: String,
+        page: Int
+    ): List<SeriesWithGenres> {
         val offset = calculateOffset(page)
         return seriesDao.searchSeries("%$query%", offset)
     }
@@ -124,6 +133,14 @@ class LocalDataSourceImpl @Inject constructor(
 
     override suspend fun getSeriesByGenres(): List<GenreWithSeries> {
         return seriesGenreDao.getSeriesByGenres()
+    }
+
+    override suspend fun getNowPlayingMovies(): List<MovieTable> {
+        return movieDao.getMoviesBySection(MovieSection.NOW_PLAYING.value)
+    }
+
+    override suspend fun getUpComingMovies(): List<MovieTable> {
+        return movieDao.getMoviesBySection(MovieSection.UPCOMING.value)
     }
 
 }

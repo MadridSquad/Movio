@@ -10,4 +10,7 @@
     <string name="empty_no_history_description">لم يتم العثور على أي سجل حتى الآن.</string>
     <string name="empty_search_title">ابدأ البحث</string>
     <string name="empty_search_description">اكتب شيئًا في شريط البحث لبدء البحث.</string>
+    <string name="log_out">ستفقد الوصول إلى مكتبتك والمفضلة وسجل المشاهدة حتى تسجل الدخول مرة أخرى.</string>
+    <string name="logout">تسجيل خروج</string>
+    <string name="conform_log_out">تاكيد تسجيل الخروج</string>
 </resources>
