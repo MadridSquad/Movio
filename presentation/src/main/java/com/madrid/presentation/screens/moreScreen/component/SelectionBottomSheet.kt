@@ -27,7 +27,7 @@ import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 
 @Composable
-fun ThemeLanguageSelectionBottomSheet(
+fun SelectionBottomSheet(
     title: String,
     isShown: Boolean,
     onDismiss: () -> Unit,
@@ -63,33 +63,6 @@ fun ThemeLanguageSelectionBottomSheet(
 
                 )
             }
-            /*      item {
-                      Option(
-                          option = stringResource(R.string.dark_mode),
-                          leadingIcon = painterResource(R.drawable.outline_moon_stars),
-                          isSelected = currentTheme == ThemeType.DARK,
-                          onClick = { interaction.onConfirmTheme(ThemeType.DARK) }
-                      )
-                      Option(
-                          option = stringResource(R.string.light_mode),
-                          leadingIcon = painterResource(R.drawable.outline_sun),
-                          isSelected = currentTheme == ThemeType.LIGHT,
-                          onClick = { interaction.onConfirmTheme(ThemeType.LIGHT) }
-                      )
-
-                      Option(
-                          option = stringResource(R.string.english),
-      //                            onClick = { interaction.onConfirmLanguage(LanguageType.ENGLISH) },
-                          onClick = { onConfirmButtonClick() },
-                          isSelected = currentLanguage == LanguageType.ENGLISH
-                      )
-                      Option(
-                          option = stringResource(R.string.arabic),
-                          onClick = { onClick2() },
-                          isSelected = currentLanguage == LanguageType.ARABIC
-                      )
-
-                  }*/
             item {
                 MovioButton(
                     color = Theme.color.brand.primary,
