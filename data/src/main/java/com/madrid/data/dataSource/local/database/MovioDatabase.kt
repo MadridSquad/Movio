@@ -14,6 +14,7 @@ import com.madrid.data.dataSource.local.table.ArtistTable
 import com.madrid.data.dataSource.local.table.MovieGenreTable
 import com.madrid.data.dataSource.local.table.MovieTable
 import com.madrid.data.dataSource.local.table.RecentSearchTable
+import com.madrid.data.dataSource.local.table.SectionsMovieTable
 import com.madrid.data.dataSource.local.table.SeriesGenreTable
 import com.madrid.data.dataSource.local.table.SeriesTable
 import com.madrid.data.dataSource.local.table.relationship.MovieGenreCrossRef
@@ -28,9 +29,10 @@ import com.madrid.data.dataSource.local.table.relationship.SeriesGenreCrossRef
         ArtistTable::class,
         RecentSearchTable::class,
         MovieGenreCrossRef::class,
-        SeriesGenreCrossRef::class
+        SeriesGenreCrossRef::class,
+        SectionsMovieTable::class
     ],
-    version = 1
+    version = 2
 )
 abstract class MovioDatabase : RoomDatabase() {
 
