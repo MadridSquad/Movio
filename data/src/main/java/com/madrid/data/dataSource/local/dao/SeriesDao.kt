@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Upsert
+import com.madrid.data.dataSource.local.table.MediaHistoryTable
 import com.madrid.data.dataSource.local.table.SeriesTable
 import com.madrid.data.dataSource.local.table.relationship.SeriesGenreCrossRef
 import com.madrid.data.dataSource.local.table.relationship.SeriesWithGenres
@@ -20,6 +21,12 @@ interface SeriesDao {
 
     @Delete
     suspend fun deleteSeries(series: SeriesTable)
+
+    @Upsert
+    suspend fun insertHistorySeries(series: MediaHistoryTable)
+
+    @Query("SELECT * FROM MEDIA_HISTORY_TABLE WHERE mediaType = 'Series'")
+    suspend fun getALLSeriesInHistory(): List<MediaHistoryTable>
 
     @Query("SELECT * FROM SERIES_TABLE WHERE seriesId = :id")
     suspend fun getSeriesById(id: Int): SeriesTable?

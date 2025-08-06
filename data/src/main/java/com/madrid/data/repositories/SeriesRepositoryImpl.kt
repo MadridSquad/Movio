@@ -107,4 +107,13 @@ class SeriesRepositoryImpl @Inject constructor(
             genreTitle to series
         }
     }
+
+    override suspend fun addSeriesToHistory(seriesId: Int){
+        localDataSource.addSeriesToHistory(seriesId = seriesId)
+    }
+
+    override suspend fun getAllSeriesInHistory(): List<Series> {
+        val seriesIds = localDataSource.getAllSeriesInHistory().map { it.mediaId }
+        return seriesIds.map { getSeriesDetailsById(it) }
+    }
 }

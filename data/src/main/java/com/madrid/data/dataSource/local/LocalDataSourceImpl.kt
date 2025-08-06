@@ -7,6 +7,7 @@ import com.madrid.data.dataSource.local.dao.RecentSearchDao
 import com.madrid.data.dataSource.local.dao.SeriesDao
 import com.madrid.data.dataSource.local.dao.SeriesGenreDao
 import com.madrid.data.dataSource.local.table.ArtistTable
+import com.madrid.data.dataSource.local.table.MediaHistoryTable
 import com.madrid.data.dataSource.local.table.MovieGenreTable
 import com.madrid.data.dataSource.local.table.MovieSection
 import com.madrid.data.dataSource.local.table.MovieTable
@@ -135,11 +136,11 @@ class LocalDataSourceImpl @Inject constructor(
         return seriesGenreDao.getSeriesByGenres()
     }
 
-    override suspend fun getNowPlayingMovies(): List<MovieTable> {
+    override suspend fun getNowPlayingMovies(): List<SectionsMovieTable> {
         return movieDao.getMoviesBySection(MovieSection.NOW_PLAYING.value)
     }
 
-    override suspend fun getUpComingMovies(): List<MovieTable> {
+    override suspend fun getUpComingMovies(): List<SectionsMovieTable> {
         return movieDao.getMoviesBySection(MovieSection.UPCOMING.value)
     }
 
@@ -147,4 +148,25 @@ class LocalDataSourceImpl @Inject constructor(
         movieDao.clearHomeMoviesCache()
     }
 
+    override suspend fun addMovieToHistory(movieId: Int) {
+        movieDao.insertHistoryMovie(
+            MediaHistoryTable(
+                mediaId = movieId,
+                mediaType = "Series"
+            )
+        )
+    }
+
+    override suspend fun addSeriesToHistory(seriesId: Int) {
+        seriesDao.insertHistorySeries(
+            MediaHistoryTable(
+                mediaId = seriesId,
+                mediaType = "Movie"
+            )
+        )
+    }
+
+    override suspend fun getAllMoviesInHistory() = movieDao.getALLMoviesInHistory()
+
+    override suspend fun getAllSeriesInHistory() = seriesDao.getALLSeriesInHistory()
 }

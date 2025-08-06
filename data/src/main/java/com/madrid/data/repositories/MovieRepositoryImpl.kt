@@ -167,4 +167,13 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun clearHomeMoviesCache(){
         localDataSource.clearHomeMoviesCache()
     }
+
+    override suspend fun addMovieToHistory(movieId: Int){
+        localDataSource.addMovieToHistory(movieId = movieId)
+    }
+
+    override suspend fun getAllMoviesInHistory(): List<Movie> {
+        val moviesIds = localDataSource.getAllMoviesInHistory().map { it.mediaId }
+        return moviesIds.map { getMovieDetailsById(it) }
+    }
 }
