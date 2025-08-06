@@ -82,7 +82,6 @@ fun ShareOptionItem(
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .size(48.dp)
-                .padding(bottom = 8.dp)
                 .clip(shape = CircleShape)
                 .background(Theme.color.surfaces.surfaceContainer)
 
