@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChange
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -49,7 +50,7 @@ fun SwipeToDeleteCard(
     onDelete: () -> Unit = {},
     onClick: () -> Unit = {}
 ) {
-    val maxSwipeDistance = 100f
+    val maxSwipeDistance = 48f
     var offsetX by remember { mutableFloatStateOf(0f) }
     val layoutDirection = LocalLayoutDirection.current
     val isRtl = layoutDirection == LayoutDirection.Rtl
