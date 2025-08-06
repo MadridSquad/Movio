@@ -1,6 +1,5 @@
 package com.madrid.data.repositories
 
-import android.util.Log
 import com.madrid.data.dataSource.local.mappers.toGenre
 import com.madrid.data.dataSource.local.mappers.toSeries
 import com.madrid.data.dataSource.mapper.toSeriesGenreTable
@@ -22,8 +21,8 @@ import com.madrid.domain.entity.Series
 import com.madrid.domain.entity.SortType
 import com.madrid.domain.entity.Trailer
 import com.madrid.domain.repository.SeriesRepository
-import javax.inject.Inject
 import com.madrid.domain.usecase.series.GetUserRatedSeriesUseCase
+import javax.inject.Inject
 
 class SeriesRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
@@ -117,18 +116,12 @@ class SeriesRepositoryImpl @Inject constructor(
         return result.ratedSeries.map { it.toRatedSeries() }
     }
 
-    override suspend fun addSeriesToHistory(seriesId: Int){
+    override suspend fun addSeriesToHistory(seriesId: Int) {
         localDataSource.addSeriesToHistory(seriesId = seriesId)
     }
 
     override suspend fun getAllSeriesInHistory(): List<Series> {
         val seriesIds = localDataSource.getAllSeriesInHistory().map { it.mediaId }
         return seriesIds.map { getSeriesDetailsById(it) }
-    }
-
-    override suspend fun getUserSeriesRate(sessionId: String): List<GetUserRatedSeriesUseCase.RatedSeries> {
-        val result =
-            remoteDataSource.getUserRatingForSeries(sessionId)
-        return result.ratedSeries.map { it.toRatedSeries() }
     }
 }

@@ -27,5 +27,4 @@ interface SeriesRepository {
     suspend fun getUserSeriesRate(sessionId:String): List<GetUserRatedSeriesUseCase.RatedSeries>
     suspend fun addSeriesToHistory(seriesId: Int)
     suspend fun getAllSeriesInHistory(): List<Series>
-    suspend fun getUserSeriesRate(sessionId:String): List<GetUserRatedSeriesUseCase.RatedSeries>
 }
