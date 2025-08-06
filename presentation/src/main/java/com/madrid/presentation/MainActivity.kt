@@ -26,7 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity(){
+class MainActivity : ComponentActivity() {
     val mainViewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,10 +45,11 @@ class MainActivity : ComponentActivity(){
             }
         }
 
-        val uploadWorkRequest = PeriodicWorkRequestBuilder<MovieCacheCleanupWorker>(24, TimeUnit.HOURS).build()
+        val uploadWorkRequest =
+            PeriodicWorkRequestBuilder<MovieCacheCleanupWorker>(24, TimeUnit.HOURS).build()
 
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            uniqueWorkName = "clearHome",
+            "clearHome",
             ExistingPeriodicWorkPolicy.KEEP,
             uploadWorkRequest,
         )

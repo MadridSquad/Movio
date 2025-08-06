@@ -96,7 +96,8 @@ fun ShareOptionItem(
         MovioText(
             text = label,
             color = Theme.color.surfaces.onSurface,
-            textStyle = Theme.textStyle.label.smallRegular12
+            textStyle = Theme.textStyle.label.smallRegular12,
+            modifier = Modifier.padding(top = 8.dp)
         )
     }
 }
