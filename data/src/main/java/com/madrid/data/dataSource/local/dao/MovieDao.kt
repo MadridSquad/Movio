@@ -27,6 +27,9 @@ interface MovieDao {
     @Delete
     suspend fun deleteMovie(movie: MovieTable)
 
+    @Query("DELETE FROM SECTIONS_MOVIES")
+    suspend fun clearHomeMoviesCache()
+
     @Update
     suspend fun updateMovie(movie: MovieTable)
 
