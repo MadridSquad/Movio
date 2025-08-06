@@ -17,33 +17,7 @@ import com.madrid.presentation.viewModel.shared.MediaUiState
 
 @Composable
 fun LibraryScreen() {
-    LibraryScreenContent(
-        watchList = listOf(
-            WatchListItemUiState(watchListTitle = "first"),
-            WatchListItemUiState(watchListTitle = "first"),
-            WatchListItemUiState(watchListTitle = "first"),
-            WatchListItemUiState(watchListTitle = "first"),
-            WatchListItemUiState(watchListTitle = "first"),
-            WatchListItemUiState(watchListTitle = "first"),
-        ),
-        favoriteList = listOf(
-            MediaUiState(title = "title", rating = "5.5", imageUrl = "https://upload.wikimedia.org/wikipedia/en/c/c4/65_film_teaser_poster.jpg"),
-            MediaUiState(title = "title", rating = "5.5", imageUrl = "https://upload.wikimedia.org/wikipedia/en/c/c4/65_film_teaser_poster.jpg"),
-            MediaUiState(title = "title", rating = "5.5", imageUrl = "https://upload.wikimedia.org/wikipedia/en/c/c4/65_film_teaser_poster.jpg"),
-            MediaUiState(title = "title", rating = "5.5", imageUrl = "https://upload.wikimedia.org/wikipedia/en/c/c4/65_film_teaser_poster.jpg"),
-            MediaUiState(title = "title", rating = "5.5", imageUrl = "https://upload.wikimedia.org/wikipedia/en/c/c4/65_film_teaser_poster.jpg"),
-            MediaUiState(title = "title", rating = "5.5", imageUrl = "https://upload.wikimedia.org/wikipedia/en/c/c4/65_film_teaser_poster.jpg")
-        ),
-        historyList = listOf(
-            MediaUiState(title = "title", rating = "5.5", imageUrl = "https://upload.wikimedia.org/wikipedia/en/c/c4/65_film_teaser_poster.jpg"),
-            MediaUiState(title = "title", rating = "5.5", imageUrl = "https://upload.wikimedia.org/wikipedia/en/c/c4/65_film_teaser_poster.jpg"),
-            MediaUiState(title = "title", rating = "5.5", imageUrl = "https://upload.wikimedia.org/wikipedia/en/c/c4/65_film_teaser_poster.jpg"),
-            MediaUiState(title = "title", rating = "5.5", imageUrl = "https://upload.wikimedia.org/wikipedia/en/c/c4/65_film_teaser_poster.jpg"),
-            MediaUiState(title = "title", rating = "5.5", imageUrl = "https://upload.wikimedia.org/wikipedia/en/c/c4/65_film_teaser_poster.jpg"),
-            MediaUiState(title = "title", rating = "5.5", imageUrl = "https://upload.wikimedia.org/wikipedia/en/c/c4/65_film_teaser_poster.jpg")
-        )
-    )
-
+    LibraryScreenContent()
 }
 
 @Composable
