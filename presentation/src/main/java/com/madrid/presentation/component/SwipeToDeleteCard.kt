@@ -28,9 +28,11 @@ import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.MovioIcon
+import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioHorizontalCard
@@ -78,7 +80,8 @@ fun SwipeToDeleteCard(
                 painter = painterResource(R.drawable.icon_delete),
                 contentDescription = stringResource(R.string.delete),
                 tint = Theme.color.brand.onPrimary,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier
+                    .size(20.dp)
                     .clickable {
                         onDelete()
                     }
@@ -131,5 +134,21 @@ fun SwipeToDeleteCard(
                 }
             )
         }
+    }
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun SwipeToDeleteCardPreview() {
+    MovioTheme {
+        SwipeToDeleteCard(
+            title = "Spider-Man: No Way Home",
+            movieRate = "8.9",
+            movieCategory = "Action",
+            movieImageUrl = "https://via.placeholder.com/150",
+            onDelete = {  },
+            onClick = {  }
+        )
     }
 }
