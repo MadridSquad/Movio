@@ -16,6 +16,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        resourceConfigurations.plus(listOf("en","ar"))
     }
 
     buildTypes {
@@ -87,4 +88,7 @@ dependencies {
 
     implementation(libs.androidx.hilt.work)
     ksp(libs.androidx.hilt.compiler)
+
+    implementation (libs.androidx.core.splashscreen)
+
 }

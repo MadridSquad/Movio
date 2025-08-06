@@ -123,5 +123,5 @@
     <string name="star_icon">ايقونه النجمه</string>
     <string name="background_image_of_squares">خلفيه الصوره بشكل مربعات</string>
     <string name="watch_list_icon">ايقونه مشاهده القائمه</string>
-
+    <string name="confirm">تأكيد</string>
 </resources>

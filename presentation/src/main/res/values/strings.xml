@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="english" translatable="false">English</string>
+    <string name="arabic" translatable="false">Arabic</string>
     <string name="similar_movies">Similar Movies</string>
     <string name="internet_is_not_available">Internet is not available</string>
     <string name="no_results_found">No results found</string>
@@ -17,9 +19,9 @@
     <string name="episodes_count">Episodes %1$d</string>
     <string name="episode_number">Episode %1$d</string>
     <string name="episode_duration">%1$d m</string>
-
     <string name="season_count">%1$d Seasons</string>
     <string name="library_screen">Library Screen</string>
+    <string name="my_ratings">My Ratings</string>
     <string name="theme">Theme</string>
     <string name="language">Language</string>
     <string name="app_version">App Version</string>
@@ -28,7 +30,6 @@
     <string name="access_your_watch_history_favorites_and_watchlist_all_in_one_place">Access your watch history, favorites, and watchlist  all in one place.</string>
     <string name="dark">Dark</string>
     <string name="light">Light</string>
-
     <string name="video_library_video_number">Video</string>
     <string name="current_episode">Episode %1$s</string>
     <string name="moive_image">movie image</string>
@@ -107,8 +108,6 @@
     <string name="Home">Home</string>
     <string name="Library">Library</string>
     <string name="More">More</string>
-    <string name="my_ratings">My Ratings</string>
-
     <string name="start_now">Start now</string>
     <string name="open">Open </string>
     <string name="movio">Movio</string>
@@ -126,4 +125,5 @@
     <string name="star_icon">star icon</string>
     <string name="background_image_of_squares">background image of squares</string>
     <string name="watch_list_icon">watch list icon</string>
+    <string name="confirm">Confirm</string>
 </resources>
