@@ -110,4 +110,14 @@
     <string name="movio">موفيو</string>
     <string name="and_let_the_noise_fade_away">و دع الضوضاء تتلاشى</string>
     <string name="onboarding_sub_description">اسحب، اختر، انطلق… وكن أنت نجم الساحة.</string>
+    <string name="watchlist">قائمه المشاهدات</string>
+    <string name="view_all">مشاهده الكل</string>
+    <string name="favorites">المفضله</string>
+    <string name="history">السجل</string>
+    <string name="add_icon">ايقونه الاضافه</string>
+    <string name="movio_icon">ايقونه موفيو</string>
+    <string name="star_icon">ايقونه النجمه</string>
+    <string name="background_image_of_squares">خلفيه الصوره بشكل مربعات</string>
+    <string name="watch_list_icon">ايقونه مشاهده القائمه</string>
+
 </resources>
