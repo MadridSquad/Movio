@@ -37,7 +37,7 @@ interface MovieDao {
     @Update
     suspend fun updateMovie(movie: MovieTable)
 
-    @Query("SELECT * FROM MEDIA_HISTORY_TABLE WHERE mediaType = 'Movie'")
+    @Query("SELECT * FROM MEDIA_HISTORY_TABLE WHERE mediaType = 'Movie' ORDER BY addedAt DESC")
     suspend fun getALLMoviesInHistory(): List<MediaHistoryTable>
 
     @Query("SELECT * FROM MOVIE_TABLE WHERE movieId = :id")

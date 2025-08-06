@@ -152,7 +152,8 @@ class LocalDataSourceImpl @Inject constructor(
         movieDao.insertHistoryMovie(
             MediaHistoryTable(
                 mediaId = movieId,
-                mediaType = "Movie"
+                mediaType = "Movie",
+                addedAt = System.currentTimeMillis()
             )
         )
     }
@@ -161,7 +162,8 @@ class LocalDataSourceImpl @Inject constructor(
         seriesDao.insertHistorySeries(
             MediaHistoryTable(
                 mediaId = seriesId,
-                mediaType = "Series"
+                mediaType = "Series",
+                addedAt = System.currentTimeMillis()
             )
         )
     }
