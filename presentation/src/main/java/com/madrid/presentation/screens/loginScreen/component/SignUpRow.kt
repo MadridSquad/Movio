@@ -18,9 +18,10 @@ import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 
 @Composable
- fun SignUpRow(onSignUpClick: () -> Unit,
-                      navController: NavController? = null,
-                      onNavigateToLogin:() -> Unit = {},
+fun SignUpRow(
+    onSignUpClick: () -> Unit,
+    navController: NavController? = null,
+    onNavigateToLogin: () -> Unit = {},
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
