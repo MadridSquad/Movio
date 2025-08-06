@@ -1,13 +1,11 @@
 package com.madrid.presentation.component
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
-import androidx.annotation.RequiresPermission
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
@@ -94,7 +92,7 @@ fun OnBoardingPager(modifier: Modifier = Modifier) {
     )
 
     val textColor by animateColorAsState(
-        if(swipeProgress >= 0.5 ) Theme.color.brand.onPrimary else Theme.color.surfaces.onSurface
+        if (swipeProgress >= 0.5) Theme.color.brand.onPrimary else Theme.color.surfaces.onSurface
     )
 
 
