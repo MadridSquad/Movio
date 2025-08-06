@@ -18,4 +18,9 @@
     <string name="create_list_button">Create</string>
     <string name="create_new_list">Create a new list</string>
     <string name="create_list_hint">List name</string>
+    <string name="this_list_has_empty">This list has empty</string>
+    <string name="share_via">Share via</string>
+    <string name="copy_link">Copy link</string>
+    <string name="facebook">Facebook</string>
+    <string name="x">X</string>
 </resources>

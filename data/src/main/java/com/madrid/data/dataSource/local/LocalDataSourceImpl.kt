@@ -143,4 +143,8 @@ class LocalDataSourceImpl @Inject constructor(
         return movieDao.getMoviesBySection(MovieSection.UPCOMING.value)
     }
 
+    override suspend fun clearHomeMoviesCache() {
+        movieDao.clearHomeMoviesCache()
+    }
+
 }

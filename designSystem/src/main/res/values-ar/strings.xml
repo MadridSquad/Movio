@@ -17,4 +17,9 @@
     <string name="create_list_button">انشاء</string>
     <string name="create_new_list">انشاء قائمة جديدة</string>
     <string name="create_list_hint"> اسم القائمة </string>
+    <string name="this_list_has_empty">هذه القائمه فارغه</string>
+    <string name="share_via">مشاركة عبر</string>
+    <string name="copy_link">انسخ الرابط</string>
+    <string name="facebook">فيسبوك</string>
+    <string name="x">اكس</string>
 </resources>

@@ -119,4 +119,14 @@
     <string name="create_new_list">إنشاء قائمة جديدة</string>
     <string name="log_out">ستفقد الوصول إلى مكتبتك، المفضلات، وسجل المشاهدة حتى تقوم بتسجيل الدخول مرة أخرى.</string>
 
+    <string name="watchlist">قائمه المشاهدات</string>
+    <string name="view_all">مشاهده الكل</string>
+    <string name="favorites">المفضلة</string>
+    <string name="history">السجل</string>
+    <string name="add_icon">ايقونه الاضافه</string>
+    <string name="movio_icon">ايقونه موفيو</string>
+    <string name="star_icon">ايقونه النجمه</string>
+    <string name="background_image_of_squares">خلفيه الصوره بشكل مربعات</string>
+    <string name="watch_list_icon">ايقونه مشاهده القائمه</string>
+
 </resources>

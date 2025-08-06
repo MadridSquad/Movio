@@ -12,15 +12,20 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.navigation.MovioNavGraph
 import com.madrid.presentation.viewModel.authentication.MainViewModel
+import com.madrid.presentation.workManager.MovieCacheCleanupWorker
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.TimeUnit
 
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(){
     val mainViewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +39,16 @@ class MainActivity : ComponentActivity() {
                 MainScreen(mainViewModel)
             }
         }
+
+        val uploadWorkRequest = PeriodicWorkRequestBuilder<MovieCacheCleanupWorker>(24, TimeUnit.HOURS).build()
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            uniqueWorkName = "clearHome",
+            ExistingPeriodicWorkPolicy.KEEP,
+            uploadWorkRequest,
+        )
     }
+
 }
 @Composable
 fun MainScreen(
