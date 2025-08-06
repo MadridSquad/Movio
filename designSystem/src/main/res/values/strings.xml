@@ -13,4 +13,8 @@
     <string name="log_out">You\'ll lose access to your library, favorites, and history until you sign back in.</string>
     <string name="logout">logout</string>
     <string name="conform_log_out">Confirm Logout</string>
+    <string name="share_via">Share via</string>
+    <string name="copy_link">Copy link</string>
+    <string name="facebook">Facebook</string>
+    <string name="x">X</string>
 </resources>
