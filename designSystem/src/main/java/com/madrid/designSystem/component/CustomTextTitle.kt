@@ -1,6 +1,8 @@
 package com.madrid.designSystem.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,22 +21,43 @@ import com.madrid.designSystem.theme.Theme
 fun CustomTextTitle(
     primaryText: String,
     modifier: Modifier = Modifier,
+    startIcon: Painter? = null,
     secondaryText: String? = null,
     endIcon: Painter? = null,
     onSeeAllClick: (() -> Unit)? = null,
+    isListEmpty : Boolean = false
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth(),
-//            .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        MovioText(
-            text = primaryText,
-            color = Theme.color.surfaces.onSurface,
-            textStyle = Theme.textStyle.title.mediumMedium16,
-            modifier = Modifier.weight(1f)
-        )
+        if (startIcon != null ){
+            MovioIcon(
+                painter = startIcon,
+                contentDescription = "Primary Text Icon",
+                tint =Theme.color.surfaces.onSurface,
+                modifier = Modifier.padding(end = 8.dp).size(24.dp)
+            )
+        }
+        Column (
+        ){
+            MovioText(
+                text = primaryText,
+                color = Theme.color.surfaces.onSurface,
+                textStyle = Theme.textStyle.title.mediumMedium16,
+                modifier = Modifier
+            )
+            AnimatedVisibility (isListEmpty){
+                MovioText(
+                    text = "This list has empty",
+                    color = Theme.color.surfaces.onSurfaceVariant,
+                    textStyle = Theme.textStyle.label.smallRegular12,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            }
+        }
+
         Spacer(Modifier.weight(1f))
         if (secondaryText != null || endIcon != null) {
             Row(
