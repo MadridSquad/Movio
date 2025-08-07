@@ -20,10 +20,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.madrid.designSystem.component.FilterBar
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.component.MovioVerticalGrid
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesViewModel
+import com.madrid.presentation.viewModel.shared.MediaUiState
 
 @Composable
 fun SeeAllMoviesScreen(
@@ -47,7 +49,7 @@ fun SeeAllMoviesScreen(
     }
 
     LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
+        columns = GridCells.Adaptive(minSize = 102.dp),
         modifier = Modifier
             .fillMaxSize()
             .background(Theme.color.surfaces.surface)
@@ -85,8 +87,7 @@ fun SeeAllMoviesScreen(
                 description = movie.name,
                 movieImage = movie.imageUrl,
                 rate = movie.rate.take(3),
-                width = 130.dp,
-                height = 200.dp,
+                height = 180.dp,
                 onClick = {
                     navController.navigate(
                         Destinations.MovieDetailsScreen(
