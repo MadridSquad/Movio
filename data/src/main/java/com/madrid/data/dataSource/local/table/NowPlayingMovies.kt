@@ -16,6 +16,7 @@ data class SectionsMovieTable(
 )
 
 enum class MovieSection(val value: String){
+    TRENDING("trending"),
     NOW_PLAYING("now playing"),
     TOP_RATED("top rated"),
     UPCOMING("upcoming"),

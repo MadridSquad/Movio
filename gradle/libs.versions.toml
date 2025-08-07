@@ -29,6 +29,7 @@ hilt-navigation ="1.2.0"
 hiltAndroidCompiler = "2.51.1"
 dagger = "2.57"
 workRuntimeKtx = "2.10.3"
+hiltWork = "1.2.0"
 
 
 [libraries]
@@ -94,6 +95,9 @@ hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", v
 hilt-android-compiler-v2511 = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntimeKtx" }
+androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "hiltWork" }
+androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltWork" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }

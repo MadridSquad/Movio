@@ -3,10 +3,10 @@ package com.madrid.presentation.viewModel.moreViewModel
 interface MoreInteractionListener {
     fun onLoginBtnClick()
     fun onMyRatingsBtnClick()
-    fun onThemeClick()
-    fun setDarkMode(isEnabled: Boolean)
-    fun onLanguageBtnClick()
-    fun setLanguage(language: String)
+    fun onClickTheme()
+    fun onSelectTheme(themeType: ThemeType)
+    fun onConfirmTheme()
+    fun onClickLanguage()
+    fun onDismissBottomSheet()
     fun onLogoutBtnClick()
-    fun logout()
 }

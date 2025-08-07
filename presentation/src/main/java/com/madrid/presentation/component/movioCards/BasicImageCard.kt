@@ -19,6 +19,7 @@ import com.madrid.presentation.R.string
 fun BasicImageCard(
     imageUrl: String,
     radius: Dp,
+    contentScale: ContentScale = ContentScale.Crop,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -30,7 +31,7 @@ fun BasicImageCard(
             modifier = Modifier
                 .fillMaxSize()
                 .clip(RoundedCornerShape(radius)),
-            contentScale = ContentScale.Crop
+            contentScale = contentScale
         )
     }
 }

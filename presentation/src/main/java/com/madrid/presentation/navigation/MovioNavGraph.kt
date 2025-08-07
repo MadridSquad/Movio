@@ -26,7 +26,7 @@ val LocalNavController = compositionLocalOf<NavHostController> { error("No Nav C
 @Composable
 fun MovioNavGraph(
     navController: NavHostController,
-    isLoggedIn : Boolean,
+    isLoggedIn: Boolean,
     isFirstLaunch: Boolean,
     setOnBoardingComplete: (Boolean) -> Unit = {}
 ) {
@@ -42,6 +42,7 @@ fun MovioNavGraph(
     Column(
         Modifier
             .fillMaxSize()
+            .navigationBarsPadding()
             .background(
                 color = Theme.color.surfaces.surface
             )
@@ -53,7 +54,12 @@ fun MovioNavGraph(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            MovioNavHost(navController = navController, isLoggedIn = isLoggedIn, isFirstLaunch = isFirstLaunch, setOnBoardingComplete = setOnBoardingComplete)
+            MovioNavHost(
+                navController = navController,
+                isLoggedIn = isLoggedIn,
+                isFirstLaunch = isFirstLaunch,
+                setOnBoardingComplete = setOnBoardingComplete
+            )
         }
 
         AnimatedVisibility(

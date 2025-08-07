@@ -1,5 +1,6 @@
 package com.madrid.presentation.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -28,6 +29,7 @@ fun CustomHorizontalCard(
     listOfMedia: List<MediaUiState>,
     modifier: Modifier = Modifier,
     headerModifier: Modifier = Modifier,
+    startIconForPrimaryTextTitle: Painter? = null,
     secondaryTextForCustomTextTitle: String? = null,
     endIconForCustomTextTitle: Painter? = null,
     onSeeAllClick: (() -> Unit)? = null,
@@ -37,24 +39,28 @@ fun CustomHorizontalCard(
         CustomTextTitle(
             modifier = headerModifier.padding(bottom = 12.dp),
             primaryText = primaryTextForCustomTextTitle,
+            startIcon = startIconForPrimaryTextTitle,
             secondaryText = secondaryTextForCustomTextTitle,
             endIcon = endIconForCustomTextTitle,
             onSeeAllClick = onSeeAllClick,
+            isListEmpty = listOfMedia.isEmpty()
         )
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = Modifier.height(200.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp)
-        ) {
-            items(listOfMedia) { media ->
-                MovioVerticalCard(
-                    description = media.title,
-                    movieImage = media.imageUrl,
-                    rate = media.rating.take(3),
-                    width = 124.dp,
-                    height = 160.dp,
-                    onClick = { onMediaClick(media) }
-                )
+        AnimatedVisibility(listOfMedia.isNotEmpty()) {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.height(200.dp),
+                contentPadding = PaddingValues(horizontal = 16.dp)
+            ) {
+                items(listOfMedia) { media ->
+                    MovioVerticalCard(
+                        description = media.title,
+                        movieImage = media.imageUrl,
+                        rate = media.rating.take(3),
+                        width = 124.dp,
+                        height = 160.dp,
+                        onClick = { onMediaClick(media) }
+                    )
+                }
             }
         }
     }

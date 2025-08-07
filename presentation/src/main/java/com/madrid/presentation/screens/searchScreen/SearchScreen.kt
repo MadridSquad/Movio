@@ -218,8 +218,8 @@ fun ContentSearchScreen(
         ) {
             BasicTextInputField(
                 value = searchQuery,
-                onValueChange = {
-                    onSearchQueryChange(it)
+                onValueChange = { newQuery ->
+                    onSearchQueryChange(newQuery)
                     showRecentSearch = 1
                 },
                 hintText = stringResource(com.madrid.presentation.R.string.searchdot),

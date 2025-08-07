@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.madrid.domain.usecase.movie.AddMovieToHistoryUseCase
 import com.madrid.domain.usecase.movie.GetMovieDetailsUseCase
 import com.madrid.domain.usecase.movie.GetMovieReviewsUseCase
 import com.madrid.domain.usecase.movie.GetMovieTopCastUseCase
+import com.madrid.domain.usecase.movie.GetMovieTrailersUseCase
 import com.madrid.domain.usecase.movie.GetSimilarMoviesUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
@@ -25,17 +27,28 @@ class DetailsMovieViewModel @Inject constructor(
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val getMovieTopCastUseCase: GetMovieTopCastUseCase,
     private val getSimilarMoviesUseCase: GetSimilarMoviesUseCase,
-    private val getMovieReviewsUseCase: GetMovieReviewsUseCase
+    private val getMovieReviewsUseCase: GetMovieReviewsUseCase,
+    private val addMovieToHistoryUseCase: AddMovieToHistoryUseCase,
+    private val getMovieTrailersUseCase: GetMovieTrailersUseCase,
 ) : BaseViewModel<DetailsMovieUiState, Nothing>(
     DetailsMovieUiState()
 ) {
     val args = saveStateHandle.toRoute<Destinations.MovieDetailsScreen>()
 
     init {
+        saveMovieToHistory()
         loadData()
     }
 
-     private fun loadData() {
+    private fun saveMovieToHistory() {
+        tryToExecute(
+            function = { addMovieToHistoryUseCase(args.movieId) },
+            onSuccess = {},
+            onError = {}
+        )
+    }
+
+    private fun loadData() {
         Log.d("TAG lol", "=== LOADING MOVIE DETAILS ===")
         tryToExecute(
             function = {
@@ -61,8 +74,9 @@ class DetailsMovieViewModel @Inject constructor(
                 loadCast()
                 loadSimilarMovies()
                 loadReviews()
+                loadTrailer()
             },
-            onError = { error -> updateState { it.copy(isLoading = true) }},
+            onError = { error -> updateState { it.copy(isLoading = true) } },
             scope = viewModelScope,
             dispatcher = Dispatchers.IO
         )
@@ -149,11 +163,29 @@ class DetailsMovieViewModel @Inject constructor(
 
     fun onClickLoveIcon(
 
-    ){
+    ) {
         updateState {
             it.copy(
                 isLoved = !it.isLoved
             )
         }
     }
+    private fun loadTrailer() {
+        tryToExecute(
+            function = { getMovieTrailersUseCase(args.movieId) },
+            onSuccess = { trailers ->
+                val trailerKey = trailers.firstOrNull()?.key
+                if (trailerKey != null) {
+                    updateState { it.copy(trailerKey = trailerKey) }
+                }
+            },
+            onError = {
+                // Log or handle error if needed
+            },
+            scope = viewModelScope,
+            dispatcher = Dispatchers.IO
+        )
+    }
+
+
 }

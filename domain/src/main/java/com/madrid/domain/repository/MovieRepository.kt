@@ -6,6 +6,7 @@ import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.SortType
 import com.madrid.domain.entity.Trailer
+import com.madrid.domain.usecase.movie.GetUserRatedMovieUseCase
 
 interface MovieRepository {
     suspend fun getMovieDetailsById(movieId: Int): Movie
@@ -25,4 +26,8 @@ interface MovieRepository {
     suspend fun getNowPlayingMovie(page: Int): List<Movie>
     suspend fun getUpcomingMovie(page: Int): List<Movie>
     suspend fun getMovieGenres(): List<Genre>
+    suspend fun getUserMovieRate(sessionId :String):List<GetUserRatedMovieUseCase.RatedMovie>
+    suspend fun clearHomeMoviesCache()
+    suspend fun addMovieToHistory(movieId: Int)
+    suspend fun getAllMoviesInHistory(): List<Movie>
 }

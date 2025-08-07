@@ -48,7 +48,7 @@ fun TrendingMovieCard(
                 .width(76.dp),
             contentDescription = "Movie Poster",
             contentScale = ContentScale.Crop,
-            placeholder = painterResource(R.drawable.bold_heart),
+            placeholder = painterResource(com.madrid.detectimagecontent.R.drawable.place_holder),
         )
 
         Box(

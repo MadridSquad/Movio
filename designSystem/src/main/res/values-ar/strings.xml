@@ -13,4 +13,15 @@
     <string name="log_out">ستفقد الوصول إلى مكتبتك والمفضلة وسجل المشاهدة حتى تسجل الدخول مرة أخرى.</string>
     <string name="logout">تسجيل خروج</string>
     <string name="conform_log_out">تاكيد تسجيل الخروج</string>
+    <string name="this_list_has_empty">هذه القائمه فارغه</string>
+    <string name="share_via">مشاركة عبر</string>
+    <string name="copy_link">انسخ الرابط</string>
+    <string name="facebook">فيسبوك</string>
+    <string name="x">اكس</string>
+    <string name="light_mode">مظهر فاتح</string>
+    <string name="dark_mode">مظهر داكن</string>
+    <string name="arabic">العربية</string>
+    <string name="english">الإنجليزية</string>
+    <string name="choose_theme">اختر المظهر</string>
+    <string name="choose_language">اختر اللغة</string>
 </resources>
