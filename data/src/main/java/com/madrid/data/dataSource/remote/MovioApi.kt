@@ -29,6 +29,8 @@ import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
+import com.madrid.data.dataSource.remote.dto.list.ListsDetailsResponse
+import com.madrid.data.dataSource.remote.dto.list.ListsResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -226,6 +228,17 @@ interface MovioApi {
         @Query("page") page: Int
     ): UpcomingMoviesResponse
 
+    // region List
+
+    @GET("account/account_id/lists")
+    suspend fun getCustomLists(
+        @Query("session_id") sessionId: String,
+    ): ListsResponse
+
+    @GET("list/{list_id}")
+    suspend fun getCustomListDetails(
+        @Path("list_id") listId: Int,
+    ): ListsDetailsResponse
     // region EpisodeRating
 
     @GET("account/{account_id}/rated/movies")
