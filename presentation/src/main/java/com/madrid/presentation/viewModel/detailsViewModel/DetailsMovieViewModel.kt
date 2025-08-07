@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.madrid.domain.usecase.authentication.LoginUseCase
 import com.madrid.domain.usecase.movie.AddRatingMoviesUseCase
 import com.madrid.domain.usecase.movie.AddMovieToHistoryUseCase
 import com.madrid.domain.usecase.movie.GetMovieDetailsUseCase
@@ -19,6 +20,8 @@ import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
 import com.madrid.presentation.viewModel.shared.parser.formatDateOfBirth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,13 +32,15 @@ class DetailsMovieViewModel @Inject constructor(
     private val getSimilarMoviesUseCase: GetSimilarMoviesUseCase,
     private val getMovieReviewsUseCase: GetMovieReviewsUseCase,
     private val addMovieToHistoryUseCase: AddMovieToHistoryUseCase,
-    private val getAddRatingMoviesUseCase: AddRatingMoviesUseCase
-) : BaseViewModel<DetailsMovieUiState, Nothing>(
+    private val getAddRatingMoviesUseCase: AddRatingMoviesUseCase,
+    private val isGuestUseCase: LoginUseCase,
+    ) : BaseViewModel<DetailsMovieUiState, Nothing>(
     DetailsMovieUiState()
 ) {
     val args = saveStateHandle.toRoute<Destinations.MovieDetailsScreen>()
 
     init {
+        fetchIsGuest()
         saveMovieToHistory()
         loadData()
     }
@@ -159,6 +164,18 @@ class DetailsMovieViewModel @Inject constructor(
         )
     }
 
+    private fun fetchIsGuest() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                isGuestUseCase.isGuest().collectLatest { result ->
+                    updateState { it.copy(isGuest = result) }
+                }
+            } catch (e: Exception) {
+                updateState { it.copy(isGuest = true) }
+            }
+        }
+    }
+
     fun onClickLoveIcon(
 
     ) {
@@ -182,7 +199,7 @@ class DetailsMovieViewModel @Inject constructor(
             function = {
                 getAddRatingMoviesUseCase(
                     state.value.movieId,
-                    state.value.userRating.toDouble()
+                    state.value.userRating.toDouble()*2
                 )
             },
             onSuccess = {},

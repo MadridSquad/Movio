@@ -126,6 +126,8 @@
     <string name="movio_icon">Movio icon</string>
     <string name="star_icon">star icon</string>
     <string name="background_image_of_squares">background image of squares</string>
+    <string name="you_dont_have_an_account">You dont have an account</string>
+    <string name="this_rating_is_only_available_to_registered_users_Login_to_share_your_rating">This rating is only available to registered users, Log in to share your rating</string>
     <string name="watch_list_icon">watch list icon</string>
     <string name="confirm">Confirm</string>
 </resources>

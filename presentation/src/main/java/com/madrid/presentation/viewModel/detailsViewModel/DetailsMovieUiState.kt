@@ -16,6 +16,7 @@ data class DetailsMovieUiState(
     val isRated: Boolean = false,
     val isAddedToList: Boolean = false,
     val userRating: Int = 0,
+    val isGuest: Boolean = true,
     val description: String = "",
     val casts: List<Artist> = emptyList(),
     val reviews: List<ReviewUiState> = emptyList(),
