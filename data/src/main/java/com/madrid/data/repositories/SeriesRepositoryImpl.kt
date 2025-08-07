@@ -124,4 +124,8 @@ class SeriesRepositoryImpl @Inject constructor(
         val seriesIds = localDataSource.getAllSeriesInHistory().map { it.mediaId }
         return seriesIds.map { getSeriesDetailsById(it) }
     }
+
+    override suspend fun getFavoriteSeries(sessionId: String): List<Series> {
+        return remoteDataSource.getFavoriteSeries(sessionId).map { it.toSeries() }
+    }
 }
