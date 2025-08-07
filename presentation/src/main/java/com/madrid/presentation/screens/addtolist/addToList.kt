@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -18,11 +19,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.MovioBottomSheet
 import com.madrid.domain.entity.UserList
+import com.madrid.presentation.viewModel.addtolist.MovieListEvent
+import com.madrid.presentation.viewModel.addtolist.MovieListViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-
 
 enum class ListBottomSheetMode {
     LIST_SELECTION,
@@ -33,41 +35,61 @@ enum class ListBottomSheetMode {
 fun ListManagementBottomSheet(
     isVisible: Boolean,
     onDismiss: () -> Unit,
-    initialUserLists: List<UserList>,
-    onListCreated: (String) -> Unit,
-    onSelectionChanged: ((UserList, Boolean) -> Unit)? = null,
+    movieId: Int,
+    sessionId: String,
+    initialUserLists: List<UserList> = emptyList(),
+    viewModel: MovieListViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
+    val uiState by viewModel.state.collectAsState()
+
     var currentMode by remember { mutableStateOf(ListBottomSheetMode.LIST_SELECTION) }
     var showSuccessNotification by remember { mutableStateOf(false) }
-    var successMessage by remember { mutableStateOf("") }
+    var successMessage: String? by remember { mutableStateOf("") }
     var bottomSheetVisible by remember(isVisible) { mutableStateOf(isVisible) }
+
+    // Handle UI state changes from ViewModel
+    LaunchedEffect(uiState.createListSuccess) {
+        if (uiState.createListSuccess && uiState.successMessage != null) {
+            successMessage = uiState.successMessage
+            bottomSheetVisible = false
+            delay(200)
+            showSuccessNotification = true
+            onDismiss()
+            viewModel.clearSuccess()
+        }
+    }
+
+    LaunchedEffect(uiState.addToListSuccess) {
+        if (uiState.addToListSuccess && uiState.successMessage != null) {
+            successMessage = uiState.successMessage
+            bottomSheetVisible = false
+            delay(200)
+            showSuccessNotification = true
+            onDismiss()
+            viewModel.clearSuccess()
+        }
+    }
+
+    // Handle error messages
+    LaunchedEffect(uiState.errorMessage) {
+        if (uiState.errorMessage != null) {
+            // Show error message (you might want to show a toast or error dialog)
+            // For now, we'll just clear it after showing
+            delay(3000)
+            viewModel.clearError()
+        }
+    }
 
     // Reset mode when bottom sheet becomes visible
     LaunchedEffect(isVisible) {
         if (isVisible) {
             currentMode = ListBottomSheetMode.LIST_SELECTION
             bottomSheetVisible = true
+            // Update user lists in ViewModel
+            viewModel.updateUserLists(initialUserLists)
         } else {
             bottomSheetVisible = false
-        }
-    }
-
-    // Handle showing success notification when lists are selected
-    LaunchedEffect(initialUserLists) {
-        val selectedLists = initialUserLists.filter { it.isSelected }
-        if (selectedLists.isNotEmpty() && isVisible) {
-            successMessage = when (selectedLists.size) {
-                1 -> "Successfully added to ${selectedLists.first().name}."
-                else -> "Successfully added to ${selectedLists.size} lists."
-            }
-            // Close bottom sheet first
-            bottomSheetVisible = false
-            // Small delay to ensure bottom sheet closes, then show notification
-            delay(200)
-            showSuccessNotification = true
-            // Close the parent bottom sheet
-            onDismiss()
         }
     }
 
@@ -94,22 +116,17 @@ fun ListManagementBottomSheet(
                 when (mode) {
                     ListBottomSheetMode.LIST_SELECTION -> {
                         ListSelectionContent(
-                            initialUserLists = initialUserLists,
+                            initialUserLists = uiState.userLists,
                             onCreateNewListClick = {
                                 currentMode = ListBottomSheetMode.CREATE_NEW_LIST
                             },
                             onSelectionChanged = { userList, isSelected ->
-                                onSelectionChanged?.invoke(userList, isSelected)
                                 if (isSelected) {
-                                    successMessage = "Successfully added to ${userList.name}."
-                                    // Close bottom sheet immediately
-                                    bottomSheetVisible = false
-                                    // Show notification after a brief delay
-                                    kotlinx.coroutines.MainScope().launch {
-                                        delay(200)
-                                        showSuccessNotification = true
-                                        onDismiss()
-                                    }
+                                    viewModel.addMovieToList(
+                                        sessionId = sessionId,
+                                        listId = userList.id.toInt(),
+                                        movieId = movieId
+                                    )
                                 }
                             }
                         )
@@ -119,16 +136,10 @@ fun ListManagementBottomSheet(
                         CreateListBottomSheet(
                             show = true,
                             onCreateClick = { listName ->
-                                onListCreated(listName)
-                                successMessage = "Successfully created list: $listName"
-                                // Close bottom sheet immediately
-                                bottomSheetVisible = false
-                                // Show notification after a brief delay
-                                kotlinx.coroutines.MainScope().launch {
-                                    delay(200)
-                                    showSuccessNotification = true
-                                    onDismiss()
-                                }
+                                viewModel.createMovieList(
+                                    sessionId = sessionId,
+                                    name = listName
+                                )
                             },
                             onDismiss = {
                                 currentMode = ListBottomSheetMode.LIST_SELECTION
@@ -149,10 +160,16 @@ fun ListManagementBottomSheet(
             ) {
                 SuccessNotificationRow(
                     isVisible = showSuccessNotification,
-                    message = successMessage,
-                    onDismiss = { showSuccessNotification = false }
+                    onDismiss = {
+                        showSuccessNotification = false
+                    }
                 )
             }
+        }
+
+        uiState.errorMessage?.let { errorMessage ->
+            // You can implement error display here
+            // For example, show a toast or error dialog
         }
     }
 }

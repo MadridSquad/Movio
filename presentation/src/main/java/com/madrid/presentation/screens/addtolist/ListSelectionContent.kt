@@ -6,54 +6,37 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.madrid.domain.entity.UserList
-import kotlinx.coroutines.launch
 
 @Composable
 fun ListSelectionContent(
     initialUserLists: List<UserList>,
+    isLoading: Boolean = false,
     onCreateNewListClick: () -> Unit,
     onSelectionChanged: ((UserList, Boolean) -> Unit)? = null
 ) {
-    val userLists = remember { mutableStateListOf(*initialUserLists.toTypedArray()) }
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
     ) {
-        // Use CreateNewListItem instead of CreateListContent
+        // Create New List Item
         CreateNewListItem(
-            onListCreated = onCreateNewListClick
+            onListCreated = onCreateNewListClick,
         )
 
-        if (userLists.isNotEmpty()) {
+        if (initialUserLists.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                items(userLists) { userList ->
+                items(initialUserLists) { userList ->
                     UserListItem(
                         userList = userList,
                         onToggleSelection = { toggledList ->
-                            val index = userLists.indexOf(toggledList)
-                            if (index != -1 && !toggledList.isLoading) {
-                                userLists[index] = toggledList.copy(isLoading = true)
-                                kotlinx.coroutines.GlobalScope.launch {
-                                    kotlinx.coroutines.delay(1500)
-                                    val newSelectionState = !toggledList.isSelected
-                                    userLists[index] = toggledList.copy(
-                                        isSelected = newSelectionState,
-                                        isLoading = false
-                                    )
-
-                                    onSelectionChanged?.invoke(toggledList, newSelectionState)
-
-                                    println("${toggledList.name} is now ${if (newSelectionState) "selected" else "deselected"}")
-                                }
+                            if (!isLoading && !toggledList.isLoading) {
+                                onSelectionChanged?.invoke(toggledList, true)
                             }
                         }
                     )

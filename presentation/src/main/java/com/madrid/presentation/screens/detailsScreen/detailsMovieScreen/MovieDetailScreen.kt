@@ -49,12 +49,14 @@ import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMoviesS
 import com.madrid.presentation.viewModel.addtolist.MovieListViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.DetailsMovieViewModel
 
+
 @Composable
 fun MovieDetailsScreen(
     viewModel: DetailsMovieViewModel = hiltViewModel(),
-    addToListViewModel: MovieListViewModel = viewModel()
+    addToListViewModel: MovieListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsState()
+    val addToListUiState by addToListViewModel.state.collectAsState()
     val navController = LocalNavController.current
     val context = LocalContext.current
     var showShareSheet by remember { mutableStateOf(false) }
@@ -243,6 +245,8 @@ fun MovieDetailsScreen(
         isVisible = showAddToListBottomSheet,
         onDismiss = { showAddToListBottomSheet = false },
         movieId = uiState.movieId,
-        sessionId = sessionId,
+        sessionId = viewModel.sessionId,
+        initialUserLists = addToListUiState.userLists, // Pass user lists from ViewModel
+        viewModel = addToListViewModel
     )
 }

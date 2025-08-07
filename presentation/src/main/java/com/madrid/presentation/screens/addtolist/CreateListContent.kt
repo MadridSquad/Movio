@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioButton
 import com.madrid.designSystem.component.MovioBottomSheet
+import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.textInputField.BasicTextInputField
 import com.madrid.designSystem.theme.Theme
@@ -30,12 +32,13 @@ import com.madrid.designSystem.theme.Theme
 @Composable
 fun CreateListBottomSheet(
     show: Boolean,
+    isLoading: Boolean = false,
     onDismiss: () -> Unit,
     onCreateClick: (String) -> Unit,
 ) {
     MovioBottomSheet(
         show = show,
-        onDismiss = onDismiss,
+        onDismiss = { if (!isLoading) onDismiss() },
         containerColor = Theme.color.surfaces.surface
     ) {
         var listName by remember { mutableStateOf("") }
@@ -53,7 +56,7 @@ fun CreateListBottomSheet(
         ) {
             // Title
             MovioText(
-                text =stringResource(R.string.create_list_title) ,
+                text = stringResource(R.string.create_list_title),
                 textStyle = Theme.textStyle.body.mediumMedium14,
                 color = Theme.color.surfaces.onSurface,
                 textAlign = TextAlign.Center,
@@ -75,7 +78,7 @@ fun CreateListBottomSheet(
 
             BasicTextInputField(
                 value = listName,
-                onValueChange = { listName = it },
+                onValueChange = { if (!isLoading) listName = it },
                 hintText = stringResource(R.string.create_list_hint),
                 startIconPainter = painterResource(id = R.drawable.outline_minimalistic),
                 endIconPainter = null,
@@ -88,20 +91,29 @@ fun CreateListBottomSheet(
 
             MovioButton(
                 onClick = {
-                    if (listName.isNotBlank()) {
+                    if (listName.isNotBlank() && !isLoading) {
                         onCreateClick(listName)
-                        onDismiss()
                     }
                 },
+                enabled = listName.isNotBlank() && !isLoading,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
             ) {
-                MovioText(
-                    text =stringResource(R.string.create_list_button),
-                    color = Color.White,
-                    textStyle = Theme.textStyle.label.mediumMedium16
-                )
+                if (isLoading) {
+                    MovioIcon(
+                        painter = painterResource(id = R.drawable.loading),
+                        contentDescription = "Creating list...",
+                        tint = Color.White,
+                        modifier = Modifier.size(24.dp)
+                    )
+                } else {
+                    MovioText(
+                        text = stringResource(R.string.create_list_button),
+                        color = Color.White,
+                        textStyle = Theme.textStyle.label.mediumMedium16
+                    )
+                }
             }
         }
     }
@@ -112,6 +124,7 @@ fun CreateListBottomSheet(
 fun CreateListBottomSheetPreview() {
     CreateListBottomSheet(
         show = true,
+        isLoading = false,
         onDismiss = {},
         onCreateClick = {}
     )

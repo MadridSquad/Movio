@@ -1,81 +1,173 @@
 package com.madrid.presentation.viewModel.addtolist
 
-import android.util.Log
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.madrid.domain.entity.ListOperationStatus
 import com.madrid.domain.entity.UserList
+import com.madrid.domain.exceptions.MovioException
+import com.madrid.domain.exceptions.NetworkException
 import com.madrid.domain.usecase.movie.AddMovieToListUseCase
 import com.madrid.domain.usecase.movie.CreateMovieListUseCase
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import com.madrid.presentation.viewModel.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-sealed class ListUiState {
-    object Idle : ListUiState()
-    object Loading : ListUiState()
-    data class Success(val message: String) : ListUiState()
-    data class Error(val message: String) : ListUiState()
+data class MovieListUiState(
+    val isLoading: Boolean = false,
+    val errorMessage: String? = null,
+    val successMessage: String? = null,
+    val createListSuccess: Boolean = false,
+    val addToListSuccess: Boolean = false,
+    val userLists: List<UserList> = emptyList()
+)
+
+sealed class MovieListEvent {
+    object ClearMessages : MovieListEvent()
+    object DismissNotification : MovieListEvent()
 }
 
-class MovieListViewModel(
+@HiltViewModel
+class MovieListViewModel @Inject constructor(
     private val createMovieListUseCase: CreateMovieListUseCase,
     private val addMovieToListUseCase: AddMovieToListUseCase,
-) : ViewModel() {
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+) : BaseViewModel<MovieListUiState, MovieListEvent>(MovieListUiState()) {
 
-    private val _uiState = MutableStateFlow<ListUiState>(ListUiState.Idle)
-    val uiState: StateFlow<ListUiState> = _uiState.asStateFlow()
+    fun createMovieList(
+        sessionId: String,
+        name: String,
+        onSuccess: (() -> Unit)? = null
+    ) {
+        viewModelScope.launch(dispatcher) {
+            updateState { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
 
-    private val _userLists = MutableStateFlow<List<UserList>>(emptyList())
-    val userLists: StateFlow<List<UserList>> = _userLists.asStateFlow()
-
-    fun createMovieList(sessionId: String, name: String) {
-        Log.d("MovieListViewModel", "Attempting to create list with sessionId: $sessionId and name: $name")
-        _uiState.value = ListUiState.Loading
-        viewModelScope.launch {
             try {
-                val status: ListOperationStatus = createMovieListUseCase(sessionId, name, "My new list", "en")
+                val status: ListOperationStatus = createMovieListUseCase(
+                    sessionId = sessionId,
+                    name = name,
+                    description = "My new list",
+                    language = "en"
+                )
+
                 if (status.success) {
-                    Log.d("MovieListViewModel", "Successfully created list: ${status.message}")
-                    _uiState.value = ListUiState.Success(status.message)
+                    updateState {
+                        it.copy(
+                            isLoading = false,
+                            createListSuccess = true,
+                            successMessage = status.message
+                        )
+                    }
+                    onSuccess?.invoke()
                 } else {
-                    Log.e("MovieListViewModel", "Failed to create list: ${status.message}")
-                    _uiState.value = ListUiState.Error(status.message)
+                    updateState {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = status.message
+                        )
+                    }
                 }
-            } catch (e: Exception) {
-                Log.e("MovieListViewModel", "Error creating list: ${e.message}", e)
-                _uiState.value = ListUiState.Error(e.message ?: "An unknown error occurred")
+            } catch (ex: MovioException) {
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = getErrorMessage(ex)
+                    )
+                }
             }
         }
     }
 
-    fun addMovieToList(sessionId: String, listId: Int, movieId: Int) {
-        Log.d("MovieListViewModel", "Attempting to add movie to list. sessionId: $sessionId, listId: $listId, movieId: $movieId")
-        _uiState.value = ListUiState.Loading
-        viewModelScope.launch {
+    fun addMovieToList(
+        sessionId: String,
+        listId: Int,
+        movieId: Int,
+        onSuccess: (() -> Unit)? = null
+    ) {
+        viewModelScope.launch(dispatcher) {
+            updateState { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
+
             try {
                 val status: ListOperationStatus = addMovieToListUseCase(
                     listId = listId,
                     sessionId = sessionId,
                     movieId = movieId
                 )
+
                 if (status.success) {
-                    Log.d("MovieListViewModel", "Successfully added movie to list: ${status.message}")
-                    _uiState.value = ListUiState.Success(status.message)
+                    updateState {
+                        it.copy(
+                            isLoading = false,
+                            addToListSuccess = true,
+                            successMessage = status.message
+                        )
+                    }
+                    onSuccess?.invoke()
                 } else {
-                    Log.e("MovieListViewModel", "Failed to add movie to list: ${status.message}")
-                    _uiState.value = ListUiState.Error(status.message)
+                    updateState {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = status.message
+                        )
+                    }
                 }
-            } catch (e: Exception) {
-                Log.e("MovieListViewModel", "Error adding movie to list: ${e.message}", e)
-                _uiState.value = ListUiState.Error(e.message ?: "An unknown error occurred")
+            } catch (ex: MovioException) {
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = getErrorMessage(ex)
+                    )
+                }
             }
         }
     }
 
-    fun onDismissNotification() {
-        Log.d("MovieListViewModel", "Dismissing notification")
-        _uiState.value = ListUiState.Idle
+    fun updateUserLists(lists: List<UserList>) {
+        updateState { it.copy(userLists = lists) }
+    }
+
+     fun handleEvent(event: MovieListEvent) {
+        when (event) {
+            MovieListEvent.ClearMessages -> {
+                updateState {
+                    it.copy(
+                        errorMessage = null,
+                        successMessage = null
+                    )
+                }
+            }
+            MovieListEvent.DismissNotification -> {
+                updateState {
+                    it.copy(
+                        createListSuccess = false,
+                        addToListSuccess = false,
+                        errorMessage = null,
+                        successMessage = null
+                    )
+                }
+            }
+        }
+    }
+
+    fun clearError() {
+        updateState { it.copy(errorMessage = null) }
+    }
+
+    fun clearSuccess() {
+        updateState {
+            it.copy(
+                successMessage = null,
+                createListSuccess = false,
+                addToListSuccess = false
+            )
+        }
+    }
+
+    private fun getErrorMessage(exception: MovioException): String {
+        return when (exception) {
+            is NetworkException -> "Network error. Please try again."
+            else -> exception.message ?: "An unknown error occurred"
+        }
     }
 }

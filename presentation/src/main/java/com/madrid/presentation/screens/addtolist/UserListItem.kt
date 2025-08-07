@@ -25,18 +25,26 @@ import com.madrid.domain.entity.UserList
 @Composable
 fun UserListItem(
     userList: UserList,
+    isGlobalLoading: Boolean = false,
     onToggleSelection: (UserList) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val isItemEnabled = !isGlobalLoading && !userList.isLoading
+    val isItemLoading = isGlobalLoading || userList.isLoading
+
     Row(
         modifier = modifier
             .fillMaxWidth()
             .height(40.dp)
             .clickable(
-                enabled = !userList.isLoading,
+                enabled = isItemEnabled,
                 role = Role.Checkbox,
                 onClickLabel = if (userList.isSelected) "Remove from list" else "Add to list"
-            ) { onToggleSelection(userList) }
+            ) {
+                if (isItemEnabled) {
+                    onToggleSelection(userList)
+                }
+            }
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -44,7 +52,11 @@ fun UserListItem(
         MovioText(
             text = userList.name,
             textStyle = Theme.textStyle.body.mediumMedium14,
-            color = Theme.color.surfaces.onSurface,
+            color = if (isItemEnabled) {
+                Theme.color.surfaces.onSurface
+            } else {
+                Theme.color.surfaces.onSurface.copy(alpha = 0.6f)
+            },
             modifier = Modifier.height(17.dp)
         )
 
@@ -53,10 +65,10 @@ fun UserListItem(
             contentAlignment = Alignment.Center
         ) {
             when {
-                userList.isLoading -> {
+                isItemLoading -> {
                     MovioIcon(
                         painter = painterResource(id = R.drawable.loading),
-                        contentDescription = null,
+                        contentDescription = "Loading",
                         tint = Theme.color.surfaces.onSurfaceContainer,
                         modifier = Modifier.size(24.dp)
                     )
@@ -71,7 +83,7 @@ fun UserListItem(
                     ) {
                         MovioIcon(
                             painter = painterResource(id = R.drawable.bold_check_circle),
-                            contentDescription = "bold check circle",
+                            contentDescription = "Added to list",
                             tint = Theme.color.brand.primary,
                             modifier = Modifier.size(24.dp)
                         )
@@ -84,8 +96,13 @@ fun UserListItem(
                     ) {
                         MovioIcon(
                             painter = painterResource(id = com.madrid.presentation.R.drawable.ic_add_continer),
-                            contentDescription = null,
-                            modifier = Modifier.size(24.dp)
+                            contentDescription = "Add to list",
+                            modifier = Modifier.size(24.dp),
+                            tint = if (isItemEnabled) {
+                                Theme.color.surfaces.onSurface
+                            } else {
+                                Theme.color.surfaces.onSurface.copy(alpha = 0.6f)
+                            }
                         )
                     }
                 }

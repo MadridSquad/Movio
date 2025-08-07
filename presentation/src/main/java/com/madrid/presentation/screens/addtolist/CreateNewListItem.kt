@@ -26,15 +26,21 @@ import com.madrid.designSystem.theme.Theme
 @Composable
 fun CreateNewListItem(
     onListCreated: () -> Unit,
+    isEnabled: Boolean = true,
     modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .clickable(
+                enabled = isEnabled,
                 role = Role.Button,
                 onClickLabel = "Create a new list"
-            ) { onListCreated() }
+            ) {
+                if (isEnabled) {
+                    onListCreated()
+                }
+            }
             .padding(horizontal = 16.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
@@ -55,22 +61,31 @@ fun CreateNewListItem(
                     painter = painterResource(id = R.drawable.add),
                     contentDescription = "Add new list",
                     modifier = Modifier.size(24.dp),
-                    tint = Theme.color.surfaces.onSurface
+                    tint = if (isEnabled) {
+                        Theme.color.surfaces.onSurface
+                    } else {
+                        Theme.color.surfaces.onSurface.copy(alpha = 0.6f)
+                    }
                 )
             }
             MovioText(
                 text = stringResource(R.string.create_new_list),
                 textStyle = Theme.textStyle.label.smallRegular14,
-                color = Theme.color.surfaces.onSurface,
+                color = if (isEnabled) {
+                    Theme.color.surfaces.onSurface
+                } else {
+                    Theme.color.surfaces.onSurface.copy(alpha = 0.6f)
+                },
             )
         }
     }
 }
 
-@Preview(showBackground = true , showSystemUi = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun CreateNewListItemPreview() {
     CreateNewListItem(
-        onListCreated = {}
+        onListCreated = {},
+        isEnabled = true
     )
 }
