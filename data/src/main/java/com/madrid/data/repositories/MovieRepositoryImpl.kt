@@ -236,4 +236,8 @@ class MovieRepositoryImpl @Inject constructor(
         val moviesIds = localDataSource.getAllMoviesInHistory().map { it.mediaId }
         return moviesIds.map { getMovieDetailsById(it) }
     }
+
+    override suspend fun getFavoriteMovies(sessionId: String): List<Movie> {
+        return remoteDataSource.getFavoriteMovies(sessionId).map { it.toMovie() }
+    }
 }
