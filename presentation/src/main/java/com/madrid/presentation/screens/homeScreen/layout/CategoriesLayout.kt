@@ -55,12 +55,12 @@ fun CategoriesLayout(
             },
         )
         LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
+            columns = GridCells.Adaptive(minSize = 102.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .background(Theme.color.surfaces.surface)
                 .statusBarsPadding(),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 24.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
@@ -69,8 +69,7 @@ fun CategoriesLayout(
                     description = mediaItems[index]?.title ?: "",
                     movieImage = mediaItems[index]?.imageUrl ?: "",
                     rate = mediaItems[index]?.rating?.take(3) ?: "",
-                    width = 100.dp,
-                    height = 136.dp,
+                    height = 180.dp,
                     onClick = {
                         onMediaItemClicked(
                             mediaItems[index]?.id?.toIntOrNull() ?: 0,
