@@ -64,13 +64,10 @@ fun LibraryScreen(
 
 @Composable
 private fun LibraryScreenContent(
-    watchList: List<WatchListState> = listOf(),
     onClickWatchListViewAll: () -> Unit = {},
     onClickWatchListItem: (WatchListState) -> Unit = {},
-    favoriteList: List<MediaUiState> = listOf(),
     onClickFavoriteListViewAll: () -> Unit = {},
     onFavoriteItemClick: (MediaUiState) -> Unit = {},
-    historyList: List<MediaUiState> = listOf(),
     onClickHistoryListViewAll: () -> Unit = {},
     onHistoryItemClick: (MediaUiState) -> Unit = {},
     state: LibraryScreenState,
@@ -87,7 +84,7 @@ private fun LibraryScreenContent(
         item {
             CustomHorizontalCardForWatchList(
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.watchlist),
-                listOfWatch = watchList,
+                listOfWatch = state.watchList,
                 modifier = Modifier,
                 headerModifier = Modifier.padding(horizontal = 16.dp),
                 startIconForPrimaryTextTitle = painterResource(R.drawable.outline_minimalistic),
@@ -100,7 +97,7 @@ private fun LibraryScreenContent(
         item {
             CustomHorizontalCard(
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.favorites),
-                listOfMedia = favoriteList,
+                listOfMedia = state.favoriteList,
                 modifier = Modifier,
                 headerModifier = Modifier.padding(horizontal = 16.dp),
                 startIconForPrimaryTextTitle = painterResource(R.drawable.outline_heart),
@@ -113,7 +110,7 @@ private fun LibraryScreenContent(
         item {
             CustomHorizontalCard(
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.history),
-                listOfMedia = historyList,
+                listOfMedia = state.historyList,
                 modifier = Modifier,
                 headerModifier = Modifier.padding(horizontal = 16.dp),
                 startIconForPrimaryTextTitle = painterResource(R.drawable.outline_history),
