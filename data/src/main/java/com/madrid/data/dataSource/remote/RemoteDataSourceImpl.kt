@@ -224,20 +224,42 @@ override suspend fun login(username: String, password: String): String {
 }
 
 
-    override suspend fun getSessionId(username: String, password: String): String{
-        val requestTokenResponse = api.getRequestToken()
-        val requestToken = requestTokenResponse.requestToken
-        val sessionResponse = api.postCreateSession(
-            CreateSessionBody(
-                username = username,
-                password = password,
-                requestToken = requestToken
+    override suspend fun getSessionId(username: String, password: String): String {
+        try {
+            val requestTokenResponse = api.getRequestToken()
+            val requestToken = requestTokenResponse.requestToken
+
+            val sessionResponse = api.postCreateSession(
+                CreateSessionBody(
+                    username = username,
+                    password = password,
+                    requestToken = requestToken
+                )
             )
-        )
-        val sessionId = api.createSession(
-            CreateSessionRawBody(sessionResponse.requestToken)
-        )
-        return sessionId.sessionId
+
+            val sessionId = api.createSession(
+                CreateSessionRawBody(sessionResponse.requestToken)
+            )
+
+            return sessionId.sessionId
+
+        } catch (e: HttpException) {
+            when (e.code()) {
+                401 -> throw InvalidCredentialsException()
+                403 -> throw SessionExpiredException()
+                else -> throw UnknownException("HTTP ${e.code()}: ${e.message()}")
+            }
+
+        } catch (e: IOException) {
+            throw NetworkException("No internet connection  ")
+        } catch (e: Exception) {
+
+            if (e.message?.contains("invalid username or password", true) == true) {
+                throw InvalidCredentialsException()
+            }
+            throw UnknownException("Unexpected error: ${e.message}")
+        }
+
     }
 
     override suspend fun loginAsGuest(): String {

@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -24,8 +25,10 @@ import kotlinx.coroutines.delay
 @Composable
 fun MovioToast(
     message: String,
+
     modifier: Modifier = Modifier,
     duration: ToastDuration = ToastDuration.SHORT,
+    icon: Painter? = painterResource(id = R.drawable.danger),
     onDismiss: () -> Unit
 ) {
     val visible = message.isNotEmpty()
@@ -33,7 +36,7 @@ fun MovioToast(
     val alpha by animateFloatAsState(
         targetValue = if (visible) 1f else 0f,
         animationSpec = tween(durationMillis = 300),
-        label = "Toast Alpha"
+        label = "Toast"
     )
 
     if (alpha > 0f) {
@@ -49,12 +52,13 @@ fun MovioToast(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start
         ) {
-            MovioIcon(
-                painter = painterResource(id = R.drawable.danger),
-                contentDescription = "Error Icon",
-                modifier = Modifier.padding(end = 8.dp)
-            )
-
+            icon?.let {
+                MovioIcon(
+                    painter = it,
+                    contentDescription = "Toast Icon",
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+            }
             MovioText(
                 text = message,
                 textStyle = Theme.textStyle.body.mediumMedium14,
@@ -74,7 +78,7 @@ enum class ToastDuration(val timeMillis: Long) {
     LONG(3500L)
 }
 
-@Preview(showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Preview(showBackground = true)
 @Composable
 private fun MovioToastPreview() {
 

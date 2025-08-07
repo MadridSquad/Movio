@@ -2,16 +2,13 @@ package com.madrid.domain.usecase.authentication
 
 
 
+import com.madrid.domain.exceptions.GuestLoginException
 import com.madrid.domain.exceptions.InvalidCredentialsException
 import com.madrid.domain.exceptions.MovioException
-
 import com.madrid.domain.exceptions.UnknownException
 import com.madrid.domain.exceptions.ValidationException
 import com.madrid.domain.repository.UserRepository
 import kotlinx.coroutines.flow.Flow
-
-import com.madrid.domain.exceptions.GuestLoginException
-
 import javax.inject.Inject
 
 

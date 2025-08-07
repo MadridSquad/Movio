@@ -10,11 +10,16 @@ import androidx.compose.runtime.getValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.MovioToast
 import com.madrid.designSystem.component.ToastDuration
 
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewModelScope
+import com.madrid.designSystem.R
+import com.madrid.designSystem.component.CustomSnackBarHost
+import com.madrid.designSystem.component.showSnackBar
 
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
@@ -71,6 +76,7 @@ fun AuthenticationScreen(
                 message = toastMessage!!,
                 duration = ToastDuration.SHORT,
                 onDismiss = { viewModel.dismissToast() },
+
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 32.dp)
