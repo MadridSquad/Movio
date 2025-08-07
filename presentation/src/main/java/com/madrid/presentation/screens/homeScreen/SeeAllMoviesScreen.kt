@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -28,18 +29,16 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.designSystem.component.FilterBar
 import com.madrid.designSystem.component.LoadingSearchCard
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
-import com.madrid.presentation.component.MovioVerticalGrid
+import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesViewModel
-import com.madrid.presentation.viewModel.shared.MediaUiState
 
 @Composable
 fun SeeAllMoviesScreen(
@@ -62,13 +61,12 @@ fun SeeAllMoviesScreen(
                 viewModel.onGenreSelect(uiState.genre.find { it.name == selectedItem })
         }
     }
-
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 102.dp),
+        columns = GridCells.Adaptive(minSize = 100.dp),
         modifier = Modifier
             .fillMaxSize()
             .background(Theme.color.surfaces.surface)
-            .statusBarsPadding(),
+            .statusBarsPadding().navigationBarsPadding(),
         contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -76,7 +74,7 @@ fun SeeAllMoviesScreen(
         item(
             span = { GridItemSpan(maxLineSpan) }
         ) {
-            TopAppBar(uiState.title, secondIcon = null, thirdIcon = null, onFirstIconClick = { navController.popBackStack()})
+            TopAppBar(uiState.title, secondIcon = null, thirdIcon = null, onFirstIconClick = { navController.popBackStack()}, modifier = Modifier.padding(start = 16.dp))
         }
         item(span = { GridItemSpan(maxLineSpan) }) {
 
@@ -151,7 +149,7 @@ fun SeeAllMoviesScreen(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         MovioText(
-                            text = "No results found",
+                            text = stringResource(R.string.no_results_found),
                             textStyle = Theme.textStyle.title.mediumMedium16,
                             color = Theme.color.surfaces.onSurface,
                             textAlign = TextAlign.Center,
@@ -173,22 +171,16 @@ fun SeeAllMoviesScreen(
             }
 
             listOfItem.itemCount > 0 -> {
-                item(
-                    span = { GridItemSpan(maxLineSpan) }
-                ) {
-                    CustomTextTitle(
-                        primaryText = stringResource(com.madrid.presentation.R.string.explore_more)
-                    )
-                }
                 items(
                     count = listOfItem.itemCount,
                 ) { index ->
                     val movie = listOfItem[index]
                     MovioVerticalCard(
-                        description = movie?.name ?: "no description",
+                        description = movie?.name ?: stringResource(R.string.no_results_found),
                         movieImage = movie?.imageUrl ?: "https://image.tmdb.org/t/p/w500/5xKGk6q5g7mVmg7k7U1RrLSHwz6.jpg",
                         rate = movie?.rate?.take(3) ?: "4.5",
-                        height = 180.dp,
+                        width = 101.dp,
+                        height = 136.dp,
                         onClick = {
                             navController.navigate(
                                 Destinations.MovieDetailsScreen(
