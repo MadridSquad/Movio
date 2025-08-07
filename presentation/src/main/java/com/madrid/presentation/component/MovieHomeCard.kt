@@ -1,7 +1,5 @@
 package com.madrid.presentation.component
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -32,7 +30,6 @@ import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.detectImageContent.FilteredImage
 
-@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun MovieHomeCard(
     name: String,
