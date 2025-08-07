@@ -1,20 +1,32 @@
 package com.madrid.presentation.screens.homeScreen.layout
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.CustomTextTitle
+import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.CustomHorizontalCard
 import com.madrid.presentation.component.MovioPager
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
@@ -22,6 +34,7 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesType
 import com.madrid.presentation.viewModel.shared.MediaUiState
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
 fun MoviesLayout(
@@ -30,10 +43,28 @@ fun MoviesLayout(
     nowPlayingMovies: List<MediaUiState>,
     upComingMovies: List<MediaUiState>,
     recommendedMovies: List<MediaUiState>,
+    onScroll: (Boolean) -> Unit ={},
 ) {
     val navController = LocalNavController.current
+    val lazyGridState = rememberLazyGridState()
+
+    LaunchedEffect(lazyGridState) {
+        snapshotFlow {
+            lazyGridState.firstVisibleItemScrollOffset + (lazyGridState.firstVisibleItemIndex * 1000)
+        }
+            .distinctUntilChanged()
+            .collect { scrollOffset ->
+                val scrollDistance = scrollOffset.toFloat()
+                when(scrollDistance){
+                    in 0f..100f -> onScroll(false)
+                    else -> onScroll(true)
+                }
+
+            }
+    }
 
     LazyVerticalGrid(
+        state = lazyGridState,
         columns = GridCells.Fixed(2),
         modifier = Modifier
             .fillMaxSize(),
@@ -42,9 +73,12 @@ fun MoviesLayout(
         contentPadding = PaddingValues(bottom = 16.dp)
     ) {
         item(span = { GridItemSpan(2) }) {
-            MovioPager(
-                medias = trendingMovies.take(7),
-            )
+            Box(){
+                MovioPager(
+                    medias = trendingMovies.take(7),
+                    onClickItem = { id -> navController.navigate(Destinations.MovieDetailsScreen(id)) }
+                )
+            }
         }
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(

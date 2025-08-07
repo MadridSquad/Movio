@@ -160,6 +160,10 @@ class HomeViewModel @Inject constructor(
         emitNewEffect(HomeScreenEffect.NavigateToMediaDetails(mediaId, mediaType))
     }
 
+    override fun onClickProfile() {
+        emitNewEffect(HomeScreenEffect.NavigateToProfile)
+    }
+
     private fun startLoading() {
         updateState { it.copy(isLoading = true) }
     }
