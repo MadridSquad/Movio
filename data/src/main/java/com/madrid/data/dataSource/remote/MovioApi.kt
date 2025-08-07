@@ -191,6 +191,8 @@ interface MovioApi {
         @Path("person_id") artistId: Int
     ): ArtistKnownForResponse
 
+    // endregion
+
     // region authentication
     @GET("authentication/token/new")
     suspend fun getRequestToken(): AuthenticationResponse       // first
@@ -216,15 +218,21 @@ interface MovioApi {
     // endregion
 
 
+    // region now_playing
     @GET("movie/now_playing")
     suspend fun getNowPlayingMovies(
         @Query("page") page: Int
     ): NowPlayingMovieResponse
 
+    // endregion
+
+    // region UpcomingMovies
     @GET("movie/upcoming")
     suspend fun getUpcomingMovies(
         @Query("page") page: Int
     ): UpcomingMoviesResponse
+
+    // endregion
 
     // region EpisodeRating
 
