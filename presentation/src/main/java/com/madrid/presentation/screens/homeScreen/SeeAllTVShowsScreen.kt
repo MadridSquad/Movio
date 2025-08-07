@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.madrid.designSystem.component.CustomTextTitel
+import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.designSystem.component.FilterBar
 import com.madrid.designSystem.component.LoadingSearchCard
 import com.madrid.designSystem.component.MovioText
@@ -177,7 +177,7 @@ fun SeeAllTVShowsScreen(
                 item(
                     span = { GridItemSpan(maxLineSpan) }
                 ) {
-                    CustomTextTitel(
+                    CustomTextTitle(
                         primaryText = stringResource(com.madrid.presentation.R.string.explore_more)
                     )
                 }
