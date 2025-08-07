@@ -49,6 +49,9 @@ interface LocalDataSource {
 
     suspend fun getNowPlayingMovies(): List<SectionsMovieTable>
     suspend fun getUpComingMovies(): List<SectionsMovieTable>
+    suspend fun getTrendingMovies(): List<SectionsMovieTable>
+    suspend fun getTopRatingMovies(): List<SectionsMovieTable>
+    suspend fun getRecommendedMovies(): List<SectionsMovieTable>
 
     suspend fun clearHomeMoviesCache()
     suspend fun addMovieToHistory(movieId: Int)
