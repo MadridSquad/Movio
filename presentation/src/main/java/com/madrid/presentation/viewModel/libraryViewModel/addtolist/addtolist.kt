@@ -20,20 +20,47 @@ data class MovieListUiState(
     val successMessage: String? = null,
     val createListSuccess: Boolean = false,
     val addToListSuccess: Boolean = false,
-    val userLists: List<WatchList> = emptyList()
+    val userLists: List<WatchList> = emptyList(),
+    val isLoadingLists: Boolean = false // Add separate loading state for lists
 )
 
 sealed class MovieListEvent {
     object ClearMessages : MovieListEvent()
     object DismissNotification : MovieListEvent()
+    object LoadUserLists : MovieListEvent() // Add this event
 }
 
 @HiltViewModel
 class MovieListViewModel @Inject constructor(
     private val createMovieListUseCase: CreateMovieListUseCase,
     private val addMovieToListUseCase: AddMovieToListUseCase,
+    private val getUserListsUseCase: suspend () -> List<WatchList>,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseViewModel<MovieListUiState, MovieListEvent>(MovieListUiState()) {
+
+    // Add this method to load user lists
+    fun loadUserLists() {
+        viewModelScope.launch(dispatcher) {
+            updateState { it.copy(isLoadingLists = true, errorMessage = null) }
+
+            try {
+                val userLists = getUserListsUseCase()
+                updateState {
+                    it.copy(
+                        userLists = userLists,
+                        isLoadingLists = false
+                    )
+                }
+            } catch (ex: MovioException) {
+                updateState {
+                    it.copy(
+                        isLoadingLists = false,
+                        errorMessage = getErrorMessage(ex)
+                    )
+                }
+            }
+        }
+    }
 
     fun createMovieList(
         name: String,
@@ -57,6 +84,8 @@ class MovieListViewModel @Inject constructor(
                             successMessage = status.message
                         )
                     }
+                    // Reload lists after creating a new one
+                    loadUserLists()
                     onSuccess?.invoke()
                 } else {
                     updateState {
@@ -123,7 +152,7 @@ class MovieListViewModel @Inject constructor(
         updateState { it.copy(userLists = lists) }
     }
 
-     fun handleEvent(event: MovieListEvent) {
+    fun handleEvent(event: MovieListEvent) {
         when (event) {
             MovieListEvent.ClearMessages -> {
                 updateState {
@@ -142,6 +171,9 @@ class MovieListViewModel @Inject constructor(
                         successMessage = null
                     )
                 }
+            }
+            MovieListEvent.LoadUserLists -> {
+                loadUserLists()
             }
         }
     }

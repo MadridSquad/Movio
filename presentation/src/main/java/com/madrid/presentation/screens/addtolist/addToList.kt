@@ -21,7 +21,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.MovioBottomSheet
-import com.madrid.domain.entity.WatchList
 import com.madrid.presentation.viewModel.libraryViewModel.addtolist.MovieListViewModel
 import kotlinx.coroutines.delay
 
@@ -35,7 +34,6 @@ fun ListManagementBottomSheet(
     isVisible: Boolean,
     onDismiss: () -> Unit,
     movieId: Int,
-    initialUserLists: List<WatchList> = emptyList(),
     viewModel: MovieListViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
@@ -45,6 +43,18 @@ fun ListManagementBottomSheet(
     var showSuccessNotification by remember { mutableStateOf(false) }
     var successMessage: String? by remember { mutableStateOf("") }
     var bottomSheetVisible by remember(isVisible) { mutableStateOf(isVisible) }
+
+    // Load user lists when bottom sheet becomes visible
+    LaunchedEffect(isVisible) {
+        if (isVisible) {
+            currentMode = ListBottomSheetMode.LIST_SELECTION
+            bottomSheetVisible = true
+            // THIS IS THE KEY FIX - Actually load the lists!
+            viewModel.loadUserLists()
+        } else {
+            bottomSheetVisible = false
+        }
+    }
 
     LaunchedEffect(uiState.createListSuccess) {
         if (uiState.createListSuccess && uiState.successMessage != null) {
@@ -78,17 +88,6 @@ fun ListManagementBottomSheet(
         }
     }
 
-    // Reset mode when bottom sheet becomes visible
-    LaunchedEffect(isVisible) {
-        if (isVisible) {
-            currentMode = ListBottomSheetMode.LIST_SELECTION
-            bottomSheetVisible = true
-            viewModel.updateUserLists(initialUserLists)
-        } else {
-            bottomSheetVisible = false
-        }
-    }
-
     Box(modifier = modifier.fillMaxSize()) {
         // Bottom Sheet
         MovioBottomSheet(
@@ -112,7 +111,8 @@ fun ListManagementBottomSheet(
                 when (mode) {
                     ListBottomSheetMode.LIST_SELECTION -> {
                         ListSelectionContent(
-                            initialUserLists = uiState.userLists,
+                            initialUserLists = uiState.userLists, // Use lists from ViewModel state
+                            isLoading = uiState.isLoadingLists, // Use loading state from ViewModel
                             onCreateNewListClick = {
                                 currentMode = ListBottomSheetMode.CREATE_NEW_LIST
                             },
