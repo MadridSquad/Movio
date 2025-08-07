@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -28,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.designSystem.component.FilterBar
 import com.madrid.designSystem.component.LoadingSearchCard
 import com.madrid.designSystem.component.MovioText
@@ -39,7 +39,6 @@ import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesViewModel
-import com.madrid.presentation.viewModel.shared.MediaUiState
 
 @Composable
 fun SeeAllMoviesScreen(
