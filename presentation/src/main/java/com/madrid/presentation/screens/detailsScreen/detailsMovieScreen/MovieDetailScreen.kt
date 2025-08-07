@@ -28,7 +28,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.MovioBottomSheet
 import com.madrid.designSystem.component.ShareBottomSheetContent
@@ -48,7 +47,7 @@ import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.R
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.toReviewScreenUiState
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMoviesSection
-import com.madrid.presentation.viewModel.addtolist.MovieListViewModel
+import com.madrid.presentation.viewModel.libraryViewModel.addtolist.MovieListViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.DetailsMovieViewModel
 
 
@@ -162,11 +161,8 @@ fun MovieDetailsScreen(
                 )
                 BottomMediaActions(
                     onRateClick = {},
-                    onPlayClick = {},
                     onAddToListClick = {
                         showAddToListBottomSheet = true
-                        // You should call a ViewModel function here to fetch user lists
-                        // addToListViewModel.fetchUserLists(sessionId)
                     },
                     onPlayClick = {
                         uiState.trailerKey?.let { key ->
@@ -184,7 +180,6 @@ fun MovieDetailsScreen(
                             }
                         }
                     },
-                    onAddToListClick = {},
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 

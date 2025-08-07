@@ -21,9 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.MovioBottomSheet
-import com.madrid.domain.entity.UserList
-import com.madrid.presentation.viewModel.addtolist.MovieListEvent
-import com.madrid.presentation.viewModel.addtolist.MovieListViewModel
+import com.madrid.domain.entity.WatchList
+import com.madrid.presentation.viewModel.libraryViewModel.addtolist.MovieListViewModel
 import kotlinx.coroutines.delay
 
 enum class ListBottomSheetMode {
@@ -36,7 +35,7 @@ fun ListManagementBottomSheet(
     isVisible: Boolean,
     onDismiss: () -> Unit,
     movieId: Int,
-    initialUserLists: List<UserList> = emptyList(),
+    initialUserLists: List<WatchList> = emptyList(),
     viewModel: MovieListViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
@@ -84,7 +83,6 @@ fun ListManagementBottomSheet(
         if (isVisible) {
             currentMode = ListBottomSheetMode.LIST_SELECTION
             bottomSheetVisible = true
-            // Update user lists in ViewModel
             viewModel.updateUserLists(initialUserLists)
         } else {
             bottomSheetVisible = false

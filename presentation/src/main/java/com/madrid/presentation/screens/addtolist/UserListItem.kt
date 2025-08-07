@@ -20,13 +20,13 @@ import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
-import com.madrid.domain.entity.UserList
+import com.madrid.domain.entity.WatchList
 
 @Composable
 fun UserListItem(
-    userList: UserList,
+    userList: WatchList,
     isGlobalLoading: Boolean = false,
-    onToggleSelection: (UserList) -> Unit,
+    onToggleSelection: (WatchList) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val isItemEnabled = !isGlobalLoading && !userList.isLoading

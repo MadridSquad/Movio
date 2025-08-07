@@ -8,14 +8,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.madrid.domain.entity.UserList
+import com.madrid.domain.entity.WatchList
 
 @Composable
 fun ListSelectionContent(
-    initialUserLists: List<UserList>,
+    initialUserLists: List<WatchList>,
     isLoading: Boolean = false,
     onCreateNewListClick: () -> Unit,
-    onSelectionChanged: ((UserList, Boolean) -> Unit)? = null
+    onSelectionChanged: ((WatchList, Boolean) -> Unit)? = null
 ) {
     Column(
         modifier = Modifier

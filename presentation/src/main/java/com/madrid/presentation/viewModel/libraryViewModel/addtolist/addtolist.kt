@@ -1,8 +1,8 @@
-package com.madrid.presentation.viewModel.addtolist
+package com.madrid.presentation.viewModel.libraryViewModel.addtolist
 
 import androidx.lifecycle.viewModelScope
 import com.madrid.domain.entity.ListOperationStatus
-import com.madrid.domain.entity.UserList
+import com.madrid.domain.entity.WatchList
 import com.madrid.domain.exceptions.MovioException
 import com.madrid.domain.exceptions.NetworkException
 import com.madrid.domain.usecase.movie.AddMovieToListUseCase
@@ -20,7 +20,7 @@ data class MovieListUiState(
     val successMessage: String? = null,
     val createListSuccess: Boolean = false,
     val addToListSuccess: Boolean = false,
-    val userLists: List<UserList> = emptyList()
+    val userLists: List<WatchList> = emptyList()
 )
 
 sealed class MovieListEvent {
@@ -119,7 +119,7 @@ class MovieListViewModel @Inject constructor(
         }
     }
 
-    fun updateUserLists(lists: List<UserList>) {
+    fun updateUserLists(lists: List<WatchList>) {
         updateState { it.copy(userLists = lists) }
     }
 

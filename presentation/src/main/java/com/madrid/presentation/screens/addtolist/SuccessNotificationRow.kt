@@ -21,7 +21,7 @@ import com.madrid.designSystem.component.MovioBottomSheet
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
-import com.madrid.domain.entity.UserList
+import com.madrid.domain.entity.WatchList
 import kotlinx.coroutines.delay
 
 @Composable
@@ -90,9 +90,9 @@ fun SuccessNotificationRow(
 fun ListManagementBottomSheetWithNotification(
     isVisible: Boolean,
     onDismiss: () -> Unit,
-    initialUserLists: List<UserList>,
+    initialUserLists: List<WatchList>,
     onListCreated: (String) -> Unit,
-    onSelectionChanged: ((UserList, Boolean) -> Unit)? = null,
+    onSelectionChanged: ((WatchList, Boolean) -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
     var currentMode by remember { mutableStateOf(ListBottomSheetMode.LIST_SELECTION) }
@@ -186,24 +186,24 @@ fun PreviewSuccessNotificationRow() {
         )
     }
 }
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewListManagementBottomSheetWithNotification() {
-    ListManagementBottomSheetWithNotification(
-        isVisible = true,
-        onDismiss = { },
-        initialUserLists = listOf(
-            UserList("1", "Watch later", isSelected = true),
-            UserList("2", "Watching after exam", isSelected = false),
-            UserList("3", "Watching soon", isSelected = false),
-            UserList("4", "Adventure movies", isSelected = false)
-        ),
-        onListCreated = { listName ->
-            println("Creating list: $listName")
-        },
-        onSelectionChanged = { userList, isSelected ->
-            println("Selection changed: ${userList.name} -> $isSelected")
-        }
-    )
-}
+//
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewListManagementBottomSheetWithNotification() {
+//    ListManagementBottomSheetWithNotification(
+//        isVisible = true,
+//        onDismiss = { },
+//        initialUserLists = listOf(
+//            WatchList("1", "Watch later", isSelected = true),
+//            WatchList("2", "Watching after exam", isSelected = false),
+//            WatchList("3", "Watching soon", isSelected = false),
+//            WatchList("4", "Adventure movies", isSelected = false)
+//        ),
+//        onListCreated = { listName ->
+//            println("Creating list: $listName")
+//        },
+//        onSelectionChanged = { userList, isSelected ->
+//            println("Selection changed: ${userList.name} -> $isSelected")
+//        }
+//    )
+//}
