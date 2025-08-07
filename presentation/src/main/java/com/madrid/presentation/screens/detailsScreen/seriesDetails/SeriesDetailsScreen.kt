@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.designSystem.component.EmptySearchLayout
@@ -162,7 +163,23 @@ fun SeriesDetailsScreen(
                 )
                 BottomMediaActions(
                     onRateClick = {},
-                    onPlayClick = {},
+                    onPlayClick = {
+                        val trailerKey = uiState.trailerKey
+                        if (trailerKey.isNotEmpty()) {
+                            val youtubeAppIntent =
+                                Intent(Intent.ACTION_VIEW, "vnd.youtube:$trailerKey".toUri())
+                            val youtubeWebIntent = Intent(
+                                Intent.ACTION_VIEW,
+                                "https://www.youtube.com/watch?v=$trailerKey".toUri()
+                            )
+
+                            try {
+                                context.startActivity(youtubeAppIntent)
+                            } catch (e: Exception) {
+                                context.startActivity(youtubeWebIntent)
+                            }
+                        }
+                    },
                     onAddToListClick = {},
                     modifier = Modifier.padding(vertical = 16.dp)
                 )
