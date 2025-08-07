@@ -82,5 +82,10 @@
     public static *** i(...);
 }
 
+-keep enum com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesType { *; }
+-keep enum com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTvShowType { *; }
+-keep enum com.madrid.presentation.viewModel.libraryViewModel.viewAll.factory.ViewAllType { *; }
+
+
 # --- General Android Proguard optimizations ---
 # (The default file proguard-android-optimize.txt already includes most optimizations, this is only to extend)
