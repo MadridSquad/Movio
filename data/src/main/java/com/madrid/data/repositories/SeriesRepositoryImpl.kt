@@ -64,15 +64,15 @@ class SeriesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getOnAirSeries(page: Int): List<Series> {
-        return remoteDataSource.getOnAirSeries().toTvShows()
+        return remoteDataSource.getOnAirSeries(page = page).toTvShows()
     }
 
     override suspend fun getAiringTodaySeries(page: Int): List<Series> {
-        return remoteDataSource.getAiringTodaySeries().toTvShows()
+        return remoteDataSource.getAiringTodaySeries(page = page).toTvShows()
     }
 
     override suspend fun getRecommendedSeries(page: Int): List<Series> {
-        return remoteDataSource.getRecommendedSeries().toTvShows()
+        return remoteDataSource.getRecommendedSeries(page = page).toTvShows()
     }
 
     override suspend fun increaseSeriesGenreInterestPoints(genreTitle: String) {
