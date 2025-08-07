@@ -144,6 +144,18 @@ class LocalDataSourceImpl @Inject constructor(
         return movieDao.getMoviesBySection(MovieSection.UPCOMING.value)
     }
 
+    override suspend fun getTrendingMovies(): List<SectionsMovieTable> {
+        return movieDao.getMoviesBySection(MovieSection.TRENDING.value)
+    }
+
+    override suspend fun getTopRatingMovies(): List<SectionsMovieTable> {
+        return movieDao.getMoviesBySection(MovieSection.TOP_RATED.value)
+    }
+
+    override suspend fun getRecommendedMovies(): List<SectionsMovieTable> {
+        return movieDao.getMoviesBySection(MovieSection.RECOMMENDED.value)
+    }
+
     override suspend fun clearHomeMoviesCache() {
         movieDao.clearHomeMoviesCache()
     }
