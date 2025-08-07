@@ -18,7 +18,7 @@
     <string name="welcome_back">أهلا بعودتك</string>
     <string name="username">اسم المستخدم</string>
     <string name="password">كلمة المرور</string>
-    <string name="or">أو</string>
+    <string name="Or">أو</string>
     <string name="don_t_have_an_account">هل لديك حساب ؟</string>
     <string name="sign_up">إنشاء حساب</string>
     <string name="more_screen">المزيد</string>
@@ -110,6 +110,8 @@
     <string name="movio">موفيو</string>
     <string name="and_let_the_noise_fade_away">و دع الضوضاء تتلاشى</string>
     <string name="onboarding_sub_description">اسحب، اختر، انطلق… وكن أنت نجم الساحة.</string>
+    <string name="Something_went_wrong">حدث خطا ما .</string>
+
     <string name="no_ratings_yet">لا يوجد تقييمات للان !</string>
     <string name="you_haven_t_rated_anything_yet_start_exploring_and_share_your_thoughts">لم تُقيّم أي شيء بعد. ابدأ الاستكشاف وشاركنا أفكارك!</string>
     <string name="try_again">حاول مجددا</string>

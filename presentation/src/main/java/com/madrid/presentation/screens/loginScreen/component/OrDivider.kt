@@ -30,7 +30,7 @@ fun OrDivider() {
             color = Theme.color.surfaces.onSurfaceVariant.copy(alpha = 0.3f)
         )
         MovioText(
-            text = stringResource(R.string.or),
+            text = stringResource(R.string.Or),
             textStyle = Theme.textStyle.label.smallRegular12,
             color = Theme.color.surfaces.onSurfaceVariant,
             modifier = Modifier.padding(horizontal = 8.dp)

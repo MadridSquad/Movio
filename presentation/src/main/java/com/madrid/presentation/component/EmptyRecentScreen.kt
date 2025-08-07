@@ -46,3 +46,4 @@ fun LazyGridScope.emptyRecentSearch() {
         }
     }
 }
+

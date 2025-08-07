@@ -6,39 +6,51 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.MovioButton
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
-import com.madrid.presentation.R
 
 @Composable
-fun AnimatedLoginButton(
+fun AnimatedLoginButton
+(
     isLoading: Boolean,
     onClick: () -> Unit,
-    enabled: Boolean
+    enabled: Boolean = true,
+    text: String,
+    textStyle: TextStyle = Theme.textStyle.label.mediumMedium14,
+    textColor: Color = Theme.color.brand.onPrimary,
+    buttonColor: Color = Theme.color.brand.primary,
+    loadingIndicatorColor: Color = Theme.color.brand.onPrimary,
+    modifier: Modifier = Modifier
+        .fillMaxWidth()
 
 ) {
     MovioButton(
         onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
             .height(48.dp),
-        enabled = !isLoading,
+        enabled = enabled && !isLoading,
+        color = buttonColor
+
     ) {
         if (isLoading) {
             CircularProgressIndicator(
-                modifier = Modifier.size(24.dp),
-                color = Theme.color.brand.onPrimary,
+                modifier = Modifier.size(24.dp)
+
+                ,
+                color = loadingIndicatorColor,
                 strokeWidth = 2.dp
             )
         } else {
             MovioText(
-                text = stringResource(R.string.login),
-                textStyle = Theme.textStyle.label.mediumMedium14,
-                color = Theme.color.brand.onPrimary,
+
+                text = text,
+                textStyle = textStyle,
+                color = textColor,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )

@@ -32,7 +32,20 @@ import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
 import com.madrid.data.repositories.remote.RemoteDataSource
+
+import com.madrid.domain.exceptions.AccountLockedException
+import com.madrid.domain.exceptions.AuthorizationException
+import com.madrid.domain.exceptions.InvalidCredentialsException
+import com.madrid.domain.exceptions.NetworkException
+import com.madrid.domain.exceptions.SessionExpiredException
+import com.madrid.domain.exceptions.UnknownException
+import retrofit2.HttpException
+import java.io.IOException
+import java.net.HttpURLConnection.HTTP_UNAUTHORIZED
+
+
 import javax.inject.Inject
+
 
 class RemoteDataSourceImpl @Inject constructor(
     private val api: MovioApi
@@ -189,36 +202,96 @@ class RemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun login(username: String, password: String): String {
-        val requestTokenResponse = api.getRequestToken()
-        val requestToken = requestTokenResponse.requestToken
-        val sessionResponse = api.postCreateSession(
-            CreateSessionBody(
-                username = username,
-                password = password,
-                requestToken = requestToken
+        try {
+            val requestTokenResponse = api.getRequestToken()
+            val requestToken = requestTokenResponse.requestToken
+            val sessionResponse = api.postCreateSession(
+                CreateSessionBody(
+                    username = username,
+                    password = password,
+                    requestToken = requestToken
+                )
             )
-        )
-        return sessionResponse.requestToken
+            return sessionResponse.requestToken
+        } catch (e: HttpException) {
+            val code = e.code()
+            val errorBody = e.response()?.errorBody()?.string()?.lowercase()
+
+            if (code == HTTP_UNAUTHORIZED) {
+                when {
+                    errorBody?.contains("invalid username") == true ||
+                            errorBody?.contains("invalid password") == true ||
+                            errorBody?.contains("unauthorized") == true -> {
+                        throw InvalidCredentialsException()
+                    }
+
+                    errorBody?.contains("suspended") == true -> {
+                        throw AccountLockedException()
+                    }
+
+                    errorBody?.contains("expired") == true -> {
+                        throw SessionExpiredException()
+                    }
+
+                    else -> {
+                        throw AuthorizationException("Unauthorized access")
+                    }
+                }
+            } else {
+                throw UnknownException("HTTP error $code: $errorBody")
+            }
+        } catch (e: IOException) {
+            throw NetworkException("No internet connection")
+        } catch (e: Exception) {
+            throw UnknownException("Unknown error during login: ${e.message}")
+        }
     }
 
+
     override suspend fun getSessionId(username: String, password: String): String {
-        val requestTokenResponse = api.getRequestToken()
-        val requestToken = requestTokenResponse.requestToken
-        val sessionResponse = api.postCreateSession(
-            CreateSessionBody(
-                username = username,
-                password = password,
-                requestToken = requestToken
+        try {
+            val requestTokenResponse = api.getRequestToken()
+            val requestToken = requestTokenResponse.requestToken
+
+            val sessionResponse = api.postCreateSession(
+                CreateSessionBody(
+                    username = username,
+                    password = password,
+                    requestToken = requestToken
+                )
             )
-        )
-        val sessionId = api.createSession(
-            CreateSessionRawBody(sessionResponse.requestToken)
-        )
-        return sessionId.sessionId
+            val sessionId = api.createSession(
+                CreateSessionRawBody(sessionResponse.requestToken)
+            )
+            return sessionId.sessionId
+        } catch (e: HttpException) {
+            when (e.code()) {
+                401 -> throw InvalidCredentialsException()
+                403 -> throw SessionExpiredException()
+                else -> throw UnknownException("HTTP ${e.code()}: ${e.message()}")
+            }
+        } catch (e: IOException) {
+            throw NetworkException("No internet connection  ")
+        } catch (e: Exception) {
+            if (e.message?.contains("invalid username or password", true) == true) {
+                throw InvalidCredentialsException()
+            }
+            throw UnknownException("Unexpected error: ${e.message}")
+        }
+
     }
 
     override suspend fun loginAsGuest(): String {
-        return api.getCreateGuestSession().requestToken
+        try {
+            val guestSessionResponse = api.getCreateGuestSession()
+            return guestSessionResponse.requestToken
+        } catch (e: HttpException) {
+            throw AuthorizationException("Function…")
+        } catch (e: IOException) {
+            throw NetworkException("No internet connection")
+        } catch (e: Exception) {
+            throw UnknownException("Unknown error}")
+        }
     }
 
     override suspend fun getCurrentUserDetails(sessionId: String): AccountDetailsResponse {

@@ -99,7 +99,7 @@
     <string name="welcome_back">Welcome back</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="or">or</string>
+    <string name="Or">Or</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
     <string name="sign_up">Sign up</string>
     <string name="login">Login</string>
@@ -113,6 +113,7 @@
     <string name="movio">Movio</string>
     <string name="and_let_the_noise_fade_away">and let the noise fade away</string>
     <string name="onboarding_sub_description">Swipe, pick, dive in… and be the star of the scene.</string>
+    <string name="Something_went_wrong">Something went wrong.</string>
     <string name="no_ratings_yet">No Ratings Yet!</string>
     <string name="you_haven_t_rated_anything_yet_start_exploring_and_share_your_thoughts">You haven’t rated anything yet. Start exploring and share your thoughts!</string>
     <string name="try_again">Try Again</string>
