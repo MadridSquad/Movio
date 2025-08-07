@@ -10,7 +10,6 @@ import com.madrid.data.dataSource.remote.dto.list.AddToListRequest
 import com.madrid.data.dataSource.remote.dto.list.CreateListResponse
 import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
 import com.madrid.data.dataSource.remote.dto.list.MovieListBody
-import com.madrid.data.dataSource.remote.dto.movie.ListDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
@@ -82,6 +81,6 @@ interface RemoteDataSource {
     // endregion
 
     suspend fun createMovieList(sessionId: String, movieListBody: MovieListBody): CreateListResponse
-    suspend fun addMovieToList(listId: Int, sessionId: String, requestBody: AddToListRequest): ListOperationResponse
+    suspend fun addMovieToList(listId: Int, sessionId: String, mediaId: Int): ListOperationResponse
 
 }

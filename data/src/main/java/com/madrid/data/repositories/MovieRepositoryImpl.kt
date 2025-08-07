@@ -188,8 +188,11 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addMovieToList(listId: Int, sessionId: String, mediaId: Int): ListOperationStatus {
-        val requestBody = AddToListRequest(mediaId)
-        val response = remoteDataSource.addMovieToList(listId, sessionId, requestBody)
+        val response = remoteDataSource.addMovieToList(
+            listId = listId,
+            sessionId = sessionId,
+            mediaId = mediaId,
+        )
         return response.toListOperationStatus()
     }
 }

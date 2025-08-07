@@ -7,7 +7,6 @@ import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.SortType
 import com.madrid.domain.entity.Trailer
-import com.madrid.domain.entity.UserList
 
 interface MovieRepository {
     suspend fun getMovieDetailsById(movieId: Int): Movie

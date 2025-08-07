@@ -27,15 +27,12 @@ import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
 import com.madrid.data.dataSource.remote.dto.authentication.SessionIdResponse
-import com.madrid.data.dataSource.remote.dto.list.AddToListRequest
 import com.madrid.data.dataSource.remote.dto.list.CreateListResponse
 import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
 import com.madrid.data.dataSource.remote.dto.list.MovieListBody
 import com.madrid.data.dataSource.remote.dto.movie.ListDetailsResponse
-import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -248,7 +245,7 @@ interface MovioApi {
     suspend fun addMovieToList(
         @Path("list_id") listId: Int,
         @Query("session_id") sessionId: String,
-        @Body body: AddToListRequest
+        @Body body: Int
     ): ListOperationResponse
     companion object {
         private const val DISCOVER_MOVIE = "discover/movie"

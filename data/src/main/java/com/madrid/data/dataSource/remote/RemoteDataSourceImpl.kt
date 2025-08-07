@@ -1,6 +1,5 @@
 package com.madrid.data.dataSource.remote
 
-import android.util.Log
 import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
@@ -9,11 +8,9 @@ import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
 import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
-import com.madrid.data.dataSource.remote.dto.list.AddToListRequest
 import com.madrid.data.dataSource.remote.dto.list.CreateListResponse
 import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
 import com.madrid.data.dataSource.remote.dto.list.MovieListBody
-import com.madrid.data.dataSource.remote.dto.movie.ListDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
@@ -220,8 +217,8 @@ class RemoteDataSourceImpl @Inject constructor(
         return api.createMovieList(sessionId, movieListBody)
     }
 
-    override suspend fun addMovieToList(listId: Int, sessionId: String, requestBody: AddToListRequest): ListOperationResponse {
-        return api.addMovieToList(listId, sessionId, requestBody)
+    override suspend fun addMovieToList(listId: Int, sessionId: String, mediaId: Int): ListOperationResponse {
+        return api.addMovieToList(listId, sessionId, mediaId)
     }
 
 }

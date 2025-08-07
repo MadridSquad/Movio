@@ -26,13 +26,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.MovioBottomSheet
 import com.madrid.designSystem.component.ShareBottomSheetContent
 import com.madrid.designSystem.component.TextWithReadMore
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
-import com.madrid.domain.entity.UserList
 import com.madrid.presentation.R
 import com.madrid.presentation.component.BottomMediaActions
 import com.madrid.presentation.component.CastMember
@@ -46,17 +46,19 @@ import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.R
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.toReviewScreenUiState
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMoviesSection
+import com.madrid.presentation.viewModel.addtolist.MovieListViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.DetailsMovieViewModel
-
 
 @Composable
 fun MovieDetailsScreen(
-    viewModel: DetailsMovieViewModel = hiltViewModel()
+    viewModel: DetailsMovieViewModel = hiltViewModel(),
+    addToListViewModel: MovieListViewModel = viewModel()
 ) {
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current
     val context = LocalContext.current
-    var showSheet by remember { mutableStateOf(false) }
+    var showShareSheet by remember { mutableStateOf(false) }
+    var showAddToListBottomSheet by remember { mutableStateOf(false) }
 
     fun copyToClipboard(text: String) {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -71,7 +73,6 @@ fun MovieDetailsScreen(
             putExtra(Intent.EXTRA_TEXT, url)
             setPackage(appPackage)
         }
-
         try {
             context.startActivity(intent)
         } catch (e: Exception) {
@@ -83,16 +84,6 @@ fun MovieDetailsScreen(
         }
     }
 
-    val casts = uiState.casts
-    var showAddToListBottomSheet by remember { mutableStateOf(false) }
-    val userLists = remember {
-        mutableStateOf(
-            listOf(
-                UserList("1", "Watch Later", isSelected = false),
-            )
-        )
-    }
-
     if (uiState.isLoading) {
         Box(
             modifier = Modifier
@@ -102,13 +93,11 @@ fun MovieDetailsScreen(
         ) {
             EmptySearchLayout(
                 title = stringResource(R.string.internet_is_not_available),
-                description =
-                    stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
+                description = stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
                 image = R.drawable.img_no_internet
             )
         }
     } else {
-
         Box(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -121,28 +110,28 @@ fun MovieDetailsScreen(
             )
 
             MovioBottomSheet(
-                show = showSheet,
-                onDismiss = { showSheet = false },
+                show = showShareSheet,
+                onDismiss = { showShareSheet = false },
                 containerColor = Theme.color.surfaces.surface
             ) {
                 ShareBottomSheetContent(
                     onCopyLink = {
                         copyToClipboard("https://www.themoviedb.org/movie/${uiState.movieId}")
-                        showSheet = false
+                        showShareSheet = false
                     },
                     onShareFacebook = {
                         shareToApp(
                             "com.facebook.katana",
                             "https://www.themoviedb.org/movie/${uiState.movieId}"
                         )
-                        showSheet = false
+                        showShareSheet = false
                     },
                     onShareX = {
                         shareToApp(
                             "com.twitter.android",
                             "https://www.themoviedb.org/movie/${uiState.movieId}"
                         )
-                        showSheet = false
+                        showShareSheet = false
                     }
                 )
             }
@@ -151,7 +140,7 @@ fun MovieDetailsScreen(
                 text = null,
                 modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
                 onFirstIconClick = { navController.popBackStack() },
-                onSecondIconClick = { showSheet = true }
+                onSecondIconClick = { showShareSheet = true }
             )
             Column(
                 modifier = Modifier
@@ -172,14 +161,15 @@ fun MovieDetailsScreen(
                     onPlayClick = {},
                     onAddToListClick = {
                         showAddToListBottomSheet = true
+                        // You should call a ViewModel function here to fetch user lists
+                        // addToListViewModel.fetchUserLists(sessionId)
                     },
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
                 TextWithReadMore(
                     description = uiState.description,
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp),
+                    modifier = Modifier.padding(horizontal = 16.dp),
                     maxLines = 5
                 )
                 TopCastHorizontalScroll(
@@ -251,32 +241,8 @@ fun MovieDetailsScreen(
     }
     ListManagementBottomSheet(
         isVisible = showAddToListBottomSheet,
-        onDismiss = {
-            showAddToListBottomSheet = false
-        },
-        initialUserLists = userLists.value,
-        onListCreated = { listName ->
-            val newList = UserList(
-                id = (userLists.value.size + 1).toString(),
-                name = listName,
-                isSelected = true
-            )
-            userLists.value = userLists.value + newList
-            println("Created new list: $listName for movie: ${uiState.movieName}")
-        },
-        onSelectionChanged = { userList, isSelected ->
-            userLists.value = userLists.value.map { list ->
-                if (list.id == userList.id) {
-                    list.copy(isSelected = isSelected)
-                } else {
-                    list
-                }
-            }
-            if (isSelected) {
-                println("Added movie ${uiState.movieName} to list: ${userList.name}")
-            } else {
-                println("Removed movie ${uiState.movieName} from list: ${userList.name}")
-            }
-        }
+        onDismiss = { showAddToListBottomSheet = false },
+        movieId = uiState.movieId,
+        sessionId = sessionId,
     )
 }
