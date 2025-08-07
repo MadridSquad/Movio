@@ -2,8 +2,10 @@ package com.madrid.presentation.screens.detailsScreen.castDetails
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -12,6 +14,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -53,39 +56,50 @@ fun TopCastDetailsContent(
     onActorClick: (Int) -> Unit,
     onBackClick: () -> Unit
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
-        modifier = Modifier
+
+    Column(
+        Modifier
             .fillMaxSize()
-            .background(Theme.color.surfaces.surface)
-            .statusBarsPadding(),
-        contentPadding = PaddingValues(
-            start = 16.dp,
-            end = 16.dp,
-            top = 0.dp,
-            bottom = 16.dp
-        ),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+            .padding(vertical = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item(
-            span = { GridItemSpan(maxLineSpan) }
+
+        TopAppBar(
+            stringResource(R.string.top_cast),
+            secondIcon = null,
+            thirdIcon = null,
+            modifier = Modifier.padding(start = 16.dp, top = 32.dp, end = 16.dp),
+            onFirstIconClick = { onBackClick() }
+        )
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(3),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Theme.color.surfaces.surface)
+                .statusBarsPadding(),
+            contentPadding = PaddingValues(
+                start = 16.dp,
+                end = 16.dp,
+                top = 0.dp,
+                bottom = 16.dp
+            ),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            TopAppBar(
-                stringResource(R.string.top_cast),
-                secondIcon = null,
-                thirdIcon = null,
-                onFirstIconClick = { onBackClick() }
-            )
-        }
-        items(artist.size) { index ->
-            MovioArtistsCard(
-                modifier = Modifier.size(width = 101.dp, height = 111.dp),
-                artistsName = artist[index].actorName,
-                imageUrl = artist[index].actorImageUrl,
-                onClick = { onActorClick(artist[index].id.toInt()) },
-                circleImageSize = 88.dp
-            )
+            item(
+                span = { GridItemSpan(maxLineSpan) }
+            ) {
+
+            }
+            items(artist.size) { index ->
+                MovioArtistsCard(
+                    modifier = Modifier.size(width = 101.dp, height = 111.dp),
+                    artistsName = artist[index].actorName,
+                    imageUrl = artist[index].actorImageUrl,
+                    onClick = { onActorClick(artist[index].id.toInt()) },
+                    circleImageSize = 88.dp
+                )
+            }
         }
     }
 }

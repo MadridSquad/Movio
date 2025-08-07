@@ -3,10 +3,12 @@ package com.madrid.domain.repository
 import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Episode
 import com.madrid.domain.entity.Genre
+import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.Series
 import com.madrid.domain.entity.SortType
 import com.madrid.domain.entity.Trailer
+import com.madrid.domain.usecase.series.GetUserRatedSeriesUseCase
 
 interface SeriesRepository {
     suspend fun getSeriesDetailsById(seriesId: Int): Series
@@ -23,4 +25,8 @@ interface SeriesRepository {
     suspend fun getRecommendedSeries(page: Int): List<Series>
     suspend fun getSeriesGenres(): List<Genre>
     suspend fun getSeriesByGenreId(page: Int, genreId: Int?, sortBy: SortType): List<Series>
+    suspend fun getUserSeriesRate(sessionId:String): List<GetUserRatedSeriesUseCase.RatedSeries>
+    suspend fun addSeriesToHistory(seriesId: Int)
+    suspend fun getAllSeriesInHistory(): List<Series>
+    suspend fun getFavoriteSeries(sessionId: String): List<Series>
 }

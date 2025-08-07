@@ -1,18 +1,26 @@
 package com.madrid.presentation.screens.homeScreen
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -50,7 +58,7 @@ fun HomeScreen(
                     }
                 }
 
-                is HomeScreenEffect.NavigateToProfile -> TODO()
+                is HomeScreenEffect.NavigateToProfile -> navController.navigate(Destinations.MoreScreen)
             }
         }
     }
@@ -64,7 +72,8 @@ fun HomeScreenContent(
     interactionListener: HomeInteractionListener
 ) {
     var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
-
+    var isScrolledDown by remember { mutableStateOf(false) }
+    val backgroundColor by animateColorAsState(if(isScrolledDown) Theme.color.surfaces.surface else Color.Transparent , tween(500))
     Box(
         Modifier
             .fillMaxSize()
@@ -74,12 +83,18 @@ fun HomeScreenContent(
             uiState = state,
             selectedTab = HomeTab.entries[selectedTabIndex],
             onClickMoviesTab = interactionListener::loadMoviesLayoutData,
-            onClickSeriesTab = interactionListener::loadSeriesLayoutData
+            onClickSeriesTab = interactionListener::loadSeriesLayoutData,
+            onScroll = { isScrolled ->
+                isScrolledDown = isScrolled
+            }
         )
-        Column(modifier = Modifier.padding(top = 32.dp)) {
+        Column(modifier = Modifier
+            .background(backgroundColor)
+            .padding(top = 32.dp)) {
             HomeAppBar(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                image = state.profileImage
+                image = state.profileImage,
+                onClickIcon = { interactionListener.onClickProfile() }
             )
             HeaderSectionBar(
                 tabs = listOf(
@@ -91,8 +106,9 @@ fun HomeScreenContent(
                 onTabSelected = { index ->
                     selectedTabIndex = index
                 },
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 38.dp)
             )
+
             if (HomeTab.CATEGORIES == HomeTab.entries[selectedTabIndex])
                 CategoriesLayout(
                     categories = state.categoryTabUiState.categories,
@@ -116,8 +132,9 @@ private fun LayoutContent(
     selectedTab: HomeTab,
     uiState: HomeScreenState,
     onClickMoviesTab: () -> Unit,
-    onClickSeriesTab: () -> Unit
-) {
+    onClickSeriesTab: () -> Unit,
+    onScroll: (Boolean) -> Unit ={},
+    ) {
     when (selectedTab) {
 //        HomeTab.ALL -> AllMediaLayout()
         HomeTab.MOVIES -> {
@@ -127,7 +144,8 @@ private fun LayoutContent(
                 topRatingMovies = uiState.movieTabUiState.topRated.media,
                 nowPlayingMovies = uiState.movieTabUiState.nowPlaying.media,
                 upComingMovies = uiState.movieTabUiState.upcoming.media,
-                recommendedMovies = uiState.movieTabUiState.moreRecommended.media
+                recommendedMovies = uiState.movieTabUiState.moreRecommended.media,
+                onScroll = onScroll
             )
         }
 
@@ -138,7 +156,8 @@ private fun LayoutContent(
                 topRatingSeries = uiState.tvShowTabUiState.topRated.media,
                 airingTodaySeries = uiState.tvShowTabUiState.airingToday.media,
                 onAirSeries = uiState.tvShowTabUiState.onTv.media,
-                recommendedSeries = uiState.tvShowTabUiState.moreRecommended.media
+                recommendedSeries = uiState.tvShowTabUiState.moreRecommended.media,
+                onScroll = onScroll
             )
         }
 

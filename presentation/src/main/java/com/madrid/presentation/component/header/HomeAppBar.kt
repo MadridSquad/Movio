@@ -1,6 +1,7 @@
 package com.madrid.presentation.component.header
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +26,7 @@ import com.madrid.designSystem.theme.Theme
 fun HomeAppBar(
     modifier: Modifier = Modifier,
     image : String? ,
+    onClickIcon: () -> Unit ={},
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -51,6 +53,7 @@ fun HomeAppBar(
             modifier = Modifier
                 .size(24.dp)
                 .align(Alignment.CenterVertically)
+                .clickable { onClickIcon() }
         )
     }
 }

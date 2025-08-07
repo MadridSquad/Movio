@@ -1,6 +1,7 @@
 package com.madrid.data.repositories.local
 
 import com.madrid.data.dataSource.local.table.ArtistTable
+import com.madrid.data.dataSource.local.table.MediaHistoryTable
 import com.madrid.data.dataSource.local.table.MovieGenreTable
 import com.madrid.data.dataSource.local.table.MovieTable
 import com.madrid.data.dataSource.local.table.RecentSearchTable
@@ -46,8 +47,15 @@ interface LocalDataSource {
     suspend fun getMoviesByGenres(): List<GenreWithMovies>
     suspend fun getSeriesByGenres(): List<GenreWithSeries>
 
-    suspend fun getNowPlayingMovies(): List<MovieTable>
-    suspend fun getUpComingMovies(): List<MovieTable>
+    suspend fun getNowPlayingMovies(): List<SectionsMovieTable>
+    suspend fun getUpComingMovies(): List<SectionsMovieTable>
+    suspend fun getTrendingMovies(): List<SectionsMovieTable>
+    suspend fun getTopRatingMovies(): List<SectionsMovieTable>
+    suspend fun getRecommendedMovies(): List<SectionsMovieTable>
 
     suspend fun clearHomeMoviesCache()
+    suspend fun addMovieToHistory(movieId: Int)
+    suspend fun addSeriesToHistory(seriesId: Int)
+    suspend fun getAllMoviesInHistory(): List<MediaHistoryTable>
+    suspend fun getAllSeriesInHistory(): List<MediaHistoryTable>
 }

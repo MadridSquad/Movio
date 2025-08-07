@@ -7,6 +7,7 @@ import com.madrid.data.dataSource.local.dao.RecentSearchDao
 import com.madrid.data.dataSource.local.dao.SeriesDao
 import com.madrid.data.dataSource.local.dao.SeriesGenreDao
 import com.madrid.data.dataSource.local.table.ArtistTable
+import com.madrid.data.dataSource.local.table.MediaHistoryTable
 import com.madrid.data.dataSource.local.table.MovieGenreTable
 import com.madrid.data.dataSource.local.table.MovieSection
 import com.madrid.data.dataSource.local.table.MovieTable
@@ -135,16 +136,51 @@ class LocalDataSourceImpl @Inject constructor(
         return seriesGenreDao.getSeriesByGenres()
     }
 
-    override suspend fun getNowPlayingMovies(): List<MovieTable> {
+    override suspend fun getNowPlayingMovies(): List<SectionsMovieTable> {
         return movieDao.getMoviesBySection(MovieSection.NOW_PLAYING.value)
     }
 
-    override suspend fun getUpComingMovies(): List<MovieTable> {
+    override suspend fun getUpComingMovies(): List<SectionsMovieTable> {
         return movieDao.getMoviesBySection(MovieSection.UPCOMING.value)
+    }
+
+    override suspend fun getTrendingMovies(): List<SectionsMovieTable> {
+        return movieDao.getMoviesBySection(MovieSection.TRENDING.value)
+    }
+
+    override suspend fun getTopRatingMovies(): List<SectionsMovieTable> {
+        return movieDao.getMoviesBySection(MovieSection.TOP_RATED.value)
+    }
+
+    override suspend fun getRecommendedMovies(): List<SectionsMovieTable> {
+        return movieDao.getMoviesBySection(MovieSection.RECOMMENDED.value)
     }
 
     override suspend fun clearHomeMoviesCache() {
         movieDao.clearHomeMoviesCache()
     }
 
+    override suspend fun addMovieToHistory(movieId: Int) {
+        movieDao.insertHistoryMovie(
+            MediaHistoryTable(
+                mediaId = movieId,
+                mediaType = "Movie",
+                addedAt = System.currentTimeMillis()
+            )
+        )
+    }
+
+    override suspend fun addSeriesToHistory(seriesId: Int) {
+        seriesDao.insertHistorySeries(
+            MediaHistoryTable(
+                mediaId = seriesId,
+                mediaType = "Series",
+                addedAt = System.currentTimeMillis()
+            )
+        )
+    }
+
+    override suspend fun getAllMoviesInHistory() = movieDao.getALLMoviesInHistory()
+
+    override suspend fun getAllSeriesInHistory() = seriesDao.getALLSeriesInHistory()
 }

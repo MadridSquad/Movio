@@ -9,9 +9,11 @@ import com.madrid.domain.usecase.search.GetRecommendedMovieUseCase
 import com.madrid.presentation.screens.searchScreen.paging.ForYouPagingSource
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.uiStateMapper.toMovieUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+@HiltViewModel
 class SeeAllForYouViewModel @Inject constructor(
     private val getRecommendedMovieUseCase: GetRecommendedMovieUseCase
 ) : BaseViewModel<SeeAllForYouUIState, Nothing>(

@@ -38,7 +38,7 @@ import kotlin.math.absoluteValue
 fun MovioPager(
     medias: List<MediaUiState>,
     modifier: Modifier = Modifier,
-    onClickItem: () -> Unit = {},
+    onClickItem: (Int) -> Unit = {},
 ) {
     if(medias.isNotEmpty()){
         val pagerState = rememberPagerState(
@@ -102,7 +102,7 @@ fun MovioPager(
                             movieId = medias[page].imageUrl,
                             name = medias[page].title,
                             genres = medias[page].category.map { it.name },
-                            onClick = onClickItem,
+                            onClick = { onClickItem(medias[page].id.toInt()) },
                         )
                     }
                 }

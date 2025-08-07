@@ -1,6 +1,5 @@
 package com.madrid.data.dataSource.remote
 
-import android.util.Log
 import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
@@ -9,13 +8,18 @@ import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
 import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
+import com.madrid.data.dataSource.remote.dto.list.ListDto
+import com.madrid.data.dataSource.remote.dto.list.ListsDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
+import com.madrid.data.dataSource.remote.dto.movie.MovieResult
 import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
 import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SearchMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SimilarMoviesResponse
 import com.madrid.data.dataSource.remote.dto.movie.UpcomingMoviesResponse
+import com.madrid.data.dataSource.remote.dto.rate.RatingMovieResponse
+import com.madrid.data.dataSource.remote.dto.rate.RatingSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
@@ -23,11 +27,25 @@ import com.madrid.data.dataSource.remote.dto.series.SearchSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SeasonResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesCreditResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
+import com.madrid.data.dataSource.remote.dto.series.SeriesResult
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
 import com.madrid.data.repositories.remote.RemoteDataSource
+
+import com.madrid.domain.exceptions.AccountLockedException
+import com.madrid.domain.exceptions.AuthorizationException
+import com.madrid.domain.exceptions.InvalidCredentialsException
+import com.madrid.domain.exceptions.NetworkException
+import com.madrid.domain.exceptions.SessionExpiredException
+import com.madrid.domain.exceptions.UnknownException
+import retrofit2.HttpException
+import java.io.IOException
+import java.net.HttpURLConnection.HTTP_UNAUTHORIZED
+
+
 import javax.inject.Inject
+
 
 class RemoteDataSourceImpl @Inject constructor(
     private val api: MovioApi
@@ -80,13 +98,15 @@ class RemoteDataSourceImpl @Inject constructor(
     ): SearchMovieResponse {
         return api.getMoviesByGenreId(page, genreId, sortBy)
     }
+
+    override suspend fun getFavoriteMovies(sessionId: String): List<MovieResult> {
+        return api.getFavoriteMovies(sessionId).movieResults
+    }
     // endregion
 
     // region Series
     override suspend fun getTopRatedSeries(page: Int): TopRatedSeriesResponse {
-        val x = api.getTopRatedSeries(page)
-        Log.d("getTopRatedSeries", "getTopRatedSeries: in data source: ${x.results}")
-        return x
+        return api.getTopRatedSeries(page)
     }
 
     override suspend fun searchSeriesByQuery(name: String, page: Int): SearchSeriesResponse {
@@ -126,6 +146,10 @@ class RemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getSeriesDetailsById(seriesId: Int): SeriesDetailsResponse {
         return api.getSeriesDetailsById(seriesId)
+    }
+
+    override suspend fun getFavoriteSeries(sessionId: String): List<SeriesResult> {
+        return api.getFavoriteSeries(sessionId).seriesResults
     }
 
     // Artist
@@ -169,51 +193,118 @@ class RemoteDataSourceImpl @Inject constructor(
         return api.getSeriesByGenreId(page, genreId, sortBy)
     }
 
-    override suspend fun login(username: String, password: String): String {
-        val requestTokenResponse = api.getRequestToken()
-        val requestToken = requestTokenResponse.requestToken
-        val sessionResponse = api.postCreateSession(
-            CreateSessionBody(
-                username = username,
-                password = password,
-                requestToken = requestToken
-            )
-        )
-        return sessionResponse.requestToken
+    override suspend fun getCustomLists(sessionId: String): List<ListDto> {
+        return api.getCustomLists(sessionId).results
     }
 
-    override suspend fun getSessionId(username: String, password: String): String{
-        val requestTokenResponse = api.getRequestToken()
-        val requestToken = requestTokenResponse.requestToken
-        val sessionResponse = api.postCreateSession(
-            CreateSessionBody(
-                username = username,
-                password = password,
-                requestToken = requestToken
+    override suspend fun getCustomListDetails(listId: Int): ListsDetailsResponse {
+        return api.getCustomListDetails(listId)
+    }
+
+    override suspend fun login(username: String, password: String): String {
+        try {
+            val requestTokenResponse = api.getRequestToken()
+            val requestToken = requestTokenResponse.requestToken
+            val sessionResponse = api.postCreateSession(
+                CreateSessionBody(
+                    username = username,
+                    password = password,
+                    requestToken = requestToken
+                )
             )
-        )
-        val sessionId = api.createSession(
-            CreateSessionRawBody(sessionResponse.requestToken)
-        )
-        return sessionId.sessionId
+            return sessionResponse.requestToken
+        } catch (e: HttpException) {
+            val code = e.code()
+            val errorBody = e.response()?.errorBody()?.string()?.lowercase()
+
+            if (code == HTTP_UNAUTHORIZED) {
+                when {
+                    errorBody?.contains("invalid username") == true ||
+                            errorBody?.contains("invalid password") == true ||
+                            errorBody?.contains("unauthorized") == true -> {
+                        throw InvalidCredentialsException()
+                    }
+
+                    errorBody?.contains("suspended") == true -> {
+                        throw AccountLockedException()
+                    }
+
+                    errorBody?.contains("expired") == true -> {
+                        throw SessionExpiredException()
+                    }
+
+                    else -> {
+                        throw AuthorizationException("Unauthorized access")
+                    }
+                }
+            } else {
+                throw UnknownException("HTTP error $code: $errorBody")
+            }
+        } catch (e: IOException) {
+            throw NetworkException("No internet connection")
+        } catch (e: Exception) {
+            throw UnknownException("Unknown error during login: ${e.message}")
+        }
+    }
+
+
+    override suspend fun getSessionId(username: String, password: String): String {
+        try {
+            val requestTokenResponse = api.getRequestToken()
+            val requestToken = requestTokenResponse.requestToken
+
+            val sessionResponse = api.postCreateSession(
+                CreateSessionBody(
+                    username = username,
+                    password = password,
+                    requestToken = requestToken
+                )
+            )
+            val sessionId = api.createSession(
+                CreateSessionRawBody(sessionResponse.requestToken)
+            )
+            return sessionId.sessionId
+        } catch (e: HttpException) {
+            when (e.code()) {
+                401 -> throw InvalidCredentialsException()
+                403 -> throw SessionExpiredException()
+                else -> throw UnknownException("HTTP ${e.code()}: ${e.message()}")
+            }
+        } catch (e: IOException) {
+            throw NetworkException("No internet connection  ")
+        } catch (e: Exception) {
+            if (e.message?.contains("invalid username or password", true) == true) {
+                throw InvalidCredentialsException()
+            }
+            throw UnknownException("Unexpected error: ${e.message}")
+        }
+
     }
 
     override suspend fun loginAsGuest(): String {
-        return api.getCreateGuestSession().requestToken
-    }
-
-    override suspend fun getCurrentUserDetails(sessionId : String): AccountDetailsResponse {
-        Log.d("TAG getCurrentUserDetails", "in dataaaaaa getCurrentUserDetails 1: ")
-
         try {
-            api.getAccountDetails(sessionId)
-        }catch (e: Exception){
-            Log.d("TAG getCurrentUserDetails", "in dataaaaaa  excpetioooooon getCurrentUserDetails ${e.message}: ")
-
+            val guestSessionResponse = api.getCreateGuestSession()
+            return guestSessionResponse.requestToken
+        } catch (e: HttpException) {
+            throw AuthorizationException("Function…")
+        } catch (e: IOException) {
+            throw NetworkException("No internet connection")
+        } catch (e: Exception) {
+            throw UnknownException("Unknown error}")
         }
-        val x = api.getAccountDetails(sessionId)
-        Log.d("TAG getCurrentUserDetails", "in dataaaaaa getCurrentUserDetails: 2 $x")
-        return x
     }
 
+    override suspend fun getCurrentUserDetails(sessionId: String): AccountDetailsResponse {
+        return api.getAccountDetails(sessionId)
+    }
+
+    override suspend fun getUserRatingForMovie(sessionId: String): RatingMovieResponse {
+        val accountId = api.getAccountDetails(sessionId).id
+        return api.getUserRatingForMovie(accountId, sessionId)
+    }
+
+    override suspend fun getUserRatingForSeries(sessionId: String): RatingSeriesResponse {
+        val accountId = api.getAccountDetails(sessionId).id
+        return api.getUserRatingForSeries(accountId, sessionId)
+    }
 }

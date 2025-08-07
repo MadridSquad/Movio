@@ -96,7 +96,7 @@ fun CustomBottomBar(
             .height(74.dp)
             .background(color = backgroundColor)
             .padding(horizontal = 20.dp, vertical = 14.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically
     ) {
         navItems.forEach { item ->

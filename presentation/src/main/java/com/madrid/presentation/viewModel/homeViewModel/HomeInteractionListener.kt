@@ -9,4 +9,5 @@ interface HomeInteractionListener {
     fun onMediaSelected(mediaId: Int, mediaType: MediaType)
     fun loadMoviesLayoutData()
     fun loadSeriesLayoutData()
+    fun onClickProfile()
 }

@@ -14,11 +14,11 @@ class SeeAllAiringTodayTvShow(
     }
 
     override suspend fun getAllTvShows(page: Int): List<Series> {
-        return getAiringTodaySeriesUseCase(1)
+        return getAiringTodaySeriesUseCase(page)
     }
 
-    override suspend fun getTvShowsBasedOnCategory(categoryId: Int): List<Series> {
-        val tvShows = getAllTvShows(1)
+    override suspend fun getTvShowsBasedOnCategory(categoryId: Int,page: Int): List<Series> {
+        val tvShows = getAllTvShows(page)
         Log.d("in airing getTvShowsBasedOnCategory", "in airing getTvShowsBasedOnCategory before filter: $tvShows")
         val x = filterSeriesByCategoryUseCase(series = tvShows, category = categoryId)
         Log.d("in airing getTvShowsBasedOnCategory", "in airing getTvShowsBasedOnCategory: $x")

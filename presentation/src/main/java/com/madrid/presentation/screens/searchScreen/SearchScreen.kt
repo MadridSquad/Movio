@@ -61,7 +61,7 @@ fun SearchScreen(
 
     RefreshScreenHolder(
         refreshState = uiState.searchUiState.refreshState,
-        onRefresh = {viewModel.onRefresh(typeOfFilterSearch)}
+        onRefresh = { viewModel.onRefresh(typeOfFilterSearch) }
     ) {
         ContentSearchScreen(
             isError = uiState.searchUiState.isError,
@@ -111,7 +111,7 @@ fun SearchScreen(
             },
             isLoading = uiState.searchUiState.isLoading,
             searchHistory = uiState.recentSearchUiState,
-            onSearchItemClick = {  viewModel.updateSearchQuery(it) },
+            onSearchItemClick = { viewModel.updateSearchQuery(it) },
             onRemoveItem = { viewModel.removeRecentSearch(it) },
             onClearAll = { viewModel.clearAll() },
             onClickSeeAll = {
@@ -219,8 +219,8 @@ fun ContentSearchScreen(
         ) {
             BasicTextInputField(
                 value = searchQuery,
-                onValueChange = {
-                    onSearchQueryChange(it)
+                onValueChange = { newQuery ->
+                    onSearchQueryChange(newQuery)
                     showRecentSearch = 1
                 },
                 hintText = stringResource(com.madrid.presentation.R.string.searchdot),

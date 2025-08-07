@@ -13,11 +13,11 @@ class SeeAllRecommendedTVShow(
     }
 
     override suspend fun getAllTvShows(page: Int): List<Series> {
-        return getRecommendedSeriesUseCase(1)
+        return getRecommendedSeriesUseCase(page)
     }
 
-    override suspend fun getTvShowsBasedOnCategory(categoryId: Int): List<Series> {
-        val tvShows = getAllTvShows(1)
+    override suspend fun getTvShowsBasedOnCategory(categoryId: Int,page: Int): List<Series> {
+        val tvShows = getAllTvShows(page)
         return filterSeriesByCategoryUseCase(series = tvShows, category = categoryId)
     }
     override fun showTvShowsCategory(): Boolean {

@@ -8,7 +8,7 @@ data class SearchSeriesResponse(
     @SerializedName("page")
     val page: Int?,
     @SerializedName("results")
-    val seriesResults: List<SeriesResult>?,
+    val seriesResults: List<SeriesResult>,
     @SerializedName("total_pages")
     val totalPages: Int?,
     @SerializedName("total_results")
@@ -44,5 +44,7 @@ data class SeriesResult(
     @SerializedName("vote_average")
     val voteAverage: Double?,
     @SerializedName("vote_count")
-    val voteCount: Int?
+    val voteCount: Int?,
+    @SerializedName("rating")
+    val rating: Double?
 )

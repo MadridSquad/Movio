@@ -1,9 +1,12 @@
 package com.madrid.presentation.screens.searchScreen.features.recentSearchLayout
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -12,6 +15,7 @@ import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
@@ -69,10 +73,10 @@ fun LazyGridScope.filterSearchScreen(
                 span = { GridItemSpan(maxLineSpan) }
             ) {
                 LazyVerticalGrid(
-                    columns = GridCells.Fixed(3),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.height(3 * 186.dp)
+                    columns = GridCells.Adaptive(minSize = 102.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.heightIn(min = 200.dp , max = 1000.dp)
                 ) {
                     when {
                         topRated.itemCount == 0 && topRated.loadState.refresh is LoadState.Loading -> {
@@ -126,8 +130,7 @@ fun LazyGridScope.filterSearchScreen(
                                     description = topRated[index]!!.title,
                                     movieImage = topRated[index]!!.imageUrl,
                                     rate = topRated[index]!!.rating,
-                                    width = 101.dp,
-                                    height = 136.dp,
+                                    height = 180.dp,
                                     onClick = { onTopResultClick(topRated[index]!!.id.toInt()) }
                                 )
                             }
@@ -147,10 +150,10 @@ fun LazyGridScope.filterSearchScreen(
                 span = { GridItemSpan(maxLineSpan) }
             ) {
                 LazyVerticalGrid(
-                    columns = GridCells.Fixed(3),
+                    columns = GridCells.Adaptive(minSize = 102.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.height(3 * 186.dp)
+                    modifier = Modifier.heightIn(min = 200.dp , max = 1000.dp)
                 ) {
                     when {
                         movies.itemCount == 0 && movies.loadState.refresh is LoadState.Loading -> {
@@ -205,8 +208,7 @@ fun LazyGridScope.filterSearchScreen(
                                     description = movies[index]!!.title,
                                     movieImage = movies[index]!!.imageUrl,
                                     rate = movies[index]!!.rating,
-                                    width = 101.dp,
-                                    height = 136.dp,
+                                    height = 180.dp,
                                     onClick = { onMovieClick(movies[index]!!.id.toInt()) }
                                 )
                             }
@@ -226,11 +228,11 @@ fun LazyGridScope.filterSearchScreen(
                 span = { GridItemSpan(maxLineSpan) }
             ) {
                 LazyVerticalGrid(
-                    columns = GridCells.Fixed(3),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.height(3 * 186.dp)
-                ) {
+                    columns = GridCells.Adaptive(minSize = 102.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.heightIn(min = 200.dp , max = 1000.dp)
+                ){
                     when {
                         series.itemCount == 0 && series.loadState.refresh is LoadState.Loading -> {
                             items(9) {
@@ -285,8 +287,7 @@ fun LazyGridScope.filterSearchScreen(
                                     description = series[index]!!.title,
                                     movieImage = series[index]!!.imageUrl,
                                     rate = series[index]!!.rating,
-                                    width = 101.dp,
-                                    height = 136.dp,
+                                    height = 180.dp,
                                     onClick = { onSeriesClick(series[index]!!.id.toInt()) }
                                 )
                             }

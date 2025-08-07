@@ -8,7 +8,10 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -22,6 +25,7 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTvShowType
 import com.madrid.presentation.viewModel.shared.MediaUiState
+import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
 fun TvShowsLayout(
@@ -30,10 +34,28 @@ fun TvShowsLayout(
     airingTodaySeries: List<MediaUiState>,
     onAirSeries: List<MediaUiState>,
     recommendedSeries: List<MediaUiState>,
-) {
+    onScroll: (Boolean) -> Unit ={},
+    ) {
     val navController = LocalNavController.current
+    val lazyGridState = rememberLazyGridState()
+
+    LaunchedEffect(lazyGridState) {
+        snapshotFlow {
+            lazyGridState.firstVisibleItemScrollOffset + (lazyGridState.firstVisibleItemIndex * 1000)
+        }
+            .distinctUntilChanged()
+            .collect { scrollOffset ->
+                val scrollDistance = scrollOffset.toFloat()
+                when(scrollDistance){
+                    in 0f..100f -> onScroll(false)
+                    else -> onScroll(true)
+                }
+
+            }
+    }
 
     LazyVerticalGrid(
+        state = lazyGridState,
         columns = GridCells.Fixed(2),
         modifier = Modifier
             .fillMaxSize(),

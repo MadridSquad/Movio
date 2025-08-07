@@ -4,17 +4,21 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.madrid.domain.usecase.authentication.GetCurrentUserDetailsUseCase
 import com.madrid.domain.usecase.authentication.LoginUseCase
+import com.madrid.domain.usecase.preferences.GetAppThemeUseCase
+import com.madrid.domain.usecase.preferences.SetAppThemeUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class MoreViewModel @Inject constructor(
     private val isGuestUseCase: LoginUseCase,
-    private val getCurrentUserDetailsUseCase: GetCurrentUserDetailsUseCase
+    private val getCurrentUserDetailsUseCase: GetCurrentUserDetailsUseCase,
+    private val getAppThemeUseCase: GetAppThemeUseCase,
+    private val setAppThemeUseCase: SetAppThemeUseCase,
 ) :
     BaseViewModel<MoreUiState, MoreEffect>(MoreUiState()),
     MoreInteractionListener {
@@ -22,10 +26,7 @@ class MoreViewModel @Inject constructor(
     init {
         fetchIsGuest()
         fetchCurrentUserDetails()
-//        getProfilePicture()
-//        getUsername()
-//        getDarkModeState()
-//        getLanguage()
+        initAppTheme()
 //        getAppVersion()
     }
 
@@ -37,17 +38,13 @@ class MoreViewModel @Inject constructor(
         emitNewEffect(MoreEffect.navigateToMyRatings)
     }
 
-    override fun onThemeClick() {
-        TODO("Not yet implemented")
-    }
-
     private fun fetchCurrentUserDetails() {
         updateState { it.copy(isLoading = true) }
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                Log.d("Tag fetchCurrentUserDetails"," user is:   ")
+                Log.d("Tag fetchCurrentUserDetails", " user is:   ")
                 val user = getCurrentUserDetailsUseCase()
-                Log.d("Tag fetchCurrentUserDetails"," user is:   $user")
+                Log.d("Tag fetchCurrentUserDetails", " user is:   $user")
                 updateState {
                     it.copy(
                         isLoading = false,
@@ -82,20 +79,53 @@ class MoreViewModel @Inject constructor(
         }
     }
 
-    override fun setDarkMode(isEnabled: Boolean) {
-        TODO("Not yet implemented")
+    private fun initAppTheme() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                getAppThemeUseCase().collectLatest { appTheme ->
+                    updateState {
+                        it.copy(
+                            selectedTheme = appTheme.toThemeType(),
+                            currentTheme = appTheme.toThemeType()
+                        )
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("MoreViewModel", "Error theme ====", e)
+            }
+        }
     }
 
-    override fun onLanguageBtnClick() {
-        TODO("Not yet implemented")
+    override fun onClickTheme() {
+        updateState { it.copy(isThemeSheetVisible = true) }
     }
 
-    private fun getDarkModeState(): Boolean {
-        TODO("Not yet implemented")
+    override fun onSelectTheme(themeType: ThemeType) {
+        updateState { it.copy(selectedTheme = themeType) }
     }
 
-    override fun setLanguage(language: String) {
-        TODO("Not yet implemented")
+    override fun onConfirmTheme() {
+        tryToExecute(
+            function = { setAppThemeUseCase(state.value.selectedTheme.toAppTheme()) },
+            onSuccess = {
+                updateState { it.copy(currentTheme = state.value.selectedTheme) }
+                onDismissBottomSheet()
+            },
+            onError = { onError() },
+        )
+    }
+
+    override fun onClickLanguage() {
+        updateState { it.copy(isLanguageSheetVisible = true) }
+    }
+
+    override fun onDismissBottomSheet() {
+        updateState {
+            it.copy(
+                isThemeSheetVisible = false,
+                isLanguageSheetVisible = false
+            )
+        }
     }
 
     override fun onLogoutBtnClick() {
@@ -106,15 +136,16 @@ class MoreViewModel @Inject constructor(
         updateState { it.copy(isLogoutSheetVisible = false) }
     }
 
-    private fun getLanguage(): String {
-        TODO("Not yet implemented")
-    }
-
     private fun getAppVersion(): String {
         TODO("Not yet implemented")
     }
 
-    override fun logout() {
-        TODO("Not yet implemented")
+    private fun onError(message: String = "") {
+        updateState {
+            it.copy(
+                isLoading = false,
+                errorMessage = message
+            )
+        }
     }
 }

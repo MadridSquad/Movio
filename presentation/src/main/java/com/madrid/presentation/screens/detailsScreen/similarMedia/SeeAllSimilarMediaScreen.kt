@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -72,7 +73,8 @@ fun SeeAllSimilarMediaScreenContent(
     Column(
         Modifier
             .fillMaxSize()
-            .padding(horizontal = 4.dp, vertical = 16.dp)
+            .padding(horizontal = 4.dp, vertical = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopAppBar(
             text = headerName,
@@ -86,7 +88,8 @@ fun SeeAllSimilarMediaScreenContent(
             columns = GridCells.Adaptive(minSize = 101.dp),
             modifier = Modifier
                 .fillMaxSize()
-                .background(Theme.color.surfaces.surface),
+                .background(Theme.color.surfaces.surface)
+            .padding(start = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             items(similarMovies.size) { index ->
