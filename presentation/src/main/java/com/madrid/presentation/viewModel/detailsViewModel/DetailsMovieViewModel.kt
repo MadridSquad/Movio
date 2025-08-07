@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.madrid.domain.usecase.movie.AddMovieToFavoriteUseCase
 import com.madrid.domain.usecase.movie.AddMovieToHistoryUseCase
 import com.madrid.domain.usecase.movie.GetMovieDetailsUseCase
 import com.madrid.domain.usecase.movie.GetMovieReviewsUseCase
@@ -28,6 +29,7 @@ class DetailsMovieViewModel @Inject constructor(
     private val getSimilarMoviesUseCase: GetSimilarMoviesUseCase,
     private val getMovieReviewsUseCase: GetMovieReviewsUseCase,
     private val addMovieToHistoryUseCase: AddMovieToHistoryUseCase,
+    private val addMovieToFavoriteUseCase: AddMovieToFavoriteUseCase
 ) : BaseViewModel<DetailsMovieUiState, Nothing>(
     DetailsMovieUiState()
 ) {
@@ -158,13 +160,17 @@ class DetailsMovieViewModel @Inject constructor(
         )
     }
 
-    fun onClickLoveIcon(
-
-    ) {
-        updateState {
-            it.copy(
-                isLoved = !it.isLoved
-            )
-        }
+    fun onClickLoveIcon(movieId: Int) {
+        tryToExecute(
+            function = {
+                addMovieToFavoriteUseCase(movieId)
+            },
+            onSuccess = {
+                updateState {
+                    it.copy(isLoved = true)
+                }
+            },
+            onError = {},
+        )
     }
 }
