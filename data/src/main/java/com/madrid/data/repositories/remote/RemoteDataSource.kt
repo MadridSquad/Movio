@@ -6,11 +6,15 @@ import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
 import com.madrid.data.dataSource.remote.dto.authentication.AccountDetailsResponse
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
 import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
+import com.madrid.data.dataSource.remote.dto.list.ListDto
+import com.madrid.data.dataSource.remote.dto.list.ListsDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
 import com.madrid.data.dataSource.remote.dto.movie.SearchMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SimilarMoviesResponse
+import com.madrid.data.dataSource.remote.dto.rate.RatingMovieResponse
+import com.madrid.data.dataSource.remote.dto.rate.RatingSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SearchSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SeasonResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesCreditResponse
@@ -68,6 +72,12 @@ interface RemoteDataSource {
     suspend fun getArtistMovies(artistId: Int): List<KnownForMoviesNetwork>
 
     // endregion
+
+    // region Lists
+    suspend fun getCustomLists(sessionId: String): List<ListDto>
+    suspend fun getCustomListDetails(listId: Int): ListsDetailsResponse
+    // endregion
+
     // region authentication
     suspend fun login(username: String, password: String): String
     suspend fun loginAsGuest(): String
@@ -76,4 +86,6 @@ interface RemoteDataSource {
     suspend fun getSessionId(username: String, password: String): String
     // endregion
 
+    suspend fun getUserRatingForMovie(sessionId: String):RatingMovieResponse
+    suspend fun getUserRatingForSeries(sessionId: String):RatingSeriesResponse
 }

@@ -6,10 +6,12 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.Series
+import com.madrid.domain.usecase.series.AddSeriesToHistoryUseCase
 import com.madrid.domain.usecase.series.GetEpisodesForSeasonUseCase
 import com.madrid.domain.usecase.series.GetSeriesDetailsUseCase
 import com.madrid.domain.usecase.series.GetSeriesReviewsUseCase
 import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
+import com.madrid.domain.usecase.series.GetSeriesTrailersUseCase
 import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.utils.RateFormatter
@@ -28,12 +30,38 @@ class SeriesDetailsViewModel @Inject constructor(
     private val getSeriesTopCastUseCase: GetSeriesTopCastUseCase,
     private val getSeriesReviewsUseCase: GetSeriesReviewsUseCase,
     private val getSimilarSeriesUseCase: GetSimilarSeriesUseCase,
-    private val getEpisodesForSeasonUseCase: GetEpisodesForSeasonUseCase
+    private val getEpisodesForSeasonUseCase: GetEpisodesForSeasonUseCase,
+    private val addSeriesToHistoryUseCase: AddSeriesToHistoryUseCase,
+    private val getSeriesTrailersUseCase: GetSeriesTrailersUseCase,
 ) : BaseViewModel<SeriesDetailsUiState, Nothing>(SeriesDetailsUiState()) {
     private val args = savedStateHandle.toRoute<Destinations.SeriesDetailsScreen>()
 
     init {
+        saveSeriesToHistory()
         loadData()
+    }
+
+    private fun saveSeriesToHistory(){
+        tryToExecute(
+            function = { addSeriesToHistoryUseCase(args.seriesId) },
+            onSuccess = {},
+            onError = {}
+        )
+    }
+
+    private fun loadTrailer() {
+        tryToExecute(
+            function = { getSeriesTrailersUseCase(args.seriesId) },
+            onSuccess = { trailers ->
+                val trailerKey = trailers.firstOrNull()?.key // or filter official
+                if (trailerKey != null) {
+                    updateState { it.copy(trailerKey = trailerKey) }
+                }
+            },
+            onError = { error ->
+                Log.d("SeriesTrailer", "Failed to load trailer: ${error.message}")
+            }
+        )
     }
 
     private fun loadData() {
@@ -58,6 +86,7 @@ class SeriesDetailsViewModel @Inject constructor(
                 loadCastData()
                 loadReviews()
                 loadSimilarSeries()
+                loadTrailer()
                 loadSeasonEpisodes(if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber)
             },
             onError = {
@@ -68,8 +97,6 @@ class SeriesDetailsViewModel @Inject constructor(
 
     private fun loadAllSeasonsEpisodes() {
         viewModelScope.launch {
-            val seasonCount = state.first().currentSeasonsUiStates.size
-            Log.d("TAG lol", "loadAllSeasonsEpisodes: ${state.first().numberOfSeasons}")
             state.first().currentSeasonsUiStates.forEachIndexed { index, season ->
                 tryToExecute(
                     function = {

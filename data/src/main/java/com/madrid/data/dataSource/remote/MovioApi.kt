@@ -6,6 +6,8 @@ import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
 import com.madrid.data.dataSource.remote.dto.authentication.AccountDetailsResponse
 import com.madrid.data.dataSource.remote.dto.authentication.AuthenticationResponse
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
+import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
+import com.madrid.data.dataSource.remote.dto.authentication.SessionIdResponse
 import com.madrid.data.dataSource.remote.dto.common.TrailerResponse
 import com.madrid.data.dataSource.remote.dto.genre.GenresResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
@@ -15,6 +17,8 @@ import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SearchMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SimilarMoviesResponse
 import com.madrid.data.dataSource.remote.dto.movie.UpcomingMoviesResponse
+import com.madrid.data.dataSource.remote.dto.rate.RatingMovieResponse
+import com.madrid.data.dataSource.remote.dto.rate.RatingSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
@@ -25,8 +29,8 @@ import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
-import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
-import com.madrid.data.dataSource.remote.dto.authentication.SessionIdResponse
+import com.madrid.data.dataSource.remote.dto.list.ListsDetailsResponse
+import com.madrid.data.dataSource.remote.dto.list.ListsResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -204,7 +208,6 @@ interface MovioApi {
     ): SessionIdResponse
 
 
-
     @GET("authentication/guest_session/new")
     suspend fun getCreateGuestSession(): AuthenticationResponse
 
@@ -224,6 +227,33 @@ interface MovioApi {
     suspend fun getUpcomingMovies(
         @Query("page") page: Int
     ): UpcomingMoviesResponse
+
+    // region List
+
+    @GET("account/account_id/lists")
+    suspend fun getCustomLists(
+        @Query("session_id") sessionId: String,
+    ): ListsResponse
+
+    @GET("list/{list_id}")
+    suspend fun getCustomListDetails(
+        @Path("list_id") listId: Int,
+    ): ListsDetailsResponse
+    // region EpisodeRating
+
+    @GET("account/{account_id}/rated/movies")
+    suspend fun getUserRatingForMovie(
+        @Path("account_id") accountId: Int? = null,
+        @Query("session_id") sessionId: String
+    ): RatingMovieResponse
+
+    @GET("account/{account_id}/rated/tv")
+    suspend fun getUserRatingForSeries(
+        @Path("account_id") accountId: Int? = null,
+        @Query("session_id") sessionId: String
+    ): RatingSeriesResponse
+
+    // endregion
 
     companion object {
         private const val DISCOVER_MOVIE = "discover/movie"

@@ -7,6 +7,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
+
+
     <application
         android:name=".di.MovioApp"
         android:screenOrientation="unspecified"
@@ -21,15 +23,29 @@
         android:theme="@style/Theme.SplashScreen.ComposeSplash"
         tools:targetApi="31">
         <activity
-            android:name="com.madrid.movio.MainActivity"
+            android:name="com.madrid.presentation.MainActivity"
+            android:localeConfig="@xml/locales_config"
             android:exported="true"
-            android:theme="@style/Theme.SplashScreen.ComposeSplash">
+            android:theme="@style/Theme.SplashScreen.ComposeSplash"
+            tools:targetApi="33">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            tools:node="remove" />
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
     </application>
 
 </manifest>

@@ -21,13 +21,17 @@ import com.madrid.presentation.screens.homeScreen.HomeScreen
 import com.madrid.presentation.screens.homeScreen.SeeAllMoviesScreen
 import com.madrid.presentation.screens.homeScreen.SeeAllTVShowsScreen
 import com.madrid.presentation.screens.libraryScreen.LibraryScreen
+import com.madrid.presentation.screens.libraryScreen.ViewAllScreen
 import com.madrid.presentation.screens.loginScreen.AuthenticationScreen
 import com.madrid.presentation.screens.loginScreen.component.ForgotPassword
 import com.madrid.presentation.screens.loginScreen.component.WebViewScreen
 import com.madrid.presentation.screens.moreScreen.MoreScreen
+import com.madrid.presentation.screens.moreScreen.MyRatingScreen
 import com.madrid.presentation.screens.onboarding.OnBoardingScreen
 import com.madrid.presentation.screens.searchScreen.SearchScreen
 import com.madrid.presentation.screens.searchScreen.SeeAllForYou.SeeAllForYouScreen
+import com.madrid.presentation.viewModel.libraryViewModel.viewAll.ViewAllViewModel
+import com.madrid.presentation.viewModel.libraryViewModel.viewAll.factory.ViewAllFactory
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesFactory
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesViewModel
 import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTVShowsFactory
@@ -42,6 +46,7 @@ import dagger.hilt.components.SingletonComponent
 interface StrategyFactoryEntryPoint {
     fun moviesFactory(): SeeAllMoviesFactory
     fun tvShowsFactory(): SeeAllTVShowsFactory
+    fun viewAllFactory(): ViewAllFactory
 }
 
 @Composable
@@ -57,8 +62,7 @@ fun MovioNavHost(
             if (isFirstLaunch) {
                 setOnBoardingComplete(true)
                 Destinations.OnBoarding
-            }
-            else if (isLoggedIn.not()) Destinations.AuthenticationScreen
+            } else if (isLoggedIn.not()) Destinations.AuthenticationScreen
             else Destinations.HomeScreen,
         enterTransition = {
             fadeIn(tween(0))
@@ -145,8 +149,22 @@ fun MovioNavHost(
             val strategy = entryPoint.tvShowsFactory().create(destination.type)
             SeeAllTVShowsScreen(
                 viewModel = hiltViewModel<SeeAllTVShowsViewModel, SeeAllTVShowsViewModel.Factory>(
-                key = destination.type.toString()
+                    key = destination.type.toString()
                 ) { factory -> factory.create(strategy) })
+        }
+        composable<Destinations.ViewAllScreen> { backStackEntry ->
+            val destination = backStackEntry.toRoute<Destinations.ViewAllScreen>()
+            val context = androidx.compose.ui.platform.LocalContext.current
+            val entryPoint =
+                EntryPointAccessors.fromApplication(context, StrategyFactoryEntryPoint::class.java)
+            val strategy = entryPoint.viewAllFactory().create(destination.type)
+            ViewAllScreen(
+                viewModel = hiltViewModel<ViewAllViewModel, ViewAllViewModel.Factory>(
+                    key = destination.type.toString()
+                ) { factory -> factory.create(strategy) })
+        }
+        composable<Destinations.MyRatingScreen> {
+            MyRatingScreen()
         }
     }
 }

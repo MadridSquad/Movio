@@ -1,5 +1,6 @@
 package com.madrid.presentation.component.movioCards
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,12 +10,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -52,12 +54,23 @@ fun MovioEpisodesCard(
                     .clip(RoundedCornerShape(8.dp)),
                 radius = 8.dp,
             )
+            Box(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .size(20.dp)
+                    .clip(CircleShape)
+                    .background(color = Theme.color.surfaces.onSurfaceAt2)
+                    .blur(16.dp)
+                    .clickable {
+                        onClick()
+                    }
+            )
             MovioIcon(
                 contentDescription = "video circle",
-                tint = Color.White,
-                painter = painterResource(R.drawable.bold_video_circle),
+                tint = Theme.color.surfaces.onSurface,
+                painter = painterResource(R.drawable.button_video_play),
                 modifier = Modifier
-                    .size(20.dp)
+                    .size(width = 6.8.dp, height = 7.23.dp)
                     .align(Alignment.Center)
             )
         }
@@ -132,7 +145,7 @@ private fun EpisodesCardPreview() {
             movieRate = "9",
             currentMovieEpisode = "Episode 01",
             movieTime = "44m",
-            movieImageUrl = "https://image.tmdb.org/t/p/w500/5xKGk6q5g7mVmg7k7U1RrLSHwz6.jpg",
+            movieImageUrl = "",
             onClick = { },
         )
     }
