@@ -1,9 +1,11 @@
 package com.madrid.presentation.screens.detailsScreen.detailsMovieScreen
 
+import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -159,7 +161,22 @@ fun MovieDetailsScreen(
                 )
                 BottomMediaActions(
                     onRateClick = {},
-                    onPlayClick = {},
+                    onPlayClick = {
+                        uiState.trailerKey?.let { key ->
+                            val youtubeAppIntent =
+                                Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$key"))
+                            val youtubeWebIntent = Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("https://www.youtube.com/watch?v=$key")
+                            )
+
+                            try {
+                                context.startActivity(youtubeAppIntent)
+                            } catch (e: ActivityNotFoundException) {
+                                context.startActivity(youtubeWebIntent)
+                            }
+                        }
+                    },
                     onAddToListClick = {},
                 )
                 Spacer(modifier = Modifier.height(16.dp))

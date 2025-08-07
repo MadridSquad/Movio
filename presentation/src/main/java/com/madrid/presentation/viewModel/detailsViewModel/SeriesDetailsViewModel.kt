@@ -11,6 +11,7 @@ import com.madrid.domain.usecase.series.GetEpisodesForSeasonUseCase
 import com.madrid.domain.usecase.series.GetSeriesDetailsUseCase
 import com.madrid.domain.usecase.series.GetSeriesReviewsUseCase
 import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
+import com.madrid.domain.usecase.series.GetSeriesTrailersUseCase
 import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.utils.RateFormatter
@@ -31,6 +32,7 @@ class SeriesDetailsViewModel @Inject constructor(
     private val getSimilarSeriesUseCase: GetSimilarSeriesUseCase,
     private val getEpisodesForSeasonUseCase: GetEpisodesForSeasonUseCase,
     private val addSeriesToHistoryUseCase: AddSeriesToHistoryUseCase,
+    private val getSeriesTrailersUseCase: GetSeriesTrailersUseCase,
 ) : BaseViewModel<SeriesDetailsUiState, Nothing>(SeriesDetailsUiState()) {
     private val args = savedStateHandle.toRoute<Destinations.SeriesDetailsScreen>()
 
@@ -44,6 +46,21 @@ class SeriesDetailsViewModel @Inject constructor(
             function = { addSeriesToHistoryUseCase(args.seriesId) },
             onSuccess = {},
             onError = {}
+        )
+    }
+
+    private fun loadTrailer() {
+        tryToExecute(
+            function = { getSeriesTrailersUseCase(args.seriesId) },
+            onSuccess = { trailers ->
+                val trailerKey = trailers.firstOrNull()?.key // or filter official
+                if (trailerKey != null) {
+                    updateState { it.copy(trailerKey = trailerKey) }
+                }
+            },
+            onError = { error ->
+                Log.d("SeriesTrailer", "Failed to load trailer: ${error.message}")
+            }
         )
     }
 
@@ -69,6 +86,7 @@ class SeriesDetailsViewModel @Inject constructor(
                 loadCastData()
                 loadReviews()
                 loadSimilarSeries()
+                loadTrailer()
                 loadSeasonEpisodes(if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber)
             },
             onError = {
