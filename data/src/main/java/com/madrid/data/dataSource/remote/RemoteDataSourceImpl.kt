@@ -10,6 +10,8 @@ import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
 import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
+import com.madrid.data.dataSource.remote.dto.list.ListDto
+import com.madrid.data.dataSource.remote.dto.list.ListsDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
@@ -172,6 +174,14 @@ class RemoteDataSourceImpl @Inject constructor(
         return api.getSeriesByGenreId(page, genreId, sortBy)
     }
 
+    override suspend fun getCustomLists(sessionId: String): List<ListDto> {
+        return api.getCustomLists(sessionId).results
+    }
+
+    override suspend fun getCustomListDetails(listId: Int): ListsDetailsResponse {
+        return api.getCustomListDetails(listId)
+    }
+
     override suspend fun login(username: String, password: String): String {
         val requestTokenResponse = api.getRequestToken()
         val requestToken = requestTokenResponse.requestToken
@@ -218,18 +228,8 @@ class RemoteDataSourceImpl @Inject constructor(
         return api.getCreateGuestSession().requestToken
     }
 
-    override suspend fun getCurrentUserDetails(sessionId : String): AccountDetailsResponse {
-        Log.d("TAG getCurrentUserDetails", "in dataaaaaa getCurrentUserDetails 1: ")
-
-        try {
-            api.getAccountDetails(sessionId)
-        }catch (e: Exception){
-            Log.d("TAG getCurrentUserDetails", "in dataaaaaa  excpetioooooon getCurrentUserDetails ${e.message}: ")
-
-        }
-        val x = api.getAccountDetails(sessionId)
-        Log.d("TAG getCurrentUserDetails", "in dataaaaaa getCurrentUserDetails: 2 $x")
-        return x
+    override suspend fun getCurrentUserDetails(sessionId: String): AccountDetailsResponse {
+        return api.getAccountDetails(sessionId)
     }
 
     override suspend fun getUserRatingForMovie(sessionId: String): RatingMovieResponse {
