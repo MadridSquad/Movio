@@ -27,6 +27,8 @@ import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
 import com.madrid.data.dataSource.remote.dto.authentication.SessionIdResponse
+import com.madrid.data.dataSource.remote.dto.list.ListsDetailsResponse
+import com.madrid.data.dataSource.remote.dto.list.ListsResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -224,6 +226,21 @@ interface MovioApi {
     suspend fun getUpcomingMovies(
         @Query("page") page: Int
     ): UpcomingMoviesResponse
+
+    // region List
+
+    @GET("account/account_id/lists")
+    suspend fun getCustomLists(
+//        @Path("account_id") accountId: Int,
+        @Query("session_id") sessionId: String,
+    ): ListsResponse
+
+    @GET("list/{list_id}")
+    suspend fun getCustomListDetails(
+        @Path("list_id") listId: Int,
+    ): ListsDetailsResponse
+
+    // endregion
 
     companion object {
         private const val DISCOVER_MOVIE = "discover/movie"
