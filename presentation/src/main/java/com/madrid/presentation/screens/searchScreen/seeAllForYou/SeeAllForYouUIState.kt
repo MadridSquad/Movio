@@ -1,4 +1,4 @@
-package com.madrid.presentation.screens.searchScreen.SeeAllForYou
+package com.madrid.presentation.screens.searchScreen.seeAllForYou
 
 import androidx.paging.PagingData
 import com.madrid.presentation.viewModel.searchViewModel.SearchScreenState.MovieUiState

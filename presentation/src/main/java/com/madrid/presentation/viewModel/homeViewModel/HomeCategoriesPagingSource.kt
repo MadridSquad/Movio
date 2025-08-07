@@ -5,7 +5,7 @@ import com.madrid.domain.entity.Series
 import com.madrid.domain.entity.SortType
 import com.madrid.domain.usecase.movie.GetMoviesByGenreIdUseCase
 import com.madrid.domain.usecase.series.GetSeriesByGenreIdUseCase
-import com.madrid.presentation.screens.searchScreen.paging.BasePagingSource
+import com.madrid.presentation.pagination.BasePagingSource
 import com.madrid.presentation.viewModel.homeViewModel.HomeCategoriesPagingSource.MixedData
 
 class HomeCategoriesPagingSource(
@@ -15,11 +15,10 @@ class HomeCategoriesPagingSource(
     private val sortBy: SortType
 ) : BasePagingSource<MixedData>() {
 
-
-    override suspend fun loadPage(page: Int): MixedData {
+    override suspend fun loadPage(page: Int): List<MixedData> {
         val movies = getMoviesByGenreIdUseCase(page = page, genreId = genreId, sortBy = sortBy)
         val series = getSeriesByGenreIdUseCase(page = page, genreId = genreId, sortBy = sortBy)
-        return MixedData(movies, series)
+        return listOf(MixedData(movies, series))
     }
 
     data class MixedData(

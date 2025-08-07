@@ -1,4 +1,4 @@
-package com.madrid.presentation.screens.searchScreen.SeeAllForYou
+package com.madrid.presentation.screens.searchScreen.seeAllForYou
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
