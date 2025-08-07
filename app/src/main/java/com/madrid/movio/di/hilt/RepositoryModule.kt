@@ -41,10 +41,10 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
+    abstract fun bindListRepository(listRepository: ListRepositoryImpl): ListRepository
+
     @Binds
     @Singleton
-    abstract fun bindListRepository(listRepository: ListRepositoryImpl): ListRepository
-    
     abstract fun bindAuthenticationRepository(authenticationRepository: AuthenticationRepositoryImpl): AuthenticationRepository
 
     @Binds
