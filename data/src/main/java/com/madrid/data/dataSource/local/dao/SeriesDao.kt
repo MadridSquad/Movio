@@ -25,7 +25,7 @@ interface SeriesDao {
     @Upsert
     suspend fun insertHistorySeries(series: MediaHistoryTable)
 
-    @Query("SELECT * FROM MEDIA_HISTORY_TABLE WHERE mediaType = 'Series'")
+    @Query("SELECT * FROM MEDIA_HISTORY_TABLE WHERE mediaType = 'Series' ORDER BY addedAt DESC")
     suspend fun getALLSeriesInHistory(): List<MediaHistoryTable>
 
     @Query("SELECT * FROM SERIES_TABLE WHERE seriesId = :id")

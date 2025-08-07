@@ -111,13 +111,13 @@
     <string name="and_let_the_noise_fade_away">و دع الضوضاء تتلاشى</string>
     <string name="onboarding_sub_description">اسحب، اختر، انطلق… وكن أنت نجم الساحة.</string>
 
-<!--    <string name="create_list_description">Create a new list and keep track of your series that you want to access easily.</string>-->
-<!--    <string name="create_list_title">Create New List</string>-->
-<!--    <string name="create_list_button">Create</string>-->
-
     <string name="create_list_button">انشاء</string>
     <string name="create_new_list">إنشاء قائمة جديدة</string>
     <string name="log_out">ستفقد الوصول إلى مكتبتك، المفضلات، وسجل المشاهدة حتى تقوم بتسجيل الدخول مرة أخرى.</string>
+
+    <string name="no_ratings_yet">لا يوجد تقييمات للان !</string>
+    <string name="you_haven_t_rated_anything_yet_start_exploring_and_share_your_thoughts">لم تُقيّم أي شيء بعد. ابدأ الاستكشاف وشاركنا أفكارك!</string>
+    <string name="try_again">حاول مجددا</string>
 
     <string name="watchlist">قائمه المشاهدات</string>
     <string name="view_all">مشاهده الكل</string>
@@ -128,5 +128,5 @@
     <string name="star_icon">ايقونه النجمه</string>
     <string name="background_image_of_squares">خلفيه الصوره بشكل مربعات</string>
     <string name="watch_list_icon">ايقونه مشاهده القائمه</string>
-
+    <string name="confirm">تأكيد</string>
 </resources>

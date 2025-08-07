@@ -14,6 +14,7 @@ import com.madrid.data.dataSource.remote.dto.list.MovieListBody
 import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.mapper.toGenre
 import com.madrid.data.dataSource.remote.mapper.toMovie
+import com.madrid.data.dataSource.remote.mapper.toRatedMovie
 import com.madrid.data.dataSource.remote.mapper.toReview
 import com.madrid.data.dataSource.remote.mapper.toSimilarMovie
 import com.madrid.data.dataSource.remote.mapper.toTrailer
@@ -27,6 +28,7 @@ import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.SortType
 import com.madrid.domain.entity.Trailer
 import com.madrid.domain.repository.MovieRepository
+import com.madrid.domain.usecase.movie.GetUserRatedMovieUseCase
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
@@ -132,20 +134,24 @@ class MovieRepositoryImpl @Inject constructor(
         val remoteMovies = remoteResult.nowPlayingMovieResults?.map { it.toMovie() } ?: emptyList()
 
         remoteMovies.forEach { movie ->
-            localDataSource.insertSectionMovie(movie.toSectionMovieTable().copy(movieSection = MovieSection.NOW_PLAYING.value))
+            localDataSource.insertSectionMovie(
+                movie.toSectionMovieTable().copy(movieSection = MovieSection.NOW_PLAYING.value)
+            )
         }
         return remoteMovies
     }
 
     override suspend fun getUpcomingMovie(page: Int): List<Movie> {
         val localMovies = localDataSource.getUpComingMovies()
-        if (localMovies.isNotEmpty()){
+        if (localMovies.isNotEmpty()) {
             return localMovies.map { it.toMovie() }
         }
         val remoteResult = remoteDataSource.getUpcomingMovie(page)
         val remoteMovies = remoteResult.upcomingMovieResult?.map { it.toMovie() } ?: emptyList()
         remoteMovies.forEach { movie ->
-            localDataSource.insertSectionMovie(movie.toSectionMovieTable().copy(movieSection = MovieSection.UPCOMING.value))
+            localDataSource.insertSectionMovie(
+                movie.toSectionMovieTable().copy(movieSection = MovieSection.UPCOMING.value)
+            )
         }
 
         return remoteMovies
@@ -168,11 +174,18 @@ class MovieRepositoryImpl @Inject constructor(
         ).movieResults?.map { it.toMovie() } ?: emptyList()
     }
 
-    override suspend fun clearHomeMoviesCache(){
+    override suspend fun getUserMovieRate(sessionId: String): List<GetUserRatedMovieUseCase.RatedMovie> {
+        val result = remoteDataSource.getUserRatingForMovie(
+            sessionId = sessionId
+        )
+        return result.ratedMovie.map { it.toRatedMovie() }
+    }
+
+    override suspend fun clearHomeMoviesCache() {
         localDataSource.clearHomeMoviesCache()
     }
 
-    override suspend fun addMovieToHistory(movieId: Int){
+    override suspend fun addMovieToHistory(movieId: Int) {
         localDataSource.addMovieToHistory(movieId = movieId)
     }
 

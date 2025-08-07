@@ -8,9 +8,5 @@ import androidx.room.PrimaryKey
 data class MediaHistoryTable (
     @PrimaryKey(autoGenerate = false) val mediaId: Int,
     val mediaType: String,
+    val addedAt: Long
 )
-
-enum class MediaType {
-    MOVIE,
-    SERIES
-}

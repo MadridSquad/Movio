@@ -4,7 +4,7 @@ import com.madrid.domain.entity.ListOperationStatus
 import com.madrid.domain.entity.User
 import kotlinx.coroutines.flow.Flow
 
-interface UserRepository {
+interface AuthenticationRepository {
     suspend fun login(username: String, password: String): Boolean
     suspend fun register(email: String, password: String, username: String): User
     suspend fun logout()

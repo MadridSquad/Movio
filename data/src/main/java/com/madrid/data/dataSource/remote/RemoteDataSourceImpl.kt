@@ -1,5 +1,6 @@
 package com.madrid.data.dataSource.remote
 
+import android.util.Log
 import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
@@ -18,6 +19,8 @@ import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SearchMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SimilarMoviesResponse
 import com.madrid.data.dataSource.remote.dto.movie.UpcomingMoviesResponse
+import com.madrid.data.dataSource.remote.dto.rate.RatingMovieResponse
+import com.madrid.data.dataSource.remote.dto.rate.RatingSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
@@ -87,6 +90,7 @@ class RemoteDataSourceImpl @Inject constructor(
     // region Series
     override suspend fun getTopRatedSeries(page: Int): TopRatedSeriesResponse {
         val x = api.getTopRatedSeries(page)
+        Log.d("getTopRatedSeries", "getTopRatedSeries: in data source: ${x.results}")
         return x
     }
 
@@ -183,7 +187,7 @@ class RemoteDataSourceImpl @Inject constructor(
         return sessionResponse.requestToken
     }
 
-    override suspend fun getSessionId(username: String, password: String): String{
+    override suspend fun getSessionId(username: String, password: String): String {
         val requestTokenResponse = api.getRequestToken()
         val requestToken = requestTokenResponse.requestToken
         val sessionResponse = api.postCreateSession(
@@ -204,12 +208,16 @@ class RemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getCurrentUserDetails(sessionId : String): AccountDetailsResponse {
+        Log.d("TAG getCurrentUserDetails", "in dataaaaaa getCurrentUserDetails 1: ")
+
         try {
             api.getAccountDetails(sessionId)
         }catch (e: Exception){
-            throw e
+            Log.d("TAG getCurrentUserDetails", "in dataaaaaa  excpetioooooon getCurrentUserDetails ${e.message}: ")
+
         }
         val x = api.getAccountDetails(sessionId)
+        Log.d("TAG getCurrentUserDetails", "in dataaaaaa getCurrentUserDetails: 2 $x")
         return x
     }
 
@@ -221,4 +229,13 @@ class RemoteDataSourceImpl @Inject constructor(
         return api.addMovieToList(listId, sessionId, mediaId)
     }
 
+    override suspend fun getUserRatingForMovie(sessionId: String): RatingMovieResponse {
+        val accountId = api.getAccountDetails(sessionId).id
+        return api.getUserRatingForMovie(accountId, sessionId)
+    }
+
+    override suspend fun getUserRatingForSeries(sessionId: String): RatingSeriesResponse {
+        val accountId = api.getAccountDetails(sessionId).id
+        return api.getUserRatingForSeries(accountId, sessionId)
+    }
 }

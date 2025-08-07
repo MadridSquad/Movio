@@ -97,6 +97,8 @@ sealed interface Destinations {
     data class ActorDetails(
         val artistId: Int,
     ) : Destinations
+    @Serializable
+    data object MyRatingScreen : Destinations
 
     @Serializable
     data class ViewAllScreen(

@@ -44,5 +44,7 @@ data class SeriesResult(
     @SerializedName("vote_average")
     val voteAverage: Double?,
     @SerializedName("vote_count")
-    val voteCount: Int?
+    val voteCount: Int?,
+    @SerializedName("rating")
+    val rating: Double?
 )
