@@ -56,14 +56,14 @@ fun List<ListItemDto>.toWatchListItems(
     val movies = this.filter { media ->
         media.mediaType == "movie"
     }.map { movie ->
-        val genres = movie.genreIds.map { moviesGenres.getValue(it) }
+        val genres = movie.genreIds.mapNotNull { moviesGenres[it] }
         movie.toMovie(genres)
     }
 
     val series = this.filter { media ->
         media.mediaType == "tv"
     }.map { series ->
-        val genres = series.genreIds.map { seriesGenres.getValue(it)}
+        val genres = series.genreIds.mapNotNull { seriesGenres[it]}
         series.toSeries(genres)
     }
     return GetWatchListItemsUseCase.WatchListItems(movies, series)
