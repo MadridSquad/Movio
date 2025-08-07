@@ -65,9 +65,35 @@ class UserPreferencesImpl @Inject constructor(
         }
     }
 
+    override fun getAppDarkModeOn(): Flow<Boolean> {
+        return dataStore.data.map { settings ->
+            settings[DARK_MODE] == true
+        }
+    }
+
+    override suspend fun setAppDarkModeOn(isDarkMode: Boolean) {
+        dataStore.edit { settings ->
+            settings[DARK_MODE] = isDarkMode
+        }
+    }
+
+    override fun getAppLanguage(): Flow<String> {
+        return dataStore.data.map { settings ->
+            settings[LANGUAGE] ?: ""
+        }
+    }
+
+    override suspend fun setAppLanguage(language: String) {
+        dataStore.edit { settings ->
+            settings[LANGUAGE] = language
+        }
+    }
+
     companion object {
         val TOKEN = stringPreferencesKey("token") //TODO: Move to secrets
         val IS_GUEST = booleanPreferencesKey("is_guest")
         val ONBOARDING_COMPLETED = booleanPreferencesKey("onboarding_completed")
+        val DARK_MODE = booleanPreferencesKey("dark_mode")
+        val LANGUAGE = stringPreferencesKey("language")
     }
 }

@@ -18,4 +18,10 @@
     <string name="copy_link">انسخ الرابط</string>
     <string name="facebook">فيسبوك</string>
     <string name="x">اكس</string>
+    <string name="light_mode">مظهر فاتح</string>
+    <string name="dark_mode">مظهر داكن</string>
+    <string name="arabic">العربية</string>
+    <string name="english">الإنجليزية</string>
+    <string name="choose_theme">اختر المظهر</string>
+    <string name="choose_language">اختر اللغة</string>
 </resources>

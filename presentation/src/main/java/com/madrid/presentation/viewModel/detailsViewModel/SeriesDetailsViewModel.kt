@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.Series
+import com.madrid.domain.usecase.series.AddSeriesToHistoryUseCase
 import com.madrid.domain.usecase.series.GetEpisodesForSeasonUseCase
 import com.madrid.domain.usecase.series.GetSeriesDetailsUseCase
 import com.madrid.domain.usecase.series.GetSeriesReviewsUseCase
@@ -28,12 +29,22 @@ class SeriesDetailsViewModel @Inject constructor(
     private val getSeriesTopCastUseCase: GetSeriesTopCastUseCase,
     private val getSeriesReviewsUseCase: GetSeriesReviewsUseCase,
     private val getSimilarSeriesUseCase: GetSimilarSeriesUseCase,
-    private val getEpisodesForSeasonUseCase: GetEpisodesForSeasonUseCase
+    private val getEpisodesForSeasonUseCase: GetEpisodesForSeasonUseCase,
+    private val addSeriesToHistoryUseCase: AddSeriesToHistoryUseCase,
 ) : BaseViewModel<SeriesDetailsUiState, Nothing>(SeriesDetailsUiState()) {
     private val args = savedStateHandle.toRoute<Destinations.SeriesDetailsScreen>()
 
     init {
+        saveSeriesToHistory()
         loadData()
+    }
+
+    private fun saveSeriesToHistory(){
+        tryToExecute(
+            function = { addSeriesToHistoryUseCase(args.seriesId) },
+            onSuccess = {},
+            onError = {}
+        )
     }
 
     private fun loadData() {

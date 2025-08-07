@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.madrid.domain.usecase.movie.AddMovieToHistoryUseCase
 import com.madrid.domain.usecase.movie.GetMovieDetailsUseCase
 import com.madrid.domain.usecase.movie.GetMovieReviewsUseCase
 import com.madrid.domain.usecase.movie.GetMovieTopCastUseCase
@@ -25,17 +26,27 @@ class DetailsMovieViewModel @Inject constructor(
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val getMovieTopCastUseCase: GetMovieTopCastUseCase,
     private val getSimilarMoviesUseCase: GetSimilarMoviesUseCase,
-    private val getMovieReviewsUseCase: GetMovieReviewsUseCase
+    private val getMovieReviewsUseCase: GetMovieReviewsUseCase,
+    private val addMovieToHistoryUseCase: AddMovieToHistoryUseCase,
 ) : BaseViewModel<DetailsMovieUiState, Nothing>(
     DetailsMovieUiState()
 ) {
     val args = saveStateHandle.toRoute<Destinations.MovieDetailsScreen>()
 
     init {
+        saveMovieToHistory()
         loadData()
     }
 
-     private fun loadData() {
+    private fun saveMovieToHistory() {
+        tryToExecute(
+            function = { addMovieToHistoryUseCase(args.movieId) },
+            onSuccess = {},
+            onError = {}
+        )
+    }
+
+    private fun loadData() {
         Log.d("TAG lol", "=== LOADING MOVIE DETAILS ===")
         tryToExecute(
             function = {
@@ -62,7 +73,7 @@ class DetailsMovieViewModel @Inject constructor(
                 loadSimilarMovies()
                 loadReviews()
             },
-            onError = { error -> updateState { it.copy(isLoading = true) }},
+            onError = { error -> updateState { it.copy(isLoading = true) } },
             scope = viewModelScope,
             dispatcher = Dispatchers.IO
         )
@@ -149,7 +160,7 @@ class DetailsMovieViewModel @Inject constructor(
 
     fun onClickLoveIcon(
 
-    ){
+    ) {
         updateState {
             it.copy(
                 isLoved = !it.isLoved

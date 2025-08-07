@@ -17,6 +17,8 @@ import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SearchMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SimilarMoviesResponse
 import com.madrid.data.dataSource.remote.dto.movie.UpcomingMoviesResponse
+import com.madrid.data.dataSource.remote.dto.rate.RatingMovieResponse
+import com.madrid.data.dataSource.remote.dto.rate.RatingSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
@@ -183,7 +185,7 @@ class RemoteDataSourceImpl @Inject constructor(
         return sessionResponse.requestToken
     }
 
-    override suspend fun getSessionId(username: String, password: String): String{
+    override suspend fun getSessionId(username: String, password: String): String {
         val requestTokenResponse = api.getRequestToken()
         val requestToken = requestTokenResponse.requestToken
         val sessionResponse = api.postCreateSession(
@@ -230,5 +232,13 @@ class RemoteDataSourceImpl @Inject constructor(
         return x
     }
 
+    override suspend fun getUserRatingForMovie(sessionId: String): RatingMovieResponse {
+        val accountId = api.getAccountDetails(sessionId).id
+        return api.getUserRatingForMovie(accountId, sessionId)
+    }
 
+    override suspend fun getUserRatingForSeries(sessionId: String): RatingSeriesResponse {
+        val accountId = api.getAccountDetails(sessionId).id
+        return api.getUserRatingForSeries(accountId, sessionId)
+    }
 }

@@ -12,6 +12,8 @@ import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
 import com.madrid.data.dataSource.remote.dto.movie.SearchMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SimilarMoviesResponse
+import com.madrid.data.dataSource.remote.dto.rate.RatingMovieResponse
+import com.madrid.data.dataSource.remote.dto.rate.RatingSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SearchSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SeasonResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesCreditResponse
@@ -76,6 +78,9 @@ interface RemoteDataSource {
 
     suspend fun getSessionId(username: String, password: String): String
     // endregion
+
+    suspend fun getUserRatingForMovie(sessionId: String):RatingMovieResponse
+    suspend fun getUserRatingForSeries(sessionId: String):RatingSeriesResponse
 
     // region addToFavorite
     suspend fun addToFavorite(sessionId: String, request: AddToFavoriteRequest)

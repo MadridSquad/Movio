@@ -1,17 +1,16 @@
 package com.madrid.domain.usecase.authentication
 
 import com.madrid.domain.entity.User
-import com.madrid.domain.repository.UserRepository
+import com.madrid.domain.repository.AuthenticationRepository
 import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
-
 class GetCurrentUserDetailsUseCase @Inject constructor(
-    private val userRepository: UserRepository
+    private val authenticationRepository: AuthenticationRepository
 ) {
     suspend operator fun invoke(): User? {
-        val sessionId: String = userRepository.getSessionId().first()
+        val sessionId: String = authenticationRepository.getSessionId().first()
 
-        return userRepository.getCurrentUser(sessionId = sessionId)
+        return authenticationRepository.getCurrentUser(sessionId = sessionId)
     }
 }

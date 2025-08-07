@@ -18,4 +18,10 @@
     <string name="copy_link">Copy link</string>
     <string name="facebook">Facebook</string>
     <string name="x">X</string>
+    <string name="light_mode">Light Mode</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="arabic">Arabic</string>
+    <string name="english">English</string>
+    <string name="choose_theme">Choose Theme</string>
+    <string name="choose_language">Choose Language</string>
 </resources>

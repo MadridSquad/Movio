@@ -26,6 +26,7 @@ import com.madrid.presentation.screens.loginScreen.AuthenticationScreen
 import com.madrid.presentation.screens.loginScreen.component.ForgotPassword
 import com.madrid.presentation.screens.loginScreen.component.WebViewScreen
 import com.madrid.presentation.screens.moreScreen.MoreScreen
+import com.madrid.presentation.screens.moreScreen.MyRatingScreen
 import com.madrid.presentation.screens.onboarding.OnBoardingScreen
 import com.madrid.presentation.screens.searchScreen.SearchScreen
 import com.madrid.presentation.screens.searchScreen.SeeAllForYou.SeeAllForYouScreen
@@ -161,6 +162,9 @@ fun MovioNavHost(
                 viewModel = hiltViewModel<ViewAllViewModel, ViewAllViewModel.Factory>(
                     key = destination.type.toString()
                 ) { factory -> factory.create(strategy) })
+        }
+        composable<Destinations.MyRatingScreen> {
+            MyRatingScreen()
         }
     }
 }

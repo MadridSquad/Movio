@@ -11,6 +11,7 @@ import com.madrid.data.dataSource.remote.dto.common.AddToFavoriteRequest
 import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.mapper.toGenre
 import com.madrid.data.dataSource.remote.mapper.toMovie
+import com.madrid.data.dataSource.remote.mapper.toRatedMovie
 import com.madrid.data.dataSource.remote.mapper.toReview
 import com.madrid.data.dataSource.remote.mapper.toSimilarMovie
 import com.madrid.data.dataSource.remote.mapper.toTrailer
@@ -23,6 +24,7 @@ import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.SortType
 import com.madrid.domain.entity.Trailer
 import com.madrid.domain.repository.MovieRepository
+import com.madrid.domain.usecase.movie.GetUserRatedMovieUseCase
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
@@ -54,8 +56,19 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getRecommendedMovies(page: Int): List<Movie> {
-        return remoteDataSource.getPopularMovies(page).movieResults?.map { it.toMovie() }
-            ?: emptyList()
+        val localMovies = localDataSource.getRecommendedMovies()
+        if (localMovies.isNotEmpty()) {
+            return localMovies.map { it.toMovie() }
+        }
+        val remoteResult = remoteDataSource.getPopularMovies(page)
+        val remoteMovies = remoteResult.movieResults?.map { it.toMovie() } ?: emptyList()
+        remoteMovies.forEach { movie ->
+            localDataSource.insertSectionMovie(
+                movie.toSectionMovieTable().copy(movieSection = MovieSection.RECOMMENDED.value)
+            )
+        }
+
+        return remoteMovies
     }
 
     override suspend fun getExploreMoreMovies(page: Int): List<Movie> {
@@ -64,8 +77,19 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTrendingMovies(page: Int): List<Movie> {
-        return remoteDataSource.getTrendingMovies(page).movieResults?.map { it.toMovie() }
-            ?: emptyList()
+        val localMovies = localDataSource.getTrendingMovies()
+        if (localMovies.isNotEmpty()) {
+            return localMovies.map { it.toMovie() }
+        }
+        val remoteResult = remoteDataSource.getTrendingMovies(page)
+        val remoteMovies = remoteResult.movieResults?.map { it.toMovie() } ?: emptyList()
+        remoteMovies.forEach { movie ->
+            localDataSource.insertSectionMovie(
+                movie.toSectionMovieTable().copy(movieSection = MovieSection.TRENDING.value)
+            )
+        }
+
+        return remoteMovies
     }
 
     override suspend fun getMoviesGenres(): List<Genre> {
@@ -91,12 +115,19 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTopRatedMovies(page: Int): List<Movie> {
-        val res = remoteDataSource.getTopRatedMovies(
-            page = page
-        ).movieResults?.map {
-            it.toMovie()
-        } ?: listOf()
-        return res
+        val localMovies = localDataSource.getTopRatingMovies()
+        if (localMovies.isNotEmpty()) {
+            return localMovies.map { it.toMovie() }
+        }
+        val remoteResult = remoteDataSource.getTopRatedMovies(page)
+        val remoteMovies = remoteResult.movieResults?.map { it.toMovie() } ?: emptyList()
+        remoteMovies.forEach { movie ->
+            localDataSource.insertSectionMovie(
+                movie.toSectionMovieTable().copy(movieSection = MovieSection.TOP_RATED.value)
+            )
+        }
+
+        return remoteMovies
     }
 
     override suspend fun getPopularMovies(page: Int): List<Movie> {
@@ -119,27 +150,33 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getNowPlayingMovie(page: Int): List<Movie> {
         val localMovies = localDataSource.getNowPlayingMovies()
+
         if (localMovies.isNotEmpty()) {
             return localMovies.map { it.toMovie() }
         }
+
         val remoteResult = remoteDataSource.getNowPlayingMovie(page)
         val remoteMovies = remoteResult.nowPlayingMovieResults?.map { it.toMovie() } ?: emptyList()
 
         remoteMovies.forEach { movie ->
-            localDataSource.insertSectionMovie(movie.toSectionMovieTable().copy(movieSection = MovieSection.NOW_PLAYING.value))
+            localDataSource.insertSectionMovie(
+                movie.toSectionMovieTable().copy(movieSection = MovieSection.NOW_PLAYING.value)
+            )
         }
         return remoteMovies
     }
 
     override suspend fun getUpcomingMovie(page: Int): List<Movie> {
         val localMovies = localDataSource.getUpComingMovies()
-        if (localMovies.isNotEmpty()){
+        if (localMovies.isNotEmpty()) {
             return localMovies.map { it.toMovie() }
         }
         val remoteResult = remoteDataSource.getUpcomingMovie(page)
         val remoteMovies = remoteResult.upcomingMovieResult?.map { it.toMovie() } ?: emptyList()
         remoteMovies.forEach { movie ->
-            localDataSource.insertSectionMovie(movie.toSectionMovieTable().copy(movieSection = MovieSection.UPCOMING.value))
+            localDataSource.insertSectionMovie(
+                movie.toSectionMovieTable().copy(movieSection = MovieSection.UPCOMING.value)
+            )
         }
 
         return remoteMovies
@@ -174,7 +211,23 @@ class MovieRepositoryImpl @Inject constructor(
         ).movieResults?.map { it.toMovie() } ?: emptyList()
     }
 
-    override suspend fun clearHomeMoviesCache(){
+    override suspend fun getUserMovieRate(sessionId: String): List<GetUserRatedMovieUseCase.RatedMovie> {
+        val result = remoteDataSource.getUserRatingForMovie(
+            sessionId = sessionId
+        )
+        return result.ratedMovie.map { it.toRatedMovie() }
+    }
+
+    override suspend fun clearHomeMoviesCache() {
         localDataSource.clearHomeMoviesCache()
+    }
+
+    override suspend fun addMovieToHistory(movieId: Int) {
+        localDataSource.addMovieToHistory(movieId = movieId)
+    }
+
+    override suspend fun getAllMoviesInHistory(): List<Movie> {
+        val moviesIds = localDataSource.getAllMoviesInHistory().map { it.mediaId }
+        return moviesIds.map { getMovieDetailsById(it) }
     }
 }
