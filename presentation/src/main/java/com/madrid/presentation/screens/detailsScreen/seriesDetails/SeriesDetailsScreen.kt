@@ -145,6 +145,17 @@ fun SeriesDetailsScreen(
                 imageUrl = uiState.topImageUrl,
                 modifier = Modifier.fillMaxSize()
             )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(30.dp)
+                    .offset(y = 342.dp)
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(Color.Transparent , Theme.color.surfaces.surface)
+                        )
+                    )
+            )
             TopAppBar(
                 text = null,
                 modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
