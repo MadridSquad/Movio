@@ -1,3 +1,4 @@
+import java.io.FileInputStream
 import java.util.Properties
 
 val localProperties = Properties()
@@ -33,6 +34,19 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "FIREBASE_API_KEY", "\"$firebaseApiKey\"")
     }
+    val secretPropsFile = rootProject.file("secret.properties")
+    val secretProps = Properties()
+    if (secretPropsFile.exists()) {
+        secretProps.load(FileInputStream(secretPropsFile))
+    }
+    signingConfigs {
+        create("release") {
+            storeFile = file(secretProps.getProperty("KEYSTORE_FILE") ?: "")
+            storePassword = secretProps.getProperty("KEYSTORE_PASSWORD") ?: ""
+            keyAlias = secretProps.getProperty("KEY_ALIAS") ?: ""
+            keyPassword = secretProps.getProperty("KEY_PASSWORD") ?: ""
+        }
+    }
 
     buildTypes {
         release {
@@ -41,7 +55,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
         }
         debug {
             isMinifyEnabled = false
