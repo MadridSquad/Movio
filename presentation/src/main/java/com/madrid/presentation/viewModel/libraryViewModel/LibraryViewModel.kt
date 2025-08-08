@@ -2,6 +2,7 @@ package com.madrid.presentation.viewModel.libraryViewModel
 
 import android.util.Log
 import com.madrid.domain.usecase.movie.GetAllMoviesInHistoryUseCase
+import com.madrid.domain.usecase.movie.GetFavoriteMoviesUseCase
 import com.madrid.domain.usecase.watchList.GetWatchListsUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.shared.toMediaUiState
@@ -11,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LibraryViewModel @Inject constructor(
     private val getWatchListUseCase: GetWatchListsUseCase,
-    //getFavoriteUseCase: GetAllFavoriteMoviesUseCase,
+    private val getFavoriteUseCase: GetFavoriteMoviesUseCase,
     private val getHistoryUseCase: GetAllMoviesInHistoryUseCase,
 ) : BaseViewModel<LibraryScreenState, LibraryScreenEffect>(
     LibraryScreenState()
@@ -61,13 +62,13 @@ class LibraryViewModel @Inject constructor(
         }
         tryToExecute(
             function = {
-
+                getFavoriteUseCase()
             },
-            onSuccess = {
+            onSuccess = {favoriteList->
                 updateState {
                     it.copy(
                         isLoading = false,
-                        favoriteList = emptyList()
+                        favoriteList = favoriteList.map{ it.toMediaUiState()}
                     )
                 }
             },

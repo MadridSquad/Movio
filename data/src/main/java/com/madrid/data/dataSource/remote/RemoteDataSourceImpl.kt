@@ -218,10 +218,8 @@ class RemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getCustomListDetails(listId: Int , sessionId: String): ListsDetailsResponse {
-        val x = api.getCustomListDetails(listId , sessionId)
-        Log.i("MY_TAG","original title ${x.items[1].title } ${x.items }")
 
-        return x
+        return  api.getCustomListDetails(listId , sessionId)
 
     }
 
