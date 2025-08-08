@@ -20,12 +20,13 @@ class ListRepositoryImpl @Inject constructor(
         return remoteDataSource.getCustomLists(sessionId).map { it.toWatchList() }
     }
 
-    override suspend fun getListItemsById(listId: Int): GetWatchListItemsUseCase.WatchListItems {
+    override suspend fun getListItemsById(listId: Int,sessionId: String): GetWatchListItemsUseCase.WatchListItems {
         val moviesGenres = localDataSource.getAllMovieGenres().map { it.toGenre() }.associateBy { it.id }
         val seriesGenres = localDataSource.getAllSeriesGenres().map { it.toGenre() }.associateBy { it.id }
-        Log.d("ListRepositoryImpl", "Fetching list items for listId: $moviesGenres")
-        return remoteDataSource.getCustomListDetails(listId).items
-            .toWatchListItems(moviesGenres, seriesGenres)
+        return remoteDataSource.getCustomListDetails(listId,sessionId).items
+            .toWatchListItems(
+                moviesGenres, seriesGenres
+            )
     }
 }
 

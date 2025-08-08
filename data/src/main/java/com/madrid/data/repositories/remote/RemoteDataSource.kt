@@ -1,5 +1,6 @@
 package com.madrid.data.repositories.remote
 
+import com.madrid.data.dataSource.remote.dto.common.AddToFavoriteRequest
 import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
@@ -79,7 +80,7 @@ interface RemoteDataSource {
 
     // region Lists
     suspend fun getCustomLists(sessionId: String): List<ListDto>
-    suspend fun getCustomListDetails(listId: Int): ListsDetailsResponse
+    suspend fun getCustomListDetails(listId: Int,sessionId: String): ListsDetailsResponse
     // endregion
 
     // region authentication
@@ -97,4 +98,8 @@ interface RemoteDataSource {
 
     suspend fun getUserRatingForMovie(sessionId: String):RatingMovieResponse
     suspend fun getUserRatingForSeries(sessionId: String):RatingSeriesResponse
+
+    // region addToFavorite
+    suspend fun addToFavorite(sessionId: String, request: AddToFavoriteRequest)
+    // endregion
 }

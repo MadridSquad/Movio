@@ -30,4 +30,5 @@ interface SeriesRepository {
     suspend fun addSeriesToHistory(seriesId: Int)
     suspend fun getAllSeriesInHistory(): List<Series>
     suspend fun getFavoriteSeries(sessionId: String): List<Series>
+    suspend fun addSeriesToFavorite(mediaId:Int, sessionId: String)
 }

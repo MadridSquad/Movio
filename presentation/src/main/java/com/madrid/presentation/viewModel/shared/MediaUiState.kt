@@ -23,7 +23,7 @@ fun Movie.toMediaUiState() = MediaUiState(
     id = id.toString(),
     title = title,
     imageUrl = imageUrl,
-    rating = rate.toString(),
+    rating = rate.toString().take(3),
     category = genre.map { it.toCategoryUiState() },
     mediaType = MediaType.MOVIE
 )
@@ -32,7 +32,7 @@ fun Series.toMediaUiState() = MediaUiState(
     id = id.toString(),
     title = title,
     imageUrl = imageUrl,
-    rating = rate.toString(),
+    rating = rate.toString().take(3),
     category = genre.map { it.toCategoryUiState() },
     mediaType = MediaType.TV_SHOW
 )

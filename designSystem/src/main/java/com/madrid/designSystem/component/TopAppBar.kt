@@ -1,5 +1,6 @@
 package com.madrid.designSystem.component
 
+import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,9 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.madrid.designSystem.R
+import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.designSystem.theme.Theme
 
 @Composable
@@ -81,11 +84,24 @@ fun TopAppBar(
                         else R.drawable.outline_heart
                     ),
                     contentDescription = "favorite_button",
-                    tint = if (isFavorite) Theme.color.system.error
+                    tint = if (isFavorite) Theme.color.system.onErrorContainer
                     else Theme.color.surfaces.onSurface,
                     modifier = Modifier.clickable { onThirdIconClick() }
                 )
             }
         }
+    }
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun TopAppBarPreview() {
+    MovioTheme {
+        TopAppBar(
+            text = "Movie Name",
+            firstIcon = R.drawable.arrow_left,
+            secondIcon = R.drawable.share_arrow,
+            thirdIcon = R.drawable.outline_heart
+        )
     }
 }

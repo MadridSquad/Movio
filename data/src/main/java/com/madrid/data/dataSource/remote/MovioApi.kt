@@ -1,5 +1,6 @@
 package com.madrid.data.dataSource.remote
 
+import com.madrid.data.dataSource.remote.dto.common.AddToFavoriteRequest
 import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.ArtistKnownForResponse
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
@@ -256,6 +257,7 @@ interface MovioApi {
     @GET("list/{list_id}")
     suspend fun getCustomListDetails(
         @Path("list_id") listId: Int,
+        @Query("session_id") sessionId: String
     ): ListsDetailsResponse
     // region EpisodeRating
 
@@ -282,6 +284,13 @@ interface MovioApi {
     suspend fun getFavoriteSeries(
         @Query(SESSION_ID) sessionId: String,
     ): SearchSeriesResponse
+
+    @POST("account/{account_id}/favorite")
+    suspend fun addToFavorite(
+        @Path("account_id") accountId :Int? = null,
+        @Query("session_id") sessionId :String ,
+        @Body body: AddToFavoriteRequest
+    )
 
     companion object {
         private const val DISCOVER_MOVIE = "discover/movie"

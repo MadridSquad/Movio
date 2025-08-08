@@ -104,4 +104,11 @@ sealed interface Destinations {
     data class ViewAllScreen(
         val type: ViewAllType
     ) : Destinations
+
+    @Serializable
+    data class WatchListDetailsScreen(
+        val watchListId: Int,
+        val watchListTitle: String,
+    ) : Destinations
+
 }

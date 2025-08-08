@@ -6,12 +6,14 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.madrid.domain.usecase.authentication.LoginUseCase
 import com.madrid.domain.usecase.movie.AddRatingMoviesUseCase
+import com.madrid.domain.usecase.movie.AddMovieToFavoriteUseCase
 import com.madrid.domain.usecase.movie.AddMovieToHistoryUseCase
 import com.madrid.domain.usecase.movie.GetMovieDetailsUseCase
 import com.madrid.domain.usecase.movie.GetMovieReviewsUseCase
 import com.madrid.domain.usecase.movie.GetMovieTopCastUseCase
 import com.madrid.domain.usecase.movie.GetMovieTrailersUseCase
 import com.madrid.domain.usecase.movie.GetSimilarMoviesUseCase
+import com.madrid.domain.usecase.movie.IsFavoriteMovieUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.utils.RateFormatter
@@ -37,6 +39,8 @@ class DetailsMovieViewModel @Inject constructor(
     private val getMovieTrailersUseCase: GetMovieTrailersUseCase,
     private val getAddRatingMoviesUseCase: AddRatingMoviesUseCase,
     private val isGuestUseCase: LoginUseCase,
+    private val addMovieToFavoriteUseCase: AddMovieToFavoriteUseCase,
+    private val isFavoriteMovieUseCase: IsFavoriteMovieUseCase
 ) : BaseViewModel<DetailsMovieUiState, Nothing>(
     DetailsMovieUiState()
 ) {
@@ -46,6 +50,7 @@ class DetailsMovieViewModel @Inject constructor(
         fetchIsGuest()
         saveMovieToHistory()
         loadData()
+        checkIfFavoriteMovie()
     }
 
     private fun saveMovieToHistory() {
@@ -180,14 +185,18 @@ class DetailsMovieViewModel @Inject constructor(
         }
     }
 
-    fun onClickLoveIcon(
-
-    ) {
-        updateState {
-            it.copy(
-                isLoved = !it.isLoved
-            )
-        }
+    fun onClickLoveIcon(movieId: Int) {
+        tryToExecute(
+            function = {
+                addMovieToFavoriteUseCase(movieId)
+            },
+            onSuccess = {
+                updateState {
+                    it.copy(isLoved = true)
+                }
+            },
+            onError = {},
+        )
     }
 
     fun onPickRatingNumber(rating: Int) {
@@ -197,6 +206,7 @@ class DetailsMovieViewModel @Inject constructor(
             )
         }
     }
+
     private fun loadTrailer() {
         tryToExecute(
             function = { getMovieTrailersUseCase(args.movieId) },
@@ -214,6 +224,17 @@ class DetailsMovieViewModel @Inject constructor(
         )
     }
 
+    private fun checkIfFavoriteMovie() {
+        tryToExecute(
+            function = { isFavoriteMovieUseCase(args.movieId) },
+            onSuccess = { isFavorite ->
+                updateState { it.copy(isLoved = isFavorite) }
+            },
+            onError = {
+                updateState { it.copy(isLoved = false) }
+            },
+        )
+    }
     fun addRating() {
         tryToExecute(
             function = {
@@ -226,5 +247,4 @@ class DetailsMovieViewModel @Inject constructor(
             onError = {},
         )
     }
-
 }
