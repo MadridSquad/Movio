@@ -21,7 +21,6 @@
     <string name="episode_duration">%1$d m</string>
     <string name="season_count">%1$d Seasons</string>
     <string name="library_screen">Library Screen</string>
-    <string name="my_ratings">My Ratings</string>
     <string name="submit">Submit</string>
     <string name="add_your_overall_rating_for_this_movie">Add your overall rating for this movie</string>
     <string name="theme">Theme</string>

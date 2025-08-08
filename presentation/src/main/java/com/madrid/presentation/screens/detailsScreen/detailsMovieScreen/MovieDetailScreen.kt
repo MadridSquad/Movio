@@ -176,12 +176,11 @@ fun MovieDetailsScreen(
                 text = null,
                 modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
                 onFirstIconClick = { navController.popBackStack() },
-                onSecondIconClick = { showSheet = true },
+                onSecondIconClick = { showShareSheet = true },
                 onThirdIconClick = {
                     viewModel.onClickLoveIcon(uiState.movieId)
                 },
                 isFavorite = uiState.isLoved
-                onSecondIconClick = { showShareSheet = true }
             )
             Column(
                 modifier = Modifier
@@ -198,7 +197,6 @@ fun MovieDetailsScreen(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                 )
                 BottomMediaActions(
-                    onRateClick = {},
                     onAddToListClick = {
                         showAddToListBottomSheet = true
                     },
