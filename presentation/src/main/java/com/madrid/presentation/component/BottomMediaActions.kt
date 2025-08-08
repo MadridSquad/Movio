@@ -52,9 +52,9 @@ fun BottomMediaActions(
                 isActive = isRated,
                 activeIcon = R.drawable.bold_star,
                 inactiveIcon = R.drawable.outline_star,
-                activeColor = Color.Yellow,
+                activeColor = Theme.color.system.warning,
                 onToggle = {
-                    isRated = !isRated
+                    if (isRated == false) isRated = true
                     onRateClick(isRated)
                 }
             )

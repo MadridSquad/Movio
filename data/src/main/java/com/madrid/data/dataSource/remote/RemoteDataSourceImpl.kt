@@ -18,12 +18,13 @@ import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
 import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SearchMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SimilarMoviesResponse
+import com.madrid.data.dataSource.remote.dto.rating.RateRequest
+import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.movie.UpcomingMoviesResponse
 import com.madrid.data.dataSource.remote.dto.rate.RatingMovieResponse
 import com.madrid.data.dataSource.remote.dto.rate.RatingSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
-import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SearchSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SeasonResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesCreditResponse
@@ -32,7 +33,9 @@ import com.madrid.data.dataSource.remote.dto.series.SeriesResult
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
+import com.madrid.data.repositories.datasource.UserPreferences
 import com.madrid.data.repositories.remote.RemoteDataSource
+import kotlinx.coroutines.flow.first
 import com.madrid.domain.exceptions.AccountLockedException
 import com.madrid.domain.exceptions.AuthorizationException
 import com.madrid.domain.exceptions.InvalidCredentialsException
@@ -46,7 +49,8 @@ import javax.inject.Inject
 
 
 class RemoteDataSourceImpl @Inject constructor(
-    private val api: MovioApi
+    private val api: MovioApi,
+    private val userPreferences: UserPreferences
 ) : RemoteDataSource {
     //  region Movies
     override suspend fun searchMoviesByQuery(name: String, page: Int): SearchMovieResponse {
@@ -181,6 +185,22 @@ class RemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getNowPlayingMovie(page: Int): NowPlayingMovieResponse {
         return api.getNowPlayingMovies(page)
+    }
+
+    override suspend fun addRatingMovie(movieId: Int, value: Double) {
+        return api.addRatingForMovie(
+            movieId = movieId,
+            sessionId = userPreferences.getAuthToken().first(),
+            body = RateRequest(value)
+        )
+    }
+
+    override suspend fun addRatingSeries(seriesId: Int, value: Double) {
+        return api.addRatingForSeries(
+            seriesId = seriesId,
+            sessionId = userPreferences.getAuthToken().first(),
+            body = RateRequest(value)
+        )
     }
 
     override suspend fun getSeriesByGenreId(

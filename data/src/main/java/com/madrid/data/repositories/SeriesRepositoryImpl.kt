@@ -80,6 +80,13 @@ class SeriesRepositoryImpl @Inject constructor(
         localDataSource.increaseSeriesGenreInterestPoints(genreTitle)
     }
 
+    override suspend fun addRatingSeries(
+        seriesId: Int,
+        rate: Double
+    ) {
+        return remoteDataSource.addRatingSeries(seriesId, rate)
+    }
+
     override suspend fun getSeriesGenres(): List<Genre> {
         return localDataSource.getAllSeriesGenres().ifEmpty {
             remoteDataSource.getSeriesGenres().forEach {

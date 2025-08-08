@@ -27,6 +27,7 @@ interface MovieRepository {
     suspend fun getUpcomingMovie(page: Int): List<Movie>
     suspend fun getMovieGenres(): List<Genre>
     suspend fun getUserMovieRate(sessionId :String):List<GetUserRatedMovieUseCase.RatedMovie>
+    suspend fun addRatingMovie(movieId: Int, rate: Double)
     suspend fun clearHomeMoviesCache()
     suspend fun addMovieToHistory(movieId: Int)
     suspend fun getAllMoviesInHistory(): List<Movie>

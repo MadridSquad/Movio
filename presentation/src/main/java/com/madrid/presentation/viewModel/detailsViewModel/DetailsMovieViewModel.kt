@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
+import com.madrid.domain.usecase.authentication.LoginUseCase
+import com.madrid.domain.usecase.movie.AddRatingMoviesUseCase
 import com.madrid.domain.usecase.movie.AddMovieToFavoriteUseCase
 import com.madrid.domain.usecase.movie.AddMovieToHistoryUseCase
 import com.madrid.domain.usecase.movie.GetMovieDetailsUseCase
@@ -21,7 +23,10 @@ import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
 import com.madrid.presentation.viewModel.shared.parser.formatDateOfBirth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.text.toDouble
 
 @HiltViewModel
 class DetailsMovieViewModel @Inject constructor(
@@ -32,6 +37,8 @@ class DetailsMovieViewModel @Inject constructor(
     private val getMovieReviewsUseCase: GetMovieReviewsUseCase,
     private val addMovieToHistoryUseCase: AddMovieToHistoryUseCase,
     private val getMovieTrailersUseCase: GetMovieTrailersUseCase,
+    private val getAddRatingMoviesUseCase: AddRatingMoviesUseCase,
+    private val isGuestUseCase: LoginUseCase,
     private val addMovieToFavoriteUseCase: AddMovieToFavoriteUseCase,
     private val isFavoriteMovieUseCase: IsFavoriteMovieUseCase
 ) : BaseViewModel<DetailsMovieUiState, Nothing>(
@@ -40,6 +47,7 @@ class DetailsMovieViewModel @Inject constructor(
     val args = saveStateHandle.toRoute<Destinations.MovieDetailsScreen>()
 
     init {
+        fetchIsGuest()
         saveMovieToHistory()
         loadData()
         checkIfFavoriteMovie()
@@ -58,7 +66,6 @@ class DetailsMovieViewModel @Inject constructor(
         tryToExecute(
             function = {
                 getMovieDetailsUseCase.invoke(args.movieId)
-
             },
             onSuccess = { movie ->
 
@@ -166,6 +173,18 @@ class DetailsMovieViewModel @Inject constructor(
         )
     }
 
+    private fun fetchIsGuest() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                isGuestUseCase.isGuest().collectLatest { result ->
+                    updateState { it.copy(isGuest = result) }
+                }
+            } catch (e: Exception) {
+                updateState { it.copy(isGuest = true) }
+            }
+        }
+    }
+
     fun onClickLoveIcon(movieId: Int) {
         tryToExecute(
             function = {
@@ -178,6 +197,14 @@ class DetailsMovieViewModel @Inject constructor(
             },
             onError = {},
         )
+    }
+
+    fun onPickRatingNumber(rating: Int) {
+        updateState {
+            it.copy(
+                userRating = rating
+            )
+        }
     }
 
     private fun loadTrailer() {
@@ -206,6 +233,18 @@ class DetailsMovieViewModel @Inject constructor(
             onError = {
                 updateState { it.copy(isLoved = false) }
             },
+        )
+    }
+    fun addRating() {
+        tryToExecute(
+            function = {
+                getAddRatingMoviesUseCase(
+                    state.value.movieId,
+                    state.value.userRating.toDouble() * 2
+                )
+            },
+            onSuccess = {},
+            onError = {},
         )
     }
 }

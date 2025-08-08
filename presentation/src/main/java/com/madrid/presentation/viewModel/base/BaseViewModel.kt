@@ -2,6 +2,11 @@ package com.madrid.presentation.viewModel.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.PagingSource
+import androidx.paging.cachedIn
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -71,6 +76,27 @@ abstract class BaseViewModel<S, E>(initialState: S) : ViewModel() {
         }
         return scope.launch(dispatcher + coroutineExceptionHandler) {
             function()
+        }
+    }
+
+    fun <T : Any> launchPagingRequest(
+        pagingSourceFactory: () -> PagingSource<Int, T>,
+        onStartLoading: () -> Unit = {},
+        onSuccess: (Flow<PagingData<T>>) -> Unit,
+        onError: (Throwable) -> Unit = {},
+        config: PagingConfig = PagingConfig(pageSize = 20)
+    ) {
+        try {
+            onStartLoading()
+            val result = Pager(
+                config = config,
+                pagingSourceFactory = pagingSourceFactory
+            ).flow.cachedIn(viewModelScope)
+
+            onSuccess(result)
+
+        } catch (e: Exception) {
+            onError(e)
         }
     }
 

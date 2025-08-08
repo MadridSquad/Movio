@@ -29,7 +29,7 @@ import com.madrid.presentation.screens.moreScreen.MoreScreen
 import com.madrid.presentation.screens.moreScreen.MyRatingScreen
 import com.madrid.presentation.screens.onboarding.OnBoardingScreen
 import com.madrid.presentation.screens.searchScreen.SearchScreen
-import com.madrid.presentation.screens.searchScreen.SeeAllForYou.SeeAllForYouScreen
+import com.madrid.presentation.screens.searchScreen.seeAllForYou.SeeAllForYouScreen
 import com.madrid.presentation.viewModel.libraryViewModel.viewAll.ViewAllViewModel
 import com.madrid.presentation.viewModel.libraryViewModel.viewAll.factory.ViewAllFactory
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesFactory

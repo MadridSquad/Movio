@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.Series
+import com.madrid.domain.usecase.authentication.LoginUseCase
+import com.madrid.domain.usecase.series.AddRatingSeriesUseCase
 import com.madrid.domain.usecase.series.AddSeriesToFavoriteUseCase
 import com.madrid.domain.usecase.series.AddSeriesToHistoryUseCase
 import com.madrid.domain.usecase.series.GetEpisodesForSeasonUseCase
@@ -21,6 +23,8 @@ import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.shared.formatDuration
 import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,6 +38,8 @@ class SeriesDetailsViewModel @Inject constructor(
     private val getSimilarSeriesUseCase: GetSimilarSeriesUseCase,
     private val getEpisodesForSeasonUseCase: GetEpisodesForSeasonUseCase,
     private val addSeriesToHistoryUseCase: AddSeriesToHistoryUseCase,
+    private val addRatingSeriesUseCase: AddRatingSeriesUseCase,
+    private val isGuestUseCase: LoginUseCase,
     private val getSeriesTrailersUseCase: GetSeriesTrailersUseCase,
     private val addSeriesToFavoriteUseCase: AddSeriesToFavoriteUseCase,
     private val isFavoriteSeriesUseCase: IsFavoriteSeriesUseCase
@@ -41,6 +47,7 @@ class SeriesDetailsViewModel @Inject constructor(
     private val args = savedStateHandle.toRoute<Destinations.SeriesDetailsScreen>()
 
     init {
+        fetchIsGuest()
         saveSeriesToHistory()
         loadData()
         checkIfFavoriteSeriesUseCase()
@@ -212,6 +219,39 @@ class SeriesDetailsViewModel @Inject constructor(
         )
     }
 
+    private fun fetchIsGuest() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                isGuestUseCase.isGuest().collectLatest { result ->
+                    updateState { it.copy(isGuest = result) }
+                }
+            } catch (e: Exception) {
+                updateState { it.copy(isGuest = true) }
+            }
+        }
+    }
+
+    fun onPickRatingNumber(rating: Int) {
+        updateState {
+            it.copy(
+                userRating = rating
+            )
+        }
+    }
+
+    fun addRating() {
+        tryToExecute(
+            function = {
+                addRatingSeriesUseCase(
+                    state.value.seriesId,
+                    state.value.userRating.toDouble() * 2
+                )
+            },
+            onSuccess = {},
+            onError = {},
+        )
+    }
+
     fun onClickFavoriteIcon(seriesId: Int) {
         tryToExecute(
             function = { addSeriesToFavoriteUseCase(seriesId) },
@@ -262,4 +302,3 @@ fun Review.toUiState(): ReviewUiState {
         content = this.comment
     )
 }
-

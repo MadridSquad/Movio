@@ -36,6 +36,8 @@
     <string name="access_your_watch_history_favorites_and_watchlist_all_in_one_place">صل إلي تاريخ مشاهدتك, المفضلة, و قائمة المشاهدة. كله في مكان واحد.</string>
     <string name="dark">داكن</string>
     <string name="light">فاتح</string>
+    <string name="submit">إرسال</string>
+    <string name="add_your_overall_rating_for_this_movie">قم بأضافة تقيمك لهذا الفيلم</string>
 
     <string name="current_episode">حلقة %1$s</string>
     <string name="moive_image">صورة الحلقة</string>
@@ -123,7 +125,11 @@
     <string name="add_icon">ايقونه الاضافه</string>
     <string name="movio_icon">ايقونه موفيو</string>
     <string name="star_icon">ايقونه النجمه</string>
+    <string name="done">انتهيت</string>
     <string name="background_image_of_squares">خلفيه الصوره بشكل مربعات</string>
+    <string name="you_dont_have_an_account">انت لا تملك حساب</string>
+    <string name="thank_you_for_your_rating">شكراً لك على التقيم!</string>
+    <string name="this_rating_is_only_available_to_registered_users_Login_to_share_your_rating">هذا التقييم متاح فقط للمستخدمين المسجلين، قم بتسجيل الدخول لمشاركة تقييمك</string>
     <string name="watch_list_icon">ايقونه مشاهده القائمه</string>
     <string name="confirm">تأكيد</string>
 </resources>

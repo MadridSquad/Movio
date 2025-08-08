@@ -22,6 +22,8 @@
     <string name="season_count">%1$d Seasons</string>
     <string name="library_screen">Library Screen</string>
     <string name="my_ratings">My Ratings</string>
+    <string name="submit">Submit</string>
+    <string name="add_your_overall_rating_for_this_movie">Add your overall rating for this movie</string>
     <string name="theme">Theme</string>
     <string name="language">Language</string>
     <string name="app_version">App Version</string>
@@ -124,7 +126,11 @@
     <string name="add_icon">add Icon</string>
     <string name="movio_icon">Movio icon</string>
     <string name="star_icon">star icon</string>
+    <string name="done">Done</string>
     <string name="background_image_of_squares">background image of squares</string>
+    <string name="you_dont_have_an_account">You dont have an account</string>
+    <string name="thank_you_for_your_rating">Thank you for your rating!</string>
+    <string name="this_rating_is_only_available_to_registered_users_Login_to_share_your_rating">This rating is only available to registered users, Log in to share your rating</string>
     <string name="watch_list_icon">watch list icon</string>
     <string name="confirm">Confirm</string>
 </resources>

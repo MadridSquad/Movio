@@ -17,12 +17,13 @@ import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
 import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SearchMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SimilarMoviesResponse
+import com.madrid.data.dataSource.remote.dto.rating.RateRequest
+import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.movie.UpcomingMoviesResponse
 import com.madrid.data.dataSource.remote.dto.rate.RatingMovieResponse
 import com.madrid.data.dataSource.remote.dto.rate.RatingSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
-import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SearchSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SeasonResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesCreditResponse
@@ -218,7 +219,7 @@ interface MovioApi {
     ): AccountDetailsResponse
     // endregion
 
-
+    // region home movies
     @GET("movie/now_playing")
     suspend fun getNowPlayingMovies(
         @Query("page") page: Int
@@ -228,6 +229,23 @@ interface MovioApi {
     suspend fun getUpcomingMovies(
         @Query("page") page: Int
     ): UpcomingMoviesResponse
+    // endregion
+
+    // region add rating
+    @POST("movie/{movie_id}/rating")
+    suspend fun addRatingForMovie(
+        @Path("movie_id") movieId: Int,
+        @Query("session_id") sessionId: String,
+        @Body body: RateRequest
+    )
+
+    @POST("tv/{series_id}/rating")
+    suspend fun addRatingForSeries(
+        @Path("series_id") seriesId: Int,
+        @Query("session_id") sessionId: String,
+        @Body body: RateRequest
+    )
+    // endregion
 
     // region List
 

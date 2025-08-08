@@ -26,5 +26,4 @@ abstract class DataSourceModule {
     @Binds
     @Singleton
     abstract fun bindAuthenticationDataSource(userPreferences: UserPreferencesImpl): UserPreferences
-
 }
