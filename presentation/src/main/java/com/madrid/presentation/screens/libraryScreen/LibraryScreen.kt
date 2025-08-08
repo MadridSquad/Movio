@@ -21,8 +21,6 @@ import com.madrid.presentation.viewModel.libraryViewModel.LibraryInteractionList
 import com.madrid.presentation.viewModel.libraryViewModel.LibraryScreenEffect
 import com.madrid.presentation.viewModel.libraryViewModel.LibraryScreenState
 import com.madrid.presentation.viewModel.libraryViewModel.LibraryViewModel
-import com.madrid.presentation.viewModel.libraryViewModel.WatchListState
-import com.madrid.presentation.viewModel.shared.MediaUiState
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -40,13 +38,18 @@ fun LibraryScreen(
                 is LibraryScreenEffect.NavigateToMediaDetails -> {
                     navController.navigate(
                         Destinations.MovieDetailsScreen(
-                            movieId = effect.mediaId,
+                            movieId = effect.mediaId.toInt(),
                         )
                     )
                 }
 
                 is LibraryScreenEffect.NavigateToWatchListDetails -> {
-                    // navController.navigate(Destinations.WatchListDetailsScreen(effect.watchListId))
+                     navController.navigate(
+                         Destinations.WatchListDetailsScreen(
+                             watchListId =  effect.watchListId,
+                             watchListTitle =effect.watchListTitle
+                         )
+                     )
                 }
 
                 is LibraryScreenEffect.NavigateToViewAll -> {
@@ -65,11 +68,8 @@ fun LibraryScreen(
 @Composable
 private fun LibraryScreenContent(
     onClickWatchListViewAll: () -> Unit = {},
-    onClickWatchListItem: (WatchListState) -> Unit = {},
     onClickFavoriteListViewAll: () -> Unit = {},
-    onFavoriteItemClick: (MediaUiState) -> Unit = {},
     onClickHistoryListViewAll: () -> Unit = {},
-    onHistoryItemClick: (MediaUiState) -> Unit = {},
     state: LibraryScreenState,
     libraryInteractionListener: LibraryInteractionListener
 ) {
@@ -91,7 +91,7 @@ private fun LibraryScreenContent(
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.view_all),
                 endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
                 onSeeAllClick = onClickWatchListViewAll,
-                onWatchListClick = onClickWatchListItem
+                onWatchListClick = libraryInteractionListener::onItemWatchListClick
             )
         }
         item {
@@ -104,7 +104,7 @@ private fun LibraryScreenContent(
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.view_all),
                 endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
                 onSeeAllClick = onClickFavoriteListViewAll,
-                onMediaClick = onFavoriteItemClick
+                onMediaClickWithId = libraryInteractionListener::onItemClick
             )
         }
         item {
@@ -117,7 +117,7 @@ private fun LibraryScreenContent(
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.view_all),
                 endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
                 onSeeAllClick = onClickHistoryListViewAll,
-                onMediaClick = onHistoryItemClick
+                onMediaClickWithId = libraryInteractionListener::onItemClick
             )
         }
     }
