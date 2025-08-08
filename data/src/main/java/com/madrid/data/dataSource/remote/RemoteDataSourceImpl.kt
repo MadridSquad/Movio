@@ -6,6 +6,7 @@ import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
 import com.madrid.data.dataSource.remote.dto.authentication.AccountDetailsResponse
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
+import com.madrid.data.dataSource.remote.dto.common.AddToFavoriteRequest
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
 import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
 import com.madrid.data.dataSource.remote.dto.list.ListDto
@@ -35,7 +36,6 @@ import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
 import com.madrid.data.repositories.datasource.UserPreferences
 import com.madrid.data.repositories.remote.RemoteDataSource
 import kotlinx.coroutines.flow.first
-
 import com.madrid.domain.exceptions.AccountLockedException
 import com.madrid.domain.exceptions.AuthorizationException
 import com.madrid.domain.exceptions.InvalidCredentialsException
@@ -45,8 +45,6 @@ import com.madrid.domain.exceptions.UnknownException
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.HttpURLConnection.HTTP_UNAUTHORIZED
-
-
 import javax.inject.Inject
 
 
@@ -301,6 +299,18 @@ class RemoteDataSourceImpl @Inject constructor(
             throw UnknownException("Unexpected error: ${e.message}")
         }
 
+    }
+
+    override suspend fun addToFavorite(
+        sessionId: String,
+        request: AddToFavoriteRequest
+    ) {
+        val accountId = api.getAccountDetails(sessionId).id
+        api.addToFavorite(
+            accountId = accountId,
+            sessionId = sessionId,
+            body = request
+        )
     }
 
     override suspend fun loginAsGuest(): String {
