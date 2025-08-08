@@ -84,7 +84,7 @@ interface RemoteDataSource {
 
     // region Lists
     suspend fun createMovieList(sessionId: String, movieListBody: MovieListBody): CreateListResponse
-    suspend fun addMovieToList(listId: Int, sessionId: String, mediaId: Int): ListOperationResponse
+    suspend fun  addMovieToList(listId: Int, movieId: Int , sessionId: String): ListOperationResponse
     suspend fun getCustomLists(sessionId: String): List<ListDto>
     suspend fun getCustomListDetails(listId: Int,sessionId: String): ListsDetailsResponse
     // endregion

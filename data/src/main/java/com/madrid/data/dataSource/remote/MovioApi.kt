@@ -31,6 +31,7 @@ import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
 import com.madrid.data.dataSource.remote.dto.authentication.SessionIdResponse
+import com.madrid.data.dataSource.remote.dto.list.AddToListRequest
 import com.madrid.data.dataSource.remote.dto.list.CreateListResponse
 import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
 import com.madrid.data.dataSource.remote.dto.list.MovieListBody
@@ -268,7 +269,7 @@ interface MovioApi {
     suspend fun addMovieToList(
         @Path("list_id") listId: Int,
         @Query("session_id") sessionId: String,
-        @Body body: Int
+        @Body request: AddToListRequest
     ): ListOperationResponse
     // region List
 
