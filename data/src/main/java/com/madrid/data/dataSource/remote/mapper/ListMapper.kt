@@ -1,8 +1,5 @@
 package com.madrid.data.dataSource.remote.mapper
 
-import com.madrid.data.dataSource.local.mappers.toGenre
-import com.madrid.data.dataSource.local.table.MovieGenreTable
-import com.madrid.data.dataSource.local.table.SeriesGenreTable
 import com.madrid.data.dataSource.remote.dto.list.ListDto
 import com.madrid.data.dataSource.remote.dto.list.ListItemDto
 import com.madrid.domain.entity.Genre
@@ -26,7 +23,7 @@ fun ListItemDto.toMovie(genres: List<Genre>): Movie {
     return Movie(
         id = id,
         title = title ?: "",
-        imageUrl = posterPath ?: "",
+        imageUrl = "https://image.tmdb.org/t/p/original/$posterPath" ?: "",
         rate = voteAverage,
         releaseDate = releaseDate ?: "",
         movieDuration = "",
@@ -39,7 +36,7 @@ fun ListItemDto.toSeries(genres: List<Genre>): Series {
     return Series(
         id = id,
         title = title ?: "",
-        imageUrl = posterPath ?: "",
+        imageUrl = "https://image.tmdb.org/t/p/original/$posterPath" ?: "",
         rate = voteAverage,
         description = overview ?: "",
         airDate = "",
