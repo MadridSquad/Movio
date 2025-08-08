@@ -34,6 +34,7 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KEYSTORE_FILE : ${{ secrets.KEYSTORE_FILE }}
         run: |
           echo "$KEYSTORE_FILE" | base64 -d > app/Kamel.jks
           echo "API_KEY = \"$API_KEY\"" > secret.properties
