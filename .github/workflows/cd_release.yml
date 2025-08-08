@@ -51,6 +51,7 @@ jobs:
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
+          echo "$KEYSTORE_FILE" | base64 -d > release.keystore
           echo "API_KEY = \"$API_KEY\"" > secret.properties
           echo "BASE_URL = \"$BASE_URL\"" >> secret.properties
           echo "KEYSTORE_FILE = \"$KEYSTORE_FILE\"" >> secret.properties
