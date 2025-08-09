@@ -56,14 +56,16 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
           KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }} # Base64 encoded .jks
         run: |
-          echo "$KEYSTORE_FILE" | base64 -d > keystore.jks
-          ls -l keystore.jks  # Debug check
+          mkdir -p app
+          echo "$KEYSTORE_FILE" | base64 -d > app/keystore.jks
+          ls -l app/keystore.jks  # Debug check
           echo "API_KEY = \"$API_KEY\"" > secret.properties
           echo "BASE_URL = \"$BASE_URL\"" >> secret.properties
-          echo "KEYSTORE_FILE = \"keystore.jks\"" >> secret.properties
+          echo "KEYSTORE_FILE = \"app/keystore.jks\"" >> secret.properties
           echo "KEYSTORE_PASSWORD = \"$KEYSTORE_PASSWORD\"" >> secret.properties
           echo "KEY_ALIAS = \"$KEY_ALIAS\"" >> secret.properties
           echo "KEY_PASSWORD = \"$KEY_PASSWORD\"" >> secret.properties
+      
 
       # 7. Build signed release APK
       - name: Build Signed Release APK

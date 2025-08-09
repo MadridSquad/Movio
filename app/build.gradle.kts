@@ -41,12 +41,17 @@ android {
     }
     signingConfigs {
         create("release") {
-            val keystoreFile = secretProps.getProperty("KEYSTORE_FILE")
-            if (keystoreFile != null && file(keystoreFile).exists()) {
-                storeFile = file(keystoreFile)
+            val keystorePath = secretProps.getProperty("KEYSTORE_FILE") ?: ""
+            if (keystorePath.isNotBlank() && file(keystorePath).exists()) {
+                storeFile = file(keystorePath)
                 storePassword = secretProps.getProperty("KEYSTORE_PASSWORD") ?: ""
                 keyAlias = secretProps.getProperty("KEY_ALIAS") ?: ""
                 keyPassword = secretProps.getProperty("KEY_PASSWORD") ?: ""
+            } else {
+                // Only throw exception for release builds
+                if (gradle.startParameter.taskNames.any { it.contains("Release") }) {
+                    throw GradleException("❌ Keystore file not found at $keystorePath")
+                }
             }
         }
     }
@@ -58,8 +63,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            val keystoreFile = secretProps.getProperty("KEYSTORE_FILE")
-            if (keystoreFile != null && file(keystoreFile).exists()) {
+            // Only apply signing config if keystore exists
+            val keystorePath = secretProps.getProperty("KEYSTORE_FILE") ?: ""
+            if (keystorePath.isNotBlank() && file(keystorePath).exists()) {
                 signingConfig = signingConfigs.getByName("release")
             }
         }
@@ -69,6 +75,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            // Debug builds don't need signing config
         }
     }
     compileOptions {

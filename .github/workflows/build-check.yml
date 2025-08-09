@@ -30,19 +30,21 @@ jobs:
         env:
           API_KEY: ${{ secrets.API_KEY }}
           BASE_URL: ${{ secrets.BASE_URL }}
-          KEYSTORE_FILE_PATH: ${{ secrets.KEYSTORE_FILE_PATH }}
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-          KEYSTORE_FILE : ${{ secrets.KEYSTORE_FILE }}
+          KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }} # Base64 encoded .jks
         run: |
-          echo "$KEYSTORE_FILE" | base64 -d > app/Kamel.jks
+          mkdir -p app
+          echo "$KEYSTORE_FILE" | base64 -d > app/keystore.jks
+          ls -l app/keystore.jks  # Debug check
           echo "API_KEY = \"$API_KEY\"" > secret.properties
           echo "BASE_URL = \"$BASE_URL\"" >> secret.properties
-          echo "KEYSTORE_FILE_PATH = \"$KEYSTORE_FILE_PATH\"" >> secret.properties
+          echo "KEYSTORE_FILE = \"app/keystore.jks\"" >> secret.properties
           echo "KEYSTORE_PASSWORD = \"$KEYSTORE_PASSWORD\"" >> secret.properties
           echo "KEY_ALIAS = \"$KEY_ALIAS\"" >> secret.properties
           echo "KEY_PASSWORD = \"$KEY_PASSWORD\"" >> secret.properties
+      
 
       - name: Grant Gradle permissions
         run: chmod +x gradlew
