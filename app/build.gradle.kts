@@ -181,6 +181,6 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler.v2511)
 
-    //Work manager
+    //work manager
     implementation(libs.androidx.work.runtime.ktx)
 }
