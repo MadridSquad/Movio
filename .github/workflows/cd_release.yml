@@ -65,7 +65,16 @@ jobs:
         run: ./gradlew assembleRelease --build-cache -x test -x lint
 
       - name: Ensure APK is generated
-        run: ls -l app/build/outputs/apk/release/app-release.apk || { echo "APK not generated"; exit 1; }
+        run: |
+          echo "Checking for APK files..."
+          find app/build/outputs/apk -name "*.apk" -type f
+          APK_PATH=$(find app/build/outputs/apk/release -name "*.apk" -type f | head -1)
+          if [ -z "$APK_PATH" ]; then
+            echo "No APK found in release directory"
+            exit 1
+          fi
+          echo "Found APK: $APK_PATH"
+          echo "APK_PATH=$APK_PATH" >> $GITHUB_ENV
 
       - name: Extract Release Notes
         id: release_notes
@@ -90,7 +99,7 @@ jobs:
       - name: Upload APK to Firebase App Distribution
         run: |
           firebase appdistribution:distribute \
-            app/build/outputs/apk/release/app-release.apk \
+            "$APK_PATH" \
             --app "1:1038392982530:android:86b7c8565bb5aec276bb1b" \
             --groups "release-testers" \
             --release-notes-file release_notes.txt
