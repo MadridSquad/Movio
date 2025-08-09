@@ -41,7 +41,7 @@ android {
     }
     signingConfigs {
         create("release") {
-            storeFile = secretProps.getProperty("KEYSTORE_FILE_PATH")?.let { file(it) }
+            storeFile = secretProps.getProperty("KEYSTORE_FILE")?.let { file(it) }
             storePassword = secretProps.getProperty("KEYSTORE_PASSWORD") ?: ""
             keyAlias = secretProps.getProperty("KEY_ALIAS") ?: ""
             keyPassword = secretProps.getProperty("KEY_PASSWORD") ?: ""
