@@ -20,3 +20,4 @@ local.properties
 secret.properties
 /.kotlin
 /data/schemas
+/app/Kamel.jks
