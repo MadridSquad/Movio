@@ -41,10 +41,13 @@ android {
     }
     signingConfigs {
         create("release") {
-            storeFile = secretProps.getProperty("KEYSTORE_FILE")?.let { file(it) }
-            storePassword = secretProps.getProperty("KEYSTORE_PASSWORD") ?: ""
-            keyAlias = secretProps.getProperty("KEY_ALIAS") ?: ""
-            keyPassword = secretProps.getProperty("KEY_PASSWORD") ?: ""
+            val keystoreFile = secretProps.getProperty("KEYSTORE_FILE")
+            if (keystoreFile != null && file(keystoreFile).exists()) {
+                storeFile = file(keystoreFile)
+                storePassword = secretProps.getProperty("KEYSTORE_PASSWORD") ?: ""
+                keyAlias = secretProps.getProperty("KEY_ALIAS") ?: ""
+                keyPassword = secretProps.getProperty("KEY_PASSWORD") ?: ""
+            }
         }
     }
 
@@ -55,7 +58,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
+            val keystoreFile = secretProps.getProperty("KEYSTORE_FILE")
+            if (keystoreFile != null && file(keystoreFile).exists()) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
         debug {
             isMinifyEnabled = false
