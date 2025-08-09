@@ -23,7 +23,7 @@ import com.madrid.designSystem.theme.Theme
 import kotlinx.coroutines.delay
 
 @Composable
-fun MovioToast(
+fun MovioSnakBar(
     message: String,
 
     modifier: Modifier = Modifier,
@@ -82,7 +82,7 @@ enum class ToastDuration(val timeMillis: Long) {
 @Composable
 private fun MovioToastPreview() {
 
-        MovioToast(
+    MovioSnakBar(
             message = "Something went wrong",
             onDismiss = {}
         )

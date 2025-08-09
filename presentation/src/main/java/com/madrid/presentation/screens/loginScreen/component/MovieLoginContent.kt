@@ -16,18 +16,14 @@ import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
+import com.madrid.presentation.screens.loginScreen.LoginInteractionListener
 import com.madrid.presentation.viewModel.loginViewModel.LoginUiState
 
 @Composable
 fun MovieLoginContent(
     state: LoginUiState,
-    onUsernameChange: (String) -> Unit,
-    onPasswordChange: (String) -> Unit,
-    onLoginClick: () -> Unit,
-    onTogglePassword: () -> Unit,
-    onForgotPasswordClick: () -> Unit,
-    onSignUpClick: () -> Unit,
-    onGuestLogin: () -> Unit,
+    interactionListener: LoginInteractionListener,
+
 ) {
     Column(
         modifier = Modifier
@@ -45,20 +41,20 @@ fun MovieLoginContent(
 
             LoginInputFields(
                 state = state,
-                onUsernameChange = onUsernameChange,
-                onPasswordChange = onPasswordChange,
-                onTogglePassword = onTogglePassword
+                onUsernameChange = interactionListener::onUsernameChanged,
+                onPasswordChange = interactionListener::onPasswordChanged,
+                onTogglePassword = interactionListener::onShowPasswordToggled,
             )
 
             LoginErrorAndForgotPassword(
                 state = state,
-                onForgotPasswordClick = onForgotPasswordClick,
+                onForgotPasswordClick = interactionListener::onForgotPasswordClicked,
                 modifier = Modifier.padding(bottom = 24.dp)
             )
 
             AnimatedLoginButton(
                 isLoading = state.isLoading,
-                onClick = onLoginClick,
+                onClick = interactionListener::onLoginClicked,
                 text = stringResource(R.string.login),
                 modifier = Modifier.padding(bottom = 40.dp)
             )
@@ -67,7 +63,7 @@ fun MovieLoginContent(
 
             AnimatedLoginButton(
                 isLoading = state.isGuestLoading,
-                onClick = onGuestLogin,
+                onClick = interactionListener::onLoginAsGuestClicked,
                 buttonColor = Theme.color.surfaces.surface,
                 textColor = Theme.color.surfaces.onSurface,
                 text = stringResource(R.string.continue_as_a_guest),
@@ -81,7 +77,7 @@ fun MovieLoginContent(
             )
 
         }
-        SignUpRow(onSignUpClick = onSignUpClick)
+        SignUpRow(onSignUpClick = interactionListener::onSignUpClicked)
 
 
     }
@@ -95,13 +91,15 @@ private fun MovieLoginContentPreview() {
     MovioTheme {
         MovieLoginContent(
             state = LoginUiState(),
-            onUsernameChange = { },
-            onPasswordChange = { },
-            onLoginClick = { },
-            onTogglePassword = { },
-            onForgotPasswordClick = { },
-            onSignUpClick = { },
-            onGuestLogin = { }
+            interactionListener = object : LoginInteractionListener {
+                override fun onUsernameChanged(username: String) {}
+                override fun onPasswordChanged(password: String) {}
+                override fun onLoginClicked() {}
+                override fun onLoginAsGuestClicked() {}
+                override fun onForgotPasswordClicked() {}
+                override fun onSignUpClicked() {}
+                override fun onShowPasswordToggled() {}
+            }
         )
     }
 }

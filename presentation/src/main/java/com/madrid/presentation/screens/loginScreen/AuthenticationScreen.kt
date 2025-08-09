@@ -7,22 +7,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.madrid.designSystem.component.MovioToast
-import com.madrid.designSystem.component.ToastDuration
 
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewModelScope
-import com.madrid.designSystem.R
-import com.madrid.designSystem.component.CustomSnackBarHost
-import com.madrid.designSystem.component.showSnackBar
+import com.madrid.designSystem.component.MovioSnakBar
+import com.madrid.designSystem.component.ToastDuration
 
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
+import com.madrid.presentation.screens.loginScreen.component.LoginEffect
 import com.madrid.presentation.screens.loginScreen.component.MovieLoginContent
 import com.madrid.presentation.viewModel.loginViewModel.LoginViewModel
 
@@ -34,55 +33,52 @@ fun AuthenticationScreen(
     val navController = LocalNavController.current
     val viewModel: LoginViewModel = hiltViewModel()
     val state by viewModel.state.collectAsState()
-    val toastMessage by viewModel.toastMessage.collectAsState()
+    var toastMessage by remember { mutableStateOf<String?>(null) }
 
-    LaunchedEffect(key1 = state.loginSuccess) {
-        if (state.loginSuccess) {
-            if (state.isGuest) {
-                onGuestLogin()
-            } else {
-                onLoginSuccess()
+    LaunchedEffect(Unit) {
+      viewModel.effect.collect {effect ->
+          when(effect){
+          is LoginEffect.OnLoginSuccess ->{
+              if (state.isGuest){
+                  onGuestLogin()
+              } else {
+                  onLoginSuccess()
+              }
+              navController.navigate(Destinations.HomeScreen) {
+                  popUpTo(Destinations.AuthenticationScreen) {
+                      inclusive = true
+                  }
+              }
+          }
+              is LoginEffect.OpenView -> {
+                  navController.navigate(Destinations.WebViewScreen(url = effect.url))
+              }
+            is LoginEffect.ShowToast -> {
+                toastMessage = effect.message
             }
-            navController.navigate(Destinations.HomeScreen) {
-                popUpTo(Destinations.AuthenticationScreen) {
-                    inclusive = true
-                }
-            }
-        }
-    }
+              is LoginEffect.DismissToast ->{
+                  toastMessage =null
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        MovieLoginContent(
-            state = state,
-            onUsernameChange = viewModel::updateUsername,
-            onPasswordChange = viewModel::updatePassword,
-            onLoginClick = { viewModel.login(onLoginSuccess) },
-            onTogglePassword = viewModel::toggleShowPassword,
-            onForgotPasswordClick = {
-                navController.navigate(
-                    Destinations.WebViewScreen("https://www.themoviedb.org/reset-password")
-                )
-            },
-            onSignUpClick = {
-                navController.navigate(
-                    Destinations.WebViewScreen("https://www.themoviedb.org/signup")
-                )
-            },
-            onGuestLogin = { viewModel.loginAsGuest(onGuestLogin) },
+              }
+      }
+      }
+  }
+
+Box(modifier = Modifier.fillMaxSize()) {
+    MovieLoginContent(
+        state = state,
+        interactionListener = viewModel
+    )
+    if (!toastMessage.isNullOrEmpty()) {
+        MovioSnakBar(
+            message = toastMessage!!,
+            duration = ToastDuration.SHORT,
+            onDismiss = { toastMessage = null },
+            modifier = Modifier.padding(16.dp)
+                .align(Alignment.BottomCenter)
         )
-
-        if (toastMessage != null) {
-            MovioToast(
-                message = toastMessage!!,
-                duration = ToastDuration.SHORT,
-                onDismiss = { viewModel.dismissToast() },
-
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 32.dp)
-            )
-        }
     }
-}
 
+}
+}
 

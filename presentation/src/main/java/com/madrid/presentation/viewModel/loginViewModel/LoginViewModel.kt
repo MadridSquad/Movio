@@ -5,6 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.madrid.domain.exceptions.MovioException
 import com.madrid.domain.exceptions.ValidationException
 import com.madrid.domain.usecase.authentication.LoginUseCase
+import com.madrid.presentation.screens.loginScreen.LoginInteractionListener
+import com.madrid.presentation.screens.loginScreen.component.LoginEffect
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -20,42 +22,27 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
-) : BaseViewModel<LoginUiState, Nothing>(LoginUiState()) {
-    private val _toastMessage = MutableStateFlow<String?>(null)
-    val toastMessage: StateFlow<String?> = _toastMessage.asStateFlow()
+) : BaseViewModel<LoginUiState, LoginEffect>(LoginUiState()), LoginInteractionListener {
+    override fun onUsernameChanged(username: String) {
+      updateState {
+          it.copy(
+              username= username,
+              errorMessage = if (username.isNotBlank())null else it.errorMessage)
+              }
 
-    fun updateUsername(username: String) {
-        updateState {
-            it.copy(
-                username = username,
-                errorMessage = if (username.isNotBlank()) null else it.errorMessage
-            )
-        }
+      }
+
+
+    override fun onPasswordChanged(password: String) {
+      updateState {
+          it.copy(password= password,
+
+              errorMessage = if (password.isNotBlank())null else it.errorMessage
+              )
+      }
     }
 
-    fun updatePassword(password: String) {
-        updateState {
-            it.copy(
-                password = password,
-                errorMessage = if (password.isNotBlank()) null else it.errorMessage
-            )
-        }
-    }
-
-    fun toggleShowPassword() {
-        updateState { it.copy(showPassword = !it.showPassword) }
-    }
-    fun showToast(message: String) {
-        _toastMessage.value = message
-    }
-
-    fun dismissToast() {
-        _toastMessage.value = null
-    }
-
-
-
-    fun login(onSuccess: () -> Unit) {
+    override fun onLoginClicked() {
         val currentState = state.value
 
         try {
@@ -81,7 +68,7 @@ class LoginViewModel @Inject constructor(
                             isGuest = false
                         )
                     }
-                    onSuccess()
+                    emitNewEffect(LoginEffect.OnLoginSuccess("Login success"))
                 }
             } catch (ex: MovioException) {
                 updateState {
@@ -95,7 +82,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun loginAsGuest(onSuccess: () -> Unit) {
+    override fun onLoginAsGuestClicked() {
         val currentState = state.value
         if (currentState.isLoading || currentState.isGuestLoading) return
 
@@ -112,10 +99,10 @@ class LoginViewModel @Inject constructor(
                             isGuest = true
                         )
                     }
-                    onSuccess()
+                    emitNewEffect(LoginEffect.OnLoginSuccess("Login success"))
                 }
             } catch (ex: MovioException) {
-                showToast(ex.message ?: "Something went wrong")
+                emitNewEffect(LoginEffect.ShowToast(ex.message ?: "Something went wrong"))
                 updateState {
                     it.copy(
                         isLoading = false,
@@ -126,6 +113,20 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
+
+    override fun onForgotPasswordClicked() {
+
+        emitNewEffect(LoginEffect.OpenView("https://www.themoviedb.org/reset-password"))}
+
+    override fun onSignUpClicked() {
+        emitNewEffect(LoginEffect.OpenView("https://www.themoviedb.org/signup"))
+    }
+
+    override fun onShowPasswordToggled() {
+        updateState { it.copy(showPassword = !it.showPassword) }
+    }
+
+
 }
 
 
