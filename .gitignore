@@ -21,4 +21,4 @@ secret.properties
 /.kotlin
 /data/schemas
 /app/Kamel.jks
-/Kamel.jks
+/app/Kamel.jks
