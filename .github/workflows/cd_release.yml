@@ -74,6 +74,7 @@ jobs:
             exit 1
           fi
           echo "Found APK: $APK_PATH"
+          ls -l "$APK_PATH"
           echo "APK_PATH=$APK_PATH" >> $GITHUB_ENV
 
       - name: Extract Release Notes
