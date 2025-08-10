@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -31,6 +32,7 @@ fun MovioHorizontalCard(
     modifier: Modifier = Modifier,
     height: Dp =100.dp,
     onClick: () -> Unit,
+    contentScale: ContentScale = ContentScale.Crop
 ) {
     Row(
         modifier = Modifier
@@ -45,7 +47,8 @@ fun MovioHorizontalCard(
             modifier = Modifier
                 .width(76.dp)
                 .height(height),
-            radius = 8.dp
+            radius = 8.dp,
+            contentScale = contentScale
         )
         Column(
             modifier = modifier

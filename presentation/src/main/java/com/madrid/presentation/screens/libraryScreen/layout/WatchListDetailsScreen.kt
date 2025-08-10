@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -26,7 +25,6 @@ import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.movioCards.MovioHorizontalCard
-import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.libraryViewModel.layout.WatchListDetailsState
 import com.madrid.presentation.viewModel.libraryViewModel.layout.WatchListDetailsViewModel
@@ -92,8 +90,8 @@ private fun WatchListDetailsScreenContent(
                 movieRate = watchList.rating,
                 movieCategory = watchList.category.first().name,
                 movieImageUrl = watchList.imageUrl,
-                width = 86.dp,
                 height = 120.dp,
+                onClick = {},
             )
         }
     }
