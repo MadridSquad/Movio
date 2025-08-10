@@ -153,20 +153,20 @@ fun MoviesLayout(
         }
 
         itemsIndexed(recommendedMovies.shuffled()) { index, media ->
-            var endPaddingValue = 0
-            var startPaddingValue = 0
-
-            if (index % 2 == 0)
-                startPaddingValue = 16
-            else
-                endPaddingValue = 16
+//            var endPaddingValue = 0
+//            var startPaddingValue = 0
+//
+//            if (index % 2 == 0)
+//                startPaddingValue = 16
+//            else
+//                endPaddingValue = 16
             MovioVerticalCard(
                 description = media.title,
                 movieImage = media.imageUrl,
                 rate = media.rating.take(3),
                 height = 220.dp,
                 onClick = { navController.navigate(Destinations.MovieDetailsScreen(media.id.toInt())) },
-                modifier = Modifier.padding(start = startPaddingValue.dp, end = endPaddingValue.dp)
+                modifier = Modifier.padding(start = 6.dp, end = 6.dp)
             )
         }
     }
