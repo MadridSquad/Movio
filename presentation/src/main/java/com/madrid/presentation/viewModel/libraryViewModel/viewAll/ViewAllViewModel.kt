@@ -60,7 +60,7 @@ class ViewAllViewModel @AssistedInject constructor(
             function = { strategy.deleteItem(mediaId, mediaType) },
             onSuccess = {
                 updateState { it.copy(items = it.items
-                    .filter { item -> item.id == mediaId && item.mediaType == mediaType }) }
+                    .filterNot { item -> item.id == mediaId && item.mediaType == mediaType }) }
             },
             onError = { }
         )
