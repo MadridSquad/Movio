@@ -40,9 +40,7 @@ android {
         buildFeatures {
             compose = true
         }
-        composeOptions {
-            kotlinCompilerExtensionVersion = libs.versions.compiler.get()
-        }
+
     }
 }
 
@@ -52,7 +50,7 @@ dependencies {
     implementation(project(":domain"))
 
     implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.work.runtime.ktx)
     debugImplementation(libs.ui.tooling)
 
     implementation(libs.foundation)
@@ -70,7 +68,7 @@ dependencies {
     implementation(libs.androidx.navigation.common.ktx)
 
     //coil
-    implementation(libs.coil.kt.coil.compose)
+    implementation(libs.coil.compose)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     //pagination
@@ -80,7 +78,7 @@ dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.kotlinx.serialization.core)
-    implementation("androidx.webkit:webkit:1.9.0")
+    implementation(libs.androidx.webkit)
     //Dagger- Hilt
     ksp(libs.hilt.android.compiler.v2511)
     implementation(libs.hilt.android)

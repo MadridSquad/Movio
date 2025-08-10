@@ -43,6 +43,7 @@ kotlinx-serialization = "1.6.0"
 kotlinx-datetime = "0.5.0"
 
 # Work Manager
+webkit = "1.9.0"
 workRuntimeKtx = "2.10.3"
 
 # Image Loading
@@ -63,6 +64,7 @@ androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-webkit = { module = "androidx.webkit:webkit", version.ref = "webkit" }
 ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 
 # Material Design
