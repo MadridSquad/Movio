@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun MoviePosterDetailScreen(
-    imageUrl: String,
     modifier: Modifier = Modifier,
+    imageUrl: String,
     isActor: Boolean = false
 ) {
     val overlay = Color(0xCC181828)
@@ -54,11 +54,10 @@ fun MoviePosterDetailScreen(
             } else {
                 Box(
                     modifier = Modifier
-                        .padding(bottom = 16.dp)
+                        .padding(top = 88.dp, bottom = 24.dp , start = 80.dp, end = 80.dp)
                         .size(width = 200.dp, height = 260.dp)
-                        .align(Alignment.BottomCenter)
                         .clip(RoundedCornerShape(8.dp))
-                        .background(Color.Black.copy(alpha = 0.7f))
+                        .background(Color.Black.copy(alpha = 0.7f)),
                 ) {
                     PosterCard(
                         posterImageUrl = imageUrl,
