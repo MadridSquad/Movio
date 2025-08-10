@@ -109,6 +109,12 @@ tasks.register<JacocoReport>("jacocoTestReport") {
 }
 
 dependencies {
+    implementation(projects.designSystem)
+    implementation(projects.detectImageContent)
+    implementation(projects.domain)
+    implementation(projects.data)
+    implementation(projects.presentation)
+
     implementation(libs.androidx.appcompat)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -128,11 +134,6 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation(project(":designSystem"))
-    implementation(project(":detectImageContent"))
-    implementation(project(":domain"))
-    implementation(project(":data"))
-    implementation(project(":presentation"))
 
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)

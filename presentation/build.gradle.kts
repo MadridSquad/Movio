@@ -45,9 +45,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":designSystem"))
-    implementation(project(":detectImageContent"))
-    implementation(project(":domain"))
+    implementation(projects.designSystem)
+    implementation(projects.detectImageContent)
+    implementation(projects.domain)
 
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.work.runtime.ktx)
