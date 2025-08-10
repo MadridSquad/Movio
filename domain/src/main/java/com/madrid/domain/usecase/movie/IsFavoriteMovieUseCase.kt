@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.movie
 
-import jakarta.inject.Inject
+import javax.inject.Inject
+
 
 class IsFavoriteMovieUseCase @Inject constructor(
     private val getFavoriteMoviesUseCase: GetFavoriteMoviesUseCase

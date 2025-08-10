@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.series
 
-import jakarta.inject.Inject
+import javax.inject.Inject
 
 class IsFavoriteSeriesUseCase @Inject constructor(
     private val getFavoriteSeriesUseCase: GetFavoriteSeriesUseCase
