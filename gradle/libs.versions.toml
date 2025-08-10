@@ -1,14 +1,14 @@
 [versions]
 accompanistPager = "0.36.0"
 activityKtx = "1.10.1"
-agp = "8.1.2"
+agp = "8.10.1"
 coreSplashScreen = "1.0.1"
 converterGson = "2.11.0"
 coreKtx = "1.6.0"
-kotlin = "1.9.10"
-compose = "1.5.3"
-composeBom = "2023.10.00"
-ksp = "1.9.10-1.0.13"
+kotlin = "2.2.0"
+compose = "1.8.2"
+composeBom = "2025.07.00"
+ksp = "2.2.0-2.0.2"
 google-services = "4.4.0"
 firebase-crashlytics = "2.9.9"
 firebase-analytics = "21.5.0"
@@ -110,3 +110,4 @@ google-services = { id = "com.google.gms.google-services", version.ref = "google
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 hilt-android  = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

@@ -16,6 +16,7 @@ plugins {
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android)
+    alias(libs.plugins.kotlin.compose)
     jacoco
 }
 
@@ -63,9 +64,7 @@ android {
         buildConfig = true
 
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compiler.get()
-    }
+
     testOptions {
         unitTests.isIncludeAndroidResources = true
     }
