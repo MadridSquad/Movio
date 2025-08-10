@@ -28,12 +28,3 @@ tasks.register("cleanAll") {
     }
 }
 
-subprojects {
-    configurations.all {
-        resolutionStrategy.eachDependency {
-            if (requested.group == "org.jetbrains.kotlin" && requested.name.startsWith("kotlin-stdlib")) {
-                useVersion("1.9.10")
-            }
-        }
-    }
-}
