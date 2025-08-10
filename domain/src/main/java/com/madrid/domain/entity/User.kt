@@ -5,3 +5,8 @@ data class User(
     val profilePicUrl: String?,
     val isGuest: Boolean = false
 )
+
+data class ListOperationStatus(
+    val success: Boolean,
+    val message: String
+)

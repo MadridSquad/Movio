@@ -7,20 +7,17 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.cachedIn
-import androidx.paging.flatMap
+import androidx.paging.map
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.usecase.movie.GetMovieGenresUseCase
-import com.madrid.presentation.screens.homeScreen.paging.SeeAllMoviesPagingSource
-import com.madrid.presentation.screens.homeScreen.paging.SeeAllMoviesWithGenrePagingSource
-import com.madrid.presentation.screens.searchScreen.paging.ExplorePagingSource
+import com.madrid.presentation.pagination.SeeAllMoviesPagingSource
+import com.madrid.presentation.pagination.SeeAllMoviesWithGenrePagingSource
 import com.madrid.presentation.utils.RateFormatter
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import com.madrid.presentation.viewModel.uiStateMapper.toMovieUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -59,60 +56,21 @@ class SeeAllMoviesViewModel @AssistedInject constructor(
         )
     }
 
-    fun <T : Any> launchPagingRequest(
-        pagingSourceFactory: () -> PagingSource<Int, T>,
-        onSuccess: (Flow<PagingData<T>>) -> Unit,
-        config: PagingConfig = PagingConfig(pageSize = 20),
-    ) {
-        try {
-            updateState {
-                it.copy(
-                    isLoading = true,
-                )
-            }
-            val result = Pager(
-                config = config,
-                pagingSourceFactory = pagingSourceFactory
-            ).flow.cachedIn(viewModelScope)
-
-            onSuccess(result)
-
-        } catch (e: Exception) {
-            updateState {
-                it.copy(
-                    isLoading = false,
-                    errorMessage = e.message
-                )
-            }
-        }
-    }
     private fun loadAllMovies() {
         launchPagingRequest(
             pagingSourceFactory = {
-                SeeAllMoviesPagingSource(strategy::getAllMovies)
+                SeeAllMoviesPagingSource(
+                    getAllMovie = strategy::getAllMovies
+                )
             },
-            onSuccess = { pagingFlow ->
-                val result = pagingFlow.map { pagingData ->
-                    pagingData.flatMap { it.map { MoviesUiState(
-                        id = it.id.toString(),
-                        imageUrl = it.imageUrl,
-                        rate = RateFormatter.formatRate(it.rate),
-                        name = it.title,
-                        genre = it.genre.map { it.toCategoryUiState() },
-                    ) } }
+            onSuccess = { moviesFlow ->
+                val mappedFlow = moviesFlow.map { pagingData ->
+                    pagingData.map { movie -> movie.toUiState() }
                 }
-
-                updateState {
-                    it.copy(
-                        filteredMovies = result,
-                        isLoading = false
-                    )
-                }
-
-            }
+                updateState { it.copy(filteredMovies = mappedFlow, isLoading = false) }
+            },
         )
     }
-
 
     override fun onGenreSelect(genre: CategoryUiState?) {
         if (genre == null)
@@ -120,17 +78,22 @@ class SeeAllMoviesViewModel @AssistedInject constructor(
         else {
             launchPagingRequest(
                 pagingSourceFactory = {
-                    SeeAllMoviesWithGenrePagingSource(genreId =  genre.id , strategy::getMoviesBasedOnCategory)
+                    SeeAllMoviesWithGenrePagingSource(
+                        genreId =  genre.id,
+                        getAllMovie = strategy::getMoviesBasedOnCategory
+                    )
                 },
                 onSuccess = { pagingFlow ->
                     val result = pagingFlow.map { pagingData ->
-                        pagingData.flatMap { it.map { MoviesUiState(
-                            id = it.id.toString(),
-                            imageUrl = it.imageUrl,
-                            rate = RateFormatter.formatRate(it.rate),
-                            name = it.title,
-                            genre = it.genre.map { it.toCategoryUiState() },
-                        ) } }
+                        pagingData.map { movie ->
+                            MoviesUiState(
+                                id = movie.id.toString(),
+                                imageUrl = movie.imageUrl,
+                                rate = RateFormatter.formatRate(movie.rate),
+                                name = movie.title,
+                                genre = movie.genre.map { it.toCategoryUiState() },
+                            )
+                        }
                     }
 
                     updateState {
@@ -155,6 +118,30 @@ class SeeAllMoviesViewModel @AssistedInject constructor(
 
     override fun onClickAllChip() {
         loadAllMovies()
+    }
+
+    fun <T : Any> launchPagingRequest(
+        pagingSourceFactory: () -> PagingSource<Int, T>,
+        onSuccess: (Flow<PagingData<T>>) -> Unit,
+        config: PagingConfig = PagingConfig(pageSize = 20),
+    ) {
+        try {
+            updateState { it.copy(isLoading = true) }
+            val result = Pager(
+                config = config,
+                pagingSourceFactory = pagingSourceFactory
+            ).flow.cachedIn(viewModelScope)
+
+            onSuccess(result)
+
+        } catch (e: Exception) {
+            updateState {
+                it.copy(
+                    isLoading = false,
+                    errorMessage = e.message
+                )
+            }
+        }
     }
 }
 

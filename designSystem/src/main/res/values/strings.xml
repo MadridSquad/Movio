@@ -13,6 +13,11 @@
     <string name="log_out">You\'ll lose access to your library, favorites, and history until you sign back in.</string>
     <string name="logout">logout</string>
     <string name="conform_log_out">Confirm Logout</string>
+    <string name="create_list_description">Create a new list and keep track of your series that you want to access easily.</string>
+    <string name="create_list_title">Create New List</string>
+    <string name="create_list_button">Create</string>
+    <string name="create_new_list">Create a new list</string>
+    <string name="create_list_hint">List name</string>
     <string name="this_list_has_empty">This list has empty</string>
     <string name="share_via">Share via</string>
     <string name="copy_link">Copy link</string>

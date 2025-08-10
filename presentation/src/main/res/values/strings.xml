@@ -21,7 +21,6 @@
     <string name="episode_duration">%1$d m</string>
     <string name="season_count">%1$d Seasons</string>
     <string name="library_screen">Library Screen</string>
-    <string name="my_ratings">My Ratings</string>
     <string name="submit">Submit</string>
     <string name="add_your_overall_rating_for_this_movie">Add your overall rating for this movie</string>
     <string name="theme">Theme</string>
@@ -110,6 +109,10 @@
     <string name="Home">Home</string>
     <string name="Library">Library</string>
     <string name="More">More</string>
+    <string name="my_ratings">My Ratings</string>
+    <string name="create_list_description">Create a new list and keep track of your series that you want to access easily.</string>
+    <string name="create_list_title">Create New List</string>
+    <string name="create_list_button">Create</string>
     <string name="start_now">Start now</string>
     <string name="open">Open </string>
     <string name="movio">Movio</string>

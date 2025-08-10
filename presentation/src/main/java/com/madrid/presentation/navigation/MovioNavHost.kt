@@ -22,6 +22,7 @@ import com.madrid.presentation.screens.homeScreen.SeeAllMoviesScreen
 import com.madrid.presentation.screens.homeScreen.SeeAllTVShowsScreen
 import com.madrid.presentation.screens.libraryScreen.LibraryScreen
 import com.madrid.presentation.screens.libraryScreen.ViewAllScreen
+import com.madrid.presentation.screens.libraryScreen.layout.WatchListDetailsScreen
 import com.madrid.presentation.screens.loginScreen.AuthenticationScreen
 import com.madrid.presentation.screens.loginScreen.component.ForgotPassword
 import com.madrid.presentation.screens.loginScreen.component.WebViewScreen
@@ -29,7 +30,7 @@ import com.madrid.presentation.screens.moreScreen.MoreScreen
 import com.madrid.presentation.screens.moreScreen.MyRatingScreen
 import com.madrid.presentation.screens.onboarding.OnBoardingScreen
 import com.madrid.presentation.screens.searchScreen.SearchScreen
-import com.madrid.presentation.screens.searchScreen.SeeAllForYou.SeeAllForYouScreen
+import com.madrid.presentation.screens.searchScreen.seeAllForYou.SeeAllForYouScreen
 import com.madrid.presentation.viewModel.libraryViewModel.viewAll.ViewAllViewModel
 import com.madrid.presentation.viewModel.libraryViewModel.viewAll.factory.ViewAllFactory
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesFactory
@@ -166,5 +167,9 @@ fun MovioNavHost(
         composable<Destinations.MyRatingScreen> {
             MyRatingScreen()
         }
+        composable<Destinations.WatchListDetailsScreen> {
+            WatchListDetailsScreen()
+        }
+
     }
 }

@@ -2,6 +2,7 @@ package com.madrid.domain.repository
 
 import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Genre
+import com.madrid.domain.entity.ListOperationStatus
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.SortType
@@ -32,4 +33,8 @@ interface MovieRepository {
     suspend fun addMovieToHistory(movieId: Int)
     suspend fun getAllMoviesInHistory(): List<Movie>
     suspend fun getFavoriteMovies(sessionId: String): List<Movie>
+
+    suspend fun createMovieList(sessionId: String, name: String, description: String, language: String): ListOperationStatus
+    suspend fun addMovieToList(listId: Int, sessionId: String, mediaId: Int): ListOperationStatus
+    suspend fun addMovieToFavorite(mediaId:Int, sessionId: String)
 }

@@ -7,22 +7,20 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import androidx.paging.cachedIn
-import androidx.paging.flatMap
+import androidx.paging.map
 import com.madrid.domain.entity.Series
 import com.madrid.domain.usecase.series.GetSeriesDetailsUseCase
 import com.madrid.domain.usecase.series.GetSeriesGenresUseCase
-import com.madrid.presentation.screens.homeScreen.paging.SeeAllSeriesPagingSource
-import com.madrid.presentation.screens.homeScreen.paging.SeeAllSeriesWithGenrePagingSource
+import com.madrid.presentation.pagination.SeeAllSeriesPagingSource
+import com.madrid.presentation.pagination.SeeAllSeriesWithGenrePagingSource
 import com.madrid.presentation.utils.RateFormatter
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import com.madrid.presentation.viewModel.seeAll.movies.toCategoryUiState
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 @HiltViewModel(assistedFactory = SeeAllTVShowsViewModel.Factory::class)
 class SeeAllTVShowsViewModel @AssistedInject constructor(
@@ -96,15 +94,13 @@ class SeeAllTVShowsViewModel @AssistedInject constructor(
             },
             onSuccess = { pagingFlow ->
                 val result = pagingFlow.map { pagingData ->
-                    pagingData.flatMap {
-                        it.map {
-                            SeriesUiState(
-                                id = it.id.toString(),
-                                imageUrl = it.imageUrl,
-                                rate = RateFormatter.formatRate(it.rate),
-                                name = it.title,
-                            )
-                        }
+                    pagingData.map { series ->
+                        SeriesUiState(
+                            id = series.id.toString(),
+                            imageUrl = series.imageUrl,
+                            rate = RateFormatter.formatRate(series.rate),
+                            name = series.title,
+                        )
                     }
                 }
 
@@ -134,15 +130,13 @@ class SeeAllTVShowsViewModel @AssistedInject constructor(
                 },
                 onSuccess = { pagingFlow ->
                     val result = pagingFlow.map { pagingData ->
-                        pagingData.flatMap {
-                            it.map {
-                                SeriesUiState(
-                                    id = it.id.toString(),
-                                    imageUrl = it.imageUrl,
-                                    rate = RateFormatter.formatRate(it.rate),
-                                    name = it.title,
-                                )
-                            }
+                        pagingData.map { series ->
+                            SeriesUiState(
+                                id = series.id.toString(),
+                                imageUrl = series.imageUrl,
+                                rate = RateFormatter.formatRate(series.rate),
+                                name = series.title,
+                            )
                         }
                     }
 

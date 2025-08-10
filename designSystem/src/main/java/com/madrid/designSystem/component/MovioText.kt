@@ -34,6 +34,7 @@ fun MovioText(
         overflow = overflow
     )
 }
+
 // FOR RECENTLY SEARCH SEARCH LIMITATION ONLY
 @Composable
 fun MoviosText(

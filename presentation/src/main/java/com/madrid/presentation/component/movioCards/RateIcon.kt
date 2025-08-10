@@ -25,12 +25,13 @@ fun RateIcon(
     rate: String,
     modifier: Modifier = Modifier,
     icon: Painter = painterResource(R.drawable.bold_star),
+    contentAlignment:Alignment = Alignment.Center
 ) {
     Box(
         modifier = modifier
             .padding(top = 4.dp, end= 4.dp)
             .height(16.dp),
-        contentAlignment = Alignment.Center
+        contentAlignment = contentAlignment
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(4.dp),

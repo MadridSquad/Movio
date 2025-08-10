@@ -29,11 +29,52 @@ fun CustomHorizontalCard(
     listOfMedia: List<MediaUiState>,
     modifier: Modifier = Modifier,
     headerModifier: Modifier = Modifier,
-    startIconForPrimaryTextTitle: Painter? = null,
     secondaryTextForCustomTextTitle: String? = null,
     endIconForCustomTextTitle: Painter? = null,
     onSeeAllClick: (() -> Unit)? = null,
     onMediaClick: (MediaUiState) -> Unit = {},
+) {
+    Column(modifier = modifier) {
+        CustomTextTitle(
+            modifier = headerModifier.padding(bottom = 12.dp),
+            primaryText = primaryTextForCustomTextTitle,
+            secondaryText = secondaryTextForCustomTextTitle,
+            endIcon = endIconForCustomTextTitle,
+            onSeeAllClick = onSeeAllClick,
+            isListEmpty = listOfMedia.isEmpty()
+        )
+        AnimatedVisibility(listOfMedia.isNotEmpty()) {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.height(200.dp),
+                contentPadding = PaddingValues(horizontal = 16.dp)
+            ) {
+                items(listOfMedia) { media ->
+                    MovioVerticalCard(
+                        description = media.title,
+                        movieImage = media.imageUrl,
+                        rate = media.rating.take(3),
+                        width = 124.dp,
+                        height = 160.dp,
+                        onClick = { onMediaClick(media) }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun CustomHorizontalCard(
+    primaryTextForCustomTextTitle: String,
+    listOfMedia: List<MediaUiState>,
+    modifier: Modifier = Modifier,
+    headerModifier: Modifier = Modifier,
+    startIconForPrimaryTextTitle: Painter? = null,
+    secondaryTextForCustomTextTitle: String? = null,
+    endIconForCustomTextTitle: Painter? = null,
+    onSeeAllClick: (() -> Unit)? = null,
+    onMediaClickWithId : (id: String) -> Unit = {},
 ) {
     Column(modifier = modifier) {
         CustomTextTitle(
@@ -58,7 +99,7 @@ fun CustomHorizontalCard(
                         rate = media.rating.take(3),
                         width = 124.dp,
                         height = 160.dp,
-                        onClick = { onMediaClick(media) }
+                        onClick = { onMediaClickWithId(media.id) }
                     )
                 }
             }
@@ -109,7 +150,7 @@ fun CustomHorizontalCardPreview() {
             endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
             listOfMedia = fakeMediaList,
             onSeeAllClick = {},
-            onMediaClick = {}
+            onMediaClickWithId = { id:String -> }
         )
     }
 }

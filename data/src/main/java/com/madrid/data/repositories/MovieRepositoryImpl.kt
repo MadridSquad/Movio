@@ -5,8 +5,13 @@ import com.madrid.data.dataSource.local.mappers.toMovie
 import com.madrid.data.dataSource.local.mappers.toSectionMovieTable
 import com.madrid.data.dataSource.local.table.MovieSection
 import com.madrid.data.dataSource.local.table.relationship.MovieGenreCrossRef
+import com.madrid.data.dataSource.mapper.toCreateListStatus
+import com.madrid.data.dataSource.mapper.toListOperationStatus
 import com.madrid.data.dataSource.mapper.toMovieGenreTable
 import com.madrid.data.dataSource.mapper.toMovieTable
+import com.madrid.data.dataSource.remote.dto.list.AddToListRequest
+import com.madrid.data.dataSource.remote.dto.list.MovieListBody
+import com.madrid.data.dataSource.remote.dto.common.AddToFavoriteRequest
 import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.mapper.toMovie
 import com.madrid.data.dataSource.remote.mapper.toRatedMovie
@@ -17,6 +22,7 @@ import com.madrid.data.repositories.local.LocalDataSource
 import com.madrid.data.repositories.remote.RemoteDataSource
 import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Genre
+import com.madrid.domain.entity.ListOperationStatus
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.SortType
@@ -54,7 +60,7 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getRecommendedMovies(page: Int): List<Movie> {
-        if(page == pageNumberCached ){
+        if (page == pageNumberCached) {
             val localMovies = localDataSource.getRecommendedMovies()
             if (localMovies.isNotEmpty()) {
                 return localMovies.map { it.toMovie() }
@@ -77,7 +83,7 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTrendingMovies(page: Int): List<Movie> {
-        if(page == pageNumberCached ){
+        if (page == pageNumberCached) {
             val localMovies = localDataSource.getTrendingMovies()
             if (localMovies.isNotEmpty()) {
                 return localMovies.map { it.toMovie() }
@@ -118,7 +124,7 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTopRatedMovies(page: Int): List<Movie> {
-        if(page == pageNumberCached ){
+        if (page == pageNumberCached) {
             val localMovies = localDataSource.getTopRatingMovies()
             if (localMovies.isNotEmpty()) {
                 return localMovies.map { it.toMovie() }
@@ -155,10 +161,10 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getNowPlayingMovie(page: Int): List<Movie> {
-        if(page == pageNumberCached ){
+        if (page == pageNumberCached) {
             val localMovies = localDataSource.getNowPlayingMovies()
 
-                if (localMovies.isNotEmpty()) {
+            if (localMovies.isNotEmpty()) {
                 return localMovies.map { it.toMovie() }
             }
         }
@@ -176,7 +182,7 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUpcomingMovie(page: Int): List<Movie> {
-        if(page == pageNumberCached ){
+        if (page == pageNumberCached) {
             val localMovies = localDataSource.getUpComingMovies()
             if (localMovies.isNotEmpty()) {
                 return localMovies.map { it.toMovie() }
@@ -208,6 +214,18 @@ class MovieRepositoryImpl @Inject constructor(
         rate: Double
     ){
         return remoteDataSource.addRatingMovie(movieId, rate)
+    }
+
+    override suspend fun addMovieToFavorite(mediaId: Int, sessionId: String) {
+        val request = AddToFavoriteRequest(
+            mediaType = "movie",
+            mediaId = mediaId,
+            favorite = true
+        )
+        remoteDataSource.addToFavorite(
+            sessionId = sessionId,
+            request = request
+        )
     }
 
     override suspend fun getMoviesByGenreId(
@@ -245,5 +263,20 @@ class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun getFavoriteMovies(sessionId: String): List<Movie> {
         return remoteDataSource.getFavoriteMovies(sessionId).map { it.toMovie() }
+    }
+
+    override suspend fun createMovieList(sessionId: String, name: String, description: String, language: String): ListOperationStatus {
+        val body = MovieListBody(name, description, language)
+        val response = remoteDataSource.createMovieList(sessionId, body)
+        return response.toCreateListStatus()
+    }
+
+    override suspend fun addMovieToList(listId: Int, sessionId: String, mediaId: Int): ListOperationStatus {
+        val response = remoteDataSource.addMovieToList(
+            listId = listId,
+            sessionId = sessionId,
+            movieId = mediaId
+        )
+        return response.toListOperationStatus()
     }
 }

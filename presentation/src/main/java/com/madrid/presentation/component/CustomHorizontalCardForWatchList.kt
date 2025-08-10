@@ -17,19 +17,19 @@ import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.presentation.component.videoLibrary.VideoLibrary
 import com.madrid.presentation.screens.libraryScreen.component.AddWatchListItem
-import com.madrid.presentation.viewModel.libraryViewModel.WatchListItemUiState
+import com.madrid.presentation.viewModel.libraryViewModel.WatchListState
 
 @Composable
 fun CustomHorizontalCardForWatchList(
     primaryTextForCustomTextTitle: String,
-    listOfWatch: List<WatchListItemUiState>,
+    listOfWatch: List<WatchListState>,
     modifier: Modifier = Modifier,
     headerModifier: Modifier = Modifier,
     startIconForPrimaryTextTitle: Painter? = null,
     secondaryTextForCustomTextTitle: String? = null,
     endIconForCustomTextTitle: Painter? = null,
     onSeeAllClick: (() -> Unit)? = null,
-    onWatchListClick: (WatchListItemUiState) -> Unit = {},
+    onWatchListClick: (WatchListState) -> Unit = {},
 ) {
     Column(
         modifier = modifier.padding(bottom = 20.dp),
@@ -55,7 +55,7 @@ fun CustomHorizontalCardForWatchList(
                 items(listOfWatch) { watchList ->
                     VideoLibrary(
                         onClick = { onWatchListClick(watchList) },
-                        videosNumber = watchList.videosSize,
+                        videosNumber = watchList.numberOfVideos,
                         title = watchList.watchListTitle
                     )
                 }

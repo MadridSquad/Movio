@@ -13,6 +13,10 @@
     <string name="log_out">ستفقد الوصول إلى مكتبتك والمفضلة وسجل المشاهدة حتى تسجل الدخول مرة أخرى.</string>
     <string name="logout">تسجيل خروج</string>
     <string name="conform_log_out">تاكيد تسجيل الخروج</string>
+    <string name="create_list_description">أنشئ قائمة جديدة واحتفظ بمسلسلاتك التي تريد الوصول إليها بسهولة.</string>    <string name="create_list_title">انشاء قائمة جديدة</string>
+    <string name="create_list_button">انشاء</string>
+    <string name="create_new_list">انشاء قائمة جديدة</string>
+    <string name="create_list_hint"> اسم القائمة </string>
     <string name="this_list_has_empty">هذه القائمه فارغه</string>
     <string name="share_via">مشاركة عبر</string>
     <string name="copy_link">انسخ الرابط</string>

@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -21,6 +22,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -79,6 +82,17 @@ fun MoviesLayout(
                     onClickItem = { id -> navController.navigate(Destinations.MovieDetailsScreen(id)) }
                 )
             }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(30.dp)
+                    .offset(y = 390.dp)
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(Color.Transparent , Theme.color.surfaces.surface)
+                        )
+                    )
+            )
         }
         item(span = { GridItemSpan(2) }) {
             CustomHorizontalCard(

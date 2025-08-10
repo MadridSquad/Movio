@@ -6,8 +6,13 @@ import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
 import com.madrid.data.dataSource.remote.dto.authentication.AccountDetailsResponse
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
+import com.madrid.data.dataSource.remote.dto.common.AddToFavoriteRequest
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
 import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
+import com.madrid.data.dataSource.remote.dto.list.AddToListRequest
+import com.madrid.data.dataSource.remote.dto.list.CreateListResponse
+import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
+import com.madrid.data.dataSource.remote.dto.list.MovieListBody
 import com.madrid.data.dataSource.remote.dto.list.ListDto
 import com.madrid.data.dataSource.remote.dto.list.ListsDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
@@ -35,7 +40,6 @@ import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
 import com.madrid.data.repositories.datasource.UserPreferences
 import com.madrid.data.repositories.remote.RemoteDataSource
 import kotlinx.coroutines.flow.first
-
 import com.madrid.domain.exceptions.AccountLockedException
 import com.madrid.domain.exceptions.AuthorizationException
 import com.madrid.domain.exceptions.InvalidCredentialsException
@@ -45,14 +49,12 @@ import com.madrid.domain.exceptions.UnknownException
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.HttpURLConnection.HTTP_UNAUTHORIZED
-
-
 import javax.inject.Inject
 
 
 class RemoteDataSourceImpl @Inject constructor(
     private val api: MovioApi,
-    private val userPreferences: UserPreferences
+    private val userPreferences: UserPreferences,
 ) : RemoteDataSource {
     //  region Movies
     override suspend fun searchMoviesByQuery(name: String, page: Int): SearchMovieResponse {
@@ -217,8 +219,10 @@ class RemoteDataSourceImpl @Inject constructor(
         return api.getCustomLists(sessionId).results
     }
 
-    override suspend fun getCustomListDetails(listId: Int): ListsDetailsResponse {
-        return api.getCustomListDetails(listId)
+    override suspend fun getCustomListDetails(listId: Int , sessionId: String): ListsDetailsResponse {
+
+        return  api.getCustomListDetails(listId , sessionId)
+
     }
 
     override suspend fun login(username: String, password: String): String {
@@ -301,6 +305,18 @@ class RemoteDataSourceImpl @Inject constructor(
 
     }
 
+    override suspend fun addToFavorite(
+        sessionId: String,
+        request: AddToFavoriteRequest
+    ) {
+        val accountId = api.getAccountDetails(sessionId).id
+        api.addToFavorite(
+            accountId = accountId,
+            sessionId = sessionId,
+            body = request
+        )
+    }
+
     override suspend fun loginAsGuest(): String {
         try {
             val guestSessionResponse = api.getCreateGuestSession()
@@ -318,6 +334,22 @@ class RemoteDataSourceImpl @Inject constructor(
         return api.getAccountDetails(sessionId)
     }
 
+    override suspend fun createMovieList(sessionId: String, movieListBody: MovieListBody): CreateListResponse {
+        return api.createMovieList(sessionId, movieListBody)
+    }
+    override suspend fun addMovieToList(listId: Int, movieId: Int, sessionId: String): ListOperationResponse {
+        val request = AddToListRequest(
+            media_id = movieId,
+            media_type = "movie"
+        )
+
+        // Return the actual API response, not a hardcoded one
+        return api.addMovieToList(
+            listId = listId,
+            sessionId = sessionId,
+            request = request
+        )
+    }
     override suspend fun getUserRatingForMovie(sessionId: String): RatingMovieResponse {
         val accountId = api.getAccountDetails(sessionId).id
         return api.getUserRatingForMovie(accountId, sessionId)

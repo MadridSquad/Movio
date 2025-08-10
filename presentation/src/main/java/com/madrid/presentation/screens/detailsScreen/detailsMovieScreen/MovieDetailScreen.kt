@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -34,6 +35,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -58,21 +61,26 @@ import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailS
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
+import com.madrid.presentation.screens.addtolist.ListManagementBottomSheet
 import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.ReviewScreen
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.toReviewScreenUiState
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMoviesSection
+import com.madrid.presentation.viewModel.libraryViewModel.addtolist.MovieListViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.DetailsMovieViewModel
 
 
 @Composable
 fun MovieDetailsScreen(
-    viewModel: DetailsMovieViewModel = hiltViewModel()
+    viewModel: DetailsMovieViewModel = hiltViewModel(),
+    addToListViewModel: MovieListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsState()
+    val addToListUiState by addToListViewModel.state.collectAsState()
     val navController = LocalNavController.current
     val context = LocalContext.current
-    var showSheet by remember { mutableStateOf(false) }
+    var showShareSheet by remember { mutableStateOf(false) }
+    var showAddToListBottomSheet by remember { mutableStateOf(false) }
 
     fun copyToClipboard(text: String) {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -87,7 +95,6 @@ fun MovieDetailsScreen(
             putExtra(Intent.EXTRA_TEXT, url)
             setPackage(appPackage)
         }
-
         try {
             context.startActivity(intent)
         } catch (e: Exception) {
@@ -99,7 +106,6 @@ fun MovieDetailsScreen(
         }
     }
 
-    val casts = uiState.casts
     var showAddRatingBottomSheet by remember { mutableStateOf(false) }
     var showDoneRatingBottomSheet by remember { mutableStateOf(false) }
 
@@ -112,13 +118,11 @@ fun MovieDetailsScreen(
         ) {
             EmptySearchLayout(
                 title = stringResource(R.string.internet_is_not_available),
-                description =
-                    stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
+                description = stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
                 image = R.drawable.img_no_internet
             )
         }
     } else {
-
         Box(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -129,30 +133,41 @@ fun MovieDetailsScreen(
                 imageUrl = uiState.topImageUrl,
                 modifier = Modifier.fillMaxSize()
             )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(30.dp)
+                    .offset(y = 342.dp)
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(Color.Transparent , Theme.color.surfaces.surface)
+                        )
+                    )
+            )
 
             MovioBottomSheet(
-                show = showSheet,
-                onDismiss = { showSheet = false },
+                show = showShareSheet,
+                onDismiss = { showShareSheet = false },
                 containerColor = Theme.color.surfaces.surface
             ) {
                 ShareBottomSheetContent(
                     onCopyLink = {
                         copyToClipboard("https://www.themoviedb.org/movie/${uiState.movieId}")
-                        showSheet = false
+                        showShareSheet = false
                     },
                     onShareFacebook = {
                         shareToApp(
                             "com.facebook.katana",
                             "https://www.themoviedb.org/movie/${uiState.movieId}"
                         )
-                        showSheet = false
+                        showShareSheet = false
                     },
                     onShareX = {
                         shareToApp(
                             "com.twitter.android",
                             "https://www.themoviedb.org/movie/${uiState.movieId}"
                         )
-                        showSheet = false
+                        showShareSheet = false
                     }
                 )
             }
@@ -161,7 +176,11 @@ fun MovieDetailsScreen(
                 text = null,
                 modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
                 onFirstIconClick = { navController.popBackStack() },
-                onSecondIconClick = { showSheet = true }
+                onSecondIconClick = { showShareSheet = true },
+                onThirdIconClick = {
+                    viewModel.onClickLoveIcon(uiState.movieId)
+                },
+                isFavorite = uiState.isLoved
             )
             Column(
                 modifier = Modifier
@@ -178,6 +197,9 @@ fun MovieDetailsScreen(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                 )
                 BottomMediaActions(
+                    onAddToListClick = {
+                        showAddToListBottomSheet = true
+                    },
                     onRateClick = {
                         showAddRatingBottomSheet = true
                     },
@@ -197,7 +219,6 @@ fun MovieDetailsScreen(
                             }
                         }
                     },
-                    onAddToListClick = {},
                 )
 
                 MovioBottomSheet(
@@ -395,8 +416,7 @@ fun MovieDetailsScreen(
 
                 TextWithReadMore(
                     description = uiState.description,
-                    modifier = Modifier
-                        .padding(horizontal = 16.dp),
+                    modifier = Modifier.padding(horizontal = 16.dp),
                     maxLines = 5
                 )
                 TopCastHorizontalScroll(
@@ -466,4 +486,10 @@ fun MovieDetailsScreen(
             }
         }
     }
+    ListManagementBottomSheet(
+        isVisible = showAddToListBottomSheet,
+        onDismiss = { showAddToListBottomSheet = false },
+        movieId = uiState.movieId,
+        viewModel = addToListViewModel
+    )
 }

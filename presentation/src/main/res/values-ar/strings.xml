@@ -115,6 +115,11 @@
     <string name="delete">حذف</string>
     <string name="Something_went_wrong">حدث خطا ما .</string>
 
+
+    <string name="create_list_button">انشاء</string>
+    <string name="create_new_list">إنشاء قائمة جديدة</string>
+    <string name="log_out">ستفقد الوصول إلى مكتبتك، المفضلات، وسجل المشاهدة حتى تقوم بتسجيل الدخول مرة أخرى.</string>
+
     <string name="no_ratings_yet">لا يوجد تقييمات للان !</string>
     <string name="you_haven_t_rated_anything_yet_start_exploring_and_share_your_thoughts">لم تُقيّم أي شيء بعد. ابدأ الاستكشاف وشاركنا أفكارك!</string>
     <string name="try_again">حاول مجددا</string>
