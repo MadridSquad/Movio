@@ -60,6 +60,10 @@ class SeriesRepositoryImpl @Inject constructor(
         ).episodes?.map { it.toEpisode() } ?: emptyList()
     }
 
+    override suspend fun getSeriesEpisodeTrailersById(seriesId: Int,seasonNumber: Int,episodeNumber: Int): List<Trailer> {
+        return remoteDataSource.getSeriesEpisodeTrailersById(seriesId,seasonNumber,episodeNumber).map { it.toTrailer() }
+    }
+
     override suspend fun getTopRatedSeries(page: Int): List<Series> {
         return remoteDataSource.getTopRatedSeries(page = page).toTvShows()
     }

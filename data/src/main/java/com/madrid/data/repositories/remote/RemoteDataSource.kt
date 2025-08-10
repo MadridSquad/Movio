@@ -5,6 +5,7 @@ import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
 import com.madrid.data.dataSource.remote.dto.authentication.AccountDetailsResponse
+import com.madrid.data.dataSource.remote.dto.common.TrailerResponse
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
 import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
 import com.madrid.data.dataSource.remote.dto.list.ListDto
@@ -30,6 +31,7 @@ import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesResult
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
+import retrofit2.http.Path
 
 interface RemoteDataSource {
 
@@ -70,6 +72,7 @@ interface RemoteDataSource {
     suspend fun getRecommendedSeries(page: Int = 1): RecommendedSeriesResponse
     suspend fun getSeriesByGenreId(page: Int, genreId: Int?, sortBy: String): SearchSeriesResponse
     suspend fun getFavoriteSeries(sessionId: String): List<SeriesResult>
+    suspend fun getSeriesEpisodeTrailersById(seriesId: Int,seasonNumber: Int,episodeNumber: Int): List<TrailerResult>
     // endregion
 
     // region Artist
@@ -80,7 +83,7 @@ interface RemoteDataSource {
 
     // region Lists
     suspend fun getCustomLists(sessionId: String): List<ListDto>
-    suspend fun getCustomListDetails(listId: Int,sessionId: String): ListsDetailsResponse
+    suspend fun getCustomListDetails(listId: Int, sessionId: String): ListsDetailsResponse
     // endregion
 
     // region authentication
@@ -96,8 +99,8 @@ interface RemoteDataSource {
     suspend fun addRatingSeries(seriesId: Int, body: Double)
     // endregion
 
-    suspend fun getUserRatingForMovie(sessionId: String):RatingMovieResponse
-    suspend fun getUserRatingForSeries(sessionId: String):RatingSeriesResponse
+    suspend fun getUserRatingForMovie(sessionId: String): RatingMovieResponse
+    suspend fun getUserRatingForSeries(sessionId: String): RatingSeriesResponse
 
     // region addToFavorite
     suspend fun addToFavorite(sessionId: String, request: AddToFavoriteRequest)

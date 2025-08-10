@@ -119,6 +119,13 @@ interface MovioApi {
         @Path("series_id") seriesId: Int
     ): TrailerResponse
 
+    @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}/videos")
+    suspend fun getSeriesEpisodeTrailersById(
+        @Path("series_id") seriesId: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int,
+    ): TrailerResponse
+
     @GET("tv/{series_id}/credits")
     suspend fun getSeriesCreditsById(
         @Path("series_id") seriesId: Int
@@ -287,8 +294,8 @@ interface MovioApi {
 
     @POST("account/{account_id}/favorite")
     suspend fun addToFavorite(
-        @Path("account_id") accountId :Int? = null,
-        @Query("session_id") sessionId :String ,
+        @Path("account_id") accountId: Int? = null,
+        @Query("session_id") sessionId: String,
         @Body body: AddToFavoriteRequest
     )
 

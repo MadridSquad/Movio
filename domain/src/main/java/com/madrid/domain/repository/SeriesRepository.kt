@@ -17,6 +17,7 @@ interface SeriesRepository {
     suspend fun getSeriesReviewsById(seriesId: Int): List<Review>
     suspend fun getSimilarSeriesById(seriesId: Int): List<Series>
     suspend fun getEpisodesBySeriesId(seriesId: Int, seasonNumber: Int): List<Episode>
+    suspend fun getSeriesEpisodeTrailersById(seriesId: Int,seasonNumber: Int, episodeNumber: Int): List<Trailer>
     suspend fun increaseSeriesGenreInterestPoints(genreTitle: String)
     suspend fun getSeriesByGenres(): Map<String, List<Series>>
     suspend fun getTopRatedSeries(page: Int): List<Series>
