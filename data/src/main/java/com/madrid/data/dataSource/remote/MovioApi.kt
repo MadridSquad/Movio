@@ -31,6 +31,7 @@ import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
 import com.madrid.data.dataSource.remote.dto.authentication.SessionIdResponse
+import com.madrid.data.dataSource.remote.dto.list.RemoveMovieDto
 import com.madrid.data.dataSource.remote.dto.list.AddToListRequest
 import com.madrid.data.dataSource.remote.dto.list.CreateListResponse
 import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
@@ -314,6 +315,13 @@ interface MovioApi {
         @Path("account_id") accountId :Int? = null,
         @Query("session_id") sessionId :String ,
         @Body body: AddToFavoriteRequest
+    )
+
+    @POST("list/{list_id}/remove_item")
+    suspend fun removeMovieFromList(
+        @Path("list_id") listId :Int,
+        @Query("session_id") sessionId :String ,
+        @Body removeItemRequest: RemoveMovieDto
     )
 
     companion object {
