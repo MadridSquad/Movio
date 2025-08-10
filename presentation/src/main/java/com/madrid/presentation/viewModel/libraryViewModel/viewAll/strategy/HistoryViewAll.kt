@@ -1,13 +1,17 @@
 package com.madrid.presentation.viewModel.libraryViewModel.viewAll.strategy
 
-class HistoryViewAll() : ViewAllStrategy {
+import com.madrid.domain.entity.Movie
+import com.madrid.domain.usecase.movie.GetAllMoviesInHistoryUseCase
+
+class HistoryViewAll(
+    private val getHistoryUseCase: GetAllMoviesInHistoryUseCase,
+) : ViewAllStrategy {
 
     override fun getTitle(): String {
         return "History"
     }
 
-    override suspend fun getAllItems(page: Int): List<Any> {
-        //TODO: Implement the logic to fetch history items
-        return listOf("History Item 1", "History Item 2", "History Item 3")
+    override suspend fun getAllItems(page: Int): List<Movie>  {
+        return getHistoryUseCase()
     }
 }

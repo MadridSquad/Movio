@@ -1,13 +1,17 @@
 package com.madrid.presentation.viewModel.libraryViewModel.viewAll.strategy
 
-class WatchlistViewAll(): ViewAllStrategy {
+import com.madrid.domain.entity.WatchList
+import com.madrid.domain.usecase.watchList.GetWatchListsUseCase
+
+class WatchlistViewAll(
+    private val getWatchListUseCase: GetWatchListsUseCase,
+) : ViewAllStrategy {
 
     override fun getTitle(): String {
         return "Watchlist"
     }
 
-    override suspend fun getAllItems(page: Int): List<Any> {
-        //TODO: Implement the logic to fetch history items
-        return listOf("Movie 1", "Movie 2", "Movie 3")
+    override suspend fun getAllItems(page: Int): List<Movie> {
+        return getWatchListUseCase()
     }
 }

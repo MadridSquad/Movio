@@ -1,13 +1,17 @@
 package com.madrid.presentation.viewModel.libraryViewModel.viewAll.strategy
 
-class FavoritesViewAll() : ViewAllStrategy {
+import com.madrid.domain.entity.Movie
+import com.madrid.domain.usecase.movie.GetFavoriteMoviesUseCase
+
+class FavoritesViewAll(
+    private val getFavoriteUseCase: GetFavoriteMoviesUseCase,
+    ) : ViewAllStrategy {
 
     override fun getTitle(): String {
         return "Favorites"
     }
 
-    override suspend fun getAllItems(page: Int): List<Any> {
-        //TODO: Implement the logic to fetch history items
-        return listOf("Favorite Movie 1", "Favorite Movie 2", "Favorite Movie 3")
+    override suspend fun getAllItems(page: Int): List<Movie> {
+        return getFavoriteUseCase()
     }
 }
