@@ -5,6 +5,7 @@ import com.madrid.domain.usecase.movie.GetAllMoviesInHistoryUseCase
 import com.madrid.domain.usecase.movie.GetFavoriteMoviesUseCase
 import com.madrid.domain.usecase.watchList.GetWatchListsUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.libraryViewModel.viewAll.factory.ViewAllType
 import com.madrid.presentation.viewModel.shared.toMediaUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -129,7 +130,7 @@ class LibraryViewModel @Inject constructor(
         )
     }
 
-    override fun onViewAllClick(type: String) {
+    override fun onViewAllClick(type: ViewAllType) {
         emitNewEffect(
             LibraryScreenEffect.NavigateToViewAll(type)
         )
