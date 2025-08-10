@@ -1,27 +1,36 @@
 package com.madrid.data.dataSource.remote
 
-import com.madrid.data.dataSource.remote.dto.common.AddToFavoriteRequest
 import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.ArtistKnownForResponse
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
 import com.madrid.data.dataSource.remote.dto.authentication.AccountDetailsResponse
 import com.madrid.data.dataSource.remote.dto.authentication.AuthenticationResponse
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
+import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
+import com.madrid.data.dataSource.remote.dto.authentication.SessionIdResponse
+import com.madrid.data.dataSource.remote.dto.common.AddToFavoriteRequest
 import com.madrid.data.dataSource.remote.dto.common.TrailerResponse
 import com.madrid.data.dataSource.remote.dto.genre.GenresResponse
+import com.madrid.data.dataSource.remote.dto.list.AddToListRequest
+import com.madrid.data.dataSource.remote.dto.list.CreateListResponse
+import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
+import com.madrid.data.dataSource.remote.dto.list.ListsDetailsResponse
+import com.madrid.data.dataSource.remote.dto.list.ListsResponse
+import com.madrid.data.dataSource.remote.dto.list.MovieListBody
+import com.madrid.data.dataSource.remote.dto.movie.ListDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
 import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SearchMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SimilarMoviesResponse
-import com.madrid.data.dataSource.remote.dto.rating.RateRequest
-import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.movie.UpcomingMoviesResponse
 import com.madrid.data.dataSource.remote.dto.rate.RatingMovieResponse
 import com.madrid.data.dataSource.remote.dto.rate.RatingSeriesResponse
+import com.madrid.data.dataSource.remote.dto.rating.RateRequest
 import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
+import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SearchSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SeasonResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesCreditResponse
@@ -29,15 +38,6 @@ import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
-import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
-import com.madrid.data.dataSource.remote.dto.authentication.SessionIdResponse
-import com.madrid.data.dataSource.remote.dto.list.AddToListRequest
-import com.madrid.data.dataSource.remote.dto.list.CreateListResponse
-import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
-import com.madrid.data.dataSource.remote.dto.list.MovieListBody
-import com.madrid.data.dataSource.remote.dto.movie.ListDetailsResponse
-import com.madrid.data.dataSource.remote.dto.list.ListsDetailsResponse
-import com.madrid.data.dataSource.remote.dto.list.ListsResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -99,11 +99,11 @@ interface MovioApi {
         @Query("page") page: Int
     ): SearchMovieResponse
 
-    @GET(DISCOVER_MOVIE)
+    @GET("discover/movie")
     suspend fun getMoviesByGenreId(
-        @Query(PAGE) page: Int,
-        @Query(WITH_GENRES) genreId: Int?,
-        @Query(SORT_BY) sortBy: String
+        @Query("page") page: Int,
+        @Query("with_genres") genreId: Int?,
+        @Query("sort_by") sortBy: String
     ): SearchMovieResponse
     // endregion
 
@@ -174,11 +174,11 @@ interface MovioApi {
     @GET("genre/tv/list")
     suspend fun getSeriesGenres(): GenresResponse
 
-    @GET(DISCOVER_SERIES)
+    @GET("discover/tv")
     suspend fun getSeriesByGenreId(
-        @Query(PAGE) page: Int,
-        @Query(WITH_GENRES) genreId: Int?,
-        @Query(SORT_BY) sortBy: String
+        @Query("page") page: Int,
+        @Query("with_genres") genreId: Int?,
+        @Query("sort_by") sortBy: String
     ): SearchSeriesResponse
     // endregion
 
@@ -213,7 +213,6 @@ interface MovioApi {
     suspend fun createSession(
         @Body body: CreateSessionRawBody
     ): SessionIdResponse
-
 
 
     @GET("authentication/guest_session/new")
@@ -299,35 +298,20 @@ interface MovioApi {
 
     // endregion
 
-    @GET(FAVORITE_MOVIES)
+    @GET("account/account_id/favorite/movies")
     suspend fun getFavoriteMovies(
-        @Query(SESSION_ID) sessionId: String,
+        @Query("session_id") sessionId: String,
     ): SearchMovieResponse
 
-    @GET(FAVORITE_SERIES)
+    @GET("account/account_id/favorite/tv")
     suspend fun getFavoriteSeries(
-        @Query(SESSION_ID) sessionId: String,
+        @Query("session_id") sessionId: String,
     ): SearchSeriesResponse
 
     @POST("account/{account_id}/favorite")
     suspend fun addToFavorite(
-        @Path("account_id") accountId :Int? = null,
-        @Query("session_id") sessionId :String ,
+        @Path("account_id") accountId: Int? = null,
+        @Query("session_id") sessionId: String,
         @Body body: AddToFavoriteRequest
     )
-
-    companion object {
-        private const val DISCOVER_MOVIE = "discover/movie"
-        private const val DISCOVER_SERIES = "discover/tv"
-        private const val PAGE = "page"
-
-        private const val SESSION_ID = "session_id"
-
-        private const val WITH_GENRES = "with_genres"
-        private const val SORT_BY = "sort_by"
-
-        private const val FAVORITE_MOVIES = "account/account_id/favorite/movies"
-        private const val FAVORITE_SERIES = "account/account_id/favorite/tv"
-
-    }
 }
