@@ -43,6 +43,7 @@ fun TvShowsLayout(
     onAirSeries: List<MediaUiState>,
     recommendedSeries: List<MediaUiState>,
     onScroll: (Boolean) -> Unit ={},
+    onClickMediaButton: (Int) -> Unit = {},
     ) {
     val navController = LocalNavController.current
     val lazyGridState = rememberLazyGridState()
@@ -74,7 +75,8 @@ fun TvShowsLayout(
         item(span = { GridItemSpan(2) }) {
             MovioPager(
                 medias = trendingSeries.take(7),
-                onClickItem = { id -> navController.navigate(Destinations.SeriesDetailsScreen(id,1)) }
+                onClickItem = { id -> navController.navigate(Destinations.SeriesDetailsScreen(id,1)) },
+                onClickMediaButton = onClickMediaButton
             )
             Box(
                 modifier = Modifier

@@ -36,5 +36,6 @@ fun Series.toMediaUiState() = MediaUiState(
     imageUrl = imageUrl,
     rating = rate.toString().take(3),
     category = genre.map { it.toCategoryUiState() },
-    mediaType = MediaType.TV_SHOW
+    mediaType = MediaType.TV_SHOW,
+    trailerKey = this.trailer?.key ?: ""
 )

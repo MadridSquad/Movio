@@ -97,8 +97,8 @@ fun HomeScreenContent(
             onScroll = { isScrolled ->
                 isScrolledDown = isScrolled
             },
-            onClickMediaButton = { movieIndex ->
-                interactionListener.onClickPlayButton(movieIndex,context = context)
+            onClickMediaButton = { isMovie,mediaIndex ->
+                interactionListener.onClickPlayButton(mediaIndex = mediaIndex,context = context,isMovie = isMovie)
             }
         )
         Column(
@@ -149,7 +149,7 @@ private fun LayoutContent(
     onClickMoviesTab: () -> Unit,
     onClickSeriesTab: () -> Unit,
     onScroll: (Boolean) -> Unit = {},
-    onClickMediaButton: (Int) -> Unit = {},
+    onClickMediaButton: (Boolean,Int) -> Unit = {_,_ ->},
 ) {
     when (selectedTab) {
 //        HomeTab.ALL -> AllMediaLayout()
@@ -162,19 +162,19 @@ private fun LayoutContent(
                 upComingMovies = uiState.movieTabUiState.upcoming.media,
                 recommendedMovies = uiState.movieTabUiState.moreRecommended.media,
                 onScroll = onScroll,
-                onClickMediaButton = {mediaIndex -> onClickMediaButton(mediaIndex) }
+                onClickMediaButton = {mediaIndex -> onClickMediaButton(true,mediaIndex) }
             )
         }
 
         HomeTab.TV_SHOWS -> {
-            onClickSeriesTab()
             TvShowsLayout(
                 trendingSeries = uiState.tvShowTabUiState.trending.media,
                 topRatingSeries = uiState.tvShowTabUiState.topRated.media,
                 airingTodaySeries = uiState.tvShowTabUiState.airingToday.media,
                 onAirSeries = uiState.tvShowTabUiState.onTv.media,
                 recommendedSeries = uiState.tvShowTabUiState.moreRecommended.media,
-                onScroll = onScroll
+                onScroll = onScroll,
+                onClickMediaButton = {mediaIndex -> onClickMediaButton(false,mediaIndex) }
             )
         }
 

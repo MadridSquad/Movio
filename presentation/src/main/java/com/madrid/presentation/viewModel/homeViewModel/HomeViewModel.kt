@@ -12,7 +12,6 @@ import androidx.paging.cachedIn
 import androidx.paging.flatMap
 import com.madrid.domain.usecase.authentication.GetCurrentUserDetailsUseCase
 import com.madrid.domain.usecase.movie.GetMovieGenresUseCase
-import com.madrid.domain.usecase.movie.GetMovieTrailersUseCase
 import com.madrid.domain.usecase.movie.GetMoviesByGenreIdUseCase
 import com.madrid.domain.usecase.movie.GetMoviesWithTrailers
 import com.madrid.domain.usecase.movie.GetNowPlayingMovieUseCase
@@ -25,7 +24,7 @@ import com.madrid.domain.usecase.series.GetOnAirSeriesUseCase
 import com.madrid.domain.usecase.series.GetRecommendedSeriesUseCase
 import com.madrid.domain.usecase.series.GetSeriesByGenreIdUseCase
 import com.madrid.domain.usecase.series.GetSeriesGenresUseCase
-import com.madrid.domain.usecase.series.GetSeriesTrailersUseCase
+import com.madrid.domain.usecase.series.GetSeriesWithTrailersUseCase
 import com.madrid.domain.usecase.series.GetTopRatedSeriesUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.shared.MediaType
@@ -33,6 +32,7 @@ import com.madrid.presentation.viewModel.shared.toMediaUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import androidx.core.net.toUri
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -50,9 +50,8 @@ class HomeViewModel @Inject constructor(
     private val getOnAirSeriesUseCase: GetOnAirSeriesUseCase,
     private val getRecommendedSeriesUseCase: GetRecommendedSeriesUseCase,
     private val getCurrentUserDetailsUseCase: GetCurrentUserDetailsUseCase,
-    private val getMovieTrailersUseCase: GetMovieTrailersUseCase,
-    private val getSeriesTrailersUseCase: GetSeriesTrailersUseCase,
-    private val getMoviesWithTrailers: GetMoviesWithTrailers
+    private val getMoviesWithTrailers: GetMoviesWithTrailers,
+    private val getSeriesWithTrailers: GetSeriesWithTrailersUseCase,
 ) : BaseViewModel<HomeScreenState, HomeScreenEffect>(
     HomeScreenState()
 ), HomeInteractionListener {
@@ -60,6 +59,7 @@ class HomeViewModel @Inject constructor(
         loadGenres()
         loadFileImage()
         loadMoviesLayoutData()
+        loadSeriesLayoutData()
     }
 
     private fun loadFileImage() {
@@ -216,49 +216,17 @@ class HomeViewModel @Inject constructor(
         Log.d("tag trailer", "lol yabaaaaaaaaaaaa: ")
     }
 
-//    private fun loadTrendingMoviesTrailers() {
-//        Log.d("tag trailer", "lol yabaaaaaaaaaaaa in loadTrendingMoviesTrailers: ")
-//        state.value.movieTabUiState.trending.media.forEachIndexed { index, movie ->
-//            tryToExecute(
-//                function = {
-//                    val x = getMovieTrailersUseCase(movieId = movie.id.toInt()).take(8)
-//                    Log.d("tag trailer", "loadTrendingMoviesTrailers:the movie of in functionnnnnnnnnnnn")
-//                    x
-//                },
-//                onSuccess = { trailerKey ->
-//                    updateState { it ->
-//                        val updatedMedia =
-//                            it.movieTabUiState.trending.media.mapIndexed { innerIndex, mediaUiState ->
-//                                if (index == innerIndex) {
-//                                    mediaUiState.copy(trailerKey = trailerKey.first().key)
-//                                } else {
-//                                    mediaUiState
-//                                }
-//                            }
-//
-//                        it.copy(
-//                            movieTabUiState = it.movieTabUiState.copy(
-//                                trending = it.movieTabUiState.trending.copy(
-//                                    media = updatedMedia
-//                                )
-//                            )
-//                        )
-//                    }
-//                },
-//                onError = { Log.d("tag trailer", "loadTrendingMoviesTrailers: errorrrrrr")}
-//            )
-//        }
-//    }
-
-    override fun onClickPlayButton(movieIndex: Int, context: Context) {
-        val key = state.value.movieTabUiState.trending.media[movieIndex].trailerKey
+    override fun onClickPlayButton(mediaIndex: Int, context: Context, isMovie: Boolean) {
+        val key =
+            if (isMovie) state.value.movieTabUiState.trending.media[mediaIndex].trailerKey
+            else state.value.tvShowTabUiState.trending.media[mediaIndex].trailerKey
         Log.d("tag trailer", " key is : $key")
-        Log.d("tag trailer", " movie index is : $movieIndex")
+        Log.d("tag trailer", " movie index is : $mediaIndex")
         val youtubeAppIntent =
-            Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$key"))
+            Intent(Intent.ACTION_VIEW, "vnd.youtube:$key".toUri())
         val youtubeWebIntent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse("https://www.youtube.com/watch?v=$key")
+            "https://www.youtube.com/watch?v=$key".toUri()
         )
 
         try {
@@ -353,8 +321,15 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun loadSliderSeries() {
+        Log.d("tag series slider", "innnnn")
         tryToExecute(
-            function = { getRecommendedSeriesUseCase(1) },
+            function = {
+                val series = getRecommendedSeriesUseCase(1)
+                Log.d("tag series slider", "in function : $series")
+                val y = getSeriesWithTrailers(series)
+                Log.d("tag series slider", "in function with trailers: $y")
+                y
+            },
             onSuccess = { allSeries ->
                 updateState { state ->
                     state.copy(
@@ -366,8 +341,12 @@ class HomeViewModel @Inject constructor(
                     )
                 }
             },
-            onError = { onError() }
+            onError = { e ->
+                Log.d("tag series slider", "in onError : errooooooooooooooor ${e.message}")
+                throw (e)
+            }
         )
+        Log.d("tag series slider", "ouuuuuuuut")
     }
 
     private fun loadTopRatingSeriesSection() {

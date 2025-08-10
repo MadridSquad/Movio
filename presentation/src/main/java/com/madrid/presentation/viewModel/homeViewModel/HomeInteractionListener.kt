@@ -11,5 +11,5 @@ interface HomeInteractionListener {
     fun loadMoviesLayoutData()
     fun loadSeriesLayoutData()
     fun onClickProfile()
-    fun onClickPlayButton(movieIndex: Int,context: Context)
+    fun onClickPlayButton(mediaIndex: Int, context: Context, isMovie : Boolean)
 }
