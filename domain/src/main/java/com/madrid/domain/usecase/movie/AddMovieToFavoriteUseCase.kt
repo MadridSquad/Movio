@@ -9,11 +9,12 @@ class AddMovieToFavoriteUseCase @Inject constructor(
     val movieRepository: MovieRepository,
     val authenticationRepository: AuthenticationRepository
 ) {
-    suspend operator fun invoke(mediaId: Int) {
+    suspend operator fun invoke(movieId: Int, isFavorite: Boolean) {
         val sessionId = authenticationRepository.getSessionId().first()
         movieRepository.addMovieToFavorite(
-            mediaId = mediaId,
-            sessionId = sessionId.toString()
+            movieId = movieId,
+            sessionId = sessionId,
+            isFavorite = isFavorite
         )
     }
 }

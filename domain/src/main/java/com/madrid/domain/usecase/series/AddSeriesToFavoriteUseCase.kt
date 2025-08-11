@@ -9,11 +9,12 @@ class AddSeriesToFavoriteUseCase @Inject constructor(
     val seriesRepository: SeriesRepository,
     val authenticationRepository: AuthenticationRepository
 ) {
-    suspend operator fun invoke(mediaId: Int) {
+    suspend operator fun invoke(seriesId: Int, isFavorite: Boolean) {
         val sessionId: String = authenticationRepository.getSessionId().first()
         seriesRepository.addSeriesToFavorite(
-            mediaId = mediaId,
-            sessionId = sessionId
+            seriesId = seriesId,
+            sessionId = sessionId,
+            isFavorite = isFavorite
         )
     }
 }
