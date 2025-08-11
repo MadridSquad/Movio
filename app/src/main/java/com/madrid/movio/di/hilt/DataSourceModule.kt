@@ -1,11 +1,11 @@
 package com.madrid.movio.di.hilt
 
-import com.madrid.data.dataSource.datastore.UserPreferencesImpl
-import com.madrid.data.dataSource.local.LocalDataSourceImpl
-import com.madrid.data.dataSource.remote.RemoteDataSourceImpl
-import com.madrid.data.repositories.datasource.UserPreferences
-import com.madrid.data.repositories.local.LocalDataSource
-import com.madrid.data.repositories.remote.RemoteDataSource
+import com.madrid.data.datasource.local.datastore.UserPreferencesImpl
+import com.madrid.data.datasource.local.LocalDataSourceImpl
+import com.madrid.data.datasource.remote.RemoteDataSourceImpl
+import com.madrid.data.datasource.local.datastore.UserPreferences
+import com.madrid.data.datasource.local.LocalDataSource
+import com.madrid.data.datasource.remote.RemoteDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

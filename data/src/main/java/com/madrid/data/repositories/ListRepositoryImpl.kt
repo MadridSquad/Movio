@@ -1,11 +1,10 @@
 package com.madrid.data.repositories
 
-import android.util.Log
-import com.madrid.data.dataSource.local.mappers.toGenre
-import com.madrid.data.dataSource.remote.mapper.toWatchList
-import com.madrid.data.dataSource.remote.mapper.toWatchListItems
-import com.madrid.data.repositories.local.LocalDataSource
-import com.madrid.data.repositories.remote.RemoteDataSource
+import com.madrid.data.datasource.local.mappers.toGenre
+import com.madrid.data.datasource.remote.mapper.toWatchList
+import com.madrid.data.datasource.remote.mapper.toWatchListItems
+import com.madrid.data.datasource.local.LocalDataSource
+import com.madrid.data.datasource.remote.RemoteDataSource
 import com.madrid.domain.entity.WatchList
 import com.madrid.domain.repository.ListRepository
 import com.madrid.domain.usecase.watchList.GetWatchListItemsUseCase

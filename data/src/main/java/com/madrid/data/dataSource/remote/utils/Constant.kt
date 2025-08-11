@@ -1,5 +1,0 @@
-package com.madrid.data.dataSource.remote.utils
-
-object Constants {
-    const val KEY: String = "api_key"
-}

@@ -2,8 +2,8 @@ package com.madrid.movio.di.hilt
 
 import android.content.Context
 import androidx.work.WorkerParameters
-import com.madrid.data.dataSource.remote.MovieInterceptor
-import com.madrid.data.dataSource.remote.MovioApi
+import com.madrid.data.datasource.remote.MovieInterceptor
+import com.madrid.data.datasource.remote.MovioApi
 import com.madrid.domain.usecase.search.ClearAllRecentSearchesUseCase
 import com.madrid.presentation.screens.searchScreen.RecentSearchSyncWorker
 import dagger.Module

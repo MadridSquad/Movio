@@ -1,15 +1,15 @@
 package com.madrid.data.repositories
 
-import com.madrid.data.dataSource.local.mappers.toArtist
-import com.madrid.data.dataSource.local.mappers.toMovie
-import com.madrid.data.dataSource.local.mappers.toSeries
-import com.madrid.data.dataSource.local.table.relationship.MovieGenreCrossRef
-import com.madrid.data.dataSource.local.table.relationship.SeriesGenreCrossRef
-import com.madrid.data.dataSource.mapper.toArtistTable
-import com.madrid.data.dataSource.mapper.toMovieTable
-import com.madrid.data.dataSource.mapper.toSeriesTable
-import com.madrid.data.repositories.local.LocalDataSource
-import com.madrid.data.repositories.remote.RemoteDataSource
+import com.madrid.data.datasource.local.mappers.toArtist
+import com.madrid.data.datasource.local.mappers.toMovie
+import com.madrid.data.datasource.local.mappers.toSeries
+import com.madrid.data.datasource.local.table.relationship.MovieGenreCrossRef
+import com.madrid.data.datasource.local.table.relationship.SeriesGenreCrossRef
+import com.madrid.data.repositories.mapper.toArtistTable
+import com.madrid.data.repositories.mapper.toMovieTable
+import com.madrid.data.repositories.mapper.toSeriesTable
+import com.madrid.data.datasource.local.LocalDataSource
+import com.madrid.data.datasource.remote.RemoteDataSource
 import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Series

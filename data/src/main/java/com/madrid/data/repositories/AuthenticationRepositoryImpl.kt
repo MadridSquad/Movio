@@ -1,10 +1,10 @@
 package com.madrid.data.repositories
 
 import android.util.Log
-import com.madrid.data.dataSource.remote.mapper.toUser
-import com.madrid.data.repositories.datasource.UserPreferences
-import com.madrid.data.repositories.local.LocalDataSource
-import com.madrid.data.repositories.remote.RemoteDataSource
+import com.madrid.data.datasource.remote.mapper.toUser
+import com.madrid.data.datasource.local.datastore.UserPreferences
+import com.madrid.data.datasource.local.LocalDataSource
+import com.madrid.data.datasource.remote.RemoteDataSource
 import com.madrid.domain.entity.User
 import com.madrid.domain.repository.AuthenticationRepository
 import kotlinx.coroutines.flow.Flow

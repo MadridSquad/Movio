@@ -1,6 +1,6 @@
 package com.madrid.data.repositories
 
-import com.madrid.data.repositories.datasource.UserPreferences
+import com.madrid.data.datasource.local.datastore.UserPreferences
 import com.madrid.data.repositories.mapper.toBoolean
 import com.madrid.data.repositories.mapper.toLanguage
 import com.madrid.data.repositories.mapper.toStringLanguage

@@ -1,8 +1,8 @@
 package com.madrid.data.repositories
 
-import com.madrid.data.dataSource.remote.mapper.toArtist
-import com.madrid.data.dataSource.remote.mapper.toMovie
-import com.madrid.data.repositories.remote.RemoteDataSource
+import com.madrid.data.datasource.remote.mapper.toArtist
+import com.madrid.data.datasource.remote.mapper.toMovie
+import com.madrid.data.datasource.remote.RemoteDataSource
 import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.repository.ArtistRepository
