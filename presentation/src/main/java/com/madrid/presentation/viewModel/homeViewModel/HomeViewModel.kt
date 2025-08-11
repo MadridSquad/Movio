@@ -3,8 +3,7 @@ package com.madrid.presentation.viewModel.homeViewModel
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
-import android.util.Log
+import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -32,7 +31,6 @@ import com.madrid.presentation.viewModel.shared.toMediaUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
-import androidx.core.net.toUri
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -197,8 +195,8 @@ class HomeViewModel @Inject constructor(
     private fun loadSliderMovies() {
         tryToExecute(
             function = {
-                val x = getTrendingMoviesUseCase(1)
-                getMoviesWithTrailers(x)
+                val trendingMovies = getTrendingMoviesUseCase(1)
+                getMoviesWithTrailers(trendingMovies)
             },
             onSuccess = { movies ->
                 updateState { state ->
@@ -213,15 +211,12 @@ class HomeViewModel @Inject constructor(
             },
             onError = { onError() }
         )
-        Log.d("tag trailer", "lol yabaaaaaaaaaaaa: ")
     }
 
     override fun onClickPlayButton(mediaIndex: Int, context: Context, isMovie: Boolean) {
         val key =
             if (isMovie) state.value.movieTabUiState.trending.media[mediaIndex].trailerKey
             else state.value.tvShowTabUiState.trending.media[mediaIndex].trailerKey
-        Log.d("tag trailer", " key is : $key")
-        Log.d("tag trailer", " movie index is : $mediaIndex")
         val youtubeAppIntent =
             Intent(Intent.ACTION_VIEW, "vnd.youtube:$key".toUri())
         val youtubeWebIntent = Intent(
@@ -321,14 +316,10 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun loadSliderSeries() {
-        Log.d("tag series slider", "innnnn")
         tryToExecute(
             function = {
                 val series = getRecommendedSeriesUseCase(1)
-                Log.d("tag series slider", "in function : $series")
-                val y = getSeriesWithTrailers(series)
-                Log.d("tag series slider", "in function with trailers: $y")
-                y
+                getSeriesWithTrailers(series)
             },
             onSuccess = { allSeries ->
                 updateState { state ->
@@ -341,12 +332,8 @@ class HomeViewModel @Inject constructor(
                     )
                 }
             },
-            onError = { e ->
-                Log.d("tag series slider", "in onError : errooooooooooooooor ${e.message}")
-                throw (e)
-            }
+            onError = { onError() }
         )
-        Log.d("tag series slider", "ouuuuuuuut")
     }
 
     private fun loadTopRatingSeriesSection() {

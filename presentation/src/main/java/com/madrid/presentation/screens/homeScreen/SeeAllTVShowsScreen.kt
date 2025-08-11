@@ -35,6 +35,7 @@ import com.madrid.designSystem.component.LoadingSearchCard
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
@@ -116,7 +117,7 @@ fun SeeAllTVShowsScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             MovioText(
-                                text = stringResource(com.madrid.presentation.R.string.internet_is_not_available),
+                                text = stringResource(R.string.internet_is_not_available),
                                 textStyle = Theme.textStyle.title.mediumMedium16,
                                 color = Theme.color.surfaces.onSurface,
                                 textAlign = TextAlign.Center,

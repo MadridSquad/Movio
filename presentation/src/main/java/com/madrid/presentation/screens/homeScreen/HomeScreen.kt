@@ -1,22 +1,16 @@
 package com.madrid.presentation.screens.homeScreen
 
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -92,13 +86,15 @@ fun HomeScreenContent(
         LayoutContent(
             uiState = state,
             selectedTab = HomeTab.entries[selectedTabIndex],
-            onClickMoviesTab = interactionListener::loadMoviesLayoutData,
-            onClickSeriesTab = interactionListener::loadSeriesLayoutData,
             onScroll = { isScrolled ->
                 isScrolledDown = isScrolled
             },
-            onClickMediaButton = { isMovie,mediaIndex ->
-                interactionListener.onClickPlayButton(mediaIndex = mediaIndex,context = context,isMovie = isMovie)
+            onClickMediaButton = { isMovie, mediaIndex ->
+                interactionListener.onClickPlayButton(
+                    mediaIndex = mediaIndex,
+                    context = context,
+                    isMovie = isMovie
+                )
             }
         )
         Column(
@@ -146,15 +142,11 @@ fun HomeScreenContent(
 private fun LayoutContent(
     selectedTab: HomeTab,
     uiState: HomeScreenState,
-    onClickMoviesTab: () -> Unit,
-    onClickSeriesTab: () -> Unit,
     onScroll: (Boolean) -> Unit = {},
-    onClickMediaButton: (Boolean,Int) -> Unit = {_,_ ->},
+    onClickMediaButton: (Boolean, Int) -> Unit = { _, _ -> },
 ) {
     when (selectedTab) {
-//        HomeTab.ALL -> AllMediaLayout()
         HomeTab.MOVIES -> {
-//            onClickMoviesTab()
             MoviesLayout(
                 trendingMovies = uiState.movieTabUiState.trending.media,
                 topRatingMovies = uiState.movieTabUiState.topRated.media,
@@ -162,7 +154,7 @@ private fun LayoutContent(
                 upComingMovies = uiState.movieTabUiState.upcoming.media,
                 recommendedMovies = uiState.movieTabUiState.moreRecommended.media,
                 onScroll = onScroll,
-                onClickMediaButton = {mediaIndex -> onClickMediaButton(true,mediaIndex) }
+                onClickMediaButton = { mediaIndex -> onClickMediaButton(true, mediaIndex) }
             )
         }
 
@@ -174,7 +166,7 @@ private fun LayoutContent(
                 onAirSeries = uiState.tvShowTabUiState.onTv.media,
                 recommendedSeries = uiState.tvShowTabUiState.moreRecommended.media,
                 onScroll = onScroll,
-                onClickMediaButton = {mediaIndex -> onClickMediaButton(false,mediaIndex) }
+                onClickMediaButton = { mediaIndex -> onClickMediaButton(false, mediaIndex) }
             )
         }
 

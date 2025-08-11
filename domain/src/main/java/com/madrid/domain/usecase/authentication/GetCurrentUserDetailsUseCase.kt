@@ -10,7 +10,6 @@ class GetCurrentUserDetailsUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(): User? {
         val sessionId: String = authenticationRepository.getSessionId().first()
-
         return authenticationRepository.getCurrentUser(sessionId = sessionId)
     }
 }

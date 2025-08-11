@@ -8,8 +8,8 @@ class GetSeriesWithTrailersUseCase @Inject constructor(
     private val getSeriesTrailersUseCase: GetSeriesTrailersUseCase
 ) {
     suspend operator fun invoke(series: List<Series>): List<Series> {
-        val x =  series.map {
-            if(getSeriesTrailersUseCase(it.id).isNotEmpty()){
+        return series.map {
+            if (getSeriesTrailersUseCase(it.id).isNotEmpty()) {
                 val trailer = getSeriesTrailersUseCase(it.id).first()
                 it.copy(
                     trailer = Trailer(
@@ -17,28 +17,9 @@ class GetSeriesWithTrailersUseCase @Inject constructor(
                         key = trailer.key
                     )
                 )
-            }else{
+            } else {
                 it
             }
-
-
-
-
         }
-        try {
-            series.map {
-                val trailer = getSeriesTrailersUseCase(it.id).first()
-                it.copy(
-                    trailer = Trailer(
-                        id = trailer.id,
-                        key = trailer.key
-                    )
-                )
-            }
-        }catch (e: Exception){
-            println("tag series slider in use case trailerrr: ${e.message}")
-        }
-
-        return x
     }
 }
