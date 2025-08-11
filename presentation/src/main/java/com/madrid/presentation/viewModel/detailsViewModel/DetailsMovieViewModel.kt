@@ -5,15 +5,15 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.madrid.domain.usecase.authentication.LoginUseCase
-import com.madrid.domain.usecase.movie.AddRatingMoviesUseCase
-import com.madrid.domain.usecase.movie.AddMovieToFavoriteUseCase
 import com.madrid.domain.usecase.movie.AddMovieToHistoryUseCase
+import com.madrid.domain.usecase.movie.AddRatingMoviesUseCase
 import com.madrid.domain.usecase.movie.GetMovieDetailsUseCase
 import com.madrid.domain.usecase.movie.GetMovieReviewsUseCase
 import com.madrid.domain.usecase.movie.GetMovieTopCastUseCase
 import com.madrid.domain.usecase.movie.GetMovieTrailersUseCase
 import com.madrid.domain.usecase.movie.GetSimilarMoviesUseCase
 import com.madrid.domain.usecase.movie.IsFavoriteMovieUseCase
+import com.madrid.domain.usecase.movie.SetMovieFavoriteStatusUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.utils.RateFormatter
@@ -26,7 +26,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.text.toDouble
 
 @HiltViewModel
 class DetailsMovieViewModel @Inject constructor(
@@ -39,7 +38,7 @@ class DetailsMovieViewModel @Inject constructor(
     private val getMovieTrailersUseCase: GetMovieTrailersUseCase,
     private val getAddRatingMoviesUseCase: AddRatingMoviesUseCase,
     private val isGuestUseCase: LoginUseCase,
-    private val addMovieToFavoriteUseCase: AddMovieToFavoriteUseCase,
+    private val setMovieFavoriteStatusUseCase: SetMovieFavoriteStatusUseCase,
     private val isFavoriteMovieUseCase: IsFavoriteMovieUseCase
 ) : BaseViewModel<DetailsMovieUiState, Nothing>(
     DetailsMovieUiState()
@@ -188,11 +187,11 @@ class DetailsMovieViewModel @Inject constructor(
     fun onClickLoveIcon(movieId: Int) {
         tryToExecute(
             function = {
-                addMovieToFavoriteUseCase(movieId)
+                setMovieFavoriteStatusUseCase(movieId, state.value.isLoved.not())
             },
             onSuccess = {
                 updateState {
-                    it.copy(isLoved = true)
+                    it.copy(isLoved = state.value.isLoved.not())
                 }
             },
             onError = {},
@@ -235,6 +234,7 @@ class DetailsMovieViewModel @Inject constructor(
             },
         )
     }
+
     fun addRating() {
         tryToExecute(
             function = {

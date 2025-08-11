@@ -2,6 +2,7 @@ package com.madrid.designSystem.component
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -86,7 +87,11 @@ fun TopAppBar(
                     contentDescription = "favorite_button",
                     tint = if (isFavorite) Theme.color.system.onErrorContainer
                     else Theme.color.surfaces.onSurface,
-                    modifier = Modifier.clickable { onThirdIconClick() }
+                    modifier = Modifier.clickable(
+                        onClick = onThirdIconClick,
+                        interactionSource = MutableInteractionSource(),
+                        indication = null
+                    )
                 )
             }
         }
