@@ -46,7 +46,9 @@ data class System(
     val successContainer: Color,
     val onSuccessContainer: Color,
     val dropShadow: Color,
-    val defaultImageBackground: Color
+    val defaultImageBackground: Color,
+    val startColorForCardShadow: Color,
+    val endColorForCardShadow: Color
 )
 
 data class Gradients(
@@ -54,5 +56,6 @@ data class Gradients(
     val borderGradient: Brush,
     val errorBorderGradient: Brush,
 
-)
+    )
+
 internal val LocalMovioColor = staticCompositionLocalOf { lightThemeColors }

@@ -70,8 +70,8 @@ fun MovioVerticalCard(
                     .background(
                         brush = Brush.verticalGradient(
                             colors = listOf(
-                                Color(0xBD000000),
-                                Color(0x00000000)
+                                Theme.color.system.startColorForCardShadow,
+                                Theme.color.system.endColorForCardShadow
                             ),
                             startY = 0f,
                             endY = Float.POSITIVE_INFINITY
