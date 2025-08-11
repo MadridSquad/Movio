@@ -2,12 +2,11 @@ package com.madrid.presentation.screens.homeScreen.layout
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -32,52 +31,54 @@ fun CategoriesLayout(
     mediaItems: LazyPagingItems<MediaUiState>,
     onMediaItemClicked: (Int, MediaType) -> Unit
 ) {
-    Column(
-        modifier
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(minSize = 102.dp),
+        modifier = modifier
             .fillMaxSize()
-            .padding(top = 17.dp),
+            .background(Theme.color.surfaces.surface),
+        contentPadding = PaddingValues(horizontal = 16.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        FilterBar(
-            items = categories.map { it.name },
-            selectedItem = selectedCategory.name,
-            onItemClick = { category ->
-                onCategorySelected(categories.find { it.name == category } ?: CategoryUiState())
-            },
-        )
-        FilterBar(
-            modifier = Modifier.padding(top = 12.dp),
-            items = SortingType.entries.map { it.value },
-            selectedItem = sortingType.value,
-            onItemClick = { sortingValue ->
-                val sorting =
-                    SortingType.entries.find { it.value == sortingValue } ?: SortingType.ALL
-                onSortingTypeSelected(sorting)
-            },
-        )
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 102.dp),
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Theme.color.surfaces.surface)
-                .statusBarsPadding(),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            items(mediaItems.itemCount) { index ->
-                MovioVerticalCard(
-                    description = mediaItems[index]?.title ?: "",
-                    movieImage = mediaItems[index]?.imageUrl ?: "",
-                    rate = mediaItems[index]?.rating?.take(3) ?: "",
-                    height = 180.dp,
-                    onClick = {
-                        onMediaItemClicked(
-                            mediaItems[index]?.id?.toIntOrNull() ?: 0,
-                            mediaItems[index]?.mediaType ?: MediaType.MOVIE
-                        )
-                    }
-                )
-            }
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            FilterBar(
+                modifier = Modifier.padding(top = 16.dp),
+                items = categories.map { it.name },
+                selectedItem = selectedCategory.name,
+                onItemClick = { category ->
+                    onCategorySelected(
+                        categories.find { it.name == category } ?: CategoryUiState()
+                    )
+                }
+            )
+        }
+
+        item(span = { GridItemSpan(maxLineSpan) }) {
+            FilterBar(
+                modifier = Modifier.padding(top = 12.dp, bottom = 24.dp),
+                items = SortingType.entries.map { it.value },
+                selectedItem = sortingType.value,
+                onItemClick = { sortingValue ->
+                    val sorting = SortingType.entries.find { it.value == sortingValue }
+                        ?: SortingType.ALL
+                    onSortingTypeSelected(sorting)
+                }
+            )
+        }
+
+        items(mediaItems.itemCount) { index ->
+            MovioVerticalCard(
+                modifier = Modifier.padding(vertical = 12.dp),
+                description = mediaItems[index]?.title ?: "",
+                movieImage = mediaItems[index]?.imageUrl ?: "",
+                rate = mediaItems[index]?.rating ?: "",
+                height = 180.dp,
+                onClick = {
+                    onMediaItemClicked(
+                        mediaItems[index]?.id?.toIntOrNull() ?: 0,
+                        mediaItems[index]?.mediaType ?: MediaType.MOVIE
+                    )
+                }
+            )
         }
     }
 }
