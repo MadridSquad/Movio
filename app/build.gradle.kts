@@ -1,3 +1,4 @@
+import java.io.FileInputStream
 import java.util.Properties
 
 val localProperties = Properties()
@@ -7,6 +8,13 @@ if (localPropertiesFile.exists()) {
 }
 
 val firebaseApiKey = localProperties.getProperty("FIREBASE_API_KEY") ?: "NO_KEY_FOUND"
+
+// Load keystore.properties file if it exists (for release signing)
+val keyPropertiesFile = rootProject.file("key.properties")
+val keyProperties = Properties()
+if (keyPropertiesFile.exists()) {
+    keyProperties.load(FileInputStream(keyPropertiesFile))
+}
 
 plugins {
     alias(libs.plugins.android.application)
@@ -22,6 +30,17 @@ plugins {
 android {
     namespace = "com.madrid.movio"
     compileSdk = 36
+
+    signingConfigs {
+        create("release") {
+            if (keyPropertiesFile.exists()) {
+                storeFile = file(keyProperties["storeFile"] as String)
+                storePassword = keyProperties["storePassword"] as String
+                keyAlias = keyProperties["keyAlias"] as String
+                keyPassword = keyProperties["keyPassword"] as String
+            }
+        }
+    }
 
     defaultConfig {
         applicationId = "com.madrid.movio"
@@ -41,7 +60,11 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (keyPropertiesFile.exists()) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
         debug {
             isMinifyEnabled = false
