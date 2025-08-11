@@ -2,6 +2,8 @@ name: Notify Slack Channel for PRs to Develop
 
 on:
   pull_request:
+    types:
+      - opened
     branches:
       - develop
 
