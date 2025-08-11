@@ -187,11 +187,11 @@ class DetailsMovieViewModel @Inject constructor(
     fun onClickLoveIcon(movieId: Int) {
         tryToExecute(
             function = {
-                addMovieToFavoriteUseCase(movieId, !state.value.isLoved)
+                addMovieToFavoriteUseCase(movieId, state.value.isLoved.not())
             },
             onSuccess = {
                 updateState {
-                    it.copy(isLoved = !state.value.isLoved)
+                    it.copy(isLoved = state.value.isLoved.not())
                 }
             },
             onError = {},
