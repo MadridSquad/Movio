@@ -5,7 +5,7 @@ on:
     branches:
       - develop
       - main
-
+      - refactor/cd-signed-apk
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
