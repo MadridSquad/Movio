@@ -1,4 +1,4 @@
-package com.madrid.presentation.screens.detailsScreen.detailsMovieScreen
+package com.madrid.presentation.screens.detailsScreen.movieDetail
 
 import android.content.ActivityNotFoundException
 import android.content.ClipData
@@ -44,7 +44,7 @@ import com.madrid.presentation.component.CastMember
 import com.madrid.presentation.component.TopCastHorizontalScroll
 import com.madrid.presentation.component.header.MovieDetailsHeader
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
-import com.madrid.presentation.screens.rating.RatingBottomSheetContent
+import com.madrid.presentation.component.rating.RatingBottomSheetContent
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.addtolist.ListManagementBottomSheet

@@ -30,7 +30,7 @@ import com.madrid.designSystem.component.DialogWithButtonLayout
 import com.madrid.designSystem.component.SettingsItem
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.screens.logOut.LogoutConfirmationBottomSheet
+import com.madrid.presentation.component.logout.LogoutConfirmationBottomSheet
 import com.madrid.presentation.screens.moreScreen.component.OptionUiState
 import com.madrid.presentation.screens.moreScreen.component.ProfileSection
 import com.madrid.presentation.screens.moreScreen.component.SelectionBottomSheet

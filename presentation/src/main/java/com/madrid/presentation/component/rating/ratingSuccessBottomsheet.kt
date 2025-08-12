@@ -1,4 +1,4 @@
-package com.madrid.presentation.screens.rating
+package com.madrid.presentation.component.rating
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -50,7 +50,7 @@ fun RatingSuccessBottomSheetContent(
                 .padding(bottom = 16.dp)
         )
         Row(
-            modifier = Modifier.padding(top = 16.dp).align(Alignment.CenterHorizontally),
+            modifier = Modifier.padding(top = 16.dp).align(CenterHorizontally),
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             (1..5).forEach { i ->
