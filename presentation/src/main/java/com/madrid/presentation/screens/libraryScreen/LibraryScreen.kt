@@ -1,7 +1,10 @@
 package com.madrid.presentation.screens.libraryScreen
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -52,6 +55,12 @@ fun LibraryScreen(
                     )
                 }
 
+                is LibraryScreenEffect.NavigateWatchListToViewAll -> {
+                    navController.navigate(
+                        Destinations.WatchListViewAllScreen
+                    )
+                }
+
                 is LibraryScreenEffect.NavigateToViewAll -> {
                     navController.navigate(
                         Destinations.ViewAllScreen(
@@ -76,7 +85,9 @@ private fun LibraryScreenContent(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(top = 32.dp),
+            .statusBarsPadding(),
+        verticalArrangement = Arrangement.spacedBy(32.dp),
+//        contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
         item {
             LibraryScreenHeader(stringResource(com.madrid.presentation.R.string.Library))
@@ -90,7 +101,7 @@ private fun LibraryScreenContent(
                 startIconForPrimaryTextTitle = painterResource(R.drawable.outline_minimalistic),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.view_all),
                 endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
-                onSeeAllClick = { libraryInteractionListener.onViewAllClick(ViewAllType.WATCHLIST) },
+                onSeeAllClick = { libraryInteractionListener.onWatchListViewAllClick() },
                 onWatchListClick = libraryInteractionListener::onItemWatchListClick
             )
         }

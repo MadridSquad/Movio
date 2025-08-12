@@ -5,7 +5,6 @@ import com.madrid.presentation.viewModel.libraryViewModel.viewAll.factory.ViewAl
 interface LibraryInteractionListener {
     fun onItemClick(itemId: String)
     fun onItemWatchListClick(watchListItem : WatchListState)
-    /* Click on item (watchlistItem,favoriteItem, historyItem)*/
-
+    fun onWatchListViewAllClick()
     fun onViewAllClick(type: ViewAllType)
 }

@@ -1,6 +1,5 @@
 package com.madrid.presentation.viewModel.libraryViewModel
 
-import android.util.Log
 import com.madrid.domain.usecase.movie.GetAllMoviesInHistoryUseCase
 import com.madrid.domain.usecase.movie.GetFavoriteMoviesUseCase
 import com.madrid.domain.usecase.watchList.GetWatchListsUseCase
@@ -127,6 +126,12 @@ class LibraryViewModel @Inject constructor(
                 watchListId = watchListItem.id,
                 watchListTitle = watchListItem.watchListTitle
             )
+        )
+    }
+
+    override fun onWatchListViewAllClick(){
+        emitNewEffect(
+            LibraryScreenEffect.NavigateWatchListToViewAll
         )
     }
 
