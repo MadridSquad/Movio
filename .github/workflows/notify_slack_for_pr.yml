@@ -31,11 +31,8 @@ jobs:
                 "type": "section",
                 "text": {
                   "type": "mrkdwn",
-                  "text": ":rotating_light: *New Pull Request to develop* :rotating_light:\n*<\($pr_url)|\($pr_title)>*\n*Author:* \($pr_user)"
+                  "text": ":rotating_light: *New Pull Request to `develop`* :rotating_light:\n*Link :<\($pr_url)|\($pr_title)>*\n*Author:* `\($pr_user)`"
                 }
-              },
-              {
-                "type": "divider"
               },
               {
                 "type": "context",
@@ -45,7 +42,10 @@ jobs:
                     "text": "🔥 Please review as soon as possible!"
                   }
                 ]
-              }
+              },
+              {
+                "type": "divider"
+               }
             ]
             ')
 
