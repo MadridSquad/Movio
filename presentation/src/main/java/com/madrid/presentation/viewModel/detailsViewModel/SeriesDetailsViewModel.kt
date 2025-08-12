@@ -20,10 +20,10 @@ import com.madrid.domain.usecase.series.IsFavoriteSeriesUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.utils.RateFormatter
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import com.madrid.presentation.viewModel.shared.formatDuration
 import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -77,35 +77,48 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     private fun loadData() {
-        tryToExecute(
-            function = { getSeriesDetailsUseCase(args.seriesId) },
-            onSuccess = { series ->
-                updateState {
-                    it.copy(
-                        seriesId = series.id,
-                        isLoading = false,
-                        topImageUrl = series.imageUrl,
-                        seriesName = series.title,
-                        seriesGenre = series.genre.map { it.name },
-                        rate = RateFormatter.formatRate(series.rate),
-                        numberOfSeasons = series.seasons.size,
-                        productionDate = formatDateKotlinx(series.airDate),
-                        description = series.description,
-                        currentSeasonsUiStates = series.seasons.map { season -> season.mapToUiState() },
-                        selectedSeasonUiState = series.seasons[if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber - 1].mapToUiState()
-                    )
-                }
-                loadAllSeasonsEpisodes()
-                loadCastData()
-                loadReviews()
-                loadSimilarSeries()
-                loadTrailer()
-                loadSeasonEpisodes(if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber)
-            },
-            onError = {
-                updateState { it.copy(isLoading = true) }
-            },
-        )
+        updateState { it.copy(showLoadingScreen = true, isLoading = true) }
+        viewModelScope.launch {
+            delay(1050)
+            tryToExecute(
+                function = { getSeriesDetailsUseCase(args.seriesId) },
+                onSuccess = { series ->
+                    updateState {
+                        it.copy(
+                            seriesId = series.id,
+                            isLoading = false,
+                            topImageUrl = series.imageUrl,
+                            seriesName = series.title,
+                            seriesGenre = series.genre.map { it.name },
+                            rate = RateFormatter.formatRate(series.rate),
+                            numberOfSeasons = series.seasons.size,
+                            productionDate = formatDateKotlinx(series.airDate),
+                            description = series.description,
+                            currentSeasonsUiStates = series.seasons.map { season -> season.mapToUiState() },
+                            selectedSeasonUiState = series.seasons[if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber - 1].mapToUiState(),
+                            showLoadingScreen = false
+                        )
+                    }
+                    loadAllSeasonsEpisodes()
+                    loadCastData()
+                    loadReviews()
+                    loadSimilarSeries()
+                    loadTrailer()
+                    loadSeasonEpisodes(if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber)
+                },
+                onError = { throwable ->
+                    onError(throwable)
+                },
+            )
+        }
+    }
+
+    fun retryLoadData() {
+        val currentState = state.value
+        if (currentState.isLoading) return
+
+        updateState { it.copy(isNoInternet = false) }
+        loadData()
     }
 
     private fun loadAllSeasonsEpisodes() {
@@ -265,7 +278,27 @@ class SeriesDetailsViewModel @Inject constructor(
             onError = {},
         )
     }
-
+    private fun onError(throwable:Throwable){
+        when (throwable) {
+            is java.io.IOException -> {
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        showLoadingScreen = false,
+                        isNoInternet = true
+                    )
+                }
+            }
+            else -> {
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        showLoadingScreen = false
+                    )
+                }
+            }
+        }
+    }
     private fun checkIfFavoriteSeriesUseCase() {
         tryToExecute(
             function = { isFavoriteSeriesUseCase(args.seriesId) },

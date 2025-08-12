@@ -21,7 +21,9 @@ data class SeriesDetailsUiState(
     val userRating: Int = 0,
     val isGuest: Boolean = true,
     val trailerKey: String = "",
-    )
+    val showLoadingScreen: Boolean = false,
+    val isNoInternet: Boolean = false
+)
 
 data class SeriesUiState(
     val id: Int = 0,
