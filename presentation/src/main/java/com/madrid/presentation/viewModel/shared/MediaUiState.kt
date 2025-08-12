@@ -11,7 +11,8 @@ data class MediaUiState(
     val imageUrl: String = "",
     val rating: String = "",
     val category: List<CategoryUiState> = emptyList(),
-    val mediaType: MediaType = MediaType.MOVIE
+    val mediaType: MediaType = MediaType.MOVIE,
+    val trailerKey: String = ""
 )
 
 enum class MediaType {
@@ -25,7 +26,8 @@ fun Movie.toMediaUiState() = MediaUiState(
     imageUrl = imageUrl,
     rating = rate.toString().take(3),
     category = genre.map { it.toCategoryUiState() },
-    mediaType = MediaType.MOVIE
+    mediaType = MediaType.MOVIE,
+    trailerKey = this.trailer?.key ?: ""
 )
 
 fun Series.toMediaUiState() = MediaUiState(
@@ -34,5 +36,6 @@ fun Series.toMediaUiState() = MediaUiState(
     imageUrl = imageUrl,
     rating = rate.toString().take(3),
     category = genre.map { it.toCategoryUiState() },
-    mediaType = MediaType.TV_SHOW
+    mediaType = MediaType.TV_SHOW,
+    trailerKey = this.trailer?.key ?: ""
 )
