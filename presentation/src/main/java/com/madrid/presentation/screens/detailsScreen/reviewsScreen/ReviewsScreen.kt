@@ -53,7 +53,7 @@ fun ReviewsScreenContent(uiState: ReviewsScreenUiState, onClickBack: () -> Unit 
             items(reviews) { review ->
                 ReviewCard(
                     reviewerName = review.reviewerName,
-                    reviewerImageUrl = review.reviewerImageUrl,
+                    reviewerImageUrl = review.reviewerImageUrl ?:  com.madrid.detectimagecontent.R.drawable.place_holder.toString(),
                     rating = review.rating,
                     date = review.date,
                     content = review.content,

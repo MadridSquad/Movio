@@ -2,6 +2,7 @@ package com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
@@ -34,7 +36,7 @@ import com.madrid.detectImageContent.FilteredImage
 @Composable
 fun ReviewCard(
     reviewerName: String,
-    reviewerImageUrl: String? = com.madrid.detectimagecontent.R.drawable.place_holder.toString(),
+    reviewerImageUrl: String,
     rating: Float,
     date: String,
     content: String,
@@ -59,13 +61,14 @@ fun ReviewCard(
             )
             .padding(12.dp)
     ) {
+        // Header with user info and rating
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             FilteredImage(
-                imageUrl = reviewerImageUrl,
-                contentDescription = null,
+                imageUrl = reviewerImageUrl.takeIf { it.isNotBlank() },
+                contentDescription = "$reviewerName profile picture",
                 modifier = Modifier
                     .clip(CircleShape)
                     .size(32.dp)
@@ -79,7 +82,9 @@ fun ReviewCard(
                     text = reviewerName,
                     color = Theme.color.surfaces.onSurface,
                     textStyle = Theme.textStyle.title.mediumMedium14,
-                    modifier = Modifier.padding(bottom = 4.dp)
+                    modifier = Modifier.padding(bottom = 4.dp),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 MovioText(
                     text = date,
@@ -94,7 +99,7 @@ fun ReviewCard(
             ) {
                 MovioIcon(
                     painter = painterResource(id = R.drawable.bold_star),
-                    contentDescription = null,
+                    contentDescription = "Rating",
                     tint = Theme.color.system.warning,
                     modifier = Modifier.size(16.dp)
                 )
@@ -108,16 +113,19 @@ fun ReviewCard(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        MovioText(
-            text = content,
-            color = Theme.color.surfaces.onSurfaceVariant,
-            textStyle = Theme.textStyle.label.smallRegular12,
-            maxLines = maxLines,
-            modifier = Modifier.fillMaxWidth()
-        )
+        Column {
+                MovioText(
+                    text = if (isExpanded) "Read less" else "Read more",
+                    color = Theme.color.brand.primary,
+                    textStyle = Theme.textStyle.label.smallRegular12,
+                    modifier = Modifier
+                        .padding(top = 4.dp)
+                        .clickable { isExpanded = !isExpanded }
+                )
+
+        }
     }
 }
-
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -127,6 +135,18 @@ private fun ReviewCardPreview() {
         reviewerImageUrl = "https://image.tmdb.org/t/p/w500/5xKGk6q5g7mVmg7k7U1RrLSHwz6.jpg",
         rating = 4.5f,
         date = "June 14, 2025",
-        content = "This isn't a film, it's a live action video game with a predictable plot and loads of technologically choreographed CGI to substitute for anything vaguely akin to emotion."
+        content = "This isn't a film, it's a live action video game with a predictable plot and loads of technologically choreographed CGI to substitute for anything vaguely akin to emotion. The characters are shallow and the story feels rushed."
+    )
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+private fun ReviewCardLongNamePreview() {
+    ReviewCard(
+        reviewerName = "Very Long Username That Might Overflow",
+        reviewerImageUrl = "",
+        rating = 2.3f,
+        date = "June 14, 2025",
+        content = "Short review."
     )
 }
