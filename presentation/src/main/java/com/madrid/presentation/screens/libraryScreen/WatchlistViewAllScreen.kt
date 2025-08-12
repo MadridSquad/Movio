@@ -1,23 +1,25 @@
 package com.madrid.presentation.screens.libraryScreen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.madrid.designSystem.R
+import com.madrid.designSystem.component.FloatingButton
 import com.madrid.designSystem.component.TopAppBar
-import com.madrid.presentation.component.CustomHorizontalCardForWatchList
 import com.madrid.presentation.component.videoLibrary.VideoLibrary
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
@@ -65,7 +67,6 @@ fun WatchlistViewAllScreenContent(
     interactionListener: WatchListViewAllInteractionListener,
     state: WatchlistViewAllUiState
 ) {
-
     Column(
         modifier = Modifier.statusBarsPadding()
     ) {
@@ -78,7 +79,6 @@ fun WatchlistViewAllScreenContent(
                 horizontal = 16.dp
             )
         )
-
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 158.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -94,5 +94,18 @@ fun WatchlistViewAllScreenContent(
                 )
             }
         }
+    }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        FloatingButton(
+            onClick = {},
+            size = 60,
+            icon = painterResource(id = R.drawable.add),
+            modifier = Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
+        )
     }
 }

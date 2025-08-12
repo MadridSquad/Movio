@@ -87,7 +87,6 @@ private fun LibraryScreenContent(
             .fillMaxSize()
             .statusBarsPadding(),
         verticalArrangement = Arrangement.spacedBy(32.dp),
-//        contentPadding = PaddingValues(horizontal = 16.dp)
     ) {
         item {
             LibraryScreenHeader(stringResource(com.madrid.presentation.R.string.Library))
