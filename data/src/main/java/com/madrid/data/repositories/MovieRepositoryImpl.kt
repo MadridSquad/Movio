@@ -9,13 +9,13 @@ import com.madrid.data.dataSource.mapper.toCreateListStatus
 import com.madrid.data.dataSource.mapper.toListOperationStatus
 import com.madrid.data.dataSource.mapper.toMovieGenreTable
 import com.madrid.data.dataSource.mapper.toMovieTable
-import com.madrid.data.dataSource.remote.dto.list.AddToListRequest
-import com.madrid.data.dataSource.remote.dto.list.MovieListBody
 import com.madrid.data.dataSource.remote.dto.common.AddToFavoriteRequest
+import com.madrid.data.dataSource.remote.dto.list.MovieListBody
 import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.mapper.toMovie
 import com.madrid.data.dataSource.remote.mapper.toRatedMovie
 import com.madrid.data.dataSource.remote.mapper.toReview
+import com.madrid.data.dataSource.remote.mapper.toReviewWithFormattedDate
 import com.madrid.data.dataSource.remote.mapper.toSimilarMovie
 import com.madrid.data.dataSource.remote.mapper.toTrailer
 import com.madrid.data.repositories.local.LocalDataSource
@@ -50,7 +50,7 @@ class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getMovieReviewsById(movieId: Int): List<Review> {
-        return remoteDataSource.getMovieReviewsById(movieId).results?.map { it.toReview() }
+        return remoteDataSource.getMovieReviewsById(movieId).results?.map { it.toReviewWithFormattedDate() }
             ?: emptyList()
     }
 
@@ -212,7 +212,7 @@ class MovieRepositoryImpl @Inject constructor(
     override suspend fun addRatingMovie(
         movieId: Int,
         rate: Double
-    ){
+    ) {
         return remoteDataSource.addRatingMovie(movieId, rate)
     }
 
@@ -265,13 +265,22 @@ class MovieRepositoryImpl @Inject constructor(
         return remoteDataSource.getFavoriteMovies(sessionId).map { it.toMovie() }
     }
 
-    override suspend fun createMovieList(sessionId: String, name: String, description: String, language: String): ListOperationStatus {
+    override suspend fun createMovieList(
+        sessionId: String,
+        name: String,
+        description: String,
+        language: String
+    ): ListOperationStatus {
         val body = MovieListBody(name, description, language)
         val response = remoteDataSource.createMovieList(sessionId, body)
         return response.toCreateListStatus()
     }
 
-    override suspend fun addMovieToList(listId: Int, sessionId: String, mediaId: Int): ListOperationStatus {
+    override suspend fun addMovieToList(
+        listId: Int,
+        sessionId: String,
+        mediaId: Int
+    ): ListOperationStatus {
         val response = remoteDataSource.addMovieToList(
             listId = listId,
             sessionId = sessionId,
