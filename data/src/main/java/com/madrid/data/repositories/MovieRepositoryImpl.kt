@@ -25,7 +25,6 @@ import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.SortType
 import com.madrid.domain.entity.Trailer
-import com.madrid.domain.repository.AuthenticationRepository
 import com.madrid.domain.repository.MovieRepository
 import com.madrid.domain.usecase.movie.GetUserRatedMovieUseCase
 import javax.inject.Inject
@@ -215,7 +214,11 @@ class MovieRepositoryImpl @Inject constructor(
         return remoteDataSource.addRatingMovie(movieId, rate)
     }
 
-    override suspend fun setMovieFavoriteStatus(movieId: Int, sessionId: String, isFavorite: Boolean) {
+    override suspend fun setMovieFavoriteStatus(
+        movieId: Int,
+        sessionId: String,
+        isFavorite: Boolean
+    ) {
         remoteDataSource.setMovieFavoriteStatus(
             movieId = movieId,
             sessionId = sessionId,
