@@ -1,9 +1,9 @@
 package com.madrid.presentation.screens.loginScreen.component
 
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,10 +21,10 @@ fun AnimatedLoginButton
     onClick: () -> Unit,
     enabled: Boolean = true,
     text: String,
+    showLoadingIndicator: Boolean = true,
     textStyle: TextStyle = Theme.textStyle.label.mediumMedium14,
     textColor: Color = Theme.color.brand.onPrimary,
     buttonColor: Color = Theme.color.brand.primary,
-    loadingIndicatorColor: Color = Theme.color.brand.onPrimary,
     modifier: Modifier = Modifier
         .fillMaxWidth()
 
@@ -37,13 +37,17 @@ fun AnimatedLoginButton
         color = buttonColor
 
     ) {
-        if (isLoading) {
-            CircularProgressIndicator(
-                modifier = Modifier.size(24.dp)
+        if (isLoading&&showLoadingIndicator) {
+            LoadingIndicator()
 
-                ,
-                color = loadingIndicatorColor,
-                strokeWidth = 2.dp
+            Spacer(modifier= Modifier.width(4.dp))
+            MovioText(
+
+                text = text,
+                textStyle = textStyle,
+                color = textColor,
+                textAlign = TextAlign.Center,
+
             )
         } else {
             MovioText(

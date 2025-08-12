@@ -1,5 +1,6 @@
 package com.madrid.designSystem.component.textInputField
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -122,19 +123,27 @@ fun BasicTextInputField(
                 }
 
                 if (endIconPainter != null && value.isNotEmpty()) {
-                    Icon(
-                        painter = endIconPainter,
-                        contentDescription = null,
-                        tint = if (isFocused || value.isNotEmpty())
-                            iconColorInFocus
-                        else {
-                            iconColorNotFocus
-                        },
-                        modifier = Modifier
-                            .padding(start = 12.dp)
-                            .size(20.dp)
-                            .clickable { onClickEndIcon() }
-                    )
+                    Crossfade(
+                        targetState = endIconPainter,
+                        label = "PasswordIconAnimation"
+                    ) { icon ->
+                        Icon(
+                            painter = icon,
+                            contentDescription = null,
+                            tint = if (isFocused || value.isNotEmpty())
+                                iconColorInFocus
+                            else {
+                                iconColorNotFocus
+                            },
+                            modifier = Modifier
+                                .padding(start = 12.dp)
+                                .size(20.dp)
+                                .clickable(
+                                    indication = null,
+                                    interactionSource = remember { MutableInteractionSource() }
+                                ) { onClickEndIcon() }
+                        )
+                    }
                 }
             }
         },

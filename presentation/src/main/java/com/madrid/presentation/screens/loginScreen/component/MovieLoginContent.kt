@@ -56,13 +56,15 @@ fun MovieLoginContent(
                 isLoading = state.isLoading,
                 onClick = interactionListener::onLoginClicked,
                 text = stringResource(R.string.login),
-                modifier = Modifier.padding(bottom = 40.dp)
+                modifier = Modifier.padding(bottom = 40.dp),
+
             )
 
             OrDivider()
 
             AnimatedLoginButton(
                 isLoading = state.isGuestLoading,
+                showLoadingIndicator = false,
                 onClick = interactionListener::onLoginAsGuestClicked,
                 buttonColor = Theme.color.surfaces.surface,
                 textColor = Theme.color.surfaces.onSurface,
