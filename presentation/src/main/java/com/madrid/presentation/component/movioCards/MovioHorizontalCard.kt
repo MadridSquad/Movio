@@ -60,7 +60,7 @@ fun MovioHorizontalCard(
                 text = movieTitle,
                 color = Theme.color.surfaces.onSurface,
                 textStyle = Theme.textStyle.title.mediumMedium14,
-                maxLines = 2,
+                maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             RateIcon(rate = movieRate, modifier = Modifier.padding(bottom = 28.dp))
