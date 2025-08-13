@@ -6,5 +6,6 @@ interface WatchListViewAllInteractionListener {
     fun onBackButtonClicked()
     fun onItemClick(watchList : WatchListState)
     fun onAddButtonClicked()
-    fun onCreateButtonClicked()
+    fun dismissCreateListBottomSheet()
+    fun onCreateButtonClicked(name : String)
 }

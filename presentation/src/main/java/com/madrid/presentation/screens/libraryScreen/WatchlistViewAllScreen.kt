@@ -18,11 +18,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.madrid.designSystem.R
+import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.FloatingButton
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.presentation.component.videoLibrary.VideoLibrary
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
+import com.madrid.presentation.screens.addtolist.CreateListBottomSheet
+import com.madrid.presentation.screens.addtolist.ListBottomSheetMode
 import com.madrid.presentation.viewModel.libraryViewModel.watchlistViewAll.WatchListViewAllInteractionListener
 import com.madrid.presentation.viewModel.libraryViewModel.watchlistViewAll.WatchlistViewAllEffect
 import com.madrid.presentation.viewModel.libraryViewModel.watchlistViewAll.WatchlistViewAllUiState
@@ -79,19 +82,30 @@ fun WatchlistViewAllScreenContent(
                 horizontal = 16.dp
             )
         )
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 158.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(16.dp)
-        ) {
-            items(state.watchLists.size) { index ->
-                val watchlist = state.watchLists[index]
-                VideoLibrary(
-                    onClick = { interactionListener.onItemClick(watchlist) },
-                    videosNumber = watchlist.numberOfVideos,
-                    title = watchlist.watchListTitle,
-                    posterUrl = watchlist.posterUrl
-                )
+
+        if (state.watchLists.isEmpty()){
+            EmptySearchLayout(
+                title = "\uD83C\uDFAC Nothing here yet!",
+                description = "Add movies and TV shows to build your personal watchlist. The perfect binge starts here!",
+                image = R.drawable.empty,
+                imageSize = 180,
+                modifier = Modifier.fillMaxSize()
+            )
+        }else {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = 158.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                contentPadding = PaddingValues(16.dp)
+            ) {
+                items(state.watchLists.size) { index ->
+                    val watchlist = state.watchLists[index]
+                    VideoLibrary(
+                        onClick = { interactionListener.onItemClick(watchlist) },
+                        videosNumber = watchlist.numberOfVideos,
+                        title = watchlist.watchListTitle,
+                        posterUrl = watchlist.posterUrl
+                    )
+                }
             }
         }
     }
@@ -100,7 +114,7 @@ fun WatchlistViewAllScreenContent(
             .fillMaxSize()
     ) {
         FloatingButton(
-            onClick = {},
+            onClick = interactionListener::onAddButtonClicked,
             size = 60,
             icon = painterResource(id = R.drawable.add),
             modifier = Modifier
@@ -108,4 +122,10 @@ fun WatchlistViewAllScreenContent(
                 .padding(16.dp)
         )
     }
+
+    CreateListBottomSheet(
+        show = state.showCreateListBottomSheet,
+        onCreateClick = interactionListener::onCreateButtonClicked,
+        onDismiss = interactionListener::dismissCreateListBottomSheet,
+    )
 }

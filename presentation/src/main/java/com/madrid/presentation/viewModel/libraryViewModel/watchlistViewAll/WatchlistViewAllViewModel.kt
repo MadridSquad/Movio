@@ -1,5 +1,6 @@
 package com.madrid.presentation.viewModel.libraryViewModel.watchlistViewAll
 
+import com.madrid.domain.usecase.movie.CreateMovieListUseCase
 import com.madrid.domain.usecase.watchList.GetWatchListsUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.libraryViewModel.LibraryScreenEffect
@@ -11,6 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class WatchlistViewAllViewModel @Inject constructor(
     private val getWatchListUseCase: GetWatchListsUseCase,
+    private val createMovieListUseCase: CreateMovieListUseCase,
 //    private val deleteWatchListUseCase: DeleteWatchListUseCase
 ) : BaseViewModel<WatchlistViewAllUiState, WatchlistViewAllEffect>(WatchlistViewAllUiState()),
     WatchListViewAllInteractionListener {
@@ -64,10 +66,28 @@ class WatchlistViewAllViewModel @Inject constructor(
     }
 
     override fun onAddButtonClicked() {
-        TODO("Not yet implemented")
+        updateState { it.copy(showCreateListBottomSheet = true) }
     }
 
-    override fun onCreateButtonClicked() {
-        TODO("Not yet implemented")
+    override fun dismissCreateListBottomSheet() {
+        updateState { it.copy(showCreateListBottomSheet = false) }
+    }
+
+    override fun onCreateButtonClicked(name : String) {
+        tryToExecute(
+            function = { createMovieListUseCase(name) },
+            onSuccess = {
+                updateState { it.copy(showCreateListBottomSheet = false) }
+                loadWatchLists()
+            },
+            onError = { error ->
+                updateState {
+                    it.copy(
+                        showCreateListBottomSheet = false,
+                        errorMessage = error.message.toString()
+                    )
+                }
+            }
+        )
     }
 }
