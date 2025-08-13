@@ -7,30 +7,30 @@ import com.madrid.data.dataSource.remote.dto.authentication.AccountDetailsRespon
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
 import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
 import com.madrid.data.dataSource.remote.dto.list.CreateListResponse
-import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
-import com.madrid.data.dataSource.remote.dto.list.MovieListBody
 import com.madrid.data.dataSource.remote.dto.list.ListDto
+import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
 import com.madrid.data.dataSource.remote.dto.list.ListsDetailsResponse
+import com.madrid.data.dataSource.remote.dto.list.MovieListBody
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieResult
 import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
+import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SearchMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SimilarMoviesResponse
+import com.madrid.data.dataSource.remote.dto.movie.UpcomingMoviesResponse
 import com.madrid.data.dataSource.remote.dto.rate.RatingMovieResponse
 import com.madrid.data.dataSource.remote.dto.rate.RatingSeriesResponse
+import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
+import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
+import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SearchSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SeasonResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesCreditResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
+import com.madrid.data.dataSource.remote.dto.series.SeriesResult
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
-import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResponse
-import com.madrid.data.dataSource.remote.dto.movie.UpcomingMoviesResponse
-import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
-import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
-import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
-import com.madrid.data.dataSource.remote.dto.series.SeriesResult
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
 
 interface RemoteDataSource {
@@ -72,6 +72,11 @@ interface RemoteDataSource {
     suspend fun getRecommendedSeries(page: Int = 1): RecommendedSeriesResponse
     suspend fun getSeriesByGenreId(page: Int, genreId: Int?, sortBy: String): SearchSeriesResponse
     suspend fun getFavoriteSeries(sessionId: String): List<SeriesResult>
+    suspend fun getEpisodeTrailers(
+        episodeNumber: Int,
+        seasonNumber: Int,
+        seriesId: Int
+    ): List<TrailerResult>
     // endregion
 
     // region Artist
