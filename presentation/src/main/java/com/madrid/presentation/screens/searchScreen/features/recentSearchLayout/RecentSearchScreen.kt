@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
@@ -59,9 +60,9 @@ fun LazyGridScope.recentSearchScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .height(40.dp)
                 .clickable { onSearchItemClick(searchText) }
-                .padding(vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
+                .padding(bottom = 4.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             MoviosText(
@@ -72,7 +73,7 @@ fun LazyGridScope.recentSearchScreen(
                     Theme.color.surfaces.onSurface,
                     Theme.textStyle.label.smallRegular12
                 ),
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.align(Alignment.CenterVertically),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 textStyle = Theme.textStyle.label.smallRegular12,
