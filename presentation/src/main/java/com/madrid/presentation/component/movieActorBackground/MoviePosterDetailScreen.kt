@@ -43,7 +43,7 @@ fun MoviePosterDetailScreen(
             if (isActor) {
                 Box(
                     modifier = Modifier
-                        .size(120.dp)
+                        .size(160.dp)
                         .align(Alignment.Center)
                         .clip(CircleShape)
                 ) {

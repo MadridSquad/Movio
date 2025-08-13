@@ -170,6 +170,12 @@ fun ActorDetailsContent(
                     .padding(bottom = 16.dp)
                     .height(235.dp),
             ) {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .padding(start = 6.dp)
+                    )
+                }
                 items(actor.knownFor.size) { index ->
                     val movie = actor.knownFor[index]
                     MovioVerticalCard(
