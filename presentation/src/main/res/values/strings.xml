@@ -137,4 +137,5 @@
     <string name="this_rating_is_only_available_to_registered_users_Login_to_share_your_rating">This rating is only available to registered users, Log in to share your rating</string>
     <string name="watch_list_icon">watch list icon</string>
     <string name="confirm">Confirm</string>
+    <string name="new_list_created_successfully">New list created successfully.</string>
 </resources>

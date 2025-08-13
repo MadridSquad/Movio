@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -26,6 +27,7 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.addtolist.CreateListBottomSheet
 import com.madrid.presentation.screens.addtolist.ListBottomSheetMode
+import com.madrid.presentation.screens.addtolist.SuccessNotificationRow
 import com.madrid.presentation.viewModel.libraryViewModel.watchlistViewAll.WatchListViewAllInteractionListener
 import com.madrid.presentation.viewModel.libraryViewModel.watchlistViewAll.WatchlistViewAllEffect
 import com.madrid.presentation.viewModel.libraryViewModel.watchlistViewAll.WatchlistViewAllUiState
@@ -83,7 +85,7 @@ fun WatchlistViewAllScreenContent(
             )
         )
 
-        if (state.watchLists.isEmpty()){
+        if (state.watchLists.isEmpty()) {
             EmptySearchLayout(
                 title = "\uD83C\uDFAC Nothing here yet!",
                 description = "Add movies and TV shows to build your personal watchlist. The perfect binge starts here!",
@@ -91,7 +93,7 @@ fun WatchlistViewAllScreenContent(
                 imageSize = 180,
                 modifier = Modifier.fillMaxSize()
             )
-        }else {
+        } else {
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(minSize = 158.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -121,6 +123,16 @@ fun WatchlistViewAllScreenContent(
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
         )
+
+        SuccessNotificationRow(
+            isVisible = state.showSnackBar,
+            message = stringResource(state.snackBarMessage),
+            icon = painterResource(id = R.drawable.archive_tick),
+            onDismiss = interactionListener::onDismissSnackBar,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 16.dp, vertical = 24.dp)
+        )
     }
 
     CreateListBottomSheet(
@@ -128,4 +140,6 @@ fun WatchlistViewAllScreenContent(
         onCreateClick = interactionListener::onCreateButtonClicked,
         onDismiss = interactionListener::dismissCreateListBottomSheet,
     )
+
+
 }

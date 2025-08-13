@@ -138,4 +138,5 @@
     <string name="this_rating_is_only_available_to_registered_users_Login_to_share_your_rating">هذا التقييم متاح فقط للمستخدمين المسجلين، قم بتسجيل الدخول لمشاركة تقييمك</string>
     <string name="watch_list_icon">ايقونه مشاهده القائمه</string>
     <string name="confirm">تأكيد</string>
+    <string name="new_list_created_successfully">تم إنشاء قائمة جديدة بنجاح</string>
 </resources>

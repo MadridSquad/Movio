@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.clickable
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.TextStyle
 import com.madrid.designSystem.component.MovioBottomSheet
 import com.madrid.designSystem.component.MovioIcon
@@ -28,7 +30,10 @@ import kotlinx.coroutines.delay
 fun SuccessNotificationRow(
     isVisible: Boolean,
     message: String = "Successfully added to your collection.",
+    onAction: () -> Unit = {},
+    actionText: String? = null,
     onDismiss: () -> Unit = {},
+    icon: Painter = painterResource(id = com.madrid.designSystem.R.drawable.archive_tick),
     modifier: Modifier = Modifier
 ) {
     // Auto-dismiss after 3 seconds
@@ -63,25 +68,29 @@ fun SuccessNotificationRow(
                 )
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-                MovioIcon(
-                    modifier = Modifier.size(24.dp),
-                    painter = painterResource(id = com.madrid.designSystem.R.drawable.archive_tick),
-                    contentDescription = "Success",
-                )
-
+            MovioIcon(
+                modifier = Modifier.size(24.dp),
+                painter = icon,
+                contentDescription = "Success",
+            )
 
             // Success message
             MovioText(
                 modifier = Modifier.weight(1f), // Modifier should be first
                 text = message,
                 color = Color.White,
-                textStyle = TextStyle(
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium
-                )
+                textStyle = Theme.textStyle.label.mediumMedium14
             )
+            if (actionText != null) {
+                MovioText(
+                    modifier = Modifier.clickable(onClick = onAction), // Modifier should be first
+                    text = actionText,
+                    color = Theme.color.brand.primary,
+                    textStyle = Theme.textStyle.label.mediumMedium14
+                )
+            }
         }
     }
 }
@@ -151,6 +160,7 @@ fun ListManagementBottomSheetWithNotification(
                             }
                         )
                     }
+
                     ListBottomSheetMode.CREATE_NEW_LIST -> {
                         CreateListBottomSheet(
                             show = true,
@@ -183,6 +193,14 @@ fun PreviewSuccessNotificationRow() {
         SuccessNotificationRow(
             isVisible = true,
             message = "Successfully added to your collection."
+        )
+
+        SuccessNotificationRow(
+            isVisible = true,
+            message = "Item has been deleted",
+            actionText = "Undo",
+            onAction = { /* Handle undo action */ },
+
         )
     }
 }
