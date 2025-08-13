@@ -1,21 +1,19 @@
 package com.madrid.presentation.component
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.ExposedDropdownMenuBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,13 +26,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
-import com.madrid.designSystem.theme.Theme
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.MovioTheme
+import com.madrid.designSystem.theme.Theme
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun <T> CustomDropdown(
     items: List<T>,
@@ -45,11 +43,14 @@ fun <T> CustomDropdown(
     dropdownWidth: Dp = 120.dp
 ) {
     var expanded by remember { mutableStateOf(false) }
-
-    Column(modifier.padding(vertical = 2.dp)) {
+    ExposedDropdownMenuBox(
+        expanded = expanded,
+        onExpandedChange = { expanded = it },
+        modifier = modifier
+    ) {
         Box(
             modifier = Modifier
-                .size(width = 95.dp , height = 32.dp)
+                .size(width = dropdownWidth, height = 32.dp)
                 .background(
                     color = Theme.color.surfaces.surfaceContainer,
                     shape = RoundedCornerShape(32.dp)
@@ -79,17 +80,11 @@ fun <T> CustomDropdown(
                     tint = Theme.color.surfaces.onSurfaceVariant
                 )
             }
-        }
-        AnimatedVisibility(
-            visible = expanded,
-            enter = slideInVertically() + fadeIn(),
-            exit = fadeOut(),
-            modifier = Modifier
-                .width(dropdownWidth)
-                .zIndex(1f)
-        ) {
-            Box(
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
                 modifier = Modifier
+                    .width(dropdownWidth)
                     .background(
                         color = Theme.color.surfaces.surface,
                         shape = RoundedCornerShape(8.dp)
@@ -101,24 +96,18 @@ fun <T> CustomDropdown(
                     )
                     .padding(8.dp)
             ) {
-                Column {
-                    items.forEach { item ->
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    onItemSelected(item)
-                                    expanded = false
-                                }
-                                .padding(8.dp),
-                            contentAlignment = Alignment.CenterStart
-                        ) {
-                            MovioText(
-                                text = labelSelector(item),
-                                color = Theme.color.surfaces.onSurfaceContainer,
-                                textStyle = Theme.textStyle.label.smallRegular14
-                            )
+                items.forEach { item ->
+                    DropdownMenuItem(
+                        onClick = {
+                            onItemSelected(item)
+                            expanded = false
                         }
+                    ) {
+                        MovioText(
+                            text = labelSelector(item),
+                            color = Theme.color.surfaces.onSurfaceContainer,
+                            textStyle = Theme.textStyle.label.smallRegular14
+                        )
                     }
                 }
             }
