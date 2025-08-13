@@ -3,7 +3,6 @@ package com.madrid.data.repositories
 import com.madrid.data.dataSource.local.mappers.toGenre
 import com.madrid.data.dataSource.local.mappers.toSeries
 import com.madrid.data.dataSource.mapper.toSeriesGenreTable
-import com.madrid.data.dataSource.remote.dto.common.AddToFavoriteRequest
 import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.mapper.toEpisode
 import com.madrid.data.dataSource.remote.mapper.toRatedSeries
@@ -109,15 +108,15 @@ class SeriesRepositoryImpl @Inject constructor(
         ).seriesResults.map { it.toSeries() }
     }
 
-    override suspend fun addSeriesToFavorite(mediaId: Int, sessionId: String) {
-        val request = AddToFavoriteRequest(
-            mediaType = "tv",
-            mediaId = mediaId,
-            favorite = true
-        )
-        remoteDataSource.addToFavorite(
+    override suspend fun setSeriesFavoriteStatus(
+        seriesId: Int,
+        sessionId: String,
+        isFavorite: Boolean
+    ) {
+        remoteDataSource.setSeriesFavoriteStatus(
+            seriesId = seriesId,
             sessionId = sessionId,
-            request = request
+            isFavorite = isFavorite
         )
     }
 

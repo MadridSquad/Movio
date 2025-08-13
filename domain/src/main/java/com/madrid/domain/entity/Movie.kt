@@ -9,4 +9,5 @@ data class Movie(
     val movieDuration: String,
     val description: String,
     val genre: List<Genre>,
+    val trailer: Trailer? = null
 )

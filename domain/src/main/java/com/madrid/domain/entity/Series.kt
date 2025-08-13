@@ -9,4 +9,5 @@ data class Series(
     val seasons: List<Season>,
     val description: String,
     val genre: List<Genre>,
+    val trailer: Trailer? = null
 )

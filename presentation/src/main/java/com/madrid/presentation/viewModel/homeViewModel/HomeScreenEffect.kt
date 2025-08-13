@@ -7,4 +7,5 @@ sealed interface HomeScreenEffect {
 
     data object NavigateToProfile : HomeScreenEffect
     data class NavigateToSeeAll(val mediaType: MediaType)
+    data class GoToYoutube(val trailerKey: String): HomeScreenEffect
 }

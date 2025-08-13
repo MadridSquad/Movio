@@ -7,6 +7,12 @@ import javax.inject.Inject
 class GetSeriesTrailersUseCase @Inject constructor(
     private val seriesRepository: SeriesRepository
 ) {
-    suspend operator fun invoke(seriesId: Int): List<Trailer> =
-        seriesRepository.getSeriesTrailersById(seriesId)
+    suspend operator fun invoke(seriesId: Int): List<Trailer> {
+        try {
+            seriesRepository.getSeriesTrailersById(seriesId)
+        } catch (e: Exception) {
+            println("tag series slider in use case trailer: $e")
+        }
+        return seriesRepository.getSeriesTrailersById(seriesId)
+    }
 }

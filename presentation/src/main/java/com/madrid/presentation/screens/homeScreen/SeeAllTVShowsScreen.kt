@@ -35,6 +35,7 @@ import com.madrid.designSystem.component.LoadingSearchCard
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
@@ -63,141 +64,136 @@ fun SeeAllTVShowsScreen(
         }
     }
 
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 100.dp),
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Theme.color.surfaces.surface)
-            .statusBarsPadding().navigationBarsPadding(),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        item(
-            span = { GridItemSpan(maxLineSpan) }
+    Column {
+
+        TopAppBar(uiState.title, secondIcon = null, thirdIcon = null, onFirstIconClick = { navController.navigate(Destinations.HomeScreen)}, modifier = Modifier.padding(horizontal = 16.dp).statusBarsPadding())
+        Spacer(Modifier.height(16.dp))
+        val updatedItems: MutableList<String> = items.map { it.name }.toMutableList()
+        updatedItems.add(0, "All")
+        FilterBar(
+            items = updatedItems,
+            selectedItem = selectedItem,
+            onItemClick = { genre ->
+                selectedItem = genre
+                viewModel.onGenreSelect(
+                    if (selectedItem != "All") items.find { it.name == genre } else null
+                )
+            },
+            scrollable = true
+        )
+        Spacer(Modifier.height(24.dp))
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = 100.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Theme.color.surfaces.surface)
+                .navigationBarsPadding(),
+            contentPadding = PaddingValues(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            TopAppBar(uiState.title, secondIcon = null, thirdIcon = null , onFirstIconClick = {
-                navController.popBackStack()})
-        }
-        item(span = { GridItemSpan(maxLineSpan) }) {
-
-            val updatedItems: MutableList<String> = items.map { it.name }.toMutableList()
-            updatedItems.add(0, "All")
-            FilterBar(
-                items = updatedItems,
-                selectedItem = selectedItem,
-                onItemClick = { genre ->
-                    selectedItem = genre
-                    viewModel.onGenreSelect(
-                        if (selectedItem != "All") items.find { it.name == genre } else null
-                    )
-                },
-                scrollable = true
-            )
-
-        }
-
-        when {
-            listOfItem.itemCount == 0 && listOfItem.loadState.refresh is LoadState.Loading -> {
-                items(9) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        LoadingSearchCard()
-                    }
-                }
-            }
-
-            listOfItem.itemCount == 0 && listOfItem.loadState.refresh is LoadState.Error -> {
-                item(
-                    span = { GridItemSpan(maxLineSpan) }
-                ) {
-                    Column (
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        MovioText(
-                            text = stringResource(com.madrid.presentation.R.string.internet_is_not_available),
-                            textStyle = Theme.textStyle.title.mediumMedium16,
-                            color = Theme.color.surfaces.onSurface,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        MovioText(
-                            text = stringResource(com.madrid.presentation.R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
-                            textStyle = Theme.textStyle.label.smallRegular12,
-                            color = Theme.color.surfaces.onSurfaceContainer,
-                            textAlign = TextAlign.Center,
+            when {
+                listOfItem.itemCount == 0 && listOfItem.loadState.refresh is LoadState.Loading -> {
+                    items(9) {
+                        Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 8.dp)
-                        )
-
-                    }
-                }
-            }
-
-            listOfItem.itemCount == 0 && listOfItem.loadState.refresh is LoadState.NotLoading && listOfItem.loadState.refresh.endOfPaginationReached -> {
-                item(span = { GridItemSpan(maxLineSpan) }) {
-                    Column (
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        MovioText(
-                            text = "No results found",
-                            textStyle = Theme.textStyle.title.mediumMedium16,
-                            color = Theme.color.surfaces.onSurface,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        MovioText(
-                            text = stringResource(com.madrid.presentation.R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
-                            textStyle = Theme.textStyle.label.smallRegular12,
-                            color = Theme.color.surfaces.onSurfaceContainer,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 8.dp)
-                        )
-
-                    }
-                }
-            }
-
-            listOfItem.itemCount > 0 -> {
-                items(
-                    count = listOfItem.itemCount,
-                ) { index ->
-                    val movie = listOfItem[index]
-                    MovioVerticalCard(
-                        description = movie?.name ?: "no description" ,
-                        movieImage = movie?.imageUrl ?:"https://image.tmdb.org/t/p/w500/5xKGk6q5g7mVmg7k7U1RrLSHwz6.jpg",
-                        rate = movie?.rate?.take(3) ?: "4.3",
-                        width = 101.dp,
-                        height = 136.dp,
-                        onClick = {
-                            navController.navigate(
-                                Destinations.SeriesDetailsScreen(
-                                    listOfItem[index]?.id?.toInt() ?: 2335,
-                                    seasonNumber = 1
-                                )
-                            )
+                                .height(200.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            LoadingSearchCard()
                         }
-                    )
+                    }
+                }
+
+                listOfItem.itemCount == 0 && listOfItem.loadState.refresh is LoadState.Error -> {
+                    item(
+                        span = { GridItemSpan(maxLineSpan) }
+                    ) {
+                        Column (
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            MovioText(
+                                text = stringResource(R.string.internet_is_not_available),
+                                textStyle = Theme.textStyle.title.mediumMedium16,
+                                color = Theme.color.surfaces.onSurface,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            MovioText(
+                                text = stringResource(com.madrid.presentation.R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
+                                textStyle = Theme.textStyle.label.smallRegular12,
+                                color = Theme.color.surfaces.onSurfaceContainer,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 8.dp)
+                            )
+
+                        }
+                    }
+                }
+
+                listOfItem.itemCount == 0 && listOfItem.loadState.refresh is LoadState.NotLoading && listOfItem.loadState.refresh.endOfPaginationReached -> {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        Column (
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            MovioText(
+                                text = "No results found",
+                                textStyle = Theme.textStyle.title.mediumMedium16,
+                                color = Theme.color.surfaces.onSurface,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            MovioText(
+                                text = stringResource(com.madrid.presentation.R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
+                                textStyle = Theme.textStyle.label.smallRegular12,
+                                color = Theme.color.surfaces.onSurfaceContainer,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 8.dp)
+                            )
+
+                        }
+                    }
+                }
+
+                listOfItem.itemCount > 0 -> {
+                    items(
+                        count = listOfItem.itemCount,
+                    ) { index ->
+                        val movie = listOfItem[index]
+                        MovioVerticalCard(
+                            description = movie?.name ?: "no description" ,
+                            movieImage = movie?.imageUrl ?:"https://image.tmdb.org/t/p/w500/5xKGk6q5g7mVmg7k7U1RrLSHwz6.jpg",
+                            rate = movie?.rate?.take(3) ?: "4.3",
+                            height = 180.dp,
+                            onClick = {
+                                navController.navigate(
+                                    Destinations.SeriesDetailsScreen(
+                                        listOfItem[index]!!.id.toInt(),
+                                        seasonNumber = 1
+                                    )
+                                )
+                            }
+                        )
+                    }
                 }
             }
-        }
 
+        }
     }
+
 }
 
 
