@@ -73,9 +73,7 @@ fun MovieLoginContent(
 
             AnimatedLoginButton(
                 isLoading = state.isGuestLoading,
-                onClick = {
-                    onGuestLogin()
-                },
+                onClick = onGuestLogin,
                 buttonColor = Theme.color.surfaces.surface,
                 textColor = Theme.color.surfaces.onSurface,
                 text = stringResource(R.string.continue_as_a_guest),
