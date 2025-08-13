@@ -143,24 +143,28 @@ fun MovioPager(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    repeat(medias.size) { index ->
-                        val isSelected = pagerState.currentPage == index
-                        Box(
-                            modifier = Modifier
-                                .padding(horizontal = 4.dp)
-                                .size(if (isSelected) 15.dp else 5.dp, 5.dp)
-                                .clip(if (isSelected) RoundedCornerShape(50) else CircleShape)
-                                .background(
-                                    if (isSelected)
-                                        Theme.color.surfaces.onSurfaceAt1
-                                    else
-                                        Theme.color.surfaces.onSurfaceAt2
-                                )
-                        )
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                    Row(
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        val indicatorRange =
+                            if (isRtl) (medias.size - 1) downTo 0 else 0 until medias.size
+                        repeat(medias.size) { index ->
+                            val isSelected = pagerState.currentPage == index
+                            Box(
+                                modifier = Modifier
+                                    .padding(horizontal = 4.dp)
+                                    .size(if (isSelected) 15.dp else 5.dp, 5.dp)
+                                    .clip(if (isSelected) RoundedCornerShape(50) else CircleShape)
+                                    .background(
+                                        if (isSelected)
+                                            Theme.color.surfaces.onSurfaceAt1
+                                        else
+                                            Theme.color.surfaces.onSurfaceAt2
+                                    )
+                            )
+                        }
                     }
                 }
                 Spacer(modifier = Modifier.height(4.dp))
