@@ -54,4 +54,5 @@ data class EpisodeUiState(
     val episodeNumber: Int = 0,
     val episodeDuration: String = "",
     val rate: String = "",
+    val trailerKey: String?
 )
