@@ -85,17 +85,17 @@ fun MoviesLayout(
                     isLoading = isLoading
                 )
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-                    .offset(y = 390.dp)
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(Color.Transparent, Theme.color.surfaces.surface)
-                        )
-                    )
-            )
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(30.dp)
+//                    .offset(y = 390.dp)
+//                    .background(
+//                        Brush.verticalGradient(
+//                            colors = listOf(Color.Transparent, Theme.color.surfaces.surface)
+//                        )
+//                    )
+//            )
         }
         item(span = { GridItemSpan(maxLineSpan) }) {
 

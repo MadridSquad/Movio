@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
@@ -21,6 +22,8 @@ import androidx.compose.ui.draw.BlurredEdgeTreatment.Companion.Unbounded
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
@@ -63,7 +66,7 @@ fun MovioPager(
                     contentDescription = "null",
                     modifier = Modifier
                         .matchParentSize()
-                        .blur(radius = 16.dp, edgeTreatment = Unbounded),
+                        .blur(radius = 20.dp, edgeTreatment = Unbounded),
                     contentScale = ContentScale.Crop
                 )
             }
@@ -126,29 +129,44 @@ fun MovioPager(
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        repeat(medias.size) { index ->
-                            val isSelected = pagerState.currentPage == index
-                            Box(
-                                modifier = Modifier
-                                    .padding(horizontal = 4.dp)
-                                    .size(if (isSelected) 15.dp else 5.dp, 5.dp)
-                                    .clip(if (isSelected) RoundedCornerShape(50) else CircleShape)
-                                    .background(
-                                        if (isSelected)
-                                            Theme.color.surfaces.onSurfaceAt1
-                                        else
-                                            Theme.color.surfaces.onSurfaceAt2
+                    Box(contentAlignment = Alignment.Center){
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(20.dp)
+                                .background(
+                                    Brush.verticalGradient(
+                                        colors = listOf(Color.Transparent,Theme.color.surfaces.surface)
                                     )
-                            )
+                                )
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            repeat(medias.size) { index ->
+                                val isSelected = pagerState.currentPage == index
+                                Box(
+                                    modifier = Modifier
+                                        .padding(horizontal = 4.dp)
+                                        .size(if (isSelected) 15.dp else 5.dp, 5.dp)
+                                        .clip(if (isSelected) RoundedCornerShape(50) else CircleShape)
+                                        .background(
+                                            if (isSelected)
+                                                Theme.color.surfaces.onSurfaceAt1
+                                            else
+                                                Theme.color.surfaces.onSurfaceAt2
+                                        )
+                                )
+                            }
                         }
+                        Spacer(modifier = Modifier.height(4.dp))
                     }
-                    Spacer(modifier = Modifier.height(4.dp))
+
+
+
                 }
             }
         }
