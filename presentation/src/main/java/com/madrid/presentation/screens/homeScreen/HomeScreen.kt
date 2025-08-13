@@ -1,19 +1,19 @@
 package com.madrid.presentation.screens.homeScreen
 
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,8 +21,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.madrid.designSystem.component.HeaderSectionBar
@@ -46,6 +48,7 @@ fun HomeScreen(
 ) {
     val state by homeViewModel.state.collectAsState()
     val navController = LocalNavController.current
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         homeViewModel.effect.collect { effect ->
@@ -59,6 +62,10 @@ fun HomeScreen(
                 }
 
                 is HomeScreenEffect.NavigateToProfile -> navController.navigate(Destinations.MoreScreen)
+                is HomeScreenEffect.GoToYoutube -> {
+                    val key = effect.trailerKey
+                    openYoutubeMediaTrailer(key = key, context = context)
+                }
             }
         }
     }
@@ -73,7 +80,10 @@ fun HomeScreenContent(
 ) {
     var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
     var isScrolledDown by remember { mutableStateOf(false) }
-    val backgroundColor by animateColorAsState(if(isScrolledDown) Theme.color.surfaces.surface else Color.Transparent , tween(500))
+    val backgroundColor by animateColorAsState(
+        if (isScrolledDown) Theme.color.surfaces.surface else Color.Transparent,
+        tween(500)
+    )
     Box(
         Modifier
             .fillMaxSize()
@@ -82,15 +92,21 @@ fun HomeScreenContent(
         LayoutContent(
             uiState = state,
             selectedTab = HomeTab.entries[selectedTabIndex],
-            onClickMoviesTab = interactionListener::loadMoviesLayoutData,
-            onClickSeriesTab = interactionListener::loadSeriesLayoutData,
             onScroll = { isScrolled ->
                 isScrolledDown = isScrolled
+            },
+            onClickMediaButton = { mediaType, mediaIndex ->
+                interactionListener.onClickPlayButton(
+                    mediaIndex = mediaIndex,
+                    mediaType = mediaType
+                )
             }
         )
-        Column(modifier = Modifier
-            .background(backgroundColor)
-            .padding(top = 32.dp)) {
+        Column(
+            modifier = Modifier
+                .background(backgroundColor)
+                .padding(top = 32.dp)
+        ) {
             HomeAppBar(
                 modifier = Modifier.padding(horizontal = 16.dp),
                 image = state.profileImage,
@@ -131,33 +147,41 @@ fun HomeScreenContent(
 private fun LayoutContent(
     selectedTab: HomeTab,
     uiState: HomeScreenState,
-    onClickMoviesTab: () -> Unit,
-    onClickSeriesTab: () -> Unit,
-    onScroll: (Boolean) -> Unit ={},
-    ) {
+    onScroll: (Boolean) -> Unit = {},
+    onClickMediaButton: (MediaType, Int) -> Unit = { _, _ -> },
+) {
     when (selectedTab) {
-//        HomeTab.ALL -> AllMediaLayout()
         HomeTab.MOVIES -> {
-            onClickMoviesTab()
             MoviesLayout(
                 trendingMovies = uiState.movieTabUiState.trending.media,
                 topRatingMovies = uiState.movieTabUiState.topRated.media,
                 nowPlayingMovies = uiState.movieTabUiState.nowPlaying.media,
                 upComingMovies = uiState.movieTabUiState.upcoming.media,
                 recommendedMovies = uiState.movieTabUiState.moreRecommended.media,
-                onScroll = onScroll
+                onScroll = onScroll,
+                onClickMediaButton = { mediaIndex ->
+                    onClickMediaButton(
+                        MediaType.MOVIE,
+                        mediaIndex
+                    )
+                }
             )
         }
 
         HomeTab.TV_SHOWS -> {
-            onClickSeriesTab()
             TvShowsLayout(
                 trendingSeries = uiState.tvShowTabUiState.trending.media,
                 topRatingSeries = uiState.tvShowTabUiState.topRated.media,
                 airingTodaySeries = uiState.tvShowTabUiState.airingToday.media,
                 onAirSeries = uiState.tvShowTabUiState.onTv.media,
                 recommendedSeries = uiState.tvShowTabUiState.moreRecommended.media,
-                onScroll = onScroll
+                onScroll = onScroll,
+                onClickMediaButton = { mediaIndex ->
+                    onClickMediaButton(
+                        MediaType.TV_SHOW,
+                        mediaIndex
+                    )
+                }
             )
         }
 
@@ -165,8 +189,22 @@ private fun LayoutContent(
     }
 }
 
+private fun openYoutubeMediaTrailer(key: String, context: Context) {
+    val youtubeAppIntent =
+        Intent(Intent.ACTION_VIEW, "vnd.youtube:$key".toUri())
+    val youtubeWebIntent = Intent(
+        Intent.ACTION_VIEW,
+        "https://www.youtube.com/watch?v=$key".toUri()
+    )
+
+    try {
+        context.startActivity(youtubeAppIntent)
+    } catch (e: ActivityNotFoundException) {
+        context.startActivity(youtubeWebIntent)
+    }
+}
+
 enum class HomeTab {
-//    ALL,
     MOVIES,
     TV_SHOWS,
     CATEGORIES

@@ -122,6 +122,7 @@
     <string name="no_ratings_yet">No Ratings Yet!</string>
     <string name="you_haven_t_rated_anything_yet_start_exploring_and_share_your_thoughts">You haven’t rated anything yet. Start exploring and share your thoughts!</string>
     <string name="try_again">Try Again</string>
+    <string name="delete">delete</string>
     <string name="watchlist">Watchlist</string>
     <string name="view_all">view all</string>
     <string name="favorites">Favorites</string>

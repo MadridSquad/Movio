@@ -1,5 +1,7 @@
 package com.madrid.presentation.screens.homeScreen.layout
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,7 +44,8 @@ fun MoviesLayout(
     nowPlayingMovies: List<MediaUiState>,
     upComingMovies: List<MediaUiState>,
     recommendedMovies: List<MediaUiState>,
-    onScroll: (Boolean) -> Unit ={},
+    onScroll: (Boolean) -> Unit = {},
+    onClickMediaButton: (Int) -> Unit = {},
 ) {
     val navController = LocalNavController.current
     val lazyGridState = rememberLazyGridState()
@@ -54,7 +57,7 @@ fun MoviesLayout(
             .distinctUntilChanged()
             .collect { scrollOffset ->
                 val scrollDistance = scrollOffset.toFloat()
-                when(scrollDistance){
+                when (scrollDistance) {
                     in 0f..100f -> onScroll(false)
                     else -> onScroll(true)
                 }
@@ -64,7 +67,7 @@ fun MoviesLayout(
 
     LazyVerticalGrid(
         state = lazyGridState,
-        columns = GridCells.Fixed(2),
+        columns = GridCells.Adaptive(minSize = 168.dp),
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -72,10 +75,11 @@ fun MoviesLayout(
         contentPadding = PaddingValues(bottom = 16.dp)
     ) {
         item(span = { GridItemSpan(2) }) {
-            Box(){
+            Box() {
                 MovioPager(
                     medias = trendingMovies.take(7),
-                    onClickItem = { id -> navController.navigate(Destinations.MovieDetailsScreen(id)) }
+                    onClickItem = { id -> navController.navigate(Destinations.MovieDetailsScreen(id)) },
+                    onClickMediaButton = { mediaIndex -> onClickMediaButton(mediaIndex) }
                 )
             }
             Box(
@@ -85,12 +89,12 @@ fun MoviesLayout(
                     .offset(y = 390.dp)
                     .background(
                         Brush.verticalGradient(
-                            colors = listOf(Color.Transparent , Theme.color.surfaces.surface)
+                            colors = listOf(Color.Transparent, Theme.color.surfaces.surface)
                         )
                     )
             )
         }
-        item(span = { GridItemSpan(2) }) {
+        item(span = { GridItemSpan(maxLineSpan) }) {
             CustomHorizontalCard(
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.top_rating),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
@@ -105,7 +109,7 @@ fun MoviesLayout(
         }
 
 
-        item(span = { GridItemSpan(2) }) {
+        item(span = { GridItemSpan(maxLineSpan) }) {
             CustomHorizontalCard(
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.now_playing),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
@@ -120,7 +124,7 @@ fun MoviesLayout(
         }
 
 
-        item(span = { GridItemSpan(2) }) {
+        item(span = { GridItemSpan(maxLineSpan) }) {
             CustomHorizontalCard(
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.upcoming),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
@@ -134,7 +138,7 @@ fun MoviesLayout(
             )
         }
 
-        item(span = { GridItemSpan(2) }) {
+        item(span = { GridItemSpan(maxLineSpan) }) {
             CustomTextTitle(
                 primaryText = stringResource(com.madrid.presentation.R.string.more_recommended),
                 secondaryText = stringResource(com.madrid.presentation.R.string.see_all),
@@ -145,21 +149,33 @@ fun MoviesLayout(
         }
 
         itemsIndexed(recommendedMovies.shuffled()) { index, media ->
-            var endPaddingValue = 0
-            var startPaddingValue = 0
-
-            if (index % 2 == 0)
-                startPaddingValue = 16
-            else
-                endPaddingValue = 16
             MovioVerticalCard(
                 description = media.title,
                 movieImage = media.imageUrl,
                 rate = media.rating.take(3),
                 heightForImage = 220.dp,
-                onClick = { navController.navigate(Destinations.MovieDetailsScreen(media.id.toInt()))},
-                modifier = Modifier.padding(start = startPaddingValue.dp, end = endPaddingValue.dp)
+                onClick = { navController.navigate(Destinations.MovieDetailsScreen(media.id.toInt())) },
+                modifier = Modifier.padding(start = 6.dp, end = 6.dp)
             )
         }
+    }
+}
+
+fun shareToApp(appPackage: String, url: String, context: Context) {
+
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TEXT, url)
+        setPackage(appPackage)
+    }
+
+    try {
+        context.startActivity(intent)
+    } catch (e: Exception) {
+        val fallback = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, url)
+        }
+        context.startActivity(Intent.createChooser(fallback, "Share via"))
     }
 }

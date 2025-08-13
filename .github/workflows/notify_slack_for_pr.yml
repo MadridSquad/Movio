@@ -1,0 +1,58 @@
+name: Notify Slack Channel for PRs to Develop
+
+on:
+  pull_request:
+    types: [ opened ]
+    branches:
+      - develop
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Slack Message to Channel
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
+        run: |
+          pr_title="${{ github.event.pull_request.title }}"
+          pr_url="${{ github.event.pull_request.html_url }}"
+          pr_user="${{ github.event.pull_request.user.login }}"
+
+          # Slack blocks message
+          blocks=$(jq -n \
+            --arg pr_title "$pr_title" \
+            --arg pr_url "$pr_url" \
+            --arg pr_user "$pr_user" \
+            '
+            [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": ":rotating_light: *New Pull Request to develop* :rotating_light:\n*<\($pr_url)|\($pr_title)>*\n*Author:* \($pr_user)"
+                }
+              },
+              {
+                "type": "divider"
+              },
+              {
+                "type": "context",
+                "elements": [
+                  {
+                    "type": "mrkdwn",
+                    "text": "🔥 Please review as soon as possible!"
+                  }
+                ]
+              }
+            ]
+            ')
+
+          echo "Sending message to Slack channel ID: $SLACK_CHANNEL_ID"
+          curl -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer $SLACK_BOT_TOKEN" \
+            -H "Content-type: application/json" \
+            --data "{
+              \"channel\": \"$SLACK_CHANNEL_ID\",
+              \"blocks\": $blocks
+            }"

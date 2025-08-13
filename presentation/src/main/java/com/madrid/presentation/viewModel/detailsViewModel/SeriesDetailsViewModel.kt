@@ -8,7 +8,7 @@ import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.Series
 import com.madrid.domain.usecase.authentication.LoginUseCase
 import com.madrid.domain.usecase.series.AddRatingSeriesUseCase
-import com.madrid.domain.usecase.series.AddSeriesToFavoriteUseCase
+import com.madrid.domain.usecase.series.SetSeriesFavoriteStatusUseCase
 import com.madrid.domain.usecase.series.AddSeriesToHistoryUseCase
 import com.madrid.domain.usecase.series.GetEpisodesForSeasonUseCase
 import com.madrid.domain.usecase.series.GetSeriesDetailsUseCase
@@ -41,7 +41,7 @@ class SeriesDetailsViewModel @Inject constructor(
     private val addRatingSeriesUseCase: AddRatingSeriesUseCase,
     private val isGuestUseCase: LoginUseCase,
     private val getSeriesTrailersUseCase: GetSeriesTrailersUseCase,
-    private val addSeriesToFavoriteUseCase: AddSeriesToFavoriteUseCase,
+    private val setSeriesFavoriteStatusUseCase: SetSeriesFavoriteStatusUseCase,
     private val isFavoriteSeriesUseCase: IsFavoriteSeriesUseCase
 ) : BaseViewModel<SeriesDetailsUiState, Nothing>(SeriesDetailsUiState()) {
     private val args = savedStateHandle.toRoute<Destinations.SeriesDetailsScreen>()
@@ -254,11 +254,10 @@ class SeriesDetailsViewModel @Inject constructor(
 
     fun onClickFavoriteIcon(seriesId: Int) {
         tryToExecute(
-            function = { addSeriesToFavoriteUseCase(seriesId) },
+            function = { setSeriesFavoriteStatusUseCase(seriesId, state.value.isFavourite.not()) },
             onSuccess = {
-                Log.d("onClickFavoriteIcon", "onClickFavoriteIcon: ${args.seriesId}")
                 updateState {
-                    it.copy(isFavourite = true)
+                    it.copy(isFavourite = state.value.isFavourite.not())
                 }
             },
             onError = {},
