@@ -78,6 +78,7 @@ fun SeasonsScreenContent(
                     yearOfPublish = season.productionDate.formatYearKtx(),
                     currentSeason = season.seasonNumber.toString(),
                     timeOfPublish = season.productionDate.formatFullDateKtx(),
+                    modifier = Modifier.padding(bottom = 6.dp)
                 )
             }
         }
