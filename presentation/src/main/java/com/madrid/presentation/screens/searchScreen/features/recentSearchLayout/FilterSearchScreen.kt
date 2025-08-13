@@ -46,7 +46,7 @@ fun LazyGridScope.filterSearchScreen(
     ) {
         HeaderSectionBar(
             tabs = listOf(
-                stringResource(R.string.top_result),
+                stringResource(R.string.top_results),
                 stringResource(R.string.Movies),
                 stringResource(R.string.Series),
                 stringResource(R.string.Artists),
