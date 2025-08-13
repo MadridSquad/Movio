@@ -8,7 +8,7 @@ data class ReviewsScreenUiState(
 
 data class ReviewUiState(
     val reviewerName: String,
-    val reviewerImageUrl: String?= R.drawable.place_holder.toString(),
+    val reviewerImageUrl: String?,
     val rating: Float,
     val date: String,
     val content: String

@@ -1,13 +1,16 @@
+// Updated ReviewCard.kt
 package com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -40,12 +43,8 @@ fun ReviewCard(
     rating: Float,
     date: String,
     content: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    var isExpanded by remember { mutableStateOf(false) }
-    val maxLines = if (isExpanded) Int.MAX_VALUE else 4
-    val showReadMore = remember(content) { content.length > 100 }
-
     Column(
         modifier = modifier
             .width(258.dp)
@@ -61,18 +60,32 @@ fun ReviewCard(
             )
             .padding(12.dp)
     ) {
-        // Header with user info and rating
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            FilteredImage(
-                imageUrl = reviewerImageUrl.takeIf { it?.isNotBlank() == true },
-                contentDescription = "$reviewerName profile picture",
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(32.dp)
-            )
+            if (reviewerImageUrl?.isNotBlank() == true) {
+                FilteredImage(
+                    imageUrl = reviewerImageUrl,
+                    contentDescription = "$reviewerName profile picture",
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .size(32.dp)
+                )
+            } else {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    MovioIcon(
+                        painter = painterResource(id = com.madrid.presentation.R.drawable.ic_no_user),
+                        contentDescription = "Default profile picture",
+                    )
+                }
+            }
+
             Spacer(modifier = Modifier.width(8.dp))
             Column(
                 modifier = Modifier.weight(1f),
@@ -114,14 +127,14 @@ fun ReviewCard(
         Spacer(modifier = Modifier.height(12.dp))
 
         Column {
-            MovioText(
-                text = content,
-                color = Theme.color.surfaces.onSurfaceVariant,
-                textStyle = Theme.textStyle.label.smallRegular12,
-                maxLines = maxLines,
-                overflow = if (!isExpanded) TextOverflow.Ellipsis else TextOverflow.Visible,
-                modifier = Modifier.fillMaxWidth()
-            )
+                MovioText(
+                    text = content,
+                    color = Theme.color.surfaces.onSurfaceVariant,
+                    textStyle = Theme.textStyle.label.smallRegular12,
+                    modifier = Modifier
+                        .padding(top = 4.dp)
+                )
+
         }
     }
 }
@@ -140,12 +153,12 @@ private fun ReviewCardPreview() {
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-private fun ReviewCardLongNamePreview() {
+private fun ReviewCardNoImagePreview() {
     ReviewCard(
-        reviewerName = "Very Long Username That Might Overflow",
+        reviewerName = "Anonymous User",
         reviewerImageUrl = "",
         rating = 2.3f,
         date = "June 14, 2025",
-        content = "Short review."
+        content = "Short review without profile image.",
     )
 }
