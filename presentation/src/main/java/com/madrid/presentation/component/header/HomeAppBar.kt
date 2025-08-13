@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
@@ -40,7 +41,7 @@ fun HomeAppBar(
         )
         Spacer(Modifier.width(8.dp))
         MovioText(
-            text = "Movio",
+            text = stringResource(com.madrid.presentation.R.string.movio),
             textStyle = Theme.textStyle.headline.largeBold18,
             brush = Brush.verticalGradient(
                 colors = listOf(Color(0xFFEBE6FE), Color(0xFF7C5DF6))
