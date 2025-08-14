@@ -64,7 +64,9 @@ fun ViewAllScreen(
         viewModel.effect.collect { effect ->
             when (effect) {
                 is ViewAllEffect.NavigateBack -> {
-                    navController.navigateUp()
+                    navController.navigate(
+                        Destinations.LibraryScreen
+                    )
                 }
 
                 is ViewAllEffect.NavigateToDetails -> {
@@ -142,12 +144,15 @@ fun ViewAllScreenContent(
         ) {
             ShowItemsColumn(
                 items = state.items,
-                showSnackBar = state.showSnackBar,
-                snackBarMessage = state.snackBarMessage,
                 interactionListener = interactionListener
             )
         }
     }
+    UndoSnackBar(
+        showSnackBar = state.showSnackBar,
+        snackBarMessage = state.snackBarMessage,
+        interactionListener = interactionListener
+    )
 }
 
 @Composable
@@ -166,7 +171,7 @@ private fun LoadingContent() {
                 horizontal = 16.dp
             )
         ) {
-            items(12) { index ->
+            items(5) { index ->
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -210,8 +215,6 @@ private fun EmptyListContent(title: String, description: String) {
 @Composable
 private fun ShowItemsColumn(
     items: List<MediaUiState>,
-    showSnackBar: Boolean,
-    snackBarMessage: Int,
     interactionListener: ViewAllInteractionListener
 ) {
     LazyColumn(
@@ -245,6 +248,14 @@ private fun ShowItemsColumn(
             )
         }
     }
+}
+
+@Composable
+private fun UndoSnackBar(
+    showSnackBar: Boolean,
+    snackBarMessage: Int,
+    interactionListener: ViewAllInteractionListener
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -252,11 +263,13 @@ private fun ShowItemsColumn(
         SuccessNotificationRow(
             isVisible = showSnackBar,
             message = stringResource(snackBarMessage),
+            actionText = "Undo",
             icon = painterResource(id = R.drawable.archive_tick),
             onDismiss = interactionListener::onDismissSnackBar,
+            onAction = interactionListener::onUndoDeleteClicked,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(horizontal = 16.dp, vertical = 24.dp)
+                .padding(horizontal = 16.dp, vertical = 32.dp)
         )
     }
 }
