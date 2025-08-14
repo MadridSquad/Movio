@@ -39,9 +39,10 @@ fun MovioPager(
     medias: List<MediaUiState>,
     modifier: Modifier = Modifier,
     onClickItem: (Int) -> Unit = {},
+    isLoading: Boolean = true,
     onClickMediaButton: (Int) -> Unit = {},
-    ) {
-    if(medias.isNotEmpty()){
+) {
+    if (medias.isNotEmpty()) {
         val pagerState = rememberPagerState(
             initialPage = medias.size / 2,
             pageCount = { medias.size }
@@ -67,6 +68,7 @@ fun MovioPager(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
                 HorizontalPager(
                     modifier = Modifier.fillMaxWidth(),
                     pageSpacing = (-240).dp,
@@ -80,7 +82,11 @@ fun MovioPager(
 
                     val scale = lerp(0.7f, 1f, 1f - absOffset.coerceIn(0f, 1f))
                     val rotation =
-                        lerp(20f, 0f, 1f - absOffset.coerceIn(0f, 1f)) * if (pageOffset < 0) 1f else -1f
+                        lerp(
+                            20f,
+                            0f,
+                            1f - absOffset.coerceIn(0f, 1f)
+                        ) * if (pageOffset < 0) 1f else -1f
                     val alphaa = lerp(0.4f, 1f, 1f - absOffset.coerceIn(0f, 1f))
                     val zIndex = if (page == pagerState.currentPage) {
                         medias.size.toFloat()
@@ -141,8 +147,6 @@ fun MovioPager(
             }
         }
     }
-
-
 }
 
 @Preview(showBackground = true, showSystemUi = true)

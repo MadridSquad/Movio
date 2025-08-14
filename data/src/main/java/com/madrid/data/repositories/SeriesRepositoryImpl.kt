@@ -120,6 +120,15 @@ class SeriesRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun getEpisodeTrailers(
+        seriesId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int
+    ): List<Trailer> {
+        return remoteDataSource.getEpisodeTrailers(episodeNumber, seasonNumber, seriesId)
+            .map { it.toTrailer() }
+    }
+
     override suspend fun getSeriesByGenres(): Map<String, List<Series>> {
         val genresWithSeries = localDataSource.getSeriesByGenres()
         return genresWithSeries.associate { genreWithSeries ->
@@ -137,6 +146,10 @@ class SeriesRepositoryImpl @Inject constructor(
 
     override suspend fun addSeriesToHistory(seriesId: Int) {
         localDataSource.addSeriesToHistory(seriesId = seriesId)
+    }
+
+    override suspend fun deleteSeriesFromHistory(seriesId: Int){
+        localDataSource.deleteSeriesFromHistory(seriesId = seriesId)
     }
 
     override suspend fun getAllSeriesInHistory(): List<Series> {

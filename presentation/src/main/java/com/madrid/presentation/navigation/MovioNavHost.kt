@@ -22,7 +22,7 @@ import com.madrid.presentation.screens.homeScreen.SeeAllMoviesScreen
 import com.madrid.presentation.screens.homeScreen.SeeAllTVShowsScreen
 import com.madrid.presentation.screens.libraryScreen.LibraryScreen
 import com.madrid.presentation.screens.libraryScreen.ViewAllScreen
-import com.madrid.presentation.screens.libraryScreen.layout.WatchListDetailsScreen
+import com.madrid.presentation.screens.libraryScreen.watchList.WatchListDetailsScreen
 import com.madrid.presentation.screens.loginScreen.AuthenticationScreen
 import com.madrid.presentation.screens.loginScreen.component.ForgotPassword
 import com.madrid.presentation.screens.loginScreen.component.WebViewScreen

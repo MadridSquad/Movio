@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -29,6 +30,8 @@ fun MovieLoginContent(
     onSignUpClick: () -> Unit,
     onGuestLogin: () -> Unit,
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -58,7 +61,10 @@ fun MovieLoginContent(
 
             AnimatedLoginButton(
                 isLoading = state.isLoading,
-                onClick = onLoginClick,
+                onClick = {
+                    keyboardController?.hide()
+                    onLoginClick()
+                },
                 text = stringResource(R.string.login),
                 modifier = Modifier.padding(bottom = 40.dp)
             )

@@ -74,7 +74,7 @@ fun CustomHorizontalCard(
     secondaryTextForCustomTextTitle: String? = null,
     endIconForCustomTextTitle: Painter? = null,
     onSeeAllClick: (() -> Unit)? = null,
-    onMediaClickWithId : (id: String) -> Unit = {},
+    onMediaClickWithId: (id: String) -> Unit = {},
 ) {
     Column(modifier = modifier) {
         CustomTextTitle(
@@ -150,7 +150,7 @@ fun CustomHorizontalCardPreview() {
             endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
             listOfMedia = fakeMediaList,
             onSeeAllClick = {},
-            onMediaClickWithId = { id:String -> }
+            onMediaClickWithId = { id: String -> }
         )
     }
 }
