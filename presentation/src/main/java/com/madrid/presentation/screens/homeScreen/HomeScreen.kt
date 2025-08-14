@@ -202,17 +202,19 @@ private fun LayoutContent(
 }
 
 private fun openYoutubeMediaTrailer(key: String, context: Context) {
-    val youtubeAppIntent =
-        Intent(Intent.ACTION_VIEW, "vnd.youtube:$key".toUri())
-    val youtubeWebIntent = Intent(
-        Intent.ACTION_VIEW,
-        "https://www.youtube.com/watch?v=$key".toUri()
-    )
+    if(key.isNotBlank()){
+        val youtubeAppIntent =
+            Intent(Intent.ACTION_VIEW, "vnd.youtube:$key".toUri())
+        val youtubeWebIntent = Intent(
+            Intent.ACTION_VIEW,
+            "https://www.youtube.com/watch?v=$key".toUri()
+        )
 
-    try {
-        context.startActivity(youtubeAppIntent)
-    } catch (e: ActivityNotFoundException) {
-        context.startActivity(youtubeWebIntent)
+        try {
+            context.startActivity(youtubeAppIntent)
+        } catch (e: ActivityNotFoundException) {
+            context.startActivity(youtubeWebIntent)
+        }
     }
 }
 
