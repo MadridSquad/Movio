@@ -68,10 +68,9 @@ fun ActorDetails(
                 contentAlignment = Alignment.Center
             ) {
                 EmptySearchLayout(
-                    title = stringResource(R.string.empty_no_results_title),
-                    description =
-                        stringResource(R.string.no_results_found),
-                    image = R.drawable.img_no_sesrch_found
+                    title = stringResource(R.string.internet_is_not_available),
+                    stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
+                    image = R.drawable.img_no_internet
                 )
             }
         }

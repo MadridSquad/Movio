@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -72,25 +70,18 @@ fun TopCastDetailsContent(
             onFirstIconClick = { onBackClick() }
         )
         LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
+            columns = GridCells.Adaptive(101.dp),
             modifier = Modifier
                 .fillMaxSize()
-                .background(Theme.color.surfaces.surface)
-                .statusBarsPadding(),
+                .background(Theme.color.surfaces.surface),
             contentPadding = PaddingValues(
+                top = 16.dp,
                 start = 16.dp,
-                end = 16.dp,
-                top = 0.dp,
-                bottom = 16.dp
+                end = 16.dp
             ),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            item(
-                span = { GridItemSpan(maxLineSpan) }
-            ) {
-
-            }
             items(artist.size) { index ->
                 MovioArtistsCard(
                     modifier = Modifier.size(width = 101.dp, height = 111.dp),
