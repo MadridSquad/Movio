@@ -28,10 +28,6 @@ fun SeeAllSimilarMediaScreen(
 ) {
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current
-
-    // Log the count of similar media
-    Log.d("SimilarMediaDebug", "Total similar media items: ${uiState.medias.size}")
-
     val similarMovies = uiState.medias.map { media ->
         // Log each media's details including rating
         Log.d("SimilarMediaDebug",
