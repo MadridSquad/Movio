@@ -25,6 +25,9 @@ interface SeriesDao {
     @Upsert
     suspend fun insertHistorySeries(series: MediaHistoryTable)
 
+    @Query("DELETE FROM MEDIA_HISTORY_TABLE WHERE mediaType = 'Series' AND mediaId = :seriesId")
+    suspend fun deleteSeriesFromHistory(seriesId: Int)
+
     @Query("SELECT * FROM MEDIA_HISTORY_TABLE WHERE mediaType = 'Series' ORDER BY addedAt DESC")
     suspend fun getALLSeriesInHistory(): List<MediaHistoryTable>
 
@@ -48,13 +51,15 @@ interface SeriesDao {
     suspend fun insertSeriesGenreCrossRef(crossRef: SeriesGenreCrossRef)
 
     @Transaction
-    @Query("""
+    @Query(
+        """
     SELECT DISTINCT SERIES_TABLE.* FROM SERIES_TABLE
     INNER JOIN SeriesGenreCrossRef ON SERIES_TABLE.seriesId = SeriesGenreCrossRef.seriesId
     INNER JOIN SERIES_GENRE_TABLE ON SeriesGenreCrossRef.genreId = SERIES_GENRE_TABLE.genreId
     WHERE SERIES_TABLE.title LIKE :title
     LIMIT $PAGE_SIZE OFFSET :offset 
-    """)
+    """
+    )
     suspend fun searchSeries(title: String, offset: Int): List<SeriesWithGenres>
 
 }
