@@ -136,66 +136,101 @@ private fun LayoutContent(
     onMediaSelected: (Int, MediaType) -> Unit = { _, _ -> },
 ) {
     when (uiState.selectedTabIndex) {
-        0 -> {
-            MoviesLayout(
-                trendingMovies = uiState.movieTabUiState.trending.media,
-                topRatingMovies = uiState.movieTabUiState.topRated.media,
-                nowPlayingMovies = uiState.movieTabUiState.nowPlaying.media,
-                upComingMovies = uiState.movieTabUiState.upcoming.media,
-                recommendedMovies = uiState.movieTabUiState.moreRecommended.media,
-                onScroll = onScroll,
-                onClickMediaButton = { mediaIndex ->
-                    onClickMediaButton(
-                        MediaType.MOVIE,
-                        mediaIndex
-                    )
-                },
-                isLoading = uiState.isLoading,
-                isSliderLoading = uiState.movieTabUiState.trending.isLoading,
-                isTopRatedLoading = uiState.movieTabUiState.topRated.isLoading,
-                isNowPlayingLoading = uiState.movieTabUiState.nowPlaying.isLoading,
-                isUpComingLoading = uiState.movieTabUiState.upcoming.isLoading,
-                isRecommendedLoading = uiState.movieTabUiState.moreRecommended.isLoading,
-            )
-        }
+        0 -> LoadMoviesLayout(
+            uiState = uiState,
+            onScroll = onScroll,
+            onClickMediaButton = onClickMediaButton
+        )
 
-        1 -> {
-            TvShowsLayout(
-                trendingSeries = uiState.tvShowTabUiState.trending.media,
-                topRatingSeries = uiState.tvShowTabUiState.topRated.media,
-                airingTodaySeries = uiState.tvShowTabUiState.airingToday.media,
-                onAirSeries = uiState.tvShowTabUiState.onTv.media,
-                recommendedSeries = uiState.tvShowTabUiState.moreRecommended.media,
-                onScroll = onScroll,
-                onClickMediaButton = { mediaIndex ->
-                    onClickMediaButton(
-                        MediaType.TV_SHOW,
-                        mediaIndex
-                    )
-                },
-                isLoading = uiState.isLoading,
-                isTrendingSeriesLoading = uiState.tvShowTabUiState.trending.isLoading,
-                isTopRatedSeriesLoading = uiState.tvShowTabUiState.topRated.isLoading,
-                isOnAirSeriesLoading = uiState.tvShowTabUiState.onTv.isLoading,
-                isAiringTodaySeriesLoading = uiState.tvShowTabUiState.airingToday.isLoading,
-                isRecommendedSeriesLoading = uiState.tvShowTabUiState.moreRecommended.isLoading
-            )
-        }
+        1 -> LoadSeriesLayout(
+            uiState = uiState,
+            onScroll = onScroll,
+            onClickMediaButton = onClickMediaButton
+        )
 
-        2 -> {
-            CategoriesLayout(
-                categories = uiState.categoryTabUiState.categories,
-                selectedCategory = uiState.categoryTabUiState.selectedCategory,
-                onCategorySelected = { category -> onSelectCategory(category) },
-                mediaItems = uiState.categoryTabUiState.media.collectAsLazyPagingItems(),
-                sortingType = uiState.categoryTabUiState.sortingType,
-                onSortingTypeSelected = { sortingType ->
-                    onSelectSortingType(sortingType)
-                },
-                onMediaItemClicked = onMediaSelected,
-            )
-        }
+        2 -> LoadCategoriesLayout(
+            uiState = uiState,
+            onSelectCategory = onSelectCategory,
+            onSelectSortingType = onSelectSortingType,
+            onMediaSelected = onMediaSelected
+        )
     }
+}
+
+@Composable
+private fun LoadMoviesLayout(
+    uiState: HomeScreenState,
+    onScroll: (Boolean) -> Unit = {},
+    onClickMediaButton: (MediaType, Int) -> Unit = { _, _ -> },
+) {
+    MoviesLayout(
+        trendingMovies = uiState.movieTabUiState.trending.media,
+        topRatingMovies = uiState.movieTabUiState.topRated.media,
+        nowPlayingMovies = uiState.movieTabUiState.nowPlaying.media,
+        upComingMovies = uiState.movieTabUiState.upcoming.media,
+        recommendedMovies = uiState.movieTabUiState.moreRecommended.media,
+        onScroll = onScroll,
+        onClickMediaButton = { mediaIndex ->
+            onClickMediaButton(
+                MediaType.MOVIE,
+                mediaIndex
+            )
+        },
+        isLoading = uiState.isLoading,
+        isSliderLoading = uiState.movieTabUiState.trending.isLoading,
+        isTopRatedLoading = uiState.movieTabUiState.topRated.isLoading,
+        isNowPlayingLoading = uiState.movieTabUiState.nowPlaying.isLoading,
+        isUpComingLoading = uiState.movieTabUiState.upcoming.isLoading,
+        isRecommendedLoading = uiState.movieTabUiState.moreRecommended.isLoading,
+    )
+}
+
+@Composable
+fun LoadSeriesLayout(
+    uiState: HomeScreenState,
+    onScroll: (Boolean) -> Unit = {},
+    onClickMediaButton: (MediaType, Int) -> Unit = { _, _ -> },
+) {
+    TvShowsLayout(
+        trendingSeries = uiState.tvShowTabUiState.trending.media,
+        topRatingSeries = uiState.tvShowTabUiState.topRated.media,
+        airingTodaySeries = uiState.tvShowTabUiState.airingToday.media,
+        onAirSeries = uiState.tvShowTabUiState.onTv.media,
+        recommendedSeries = uiState.tvShowTabUiState.moreRecommended.media,
+        onScroll = onScroll,
+        onClickMediaButton = { mediaIndex ->
+            onClickMediaButton(
+                MediaType.TV_SHOW,
+                mediaIndex
+            )
+        },
+        isLoading = uiState.isLoading,
+        isTrendingSeriesLoading = uiState.tvShowTabUiState.trending.isLoading,
+        isTopRatedSeriesLoading = uiState.tvShowTabUiState.topRated.isLoading,
+        isOnAirSeriesLoading = uiState.tvShowTabUiState.onTv.isLoading,
+        isAiringTodaySeriesLoading = uiState.tvShowTabUiState.airingToday.isLoading,
+        isRecommendedSeriesLoading = uiState.tvShowTabUiState.moreRecommended.isLoading
+    )
+}
+
+@Composable
+private fun LoadCategoriesLayout(
+    uiState: HomeScreenState,
+    onSelectCategory: (CategoryUiState) -> Unit = {},
+    onSelectSortingType: (SortingType) -> Unit = {},
+    onMediaSelected: (Int, MediaType) -> Unit = { _, _ -> },
+){
+    CategoriesLayout(
+        categories = uiState.categoryTabUiState.categories,
+        selectedCategory = uiState.categoryTabUiState.selectedCategory,
+        onCategorySelected = { category -> onSelectCategory(category) },
+        mediaItems = uiState.categoryTabUiState.media.collectAsLazyPagingItems(),
+        sortingType = uiState.categoryTabUiState.sortingType,
+        onSortingTypeSelected = { sortingType ->
+            onSelectSortingType(sortingType)
+        },
+        onMediaItemClicked = onMediaSelected,
+    )
 }
 
 private fun openYoutubeMediaTrailer(key: String, context: Context) {
