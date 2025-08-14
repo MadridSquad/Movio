@@ -19,10 +19,11 @@ import com.madrid.designSystem.theme.Theme
 
 @Composable
 fun BottomRowForVideoLibrary(
-    videosNumber: Number
+    videosNumber: Number,
+    modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(color = Theme.color.surfaces.surfaceVariant)
             .padding(horizontal = 8.dp, vertical = 6.dp),

@@ -8,18 +8,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -28,12 +24,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.madrid.designSystem.component.DialogWithButtonLayout
 import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.TopAppBar
-import com.madrid.designSystem.component.shimmerEffect
 import com.madrid.presentation.R
 import com.madrid.presentation.component.SwipeToDeleteCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.addtolist.SuccessNotificationRow
+import com.madrid.presentation.screens.libraryScreen.component.LoadingContent
 import com.madrid.presentation.viewModel.libraryViewModel.layout.WatchListDetailsEffect
 import com.madrid.presentation.viewModel.libraryViewModel.layout.WatchListDetailsInteractionListener
 import com.madrid.presentation.viewModel.libraryViewModel.layout.WatchListDetailsState
@@ -115,7 +111,7 @@ private fun WatchListDetailsScreenContent(
                 image = R.drawable.empty_list,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = 16.dp, vertical = 16.dp,),
                 imageSize = 180,
             )
         }
@@ -153,7 +149,7 @@ private fun WatchListDetailsScreenContent(
     ) {
         SuccessNotificationRow(
             isVisible = state.isSnackBarVisible,
-            message = stringResource(R.string.item_has_been_deleted),
+            message = stringResource(R.string.Item_has_been_deleted),
             actionText = stringResource(R.string.undo),
             onAction = { interaction.onClickUndoAction() },
             onDismiss = interaction::onDismissSnackBar,
@@ -162,35 +158,5 @@ private fun WatchListDetailsScreenContent(
                 .align(Alignment.BottomCenter)
                 .padding(horizontal = 16.dp, vertical = 32.dp)
         )
-    }
-}
-
-@Composable
-private fun LoadingContent() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 64.dp),
-        contentAlignment = Alignment.Center
-    ) {
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(
-                vertical = 16.dp,
-                horizontal = 16.dp
-            )
-        ) {
-            items(5) { index ->
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(100.dp)
-                        .clip(shape = RoundedCornerShape(8.dp))
-                        .shimmerEffect(),
-                )
-            }
-        }
     }
 }

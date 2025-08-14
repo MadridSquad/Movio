@@ -119,7 +119,6 @@ fun PreviewSuccessNotificationRow() {
             message = "Item has been deleted",
             actionText = "Undo",
             onAction = { /* Handle undo action */ },
-
-            )
+        )
     }
 }
