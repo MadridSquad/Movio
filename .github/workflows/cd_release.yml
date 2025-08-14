@@ -4,7 +4,11 @@ on:
   push:
     branches:
       - develop
-
+      - main
+      - refactor/cd-signed-apk
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -50,7 +54,26 @@ jobs:
           echo "API_KEY = \"$API_KEY\"" > secret.properties
           echo "BASE_URL = \"$BASE_URL\"" >> secret.properties
 
-      - name: Build Release APK
+      - name: Create Android Keystore file
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          echo "$KEYSTORE_BASE64" | base64 --decode > keystore.jks
+          echo "Created keystore file"
+
+      - name: Create key.properties file
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          echo "storeFile=../keystore.jks" > key.properties
+          echo "storePassword=$KEYSTORE_PASSWORD" >> key.properties
+          echo "keyAlias=$KEY_ALIAS" >> key.properties
+          echo "keyPassword=$KEY_PASSWORD" >> key.properties
+          echo "Created key.properties file"
+
+      - name: Build Signed Release APK
         run: ./gradlew assembleRelease --build-cache -x test -x lint
 
       - name: Ensure APK is generated
