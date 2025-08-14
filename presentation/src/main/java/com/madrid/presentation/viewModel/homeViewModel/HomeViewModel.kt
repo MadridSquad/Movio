@@ -51,10 +51,8 @@ class HomeViewModel @Inject constructor(
     HomeScreenState()
 ), HomeInteractionListener {
     init {
-//        loadGenres()
         loadFileImage()
         loadMoviesLayoutData()
-//        loadSeriesLayoutData()
     }
 
     private fun loadFileImage() {
@@ -136,18 +134,9 @@ class HomeViewModel @Inject constructor(
     override fun onSelectTab(index: Int) {
         updateState { it.copy(selectedTabIndex = index) }
         when(index){
-            0 -> {
-                Log.d("TAG loaderrrr", "onSelectTab: movies loading . . .")
-                loadMoviesLayoutData()
-            }
-            1 -> {
-                Log.d("TAG loaderrrr", "onSelectTab: series loading . . . ")
-                loadSeriesLayoutData()
-            }
-            2 -> {
-                Log.d("TAG loaderrrr", "onSelectTab: categories loading . . .")
-                loadGenres()
-            }
+            0 -> loadMoviesLayoutData()
+            1 -> loadSeriesLayoutData()
+            2 -> loadGenres()
         }
     }
 

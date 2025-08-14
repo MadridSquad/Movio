@@ -78,7 +78,6 @@ fun HomeScreenContent(
     state: HomeScreenState,
     interactionListener: HomeInteractionListener
 ) {
-//    var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
     var isScrolledDown by remember { mutableStateOf(false) }
     val backgroundColor by animateColorAsState(
         if (isScrolledDown) Theme.color.surfaces.surface else Color.Transparent,
