@@ -22,6 +22,7 @@ import com.madrid.presentation.screens.homeScreen.SeeAllMoviesScreen
 import com.madrid.presentation.screens.homeScreen.SeeAllTVShowsScreen
 import com.madrid.presentation.screens.libraryScreen.LibraryScreen
 import com.madrid.presentation.screens.libraryScreen.ViewAllScreen
+import com.madrid.presentation.screens.libraryScreen.WatchlistViewAllScreen
 import com.madrid.presentation.screens.libraryScreen.watchList.WatchListDetailsScreen
 import com.madrid.presentation.screens.loginScreen.AuthenticationScreen
 import com.madrid.presentation.screens.loginScreen.component.ForgotPassword
@@ -106,6 +107,9 @@ fun MovioNavHost(
         }
         composable<Destinations.LibraryScreen> {
             LibraryScreen()
+        }
+        composable<Destinations.WatchListViewAllScreen>{
+            WatchlistViewAllScreen()
         }
         composable<Destinations.MoreScreen> {
             MoreScreen()
