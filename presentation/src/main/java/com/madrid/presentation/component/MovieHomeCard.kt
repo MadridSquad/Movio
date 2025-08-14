@@ -46,7 +46,7 @@ fun MovieHomeCard(
             ),
     ) {
         FilteredImage(
-            imageUrl = movieId, // Replace with actual image loading
+            imageUrl = movieId,
             contentDescription = name,
             contentScale = ContentScale.Crop,
             modifier = Modifier
