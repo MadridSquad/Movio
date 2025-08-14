@@ -31,6 +31,7 @@ interface MovieRepository {
     suspend fun addRatingMovie(movieId: Int, rate: Double)
     suspend fun clearHomeMoviesCache()
     suspend fun addMovieToHistory(movieId: Int)
+    suspend fun deleteMovieFromHistory(movieId: Int)
     suspend fun getAllMoviesInHistory(): List<Movie>
     suspend fun getFavoriteMovies(sessionId: String): List<Movie>
 

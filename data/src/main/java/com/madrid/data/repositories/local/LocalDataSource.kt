@@ -55,7 +55,9 @@ interface LocalDataSource {
 
     suspend fun clearHomeMoviesCache()
     suspend fun addMovieToHistory(movieId: Int)
+    suspend fun deleteMovieFromHistory(movieId: Int)
     suspend fun addSeriesToHistory(seriesId: Int)
+    suspend fun deleteSeriesFromHistory(seriesId: Int)
     suspend fun getAllMoviesInHistory(): List<MediaHistoryTable>
     suspend fun getAllSeriesInHistory(): List<MediaHistoryTable>
 }

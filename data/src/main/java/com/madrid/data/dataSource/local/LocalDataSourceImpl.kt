@@ -170,6 +170,10 @@ class LocalDataSourceImpl @Inject constructor(
         )
     }
 
+    override suspend fun deleteMovieFromHistory(movieId: Int){
+        movieDao.deleteMovieFromHistory(movieId)
+    }
+
     override suspend fun addSeriesToHistory(seriesId: Int) {
         seriesDao.insertHistorySeries(
             MediaHistoryTable(
@@ -178,6 +182,10 @@ class LocalDataSourceImpl @Inject constructor(
                 addedAt = System.currentTimeMillis()
             )
         )
+    }
+
+    override suspend fun deleteSeriesFromHistory(seriesId: Int){
+        seriesDao.deleteSeriesFromHistory(seriesId = seriesId)
     }
 
     override suspend fun getAllMoviesInHistory() = movieDao.getALLMoviesInHistory()

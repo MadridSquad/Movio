@@ -139,6 +139,10 @@ class SeriesRepositoryImpl @Inject constructor(
         localDataSource.addSeriesToHistory(seriesId = seriesId)
     }
 
+    override suspend fun deleteSeriesFromHistory(seriesId: Int){
+        localDataSource.deleteSeriesFromHistory(seriesId = seriesId)
+    }
+
     override suspend fun getAllSeriesInHistory(): List<Series> {
         val seriesIds = localDataSource.getAllSeriesInHistory().map { it.mediaId }
         return seriesIds.map { getSeriesDetailsById(it) }
