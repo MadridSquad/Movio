@@ -6,39 +6,69 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.domain.entity.WatchList
 
 @Composable
 fun ListSelectionContent(
-    initialUserLists: List<WatchList> = generateFakeWatchLists(), // Default to fake data
+    initialUserLists: List<WatchList> = emptyList(),
     isLoading: Boolean = false,
-    onCreateNewListClick: () -> Unit = {}, // Default empty callback
+    onCreateNewListClick: () -> Unit = {},
     onSelectionChanged: ((WatchList, Boolean) -> Unit)? = null
 ) {
+    var listsWithLocalState by remember { mutableStateOf(initialUserLists) }
+
+    LaunchedEffect(initialUserLists) {
+        listsWithLocalState = initialUserLists.map { newList ->
+            val existingList = listsWithLocalState.find { it.id == newList.id }
+            if (existingList?.isLoading == true && !newList.isLoading) {
+                newList
+            } else {
+                newList
+            }
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
     ) {
-        // Create New List Item
         CreateNewListItem(
+            isLoading = isLoading,
             onListCreated = onCreateNewListClick,
         )
 
-        if (initialUserLists.isNotEmpty()) {
+        if (listsWithLocalState.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                items(initialUserLists) { userList ->
+                items(
+                    items = listsWithLocalState,
+                    key = { it.id }
+                ) { userList ->
                     UserListItem(
                         userList = userList,
+                        isGlobalLoading = isLoading,
                         onToggleSelection = { toggledList ->
-                            if (!isLoading && !toggledList.isLoading) {
-                                onSelectionChanged?.invoke(toggledList, true)
+                            listsWithLocalState = listsWithLocalState.map { list ->
+                                if (list.id == toggledList.id) {
+                                    list.copy(
+                                        isLoading = true,
+                                        isSelected = !list.isSelected
+                                    )
+                                } else {
+                                    list
+                                }
                             }
+                            val isNowSelected = !toggledList.isSelected
+                            onSelectionChanged?.invoke(toggledList, isNowSelected)
                         }
                     )
                 }
@@ -47,45 +77,81 @@ fun ListSelectionContent(
     }
 }
 
-// Helper function to generate fake watch lists
-private fun generateFakeWatchLists(): List<WatchList> {
-    return listOf(
-        WatchList(
-            id = "1".toInt(),
-            name = "Favorites",
-            itemCount = 12,
-            isLoading = false
-        ),
-        WatchList(
-            id = "2".toInt(),
-            name = "Watch Later",
-            itemCount = 5,
-            isLoading = false
-        ),
-        WatchList(
-            id = "3".toInt(),
-            name = "Recommended",
-            itemCount = 8,
-            isLoading = false
-        ),
-        WatchList(
-            id = "4".toInt(),
-            name = "TV Shows",
-            itemCount = 15,
-            isLoading = false
-        ),
-        WatchList(
-            id = "5".toInt(),
-            name = "Movies",
-            itemCount = 23,
-            isLoading = false
+@Composable
+fun ListSelectionContentSimple(
+    initialUserLists: List<WatchList> = emptyList(),
+    isLoading: Boolean = false,
+    onCreateNewListClick: () -> Unit = {},
+    onSelectionChanged: ((WatchList, Boolean) -> Unit)? = null
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+    ) {
+        CreateNewListItem(
+            isLoading = isLoading,
+            onListCreated = onCreateNewListClick,
         )
-    )
+
+        if (initialUserLists.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                items(
+                    items = initialUserLists,
+                    key = { it.id }
+                ) { userList ->
+                    UserListItem(
+                        userList = userList,
+                        isGlobalLoading = isLoading,
+                        onToggleSelection = { toggledList ->
+                            val isNowSelected = !toggledList.isSelected
+                            onSelectionChanged?.invoke(toggledList, isNowSelected)
+                        }
+                    )
+                }
+            }
+        }
+    }
 }
 
-// Preview for Jetpack Compose (if you're using it)
-@Preview(showBackground = true)
 @Composable
-fun ListSelectionContentPreview() {
-    ListSelectionContent()
+fun ListSelectionContentForBottomSheet(
+    userLists: List<WatchList> = emptyList(),
+    isLoadingLists: Boolean = false,
+    onCreateNewListClick: () -> Unit = {},
+    onAddToListClick: (WatchList) -> Unit = {}
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+    ) {
+        CreateNewListItem(
+            isLoading = isLoadingLists,
+            onListCreated = onCreateNewListClick,
+        )
+
+        if (userLists.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                items(
+                    items = userLists,
+                    key = { it.id }
+                ) { userList ->
+                    UserListItem(
+                        userList = userList,
+                        isGlobalLoading = isLoadingLists,
+                        onToggleSelection = { toggledList ->
+                            if (!toggledList.isSelected) {
+                                onAddToListClick(toggledList)
+                            }
+                        }
+                    )
+                }
+            }
+        }
+    }
 }

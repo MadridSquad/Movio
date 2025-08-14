@@ -29,6 +29,7 @@ enum class ListBottomSheetMode {
     CREATE_NEW_LIST
 }
 
+// Updated ListManagementBottomSheet with proper integration
 @Composable
 fun ListManagementBottomSheet(
     isVisible: Boolean,
@@ -49,7 +50,6 @@ fun ListManagementBottomSheet(
         if (isVisible) {
             currentMode = ListBottomSheetMode.LIST_SELECTION
             bottomSheetVisible = true
-            // THIS IS THE KEY FIX - Actually load the lists!
             viewModel.loadUserLists()
         } else {
             bottomSheetVisible = false
@@ -78,18 +78,14 @@ fun ListManagementBottomSheet(
         }
     }
 
-    // Handle error messages
     LaunchedEffect(uiState.errorMessage) {
         if (uiState.errorMessage != null) {
-            // Show error message (you might want to show a toast or error dialog)
-            // For now, we'll just clear it after showing
             delay(3000)
             viewModel.clearError()
         }
     }
 
     Box(modifier = modifier.fillMaxSize()) {
-        // Bottom Sheet
         MovioBottomSheet(
             show = bottomSheetVisible,
             onDismiss = {
@@ -110,9 +106,10 @@ fun ListManagementBottomSheet(
             ) { mode ->
                 when (mode) {
                     ListBottomSheetMode.LIST_SELECTION -> {
+                        // FIXED VERSION - Use the corrected component
                         ListSelectionContent(
-                            initialUserLists = uiState.userLists, // Use lists from ViewModel state
-                            isLoading = uiState.isLoadingLists, // Use loading state from ViewModel
+                            initialUserLists = uiState.userLists,
+                            isLoading = uiState.isLoadingLists,
                             onCreateNewListClick = {
                                 currentMode = ListBottomSheetMode.CREATE_NEW_LIST
                             },
@@ -131,9 +128,7 @@ fun ListManagementBottomSheet(
                         CreateListBottomSheet(
                             show = true,
                             onCreateClick = { listName ->
-                                viewModel.createMovieList(
-                                    name = listName
-                                )
+                                viewModel.createMovieList(name = listName)
                             },
                             onDismiss = {
                                 currentMode = ListBottomSheetMode.LIST_SELECTION
@@ -144,7 +139,7 @@ fun ListManagementBottomSheet(
             }
         }
 
-        // Success notification - positioned at bottom of screen, outside bottom sheet
+        // Success notification
         if (showSuccessNotification) {
             Box(
                 modifier = Modifier
@@ -162,8 +157,122 @@ fun ListManagementBottomSheet(
         }
 
         uiState.errorMessage?.let { errorMessage ->
-            // You can implement error display here
-            // For example, show a toast or error dialog
+            // Error display implementation
+        }
+    }
+}
+
+// Alternative simplified version if you want to avoid the Boolean parameter confusion
+@Composable
+fun ListManagementBottomSheetSimplified(
+    isVisible: Boolean,
+    onDismiss: () -> Unit,
+    movieId: Int,
+    viewModel: MovieListViewModel = hiltViewModel(),
+    modifier: Modifier = Modifier
+) {
+    val uiState by viewModel.state.collectAsState()
+
+    var currentMode by remember { mutableStateOf(ListBottomSheetMode.LIST_SELECTION) }
+    var showSuccessNotification by remember { mutableStateOf(false) }
+    var successMessage: String? by remember { mutableStateOf("") }
+    var bottomSheetVisible by remember(isVisible) { mutableStateOf(isVisible) }
+
+    LaunchedEffect(isVisible) {
+        if (isVisible) {
+            currentMode = ListBottomSheetMode.LIST_SELECTION
+            bottomSheetVisible = true
+            viewModel.loadUserLists()
+        } else {
+            bottomSheetVisible = false
+        }
+    }
+
+    LaunchedEffect(uiState.createListSuccess) {
+        if (uiState.createListSuccess && uiState.successMessage != null) {
+            successMessage = uiState.successMessage
+            bottomSheetVisible = false
+            delay(200)
+            showSuccessNotification = true
+            onDismiss()
+            viewModel.clearSuccess()
+        }
+    }
+
+    LaunchedEffect(uiState.addToListSuccess) {
+        if (uiState.addToListSuccess && uiState.successMessage != null) {
+            successMessage = uiState.successMessage
+            bottomSheetVisible = false
+            delay(200)
+            showSuccessNotification = true
+            onDismiss()
+            viewModel.clearSuccess()
+        }
+    }
+
+    Box(modifier = modifier.fillMaxSize()) {
+        MovioBottomSheet(
+            show = bottomSheetVisible,
+            onDismiss = {
+                bottomSheetVisible = false
+                currentMode = ListBottomSheetMode.LIST_SELECTION
+                onDismiss()
+            },
+            containerColor = if (currentMode == ListBottomSheetMode.CREATE_NEW_LIST)
+                Color.Transparent else com.madrid.designSystem.theme.Theme.color.surfaces.surface,
+        ) {
+            AnimatedContent(
+                targetState = currentMode,
+                transitionSpec = {
+                    slideInHorizontally(initialOffsetX = { if (targetState == ListBottomSheetMode.CREATE_NEW_LIST) it else -it }) togetherWith
+                            slideOutHorizontally(targetOffsetX = { if (targetState == ListBottomSheetMode.CREATE_NEW_LIST) -it else it })
+                },
+                label = "ListBottomSheetAnimation"
+            ) { mode ->
+                when (mode) {
+                    ListBottomSheetMode.LIST_SELECTION -> {
+                        ListSelectionContentForBottomSheet(
+                            userLists = uiState.userLists,
+                            isLoadingLists = uiState.isLoadingLists,
+                            onCreateNewListClick = {
+                                currentMode = ListBottomSheetMode.CREATE_NEW_LIST
+                            },
+                            onAddToListClick = { userList ->
+                                viewModel.addMovieToList(
+                                    listId = userList.id.toInt(),
+                                    movieId = movieId
+                                )
+                            }
+                        )
+                    }
+
+                    ListBottomSheetMode.CREATE_NEW_LIST -> {
+                        CreateListBottomSheet(
+                            show = true,
+                            onCreateClick = { listName ->
+                                viewModel.createMovieList(name = listName)
+                            },
+                            onDismiss = {
+                                currentMode = ListBottomSheetMode.LIST_SELECTION
+                            },
+                        )
+                    }
+                }
+            }
+        }
+
+        if (showSuccessNotification) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 24.dp)
+            ) {
+                SuccessNotificationRow(
+                    isVisible = showSuccessNotification,
+                    onDismiss = { showSuccessNotification = false }
+                )
+            }
         }
     }
 }

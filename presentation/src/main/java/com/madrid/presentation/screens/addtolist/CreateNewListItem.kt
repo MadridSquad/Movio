@@ -27,7 +27,8 @@ import com.madrid.designSystem.theme.Theme
 fun CreateNewListItem(
     onListCreated: () -> Unit,
     isEnabled: Boolean = true,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isLoading: Boolean
 ) {
     Row(
         modifier = modifier
@@ -79,13 +80,4 @@ fun CreateNewListItem(
             )
         }
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun CreateNewListItemPreview() {
-    CreateNewListItem(
-        onListCreated = {},
-        isEnabled = true
-    )
 }
