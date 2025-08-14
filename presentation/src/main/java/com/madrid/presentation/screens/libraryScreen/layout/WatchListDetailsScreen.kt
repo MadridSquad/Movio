@@ -118,7 +118,7 @@ private fun WatchListDetailsScreenContent(
         }
 
         AnimatedVisibility(
-            state.isLoading.not() && state.watchList.isEmpty() && state.errorMessage.isNullOrBlank(),
+            state.isLoading.not() && state.mediaItems.isEmpty() && state.errorMessage.isNullOrBlank(),
             enter = fadeIn(),
             exit = fadeOut()
         ) {
@@ -133,7 +133,7 @@ private fun WatchListDetailsScreenContent(
         }
 
         AnimatedVisibility(
-            state.isLoading.not() && state.watchList.isNotEmpty(),
+            state.isLoading.not() && state.mediaItems.isNotEmpty(),
             enter = fadeIn(),
             exit = fadeOut()
         ) {
@@ -145,9 +145,9 @@ private fun WatchListDetailsScreenContent(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(
-                    state.watchList.size, key = { index -> state.watchList[index].id }
+                    state.mediaItems.size, key = { index -> state.mediaItems[index].id }
                 ) { index ->
-                    val watchList = state.watchList[index]
+                    val watchList = state.mediaItems[index]
                     SwipeToDeleteCard(
                         title = watchList.title,
                         movieRate = watchList.rating,

@@ -43,7 +43,7 @@ class WatchListDetailsViewModel @Inject constructor(
         updateState {
             it.copy(
                 isLoading = false,
-                watchList = items.movies.map { movie -> movie.toMediaUiState() }
+                mediaItems = items.movies.map { movie -> movie.toMediaUiState() }
             )
         }
     }
@@ -93,7 +93,7 @@ class WatchListDetailsViewModel @Inject constructor(
         updateState { currentState ->
             currentState.copy(
                 isSnackBarVisible = true,
-                watchList = currentState.watchList.filterNot { it.id == movieId },
+                mediaItems = currentState.mediaItems.filterNot { it.id == movieId },
                 deletedMovieId = movieId,
             )
         }
