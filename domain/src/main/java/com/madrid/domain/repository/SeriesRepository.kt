@@ -27,6 +27,7 @@ interface SeriesRepository {
     suspend fun addRatingSeries(seriesId: Int, rate: Double)
     suspend fun getUserSeriesRate(sessionId: String): List<GetUserRatedSeriesUseCase.RatedSeries>
     suspend fun addSeriesToHistory(seriesId: Int)
+    suspend fun deleteSeriesFromHistory(seriesId: Int)
     suspend fun getAllSeriesInHistory(): List<Series>
     suspend fun getFavoriteSeries(sessionId: String): List<Series>
     suspend fun setSeriesFavoriteStatus(seriesId: Int, sessionId: String, isFavorite: Boolean)

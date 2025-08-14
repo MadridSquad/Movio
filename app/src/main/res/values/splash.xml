@@ -2,9 +2,9 @@
 <resources>
     <style name="Theme.SplashScreen.ComposeSplash" parent="Theme.SplashScreen.IconBackground">
 
-        <item name="windowSplashScreenBackground">#FFFFFF</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/movio_logo</item>
-        <item name="windowSplashScreenIconBackgroundColor">#FFFFFF</item>
+        <item name="windowSplashScreenBackground">#080D24</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/movio_logo_splash</item>
+        <item name="windowSplashScreenIconBackgroundColor">#080D24</item>
         <item name="postSplashScreenTheme">@style/Theme.SplashScreen.ComposeSplash</item>
 
     </style>
