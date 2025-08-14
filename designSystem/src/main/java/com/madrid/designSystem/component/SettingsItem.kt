@@ -2,6 +2,7 @@ package com.madrid.designSystem.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -34,6 +35,12 @@ fun SettingsItem(
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
             .requiredHeight(height = 48.dp)
+            .clickable(
+                enabled = clickable,
+                onClick = onClick,
+                indication = null,
+                interactionSource = MutableInteractionSource()
+            )
     ) {
         Icon(
             painter = painterResource(id = icon),
@@ -55,10 +62,6 @@ fun SettingsItem(
             modifier = Modifier
                 .clip(shape = RoundedCornerShape(5.dp))
                 .padding(horizontal = 8.dp)
-                .clickable(
-                    enabled = clickable,
-                    onClick = onClick
-                )
         ) {
             Text(
                 text = text,
