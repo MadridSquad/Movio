@@ -7,30 +7,30 @@ import com.madrid.data.dataSource.remote.dto.authentication.AccountDetailsRespon
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
 import com.madrid.data.dataSource.remote.dto.genre.RemoteGenreDto
 import com.madrid.data.dataSource.remote.dto.list.CreateListResponse
-import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
-import com.madrid.data.dataSource.remote.dto.list.MovieListBody
 import com.madrid.data.dataSource.remote.dto.list.ListDto
+import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
 import com.madrid.data.dataSource.remote.dto.list.ListsDetailsResponse
+import com.madrid.data.dataSource.remote.dto.list.MovieListBody
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieResult
 import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
+import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SearchMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SimilarMoviesResponse
+import com.madrid.data.dataSource.remote.dto.movie.UpcomingMoviesResponse
 import com.madrid.data.dataSource.remote.dto.rate.RatingMovieResponse
 import com.madrid.data.dataSource.remote.dto.rate.RatingSeriesResponse
+import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
+import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
+import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SearchSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SeasonResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesCreditResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
+import com.madrid.data.dataSource.remote.dto.series.SeriesResult
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
-import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResponse
-import com.madrid.data.dataSource.remote.dto.movie.UpcomingMoviesResponse
-import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
-import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
-import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
-import com.madrid.data.dataSource.remote.dto.series.SeriesResult
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
 
 interface RemoteDataSource {
@@ -72,6 +72,11 @@ interface RemoteDataSource {
     suspend fun getRecommendedSeries(page: Int = 1): RecommendedSeriesResponse
     suspend fun getSeriesByGenreId(page: Int, genreId: Int?, sortBy: String): SearchSeriesResponse
     suspend fun getFavoriteSeries(sessionId: String): List<SeriesResult>
+    suspend fun getEpisodeTrailers(
+        episodeNumber: Int,
+        seasonNumber: Int,
+        seriesId: Int
+    ): List<TrailerResult>
     // endregion
 
     // region Artist
@@ -82,9 +87,10 @@ interface RemoteDataSource {
 
     // region Lists
     suspend fun createMovieList(sessionId: String, movieListBody: MovieListBody): CreateListResponse
-    suspend fun  addMovieToList(listId: Int, movieId: Int , sessionId: String): ListOperationResponse
+    suspend fun addMovieToList(listId: Int, movieId: Int, sessionId: String): ListOperationResponse
     suspend fun getCustomLists(sessionId: String): List<ListDto>
-    suspend fun getCustomListDetails(listId: Int,sessionId: String): ListsDetailsResponse
+    suspend fun getCustomListDetails(listId: Int, sessionId: String): ListsDetailsResponse
+    suspend fun removeMovieFromList(listId: Int, mediaId: Int, sessionId: String)
     // endregion
 
     // region authentication
@@ -96,15 +102,15 @@ interface RemoteDataSource {
     // endregion
 
     // region add rating
-    suspend fun addRatingMovie(movieId: Int, body: Double)
-    suspend fun addRatingSeries(seriesId: Int, body: Double)
+    suspend fun addRatingMovie(movieId: Int, value: Double)
+    suspend fun addRatingSeries(seriesId: Int, value: Double)
     // endregion
 
-    suspend fun getUserRatingForMovie(sessionId: String):RatingMovieResponse
-    suspend fun getUserRatingForSeries(sessionId: String):RatingSeriesResponse
+    suspend fun getUserRatingForMovie(sessionId: String): RatingMovieResponse
+    suspend fun getUserRatingForSeries(sessionId: String): RatingSeriesResponse
 
     // region addToFavorite
-    suspend fun setMovieFavoriteStatus(movieId:Int, sessionId: String, isFavorite: Boolean)
-    suspend fun setSeriesFavoriteStatus(seriesId:Int, sessionId: String, isFavorite: Boolean)
+    suspend fun setMovieFavoriteStatus(movieId: Int, sessionId: String, isFavorite: Boolean)
+    suspend fun setSeriesFavoriteStatus(seriesId: Int, sessionId: String, isFavorite: Boolean)
     // endregion
 }

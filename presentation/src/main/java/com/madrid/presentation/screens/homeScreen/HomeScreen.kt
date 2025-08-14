@@ -164,7 +164,13 @@ private fun LayoutContent(
                         MediaType.MOVIE,
                         mediaIndex
                     )
-                }
+                },
+                isLoading = uiState.isLoading,
+                isSliderLoading = uiState.movieTabUiState.trending.isLoading,
+                isTopRatedLoading = uiState.movieTabUiState.topRated.isLoading,
+                isNowPlayingLoading = uiState.movieTabUiState.nowPlaying.isLoading,
+                isUpComingLoading = uiState.movieTabUiState.upcoming.isLoading,
+                isRecommendedLoading = uiState.movieTabUiState.moreRecommended.isLoading,
             )
         }
 
@@ -181,7 +187,13 @@ private fun LayoutContent(
                         MediaType.TV_SHOW,
                         mediaIndex
                     )
-                }
+                },
+                isLoading = uiState.isLoading,
+                isTrendingSeriesLoading = uiState.tvShowTabUiState.trending.isLoading,
+                isTopRatedSeriesLoading = uiState.tvShowTabUiState.topRated.isLoading,
+                isOnAirSeriesLoading = uiState.tvShowTabUiState.onTv.isLoading,
+                isAiringTodaySeriesLoading = uiState.tvShowTabUiState.airingToday.isLoading,
+                isRecommendedSeriesLoading = uiState.tvShowTabUiState.moreRecommended.isLoading
             )
         }
 
@@ -190,17 +202,19 @@ private fun LayoutContent(
 }
 
 private fun openYoutubeMediaTrailer(key: String, context: Context) {
-    val youtubeAppIntent =
-        Intent(Intent.ACTION_VIEW, "vnd.youtube:$key".toUri())
-    val youtubeWebIntent = Intent(
-        Intent.ACTION_VIEW,
-        "https://www.youtube.com/watch?v=$key".toUri()
-    )
+    if(key.isNotBlank()){
+        val youtubeAppIntent =
+            Intent(Intent.ACTION_VIEW, "vnd.youtube:$key".toUri())
+        val youtubeWebIntent = Intent(
+            Intent.ACTION_VIEW,
+            "https://www.youtube.com/watch?v=$key".toUri()
+        )
 
-    try {
-        context.startActivity(youtubeAppIntent)
-    } catch (e: ActivityNotFoundException) {
-        context.startActivity(youtubeWebIntent)
+        try {
+            context.startActivity(youtubeAppIntent)
+        } catch (e: ActivityNotFoundException) {
+            context.startActivity(youtubeWebIntent)
+        }
     }
 }
 

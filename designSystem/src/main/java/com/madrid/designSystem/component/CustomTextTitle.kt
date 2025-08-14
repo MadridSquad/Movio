@@ -52,14 +52,7 @@ fun CustomTextTitle(
                 textStyle = Theme.textStyle.title.mediumMedium16,
                 modifier = Modifier
             )
-            AnimatedVisibility (isListEmpty){
-                MovioText(
-                    text = stringResource(R.string.this_list_has_empty),
-                    color = Theme.color.surfaces.onSurfaceVariant,
-                    textStyle = Theme.textStyle.label.smallRegular12,
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-            }
+
         }
 
         Spacer(Modifier.weight(1f))

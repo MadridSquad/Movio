@@ -138,4 +138,9 @@
     <string name="this_rating_is_only_available_to_registered_users_Login_to_share_your_rating">هذا التقييم متاح فقط للمستخدمين المسجلين، قم بتسجيل الدخول لمشاركة تقييمك</string>
     <string name="watch_list_icon">ايقونه مشاهده القائمه</string>
     <string name="confirm">تأكيد</string>
+
+    <string name="empty_list_message">قائمة %1$s الخاصة بك فارغة</string>
+    <string name="empty_list_description">احفظ الأفلام والعروض التي تريد مشاهدتها، وستظهر هنا عندما تكون مستعدًا.</string>
+    <string name="item_has_been_deleted">تم حذف العنصر</string>
+    <string name="undo">تراجع</string>
 </resources>
