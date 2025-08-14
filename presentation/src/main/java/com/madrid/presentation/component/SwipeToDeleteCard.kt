@@ -50,7 +50,7 @@ fun SwipeToDeleteCard(
     onDelete: () -> Unit = {},
     onClick: () -> Unit = {}
 ) {
-    val maxSwipeDistance = 100f
+    val maxSwipeDistance = 120f
     val layoutDirection = LocalLayoutDirection.current
     val isRtl = layoutDirection == LayoutDirection.Rtl
     Box (
