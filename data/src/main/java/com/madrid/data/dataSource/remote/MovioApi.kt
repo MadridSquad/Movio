@@ -17,6 +17,7 @@ import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
 import com.madrid.data.dataSource.remote.dto.list.ListsDetailsResponse
 import com.madrid.data.dataSource.remote.dto.list.ListsResponse
 import com.madrid.data.dataSource.remote.dto.list.MovieListBody
+import com.madrid.data.dataSource.remote.dto.list.RemoveMovieDto
 import com.madrid.data.dataSource.remote.dto.movie.ListDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
@@ -38,16 +39,6 @@ import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
-import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
-import com.madrid.data.dataSource.remote.dto.authentication.SessionIdResponse
-import com.madrid.data.dataSource.remote.dto.list.RemoveMovieDto
-import com.madrid.data.dataSource.remote.dto.list.AddToListRequest
-import com.madrid.data.dataSource.remote.dto.list.CreateListResponse
-import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
-import com.madrid.data.dataSource.remote.dto.list.MovieListBody
-import com.madrid.data.dataSource.remote.dto.movie.ListDetailsResponse
-import com.madrid.data.dataSource.remote.dto.list.ListsDetailsResponse
-import com.madrid.data.dataSource.remote.dto.list.ListsResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -232,7 +223,6 @@ interface MovioApi {
     ): SessionIdResponse
 
 
-
     @GET("authentication/guest_session/new")
     suspend fun getCreateGuestSession(): AuthenticationResponse
 
@@ -328,15 +318,15 @@ interface MovioApi {
 
     @POST("account/{account_id}/favorite")
     suspend fun addToFavorite(
-        @Path("account_id") accountId :Int? = null,
-        @Query("session_id") sessionId :String ,
+        @Path("account_id") accountId: Int? = null,
+        @Query("session_id") sessionId: String,
         @Body body: AddToFavoriteRequest
     )
 
     @POST("list/{list_id}/remove_item")
     suspend fun removeMovieFromList(
-        @Path("list_id") listId :Int,
-        @Query("session_id") sessionId :String ,
+        @Path("list_id") listId: Int,
+        @Query("session_id") sessionId: String,
         @Body removeItemRequest: RemoveMovieDto
     )
 
