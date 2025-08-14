@@ -27,8 +27,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.compose.ui.zIndex
-import com.madrid.designSystem.component.ShimmerBlurredImage
-import com.madrid.designSystem.component.ShimmerItem
 import com.madrid.designSystem.theme.Theme
 import com.madrid.detectImageContent.FilteredImage
 import com.madrid.presentation.viewModel.homeViewModel.CategoryUiState

@@ -22,12 +22,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.CustomTextTitle
-import com.madrid.designSystem.component.ShimmerCard
-import com.madrid.designSystem.component.ShimmerHorizontalCard
-import com.madrid.designSystem.component.ShimmerItem
 import com.madrid.presentation.component.CustomHorizontalCard
 import com.madrid.presentation.component.MovioPager
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
+import com.madrid.presentation.component.shimmer.ShimmerCard
+import com.madrid.presentation.component.shimmer.ShimmerHorizontalCard
+import com.madrid.presentation.component.shimmer.ShimmerItem
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesType

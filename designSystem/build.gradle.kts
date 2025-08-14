@@ -50,7 +50,6 @@ dependencies {
     implementation(libs.androidx.material)
     implementation(libs.androidx.foundation)
     implementation(libs.androidx.material3.window)
-    implementation(libs.androidx.compose.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
