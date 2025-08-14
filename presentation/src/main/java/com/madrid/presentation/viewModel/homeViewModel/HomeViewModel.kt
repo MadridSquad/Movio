@@ -1,10 +1,5 @@
 package com.madrid.presentation.viewModel.homeViewModel
 
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
-import android.util.Log
-import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -256,8 +251,11 @@ class HomeViewModel @Inject constructor(
             function = {
                 trendingSectionMoviesLoading(true)
                 val trendingMovies = getTrendingMoviesUseCase(1)
-                Log.d("TAG slider movies", "loadSliderMovies: ${trendingMovies}")
-                getMoviesWithTrailers(trendingMovies)
+                try {
+                    getMoviesWithTrailers(trendingMovies)
+                } catch (e: Exception) {
+                    trendingMovies
+                }
             },
             onSuccess = { movies ->
                 updateState { state ->
@@ -269,14 +267,12 @@ class HomeViewModel @Inject constructor(
                         )
                     )
                 }
-                Log.d("TAG slider movies", "loadSliderMovies: ${state.value.movieTabUiState.trending.isLoading}")
                 trendingSectionMoviesLoading(false)
-                Log.d("TAG slider movies", "loadSliderMovies: ${state.value.movieTabUiState.trending.isLoading}")
             },
             onError = { e ->
-                Log.d("TAG slider movies", "loadSliderMovies: ${e.message}")
                 trendingSectionMoviesLoading(false)
-                onError() }
+                onError()
+            }
         )
     }
 

@@ -1,5 +1,6 @@
 package com.madrid.designSystem.component
 
+import android.util.Log
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
@@ -18,6 +19,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -43,25 +46,39 @@ fun ShimmerItem(
     modifier: Modifier = Modifier,
     contentAfterLoading: @Composable () -> Unit,
 ) {
-    if(isLoading) {
+    if (isLoading) {
         Row(
-            modifier = modifier.padding(top = 132.dp).fillMaxWidth(),
+            modifier = modifier
+                .padding(top = 132.dp)
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            Box(){
-                ShimmerPagerCard(Modifier.offset(x = -150.dp,y = 30.dp).rotate(-20f).width(150.dp).height(200.dp))
-                ShimmerPagerCard(Modifier.offset(x = 200.dp,y = 30.dp).rotate(20f).width(150.dp).height(200.dp))
+            Box() {
+                ShimmerPagerCard(
+                    Modifier
+                        .offset(x = -150.dp, y = 30.dp)
+                        .rotate(-20f)
+                        .width(150.dp)
+                        .height(200.dp)
+                )
+                ShimmerPagerCard(
+                    Modifier
+                        .offset(x = 200.dp, y = 30.dp)
+                        .rotate(20f)
+                        .width(150.dp)
+                        .height(200.dp)
+                )
                 ShimmerPagerCard()
             }
         }
     }
-    if(!isLoading) {
+    if (!isLoading) {
         contentAfterLoading()
     }
 }
 
 @Composable
-fun ShimmerPagerCard(modifier: Modifier = Modifier){
+fun ShimmerPagerCard(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .size(width = 200.dp, height = 260.dp)
@@ -109,9 +126,57 @@ fun ShimmerBlurredImage(
     modifier: Modifier = Modifier,
     contentAfterLoading: @Composable () -> Unit,
 ) {
-    if(isLoading)
-        Box(modifier = modifier.fillMaxWidth().height(413.dp).background(Theme.color.surfaces.surface))
-    else{
+    if (isLoading)
+        Box(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(413.dp)
+                .background(Theme.color.surfaces.surface)
+        )
+    else {
+        contentAfterLoading()
+    }
+}
+
+@Composable
+fun ShimmerCard(
+    isLoading: Boolean,
+    modifier: Modifier = Modifier,
+    contentAfterLoading: @Composable () -> Unit = {}
+) {
+    if(isLoading){
+        Log.d("TAG in shimmer", "ShimmerCard: ")
+        Box(modifier = modifier.shimmerEffect())
+    }else{
+        contentAfterLoading()
+    }
+}
+
+
+@Composable
+fun ShimmerGrid(
+    isLoading: Boolean,
+    modifier: Modifier = Modifier,
+    numberOfColumns: Int = 3,
+    contentAfterLoading: @Composable () -> Unit = {},
+) {
+    if (isLoading) {
+        Box(
+            modifier
+                .height(180.dp)
+                .fillMaxWidth()
+        )
+        LazyVerticalGrid(GridCells.Fixed(numberOfColumns)) {
+            items(30) {
+                Box(
+                    Modifier
+                        .height(180.dp)
+                        .fillMaxWidth()
+                        .shimmerEffect()
+                )
+            }
+        }
+    } else {
         contentAfterLoading()
     }
 }

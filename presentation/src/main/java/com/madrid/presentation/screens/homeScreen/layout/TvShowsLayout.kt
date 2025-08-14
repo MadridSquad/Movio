@@ -10,15 +10,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -26,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.CustomTextTitle
+import com.madrid.designSystem.component.ShimmerCard
 import com.madrid.designSystem.component.ShimmerHorizontalCard
 import com.madrid.designSystem.component.ShimmerItem
 import com.madrid.designSystem.theme.Theme
@@ -253,23 +257,29 @@ fun TvShowsLayout(
             Column(Modifier.padding(horizontal = 16.dp)) {
             }
         }
-        itemsIndexed(recommendedSeries) { index, media ->
-            MovioVerticalCard(
-                description = media.title,
-                movieImage = media.imageUrl,
-                rate = media.rating.take(3),
-                height = 220.dp,
-                onClick = {
-                    navController.navigate(
-                        Destinations.SeriesDetailsScreen(
-                            media.id.toInt(),
-                            1
-                        )
-                    )
-                },
-                modifier = Modifier.padding(start = 6.dp, end = 6.dp)
-            )
+        if(isRecommendedSeriesLoading){
+            items(10){
+                ShimmerCard(isLoading = true, modifier = Modifier.clip(RoundedCornerShape(8.dp)).width(150.dp).height(220.dp))
+            }
         }
-
+        else{
+            itemsIndexed(recommendedSeries) { index, media ->
+                MovioVerticalCard(
+                    description = media.title,
+                    movieImage = media.imageUrl,
+                    rate = media.rating.take(3),
+                    height = 220.dp,
+                    onClick = {
+                        navController.navigate(
+                            Destinations.SeriesDetailsScreen(
+                                media.id.toInt(),
+                                1
+                            )
+                        )
+                    },
+                    modifier = Modifier.padding(start = 6.dp, end = 6.dp)
+                )
+            }
+        }
     }
 }
