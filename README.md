@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/badge/DI-Hilt-yellow.svg" alt="DI">
 </div>
 
-A modern Android application built with Jetpack Compose for browsing and watching series content. The app features a clean Material Design interface with detailed series information, seasons, and episodes.
+A modern Android app built with Jetpack Compose for browsing and watching series. It includes detailed series information, seasons, and episodes.
 
 ## 🚀 Features
 
@@ -110,9 +110,9 @@ The app is structured using a **multi-module architecture** to promote separatio
 - Cross-module UI consistency
 #### `:detectImageContent` - AI/ML Content Analysis Module
 **Responsibilities:**
-- **Image Content Analysis**: Automatically analyze series posters and episode images
-- **Scene Detection**: Classify scenes (action, drama, comedy, etc.) for better categorization
-- **Content Rating**: AI-powered content appropriateness detection for family-friendly filtering
+- **Image Content Analysis**: Automatically detect haram or inappropriate elements in series posters and episode images  
+- **Scene Content Detection**: Identify and flag scenes containing haram content for automatic blurring  
+- **Content Filtering**: AI-powered detection to blur inappropriate content for compliance with family-friendly viewing standards  
 ## 📋 Prerequisites
 
 - Android Studio Narwhal (2025.1.2) or later
@@ -124,14 +124,14 @@ The app is structured using a **multi-module architecture** to promote separatio
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yasserahmed10/movio-android.git
+git clone https://github.com/MadridSquad/Movio.git
 cd movio-android
 ```
 ### 2. Create Configuration Files
 Create a secrets.properties file in the root directory:
 ```bash
 # API Configuration
-API_BASE_URL="your_api_base_url"
+BASE_URL="your_api_base_url"
 API_KEY="your_api_key"
 ```
 ### 3. Add Local Properties (if needed)
