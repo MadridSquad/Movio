@@ -7,6 +7,7 @@ import com.madrid.domain.exceptions.MovioException
 import com.madrid.domain.exceptions.NetworkException
 import com.madrid.domain.usecase.movie.AddMovieToListUseCase
 import com.madrid.domain.usecase.movie.CreateMovieListUseCase
+import com.madrid.domain.usecase.movie.RemoveMovieFromListUseCase
 import com.madrid.domain.usecase.watchList.GetWatchListsUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +22,7 @@ data class MovieListUiState(
     val successMessage: String? = null,
     val createListSuccess: Boolean = false,
     val addToListSuccess: Boolean = false,
+    val removeFromListSuccess: Boolean = false,
     val userLists: List<WatchList> = emptyList(),
     val watchListItems: List<WatchListItemUiState> = emptyList(),
     val isLoadingLists: Boolean = false
@@ -40,31 +42,29 @@ sealed class MovieListEvent {
 
 @HiltViewModel
 class MovieListViewModel @Inject constructor(
+    private val removeMovieFromListUseCase: RemoveMovieFromListUseCase,
     private val createMovieListUseCase: CreateMovieListUseCase,
     private val addMovieToListUseCase: AddMovieToListUseCase,
-    private val getWatchListsUseCase: GetWatchListsUseCase, // Changed: Use the actual use case class
+    private val getWatchListsUseCase: GetWatchListsUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseViewModel<MovieListUiState, MovieListEvent>(MovieListUiState()) {
 
     fun loadUserLists() {
         viewModelScope.launch(dispatcher) {
             updateState { it.copy(isLoadingLists = true, errorMessage = null) }
-
             try {
-                val userLists = getWatchListsUseCase() // Changed: Call invoke() on the use case
-                // Map domain entities to UI state
-                val uiLists = userLists.map { watchList ->
+                val userLists = getWatchListsUseCase()
+                val uiLists = userLists.map {
                     WatchListItemUiState(
-                        id = watchList.id,
-                        videosSize = watchList.itemCount ?: 0, // Assuming itemCount exists
-                        watchListTitle = watchList.name
+                        id = it.id,
+                        videosSize = it.itemCount ?: 0,
+                        watchListTitle = it.name
                     )
                 }
-
                 updateState {
                     it.copy(
-                        userLists = userLists, // Keep original for other operations
-                        watchListItems = uiLists, // Add UI-specific list
+                        userLists = userLists,
+                        watchListItems = uiLists,
                         isLoadingLists = false
                     )
                 }
@@ -85,14 +85,12 @@ class MovieListViewModel @Inject constructor(
     ) {
         viewModelScope.launch(dispatcher) {
             updateState { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
-
             try {
                 val status: ListOperationStatus = createMovieListUseCase(
                     name = name,
                     description = "My new list",
                     language = "en"
                 )
-
                 if (status.success) {
                     updateState {
                         it.copy(
@@ -101,24 +99,13 @@ class MovieListViewModel @Inject constructor(
                             successMessage = status.message
                         )
                     }
-                    // Reload lists after creating a new one
                     loadUserLists()
                     onSuccess?.invoke()
                 } else {
-                    updateState {
-                        it.copy(
-                            isLoading = false,
-                            errorMessage = status.message
-                        )
-                    }
+                    updateState { it.copy(isLoading = false, errorMessage = status.message) }
                 }
             } catch (ex: MovioException) {
-                updateState {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = getErrorMessage(ex)
-                    )
-                }
+                updateState { it.copy(isLoading = false, errorMessage = getErrorMessage(ex)) }
             }
         }
     }
@@ -130,13 +117,11 @@ class MovieListViewModel @Inject constructor(
     ) {
         viewModelScope.launch(dispatcher) {
             updateState { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
-
             try {
                 val status: ListOperationStatus = addMovieToListUseCase(
                     listId = listId,
                     movieId = movieId
                 )
-
                 if (status.success) {
                     updateState {
                         it.copy(
@@ -147,20 +132,40 @@ class MovieListViewModel @Inject constructor(
                     }
                     onSuccess?.invoke()
                 } else {
+                    updateState { it.copy(isLoading = false, errorMessage = status.message) }
+                }
+            } catch (ex: MovioException) {
+                updateState { it.copy(isLoading = false, errorMessage = getErrorMessage(ex)) }
+            }
+        }
+    }
+
+    fun removeMovieFromList(
+        listId: Int,
+        movieId: Int,
+        onSuccess: (() -> Unit)? = null
+    ) {
+        viewModelScope.launch(dispatcher) {
+            updateState { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
+            try {
+                val status: ListOperationStatus = removeMovieFromListUseCase(
+                    mediaId = movieId,
+                    listId = listId
+                )
+                if (status.success) {
                     updateState {
                         it.copy(
                             isLoading = false,
-                            errorMessage = status.message
+                            removeFromListSuccess = true,
+                            successMessage = status.message
                         )
                     }
+                    onSuccess?.invoke()
+                } else {
+                    updateState { it.copy(isLoading = false, errorMessage = status.message) }
                 }
             } catch (ex: MovioException) {
-                updateState {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = getErrorMessage(ex)
-                    )
-                }
+                updateState { it.copy(isLoading = false, errorMessage = getErrorMessage(ex)) }
             }
         }
     }
@@ -173,10 +178,7 @@ class MovieListViewModel @Inject constructor(
         when (event) {
             MovieListEvent.ClearMessages -> {
                 updateState {
-                    it.copy(
-                        errorMessage = null,
-                        successMessage = null
-                    )
+                    it.copy(errorMessage = null, successMessage = null)
                 }
             }
             MovieListEvent.DismissNotification -> {
@@ -184,14 +186,13 @@ class MovieListViewModel @Inject constructor(
                     it.copy(
                         createListSuccess = false,
                         addToListSuccess = false,
+                        removeFromListSuccess = false,
                         errorMessage = null,
                         successMessage = null
                     )
                 }
             }
-            MovieListEvent.LoadUserLists -> {
-                loadUserLists()
-            }
+            MovieListEvent.LoadUserLists -> loadUserLists()
         }
     }
 
@@ -204,7 +205,8 @@ class MovieListViewModel @Inject constructor(
             it.copy(
                 successMessage = null,
                 createListSuccess = false,
-                addToListSuccess = false
+                addToListSuccess = false,
+                removeFromListSuccess = false
             )
         }
     }
