@@ -14,6 +14,7 @@ import com.madrid.presentation.R
 @Composable
 fun SearchResultMessage(items: String, modifier: Modifier = Modifier) {
     Row(
+        modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -21,13 +22,11 @@ fun SearchResultMessage(items: String, modifier: Modifier = Modifier) {
             stringResource(id = R.string.search_result_count),
             color = Theme.color.surfaces.onSurfaceContainer,
             textStyle = Theme.textStyle.headline.mediumMedium16,
-            modifier = modifier
         )
         MovioText(
             text = stringResource(R.string.items_count, items),
             color = Theme.color.surfaces.onSurfaceVariant,
             textStyle = Theme.textStyle.label.smallRegular14,
-            modifier = modifier
         )
     }
 }
