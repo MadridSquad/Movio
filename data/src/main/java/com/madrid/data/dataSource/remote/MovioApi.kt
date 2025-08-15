@@ -1,27 +1,37 @@
 package com.madrid.data.dataSource.remote
 
-import com.madrid.data.dataSource.remote.dto.common.AddToFavoriteRequest
 import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.ArtistKnownForResponse
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
 import com.madrid.data.dataSource.remote.dto.authentication.AccountDetailsResponse
 import com.madrid.data.dataSource.remote.dto.authentication.AuthenticationResponse
 import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionBody
+import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
+import com.madrid.data.dataSource.remote.dto.authentication.SessionIdResponse
+import com.madrid.data.dataSource.remote.dto.common.AddToFavoriteRequest
 import com.madrid.data.dataSource.remote.dto.common.TrailerResponse
 import com.madrid.data.dataSource.remote.dto.genre.GenresResponse
+import com.madrid.data.dataSource.remote.dto.list.AddToListRequest
+import com.madrid.data.dataSource.remote.dto.list.CreateListResponse
+import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
+import com.madrid.data.dataSource.remote.dto.list.ListsDetailsResponse
+import com.madrid.data.dataSource.remote.dto.list.ListsResponse
+import com.madrid.data.dataSource.remote.dto.list.MovieListBody
+import com.madrid.data.dataSource.remote.dto.list.RemoveMovieDto
+import com.madrid.data.dataSource.remote.dto.movie.ListDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieReviewResponse
 import com.madrid.data.dataSource.remote.dto.movie.NowPlayingMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SearchMovieResponse
 import com.madrid.data.dataSource.remote.dto.movie.SimilarMoviesResponse
-import com.madrid.data.dataSource.remote.dto.rating.RateRequest
-import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.movie.UpcomingMoviesResponse
 import com.madrid.data.dataSource.remote.dto.rate.RatingMovieResponse
 import com.madrid.data.dataSource.remote.dto.rate.RatingSeriesResponse
+import com.madrid.data.dataSource.remote.dto.rating.RateRequest
 import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
+import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SearchSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.SeasonResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesCreditResponse
@@ -29,15 +39,6 @@ import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
-import com.madrid.data.dataSource.remote.dto.authentication.CreateSessionRawBody
-import com.madrid.data.dataSource.remote.dto.authentication.SessionIdResponse
-import com.madrid.data.dataSource.remote.dto.list.AddToListRequest
-import com.madrid.data.dataSource.remote.dto.list.CreateListResponse
-import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
-import com.madrid.data.dataSource.remote.dto.list.MovieListBody
-import com.madrid.data.dataSource.remote.dto.movie.ListDetailsResponse
-import com.madrid.data.dataSource.remote.dto.list.ListsDetailsResponse
-import com.madrid.data.dataSource.remote.dto.list.ListsResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -180,6 +181,13 @@ interface MovioApi {
         @Query(WITH_GENRES) genreId: Int?,
         @Query(SORT_BY) sortBy: String
     ): SearchSeriesResponse
+
+    @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}/videos")
+    suspend fun getEpisodeTrailers(
+        @Path("series_id") seriesId: Int,
+        @Path("season_number") seasonNumber: Int,
+        @Path("episode_number") episodeNumber: Int
+    ): TrailerResponse
     // endregion
 
 
@@ -213,7 +221,6 @@ interface MovioApi {
     suspend fun createSession(
         @Body body: CreateSessionRawBody
     ): SessionIdResponse
-
 
 
     @GET("authentication/guest_session/new")
@@ -311,9 +318,16 @@ interface MovioApi {
 
     @POST("account/{account_id}/favorite")
     suspend fun addToFavorite(
-        @Path("account_id") accountId :Int? = null,
-        @Query("session_id") sessionId :String ,
+        @Path("account_id") accountId: Int? = null,
+        @Query("session_id") sessionId: String,
         @Body body: AddToFavoriteRequest
+    )
+
+    @POST("list/{list_id}/remove_item")
+    suspend fun removeMovieFromList(
+        @Path("list_id") listId: Int,
+        @Query("session_id") sessionId: String,
+        @Body removeItemRequest: RemoveMovieDto
     )
 
     companion object {

@@ -8,8 +8,8 @@ import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.Series
 import com.madrid.domain.usecase.authentication.LoginUseCase
 import com.madrid.domain.usecase.series.AddRatingSeriesUseCase
-import com.madrid.domain.usecase.series.SetSeriesFavoriteStatusUseCase
 import com.madrid.domain.usecase.series.AddSeriesToHistoryUseCase
+import com.madrid.domain.usecase.series.GetEpisodeTrailersUseCase
 import com.madrid.domain.usecase.series.GetEpisodesForSeasonUseCase
 import com.madrid.domain.usecase.series.GetSeriesDetailsUseCase
 import com.madrid.domain.usecase.series.GetSeriesReviewsUseCase
@@ -17,6 +17,7 @@ import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
 import com.madrid.domain.usecase.series.GetSeriesTrailersUseCase
 import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
 import com.madrid.domain.usecase.series.IsFavoriteSeriesUseCase
+import com.madrid.domain.usecase.series.SetSeriesFavoriteStatusUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.utils.RateFormatter
 import com.madrid.presentation.viewModel.base.BaseViewModel
@@ -42,7 +43,8 @@ class SeriesDetailsViewModel @Inject constructor(
     private val isGuestUseCase: LoginUseCase,
     private val getSeriesTrailersUseCase: GetSeriesTrailersUseCase,
     private val setSeriesFavoriteStatusUseCase: SetSeriesFavoriteStatusUseCase,
-    private val isFavoriteSeriesUseCase: IsFavoriteSeriesUseCase
+    private val isFavoriteSeriesUseCase: IsFavoriteSeriesUseCase,
+    private val getEpisodeTrailersUseCase: GetEpisodeTrailersUseCase,
 ) : BaseViewModel<SeriesDetailsUiState, Nothing>(SeriesDetailsUiState()) {
     private val args = savedStateHandle.toRoute<Destinations.SeriesDetailsScreen>()
 
@@ -72,6 +74,24 @@ class SeriesDetailsViewModel @Inject constructor(
             },
             onError = { error ->
                 Log.d("SeriesTrailer", "Failed to load trailer: ${error.message}")
+            }
+        )
+    }
+
+    fun loadEpisodeTrailer(
+        seriesId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int,
+        onTrailerLoaded: (String?) -> Unit
+    ) {
+        tryToExecute(
+            function = { getEpisodeTrailersUseCase(seriesId, seasonNumber, episodeNumber) },
+            onSuccess = { trailers ->
+                val trailerKey = trailers.firstOrNull()?.key
+                onTrailerLoaded(trailerKey)
+            },
+            onError = {
+                onTrailerLoaded(null)
             }
         )
     }

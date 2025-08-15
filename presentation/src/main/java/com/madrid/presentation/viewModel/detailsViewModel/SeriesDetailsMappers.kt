@@ -11,6 +11,7 @@ fun Episode.toUiState(): EpisodeUiState {
         episodeNumber = this.episodeNumber,
         episodeDuration = this.duration,
         rate = this.rate.toString(),
+        trailerKey = this.trailer.toString(),
     )
 }
 

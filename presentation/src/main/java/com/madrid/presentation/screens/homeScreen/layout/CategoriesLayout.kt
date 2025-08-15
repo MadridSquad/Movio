@@ -35,7 +35,7 @@ fun CategoriesLayout(
     Column(
         modifier
             .fillMaxSize()
-            .padding(top = 17.dp),
+            .padding(top = 132.dp),
     ) {
         FilterBar(
             items = categories.map { it.name },
@@ -58,8 +58,8 @@ fun CategoriesLayout(
             columns = GridCells.Adaptive(minSize = 102.dp),
             modifier = Modifier
                 .fillMaxSize()
-                .background(Theme.color.surfaces.surface)
-                .statusBarsPadding(),
+                .padding(top = 24.dp)
+                .background(Theme.color.surfaces.surface),
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
