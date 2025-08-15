@@ -1,4 +1,4 @@
-package com.madrid.presentation.screens.removefromlist
+package com.madrid.presentation.screens.addtolist
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -64,8 +64,6 @@ fun RemoveFromListContent(
                     )
                 }
             }
-        } else {
-            EmptyListsMessage()
         }
     }
 }
@@ -104,40 +102,3 @@ private fun RemoveFromListItem(
             }
         }
     }
-@Composable
-private fun EmptyListsMessage() {
-    // Implementation for when movie is not in any lists:
-    /*
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Icon(
-                imageVector = Icons.Default.PlaylistRemove,
-                contentDescription = null,
-                modifier = Modifier.size(48.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "Movie not in any lists",
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Text(
-                text = "This movie hasn't been added to any of your lists yet.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center
-            )
-        }
-    }
-    */
-}

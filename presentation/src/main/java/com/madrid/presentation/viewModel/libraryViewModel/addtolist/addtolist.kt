@@ -31,7 +31,9 @@ data class MovieListUiState(
 data class WatchListItemUiState(
     val id: Int = 0,
     val videosSize: Int = 0,
-    val watchListTitle: String = ""
+    val watchListTitle: String = "",
+    val isLoading: Boolean ,
+    val itemCount: Int
 )
 
 sealed class MovieListEvent {
@@ -57,9 +59,9 @@ class MovieListViewModel @Inject constructor(
                 val uiLists = userLists.map {
                     WatchListItemUiState(
                         id = it.id,
-                        videosSize = it.itemCount ?: 0,
-                        watchListTitle = it.name
-                    )
+                        watchListTitle = it.name,
+                        isLoading = it.isLoading,
+                        itemCount = it.itemCount ?: 0)
                 }
                 updateState {
                     it.copy(

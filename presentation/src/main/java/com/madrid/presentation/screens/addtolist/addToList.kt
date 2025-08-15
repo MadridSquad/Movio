@@ -21,7 +21,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.MovioBottomSheet
-import com.madrid.presentation.screens.removefromlist.RemoveFromListContent
 import com.madrid.presentation.viewModel.libraryViewModel.addtolist.MovieListViewModel
 import kotlinx.coroutines.delay
 
