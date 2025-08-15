@@ -7,5 +7,6 @@ data class WatchList(
     val description: String = "",
     val posterUrl: String? = null,
     var isSelected: Boolean = false,
-    var isLoading: Boolean = false
+    var isLoading: Boolean = false,
+
 )

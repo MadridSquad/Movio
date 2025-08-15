@@ -21,12 +21,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.MovioBottomSheet
+import com.madrid.presentation.screens.removefromlist.RemoveFromListContent
 import com.madrid.presentation.viewModel.libraryViewModel.addtolist.MovieListViewModel
 import kotlinx.coroutines.delay
 
 enum class ListBottomSheetMode {
     LIST_SELECTION,
-    CREATE_NEW_LIST
+    CREATE_NEW_LIST,
+    REMOVE_FROM_LIST
 }
 
 @Composable
@@ -44,7 +46,6 @@ fun ListManagementBottomSheet(
     var successMessage: String? by remember { mutableStateOf("") }
     var bottomSheetVisible by remember(isVisible) { mutableStateOf(isVisible) }
 
-    // Load user lists when bottom sheet becomes visible
     LaunchedEffect(isVisible) {
         if (isVisible) {
             currentMode = ListBottomSheetMode.LIST_SELECTION
@@ -131,6 +132,20 @@ fun ListManagementBottomSheet(
                             onDismiss = {
                                 currentMode = ListBottomSheetMode.LIST_SELECTION
                             },
+                        )
+                    }
+
+                    ListBottomSheetMode.REMOVE_FROM_LIST -> {
+                        RemoveFromListContent(
+                            movieId = movieId,
+                            userListsContainingMovie = uiState.watchListItems,
+                            isLoading = uiState.isLoadingLists,
+                            onRemoveFromListClick = { listToRemoveFrom ->
+                                viewModel.removeMovieFromList(
+                                    listId = listToRemoveFrom.id.toInt(),
+                                    movieId = movieId
+                                )
+                            }
                         )
                     }
                 }
