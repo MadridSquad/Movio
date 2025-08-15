@@ -30,6 +30,7 @@ hiltAndroidCompiler = "2.51.1"
 dagger = "2.57"
 workRuntimeKtx = "2.10.3"
 hiltWork = "1.2.0"
+composeMaterial = "1.4.1"
 
 
 [libraries]

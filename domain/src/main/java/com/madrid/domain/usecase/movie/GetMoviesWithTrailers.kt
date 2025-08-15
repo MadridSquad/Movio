@@ -9,11 +9,11 @@ class GetMoviesWithTrailers @Inject constructor(
 ) {
     suspend operator fun invoke(movies: List<Movie>): List<Movie> {
         return movies.map { movie ->
-            val trailer = movieTrailersUseCase(movie.id).first()
+            val trailer = movieTrailersUseCase(movie.id).firstOrNull()
             movie.copy(
                 trailer = Trailer(
-                    key = trailer.key,
-                    id = trailer.id
+                    key = trailer?.key ?:"",
+                    id = trailer?.id ?: ""
                 )
             )
         }

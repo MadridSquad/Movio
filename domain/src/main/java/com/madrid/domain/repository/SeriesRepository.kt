@@ -31,4 +31,9 @@ interface SeriesRepository {
     suspend fun getAllSeriesInHistory(): List<Series>
     suspend fun getFavoriteSeries(sessionId: String): List<Series>
     suspend fun setSeriesFavoriteStatus(seriesId: Int, sessionId: String, isFavorite: Boolean)
+    suspend fun getEpisodeTrailers(
+        seriesId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int
+    ): List<Trailer>
 }

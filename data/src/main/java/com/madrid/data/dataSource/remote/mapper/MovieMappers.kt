@@ -1,5 +1,6 @@
 package com.madrid.data.dataSource.remote.mapper
 
+import com.madrid.data.dataSource.local.mappers.toGenre
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
 import com.madrid.data.dataSource.remote.dto.movie.CastNetwork
@@ -30,7 +31,9 @@ fun MovieDetailsResponse.toMovie(): Movie {
     )
 }
 
-fun MovieResult.toMovie(): Movie {
+fun MovieResult.toMovie(
+    genres : List<Genre> = emptyList()
+): Movie {
     return Movie(
         id = this.id ?: 0,
         title = this.title ?: "",
@@ -39,8 +42,7 @@ fun MovieResult.toMovie(): Movie {
         releaseDate = this.releaseDate ?: "",
         movieDuration = "",
         description = this.overview ?: "",
-        genre = this.genreIds?.map { Genre(id = it, name = "") } ?: emptyList(),
-
+        genre = genres,
     )
 }
 
