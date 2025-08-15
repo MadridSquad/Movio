@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -32,7 +33,7 @@ fun CustomHorizontalCardForWatchList(
     onWatchListClick: (WatchListState) -> Unit = {},
 ) {
     Column(
-        modifier = modifier.padding(bottom = 20.dp),
+        modifier = modifier,
     ) {
         CustomTextTitle(
             modifier = headerModifier.padding(bottom = 12.dp),
@@ -48,15 +49,18 @@ fun CustomHorizontalCardForWatchList(
         }
         AnimatedVisibility(listOfWatch.isNotEmpty()) {
             LazyRow(
+                contentPadding = PaddingValues(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier,
-                contentPadding = PaddingValues(horizontal = 16.dp)
             ) {
-                items(listOfWatch) { watchList ->
+                items(listOfWatch, key = { it.id }) { watchList ->
                     VideoLibrary(
                         onClick = { onWatchListClick(watchList) },
                         videosNumber = watchList.numberOfVideos,
-                        title = watchList.watchListTitle
+                        title = watchList.watchListTitle,
+                        posterUrl = watchList.posterUrl,
+                        modifier = Modifier
+                            .width(158.dp)
                     )
                 }
             }

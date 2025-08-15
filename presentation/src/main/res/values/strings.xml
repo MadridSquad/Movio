@@ -137,4 +137,13 @@
     <string name="this_rating_is_only_available_to_registered_users_Login_to_share_your_rating">This rating is only available to registered users, Log in to share your rating</string>
     <string name="watch_list_icon">watch list icon</string>
     <string name="confirm">Confirm</string>
+    <string name="new_list_created_successfully">New list created successfully.</string>
+    <string name="nothing_here_yet">🎬 Nothing here yet!</string>
+    <string name="add_movies_and_tv_shows_to_build_your_personal_watchlist">Add movies and TV shows to build your personal watchlist. The perfect binge starts here!</string>
+    <string name="Item_has_been_deleted">Item has been deleted</string>
+    <string name="empty_list_message">Your %1$s list is empty</string>
+    <string name="Start_adding_the_movies_and_shows_you_love">Start adding the movies and shows you love — keep them all in one place for easy access.</string>
+    <string name="Start_watching_movies_and_shows">Start watching movies and shows, and we’ll keep track of your viewing history here.</string>
+    <string name="empty_list_description">Save the movies and shows you want to watch, and they’ll appear here when you’re ready.</string>
+    <string name="undo">Undo</string>
 </resources>
