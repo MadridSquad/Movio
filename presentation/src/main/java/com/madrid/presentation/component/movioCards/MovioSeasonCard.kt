@@ -53,7 +53,6 @@ fun MovioSeasonCard(
             modifier = modifier
                 .padding(horizontal = 8.dp, vertical = 4.dp)
                 .align(Alignment.CenterVertically)
-                .width(250.dp),
         ) {
             Row(
                 Modifier.fillMaxWidth(),

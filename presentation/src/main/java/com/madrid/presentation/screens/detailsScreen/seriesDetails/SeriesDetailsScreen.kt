@@ -4,7 +4,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,6 +21,7 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
@@ -463,25 +463,17 @@ fun SeriesDetailsScreen(
                             )
                         }
                     )
-
                     CustomTextTitle(
                         primaryText = stringResource(R.string.current_seasons),
                         secondaryText = stringResource(R.string.see_all),
                         endIcon = painterResource(drawable.outline_alt_arrow_left),
                         onSeeAllClick = {
                             navController.navigate(
-                                Destinations.SeasonsScreen(
-                                    uiState.seriesId,
-                                    1
-                                )
+                                Destinations.SeasonsScreen(uiState.seriesId, 1)
                             )
                         },
-                        modifier = Modifier.padding(
-                            start = 16.dp,
-                            end = 16.dp,
-                            top = 32.dp,
-                            bottom = 12.dp
-                        )
+                        modifier = Modifier
+                            .padding(start = 16.dp, end = 16.dp, top = 32.dp, bottom = 12.dp)
                     )
                     LazyRow(
                         contentPadding = PaddingValues(horizontal = 16.dp),
@@ -504,6 +496,7 @@ fun SeriesDetailsScreen(
                                 yearOfPublish = season.productionDate.formatYearKtx(),
                                 currentSeason = season.seasonNumber.toString(),
                                 timeOfPublish = season.productionDate.formatFullDateKtx(),
+                                modifier = Modifier.width(250.dp)
                             )
                         }
                     }
