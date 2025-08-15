@@ -7,4 +7,5 @@ data class Episode(
     val duration: String,
     val imageUrl : String,
     val rate : Double,
+    val trailer: Trailer? = null
 )

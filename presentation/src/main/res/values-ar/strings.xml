@@ -138,4 +138,13 @@
     <string name="this_rating_is_only_available_to_registered_users_Login_to_share_your_rating">هذا التقييم متاح فقط للمستخدمين المسجلين، قم بتسجيل الدخول لمشاركة تقييمك</string>
     <string name="watch_list_icon">ايقونه مشاهده القائمه</string>
     <string name="confirm">تأكيد</string>
+    <string name="new_list_created_successfully">تم إنشاء قائمة جديدة بنجاح</string>
+    <string name="nothing_here_yet">لا يوجد شئ حاليا 🎬</string>
+    <string name="add_movies_and_tv_shows_to_build_your_personal_watchlist">أضف أفلامًا ومسلسلات تلفزيونية إلى قائمة مُشاهداتك. ابدأ متعة المشاهدة من هنا!</string>
+    <string name="Item_has_been_deleted">تم الحذف بنجاح</string>
+    <string name="empty_list_message">قائمة %1$s الخاصة بك فارغة</string>
+    <string name="Start_adding_the_movies_and_shows_you_love">ابدأ بإضافة الأفلام والعروض التي تحبها - واحتفظ بها جميعًا في مكان واحد لسهولة الوصول إليها.</string>
+    <string name="Start_watching_movies_and_shows">إبدء بمشاهدة الأفلام و المسلسلات. وسنقوم بتتبع سجل المشاهدة الخاص بك هنا.</string>
+    <string name="empty_list_description">احفظ الأفلام والعروض التي تريد مشاهدتها، وستظهر هنا عندما تكون مستعدًا.</string>
+    <string name="undo">تراجع</string>
 </resources>

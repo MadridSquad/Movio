@@ -16,6 +16,7 @@ import com.madrid.data.dataSource.remote.dto.list.ListDto
 import com.madrid.data.dataSource.remote.dto.list.ListOperationResponse
 import com.madrid.data.dataSource.remote.dto.list.ListsDetailsResponse
 import com.madrid.data.dataSource.remote.dto.list.MovieListBody
+import com.madrid.data.dataSource.remote.dto.list.RemoveMovieDto
 import com.madrid.data.dataSource.remote.dto.movie.MovieCreditsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieResult
@@ -159,6 +160,16 @@ class RemoteDataSourceImpl @Inject constructor(
         return api.getFavoriteSeries(sessionId).seriesResults
     }
 
+    override suspend fun getEpisodeTrailers(
+        episodeNumber: Int,
+        seasonNumber: Int,
+        seriesId: Int
+    ): List<TrailerResult> {
+        return api.getEpisodeTrailers(seriesId, seasonNumber, episodeNumber).results
+    }
+
+
+
     // Artist
     override suspend fun searchArtistByQuery(name: String, page: Int): SearchArtistResponse {
         return api.searchArtistByQuery(name, page)
@@ -213,7 +224,7 @@ class RemoteDataSourceImpl @Inject constructor(
         genreId: Int?,
         sortBy: String
     ): SearchSeriesResponse {
-        val x  = api.getSeriesByGenreId(page, genreId, sortBy)
+        val x = api.getSeriesByGenreId(page, genreId, sortBy)
         Log.d("TAG getSeriesByGenreId in data ", "getSeriesByGenreId: $x")
         return x
     }
@@ -229,6 +240,22 @@ class RemoteDataSourceImpl @Inject constructor(
 
         return api.getCustomListDetails(listId, sessionId)
 
+    }
+
+    override suspend fun removeMovieFromList(
+        listId: Int,
+        mediaId: Int,
+        sessionId: String
+    ) {
+        val request = RemoveMovieDto(
+            mediaId = mediaId
+        )
+
+        api.removeMovieFromList(
+            listId = listId,
+            sessionId = sessionId,
+            removeItemRequest = request
+        )
     }
 
     override suspend fun login(username: String, password: String): String {
@@ -311,7 +338,11 @@ class RemoteDataSourceImpl @Inject constructor(
 
     }
 
-    override suspend fun setMovieFavoriteStatus(movieId: Int, sessionId: String, isFavorite: Boolean) {
+    override suspend fun setMovieFavoriteStatus(
+        movieId: Int,
+        sessionId: String,
+        isFavorite: Boolean
+    ) {
         val request = AddToFavoriteRequest(
             mediaType = "movie",
             mediaId = movieId,
@@ -326,7 +357,11 @@ class RemoteDataSourceImpl @Inject constructor(
         )
     }
 
-    override suspend fun setSeriesFavoriteStatus(seriesId: Int, sessionId: String, isFavorite: Boolean) {
+    override suspend fun setSeriesFavoriteStatus(
+        seriesId: Int,
+        sessionId: String,
+        isFavorite: Boolean
+    ) {
         val request = AddToFavoriteRequest(
             mediaType = "tv",
             mediaId = seriesId,
