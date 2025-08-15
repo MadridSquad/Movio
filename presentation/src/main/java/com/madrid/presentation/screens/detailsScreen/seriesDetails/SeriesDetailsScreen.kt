@@ -208,7 +208,7 @@ fun SeriesDetailsScreen(
                         movieName = uiState.seriesName,
                         seriesCategory = uiState.seriesGenre,
                         date = uiState.productionDate,
-                        time = stringResource(id = R.string.season_count, uiState.numberOfSeasons),
+                        time = stringResource(id = R.string.season_count, uiState.numberOfSeasons.toString()),
                         rate = uiState.rate.take(3),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                     )
@@ -361,7 +361,6 @@ fun SeriesDetailsScreen(
                             }
                         }
                     )
-
                     MovioBottomSheet(
                         show = showDoneRatingBottomSheet,
                         onDismiss = { showDoneRatingBottomSheet = false },
@@ -484,7 +483,6 @@ fun SeriesDetailsScreen(
                             bottom = 12.dp
                         )
                     )
-
                     LazyRow(
                         contentPadding = PaddingValues(horizontal = 16.dp),
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -528,10 +526,6 @@ fun SeriesDetailsScreen(
                     }
 
                     if (uiState.similarSeries.isNotEmpty()) {
-                        Log.d(
-                            "in series details screen",
-                            "SeriesDetailsScreen: ${uiState.similarSeries}"
-                        )
                         SimilarSeriesSection(
                             similarSeries = uiState.similarSeries.map { series ->
                                 SimilarSeries(

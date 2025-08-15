@@ -1,6 +1,5 @@
 package com.madrid.presentation.screens.detailsScreen.seriesDetails
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -32,7 +31,7 @@ fun SeasonsScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()) {
     val navController = LocalNavController.current
     SeasonsScreenContent(
         uiState = uiState,
-        onClickBack = { navController.navigate(Destinations.SeriesDetailsScreen(uiState.seriesId,1)) },
+        onClickBack = { navController.navigate(Destinations.SeriesDetailsScreen(uiState.seriesId, seasonNumber = 1)) },
         onClickSeason = { seasonNumber ->
             navController.navigate(
                 Destinations.EpisodesScreen(
@@ -67,7 +66,6 @@ fun SeasonsScreenContent(
         LazyColumn(
             contentPadding = PaddingValues(bottom = 40.dp)
         ) {
-            Log.d("TAG bob", "SeasonsScreenContent: ${uiState.currentSeasonsUiStates.size}")
             itemsIndexed(seasons) { index, season ->
                 MovioSeasonCard(
                     movieTitle = season.title,
