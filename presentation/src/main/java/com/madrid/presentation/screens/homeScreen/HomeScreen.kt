@@ -96,9 +96,12 @@ fun HomeScreenContent(
             onClickMediaButton = { mediaType, mediaIndex ->
                 interactionListener.onClickPlayButton(
                     mediaIndex = mediaIndex,
-                    mediaType = mediaType
+                    mediaType = mediaType,
                 )
-            }
+            },
+            onSelectCategory = interactionListener::onSelectCategory,
+            onSelectSortingType = interactionListener::onSelectSortingType,
+            onMediaSelected = interactionListener::onMediaSelected
         )
         Column(
             modifier = Modifier
