@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import com.madrid.data.dataSource.local.table.MovieGenreTable
 import com.madrid.data.dataSource.local.table.SeriesGenreTable
 import com.madrid.data.dataSource.local.table.relationship.GenreWithSeries
 
@@ -33,6 +34,9 @@ interface SeriesGenreDao {
 
     @Query("SELECT * FROM SERIES_GENRE_TABLE WHERE genreId = :id")
     suspend fun getGenreById(id: Int): SeriesGenreTable?
+
+    @Query("SELECT * FROM SERIES_GENRE_TABLE WHERE genreId IN (:ids)")
+    suspend fun getGenresByIds(ids: List<Int>): List<SeriesGenreTable>
 
     @Query("SELECT * FROM SERIES_GENRE_TABLE WHERE genreTitle = :title")
     suspend fun getGenreByTitle(title: String): SeriesGenreTable?

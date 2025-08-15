@@ -37,7 +37,9 @@ fun HomeAppBar(
     ) {
         Image(
             painter = painterResource(R.drawable.library_main_icon),
-            contentDescription = "app icon"
+            contentDescription = stringResource(com.madrid.presentation.R.string.movio_icon),
+            modifier = Modifier
+                .size(height = 28.dp, width = 25.dp)
         )
         Spacer(Modifier.width(8.dp))
         MovioText(

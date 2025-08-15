@@ -44,12 +44,12 @@ fun MovioPager(
     medias: List<MediaUiState>,
     modifier: Modifier = Modifier,
     onClickItem: (Int) -> Unit = {},
+    isLoading: Boolean = true,
     onClickMediaButton: (Int) -> Unit = {},
-    ) {
-    if(medias.isNotEmpty()){
+) {
+    if (medias.isNotEmpty()) {
         val currentLayoutDirection = LocalLayoutDirection.current
         val isRtl = currentLayoutDirection == LayoutDirection.Rtl
-
         val pagerState = rememberPagerState(
             initialPage = if (isRtl) medias.size - 1 else 0,
             pageCount = { medias.size }
