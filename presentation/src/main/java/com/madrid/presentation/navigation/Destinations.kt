@@ -31,7 +31,8 @@ sealed interface Destinations {
     @Serializable
     data object SearchScreen : Destinations
 
-
+    @Serializable
+    data object WatchListViewAllScreen : Destinations
 
     @Serializable
     data class SeeAllTvShowsScreen(

@@ -1,5 +1,6 @@
 package com.madrid.presentation.viewModel.homeViewModel
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -50,10 +51,8 @@ class HomeViewModel @Inject constructor(
     HomeScreenState()
 ), HomeInteractionListener {
     init {
-        loadGenres()
         loadFileImage()
         loadMoviesLayoutData()
-        loadSeriesLayoutData()
     }
 
     private fun loadFileImage() {
@@ -132,8 +131,13 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    override fun onSelectTab() {
-        TODO("Not yet implemented")
+    override fun onSelectTab(index: Int) {
+        updateState { it.copy(selectedTabIndex = index) }
+        when(index){
+            0 -> loadMoviesLayoutData()
+            1 -> loadSeriesLayoutData()
+            2 -> loadGenres()
+        }
     }
 
     override fun onSelectCategory(category: CategoryUiState) {

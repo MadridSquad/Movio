@@ -47,6 +47,9 @@ interface LocalDataSource {
     suspend fun getMoviesByGenres(): List<GenreWithMovies>
     suspend fun getSeriesByGenres(): List<GenreWithSeries>
 
+    suspend fun getMovieGenresByIds(ids: List<Int>): List<MovieGenreTable>
+    suspend fun getSeriesGenresByIds(ids: List<Int>): List<SeriesGenreTable>
+
     suspend fun getNowPlayingMovies(): List<SectionsMovieTable>
     suspend fun getUpComingMovies(): List<SectionsMovieTable>
     suspend fun getTrendingMovies(): List<SectionsMovieTable>

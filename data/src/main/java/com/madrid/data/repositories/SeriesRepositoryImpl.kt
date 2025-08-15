@@ -3,6 +3,8 @@ package com.madrid.data.repositories
 import com.madrid.data.dataSource.local.mappers.toGenre
 import com.madrid.data.dataSource.local.mappers.toSeries
 import com.madrid.data.dataSource.mapper.toSeriesGenreTable
+import com.madrid.data.dataSource.remote.dto.common.AddToFavoriteRequest
+import com.madrid.data.dataSource.remote.dto.series.SeriesResult
 import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.mapper.toEpisode
 import com.madrid.data.dataSource.remote.mapper.toRatedSeries
@@ -28,6 +30,12 @@ class SeriesRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
 ) : SeriesRepository {
+
+    private suspend fun SeriesResult.toSeriesWithGenres(): Series {
+        val genres = localDataSource
+            .getSeriesGenresByIds(this.genreIds ?: emptyList()).map { it.toGenre() }
+        return this.toSeries(genres)
+    }
 
     override suspend fun getSeriesDetailsById(seriesId: Int): Series {
         return remoteDataSource.getSeriesDetailsById(seriesId).toSeries()
@@ -158,6 +166,8 @@ class SeriesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getFavoriteSeries(sessionId: String): List<Series> {
-        return remoteDataSource.getFavoriteSeries(sessionId).map { it.toSeries() }
+        return remoteDataSource.getFavoriteSeries(sessionId).map { series ->
+            series.toSeriesWithGenres()
+        }
     }
 }
