@@ -41,7 +41,7 @@ sealed class MovieListEvent {
 
 @HiltViewModel
 class MovieListViewModel @Inject constructor(
-    private val RemoveMovieFromListUseCase: RemoveMovieFromListUseCase,
+    private val removeMovieFromListUseCase: RemoveMovieFromListUseCase,
     private val createMovieListUseCase: CreateMovieListUseCase,
     private val addMovieToListUseCase: AddMovieToListUseCase,
     private val getWatchListsUseCase: GetWatchListsUseCase, // Changed: Use the actual use case class
@@ -81,27 +81,66 @@ class MovieListViewModel @Inject constructor(
         }
     }
 
-    fun removeMovieFromList(
-        mediaId: Int,
-        listId: Int,
-    ) {
+    fun addMovieToList(listId: Int, movieId: Int, mediaId: Int) {
         viewModelScope.launch(dispatcher) {
-            updateState { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
-
+            updateState { it.copy(isLoading = true) }
             try {
-                RemoveMovieFromListUseCase(mediaId, listId)
+                val result = addMovieToListUseCase(listId, movieId)
+                if (result.success) {
+                    updateState {
+                        it.copy(
+                            isLoading = false,
+                            addToListSuccess = true,
+                            successMessage = result.message
+                        )
+                    }
+                    loadUserLists() // Refresh the lists
+                } else {
+                    updateState {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = result.message
+                        )
+                    }
+                }
+            } catch (e: Exception) {
                 updateState {
                     it.copy(
                         isLoading = false,
-                        successMessage = "Movie removed from list successfully",
-                        addToListSuccess = true
+                        errorMessage = e.message ?: "Failed to add to list"
                     )
                 }
-            } catch (ex: MovioException) {
+            }
+        }
+    }
+
+    fun removeMovieFromList(mediaId: Int, listId: Int) {
+        viewModelScope.launch(dispatcher) {
+            updateState { it.copy(isLoading = true) }
+            try {
+                val result = removeMovieFromListUseCase(mediaId, listId)
+                if (result.success) {
+                    updateState {
+                        it.copy(
+                            isLoading = false,
+                            addToListSuccess = true, // Reusing this for removal success
+                            successMessage = result.message
+                        )
+                    }
+                    loadUserLists() // Refresh the lists
+                } else {
+                    updateState {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = result.message
+                        )
+                    }
+                }
+            } catch (e: Exception) {
                 updateState {
                     it.copy(
                         isLoading = false,
-                        errorMessage = getErrorMessage(ex)
+                        errorMessage = e.message ?: "Failed to remove from list"
                     )
                 }
             }

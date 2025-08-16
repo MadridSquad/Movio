@@ -489,6 +489,6 @@ fun MovieDetailsScreen(
         isVisible = showAddToListBottomSheet,
         onDismiss = { showAddToListBottomSheet = false },
         movieId = uiState.movieId,
-        viewModel = addToListViewModel
+        movieListIds = addToListUiState.userLists,
     )
 }

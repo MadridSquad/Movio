@@ -8,5 +8,5 @@ data class WatchList(
     val posterUrl: String? = null,
     var isSelected: Boolean = false,
     var isLoading: Boolean = false,
-
+    val movieIds: List<Int> = emptyList()
 )
