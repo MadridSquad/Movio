@@ -27,11 +27,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.cairosquad.safe_image_viewer.safe_image_viewer.SafeImageViewer
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
-import com.madrid.detectImageContent.FilteredImage
 
 @Composable
 fun ReviewCard(
@@ -65,9 +65,9 @@ fun ReviewCard(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            FilteredImage(
-                imageUrl = reviewerImageUrl,
-                contentDescription = null,
+            SafeImageViewer(
+                model = reviewerImageUrl,
+                contentDescription = "Reviewer Image",
                 modifier = Modifier
                     .clip(CircleShape)
                     .size(32.dp)

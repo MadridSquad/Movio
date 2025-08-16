@@ -1,9 +1,8 @@
 package com.madrid.presentation.navigation
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -64,14 +63,8 @@ fun MovioNavGraph(
 
         AnimatedVisibility(
             visible = currentDestination != null,
-            enter = slideInVertically(
-                animationSpec = tween(0),
-                initialOffsetY = { it }
-            ),
-            exit = slideOutVertically(
-                animationSpec = tween(0),
-                targetOffsetY = { it }
-            )
+            enter = fadeIn(),
+            exit = fadeOut()
         ) {
             CustomBottomBar(
                 currentDestination = currentDestination?.destination ?: Destinations.HomeScreen,

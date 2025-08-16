@@ -11,7 +11,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.madrid.detectImageContent.FilteredImage
+import com.cairosquad.safe_image_viewer.safe_image_viewer.SafeImageViewer
 
 @Composable
 fun PosterCard(posterImageUrl: String, modifier: Modifier = Modifier) {
@@ -21,12 +21,12 @@ fun PosterCard(posterImageUrl: String, modifier: Modifier = Modifier) {
             .background(Color.Black.copy(alpha = 0.7f))
             .shadow(16.dp, RoundedCornerShape(12.dp), clip = false)
     ) {
-        FilteredImage(
-            imageUrl = posterImageUrl,
+        SafeImageViewer(
+            model = posterImageUrl,
             modifier = Modifier
                 .fillMaxSize()
                 .clip(RoundedCornerShape(12.dp)),
-            contentDescription = null,
+            contentDescription = "Poster Image",
             contentScale = ContentScale.Crop
         )
     }

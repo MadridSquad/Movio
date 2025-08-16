@@ -42,6 +42,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":safe_image_viewer"))
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
@@ -60,5 +61,4 @@ dependencies {
     implementation(libs.androidx.core.ktx.v160)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.coil.kt.coil.compose)
-
 }

@@ -47,9 +47,8 @@ android {
 
 dependencies {
     implementation(project(":designSystem"))
-    implementation(project(":detectImageContent"))
     implementation(project(":domain"))
-
+    implementation(project(":safe_image_viewer"))
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.work.runtime.ktx)
     debugImplementation(libs.ui.tooling)

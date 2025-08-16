@@ -24,11 +24,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.cairosquad.safe_image_viewer.safe_image_viewer.SafeImageViewer
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
-import com.madrid.detectImageContent.FilteredImage
 
 @Composable
 fun MovieHomeCard(
@@ -45,8 +45,8 @@ fun MovieHomeCard(
                 RoundedCornerShape(8.dp)
             ),
     ) {
-        FilteredImage(
-            imageUrl = movieId,
+        SafeImageViewer(
+            model = movieId,
             contentDescription = name,
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -83,8 +83,8 @@ fun MovieHomeCard(
                 .height(51.dp)
         ) {
 
-            FilteredImage(
-                imageUrl = movieId,
+            SafeImageViewer(
+                model = movieId,
                 contentDescription = name,
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier

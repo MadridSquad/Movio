@@ -10,13 +10,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import com.cairosquad.safe_image_viewer.safe_image_viewer.SafeImageViewer
 import com.madrid.designSystem.R
 
 @Composable
@@ -39,11 +37,8 @@ fun ProfilePicture(
                 )
             )
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(image)
-                .crossfade(true)
-                .build(),
+        SafeImageViewer(
+            model = image ?: "",
             contentDescription = "Profile Picture",
             placeholder = painterResource(R.drawable.bold_profile_circle),
             error = painterResource(R.drawable.bold_profile_circle),
@@ -51,6 +46,7 @@ fun ProfilePicture(
                 .align(Alignment.Center),
             contentScale = ContentScale.Crop
         )
+
     }
 }
 
