@@ -8,6 +8,6 @@ class GetMovieGenresUseCase @Inject constructor(
     private val movieRepository: MovieRepository
 ) {
     suspend operator fun invoke(): List<Genre> {
-        return movieRepository.getMovieGenres()
+        return movieRepository.getMoviesGenres()
     }
 }
