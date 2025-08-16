@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.theme.Theme
 
@@ -29,12 +30,13 @@ fun FilterBar(
     onItemClick: (String) -> Unit,
     modifier: Modifier = Modifier,
     scrollable: Boolean = true,
+    contentHorizontalPadding: Dp = 16.dp,
 ) {
     if (scrollable) {
         LazyRow(
             modifier = modifier,
+            contentPadding = PaddingValues(horizontal = contentHorizontalPadding),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp),
         ) {
             itemsIndexed(items) { index,item ->
                 FilterChip(
@@ -46,7 +48,7 @@ fun FilterBar(
     } else {
         Row(
             modifier = modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = contentHorizontalPadding)
         ) {
             items.forEach { item ->
                 FilterChip(
