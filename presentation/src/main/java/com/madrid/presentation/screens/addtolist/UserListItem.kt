@@ -27,7 +27,8 @@ fun UserListItem(
     userList: WatchList,
     isGlobalLoading: Boolean = false,
     onToggleSelection: (WatchList) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isSelected: Boolean
 ) {
     val isItemEnabled = !isGlobalLoading && !userList.isLoading
     val isItemLoading = isGlobalLoading || userList.isLoading
