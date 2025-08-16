@@ -21,7 +21,7 @@ fun ListSelectionContent(
     isLoading: Boolean = false,
     mode: ListSelectionMode = ListSelectionMode.ADD_TO_LIST,
     movieId: Int? = null,
-    movieListIds: List<Int>, // Changed to List<Int> for easier contains check
+    movieListIds: List<Int>,
     onCreateNewListClick: () -> Unit = {},
     onSelectionChanged: ((WatchList, Boolean) -> Unit)? = null,
     onRemoveFromList: ((Int, Int) -> Unit)? = null,
@@ -47,34 +47,24 @@ fun ListSelectionContent(
                     UserListItem(
                         userList = userList.copy(
                             isSelected = isMovieInList,
-                            // Ensure we don't show loading for lists that aren't being modified
-                            isLoading = userList.isLoading && (isMovieInList || mode == ListSelectionMode.ADD_TO_LIST)
+                            isLoading = userList.isLoading
                         ),
                         onToggleSelection = { toggledList ->
                             if (!isLoading && !toggledList.isLoading) {
                                 movieId?.let { id ->
-                                    when (mode) {
-                                        ListSelectionMode.ADD_TO_LIST -> {
-                                            if (isMovieInList) {
-                                                onRemoveFromList?.invoke(id, toggledList.id)
-                                            } else {
-                                                onAddToList?.invoke(id, toggledList.id)
-                                            }
-                                        }
+                                    val shouldAdd = !isMovieInList
 
-                                        ListSelectionMode.DELETE_FROM_LIST -> {
-                                            if (isMovieInList) {
-                                                onRemoveFromList?.invoke(id, toggledList.id)
-                                            }
-                                        }
+                                    if (shouldAdd) {
+                                        onAddToList?.invoke(id, toggledList.id)
+                                    } else {
+                                        onRemoveFromList?.invoke(id, toggledList.id)
                                     }
-                                    // Notify parent of selection change
-                                    onSelectionChanged?.invoke(toggledList, !isMovieInList)
+                                    onSelectionChanged?.invoke(toggledList, shouldAdd)
                                 }
                             }
                         },
                         isGlobalLoading = isLoading,
-                        isSelected = isMovieInList,
+                        isSelected = isMovieInList
                     )
                 }
             }

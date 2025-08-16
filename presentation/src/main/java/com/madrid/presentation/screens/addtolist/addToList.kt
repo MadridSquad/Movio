@@ -35,7 +35,7 @@ fun ListManagementBottomSheet(
     isVisible: Boolean,
     onDismiss: () -> Unit,
     movieId: Int,
-    movieListIds: List<WatchList>, // Pass the list of IDs that contain this movie
+    movieListIds: List<WatchList>,
     viewModel: MovieListViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
