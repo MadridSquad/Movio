@@ -72,7 +72,7 @@ fun MoviesLayout(
 
     LazyVerticalGrid(
         state = lazyGridState,
-        columns = GridCells.Adaptive(minSize = 168.dp),
+        columns = GridCells.Adaptive(minSize = 158.dp),
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
