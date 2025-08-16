@@ -8,7 +8,7 @@ data class RecommendedSeriesResponse(
     @SerializedName("page")
     val page: Int?,
     @SerializedName("results")
-    val recommendedSeriesResults: List<RecommendedSeriesResult?>?,
+    val recommendedSeriesResults: List<RecommendedSeriesResult>?,
     @SerializedName("total_pages")
     val totalPages: Int?,
     @SerializedName("total_results")
@@ -24,7 +24,7 @@ data class RecommendedSeriesResult(
     @SerializedName("first_air_date")
     val firstAirDate: String?,
     @SerializedName("genre_ids")
-    val genreIds: List<Int?>,
+    val genreIds: List<Int>,
     @SerializedName("id")
     val id: Int?,
     @SerializedName("name")

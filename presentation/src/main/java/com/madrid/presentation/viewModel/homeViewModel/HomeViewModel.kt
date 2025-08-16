@@ -51,6 +51,7 @@ class HomeViewModel @Inject constructor(
     HomeScreenState()
 ), HomeInteractionListener {
     init {
+        loadGenres()
         loadFileImage()
         loadMoviesLayoutData()
     }
