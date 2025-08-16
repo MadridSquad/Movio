@@ -233,6 +233,7 @@ private fun LoadCategoriesLayout(
             onSelectSortingType(sortingType)
         },
         onMediaItemClicked = onMediaSelected,
+        isLoading = uiState.categoryTabUiState.isLoading
     )
 }
 

@@ -1,19 +1,18 @@
 package com.madrid.data.dataSource.remote.mapper
 
+import com.madrid.data.dataSource.remote.dto.series.AiringTodaySeriesResult
+import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.EpisodeDto
-import com.madrid.data.dataSource.remote.dto.series.SearchSeriesResponse
+import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
+import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResult
+import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
+import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResult
 import com.madrid.data.dataSource.remote.dto.series.SeasonsNetwork
 import com.madrid.data.dataSource.remote.dto.series.SeriesCastNetwork
 import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesResult
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResult
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesNetwork
-import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
-import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResult
-import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
-import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResult
-import com.madrid.data.dataSource.remote.dto.series.AiringTodaySeriesResult
-import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResults
 import com.madrid.domain.entity.Artist
@@ -22,12 +21,6 @@ import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.Season
 import com.madrid.domain.entity.Series
-
-fun SearchSeriesResponse.toTvShows(): List<Series> {
-    return this.seriesResults?.map {
-        it.toSeries()
-    } ?: emptyList()
-}
 
 fun TopRatedSeriesResponse.toTvShows(): List<Series> {
     return this.results?.map { it ->
@@ -60,7 +53,7 @@ fun SeriesResult.toSeries(
         id = this.id ?: 0,
         title = this.title ?: "",
         imageUrl = "https://image.tmdb.org/t/p/original${this.posterPath}",
-        rate = this.popularity ?: 0.0,
+        rate = this.voteAverage ?: 0.0,
         airDate = this.releaseDate ?: "",
         description = this.overview ?: "",
         genre = genres,
@@ -77,7 +70,7 @@ fun TopRatedSeriesResults.toSeries(): Series {
         rate = this.voteAverage ?: 0.0,
         airDate = this.firstAirDate ?: "",
         description = this.overview ?: "",
-        genre = this.genreIds?.map { Genre(id = it?:0,name = "") } ?: listOf(),
+        genre = this.genreIds?.map { Genre(id = it ?: 0, name = "") } ?: listOf(),
         seasons = emptyList(),
     )
 }
@@ -90,7 +83,7 @@ fun OnAirTvShowsResult.toSeries(): Series {
         rate = this.voteAverage ?: 0.0,
         airDate = "",
         description = this.overview ?: "",
-        genre = this.genreIds?.map { Genre(id = it?:0,name = "") } ?: listOf(),
+        genre = this.genreIds?.map { Genre(id = it ?: 0, name = "") } ?: listOf(),
         seasons = emptyList(),
     )
 }
@@ -103,7 +96,7 @@ fun AiringTodaySeriesResult.toSeries(): Series {
         rate = this.voteAverage ?: 0.0,
         airDate = this.firstAirDate ?: "",
         description = this.overview ?: "",
-        genre = this.genreIds?.map { Genre(id = it?:0,name = "") } ?: listOf(),
+        genre = this.genreIds?.map { Genre(id = it ?: 0, name = "") } ?: listOf(),
         seasons = emptyList(),
     )
 }
@@ -116,7 +109,7 @@ fun RecommendedSeriesResult.toSeries(): Series {
         rate = this.voteAverage ?: 0.0,
         airDate = this.firstAirDate ?: "",
         description = this.overview ?: "",
-        genre = this.genreIds.map { Genre(id = it?:0,name = "") },
+        genre = this.genreIds.map { Genre(id = it ?: 0, name = "") },
         seasons = emptyList(),
     )
 }
