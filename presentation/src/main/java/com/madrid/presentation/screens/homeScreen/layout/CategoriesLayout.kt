@@ -20,7 +20,7 @@ import androidx.paging.compose.LazyPagingItems
 import com.madrid.designSystem.component.FilterBar
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
-import com.madrid.presentation.component.shimmer.ShimmerCard
+import com.madrid.presentation.modifier.ShimmerCard
 import com.madrid.presentation.viewModel.homeViewModel.CategoryUiState
 import com.madrid.presentation.viewModel.homeViewModel.SortingType
 import com.madrid.presentation.viewModel.shared.MediaType
