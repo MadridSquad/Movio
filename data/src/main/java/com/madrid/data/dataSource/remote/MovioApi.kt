@@ -100,11 +100,11 @@ interface MovioApi {
         @Query("page") page: Int
     ): SearchMovieResponse
 
-    @GET(DISCOVER_MOVIE)
+    @GET("discover/movie")
     suspend fun getMoviesByGenreId(
-        @Query(PAGE) page: Int,
-        @Query(WITH_GENRES) genreId: Int?,
-        @Query(SORT_BY) sortBy: String
+        @Query("page") page: Int,
+        @Query("with_genres") genreId: Int?,
+        @Query("sort_by") sortBy: String
     ): SearchMovieResponse
     // endregion
 
@@ -175,11 +175,11 @@ interface MovioApi {
     @GET("genre/tv/list")
     suspend fun getSeriesGenres(): GenresResponse
 
-    @GET(DISCOVER_MOVIE)
+    @GET("discover/tv")
     suspend fun getSeriesByGenreId(
-        @Query(PAGE) page: Int,
-        @Query(WITH_GENRES) genreId: Int?,
-        @Query(SORT_BY) sortBy: String
+        @Query("page") page: Int,
+        @Query("with_genres") genreId: Int?,
+        @Query("sort_by") sortBy: String
     ): SearchSeriesResponse
 
     @GET("tv/{series_id}/season/{season_number}/episode/{episode_number}/videos")
@@ -306,14 +306,14 @@ interface MovioApi {
 
     // endregion
 
-    @GET(FAVORITE_MOVIES)
+    @GET("account/account_id/favorite/movies")
     suspend fun getFavoriteMovies(
-        @Query(SESSION_ID) sessionId: String,
+        @Query("session_id") sessionId: String,
     ): SearchMovieResponse
 
-    @GET(FAVORITE_SERIES)
+    @GET("account/account_id/favorite/tv")
     suspend fun getFavoriteSeries(
-        @Query(SESSION_ID) sessionId: String,
+        @Query("session_id") sessionId: String,
     ): SearchSeriesResponse
 
     @POST("account/{account_id}/favorite")
@@ -329,18 +329,4 @@ interface MovioApi {
         @Query("session_id") sessionId: String,
         @Body removeItemRequest: RemoveMovieDto
     )
-
-    companion object {
-        private const val DISCOVER_MOVIE = "discover/movie"
-        private const val PAGE = "page"
-
-        private const val SESSION_ID = "session_id"
-
-        private const val WITH_GENRES = "with_genres"
-        private const val SORT_BY = "sort_by"
-
-        private const val FAVORITE_MOVIES = "account/account_id/favorite/movies"
-        private const val FAVORITE_SERIES = "account/account_id/favorite/tv"
-
-    }
 }
