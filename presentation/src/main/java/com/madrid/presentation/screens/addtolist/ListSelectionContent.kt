@@ -6,70 +6,58 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.domain.entity.WatchList
 
+enum class ListSelectionMode {
+    ADD_TO_LIST,
+    DELETE_FROM_LIST
+}
+
 @Composable
 fun ListSelectionContent(
-    initialUserLists: List<WatchList> = emptyList(),
+    initialUserLists: List<WatchList> ,
     isLoading: Boolean = false,
+    mode: ListSelectionMode = ListSelectionMode.ADD_TO_LIST,
+    movieId: Int? = null,
     onCreateNewListClick: () -> Unit = {},
-    onSelectionChanged: ((WatchList, Boolean) -> Unit)? = null
+    onSelectionChanged: ((WatchList, Boolean) -> Unit)? = null,
+    onRemoveFromList: ((Int, Int) -> Unit)? = null
 ) {
-    var listsWithLocalState by remember { mutableStateOf(initialUserLists) }
-
-    LaunchedEffect(initialUserLists) {
-        listsWithLocalState = initialUserLists.map { newList ->
-            val existingList = listsWithLocalState.find { it.id == newList.id }
-            if (existingList?.isLoading == true && !newList.isLoading) {
-                newList
-            } else {
-                newList
-            }
-        }
-    }
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
     ) {
-        CreateNewListItem(
-            isLoading = isLoading,
-            onListCreated = onCreateNewListClick,
-        )
+        if (mode == ListSelectionMode.ADD_TO_LIST) {
+            CreateNewListItem(
+                onListCreated = onCreateNewListClick,
+                isLoading = isLoading
+            )
+        }
 
-        if (listsWithLocalState.isNotEmpty()) {
+        if (initialUserLists.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                items(
-                    items = listsWithLocalState,
-                    key = { it.id }
-                ) { userList ->
+                items(initialUserLists) { userList ->
                     UserListItem(
                         userList = userList,
-                        isGlobalLoading = isLoading,
                         onToggleSelection = { toggledList ->
-                            listsWithLocalState = listsWithLocalState.map { list ->
-                                if (list.id == toggledList.id) {
-                                    list.copy(
-                                        isLoading = true,
-                                        isSelected = !list.isSelected
-                                    )
-                                }
-                                else {
-                                    list
+                            if (!isLoading && !toggledList.isLoading) {
+                                when (mode) {
+                                    ListSelectionMode.ADD_TO_LIST -> {
+                                        onSelectionChanged?.invoke(toggledList, true)
+                                    }
+                                    ListSelectionMode.DELETE_FROM_LIST -> {
+                                        movieId?.let { id ->
+                                            onRemoveFromList?.invoke(id, toggledList.id)
+                                        }
+                                    }
                                 }
                             }
-                            val isNowSelected = !toggledList.isSelected
-                            onSelectionChanged?.invoke(toggledList, isNowSelected)
                         }
                     )
                 }

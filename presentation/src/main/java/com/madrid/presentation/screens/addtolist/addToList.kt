@@ -27,7 +27,7 @@ import kotlinx.coroutines.delay
 enum class ListBottomSheetMode {
     LIST_SELECTION,
     CREATE_NEW_LIST,
-    REMOVE_FROM_LIST
+    DELETE_MOVIE_FROM_LIST,
 }
 
 @Composable
@@ -77,14 +77,18 @@ fun ListManagementBottomSheet(
         }
     }
 
+    // Handle error messages
     LaunchedEffect(uiState.errorMessage) {
         if (uiState.errorMessage != null) {
+            // Show error message (you might want to show a toast or error dialog)
+            // For now, we'll just clear it after showing
             delay(3000)
             viewModel.clearError()
         }
     }
 
     Box(modifier = modifier.fillMaxSize()) {
+        // Bottom Sheet
         MovioBottomSheet(
             show = bottomSheetVisible,
             onDismiss = {
@@ -104,6 +108,20 @@ fun ListManagementBottomSheet(
                 label = "ListBottomSheetAnimation"
             ) { mode ->
                 when (mode) {
+                    ListBottomSheetMode.DELETE_MOVIE_FROM_LIST -> {
+                        ListSelectionContent(
+                            initialUserLists = uiState.userLists,
+                            isLoading = uiState.isLoadingLists,
+                            mode = ListSelectionMode.DELETE_FROM_LIST,
+                            movieId = movieId,
+                            onRemoveFromList = { movieId, listId ->
+                                viewModel.removeMovieFromList(
+                                    mediaId = movieId,
+                                    listId = listId
+                                )
+                            }
+                        )
+                    }
                     ListBottomSheetMode.LIST_SELECTION -> {
                         ListSelectionContent(
                             initialUserLists = uiState.userLists,
@@ -126,32 +144,18 @@ fun ListManagementBottomSheet(
                         CreateListBottomSheet(
                             show = true,
                             onCreateClick = { listName ->
-                                viewModel.createMovieList(name = listName)
+                                viewModel.createMovieList(
+                                    name = listName
+                                )
                             },
                             onDismiss = {
                                 currentMode = ListBottomSheetMode.LIST_SELECTION
                             },
                         )
                     }
-
-                    ListBottomSheetMode.REMOVE_FROM_LIST -> {
-                        RemoveFromListContent(
-                            movieId = movieId,
-                            userListsContainingMovie = uiState.watchListItems,
-                            isLoading = uiState.isLoadingLists,
-                            onRemoveFromListClick = { listToRemoveFrom ->
-                                viewModel.removeMovieFromList(
-                                    listId = listToRemoveFrom.id.toInt(),
-                                    movieId = movieId
-                                )
-                            }
-                        )
-                    }
                 }
             }
         }
-
-        // Success notification
         if (showSuccessNotification) {
             Box(
                 modifier = Modifier
@@ -169,7 +173,8 @@ fun ListManagementBottomSheet(
         }
 
         uiState.errorMessage?.let { errorMessage ->
-            // Error display implementation
+            // You can implement error display here
+            // For example, show a toast or error dialog
         }
     }
 }
