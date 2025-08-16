@@ -218,7 +218,7 @@ private fun UndoSnackBar(
         SuccessNotificationRow(
             isVisible = showSnackBar,
             message = stringResource(snackBarMessage),
-            actionText = "Undo",
+            actionText = stringResource(presentationR.string.undo),
             icon = painterResource(id = R.drawable.archive_tick),
             onDismiss = interactionListener::onDismissSnackBar,
             onAction = interactionListener::onUndoDeleteClicked,
