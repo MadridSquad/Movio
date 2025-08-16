@@ -47,6 +47,9 @@ interface LocalDataSource {
     suspend fun getMoviesByGenres(): List<GenreWithMovies>
     suspend fun getSeriesByGenres(): List<GenreWithSeries>
 
+    suspend fun getMovieGenresByIds(ids: List<Int>): List<MovieGenreTable>
+    suspend fun getSeriesGenresByIds(ids: List<Int>): List<SeriesGenreTable>
+
     suspend fun getNowPlayingMovies(): List<SectionsMovieTable>
     suspend fun getUpComingMovies(): List<SectionsMovieTable>
     suspend fun getTrendingMovies(): List<SectionsMovieTable>
@@ -55,7 +58,9 @@ interface LocalDataSource {
 
     suspend fun clearHomeMoviesCache()
     suspend fun addMovieToHistory(movieId: Int)
+    suspend fun deleteMovieFromHistory(movieId: Int)
     suspend fun addSeriesToHistory(seriesId: Int)
+    suspend fun deleteSeriesFromHistory(seriesId: Int)
     suspend fun getAllMoviesInHistory(): List<MediaHistoryTable>
     suspend fun getAllSeriesInHistory(): List<MediaHistoryTable>
 }

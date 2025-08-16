@@ -17,8 +17,9 @@ import com.madrid.designSystem.theme.Theme
 fun DialogWithButtonLayout(
     title: String,
     description: String,
-    @DrawableRes image: Int,
     modifier: Modifier = Modifier,
+    @DrawableRes image: Int,
+    imageSize : Int = 88,
     topBarTitle: String = "",
     buttonText: String = "",
     onClick: () -> Unit = {},
@@ -39,7 +40,7 @@ fun DialogWithButtonLayout(
             title = title,
             description = description,
             image = image,
-            imageSize = 88,
+            imageSize = imageSize,
             modifier = Modifier
                 .fillMaxWidth()
         )

@@ -420,18 +420,41 @@ class SearchViewModel @Inject constructor(
             builder.pushStyle(textStyle.copy(color = normalColor).toSpanStyle())
             builder.append(fullText)
             return builder.toAnnotatedString()
+        }else {
+            val numberSet = mutableSetOf<Int>()
+            query.trim()
+                .lowercase()
+                .split(" ")
+                .map { it.trim() }
+                .filter { it.isNotEmpty() }
+                .forEach { pureQuery ->
+                    var searchIndex = 0
+
+                    while (true) {
+                        val foundIndex = fullText.lowercase().indexOf(pureQuery, searchIndex)
+                        if (foundIndex == -1) break
+
+                        for (i in foundIndex until foundIndex + pureQuery.length) {
+                            numberSet.add(i)
+                        }
+
+                        searchIndex = foundIndex + pureQuery.length
+                    }
+                }
+            for (index in 0 until fullText.length){
+                val color = if (index in numberSet) {
+                    matchColor
+                } else {
+                    normalColor
+                }
+                builder.pushStyle(textStyle.copy(color = color).toSpanStyle())
+                builder.append(fullText[index])
+                builder.pop()
+            }
+
+            return builder.toAnnotatedString()
+
         }
-
-        fullText.forEach { char ->
-            val isMatch = query.contains(char, ignoreCase = true)
-            val color = if (isMatch) matchColor else normalColor
-
-            builder.pushStyle(textStyle.copy(color = color).toSpanStyle())
-            builder.append(char.toString())
-            builder.pop()
-        }
-
-        return builder.toAnnotatedString()
     }
 
 }

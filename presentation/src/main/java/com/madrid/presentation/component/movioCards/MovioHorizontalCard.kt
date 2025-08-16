@@ -2,13 +2,8 @@ package com.madrid.presentation.component.movioCards
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,8 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.*
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.designSystem.theme.Theme
@@ -30,7 +24,7 @@ fun MovioHorizontalCard(
     movieCategory: String,
     movieImageUrl: String,
     modifier: Modifier = Modifier,
-    height: Dp =100.dp,
+    height: Dp = 100.dp,
     onClick: () -> Unit,
     contentScale: ContentScale = ContentScale.Crop
 ) {
@@ -52,18 +46,20 @@ fun MovioHorizontalCard(
         )
         Column(
             modifier = modifier
-                .padding(bottom = 4.dp)
+                .padding(vertical = 4.dp)
                 .height(height),
-            verticalArrangement = Arrangement.SpaceAround
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            MovioText(
-                text = movieTitle,
-                color = Theme.color.surfaces.onSurface,
-                textStyle = Theme.textStyle.title.mediumMedium14,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-            )
-            RateIcon(rate = movieRate, modifier = Modifier.padding(bottom = 28.dp))
+            Column {
+                MovioText(
+                    text = movieTitle,
+                    color = Theme.color.surfaces.onSurface,
+                    textStyle = Theme.textStyle.title.mediumMedium14,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                RateIcon(rate = movieRate, modifier = Modifier.padding(top = 4.dp))
+            }
             MovioCategory(movieCategory, Theme.color.surfaces.onSurfaceAt3)
         }
     }

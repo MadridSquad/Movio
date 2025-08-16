@@ -3,8 +3,10 @@ package com.madrid.presentation.component.videoLibrary
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,12 +18,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
+import coil.compose.rememberAsyncImagePainter
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
@@ -29,40 +33,43 @@ import com.madrid.designSystem.theme.Theme
 
 @Composable
 fun VideoLibrary(
+    modifier: Modifier = Modifier,
     onClick: () -> Unit = { },
     videosNumber: Int,
-    title : String ,
+    title: String,
+    posterUrl: String? = null,
 ) {
     Column(
-        modifier = Modifier
-            .width(158.dp)
+        verticalArrangement = Arrangement.Top,
+        modifier = modifier
             .clip(RoundedCornerShape(8.dp))
             .background(color = Theme.color.surfaces.surface)
             .clickable { onClick() }
     ) {
         Box(
-            modifier = Modifier.size(width = 158.dp , height =  110.dp),
+            modifier = Modifier.height(122.dp),
             contentAlignment = Alignment.Center
         )
         {
             Image(
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize(),
-                painter = painterResource(com.madrid.presentation.R.drawable.library_background),
+                modifier = Modifier,
+                painter = if (posterUrl != null) rememberAsyncImagePainter(posterUrl) else
+                    painterResource(
+                        com.madrid.presentation.R.drawable.library_background
+                    ),
                 contentDescription = stringResource(com.madrid.presentation.R.string.background_image_of_squares),
             )
             MovioIcon(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
-                    .padding(top = 8.dp, end = 8.dp)
-                    .zIndex(3f),
+                    .padding(top = 8.dp, end = 8.dp),
                 painter = painterResource(R.drawable.star_img),
                 contentDescription = stringResource(com.madrid.presentation.R.string.star_icon),
                 tint = Theme.color.surfaces.onSurface
             )
             MovioIcon(
                 modifier = Modifier
-                    .zIndex(3f)
                     .align(Alignment.BottomStart)
                     .padding(bottom = 21.dp, start = 6.dp),
                 painter = painterResource(R.drawable.star_img_four),
@@ -76,15 +83,35 @@ fun VideoLibrary(
             )
         }
         BottomRowForVideoLibrary(
-            videosNumber
+            videosNumber,
+            modifier = modifier
+                .clip(RoundedCornerShape(bottomEnd = 8.dp, bottomStart = 8.dp))
         )
+
         MovioText(
             text = title,
             textStyle = Theme.textStyle.title.mediumMedium14,
             color = Theme.color.surfaces.onSurface,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            modifier =  Modifier.padding(top= 8.dp).fillMaxWidth().height(48.dp)
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .fillMaxWidth()
+                .height(48.dp)
         )
     }
+}
+
+
+@Preview(showBackground = true, heightDp = 500)
+@Composable
+private fun VideoLibraryPreview() {
+    VideoLibrary(
+        modifier = Modifier
+            .width(158.dp)
+            .height(153.dp),
+        videosNumber = 10,
+        title = "Sample Video Library",
+        posterUrl = "https://example.com/sample_poster.jpg"
+    )
 }

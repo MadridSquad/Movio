@@ -120,6 +120,10 @@ class LocalDataSourceImpl @Inject constructor(
         return movieGenreDao.getMoviesByGenres()
     }
 
+    override suspend fun getMovieGenresByIds(ids: List<Int>): List<MovieGenreTable> {
+        return movieGenreDao.getGenresByIds(ids)
+    }
+
     override suspend fun relateSeriesToGenre(seriesGenreEntity: SeriesGenreCrossRef) {
         seriesDao.insertSeriesGenreCrossRef(seriesGenreEntity)
     }
@@ -130,6 +134,10 @@ class LocalDataSourceImpl @Inject constructor(
 
     override suspend fun getAllSeriesGenres(): List<SeriesGenreTable> {
         return seriesGenreDao.getAllGenres()
+    }
+
+    override suspend fun getSeriesGenresByIds(ids: List<Int>): List<SeriesGenreTable> {
+        return seriesGenreDao.getGenresByIds(ids)
     }
 
     override suspend fun getSeriesByGenres(): List<GenreWithSeries> {
@@ -170,6 +178,10 @@ class LocalDataSourceImpl @Inject constructor(
         )
     }
 
+    override suspend fun deleteMovieFromHistory(movieId: Int){
+        movieDao.deleteMovieFromHistory(movieId)
+    }
+
     override suspend fun addSeriesToHistory(seriesId: Int) {
         seriesDao.insertHistorySeries(
             MediaHistoryTable(
@@ -178,6 +190,10 @@ class LocalDataSourceImpl @Inject constructor(
                 addedAt = System.currentTimeMillis()
             )
         )
+    }
+
+    override suspend fun deleteSeriesFromHistory(seriesId: Int){
+        seriesDao.deleteSeriesFromHistory(seriesId = seriesId)
     }
 
     override suspend fun getAllMoviesInHistory() = movieDao.getALLMoviesInHistory()

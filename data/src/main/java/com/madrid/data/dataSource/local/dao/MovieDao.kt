@@ -28,6 +28,9 @@ interface MovieDao {
     @Upsert
     suspend fun insertHistoryMovie(movie: MediaHistoryTable)
 
+    @Query("DELETE FROM MEDIA_HISTORY_TABLE WHERE mediaType = 'Movie' AND mediaId = :movieId")
+    suspend fun deleteMovieFromHistory(movieId: Int)
+
     @Delete
     suspend fun deleteMovie(movie: MovieTable)
 
