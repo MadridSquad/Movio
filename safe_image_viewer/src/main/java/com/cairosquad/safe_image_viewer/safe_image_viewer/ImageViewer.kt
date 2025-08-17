@@ -46,7 +46,7 @@ import kotlinx.coroutines.withContext
  * State holder for SafeImageViewer that manages the image loading, classification, and display states
  */
 @Stable
-class SafeImageViewerState(
+class ImageViewerState(
     val model: String,
     initialBlurEnabled: Boolean = true,
     val nudeThreshold: Double = 0.16,
@@ -93,7 +93,7 @@ class SafeImageViewerState(
  * Creates and remembers a SafeImageViewerState
  */
 @Composable
-fun rememberSafeImageViewerState(
+fun rememberImageViewerState(
     model: String,
     initialBlurEnabled: Boolean = true,
     nudeThreshold: Double = 0.16,
@@ -101,9 +101,9 @@ fun rememberSafeImageViewerState(
     enableLog: Boolean = false,
     isBlurForced: Boolean = false,
     onIsImageSafeChanged: (Boolean) -> Unit = {}
-): SafeImageViewerState {
+): ImageViewerState {
     return remember(model) {
-        SafeImageViewerState(
+        ImageViewerState(
             model = model,
             initialBlurEnabled = initialBlurEnabled,
             nudeThreshold = nudeThreshold,
@@ -185,7 +185,7 @@ fun ImageViewer(
     onToggleBlur: (@Composable () -> Unit)? = null,
 ) {
     // Create state holder for managing component state
-    val state = rememberSafeImageViewerState(
+    val state = rememberImageViewerState(
         model = model,
         initialBlurEnabled = true,
         nudeThreshold = nudeThreshold,
