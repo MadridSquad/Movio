@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.cairosquad.safe_image_viewer.safe_image_viewer.SafeImageViewer
+import com.cairosquad.safe_image_viewer.safe_image_viewer.ImageViewer
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
@@ -46,7 +46,7 @@ fun VideoLibrary(
             contentAlignment = Alignment.Center
         )
         {
-            SafeImageViewer(
+            ImageViewer(
                 model = posterUrl ?: "",
                 placeholder = painterResource(com.madrid.presentation.R.drawable.library_background),
                 error = painterResource(com.madrid.presentation.R.drawable.library_background),

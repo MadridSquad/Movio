@@ -35,8 +35,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import coil.compose.AsyncImage
 import com.cairosquad.safe_image_viewer.R
-import com.cairosquad.safe_image_viewer.classifier.NSFWDetector
-import com.cairosquad.safe_image_viewer.loader.CoilImageLoader
+import com.cairosquad.safe_image_viewer.classifier.Detector
+import com.cairosquad.safe_image_viewer.loader.ImageLoader
 import com.cairosquad.safe_image_viewer.modifier.imageBlur
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -153,7 +153,7 @@ fun rememberSafeImageViewerState(
  */
 
 @Composable
-fun SafeImageViewer(
+fun ImageViewer(
     // required core
     model: String,
     contentDescription: String,
@@ -207,7 +207,7 @@ fun SafeImageViewer(
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_DESTROY) {
                 // Cleanup resources when the component is destroyed
-                NSFWDetector.shutdown()
+                Detector.shutdown()
             }
         }
 
@@ -236,7 +236,7 @@ fun SafeImageViewer(
 
             // Load bitmap with size constraints for efficiency
             withContext(Dispatchers.IO) {
-                state.bitmap = CoilImageLoader(context).loadBitmap(
+                state.bitmap = ImageLoader(context).loadBitmap(
                     url = model,
                     maxWidth = maxWidth,
                     maxHeight = maxHeight
@@ -259,7 +259,7 @@ fun SafeImageViewer(
 
             // Perform NSFW detection
             withContext(Dispatchers.Default) {
-                NSFWDetector.isNSFWCancellable(
+                Detector.isNSFWCancellable(
                     bitmap = state.bitmap!!,
                     enableLog = enableLog,
                     nudeThreshold = nudeThreshold,

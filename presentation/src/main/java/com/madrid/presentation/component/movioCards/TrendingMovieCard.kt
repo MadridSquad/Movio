@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.cairosquad.safe_image_viewer.safe_image_viewer.SafeImageViewer
+import com.cairosquad.safe_image_viewer.safe_image_viewer.ImageViewer
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
@@ -40,7 +40,7 @@ fun TrendingMovieCard(
             .width(240.dp)
     ) {
 
-        SafeImageViewer(
+        ImageViewer(
             model = imgUrl,
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))

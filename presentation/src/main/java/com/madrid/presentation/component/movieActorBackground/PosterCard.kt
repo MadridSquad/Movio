@@ -11,7 +11,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.cairosquad.safe_image_viewer.safe_image_viewer.SafeImageViewer
+import com.cairosquad.safe_image_viewer.safe_image_viewer.ImageViewer
 
 @Composable
 fun PosterCard(posterImageUrl: String, modifier: Modifier = Modifier) {
@@ -21,7 +21,7 @@ fun PosterCard(posterImageUrl: String, modifier: Modifier = Modifier) {
             .background(Color.Black.copy(alpha = 0.7f))
             .shadow(16.dp, RoundedCornerShape(12.dp), clip = false)
     ) {
-        SafeImageViewer(
+        ImageViewer(
             model = posterImageUrl,
             modifier = Modifier
                 .fillMaxSize()

@@ -24,7 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.cairosquad.safe_image_viewer.safe_image_viewer.SafeImageViewer
+import com.cairosquad.safe_image_viewer.safe_image_viewer.ImageViewer
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
@@ -45,7 +45,7 @@ fun MovieHomeCard(
                 RoundedCornerShape(8.dp)
             ),
     ) {
-        SafeImageViewer(
+        ImageViewer(
             model = movieId,
             contentDescription = name,
             contentScale = ContentScale.Crop,
@@ -83,7 +83,7 @@ fun MovieHomeCard(
                 .height(51.dp)
         ) {
 
-            SafeImageViewer(
+            ImageViewer(
                 model = movieId,
                 contentDescription = name,
                 contentScale = ContentScale.FillWidth,

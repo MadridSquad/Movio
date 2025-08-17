@@ -14,7 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.cairosquad.safe_image_viewer.safe_image_viewer.SafeImageViewer
+import com.cairosquad.safe_image_viewer.safe_image_viewer.ImageViewer
 import com.madrid.designSystem.R
 
 @Composable
@@ -37,7 +37,7 @@ fun ProfilePicture(
                 )
             )
     ) {
-        SafeImageViewer(
+        ImageViewer(
             model = image ?: "",
             contentDescription = "Profile Picture",
             placeholder = painterResource(R.drawable.bold_profile_circle),

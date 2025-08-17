@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Stable
-internal suspend fun fastBlurBitmap(input: Bitmap, radius: Int): Bitmap =
+internal suspend fun blurBitmap(input: Bitmap, radius: Int): Bitmap =
     withContext(Dispatchers.Unconfined) {
         val w = input.width
         val h = input.height

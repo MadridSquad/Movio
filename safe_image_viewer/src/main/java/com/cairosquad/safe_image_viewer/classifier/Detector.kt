@@ -23,8 +23,8 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-object NSFWDetector {
-    private const val TAG = "NSFWDetector"
+object Detector {
+    private const val TAG = "Detector"
     private const val LABEL_SFW = "nude"
     private const val LABEL_NSFW = "nonnude"
     private const val NUMBER_OF_CACHES_IMAGES = 200 // Increased cache size
@@ -105,7 +105,7 @@ object NSFWDetector {
         ioScopeJob = SupervisorJob()
         ioScope = CoroutineScope(Dispatchers.IO + ioScopeJob!!)
 
-        Log.d(TAG, "NSFWDetector initialized with DiskCacheManager")
+        Log.d(TAG, "Detector initialized with DiskCacheManager")
     }
 
     /**

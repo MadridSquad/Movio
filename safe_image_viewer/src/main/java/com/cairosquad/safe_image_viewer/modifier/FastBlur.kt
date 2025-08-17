@@ -15,7 +15,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.IntSize
-import com.cairosquad.safe_image_viewer.alghorithm.fastBlurBitmap
+import com.cairosquad.safe_image_viewer.alghorithm.blurBitmap
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -51,12 +51,12 @@ fun Modifier.fastBlur(
             // Quick blur for immediate feedback (very low radius)
             val quickBlurJob = async {
                 val quickRadius = (radius * 0.3f).toInt().coerceAtLeast(1)
-                fastBlurBitmap(sourceBitmap, quickRadius).asImageBitmap()
+                blurBitmap(sourceBitmap, quickRadius).asImageBitmap()
             }
 
             // High quality blur (takes longer)
             val highQualityBlurJob = async {
-                fastBlurBitmap(sourceBitmap, radius).asImageBitmap()
+                blurBitmap(sourceBitmap, radius).asImageBitmap()
             }
 
             // Set quick blur as soon as it's ready

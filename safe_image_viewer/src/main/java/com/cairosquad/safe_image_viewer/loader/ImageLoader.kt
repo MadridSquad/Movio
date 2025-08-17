@@ -16,8 +16,8 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 @Immutable
-internal class CoilImageLoader(private val context: Context) {
-    private val TAG = "CoilImageLoader"
+internal class ImageLoader(private val context: Context) {
+    private val TAG = "ImageLoader"
 
     // Create a shared loader instance with memory efficiency options
     private val loader by lazy {
