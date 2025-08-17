@@ -45,7 +45,7 @@ class MovieListViewModel @Inject constructor(
     private val removeMovieFromListUseCase: RemoveMovieFromListUseCase,
     private val createMovieListUseCase: CreateMovieListUseCase,
     private val addMovieToListUseCase: AddMovieToListUseCase,
-    private val getWatchListsUseCase: GetWatchListsUseCase, // Changed: Use the actual use case class
+    private val getWatchListsUseCase: GetWatchListsUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseViewModel<MovieListUiState, MovieListEvent>(MovieListUiState()) {
 
@@ -54,20 +54,19 @@ class MovieListViewModel @Inject constructor(
             updateState { it.copy(isLoadingLists = true, errorMessage = null) }
 
             try {
-                val userLists = getWatchListsUseCase() // Changed: Call invoke() on the use case
-                // Map domain entities to UI state
+                val userLists = getWatchListsUseCase()
                 val uiLists = userLists.map { watchList ->
                     WatchListItemUiState(
                         id = watchList.id,
-                        videosSize = watchList.itemCount ?: 0, // Assuming itemCount exists
+                        videosSize = watchList.itemCount ?: 0,
                         watchListTitle = watchList.name
                     )
                 }
 
                 updateState {
                     it.copy(
-                        userLists = userLists, // Keep original for other operations
-                        watchListItems = uiLists, // Add UI-specific list
+                        userLists = userLists,
+                        watchListItems = uiLists,
                         isLoadingLists = false
                     )
                 }
@@ -84,7 +83,7 @@ class MovieListViewModel @Inject constructor(
 
     fun removeMovieFromList(mediaId: Int, listId: Int) {
         viewModelScope.launch(dispatcher) {
-            updateState { it.copy(isLoading = true) }
+            updateState { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
             try {
                 // Get updated lists first
                 val userLists = getWatchListsUseCase()
@@ -110,7 +109,7 @@ class MovieListViewModel @Inject constructor(
                         it.copy(
                             isLoading = false,
                             removeFromListSuccess = true,
-                            successMessage = result.message
+                            successMessage = result.message ?: "Movie removed successfully"
                         )
                     }
                     loadUserLists() // Refresh lists
@@ -132,6 +131,7 @@ class MovieListViewModel @Inject constructor(
             }
         }
     }
+
     fun createMovieList(
         name: String,
         onSuccess: (() -> Unit)? = null
@@ -154,7 +154,6 @@ class MovieListViewModel @Inject constructor(
                             successMessage = status.message
                         )
                     }
-                    // Reload lists after creating a new one
                     loadUserLists()
                     onSuccess?.invoke()
                 } else {
@@ -185,26 +184,67 @@ class MovieListViewModel @Inject constructor(
             updateState { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
 
             try {
+                // Always try to add first, then handle the duplicate case
                 val status: ListOperationStatus = addMovieToListUseCase(
                     listId = listId,
                     movieId = movieId
                 )
 
-                if (status.success) {
-                    updateState {
-                        it.copy(
-                            isLoading = false,
-                            addToListSuccess = true,
-                            successMessage = status.message
-                        )
+                // DEBUG: Add logging to see what we're getting
+                println("DEBUG AddMovie: success=${status.success}, message='${status.message}', full_status=$status")
+
+                when {
+                    status.success -> {
+                        // Successfully added
+                        updateState {
+                            it.copy(
+                                isLoading = false,
+                                addToListSuccess = true,
+                                successMessage = status.message ?: "Movie added to list successfully"
+                            )
+                        }
+                        loadUserLists() // Refresh lists
+                        onSuccess?.invoke()
                     }
-                    onSuccess?.invoke()
-                } else {
-                    updateState {
-                        it.copy(
-                            isLoading = false,
-                            errorMessage = status.message
-                        )
+
+                    // Check for duplicate entry error (status_code 8) - more comprehensive check
+                    !status.success && (
+                            status.message?.contains("Duplicate entry", ignoreCase = true) == true ||
+                                    status.message?.contains("already exists", ignoreCase = true) == true ||
+                                    status.message?.contains("status_code\":8", ignoreCase = true) == true ||
+                                    status.toString().contains("status_code=8", ignoreCase = true)
+                            ) -> {
+
+                        // Movie already exists, so remove it instead
+                        val removeResult = removeMovieFromListUseCase(movieId, listId)
+                        if (removeResult.success) {
+                            updateState {
+                                it.copy(
+                                    isLoading = false,
+                                    removeFromListSuccess = true,
+                                    successMessage = removeResult.message ?: "Movie removed from list successfully"
+                                )
+                            }
+                            loadUserLists() // Refresh lists
+                            onSuccess?.invoke()
+                        } else {
+                            updateState {
+                                it.copy(
+                                    isLoading = false,
+                                    errorMessage = removeResult.message ?: "Failed to remove movie from list"
+                                )
+                            }
+                        }
+                    }
+
+                    else -> {
+                        // Other error
+                        updateState {
+                            it.copy(
+                                isLoading = false,
+                                errorMessage = status.message ?: "Failed to add movie to list"
+                            )
+                        }
                     }
                 }
             } catch (ex: MovioException) {
@@ -214,36 +254,13 @@ class MovieListViewModel @Inject constructor(
                         errorMessage = getErrorMessage(ex)
                     )
                 }
-            }
-        }
-    }
-
-    fun updateUserLists(lists: List<WatchList>) {
-        updateState { it.copy(userLists = lists) }
-    }
-
-    fun handleEvent(event: MovieListEvent) {
-        when (event) {
-            MovieListEvent.ClearMessages -> {
+            } catch (ex: Exception) {
                 updateState {
                     it.copy(
-                        errorMessage = null,
-                        successMessage = null
+                        isLoading = false,
+                        errorMessage = ex.message ?: "An unexpected error occurred"
                     )
                 }
-            }
-            MovieListEvent.DismissNotification -> {
-                updateState {
-                    it.copy(
-                        createListSuccess = false,
-                        addToListSuccess = false,
-                        errorMessage = null,
-                        successMessage = null
-                    )
-                }
-            }
-            MovieListEvent.LoadUserLists -> {
-                loadUserLists()
             }
         }
     }
@@ -257,7 +274,8 @@ class MovieListViewModel @Inject constructor(
             it.copy(
                 successMessage = null,
                 createListSuccess = false,
-                addToListSuccess = false
+                addToListSuccess = false,
+                removeFromListSuccess = false // Fixed: Added this missing flag
             )
         }
     }
