@@ -60,7 +60,9 @@ fun MovioHorizontalCard(
                 )
                 RateIcon(rate = movieRate, modifier = Modifier.padding(top = 4.dp))
             }
-            MovioCategory(movieCategory, Theme.color.surfaces.onSurfaceAt3)
+            if (movieCategory.isNotEmpty()) {
+                MovioCategory(movieCategory, Theme.color.surfaces.onSurfaceAt3)
+            }
         }
     }
 }

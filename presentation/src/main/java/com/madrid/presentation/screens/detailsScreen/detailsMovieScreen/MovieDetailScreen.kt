@@ -292,6 +292,7 @@ fun MovieDetailsScreen(
                                     imageUrl = uiState.topImageUrl,
                                     circleImageSize = 88.dp,
                                     artistsName = uiState.movieName,
+                                    paddingBetweenImageAndText = 8.dp,
                                 )
                                 MovioText(
                                     modifier = Modifier.padding(top = 24.dp),

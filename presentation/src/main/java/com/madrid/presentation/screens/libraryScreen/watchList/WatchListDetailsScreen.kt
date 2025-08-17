@@ -129,13 +129,13 @@ private fun WatchListDetailsScreenContent(
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 items(
-                    state.mediaItems.size, key = { index -> state.mediaItems[index].id }
+                    count = state.mediaItems.size, key = { index -> state.mediaItems[index].id }
                 ) { index ->
                     val watchList = state.mediaItems[index]
                     SwipeToDeleteCard(
                         title = watchList.title,
                         movieRate = watchList.rating,
-                        movieCategory = watchList.category.first().name,
+                        movieCategory = watchList.category.firstOrNull()?.name?: "",
                         movieImageUrl = watchList.imageUrl,
                         onDelete = { interaction.onDeleteMovie(watchList.id) },
                         onClick = { interaction.onClickMovieItem(watchList.id) },

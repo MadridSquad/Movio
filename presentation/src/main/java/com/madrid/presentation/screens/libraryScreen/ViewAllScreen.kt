@@ -33,6 +33,7 @@ import com.madrid.presentation.viewModel.libraryViewModel.viewAll.ViewAllUiState
 import com.madrid.presentation.viewModel.libraryViewModel.viewAll.ViewAllViewModel
 import com.madrid.presentation.viewModel.shared.MediaType
 import com.madrid.presentation.viewModel.shared.MediaUiState
+import kotlin.collections.firstOrNull
 import com.madrid.presentation.R as presentationR
 
 @Composable
@@ -186,7 +187,7 @@ private fun ShowItemsColumn(
             SwipeToDeleteCard(
                 title = item.title,
                 movieRate = item.rating,
-                movieCategory = item.category.first().name,
+                movieCategory = item.category.firstOrNull()?.name?: "",
                 movieImageUrl = item.imageUrl,
                 onDelete = {
                     interactionListener
