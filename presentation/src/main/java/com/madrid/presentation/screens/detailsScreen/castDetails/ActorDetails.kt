@@ -9,16 +9,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -30,7 +27,8 @@ import com.madrid.designSystem.component.TextWithReadMore
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
-import com.madrid.presentation.component.header.ActorDetailsHeader
+import com.madrid.presentation.component.header.ActorDobAndLocation
+import com.madrid.presentation.component.header.ActorNameAndRole
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
@@ -87,16 +85,13 @@ fun ActorDetailsContent(
     onBackClick: () -> Unit,
     onKnownForClick: (Int) -> Unit
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 101.dp),
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .background(Theme.color.surfaces.surface),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        item(
-            span = { GridItemSpan(maxLineSpan) }
-        ) {
+        item {
             Box(contentAlignment = Alignment.Center) {
                 MoviePosterDetailScreen(
                     imageUrl = actor.actorImageUrl,
@@ -109,7 +104,7 @@ fun ActorDetailsContent(
                         .offset(y = 190.dp)
                         .background(
                             Brush.verticalGradient(
-                                colors = listOf(Color.Transparent , Theme.color.surfaces.surface)
+                                colors = listOf(Color.Transparent, Theme.color.surfaces.surface)
                             )
                         )
                 )
@@ -126,66 +121,71 @@ fun ActorDetailsContent(
                 )
             }
         }
-
-        item(span = { GridItemSpan(maxLineSpan) }
-        ) {
-            val alpha = if (actor.dateOfBirth == "" || actor.location == "") 0f else 1f
-            ActorDetailsHeader(
+        item {
+            ActorNameAndRole(
                 actorName = actor.actorName,
                 actorRole = actor.actorRole,
-                dateOfBirth = actor.dateOfBirth,
-                location = actor.location,
-                alpha = alpha
             )
         }
+        if (actor.dateOfBirth.isNotEmpty() && actor.location.isNotEmpty()) {
+            item {
+                ActorDobAndLocation(
+                    dateOfBirth = actor.dateOfBirth,
+                    location = actor.location
+                )
+            }
+        }
+        if (actor.description.isNotEmpty()) {
+            item {
+                TextWithReadMore(
+                    description = actor.description,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 16.dp),
+                    maxLines = 5
+                )
+            }
+        }
+        if (actor.knownFor.isNotEmpty()) {
 
-        item(span = { GridItemSpan(maxLineSpan) }) {
-            TextWithReadMore(
-                description = actor.description,
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 16.dp),
-                maxLines = 5
-            )
-        }
-        val alpha = if (actor.knownFor.isEmpty()) 0f else 1f
-        item(span = { GridItemSpan(maxLineSpan) }
-        ) {
-            MovioText(
-                text = stringResource(R.string.known_for),
-                color = Theme.color.surfaces.onSurface,
-                textStyle = Theme.textStyle.title.mediumMedium16,
-                modifier = Modifier.padding(horizontal = 16.dp).alpha(alpha)
-            )
-        }
-        item(span = { GridItemSpan(maxLineSpan) }
-        ) {
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier
-                    .padding(bottom = 16.dp)
-                    .height(235.dp),
-            ) {
-                item {
-                    Box(
-                        modifier = Modifier
-                            .padding(start = 6.dp)
-                    )
-                }
-                items(actor.knownFor.size) { index ->
-                    val movie = actor.knownFor[index]
-                    MovioVerticalCard(
-                        description = movie.title,
-                        movieImage = movie.imageUrl,
-                        rate = movie.rating,
-                        width = 124.dp,
-                        height = 160.dp,
-                        onClick = { onKnownForClick(movie.mediaId) },
-                        modifier = Modifier
-                            .navigationBarsPadding()
-                    )
+            item {
+                MovioText(
+                    text = stringResource(R.string.known_for),
+                    color = Theme.color.surfaces.onSurface,
+                    textStyle = Theme.textStyle.title.mediumMedium16,
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                )
+            }
+            item {
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier
+                        .padding(bottom = 16.dp)
+                        .height(235.dp),
+                ) {
+                    item {
+                        Box(
+                            modifier = Modifier
+                                .padding(start = 6.dp)
+                        )
+                    }
+                    items(actor.knownFor.size) { index ->
+                        val movie = actor.knownFor[index]
+                        MovioVerticalCard(
+                            description = movie.title,
+                            movieImage = movie.imageUrl,
+                            rate = movie.rating,
+                            width = 124.dp,
+                            height = 160.dp,
+                            onClick = { onKnownForClick(movie.mediaId) },
+                            modifier = Modifier
+                                .navigationBarsPadding()
+                        )
+                    }
                 }
             }
         }
     }
 }
+
