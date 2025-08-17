@@ -7,67 +7,85 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.domain.entity.WatchList
 
-enum class ListSelectionMode {
-    ADD_TO_LIST,
-    DELETE_FROM_LIST
-}
-
 @Composable
 fun ListSelectionContent(
-    userLists: List<WatchList>,
+    initialUserLists: List<WatchList> = generateFakeWatchLists(), // Default to fake data
     isLoading: Boolean = false,
-    mode: ListSelectionMode = ListSelectionMode.ADD_TO_LIST,
-    movieId: Int? = null,
-    movieListIds: List<Int>,
-    onCreateNewListClick: () -> Unit = {},
-    onSelectionChanged: ((WatchList, Boolean) -> Unit)? = null,
-    onRemoveFromList: ((Int, Int) -> Unit)? = null,
-    onAddToList: ((Int, Int) -> Unit)? = null
+    onCreateNewListClick: () -> Unit = {}, // Default empty callback
+    onSelectionChanged: ((WatchList, Boolean) -> Unit)? = null
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp)
     ) {
-        if (mode == ListSelectionMode.ADD_TO_LIST) {
-            CreateNewListItem(
-                onListCreated = onCreateNewListClick,
-                isLoading = isLoading
-            )
-        }
+        // Create New List Item
+        CreateNewListItem(
+            onListCreated = onCreateNewListClick,
+        )
 
-        if (userLists.isNotEmpty()) {
-            LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                items(userLists) { userList ->
-                    val isMovieInList = movieListIds.contains(userList.id)
-
+        if (initialUserLists.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                items(initialUserLists) { userList ->
                     UserListItem(
-                        userList = userList.copy(
-                            isSelected = isMovieInList,
-                            isLoading = userList.isLoading
-                        ),
+                        userList = userList,
                         onToggleSelection = { toggledList ->
                             if (!isLoading && !toggledList.isLoading) {
-                                movieId?.let { id ->
-                                    val shouldAdd = !isMovieInList
-
-                                    if (shouldAdd) {
-                                        onAddToList?.invoke(id, toggledList.id)
-                                    } else {
-                                        onRemoveFromList?.invoke(id, toggledList.id)
-                                    }
-                                    onSelectionChanged?.invoke(toggledList, shouldAdd)
-                                }
+                                onSelectionChanged?.invoke(toggledList, true)
                             }
-                        },
-                        isGlobalLoading = isLoading,
-                        isSelected = isMovieInList
+                        }
                     )
                 }
             }
         }
     }
+}
+
+// Helper function to generate fake watch lists
+private fun generateFakeWatchLists(): List<WatchList> {
+    return listOf(
+        WatchList(
+            id = "1".toInt(),
+            name = "Favorites",
+            itemCount = 12,
+            isLoading = false
+        ),
+        WatchList(
+            id = "2".toInt(),
+            name = "Watch Later",
+            itemCount = 5,
+            isLoading = false
+        ),
+        WatchList(
+            id = "3".toInt(),
+            name = "Recommended",
+            itemCount = 8,
+            isLoading = false
+        ),
+        WatchList(
+            id = "4".toInt(),
+            name = "TV Shows",
+            itemCount = 15,
+            isLoading = false
+        ),
+        WatchList(
+            id = "5".toInt(),
+            name = "Movies",
+            itemCount = 23,
+            isLoading = false
+        )
+    )
+}
+
+// Preview for Jetpack Compose (if you're using it)
+@Preview(showBackground = true)
+@Composable
+fun ListSelectionContentPreview() {
+    ListSelectionContent()
 }
