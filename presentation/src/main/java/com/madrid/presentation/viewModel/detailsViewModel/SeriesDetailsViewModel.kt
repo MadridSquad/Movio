@@ -24,7 +24,6 @@ import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -97,7 +96,7 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     private fun loadData() {
-        updateState { it.copy(showLoadingScreen = true, isLoading = false) }
+        updateState { it.copy(showLoadingScreen = true ) }
         tryToExecute(
             function = { getSeriesDetailsUseCase(args.seriesId) },
             onSuccess = { series ->
@@ -114,7 +113,7 @@ class SeriesDetailsViewModel @Inject constructor(
                         currentSeasonsUiStates = series.seasons.map { season -> season.mapToUiState() },
                         selectedSeasonUiState = series.seasons[if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber - 1].mapToUiState(),
                         showLoadingScreen = false,
-                        isLoading = false,
+                        isError = false,
                     )
                 }
                 loadAllSeasonsEpisodes()
@@ -156,7 +155,7 @@ class SeriesDetailsViewModel @Inject constructor(
                         }
                     },
                     onError = {
-                        updateState { it.copy(isLoading = true) }
+                        onError()
                     },
                 )
             }
@@ -185,7 +184,7 @@ class SeriesDetailsViewModel @Inject constructor(
                 }
             },
             onError = {
-                updateState { it.copy(isLoading = true) }
+                onError()
             },
         )
     }
@@ -222,7 +221,7 @@ class SeriesDetailsViewModel @Inject constructor(
             },
             onError = { e ->
                 Log.d("TAG lol", "loadCastData: ${e.message}")
-                updateState { it.copy(isLoading = true) }
+                onError()
             },
         )
     }
@@ -241,7 +240,7 @@ class SeriesDetailsViewModel @Inject constructor(
             },
             onError = { e ->
                 Log.d("TAG lol", "loadCastData: ${e.message}")
-                updateState { it.copy(isLoading = true) }
+                onError()
             },
         )
     }
@@ -293,7 +292,7 @@ class SeriesDetailsViewModel @Inject constructor(
     private fun onError() {
         updateState {
             it.copy(
-                isLoading = true,
+                isError = true,
                 showLoadingScreen = false
             )
         }

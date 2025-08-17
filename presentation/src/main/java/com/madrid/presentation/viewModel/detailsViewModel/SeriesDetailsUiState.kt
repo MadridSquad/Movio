@@ -17,7 +17,7 @@ data class SeriesDetailsUiState(
     val reviews: List<ReviewUiState> = emptyList(),
     val similarSeries: List<SeriesUiState> = emptyList(),
     val selectedSeasonUiState: SeasonUiState = SeasonUiState(),
-    val isLoading :Boolean = false,
+    val isError :Boolean = false,
     val userRating: Int = 0,
     val isGuest: Boolean = true,
     val trailerKey: String = "",

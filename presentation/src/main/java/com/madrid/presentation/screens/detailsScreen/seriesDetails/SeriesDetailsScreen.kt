@@ -118,7 +118,7 @@ fun SeriesDetailsScreen(
         uiState.showLoadingScreen -> {
             LoadingScreen(message = stringResource(R.string.loading))
         }
-        uiState.isLoading  -> {
+        uiState.isError -> {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -131,7 +131,7 @@ fun SeriesDetailsScreen(
                     image = R.drawable.img_no_internet,
                     buttonText = stringResource(R.string.try_again),
                     onClick = {
-                       viewModel.retryLoadData()
+                        viewModel.retryLoadData()
                     },
                     modifier = Modifier
                         .fillMaxSize()
@@ -207,7 +207,10 @@ fun SeriesDetailsScreen(
                         movieName = uiState.seriesName,
                         seriesCategory = uiState.seriesGenre,
                         date = uiState.productionDate,
-                        time = stringResource(id = R.string.season_count, uiState.numberOfSeasons.toString()),
+                        time = stringResource(
+                            id = R.string.season_count,
+                            uiState.numberOfSeasons.toString()
+                        ),
                         rate = uiState.rate.take(3),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                     )
