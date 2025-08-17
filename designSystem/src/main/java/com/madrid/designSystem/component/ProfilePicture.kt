@@ -39,6 +39,8 @@ fun ProfilePicture(
     ) {
         ImageViewer(
             model = image ?: "",
+            nonNudeThreshold = 0.0,
+            nudeThreshold = 0.0,
             contentDescription = "Profile Picture",
             placeholder = painterResource(R.drawable.bold_profile_circle),
             error = painterResource(R.drawable.bold_profile_circle),
