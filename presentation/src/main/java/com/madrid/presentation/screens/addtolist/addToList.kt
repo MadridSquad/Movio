@@ -37,7 +37,7 @@ fun ListManagementBottomSheet(
     isVisible: Boolean,
     onDismiss: () -> Unit,
     movieId: Int,
-    movieListIds: List<WatchList> = emptyList(), // Added missing parameter
+    movieListIds: List<WatchList> = emptyList(),
     viewModel: MovieListViewModel = hiltViewModel(),
     modifier: Modifier = Modifier
 ) {
@@ -48,7 +48,6 @@ fun ListManagementBottomSheet(
     var successMessage: String? by remember { mutableStateOf("") }
     var bottomSheetVisible by remember(isVisible) { mutableStateOf(isVisible) }
 
-    // Load user lists when bottom sheet becomes visible
     LaunchedEffect(isVisible) {
         if (isVisible) {
             currentMode = ListBottomSheetMode.LIST_SELECTION
@@ -58,8 +57,6 @@ fun ListManagementBottomSheet(
             bottomSheetVisible = false
         }
     }
-
-    // Handle success states
     LaunchedEffect(
         uiState.createListSuccess,
         uiState.addToListSuccess,
@@ -69,33 +66,40 @@ fun ListManagementBottomSheet(
             uiState.createListSuccess -> {
                 successMessage = uiState.successMessage ?: "List created successfully"
                 showSuccessNotification = true
-                delay(2000)
+                delay(3000)
                 showSuccessNotification = false
                 viewModel.clearSuccess()
             }
             uiState.addToListSuccess -> {
-                successMessage = uiState.successMessage ?: "Added to list successfully"
-                showSuccessNotification = true
-                delay(2000)
-                showSuccessNotification = false
+                if (!showSuccessNotification) {
+                    successMessage = uiState.successMessage ?: "Added to list successfully"
+                    showSuccessNotification = true
+                    delay(3000)
+                    showSuccessNotification = false
+                }
                 viewModel.clearSuccess()
-                // Don't dismiss - user might want to add to more lists
             }
             uiState.removeFromListSuccess -> {
-                successMessage = uiState.successMessage ?: "Removed from list successfully"
-                showSuccessNotification = true
-                delay(2000)
-                showSuccessNotification = false
+                if (!showSuccessNotification) {
+                    successMessage = uiState.successMessage ?: "Removed from list successfully"
+                    showSuccessNotification = true
+                    delay(3000)
+                    showSuccessNotification = false
+                }
                 viewModel.clearSuccess()
             }
         }
     }
-
-    // Handle error messages
     LaunchedEffect(uiState.errorMessage) {
         if (uiState.errorMessage != null) {
             delay(3000)
             viewModel.clearError()
+        }
+    }
+    LaunchedEffect(showSuccessNotification) {
+        if (showSuccessNotification) {
+            delay(3000)
+            showSuccessNotification = false
         }
     }
 
@@ -128,16 +132,21 @@ fun ListManagementBottomSheet(
                             },
                             onSelectionChanged = { watchList, isSelected ->
                                 if (isSelected) {
+                                    successMessage = "Added to ${watchList.name} successfully"
+                                    showSuccessNotification = true
+
                                     viewModel.addMovieToList(
-                                         listId = watchList.id,
-                                        movieId = movieId,
-                                        onSuccess = {
-                                            successMessage = "Added to ${watchList.name} successfully"
-                                            showSuccessNotification = true
-                                        }
+                                        listId = watchList.id,
+                                        movieId = movieId
                                     )
                                 } else {
-                                    viewModel.removeMovieFromList(mediaId = movieId, listId = watchList.id)
+                                    successMessage = "Removed from ${watchList.name} successfully"
+                                    showSuccessNotification = true
+
+                                    viewModel.removeMovieFromList(
+                                        mediaId = movieId,
+                                        listId = watchList.id
+                                    )
                                 }
                             }
                         )
@@ -173,8 +182,6 @@ fun ListManagementBottomSheet(
                 }
             }
         }
-
-        // Success notification
         if (showSuccessNotification) {
             Box(
                 modifier = Modifier
@@ -191,11 +198,21 @@ fun ListManagementBottomSheet(
                 )
             }
         }
-
-        // Error handling (if you want to display errors)
         uiState.errorMessage?.let { errorMessage ->
-            // You can implement error display here
-            // For example, show a toast or error dialog
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 24.dp)
+            ) {
+                SuccessNotificationRow(
+                    message = errorMessage,
+                    isVisible = true,
+                    onDismiss = {
+                        viewModel.clearError()
+                    }
+                )
+            }
         }
     }
 }

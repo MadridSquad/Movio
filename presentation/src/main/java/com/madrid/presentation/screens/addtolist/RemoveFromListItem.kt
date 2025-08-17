@@ -36,7 +36,6 @@ fun RemoveFromListItem(
             .clickable(
                 enabled = isEnabled && !isLoading,
                 role = Role.Button,
-                onClickLabel = "Remove from all lists"
             ) {
                 if (isEnabled && !isLoading) {
                     onRemoveFromList()
