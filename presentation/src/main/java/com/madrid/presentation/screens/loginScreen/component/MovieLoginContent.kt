@@ -76,6 +76,7 @@ fun MovieLoginContent(
                 onClick = interactionListener::onLoginAsGuestClicked,
                 text = stringResource(R.string.continue_as_a_guest),
                 isTransparent= true,
+                showLoadingIndicator = false,
 
                 modifier = Modifier.padding(top = screenHeight * 0.02f)
 
