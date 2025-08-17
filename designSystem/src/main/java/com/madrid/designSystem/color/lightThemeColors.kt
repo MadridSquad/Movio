@@ -39,7 +39,8 @@ val lightThemeColors = MovioColors(
         dropShadow = Color(0x0F000000),
         defaultImageBackground = Color(0xFFA1AEC3),
         startColorForCardShadow = Color(0xBD000000),
-        endColorForCardShadow = Color(0x00000000)
+        endColorForCardShadow = Color(0x00000000),
+        blur = Color(0x52C2BDBD)
     ),
     gradients = Gradients(
         iconGradient = Brush.linearGradient(

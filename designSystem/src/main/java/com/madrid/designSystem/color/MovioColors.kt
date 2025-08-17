@@ -23,14 +23,14 @@ data class Surfaces(
     val onSurfaceAt1: Color,
     val onSurfaceAt2: Color,
     val onSurfaceAt3: Color,
-    val onSurfaceAt4: Color,
+    val onSurfaceAt4: Color
 )
 
 data class Brand(
     val primary: Color,
     val onPrimary: Color,
     val primaryContainer: Color,
-    val onPrimaryContainer: Color,
+    val onPrimaryContainer: Color
 )
 
 data class System(
@@ -48,14 +48,14 @@ data class System(
     val dropShadow: Color,
     val defaultImageBackground: Color,
     val startColorForCardShadow: Color,
-    val endColorForCardShadow: Color
+    val endColorForCardShadow: Color,
+    val blur :Color
 )
 
 data class Gradients(
     val iconGradient: Brush,
     val borderGradient: Brush,
-    val errorBorderGradient: Brush,
-
-    )
+    val errorBorderGradient: Brush
+)
 
 internal val LocalMovioColor = staticCompositionLocalOf { lightThemeColors }

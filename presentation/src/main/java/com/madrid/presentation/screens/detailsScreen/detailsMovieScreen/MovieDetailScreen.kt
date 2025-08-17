@@ -286,7 +286,7 @@ fun MovieDetailsScreen(
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth(),
-                                horizontalAlignment = Alignment.CenterHorizontally
+                                horizontalAlignment = CenterHorizontally
                             ) {
                                 MovioArtistsCard(
                                     imageUrl = uiState.topImageUrl,
@@ -369,7 +369,7 @@ fun MovieDetailsScreen(
                                     .padding(bottom = 16.dp)
                             )
                             Row(
-                                modifier = Modifier.padding(top = 16.dp).align(Alignment.CenterHorizontally),
+                                modifier = Modifier.padding(top = 16.dp).align(CenterHorizontally),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
                                 (1..5).forEach { i ->
