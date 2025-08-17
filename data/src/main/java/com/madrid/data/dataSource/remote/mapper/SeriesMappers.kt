@@ -1,19 +1,18 @@
 package com.madrid.data.dataSource.remote.mapper
 
+import com.madrid.data.dataSource.remote.dto.series.AiringTodaySeriesResult
+import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.EpisodeDto
-import com.madrid.data.dataSource.remote.dto.series.SearchSeriesResponse
+import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
+import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResult
+import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
+import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResult
 import com.madrid.data.dataSource.remote.dto.series.SeasonsNetwork
 import com.madrid.data.dataSource.remote.dto.series.SeriesCastNetwork
 import com.madrid.data.dataSource.remote.dto.series.SeriesDetailsResponse
 import com.madrid.data.dataSource.remote.dto.series.SeriesResult
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResult
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesNetwork
-import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResponse
-import com.madrid.data.dataSource.remote.dto.series.OnAirTvShowsResult
-import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResponse
-import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResult
-import com.madrid.data.dataSource.remote.dto.series.AiringTodaySeriesResult
-import com.madrid.data.dataSource.remote.dto.series.AiringTodayTvShowsResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResults
 import com.madrid.domain.entity.Artist
@@ -22,12 +21,6 @@ import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.Season
 import com.madrid.domain.entity.Series
-
-fun SearchSeriesResponse.toTvShows(): List<Series> {
-    return this.seriesResults?.map {
-        it.toSeries()
-    } ?: emptyList()
-}
 
 fun TopRatedSeriesResponse.toTvShows(): List<Series> {
     return this.results?.map { it ->
@@ -60,7 +53,7 @@ fun SeriesResult.toSeries(
         id = this.id ?: 0,
         title = this.title ?: "",
         imageUrl = "https://image.tmdb.org/t/p/original${this.posterPath}",
-        rate = this.popularity ?: 0.0,
+        rate = this.voteAverage ?: 0.0,
         airDate = this.releaseDate ?: "",
         description = this.overview ?: "",
         genre = genres,
@@ -77,7 +70,7 @@ fun TopRatedSeriesResults.toSeries(): Series {
         rate = this.voteAverage ?: 0.0,
         airDate = this.firstAirDate ?: "",
         description = this.overview ?: "",
-        genre = this.genreIds?.map { Genre(id = it?:0,name = "") } ?: listOf(),
+        genre = this.genreIds?.map { Genre(id = it ?: 0, name = "") } ?: listOf(),
         seasons = emptyList(),
     )
 }
@@ -90,7 +83,7 @@ fun OnAirTvShowsResult.toSeries(): Series {
         rate = this.voteAverage ?: 0.0,
         airDate = "",
         description = this.overview ?: "",
-        genre = this.genreIds?.map { Genre(id = it?:0,name = "") } ?: listOf(),
+        genre = this.genreIds?.map { Genre(id = it ?: 0, name = "") } ?: listOf(),
         seasons = emptyList(),
     )
 }
@@ -103,12 +96,12 @@ fun AiringTodaySeriesResult.toSeries(): Series {
         rate = this.voteAverage ?: 0.0,
         airDate = this.firstAirDate ?: "",
         description = this.overview ?: "",
-        genre = this.genreIds?.map { Genre(id = it?:0,name = "") } ?: listOf(),
+        genre = this.genreIds?.map { Genre(id = it ?: 0, name = "") } ?: listOf(),
         seasons = emptyList(),
     )
 }
 
-fun RecommendedSeriesResult.toSeries(): Series {
+fun RecommendedSeriesResult.toSeries(genres: List<Genre> = emptyList()): Series {
     return Series(
         id = this.id ?: 0,
         title = this.name ?: "",
@@ -116,7 +109,7 @@ fun RecommendedSeriesResult.toSeries(): Series {
         rate = this.voteAverage ?: 0.0,
         airDate = this.firstAirDate ?: "",
         description = this.overview ?: "",
-        genre = this.genreIds.map { Genre(id = it?:0,name = "") },
+        genre = genres,
         seasons = emptyList(),
     )
 }
@@ -128,7 +121,7 @@ fun SeriesDetailsResponse.toSeries(): Series {
         imageUrl = "https://image.tmdb.org/t/p/original${this.posterPath}",
         rate = this.voteAverage ?: 0.0,
         airDate = this.firstAirDate ?: "",
-        seasons = this.seasons?.map { it.toSeason() } ?: emptyList(),
+        seasons = this.seasons?.map { it.toSeason(this.name?:"" ) } ?: emptyList(),
         description = this.overview ?: "",
         genre = this.genres?.map { it.toGenre() } ?: emptyList(),
     )
@@ -170,9 +163,10 @@ fun SimilarSeriesNetwork.toSimilarSeries(): Series {
     )
 }
 
-fun SeasonsNetwork.toSeason(): Season {
+fun SeasonsNetwork.toSeason(seriesName: String): Season {
     return Season(
         id = this.id ?: 0,
+        title = seriesName,
         seasonNumber = this.seasonNumber ?: 0,
         imageUrl = "https://image.tmdb.org/t/p/original${this.posterPath}",
         rate = this.voteAverage ?: 0.0,
@@ -180,7 +174,6 @@ fun SeasonsNetwork.toSeason(): Season {
         description = this.overview ?: "",
         episodeCount = this.episodeCount ?: 0,
     )
-
 }
 
 fun EpisodeDto.toEpisode(): Episode {
@@ -194,7 +187,7 @@ fun EpisodeDto.toEpisode(): Episode {
     )
 }
 
-private fun getDefaultSeries(): Series {
+ fun getDefaultSeries(): Series {
     return Series(
         id = 0,
         title = "",

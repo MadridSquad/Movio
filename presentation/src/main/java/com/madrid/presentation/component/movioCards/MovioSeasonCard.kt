@@ -1,7 +1,9 @@
 package com.madrid.presentation.component.movioCards
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,12 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.designSystem.theme.Theme
-
+import com.madrid.presentation.R
 
 @Composable
 fun MovioSeasonCard(
@@ -49,34 +52,71 @@ fun MovioSeasonCard(
         Column(
             modifier = modifier
                 .padding(horizontal = 8.dp, vertical = 4.dp)
-                .align(Alignment.CenterVertically),
+                .align(Alignment.CenterVertically)
         ) {
-            Row {
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 MovioText(
-                    text = "Season $currentSeason",
+                    text = stringResource(R.string.season, currentSeason),
                     color = Theme.color.surfaces.onSurface,
                     textStyle = Theme.textStyle.title.mediumMedium14,
                     maxLines = 1,
-                    modifier = Modifier.weight(1f),
                 )
                 RateIcon(
                     rate = movieRate,
                 )
             }
-            MovioText(
-                modifier = Modifier.padding(top = 8.dp),
-                text = "$yearOfPublish | $totalNumberOfEpisodes Episodes",
-                color = Theme.color.surfaces.onSurfaceVariant,
-                textStyle = Theme.textStyle.title.mediumMedium14,
-                maxLines = 1,
-            )
-            MovioText(
-                modifier = Modifier.padding(top = 10.dp),
-                text = "Season $currentSeason $movieTitle $timeOfPublish.",
-                color = Theme.color.surfaces.onSurfaceContainer,
-                textStyle = Theme.textStyle.title.mediumMedium14,
-                maxLines = 3,
-            )
+            Row(
+                Modifier.padding(top = 8.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                MovioText(
+                    text = yearOfPublish,
+                    color = Theme.color.surfaces.onSurfaceVariant,
+                    textStyle = Theme.textStyle.body.smallRegular10,
+                    maxLines = 1,
+                    modifier = Modifier.padding(end = 1.dp)
+                )
+                Box(
+                    Modifier
+                        .background(color = Theme.color.surfaces.onSurfaceVariant)
+                        .height(12.dp)
+                        .width(1.dp)
+                )
+                MovioText(
+                    modifier = Modifier.padding(start = 4.dp),
+                    text = stringResource(R.string.episodes_count, totalNumberOfEpisodes),
+                    color = Theme.color.surfaces.onSurfaceVariant,
+                    textStyle = Theme.textStyle.body.smallRegular10,
+                    maxLines = 1,
+                )
+            }
+            Row(
+                Modifier.padding(top = 10.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                MovioText(
+                    text = buildString {
+                        append(stringResource(id = R.string.season_of_movie))
+                        append(" ")
+                        append(currentSeason)
+                        append(" ")
+                        append(stringResource(R.string.season_of))
+                        append(" ")
+                        append(movieTitle)
+                        append(", ")
+                        append(stringResource(R.string.premiered, timeOfPublish))
+                    },
+                    color = Theme.color.surfaces.onSurfaceContainer,
+                    textStyle = Theme.textStyle.label.smallRegular12,
+                    maxLines = 3,
+                )
+            }
         }
     }
 }

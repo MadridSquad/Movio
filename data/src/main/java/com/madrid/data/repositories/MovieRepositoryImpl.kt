@@ -92,12 +92,16 @@ class MovieRepositoryImpl @Inject constructor(
         if (page == pageNumberCached) {
             val localMovies = localDataSource.getTrendingMovies()
             if (localMovies.isNotEmpty()) {
-                return localMovies.map { it.toMovie() }
+                return localMovies.map {
+                    val genres = localDataSource
+                        .getMovieGenresByIds(listOf(it.genresIds)).map { genreTable -> genreTable.toGenre() }
+                    it.toMovie(genres)
+                }
             }
         }
 
         val remoteResult = remoteDataSource.getTrendingMovies(page)
-        val remoteMovies = remoteResult.movieResults.map { it.toMovie() }
+        val remoteMovies = remoteResult.movieResults.map { it.toMovieWithGenres() }
         remoteMovies.forEach { movie ->
             localDataSource.insertSectionMovie(
                 movie.toSectionMovieTable().copy(movieSection = MovieSection.TRENDING.value)
@@ -261,7 +265,7 @@ class MovieRepositoryImpl @Inject constructor(
         localDataSource.addMovieToHistory(movieId = movieId)
     }
 
-    override suspend fun deleteMovieFromHistory(movieId: Int){
+    override suspend fun deleteMovieFromHistory(movieId: Int) {
         localDataSource.deleteMovieFromHistory(movieId)
     }
 
