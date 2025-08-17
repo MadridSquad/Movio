@@ -1,6 +1,5 @@
 package com.madrid.presentation.screens.detailsScreen.seriesDetails
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -23,6 +22,8 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsViewModel
+import com.madrid.presentation.viewModel.shared.parser.formatFullDateKtx
+import com.madrid.presentation.viewModel.shared.parser.formatYearKtx
 
 @Composable
 fun SeasonsScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()) {
@@ -30,7 +31,7 @@ fun SeasonsScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()) {
     val navController = LocalNavController.current
     SeasonsScreenContent(
         uiState = uiState,
-        onClickBack = { navController.navigate(Destinations.SeriesDetailsScreen(uiState.seriesId,1)) },
+        onClickBack = { navController.navigate(Destinations.SeriesDetailsScreen(uiState.seriesId, seasonNumber = 1)) },
         onClickSeason = { seasonNumber ->
             navController.navigate(
                 Destinations.EpisodesScreen(
@@ -65,21 +66,19 @@ fun SeasonsScreenContent(
         LazyColumn(
             contentPadding = PaddingValues(bottom = 40.dp)
         ) {
-            Log.d("TAG bob", "SeasonsScreenContent: ${uiState.currentSeasonsUiStates.size}")
             itemsIndexed(seasons) { index, season ->
                 MovioSeasonCard(
-                    movieTitle =  "",
+                    movieTitle = season.title,
                     movieImage = season.imageUrl,
                     movieRate = season.rate,
                     totalNumberOfEpisodes = season.numberOfEpisodes.toString(),
                     onClick = { onClickSeason(season.seasonNumber) },
-                    yearOfPublish = season.productionDate,
-                    currentSeason = (season.seasonNumber).toString(),
-                    timeOfPublish = season.productionDate,
-                    modifier = Modifier.padding(bottom = 16.dp)
+                    yearOfPublish = season.productionDate.formatYearKtx(),
+                    currentSeason = season.seasonNumber.toString(),
+                    timeOfPublish = season.productionDate.formatFullDateKtx(),
+                    modifier = Modifier.padding(bottom = 6.dp)
                 )
             }
         }
     }
-
 }

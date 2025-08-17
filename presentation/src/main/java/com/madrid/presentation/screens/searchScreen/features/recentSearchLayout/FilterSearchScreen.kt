@@ -40,9 +40,9 @@ fun LazyGridScope.filterSearchScreen(
     series: LazyPagingItems<SearchScreenState.SeriesUiState>,
     artist: LazyPagingItems<SearchScreenState.ArtistUiState>,
     onSeriesClick: (Int) -> Unit = {},
-    onMovieClick:(Int) -> Unit,
-    onTopResultClick:(Int) -> Unit,
-    onActorClick :(Int) -> Unit,
+    onMovieClick: (Int) -> Unit,
+    onTopResultClick: (Int) -> Unit,
+    onActorClick: (Int) -> Unit,
 ) {
     item(
         span = { GridItemSpan(maxLineSpan) }
@@ -76,7 +76,7 @@ fun LazyGridScope.filterSearchScreen(
                     columns = GridCells.Adaptive(minSize = 102.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.heightIn(min = 200.dp , max = 1000.dp)
+                    modifier = Modifier.heightIn(min = 200.dp, max = 1000.dp)
                 ) {
                     when {
                         topRated.itemCount == 0 && topRated.loadState.refresh is LoadState.Loading -> {
@@ -153,7 +153,7 @@ fun LazyGridScope.filterSearchScreen(
                     columns = GridCells.Adaptive(minSize = 102.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.heightIn(min = 200.dp , max = 1000.dp)
+                    modifier = Modifier.heightIn(min = 200.dp, max = 1000.dp)
                 ) {
                     when {
                         movies.itemCount == 0 && movies.loadState.refresh is LoadState.Loading -> {
@@ -231,8 +231,8 @@ fun LazyGridScope.filterSearchScreen(
                     columns = GridCells.Adaptive(minSize = 102.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.heightIn(min = 200.dp , max = 1000.dp)
-                ){
+                    modifier = Modifier.heightIn(min = 200.dp, max = 1000.dp)
+                ) {
                     when {
                         series.itemCount == 0 && series.loadState.refresh is LoadState.Loading -> {
                             items(9) {
@@ -365,6 +365,7 @@ fun LazyGridScope.filterSearchScreen(
                                 MovioArtistsCard(
                                     modifier = Modifier.size(width = 101.dp, height = 111.dp),
                                     artistsName = artist[index]!!.name,
+                                    paddingBetweenImageAndText = 8.dp,
                                     imageUrl = artist[index]!!.imageUrl,
                                     onClick = { onActorClick(artist[index]!!.id.toInt()) },
                                     circleImageSize = 88.dp
