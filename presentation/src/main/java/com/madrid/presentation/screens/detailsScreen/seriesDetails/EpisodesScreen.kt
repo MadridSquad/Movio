@@ -23,12 +23,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.R
 import com.madrid.presentation.component.CustomDropdown
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.component.movioCards.MovioEpisodesCard
@@ -115,7 +117,10 @@ fun EpisodesScreenContent(
                     .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
             ) {
                 MovioText(
-                    text = "Episodes ${uiState.selectedSeasonUiState.numberOfEpisodes}",
+                    text = stringResource(
+                        R.string.episodes,
+                        uiState.selectedSeasonUiState.numberOfEpisodes.toString()
+                    ),
                     textStyle = Theme.textStyle.headline.mediumMedium18,
                     color = Theme.color.surfaces.onSurface,
                     modifier = Modifier
@@ -123,15 +128,26 @@ fun EpisodesScreenContent(
                         .align(Alignment.CenterVertically)
                 )
                 Spacer(Modifier.weight(1f))
-                var selectedItem by remember { mutableStateOf("Season ${uiState.selectedSeasonUiState.seasonNumber}") }
+                val seasonLabel = stringResource(
+                    R.string.season,
+                    uiState.selectedSeasonUiState.seasonNumber.toString()
+                )
+                var selectedItem by remember { mutableStateOf(seasonLabel) }
+                val seasonNumbers = (1..uiState.currentSeasonsUiStates.size).toList()
+
                 if (uiState.currentSeasonsUiStates.isNotEmpty()) {
                     CustomDropdown(
-                        items = getSeasonsNames(uiState.currentSeasonsUiStates.size, uiState),
-                        selectedItem = "Season ${uiState.selectedSeasonUiState.seasonNumber}",
+                        items = seasonNumbers.map { number ->
+                            stringResource(R.string.season, number.toString())
+                        },
+                        selectedItem = stringResource(
+                            R.string.season,
+                            uiState.selectedSeasonUiState.seasonNumber.toString()
+                        ),
                         labelSelector = { it },
-                        onItemSelected = {
-                            selectedItem = it
-                            onSeasonSelection(it.substringAfterLast(" ").toInt())
+                        onItemSelected = { selected ->
+                            selectedItem = selected
+                            onSeasonSelection(selected.substringAfterLast(" ").toInt())
                         }
                     )
                 }
@@ -141,7 +157,10 @@ fun EpisodesScreenContent(
             MovioEpisodesCard(
                 movieTitle = episode.episodeName,
                 movieRate = (episode.rate.toFloat() / 2).toString().take(3),
-                currentMovieEpisode = "episode ${episode.episodeNumber}",
+                currentMovieEpisode = stringResource(
+                    R.string.episode_number,
+                    episode.episodeNumber.toString()
+                ),
                 movieTime = "${episode.episodeDuration} m",
                 movieImageUrl = episode.imageUrl,
                 onClick = { onClickEpisode(episode) },
@@ -149,11 +168,4 @@ fun EpisodesScreenContent(
             )
         }
     }
-}
-
-private fun getSeasonsNames(numberOfSeasons: Int, uiState: SeriesDetailsUiState): List<String> {
-    return if (uiState.currentSeasonsUiStates.first().seasonNumber == 0)
-        (0..<numberOfSeasons).map { "Season $it" }
-    else
-        (1..<numberOfSeasons + 1).map { "Season $it" }
 }
