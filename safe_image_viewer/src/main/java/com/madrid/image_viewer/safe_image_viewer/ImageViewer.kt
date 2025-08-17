@@ -1,4 +1,4 @@
-package com.cairosquad.safe_image_viewer.safe_image_viewer
+package com.madrid.image_viewer.safe_image_viewer
 
 import android.graphics.Bitmap
 import android.util.Log
@@ -34,10 +34,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import coil.compose.AsyncImage
-import com.cairosquad.safe_image_viewer.R
-import com.cairosquad.safe_image_viewer.classifier.Detector
-import com.cairosquad.safe_image_viewer.loader.ImageLoader
-import com.cairosquad.safe_image_viewer.modifier.imageBlur
+
+import com.madrid.image_viewer.classifier.Detector
+import com.madrid.image_viewer.loader.ImageLoader
+import com.madrid.image_viewer.modifier.imageBlur
+import com.madrid.safe_image_viewer.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

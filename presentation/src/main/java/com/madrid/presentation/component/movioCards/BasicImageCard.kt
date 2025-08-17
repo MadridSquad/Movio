@@ -11,8 +11,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.cairosquad.safe_image_viewer.safe_image_viewer.ImageViewer
 import com.madrid.designSystem.theme.MovioTheme
+import com.madrid.image_viewer.safe_image_viewer.ImageViewer
 import com.madrid.presentation.R.string
 
 @Composable

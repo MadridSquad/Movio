@@ -1,4 +1,4 @@
-package com.cairosquad.safe_image_viewer.modifier
+package com.madrid.image_viewer.modifier
 
 import android.graphics.Bitmap
 import androidx.compose.animation.core.Animatable
@@ -15,7 +15,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.IntSize
-import com.cairosquad.safe_image_viewer.alghorithm.blurBitmap
+import com.madrid.image_viewer.alghorithm.blurBitmap
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch

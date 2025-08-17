@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.cairosquad.safe_image_viewer"
+    namespace = "com.madrid.safe_image_viewer"
     compileSdk = 35
 
     defaultConfig {

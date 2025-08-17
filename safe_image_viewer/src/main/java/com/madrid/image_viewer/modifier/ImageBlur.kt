@@ -1,4 +1,4 @@
-package com.cairosquad.safe_image_viewer.modifier
+package com.madrid.image_viewer.modifier
 
 import android.graphics.Bitmap
 import android.os.Build

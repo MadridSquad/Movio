@@ -1,4 +1,4 @@
-package com.cairosquad.safe_image_viewer.alghorithm
+package com.madrid.image_viewer.alghorithm
 
 import android.graphics.Bitmap
 import android.graphics.Color

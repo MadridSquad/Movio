@@ -4,7 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.cairosquad.safe_image_viewer.classifier.Detector
+import com.madrid.image_viewer.classifier.Detector
 import dagger.hilt.android.HiltAndroidApp
 import jakarta.inject.Inject
 

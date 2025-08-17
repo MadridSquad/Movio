@@ -1,4 +1,4 @@
-package com.cairosquad.safe_image_viewer.loader
+package com.madrid.image_viewer.loader
 
 import android.content.Context
 import android.graphics.Bitmap

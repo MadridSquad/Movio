@@ -1,4 +1,4 @@
-package com.cairosquad.safe_image_viewer.cache
+package com.madrid.image_viewer.cache
 
 import android.content.Context
 import android.graphics.Bitmap
