@@ -25,9 +25,9 @@ import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.presentation.component.CustomHorizontalCard
 import com.madrid.presentation.component.MovioPager
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
-import com.madrid.presentation.modifier.ShimmerCard
-import com.madrid.presentation.modifier.ShimmerHorizontalCard
-import com.madrid.presentation.modifier.ShimmerItem
+import com.madrid.designSystem.modifier.ShimmerCard
+import com.madrid.designSystem.modifier.ShimmerHorizontalCard
+import com.madrid.designSystem.modifier.ShimmerItem
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesType

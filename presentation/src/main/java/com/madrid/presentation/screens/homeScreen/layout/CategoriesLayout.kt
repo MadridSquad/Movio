@@ -20,7 +20,8 @@ import androidx.paging.compose.LazyPagingItems
 import com.madrid.designSystem.component.FilterBar
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
-import com.madrid.presentation.modifier.ShimmerCard
+import com.madrid.designSystem.modifier.ShimmerCard
+import com.madrid.designSystem.modifier.removeWidthPaddingFromParent
 import com.madrid.presentation.viewModel.homeViewModel.CategoryUiState
 import com.madrid.presentation.viewModel.homeViewModel.SortingType
 import com.madrid.presentation.viewModel.shared.MediaType
@@ -50,8 +51,8 @@ fun CategoriesLayout(
     ) {
         item(span = { GridItemSpan(maxLineSpan) }) {
             FilterBar(
-                modifier = Modifier.padding(top = 4.dp),
-                contentHorizontalPadding = 0.dp,
+                modifier = Modifier.removeWidthPaddingFromParent(16.dp).padding(top = 4.dp),
+                contentHorizontalPadding = 16.dp,
                 items = categories.map { it.name },
                 selectedItem = selectedCategory.name,
                 onItemClick = { category ->
