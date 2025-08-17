@@ -22,6 +22,7 @@ data class MovieListUiState(
     val successMessage: String? = null,
     val createListSuccess: Boolean = false,
     val addToListSuccess: Boolean = false,
+    val removeFromListSuccess: Boolean = false,
     val userLists: List<WatchList> = emptyList(),
     val watchListItems: List<WatchListItemUiState> = emptyList(),
     val isLoadingLists: Boolean = false
@@ -81,58 +82,43 @@ class MovieListViewModel @Inject constructor(
         }
     }
 
-    fun addMovieToList(listId: Int, movieId: Int, mediaId: Int) {
-        viewModelScope.launch(dispatcher) {
-            updateState { it.copy(isLoading = true) }
-            try {
-                val result = addMovieToListUseCase(listId, movieId)
-                if (result.success) {
-                    updateState {
-                        it.copy(
-                            isLoading = false,
-                            addToListSuccess = true,
-                            successMessage = result.message
-                        )
-                    }
-                    loadUserLists() // Refresh the lists
-                } else {
-                    updateState {
-                        it.copy(
-                            isLoading = false,
-                            errorMessage = result.message
-                        )
-                    }
-                }
-            } catch (e: Exception) {
-                updateState {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = e.message ?: "Failed to add to list"
-                    )
-                }
-            }
-        }
-    }
-
     fun removeMovieFromList(mediaId: Int, listId: Int) {
         viewModelScope.launch(dispatcher) {
             updateState { it.copy(isLoading = true) }
             try {
+                // Get updated lists first
+                val userLists = getWatchListsUseCase()
+                val targetList = userLists.find { it.id == listId }
+
+                // Check if movie exists in the list using movieIds
+                val isMovieInList = targetList?.movieIds?.contains(mediaId) ?: false
+
+                if (!isMovieInList) {
+                    updateState {
+                        it.copy(
+                            isLoading = false,
+                            errorMessage = "Movie not found in the list."
+                        )
+                    }
+                    return@launch
+                }
+
+                // Proceed with removal
                 val result = removeMovieFromListUseCase(mediaId, listId)
                 if (result.success) {
                     updateState {
                         it.copy(
                             isLoading = false,
-                            addToListSuccess = true, // Reusing this for removal success
+                            removeFromListSuccess = true,
                             successMessage = result.message
                         )
                     }
-                    loadUserLists() // Refresh the lists
+                    loadUserLists() // Refresh lists
                 } else {
                     updateState {
                         it.copy(
                             isLoading = false,
-                            errorMessage = result.message
+                            errorMessage = result.message ?: "Failed to remove from list"
                         )
                     }
                 }
@@ -146,7 +132,6 @@ class MovieListViewModel @Inject constructor(
             }
         }
     }
-
     fun createMovieList(
         name: String,
         onSuccess: (() -> Unit)? = null
@@ -194,7 +179,7 @@ class MovieListViewModel @Inject constructor(
     fun addMovieToList(
         listId: Int,
         movieId: Int,
-        onSuccess: (() -> Unit)? = null
+        onSuccess: (() -> Unit)? = null,
     ) {
         viewModelScope.launch(dispatcher) {
             updateState { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
