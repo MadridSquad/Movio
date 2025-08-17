@@ -95,6 +95,7 @@ fun TopCastDetailsContent(
                 MovioArtistsCard(
                     modifier = Modifier.size(width = 101.dp, height = 111.dp),
                     artistsName = artist[index].actorName,
+                    paddingBetweenImageAndText = 8.dp,
                     imageUrl = artist[index].actorImageUrl,
                     onClick = { onActorClick(artist[index].id.toInt()) },
                     circleImageSize = 88.dp

@@ -74,6 +74,7 @@ private fun CastMemberItem(
         MovioArtistsCard(
             imageUrl = castMember.imageUrl,
             artistsName = castMember.name,
+            paddingBetweenImageAndText = 4.dp,
             onClick = { onCastMemberClick(castMember.id.toInt()) },
             circleImageSize = 68.dp
         )
