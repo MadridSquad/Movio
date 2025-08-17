@@ -1,4 +1,4 @@
-package com.madrid.presentation.modifier
+package com.madrid.designSystem.modifier
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layout

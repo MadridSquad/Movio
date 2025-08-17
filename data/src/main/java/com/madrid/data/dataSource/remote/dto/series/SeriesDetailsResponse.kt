@@ -33,8 +33,6 @@ data class SeriesDetailsResponse(
     val lastEpisodeToAir: FinaleEpisode?,
     @SerializedName("name")
     val name: String?,
-    @SerializedName("next_episode_to_air")
-    val nextEpisode: String?,
     @SerializedName("networks")
     val channels: List<Channels>?,
     @SerializedName("number_of_episodes")
