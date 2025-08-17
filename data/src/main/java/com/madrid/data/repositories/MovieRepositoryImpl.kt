@@ -206,15 +206,6 @@ class MovieRepositoryImpl @Inject constructor(
         return remoteMovies
     }
 
-    override suspend fun getMovieGenres(): List<Genre> {
-        return localDataSource.getAllMovieGenres().ifEmpty {
-            remoteDataSource.getMovieGenres().forEach {
-                localDataSource.insertMovieGenre(it.toMovieGenreTable())
-            }
-            localDataSource.getAllMovieGenres()
-        }.map { it.toGenre() }
-    }
-
     override suspend fun addRatingMovie(
         movieId: Int,
         rate: Double
