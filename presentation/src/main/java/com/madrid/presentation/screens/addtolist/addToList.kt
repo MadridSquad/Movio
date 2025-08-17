@@ -21,12 +21,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.MovioBottomSheet
+import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.viewModel.libraryViewModel.addtolist.MovieListViewModel
 import kotlinx.coroutines.delay
 
 enum class ListBottomSheetMode {
     LIST_SELECTION,
-    CREATE_NEW_LIST
+    CREATE_NEW_LIST,
+    DELETE_FROM_LIST
 }
 
 @Composable
@@ -81,8 +83,6 @@ fun ListManagementBottomSheet(
     // Handle error messages
     LaunchedEffect(uiState.errorMessage) {
         if (uiState.errorMessage != null) {
-            // Show error message (you might want to show a toast or error dialog)
-            // For now, we'll just clear it after showing
             delay(3000)
             viewModel.clearError()
         }
@@ -98,7 +98,7 @@ fun ListManagementBottomSheet(
                 onDismiss()
             },
             containerColor = if (currentMode == ListBottomSheetMode.CREATE_NEW_LIST)
-                Color.Transparent else com.madrid.designSystem.theme.Theme.color.surfaces.surface,
+                Color.Transparent else Theme.color.surfaces.surface,
         ) {
             AnimatedContent(
                 targetState = currentMode,
@@ -111,19 +111,24 @@ fun ListManagementBottomSheet(
                 when (mode) {
                     ListBottomSheetMode.LIST_SELECTION -> {
                         ListSelectionContent(
-                            initialUserLists = uiState.userLists, // Use lists from ViewModel state
-                            isLoading = uiState.isLoadingLists, // Use loading state from ViewModel
+                            initialUserLists = uiState.userLists,
+                            isLoading = uiState.isLoadingLists,
                             onCreateNewListClick = {
                                 currentMode = ListBottomSheetMode.CREATE_NEW_LIST
                             },
-                            onSelectionChanged = { userList, isSelected ->
-                                if (isSelected) {
-                                    viewModel.addMovieToList(
-                                        listId = userList.id.toInt(),
-                                        movieId = movieId
-                                    )
-                                }
-                            }
+                            onSelectionChanged = { watchList, isSelected ->
+                                viewModel.removeMovieFromList(
+                                    listId = watchList.id,
+                                    movieId = movieId,
+                                    onSuccess = {
+                                        viewModel.loadUserLists()
+                                    }
+                                )
+                            },
+                            movieId = movieId,
+                            onDeleteModeClick = {
+                                currentMode = ListBottomSheetMode.DELETE_FROM_LIST
+                            },
                         )
                     }
 
@@ -140,11 +145,30 @@ fun ListManagementBottomSheet(
                             },
                         )
                     }
+                    ListBottomSheetMode.DELETE_FROM_LIST -> {
+                        DeleteFromListContent(
+                            userLists = uiState.userLists,
+                            movieId = movieId,
+                            isLoading = uiState.isLoading,
+                            onDeleteConfirmed = { watchList ->
+                                viewModel.removeMovieFromList(
+                                    listId = watchList.id,
+                                    movieId = movieId,
+                                    onSuccess = {
+                                        viewModel.loadUserLists()
+                                    }
+                                )
+                            },
+                            onDismiss = {
+                                currentMode = ListBottomSheetMode.LIST_SELECTION
+                            }
+                        )
+                    }
+
                 }
             }
         }
 
-        // Success notification - positioned at bottom of screen, outside bottom sheet
         if (showSuccessNotification) {
             Box(
                 modifier = Modifier
@@ -162,8 +186,6 @@ fun ListManagementBottomSheet(
         }
 
         uiState.errorMessage?.let { errorMessage ->
-            // You can implement error display here
-            // For example, show a toast or error dialog
         }
     }
 }
