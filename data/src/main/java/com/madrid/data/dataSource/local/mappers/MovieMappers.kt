@@ -3,6 +3,7 @@ package com.madrid.data.dataSource.local.mappers
 import com.madrid.data.dataSource.local.table.MovieTable
 import com.madrid.data.dataSource.local.table.SectionsMovieTable
 import com.madrid.data.dataSource.local.table.relationship.MovieWithGenres
+import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import kotlinx.datetime.LocalDate
 
@@ -28,10 +29,11 @@ fun Movie.toSectionMovieTable(): SectionsMovieTable {
         movieDuration = this.movieDuration,
         description = this.description,
         movieSection = "",
+        genresIds = this.genre.map { it.id }.firstOrNull() ?: -1
     )
 }
 
-fun SectionsMovieTable.toMovie(): Movie {
+fun SectionsMovieTable.toMovie(genres: List<Genre> = emptyList()): Movie {
     return Movie(
         id = this.movieId,
         title = this.title,
@@ -40,7 +42,7 @@ fun SectionsMovieTable.toMovie(): Movie {
         releaseDate = this.yearOfRelease,
         movieDuration = this.movieDuration,
         description = this.description,
-        genre = listOf(),
+        genre = genres,
     )
 }
 

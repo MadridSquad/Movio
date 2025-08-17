@@ -18,6 +18,7 @@ fun Episode.toUiState(): EpisodeUiState {
 fun Season.mapToUiState(): SeasonUiState {
     return SeasonUiState(
         id = this.id,
+        title = title,
         imageUrl = this.imageUrl,
         seasonNumber = this.seasonNumber,
         productionDate = this.date,

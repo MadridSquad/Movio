@@ -80,7 +80,7 @@ private fun SeriesCard(
     ) {
         Box(
             modifier = Modifier
-                .height(160.dp)
+                .height(200.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
         ) {
