@@ -41,6 +41,7 @@ data class TvShowTabUiState(
 )
 
 data class CategoryTabUiState(
+    val isLoading: Boolean = false,
     val categories: List<CategoryUiState> = emptyList(),
     val selectedCategory: CategoryUiState = CategoryUiState(),
     val media: Flow<PagingData<MediaUiState>> = emptyFlow(),

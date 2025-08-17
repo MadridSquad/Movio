@@ -1,4 +1,4 @@
-package com.madrid.presentation.component.shimmer
+package com.madrid.designSystem.modifier
 
 import android.util.Log
 import androidx.compose.foundation.background

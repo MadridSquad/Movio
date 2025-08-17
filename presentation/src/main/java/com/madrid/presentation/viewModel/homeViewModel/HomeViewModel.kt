@@ -1,6 +1,5 @@
 package com.madrid.presentation.viewModel.homeViewModel
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -102,7 +101,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun fetchMediaByCategory(genreId: Int?, sortingType: SortingType) {
-        startLoading()
+        startCategoryMediaLoading()
         val result = Pager(
             config = PagingConfig(pageSize = 20, prefetchDistance = 5),
             pagingSourceFactory = {
@@ -126,7 +125,8 @@ class HomeViewModel @Inject constructor(
             it.copy(
 
                 categoryTabUiState = it.categoryTabUiState.copy(
-                    media = result
+                    media = result,
+                    isLoading = false
                 )
             )
         }
@@ -134,7 +134,7 @@ class HomeViewModel @Inject constructor(
 
     override fun onSelectTab(index: Int) {
         updateState { it.copy(selectedTabIndex = index) }
-        when(index){
+        when (index) {
             0 -> loadMoviesLayoutData()
             1 -> loadSeriesLayoutData()
             2 -> loadGenres()
@@ -174,8 +174,14 @@ class HomeViewModel @Inject constructor(
         emitNewEffect(HomeScreenEffect.NavigateToProfile)
     }
 
-    private fun startLoading() {
-        updateState { it.copy(isLoading = true) }
+    private fun startCategoryMediaLoading() {
+        updateState { homeScreenState ->
+            homeScreenState.copy(
+                categoryTabUiState = homeScreenState.categoryTabUiState.copy(
+                    isLoading = true,
+                )
+            )
+        }
     }
 
     private fun onError(errorMessage: String = "") {

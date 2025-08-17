@@ -1,6 +1,5 @@
 package com.madrid.presentation.component
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -9,8 +8,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,11 +26,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.madrid.designSystem.theme.Theme
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.MovioTheme
+import com.madrid.designSystem.theme.Theme
 
 @Composable
 fun BottomMediaActions(
@@ -42,60 +43,81 @@ fun BottomMediaActions(
     var isSaved by remember { mutableStateOf(false) }
     Row(
         modifier = modifier
+            .padding(horizontal = 12.dp)
+            .height(56.dp)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         if (onRateClick != null) {
-            MediaActionItem(
-                label = stringResource(com.madrid.presentation.R.string.rate_it),
-                isActive = isRated,
-                activeIcon = R.drawable.bold_star,
-                inactiveIcon = R.drawable.outline_star,
-                activeColor = Theme.color.system.warning,
-                onToggle = {
-                    if (isRated == false) isRated = true
-                    onRateClick(isRated)
-                }
-            )
+            Column(
+                modifier = Modifier
+                    .width(136.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                MediaActionItem(
+                    modifier = Modifier.size(24.dp),
+                    label = stringResource(com.madrid.presentation.R.string.rate_it),
+                    isActive = isRated,
+                    inactiveIcon = R.drawable.outline_star,
+                    tint = Theme.color.surfaces.onSurfaceContainer,
+                    onToggle = {
+                        isRated = !isRated
+                        onRateClick(isRated)
+                    }
+                )
+            }
         }
         if (onPlayClick != null) {
             PlayButton(onClick = onPlayClick)
         }
 
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ){
+
         if (onAddToListClick != null) {
-            MediaActionItem(
-                label = stringResource(com.madrid.presentation.R.string.add_to_list),
-                isActive = isSaved,
-                activeIcon = R.drawable.bold_bookmark,
-                inactiveIcon = R.drawable.outline_bookmark,
-                activeColor = Color(0xFF4CAF50),
-                onToggle = {
-                    isSaved = !isSaved
-                    onAddToListClick(isSaved)
-                }
-            )
+            Column(
+                modifier = Modifier
+                    .width(136.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                MediaActionItem(
+                    label = stringResource(com.madrid.presentation.R.string.add_to_list),
+                    isActive = isSaved,
+                    inactiveIcon = R.drawable.outline_bookmark,
+                    onToggle = {
+                        isSaved = !isSaved
+                        onAddToListClick(isSaved)
+                    },
+                    tint = Theme.color.surfaces.onSurfaceVariant,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+        }
         }
     }
 }
+
 @Composable
 private fun MediaActionItem(
     label: String,
     isActive: Boolean,
-    activeIcon: Int,
     inactiveIcon: Int,
-    activeColor: Color,
-    onToggle: () -> Unit
+    onToggle: () -> Unit,
+    tint: Color,
+    modifier: Modifier
 ) {
-    val animatedColor by animateColorAsState(
-        targetValue = if (isActive) activeColor else Theme.color.surfaces.onSurfaceContainer,
-        label = stringResource(com.madrid.presentation.R.string.actioniconcolor)
-    )
-    val icon = if (isActive) activeIcon else inactiveIcon
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier = Modifier
+            .padding(top=4.dp),
+        horizontalAlignment = Alignment.CenterHorizontally) {
         MovioIcon(
-            painter = painterResource(icon),
+            painter = painterResource(
+                inactiveIcon
+            ),
             contentDescription = label,
+            tint = Theme.color.surfaces.onSurfaceVariant,
             modifier = Modifier
                 .size(28.dp)
                 .clickable(
@@ -103,16 +125,16 @@ private fun MediaActionItem(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }
                 ),
-            tint = animatedColor
         )
         MovioText(
             text = label,
             textStyle = Theme.textStyle.label.smallRegular12,
             color = Theme.color.surfaces.onSurfaceVariant,
-            modifier = Modifier.padding(top = 6.dp)
+            modifier = Modifier.padding(top = 6.dp),
         )
     }
 }
+
 @Composable
 private fun PlayButton(onClick: () -> Unit) {
     Box(
@@ -144,7 +166,7 @@ private fun PlayButton(onClick: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun BottomActionBarPreview() {
-    MovioTheme{
+    MovioTheme {
         BottomMediaActions(
             onRateClick = {},
             onPlayClick = {},
