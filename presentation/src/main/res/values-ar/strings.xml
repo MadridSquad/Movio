@@ -151,4 +151,5 @@
     <string name="Start_watching_movies_and_shows">إبدء بمشاهدة الأفلام و المسلسلات. وسنقوم بتتبع سجل المشاهدة الخاص بك هنا.</string>
     <string name="empty_list_description">احفظ الأفلام والعروض التي تريد مشاهدتها، وستظهر هنا عندما تكون مستعدًا.</string>
     <string name="undo">تراجع</string>
+    <string name="category_empty_description">لا يوجد محتوى في هذا القسم حاليًا، لكننا سنقوم بتحديثه قريبًا</string>
 </resources>

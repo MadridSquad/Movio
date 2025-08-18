@@ -24,15 +24,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.madrid.designSystem.component.DialogWithButtonLayout
+import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.FilterBar
 import com.madrid.designSystem.component.LoadingSearchCard
-import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
@@ -137,33 +136,14 @@ fun SeeAllTVShowsScreen(
                     }
                 }
 
-                listOfItem.itemCount == 0 && listOfItem.loadState.refresh is LoadState.NotLoading && listOfItem.loadState.refresh.endOfPaginationReached -> {
+                listOfItem.itemCount == 0 && listOfItem.loadState.refresh is LoadState.NotLoading -> {
                     item(span = { GridItemSpan(maxLineSpan) }) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            MovioText(
-                                text = "No results found",
-                                textStyle = Theme.textStyle.title.mediumMedium16,
-                                color = Theme.color.surfaces.onSurface,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            MovioText(
-                                text = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
-                                textStyle = Theme.textStyle.label.smallRegular12,
-                                color = Theme.color.surfaces.onSurfaceContainer,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = 8.dp)
-                            )
-
-                        }
+                        EmptySearchLayout(
+                            title = stringResource(R.string.nothing_here_yet),
+                            description = stringResource(R.string.category_empty_description),
+                            image = R.drawable.img_no_sesrch_found,
+                            imageSize = 150
+                        )
                     }
                 }
 
