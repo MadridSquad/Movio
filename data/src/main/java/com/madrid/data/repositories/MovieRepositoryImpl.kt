@@ -94,7 +94,8 @@ class MovieRepositoryImpl @Inject constructor(
             if (localMovies.isNotEmpty()) {
                 return localMovies.map {
                     val genres = localDataSource
-                        .getMovieGenresByIds(listOf(it.genresIds)).map { genreTable -> genreTable.toGenre() }
+                        .getMovieGenresByIds(it.genresIds)
+                        .map { genreTable -> genreTable.toGenre() }
                     it.toMovie(genres)
                 }
             }
