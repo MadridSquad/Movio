@@ -6,13 +6,14 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 data class SeeAllMoviesUiState(
-    val title: String="",
+    val title: String = "",
     val selectedGenre: String? = null,
     val genre: List<CategoryUiState> = emptyList(),
-    val isLoading: Boolean=false,
-    val errorMessage: String?=null,
+    val isLoading: Boolean = false,
+    val errorMessage: String? = null,
     val filteredMovies: Flow<PagingData<MoviesUiState>> = flow {},
 )
+
 data class MoviesUiState(
     val id: String = "",
     val imageUrl: String = "",

@@ -1,6 +1,5 @@
 package com.madrid.presentation.viewModel.seeAll.movies
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -34,8 +33,8 @@ class SeeAllMoviesViewModel @AssistedInject constructor(
             strategy: SeeAllMoviesStrategy,
         ): SeeAllMoviesViewModel
     }
+
     init {
-        Log.d("TAG zoz", "in view model init")
         loadTitle()
         loadGenres()
         loadAllMovies()
@@ -49,7 +48,6 @@ class SeeAllMoviesViewModel @AssistedInject constructor(
         tryToExecute(
             function = { getMoviesGenresUseCase() },
             onSuccess = { genres ->
-                Log.d("TAG zoz", "in view model init")
                 updateState { it.copy(genre = genres.map { genre -> genre.toCategoryUiState() }) }
             },
             onError = { /* Handle if needed */ }
@@ -79,7 +77,7 @@ class SeeAllMoviesViewModel @AssistedInject constructor(
             launchPagingRequest(
                 pagingSourceFactory = {
                     SeeAllMoviesWithGenrePagingSource(
-                        genreId =  genre.id,
+                        genreId = genre.id,
                         getAllMovie = strategy::getMoviesBasedOnCategory
                     )
                 },
