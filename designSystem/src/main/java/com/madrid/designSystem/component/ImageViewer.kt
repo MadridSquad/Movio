@@ -1,13 +1,18 @@
 package com.madrid.designSystem.component
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 
@@ -35,7 +40,14 @@ fun ImageViewer(
     model: Any?,
     contentDescription: String?,
     modifier: Modifier = Modifier,
-    loading: (@Composable () -> Unit)? = null,
+    loading: (@Composable () -> Unit)? = {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(shape = RoundedCornerShape(8.dp))
+                .shimmerEffect(),
+        )
+    },
     success: (@Composable () -> Unit)? = null,
     error: (@Composable () -> Unit)? = null,
     onLoading: (() -> Unit)? = null,
