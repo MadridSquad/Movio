@@ -24,7 +24,7 @@ class MovieListViewModel @Inject constructor(
     private val removeMovieFromListUseCase: RemoveMovieFromListUseCase,
     private val createMovieListUseCase: CreateMovieListUseCase,
     private val addMovieToListUseCase: AddMovieToListUseCase,
-    private val getWatchListsUseCase: GetWatchListsUseCase, // Changed: Use the actual use case class
+    private val getWatchListsUseCase: GetWatchListsUseCase,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : BaseViewModel<MovieListUiState, MovieListEvent>(MovieListUiState()) {
 
@@ -33,20 +33,19 @@ class MovieListViewModel @Inject constructor(
             updateState { it.copy(isLoadingLists = true, errorMessage = null) }
 
             try {
-                val userLists = getWatchListsUseCase() // Changed: Call invoke() on the use case
-                // Map domain entities to UI state
+                val userLists = getWatchListsUseCase()
                 val uiLists = userLists.map { watchList ->
                     WatchListItemUiState(
                         id = watchList.id,
-                        videosSize = watchList.itemCount ?: 0, // Assuming itemCount exists
+                        videosSize = watchList.itemCount ?: 0,
                         watchListTitle = watchList.name
                     )
                 }
 
                 updateState {
                     it.copy(
-                        userLists = userLists, // Keep original for other operations
-                        watchListItems = uiLists, // Add UI-specific list
+                        userLists = userLists,
+                        watchListItems = uiLists,
                         isLoadingLists = false
                     )
                 }
@@ -70,7 +69,10 @@ class MovieListViewModel @Inject constructor(
             updateState { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
 
             try {
-                val status: ListOperationStatus
+                val status: ListOperationStatus = removeMovieFromListUseCase(
+                    movieId = movieId,
+                    listId = listId
+                )
 
                 if (status.success) {
                     updateState {

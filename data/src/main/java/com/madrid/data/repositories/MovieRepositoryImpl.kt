@@ -225,11 +225,15 @@ class MovieRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun removeMovieFromList(listId: Int, mediaId: Int, sessionId: String) {
+    override suspend fun removeMovieFromList(listId: Int, mediaId: Int, sessionId: String): ListOperationStatus {
         remoteDataSource.removeMovieFromList(
             listId = listId,
             mediaId = mediaId,
             sessionId = sessionId
+        )
+        return ListOperationStatus(
+            success = true,
+            message = "Movie removed from list successfully"
         )
     }
 

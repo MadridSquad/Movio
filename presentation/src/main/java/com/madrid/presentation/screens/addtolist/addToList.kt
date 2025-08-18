@@ -112,24 +112,30 @@ fun ListManagementBottomSheet(
                     ListBottomSheetMode.LIST_SELECTION -> {
                         ListSelectionContent(
                             initialUserLists = uiState.userLists,
-                            isLoading = uiState.isLoadingLists,
+                            movieId = movieId,
+                            movieInLists = uiState.userLists as Map<Int, List<Int>>,
+                            isLoading = uiState.isLoading,
                             onCreateNewListClick = {
                                 currentMode = ListBottomSheetMode.CREATE_NEW_LIST
                             },
                             onSelectionChanged = { watchList, isSelected ->
-                                viewModel.removeMovieFromList(
-                                    listId = watchList.id,
-                                    movieId = movieId,
-                                    onSuccess = {
-                                        viewModel.loadUserLists()
-                                    }
-                                )
+                                if (isSelected) {
+                                    viewModel.addMovieToList(
+                                        listId = watchList.id,
+                                        movieId = movieId,
+                                        onSuccess = {
+                                            viewModel.loadUserLists()
+                                        }
+                                    )
+                                } else {
+                                    currentMode = ListBottomSheetMode.DELETE_FROM_LIST
+                                }
                             },
-                            movieId = movieId,
                             onDeleteModeClick = {
                                 currentMode = ListBottomSheetMode.DELETE_FROM_LIST
                             },
                         )
+
                     }
 
                     ListBottomSheetMode.CREATE_NEW_LIST -> {
