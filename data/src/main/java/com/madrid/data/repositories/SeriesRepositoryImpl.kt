@@ -4,7 +4,9 @@ import com.madrid.data.dataSource.local.mappers.toGenre
 import com.madrid.data.dataSource.local.mappers.toSeries
 import com.madrid.data.dataSource.mapper.toSeriesGenreTable
 import com.madrid.data.dataSource.remote.dto.common.AddToFavoriteRequest
+import com.madrid.data.dataSource.remote.dto.series.RecommendedSeriesResult
 import com.madrid.data.dataSource.remote.dto.series.SeriesResult
+import com.madrid.data.dataSource.remote.mapper.getDefaultSeries
 import com.madrid.data.dataSource.remote.mapper.toArtist
 import com.madrid.data.dataSource.remote.mapper.toEpisode
 import com.madrid.data.dataSource.remote.mapper.toRatedSeries
@@ -34,6 +36,11 @@ class SeriesRepositoryImpl @Inject constructor(
     private suspend fun SeriesResult.toSeriesWithGenres(): Series {
         val genres = localDataSource
             .getSeriesGenresByIds(this.genreIds ?: emptyList()).map { it.toGenre() }
+        return this.toSeries(genres)
+    }
+    private suspend fun RecommendedSeriesResult.toSeriesWithGenres(): Series {
+        val genres = localDataSource
+            .getSeriesGenresByIds(this.genreIds).map { it.toGenre() }
         return this.toSeries(genres)
     }
 
@@ -80,7 +87,9 @@ class SeriesRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getRecommendedSeries(page: Int): List<Series> {
-        return remoteDataSource.getRecommendedSeries(page = page).toTvShows()
+        return remoteDataSource.getRecommendedSeries(page = page).recommendedSeriesResults?.map {
+            it.toSeriesWithGenres()
+        } ?: listOf()
     }
 
     override suspend fun increaseSeriesGenreInterestPoints(genreTitle: String) {

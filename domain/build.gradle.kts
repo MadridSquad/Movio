@@ -15,5 +15,10 @@ kotlin {
 dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation (libs.dagger)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.junit.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.truth)
+    testImplementation(libs.kotlinx.coroutines.test)
     ksp(libs.hilt.android.compiler.v2511)
 }

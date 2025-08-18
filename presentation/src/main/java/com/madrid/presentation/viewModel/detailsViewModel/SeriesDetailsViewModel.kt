@@ -21,7 +21,6 @@ import com.madrid.domain.usecase.series.SetSeriesFavoriteStatusUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.utils.RateFormatter
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import com.madrid.presentation.viewModel.shared.formatDuration
 import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -97,21 +96,24 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     private fun loadData() {
+        updateState { it.copy(showLoadingScreen = true ) }
         tryToExecute(
             function = { getSeriesDetailsUseCase(args.seriesId) },
             onSuccess = { series ->
                 updateState {
                     it.copy(
                         seriesId = series.id,
-                        isLoading = false,
                         topImageUrl = series.imageUrl,
                         seriesName = series.title,
-                        rate = RateFormatter.formatRate(series.rate), // Format rate here
+                        seriesGenre = series.genre.map { it.name },
+                        rate = RateFormatter.formatRate(series.rate),
                         numberOfSeasons = series.seasons.size,
                         productionDate = formatDateKotlinx(series.airDate),
-                        description = formatDuration(series.description),
+                        description = series.description,
                         currentSeasonsUiStates = series.seasons.map { season -> season.mapToUiState() },
-                        selectedSeasonUiState = series.seasons[if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber - 1].mapToUiState()
+                        selectedSeasonUiState = series.seasons[if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber - 1].mapToUiState(),
+                        showLoadingScreen = false,
+                        isError = false,
                     )
                 }
                 loadAllSeasonsEpisodes()
@@ -122,9 +124,13 @@ class SeriesDetailsViewModel @Inject constructor(
                 loadSeasonEpisodes(if (series.seasons.first().seasonNumber == 0) args.seasonNumber else args.seasonNumber)
             },
             onError = {
-                updateState { it.copy(isLoading = true) }
+                onError()
             },
         )
+    }
+
+    fun retryLoadData() {
+        loadData()
     }
 
     private fun loadAllSeasonsEpisodes() {
@@ -149,7 +155,7 @@ class SeriesDetailsViewModel @Inject constructor(
                         }
                     },
                     onError = {
-                        updateState { it.copy(isLoading = true) }
+                        onError()
                     },
                 )
             }
@@ -178,7 +184,7 @@ class SeriesDetailsViewModel @Inject constructor(
                 }
             },
             onError = {
-                updateState { it.copy(isLoading = true) }
+                onError()
             },
         )
     }
@@ -215,7 +221,7 @@ class SeriesDetailsViewModel @Inject constructor(
             },
             onError = { e ->
                 Log.d("TAG lol", "loadCastData: ${e.message}")
-                updateState { it.copy(isLoading = true) }
+                onError()
             },
         )
     }
@@ -234,7 +240,7 @@ class SeriesDetailsViewModel @Inject constructor(
             },
             onError = { e ->
                 Log.d("TAG lol", "loadCastData: ${e.message}")
-                updateState { it.copy(isLoading = true) }
+                onError()
             },
         )
     }
@@ -283,7 +289,14 @@ class SeriesDetailsViewModel @Inject constructor(
             onError = {},
         )
     }
-
+    private fun onError() {
+        updateState {
+            it.copy(
+                isError = true,
+                showLoadingScreen = false
+            )
+        }
+    }
     private fun checkIfFavoriteSeriesUseCase() {
         tryToExecute(
             function = { isFavoriteSeriesUseCase(args.seriesId) },

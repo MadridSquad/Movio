@@ -103,12 +103,13 @@ fun MovieHomeCard(
                     name,
                     color = Theme.color.brand.onPrimary,
                     textStyle = Theme.textStyle.label.mediumMedium12,
+                    maxLines = 1
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    genres.forEach {
+                    genres.take(3).forEach {
                         MovioText(
                             text = it,
                             color = Theme.color.surfaces.onSurfaceContainer,
