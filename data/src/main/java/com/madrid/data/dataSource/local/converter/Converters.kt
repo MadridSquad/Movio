@@ -1,12 +1,11 @@
 package com.madrid.data.dataSource.local.converter
 
 import androidx.room.TypeConverter
-import java.util.Date
 
 class Converters {
     @TypeConverter
     fun fromIntList(value: List<Int>): String? {
-        return value.toString()
+        return value.joinToString(",")
     }
 
     @TypeConverter

@@ -8,7 +8,7 @@ class GetTrendingMoviesUseCase @Inject constructor(
     private val movieRepository: MovieRepository
 ) {
     suspend operator fun invoke(page: Int) : List<Movie> {
-        movieRepository.getMoviesGenres()
+        movieRepository.getMoviesGenres() // // Intentionally calling getMoviesGenres() for its side effects (caching)
         return movieRepository.getTrendingMovies(page)
     }
 }
