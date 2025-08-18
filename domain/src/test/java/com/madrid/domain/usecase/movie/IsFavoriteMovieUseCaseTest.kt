@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.movie
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Trailer
@@ -21,64 +21,64 @@ class IsFavoriteMovieUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return true when movie is in favorites list`() = runTest {
+    fun `should return true when movie is in favorites list`() = runTest {
         coEvery { getFavoriteMoviesUseCase() } returns testMovies
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         coVerify(exactly = 1) { getFavoriteMoviesUseCase() }
     }
 
     @Test
-    fun `invoke SHOULD return false when movie is not in favorites list`() = runTest {
+    fun `should return false when movie is not in favorites list`() = runTest {
         coEvery { getFavoriteMoviesUseCase() } returns testMovies
 
         val result = useCase.invoke(999)
 
-        Truth.assertThat(result).isFalse()
+        assertThat(result).isFalse()
         coVerify(exactly = 1) { getFavoriteMoviesUseCase() }
     }
 
     @Test
-    fun `invoke SHOULD return false when favorites list is empty`() = runTest {
+    fun `should return false when favorites list is empty`() = runTest {
         coEvery { getFavoriteMoviesUseCase() } returns emptyList()
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isFalse()
+        assertThat(result).isFalse()
         coVerify(exactly = 1) { getFavoriteMoviesUseCase() }
     }
 
     @Test
-    fun `invoke SHOULD return true when movie id matches exactly`() = runTest {
+    fun `should return true when movie id matches exactly`() = runTest {
         coEvery { getFavoriteMoviesUseCase() } returns testMovies
 
         val result = useCase.invoke(124)
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         coVerify(exactly = 1) { getFavoriteMoviesUseCase() }
     }
 
     @Test
-    fun `invoke SHOULD return false for negative movie id when not in favorites`() = runTest {
+    fun `should return false for negative movie id when not in favorites`() = runTest {
         coEvery { getFavoriteMoviesUseCase() } returns testMovies
 
         val result = useCase.invoke(-1)
 
-        Truth.assertThat(result).isFalse()
+        assertThat(result).isFalse()
         coVerify(exactly = 1) { getFavoriteMoviesUseCase() }
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when getFavoriteMoviesUseCase fails`() = runTest {
+    fun `should throw exception when getFavoriteMoviesUseCase fails`() = runTest {
         coEvery { getFavoriteMoviesUseCase() } throws RuntimeException("Network error")
 
         useCase.invoke(123)
     }
 
     @Test
-    fun `invoke SHOULD call getFavoriteMoviesUseCase exactly once`() = runTest {
+    fun `should call getFavoriteMoviesUseCase exactly once`() = runTest {
         coEvery { getFavoriteMoviesUseCase() } returns testMovies
 
         useCase.invoke(123)

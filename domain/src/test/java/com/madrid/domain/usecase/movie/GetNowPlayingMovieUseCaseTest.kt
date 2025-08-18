@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.movie
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Trailer
@@ -22,56 +22,56 @@ class GetNowPlayingMovieUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return movies list from repository`() = runTest {
+    fun `should return movies list from repository`() = runTest {
         coEvery { movieRepository.getNowPlayingMovie(1) } returns testMovies
 
         val result = useCase.invoke(1)
 
-        Truth.assertThat(result).isEqualTo(testMovies)
+        assertThat(result).isEqualTo(testMovies)
         coVerify(exactly = 1) { movieRepository.getNowPlayingMovie(1) }
     }
 
     @Test
-    fun `invoke SHOULD return movies for different page`() = runTest {
+    fun `should return movies for different page`() = runTest {
         coEvery { movieRepository.getNowPlayingMovie(2) } returns testMovies
 
         val result = useCase.invoke(2)
 
-        Truth.assertThat(result).isEqualTo(testMovies)
+        assertThat(result).isEqualTo(testMovies)
         coVerify(exactly = 1) { movieRepository.getNowPlayingMovie(2) }
     }
 
     @Test
-    fun `invoke SHOULD return empty list when repository returns empty list`() = runTest {
+    fun `should return empty list when repository returns empty list`() = runTest {
         coEvery { movieRepository.getNowPlayingMovie(1) } returns emptyList()
 
         val result = useCase.invoke(1)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { movieRepository.getNowPlayingMovie(1) }
     }
 
     @Test
-    fun `invoke SHOULD return single movie when repository returns single movie`() = runTest {
+    fun `should return single movie when repository returns single movie`() = runTest {
         val singleMovie = listOf(testMovies.first())
         coEvery { movieRepository.getNowPlayingMovie(1) } returns singleMovie
 
         val result = useCase.invoke(1)
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result).isEqualTo(singleMovie)
+        assertThat(result).hasSize(1)
+        assertThat(result).isEqualTo(singleMovie)
         coVerify(exactly = 1) { movieRepository.getNowPlayingMovie(1) }
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { movieRepository.getNowPlayingMovie(1) } throws RuntimeException("Network error")
 
         useCase.invoke(1)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `invoke SHOULD throw exception when repository throws IllegalArgumentException`() =
+    fun `should throw exception when repository throws IllegalArgumentException`() =
         runTest {
             coEvery { movieRepository.getNowPlayingMovie(-1) } throws IllegalArgumentException("Invalid page number")
 
@@ -79,7 +79,7 @@ class GetNowPlayingMovieUseCaseTest {
         }
 
     @Test
-    fun `invoke SHOULD call repository with correct page parameter`() = runTest {
+    fun `should call repository with correct page parameter`() = runTest {
         coEvery { movieRepository.getNowPlayingMovie(5) } returns testMovies
 
         useCase.invoke(5)

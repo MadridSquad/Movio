@@ -42,7 +42,7 @@ fun BasicTextInputField(
     modifier: Modifier = Modifier,
     onClickEndIcon: () -> Unit = { },
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    borderBrushColors: Brush = Theme.color.gradients.borderGradient,
+    borderBrushColors: Brush? = Theme.color.gradients.borderGradient,
     errorBorderBrush: Brush = Theme.color.gradients.errorBorderGradient,
     isError: Boolean = false,
     iconColorInFocus: Color = Theme.color.surfaces.onSurface,
@@ -63,7 +63,7 @@ fun BasicTextInputField(
             shape = RoundedCornerShape(8.dp)
         )
 
-        isFocused || value.isNotEmpty() -> Modifier.border(
+        (isFocused || value.isNotEmpty()) && borderBrushColors != null -> Modifier.border(
             width = 1.dp,
             brush = borderBrushColors,
             shape = RoundedCornerShape(8.dp)

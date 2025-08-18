@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.movie
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Trailer
@@ -22,58 +22,58 @@ class GetSimilarMoviesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return similar movies list from repository`() = runTest {
+    fun `should return similar movies list from repository`() = runTest {
         coEvery { movieRepository.getSimilarMoviesById(123) } returns testMovies
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEqualTo(testMovies)
+        assertThat(result).isEqualTo(testMovies)
         coVerify(exactly = 1) { movieRepository.getSimilarMoviesById(123) }
     }
 
     @Test
-    fun `invoke SHOULD return correct movies for different movie id`() = runTest {
+    fun `should return correct movies for different movie id`() = runTest {
         val anotherMovies =
             listOf(testMovies.first().copy(id = 456, title = "Another Similar Movie"))
         coEvery { movieRepository.getSimilarMoviesById(456) } returns anotherMovies
 
         val result = useCase.invoke(456)
 
-        Truth.assertThat(result).isEqualTo(anotherMovies)
+        assertThat(result).isEqualTo(anotherMovies)
         coVerify(exactly = 1) { movieRepository.getSimilarMoviesById(456) }
     }
 
     @Test
-    fun `invoke SHOULD return empty list when repository returns empty list`() = runTest {
+    fun `should return empty list when repository returns empty list`() = runTest {
         coEvery { movieRepository.getSimilarMoviesById(123) } returns emptyList()
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { movieRepository.getSimilarMoviesById(123) }
     }
 
     @Test
-    fun `invoke SHOULD return single movie when repository returns single movie`() = runTest {
+    fun `should return single movie when repository returns single movie`() = runTest {
         val singleMovie = listOf(testMovies.first())
         coEvery { movieRepository.getSimilarMoviesById(123) } returns singleMovie
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result).isEqualTo(singleMovie)
+        assertThat(result).hasSize(1)
+        assertThat(result).isEqualTo(singleMovie)
         coVerify(exactly = 1) { movieRepository.getSimilarMoviesById(123) }
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { movieRepository.getSimilarMoviesById(123) } throws RuntimeException("Network error")
 
         useCase.invoke(123)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `invoke SHOULD throw exception when repository throws IllegalArgumentException`() =
+    fun `should throw exception when repository throws IllegalArgumentException`() =
         runTest {
             coEvery { movieRepository.getSimilarMoviesById(-1) } throws IllegalArgumentException("Invalid movie ID")
 
@@ -81,7 +81,7 @@ class GetSimilarMoviesUseCaseTest {
         }
 
     @Test
-    fun `invoke SHOULD call repository with correct movie id`() = runTest {
+    fun `should call repository with correct movie id`() = runTest {
         coEvery { movieRepository.getSimilarMoviesById(999) } returns testMovies
 
         useCase.invoke(999)
