@@ -18,7 +18,7 @@ class AddRatingMoviesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository with correct parameters`() = runTest {
+    fun `should call repository with correct parameters`() = runTest {
         val movieId = 123
         val rating = 4.5
 
@@ -28,7 +28,7 @@ class AddRatingMoviesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle different movie ids and ratings`() = runTest {
+    fun `should handle different movie ids and ratings`() = runTest {
         val movieId = 456
         val rating = 3.0
 
@@ -38,7 +38,7 @@ class AddRatingMoviesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle minimum rating value`() = runTest {
+    fun `should handle minimum rating value`() = runTest {
         val movieId = 789
         val rating = 0.0
 
@@ -48,7 +48,7 @@ class AddRatingMoviesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle maximum rating value`() = runTest {
+    fun `should handle maximum rating value`() = runTest {
         val movieId = 321
         val rating = 5.0
 
@@ -58,7 +58,7 @@ class AddRatingMoviesUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         val movieId = 123
         val rating = 4.0
         coEvery {
@@ -72,7 +72,7 @@ class AddRatingMoviesUseCaseTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `invoke SHOULD throw exception when repository throws IllegalArgumentException`() =
+    fun `should throw exception when repository throws IllegalArgumentException`() =
         runTest {
             val movieId = -1
             val rating = 4.0
@@ -87,7 +87,7 @@ class AddRatingMoviesUseCaseTest {
         }
 
     @Test
-    fun `invoke SHOULD call repository exactly once per invocation`() = runTest {
+    fun `should call repository exactly once per invocation`() = runTest {
         val movieId = 555
         val rating = 2.5
 
