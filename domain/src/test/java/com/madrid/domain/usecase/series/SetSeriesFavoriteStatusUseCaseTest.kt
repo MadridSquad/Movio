@@ -21,7 +21,7 @@ class SetSeriesFavoriteStatusUseCaseTest {
     }
 
     @Test
-    fun `Should get sessionId and set series as favorite`() = runTest {
+    fun `should get sessionId and set series as favorite`() = runTest {
         val seriesId = 123
         val isFavorite = true
         val sessionId = "test_session_123"
@@ -39,7 +39,7 @@ class SetSeriesFavoriteStatusUseCaseTest {
     }
 
     @Test
-    fun `Should get sessionId and set series as not favorite`() = runTest {
+    fun `should get sessionId and set series as not favorite`() = runTest {
         val seriesId = 456
         val isFavorite = false
         val sessionId = "test_session_456"
@@ -57,7 +57,7 @@ class SetSeriesFavoriteStatusUseCaseTest {
     }
 
     @Test
-    fun `Should handle different seriesId values`() = runTest {
+    fun `should handle different seriesId values`() = runTest {
         val seriesId = 0
         val isFavorite = true
         val sessionId = "zero_session"
@@ -75,7 +75,7 @@ class SetSeriesFavoriteStatusUseCaseTest {
     }
 
     @Test
-    fun `Should handle large seriesId values`() = runTest {
+    fun `should handle large seriesId values`() = runTest {
         val seriesId = 999999
         val isFavorite = false
         val sessionId = "large_session"
@@ -93,7 +93,7 @@ class SetSeriesFavoriteStatusUseCaseTest {
     }
 
     @Test
-    fun `Should handle different sessionId values`() = runTest {
+    fun `should handle different sessionId values`() = runTest {
         val seriesId = 123
         val isFavorite = true
         val sessionId = "different_session_789"
@@ -111,7 +111,7 @@ class SetSeriesFavoriteStatusUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when authenticationRepository fails`() = runTest {
+    fun `should throw exception when authenticationRepository fails`() = runTest {
         val seriesId = 123
         val isFavorite = true
         coEvery { authenticationRepository.getSessionId() } throws RuntimeException("Auth error")
@@ -120,7 +120,7 @@ class SetSeriesFavoriteStatusUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when seriesRepository fails`() = runTest {
+    fun `should throw exception when seriesRepository fails`() = runTest {
         val seriesId = 123
         val isFavorite = true
         val sessionId = "failing_session"
@@ -137,7 +137,7 @@ class SetSeriesFavoriteStatusUseCaseTest {
     }
 
     @Test
-    fun `Should call repository with correct parameters for adding favorite`() = runTest {
+    fun `should call repository with correct parameters for adding favorite`() = runTest {
         val seriesId = 789
         val isFavorite = true
         val sessionId = "add_favorite_session"
@@ -155,7 +155,7 @@ class SetSeriesFavoriteStatusUseCaseTest {
     }
 
     @Test
-    fun `Should call repository with correct parameters for removing favorite`() = runTest {
+    fun `should call repository with correct parameters for removing favorite`() = runTest {
         val seriesId = 321
         val isFavorite = false
         val sessionId = "remove_favorite_session"
@@ -173,7 +173,7 @@ class SetSeriesFavoriteStatusUseCaseTest {
     }
 
     @Test
-    fun `Should handle multiple calls with different parameters`() = runTest {
+    fun `should handle multiple calls with different parameters`() = runTest {
         val sessionId = "multi_call_session"
         coEvery { authenticationRepository.getSessionId() } returns flowOf(sessionId)
 
