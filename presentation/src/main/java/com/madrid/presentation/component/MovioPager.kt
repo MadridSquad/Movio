@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.compose.ui.zIndex
 import com.madrid.designSystem.theme.Theme
-import com.madrid.detectImageContent.FilteredImage
+import com.madrid.designSystem.component.ImageViewer
 import com.madrid.presentation.viewModel.homeViewModel.CategoryUiState
 import com.madrid.presentation.viewModel.shared.MediaType
 import com.madrid.presentation.viewModel.shared.MediaUiState
@@ -74,8 +74,8 @@ fun MovioPager(
                 .shadow(elevation = 8.dp),
             contentAlignment = Alignment.BottomCenter
         ) {
-            FilteredImage(
-                imageUrl = medias[pagerState.currentPage].imageUrl,
+            ImageViewer(
+                model = medias[pagerState.currentPage].imageUrl,
                 contentDescription = "null",
                 modifier = Modifier
                     .matchParentSize()
