@@ -70,7 +70,10 @@ class MovieListViewModel @Inject constructor(
             updateState { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
 
             try {
-                val status: ListOperationStatus
+                val status: ListOperationStatus = removeMovieFromListUseCase(
+                    listId = listId,
+                    movieId = movieId
+                )
 
                 if (status.success) {
                     updateState {
