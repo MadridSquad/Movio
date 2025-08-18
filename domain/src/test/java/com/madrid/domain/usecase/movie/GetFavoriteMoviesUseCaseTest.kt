@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.movie
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.repository.AuthenticationRepository
 import com.madrid.domain.repository.MovieRepository
@@ -12,6 +12,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 
+@Suppress("UnusedFlow")
 class GetFavoriteMoviesUseCaseTest {
     private val movieRepository: MovieRepository = mockk(relaxed = true)
     private val authenticationRepository: AuthenticationRepository = mockk(relaxed = true)
@@ -23,42 +24,42 @@ class GetFavoriteMoviesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return favorite movies from repository`() = runTest {
+    fun `should return favorite movies from repository`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("session123")
         coEvery { movieRepository.getFavoriteMovies("session123") } returns listOf(testMovie)
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(listOf(testMovie))
+        assertThat(result).isEqualTo(listOf(testMovie))
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { movieRepository.getFavoriteMovies("session123") }
     }
 
     @Test
-    fun `invoke SHOULD return empty list when no favorite movies exist`() = runTest {
+    fun `should return empty list when no favorite movies exist`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("session123")
         coEvery { movieRepository.getFavoriteMovies("session123") } returns emptyList()
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { movieRepository.getFavoriteMovies("session123") }
     }
 
     @Test
-    fun `invoke SHOULD return multiple favorite movies`() = runTest {
+    fun `should return multiple favorite movies`() = runTest {
         val favoriteMovies = listOf(testMovie, testMovie.copy(id = 456, title = "Another Movie"))
         coEvery { authenticationRepository.getSessionId() } returns flowOf("session123")
         coEvery { movieRepository.getFavoriteMovies("session123") } returns favoriteMovies
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).hasSize(2)
-        Truth.assertThat(result).isEqualTo(favoriteMovies)
+        assertThat(result).hasSize(2)
+        assertThat(result).isEqualTo(favoriteMovies)
     }
 
     @Test
-    fun `invoke SHOULD use correct session id from authentication repository`() = runTest {
+    fun `should use correct session id from authentication repository`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("different_session")
         coEvery { movieRepository.getFavoriteMovies("different_session") } returns listOf(testMovie)
 
@@ -68,14 +69,14 @@ class GetFavoriteMoviesUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when authentication repository fails`() = runTest {
+    fun `should throw exception when authentication repository fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } throws RuntimeException("Auth error")
 
         useCase.invoke()
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when movie repository fails`() = runTest {
+    fun `should throw exception when movie repository fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("session123")
         coEvery { movieRepository.getFavoriteMovies("session123") } throws RuntimeException("Network error")
 
@@ -83,7 +84,7 @@ class GetFavoriteMoviesUseCaseTest {
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `invoke SHOULD throw exception when session id is invalid`() = runTest {
+    fun `should throw exception when session id is invalid`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("")
         coEvery { movieRepository.getFavoriteMovies("") } throws IllegalStateException("Invalid session")
 
