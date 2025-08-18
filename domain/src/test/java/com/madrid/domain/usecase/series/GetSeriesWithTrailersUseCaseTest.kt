@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.series
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Series
 import com.madrid.domain.entity.Trailer
 import io.mockk.coEvery
@@ -54,11 +55,11 @@ class GetSeriesWithTrailersUseCaseTest {
 
         val result = useCase.invoke(series)
 
-        Truth.assertThat(result).hasSize(2)
-        Truth.assertThat(result[0].trailer?.id).isEqualTo("10")
-        Truth.assertThat(result[0].trailer?.key).isEqualTo("trailer1")
-        Truth.assertThat(result[1].trailer?.id).isEqualTo("20")
-        Truth.assertThat(result[1].trailer?.key).isEqualTo("trailer3")
+        assertThat(result).hasSize(2)
+        assertThat(result[0].trailer?.id).isEqualTo("10")
+        assertThat(result[0].trailer?.key).isEqualTo("trailer1")
+        assertThat(result[1].trailer?.id).isEqualTo("20")
+        assertThat(result[1].trailer?.key).isEqualTo("trailer3")
         coVerify(exactly = 2) { getSeriesTrailersUseCase(1) }
         coVerify(exactly = 2) { getSeriesTrailersUseCase(2) }
     }
@@ -93,11 +94,11 @@ class GetSeriesWithTrailersUseCaseTest {
 
         val result = useCase.invoke(series)
 
-        Truth.assertThat(result).hasSize(2)
-        Truth.assertThat(result[0].trailer).isNull()
-        Truth.assertThat(result[1].trailer).isNull()
-        Truth.assertThat(result[0].title).isEqualTo("Series 1")
-        Truth.assertThat(result[1].title).isEqualTo("Series 2")
+        assertThat(result).hasSize(2)
+        assertThat(result[0].trailer).isNull()
+        assertThat(result[1].trailer).isNull()
+        assertThat(result[0].title).isEqualTo("Series 1")
+        assertThat(result[1].title).isEqualTo("Series 2")
         coVerify(exactly = 1) { getSeriesTrailersUseCase(1) }
         coVerify(exactly = 1) { getSeriesTrailersUseCase(2) }
     }
@@ -144,10 +145,10 @@ class GetSeriesWithTrailersUseCaseTest {
 
         val result = useCase.invoke(series)
 
-        Truth.assertThat(result).hasSize(3)
-        Truth.assertThat(result[0].trailer?.id).isEqualTo("10")
-        Truth.assertThat(result[1].trailer).isNull()
-        Truth.assertThat(result[2].trailer?.id).isEqualTo("10")
+        assertThat(result).hasSize(3)
+        assertThat(result[0].trailer?.id).isEqualTo("10")
+        assertThat(result[1].trailer).isNull()
+        assertThat(result[2].trailer?.id).isEqualTo("10")
         coVerify(exactly = 2) { getSeriesTrailersUseCase(1) }
         coVerify(exactly = 1) { getSeriesTrailersUseCase(2) }
         coVerify(exactly = 2) { getSeriesTrailersUseCase(3) }
@@ -159,7 +160,7 @@ class GetSeriesWithTrailersUseCaseTest {
 
         val result = useCase.invoke(series)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 0) { getSeriesTrailersUseCase(any()) }
     }
 
@@ -183,9 +184,9 @@ class GetSeriesWithTrailersUseCaseTest {
 
         val result = useCase.invoke(series)
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result.first().trailer?.id).isEqualTo("100")
-        Truth.assertThat(result.first().trailer?.key).isEqualTo("singleTrailer")
+        assertThat(result).hasSize(1)
+        assertThat(result.first().trailer?.id).isEqualTo("100")
+        assertThat(result.first().trailer?.key).isEqualTo("singleTrailer")
         coVerify(exactly = 2) { getSeriesTrailersUseCase(1) }
     }
 
@@ -208,9 +209,9 @@ class GetSeriesWithTrailersUseCaseTest {
 
         val result = useCase.invoke(series)
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result.first().trailer).isNull()
-        Truth.assertThat(result.first().title).isEqualTo("Single Series")
+        assertThat(result).hasSize(1)
+        assertThat(result.first().trailer).isNull()
+        assertThat(result.first().title).isEqualTo("Single Series")
         coVerify(exactly = 1) { getSeriesTrailersUseCase(1) }
     }
 
@@ -238,9 +239,9 @@ class GetSeriesWithTrailersUseCaseTest {
 
         val result = useCase.invoke(series)
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result.first().trailer?.id).isEqualTo("10")
-        Truth.assertThat(result.first().trailer?.key).isEqualTo("firstTrailer")
+        assertThat(result).hasSize(1)
+        assertThat(result.first().trailer?.id).isEqualTo("10")
+        assertThat(result.first().trailer?.key).isEqualTo("firstTrailer")
         coVerify(exactly = 2) { getSeriesTrailersUseCase(1) }
     }
 
@@ -283,11 +284,11 @@ class GetSeriesWithTrailersUseCaseTest {
 
         val result = useCase.invoke(series)
 
-        Truth.assertThat(result.first().id).isEqualTo(1)
-        Truth.assertThat(result.first().title).isEqualTo("Original Title")
-        Truth.assertThat(result.first().description).isEqualTo("Original Overview")
-        Truth.assertThat(result.first().rate).isEqualTo(8.5)
-        Truth.assertThat(result.first().trailer?.id).isEqualTo("10")
-        Truth.assertThat(result.first().trailer?.key).isEqualTo("trailer1")
+        assertThat(result.first().id).isEqualTo(1)
+        assertThat(result.first().title).isEqualTo("Original Title")
+        assertThat(result.first().description).isEqualTo("Original Overview")
+        assertThat(result.first().rate).isEqualTo(8.5)
+        assertThat(result.first().trailer?.id).isEqualTo("10")
+        assertThat(result.first().trailer?.key).isEqualTo("trailer1")
     }
 }

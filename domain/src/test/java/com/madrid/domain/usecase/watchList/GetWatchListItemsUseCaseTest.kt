@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.watchList
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Series
 import com.madrid.domain.repository.AuthenticationRepository
@@ -36,7 +37,7 @@ class GetWatchListItemsUseCaseTest {
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEqualTo(testWatchListItems)
+        assertThat(result).isEqualTo(testWatchListItems)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { listRepository.getListItemsById(123, "test_session_id") }
     }
@@ -57,9 +58,9 @@ class GetWatchListItemsUseCaseTest {
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEqualTo(emptyWatchListItems)
-        Truth.assertThat(result.movies).isEmpty()
-        Truth.assertThat(result.series).isEmpty()
+        assertThat(result).isEqualTo(emptyWatchListItems)
+        assertThat(result.movies).isEmpty()
+        assertThat(result.series).isEmpty()
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { listRepository.getListItemsById(123, "test_session_id") }
     }
@@ -72,7 +73,7 @@ class GetWatchListItemsUseCaseTest {
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEqualTo(testWatchListItems)
+        assertThat(result).isEqualTo(testWatchListItems)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { listRepository.getListItemsById(123, customSessionId) }
     }
@@ -89,7 +90,7 @@ class GetWatchListItemsUseCaseTest {
 
         val result = useCase.invoke(999)
 
-        Truth.assertThat(result).isEqualTo(testWatchListItems)
+        assertThat(result).isEqualTo(testWatchListItems)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { listRepository.getListItemsById(999, "test_session_id") }
     }

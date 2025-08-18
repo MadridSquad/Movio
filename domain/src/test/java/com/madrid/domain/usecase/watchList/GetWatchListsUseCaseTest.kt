@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.watchList
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.WatchList
 import com.madrid.domain.repository.AuthenticationRepository
 import com.madrid.domain.repository.ListRepository
@@ -30,7 +31,7 @@ class GetWatchListsUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(testWatchLists)
+        assertThat(result).isEqualTo(testWatchLists)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { listRepository.getLists("test_session_id") }
     }
@@ -42,7 +43,7 @@ class GetWatchListsUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { listRepository.getLists("test_session_id") }
     }
@@ -55,7 +56,7 @@ class GetWatchListsUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(testWatchLists)
+        assertThat(result).isEqualTo(testWatchLists)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { listRepository.getLists(customSessionId) }
     }
@@ -102,8 +103,8 @@ class GetWatchListsUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result).isEqualTo(singleWatchList)
+        assertThat(result).hasSize(1)
+        assertThat(result).isEqualTo(singleWatchList)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { listRepository.getLists("test_session_id") }
     }

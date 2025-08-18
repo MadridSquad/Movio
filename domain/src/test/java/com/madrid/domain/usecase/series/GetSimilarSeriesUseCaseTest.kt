@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.series
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Series
 import com.madrid.domain.repository.SeriesRepository
 import io.mockk.coEvery
@@ -48,7 +49,7 @@ class GetSimilarSeriesUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedSeries)
+        assertThat(result).isEqualTo(expectedSeries)
         coVerify(exactly = 1) { seriesRepository.getSimilarSeriesById(seriesId) }
     }
 
@@ -60,7 +61,7 @@ class GetSimilarSeriesUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { seriesRepository.getSimilarSeriesById(seriesId) }
     }
 
@@ -83,9 +84,9 @@ class GetSimilarSeriesUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result.first().title).isEqualTo("Single Similar Series")
-        Truth.assertThat(result).isEqualTo(expectedSeries)
+        assertThat(result).hasSize(1)
+        assertThat(result.first().title).isEqualTo("Single Similar Series")
+        assertThat(result).isEqualTo(expectedSeries)
         coVerify(exactly = 1) { seriesRepository.getSimilarSeriesById(seriesId) }
     }
 
@@ -108,8 +109,8 @@ class GetSimilarSeriesUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).hasSize(20)
-        Truth.assertThat(result).containsExactlyElementsIn(expectedSeries)
+        assertThat(result).hasSize(20)
+        assertThat(result).containsExactlyElementsIn(expectedSeries)
         coVerify(exactly = 1) { seriesRepository.getSimilarSeriesById(seriesId) }
     }
 
@@ -132,7 +133,7 @@ class GetSimilarSeriesUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedSeries)
+        assertThat(result).isEqualTo(expectedSeries)
         coVerify(exactly = 1) { seriesRepository.getSimilarSeriesById(seriesId) }
     }
 
@@ -155,7 +156,7 @@ class GetSimilarSeriesUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedSeries)
+        assertThat(result).isEqualTo(expectedSeries)
         coVerify(exactly = 1) { seriesRepository.getSimilarSeriesById(seriesId) }
     }
 
@@ -206,7 +207,7 @@ class GetSimilarSeriesUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).containsExactlyElementsIn(expectedSeries).inOrder()
+        assertThat(result).containsExactlyElementsIn(expectedSeries).inOrder()
         coVerify(exactly = 1) { seriesRepository.getSimilarSeriesById(seriesId) }
     }
 }

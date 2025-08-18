@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.series
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Series
 import com.madrid.domain.repository.AuthenticationRepository
 import com.madrid.domain.repository.SeriesRepository
@@ -52,7 +53,7 @@ class GetFavoriteSeriesUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(expectedSeries)
+        assertThat(result).isEqualTo(expectedSeries)
         coVerify(exactly = 1) { seriesRepository.getFavoriteSeries(sessionId) }
     }
 
@@ -65,7 +66,7 @@ class GetFavoriteSeriesUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { seriesRepository.getFavoriteSeries(sessionId) }
     }
 
@@ -89,7 +90,7 @@ class GetFavoriteSeriesUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(expectedSeries)
+        assertThat(result).isEqualTo(expectedSeries)
         coVerify(exactly = 1) { seriesRepository.getFavoriteSeries(sessionId) }
     }
     
@@ -129,8 +130,8 @@ class GetFavoriteSeriesUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).hasSize(10)
-        Truth.assertThat(result).isEqualTo(expectedSeries)
+        assertThat(result).hasSize(10)
+        assertThat(result).isEqualTo(expectedSeries)
         coVerify(exactly = 1) { seriesRepository.getFavoriteSeries(sessionId) }
     }
 }

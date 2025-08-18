@@ -2,7 +2,7 @@
 
 package com.madrid.domain.usecase.authentication
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.repository.AuthenticationRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -30,7 +30,7 @@ class CheckFirstLaunchUseCaseTest {
 
         val result = useCase.isFirstLaunch().first()
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         verify(exactly = 1) { authenticationRepository.isFirstLaunch() }
     }
 
@@ -40,7 +40,7 @@ class CheckFirstLaunchUseCaseTest {
 
         val result = useCase.isFirstLaunch().first()
 
-        Truth.assertThat(result).isFalse()
+        assertThat(result).isFalse()
         verify(exactly = 1) { authenticationRepository.isFirstLaunch() }
     }
 
@@ -51,7 +51,7 @@ class CheckFirstLaunchUseCaseTest {
 
         val result = useCase.isFirstLaunch()
 
-        Truth.assertThat(result).isEqualTo(expectedFlow)
+        assertThat(result).isEqualTo(expectedFlow)
         verify(exactly = 1) { authenticationRepository.isFirstLaunch() }
     }
 

@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.search
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.repository.SearchRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -26,7 +27,7 @@ class RemoveRecentSearchUseCaseTest {
 
         val result = useCase.invoke(item)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { searchRepository.removeRecentSearchByQuery(item) }
     }
 
@@ -38,7 +39,7 @@ class RemoveRecentSearchUseCaseTest {
 
         val result = useCase.invoke(item)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { searchRepository.removeRecentSearchByQuery(item) }
     }
 
@@ -50,7 +51,7 @@ class RemoveRecentSearchUseCaseTest {
 
         val result = useCase.invoke(item)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { searchRepository.removeRecentSearchByQuery(item) }
     }
 
@@ -70,7 +71,7 @@ class RemoveRecentSearchUseCaseTest {
 
         val result = useCase.invoke(item)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { searchRepository.removeRecentSearchByQuery(item) }
     }
 
@@ -82,7 +83,7 @@ class RemoveRecentSearchUseCaseTest {
 
         val result = useCase.invoke(item)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { searchRepository.removeRecentSearchByQuery(item) }
     }
 }

@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.series
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Review
 import com.madrid.domain.repository.SeriesRepository
 import io.mockk.coEvery
@@ -44,7 +45,7 @@ class GetSeriesReviewsUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedReviews)
+        assertThat(result).isEqualTo(expectedReviews)
         coVerify(exactly = 1) { seriesRepository.getSeriesReviewsById(seriesId) }
     }
 
@@ -56,7 +57,7 @@ class GetSeriesReviewsUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { seriesRepository.getSeriesReviewsById(seriesId) }
     }
 
@@ -77,9 +78,9 @@ class GetSeriesReviewsUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result.first().comment).isEqualTo("Amazing show!")
-        Truth.assertThat(result).isEqualTo(expectedReviews)
+        assertThat(result).hasSize(1)
+        assertThat(result.first().comment).isEqualTo("Amazing show!")
+        assertThat(result).isEqualTo(expectedReviews)
         coVerify(exactly = 1) { seriesRepository.getSeriesReviewsById(seriesId) }
     }
 
@@ -100,8 +101,8 @@ class GetSeriesReviewsUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).hasSize(10)
-        Truth.assertThat(result).containsExactlyElementsIn(expectedReviews)
+        assertThat(result).hasSize(10)
+        assertThat(result).containsExactlyElementsIn(expectedReviews)
         coVerify(exactly = 1) { seriesRepository.getSeriesReviewsById(seriesId) }
     }
 
@@ -122,7 +123,7 @@ class GetSeriesReviewsUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedReviews)
+        assertThat(result).isEqualTo(expectedReviews)
         coVerify(exactly = 1) { seriesRepository.getSeriesReviewsById(seriesId) }
     }
 
@@ -143,7 +144,7 @@ class GetSeriesReviewsUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedReviews)
+        assertThat(result).isEqualTo(expectedReviews)
         coVerify(exactly = 1) { seriesRepository.getSeriesReviewsById(seriesId) }
     }
 
@@ -188,7 +189,7 @@ class GetSeriesReviewsUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).containsExactlyElementsIn(expectedReviews).inOrder()
+        assertThat(result).containsExactlyElementsIn(expectedReviews).inOrder()
         coVerify(exactly = 1) { seriesRepository.getSeriesReviewsById(seriesId) }
     }
 }

@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.movie
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Trailer
@@ -32,7 +33,7 @@ class GetUserRatedMovieUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(testRatedMovies)
+        assertThat(result).isEqualTo(testRatedMovies)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { movieRepository.getUserMovieRate("test_session_id") }
     }
@@ -44,7 +45,7 @@ class GetUserRatedMovieUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { movieRepository.getUserMovieRate("test_session_id") }
     }
@@ -57,8 +58,8 @@ class GetUserRatedMovieUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result).isEqualTo(singleRatedMovie)
+        assertThat(result).hasSize(1)
+        assertThat(result).isEqualTo(singleRatedMovie)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { movieRepository.getUserMovieRate("test_session_id") }
     }
@@ -71,7 +72,7 @@ class GetUserRatedMovieUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(testRatedMovies)
+        assertThat(result).isEqualTo(testRatedMovies)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { movieRepository.getUserMovieRate(customSessionId) }
     }

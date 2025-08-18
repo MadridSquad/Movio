@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.movie
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import org.junit.Before
@@ -20,7 +20,7 @@ class FilterMoviesByCategoryUseCaseTest {
 
         val result = useCase.invoke(movieList, 1) // Action category
 
-        Truth.assertThat(result).containsExactly(testMovieAction, testMovieActionComedy)
+        assertThat(result).containsExactly(testMovieAction, testMovieActionComedy)
     }
 
     @Test
@@ -29,14 +29,14 @@ class FilterMoviesByCategoryUseCaseTest {
 
         val result = useCase.invoke(movieList, 999) // Non-existent category
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
     }
 
     @Test
     fun `invoke SHOULD return empty list when input list is empty`() {
         val result = useCase.invoke(emptyList(), 1)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
     }
 
     @Test
@@ -45,7 +45,7 @@ class FilterMoviesByCategoryUseCaseTest {
 
         val result = useCase.invoke(movieList, 1) // Action category
 
-        Truth.assertThat(result).containsExactly(testMovieAction, testMovieActionComedy)
+        assertThat(result).containsExactly(testMovieAction, testMovieActionComedy)
     }
 
     @Test
@@ -55,8 +55,8 @@ class FilterMoviesByCategoryUseCaseTest {
         val resultAction = useCase.invoke(movieList, 1) // Action
         val resultComedy = useCase.invoke(movieList, 2) // Comedy
 
-        Truth.assertThat(resultAction).containsExactly(testMovieActionComedy)
-        Truth.assertThat(resultComedy).containsExactly(testMovieActionComedy)
+        assertThat(resultAction).containsExactly(testMovieActionComedy)
+        assertThat(resultComedy).containsExactly(testMovieActionComedy)
     }
 
     @Test
@@ -66,8 +66,8 @@ class FilterMoviesByCategoryUseCaseTest {
         val actionResult = useCase.invoke(movieList, 1)
         val comedyResult = useCase.invoke(movieList, 2)
 
-        Truth.assertThat(actionResult).containsExactly(testMovieAction, testMovieActionComedy)
-        Truth.assertThat(comedyResult).containsExactly(testMovieComedy, testMovieActionComedy)
+        assertThat(actionResult).containsExactly(testMovieAction, testMovieActionComedy)
+        assertThat(comedyResult).containsExactly(testMovieComedy, testMovieActionComedy)
     }
 
     @Test
@@ -76,7 +76,7 @@ class FilterMoviesByCategoryUseCaseTest {
 
         val result = useCase.invoke(movieList, 1)
 
-        Truth.assertThat(result).containsExactly(testMovieAction)
+        assertThat(result).containsExactly(testMovieAction)
     }
 
     private companion object {

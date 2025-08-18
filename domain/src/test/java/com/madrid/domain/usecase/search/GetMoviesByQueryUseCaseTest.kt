@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.search
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.repository.MovieRepository
@@ -56,7 +57,7 @@ class GetMoviesByQueryUseCaseTest {
 
         val result = useCase.invoke(query)
 
-        Truth.assertThat(result).isEqualTo(listOf(movies[1], movies[0]))
+        assertThat(result).isEqualTo(listOf(movies[1], movies[0]))
         coVerify(exactly = 1) { movieRepository.getMoviesGenres() }
         coVerify(exactly = 1) { searchRepository.getMoviesByQuery(query, 1) }
     }
@@ -83,7 +84,7 @@ class GetMoviesByQueryUseCaseTest {
 
         val result = useCase.invoke(query, page)
 
-        Truth.assertThat(result).isEqualTo(movies)
+        assertThat(result).isEqualTo(movies)
         coVerify(exactly = 1) { movieRepository.getMoviesGenres() }
         coVerify(exactly = 1) { searchRepository.getMoviesByQuery(query, page) }
     }
@@ -97,7 +98,7 @@ class GetMoviesByQueryUseCaseTest {
 
         val result = useCase.invoke(query)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { movieRepository.getMoviesGenres() }
         coVerify(exactly = 1) { searchRepository.getMoviesByQuery(query, 1) }
     }
@@ -123,7 +124,7 @@ class GetMoviesByQueryUseCaseTest {
 
         val result = useCase.invoke(query)
 
-        Truth.assertThat(result).isEqualTo(movies)
+        assertThat(result).isEqualTo(movies)
         coVerify(exactly = 1) { movieRepository.getMoviesGenres() }
         coVerify(exactly = 1) { searchRepository.getMoviesByQuery(query, 1) }
     }

@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.series
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Episode
 import com.madrid.domain.repository.SeriesRepository
 import io.mockk.coEvery
@@ -51,7 +52,7 @@ class GetEpisodesForSeasonUseCaseTest {
 
             val result = useCase.invoke(seriesId, seasonNumber)
 
-            Truth.assertThat(result).isEqualTo(expectedEpisodes)
+            assertThat(result).isEqualTo(expectedEpisodes)
             coVerify(exactly = 1) { seriesRepository.getEpisodesBySeriesId(seriesId, seasonNumber) }
         }
 
@@ -69,7 +70,7 @@ class GetEpisodesForSeasonUseCaseTest {
 
         val result = useCase.invoke(seriesId, seasonNumber)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { seriesRepository.getEpisodesBySeriesId(seriesId, seasonNumber) }
     }
 
@@ -96,7 +97,7 @@ class GetEpisodesForSeasonUseCaseTest {
 
         val result = useCase.invoke(seriesId, seasonNumber)
 
-        Truth.assertThat(result).isEqualTo(expectedEpisodes)
+        assertThat(result).isEqualTo(expectedEpisodes)
         coVerify(exactly = 1) { seriesRepository.getEpisodesBySeriesId(seriesId, seasonNumber) }
     }
 
@@ -123,7 +124,7 @@ class GetEpisodesForSeasonUseCaseTest {
 
         val result = useCase.invoke(seriesId, seasonNumber)
 
-        Truth.assertThat(result).isEqualTo(expectedEpisodes)
+        assertThat(result).isEqualTo(expectedEpisodes)
         coVerify(exactly = 1) { seriesRepository.getEpisodesBySeriesId(seriesId, seasonNumber) }
     }
 
@@ -164,8 +165,8 @@ class GetEpisodesForSeasonUseCaseTest {
 
         val result = useCase.invoke(seriesId, seasonNumber)
 
-        Truth.assertThat(result).hasSize(10)
-        Truth.assertThat(result).isEqualTo(expectedEpisodes)
+        assertThat(result).hasSize(10)
+        assertThat(result).isEqualTo(expectedEpisodes)
         coVerify(exactly = 1) { seriesRepository.getEpisodesBySeriesId(seriesId, seasonNumber) }
     }
 }

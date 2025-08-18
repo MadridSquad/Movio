@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.series
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.repository.SeriesRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -26,7 +27,7 @@ class DeleteSeriesFromHistoryUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { seriesRepository.deleteSeriesFromHistory(seriesId) }
     }
 
@@ -38,7 +39,7 @@ class DeleteSeriesFromHistoryUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { seriesRepository.deleteSeriesFromHistory(seriesId) }
     }
 
@@ -50,7 +51,7 @@ class DeleteSeriesFromHistoryUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { seriesRepository.deleteSeriesFromHistory(seriesId) }
     }
 
@@ -62,7 +63,7 @@ class DeleteSeriesFromHistoryUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { seriesRepository.deleteSeriesFromHistory(seriesId) }
     }
 
@@ -82,7 +83,7 @@ class DeleteSeriesFromHistoryUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { seriesRepository.deleteSeriesFromHistory(seriesId) }
     }
 }

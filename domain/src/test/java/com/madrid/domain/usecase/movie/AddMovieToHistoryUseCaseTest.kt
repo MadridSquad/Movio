@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.movie
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.repository.MovieRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -24,7 +24,7 @@ class AddMovieToHistoryUseCaseTest {
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEqualTo(Unit)
+        assertThat(result).isEqualTo(Unit)
         coVerify(exactly = 1) { movieRepository.addMovieToHistory(123) }
     }
 
@@ -34,7 +34,7 @@ class AddMovieToHistoryUseCaseTest {
 
         val result = useCase.invoke(456)
 
-        Truth.assertThat(result).isEqualTo(Unit)
+        assertThat(result).isEqualTo(Unit)
         coVerify(exactly = 1) { movieRepository.addMovieToHistory(456) }
     }
 

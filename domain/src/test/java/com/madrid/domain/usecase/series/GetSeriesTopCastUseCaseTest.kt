@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.series
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Artist
 import com.madrid.domain.repository.SeriesRepository
 import io.mockk.coEvery
@@ -46,7 +47,7 @@ class GetSeriesTopCastUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedArtists)
+        assertThat(result).isEqualTo(expectedArtists)
         coVerify(exactly = 1) { seriesRepository.getSeriesCreditsById(seriesId) }
     }
 
@@ -58,7 +59,7 @@ class GetSeriesTopCastUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { seriesRepository.getSeriesCreditsById(seriesId) }
     }
 
@@ -80,9 +81,9 @@ class GetSeriesTopCastUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result.first().name).isEqualTo("Solo Actor")
-        Truth.assertThat(result).isEqualTo(expectedArtists)
+        assertThat(result).hasSize(1)
+        assertThat(result.first().name).isEqualTo("Solo Actor")
+        assertThat(result).isEqualTo(expectedArtists)
         coVerify(exactly = 1) { seriesRepository.getSeriesCreditsById(seriesId) }
     }
 
@@ -104,8 +105,8 @@ class GetSeriesTopCastUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).hasSize(15)
-        Truth.assertThat(result).containsExactlyElementsIn(expectedArtists)
+        assertThat(result).hasSize(15)
+        assertThat(result).containsExactlyElementsIn(expectedArtists)
         coVerify(exactly = 1) { seriesRepository.getSeriesCreditsById(seriesId) }
     }
 
@@ -127,7 +128,7 @@ class GetSeriesTopCastUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedArtists)
+        assertThat(result).isEqualTo(expectedArtists)
         coVerify(exactly = 1) { seriesRepository.getSeriesCreditsById(seriesId) }
     }
 
@@ -149,7 +150,7 @@ class GetSeriesTopCastUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedArtists)
+        assertThat(result).isEqualTo(expectedArtists)
         coVerify(exactly = 1) { seriesRepository.getSeriesCreditsById(seriesId) }
     }
 
@@ -197,7 +198,7 @@ class GetSeriesTopCastUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).containsExactlyElementsIn(expectedArtists).inOrder()
+        assertThat(result).containsExactlyElementsIn(expectedArtists).inOrder()
         coVerify(exactly = 1) { seriesRepository.getSeriesCreditsById(seriesId) }
     }
 }

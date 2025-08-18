@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.movie
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Trailer
 import com.madrid.domain.repository.MovieRepository
 import io.mockk.coEvery
@@ -25,7 +26,7 @@ class GetMovieTrailersUseCaseTest {
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEqualTo(testTrailers)
+        assertThat(result).isEqualTo(testTrailers)
         coVerify(exactly = 1) { movieRepository.getMovieTrailersById(123) }
     }
 
@@ -36,7 +37,7 @@ class GetMovieTrailersUseCaseTest {
 
         val result = useCase.invoke(456)
 
-        Truth.assertThat(result).isEqualTo(anotherTrailers)
+        assertThat(result).isEqualTo(anotherTrailers)
         coVerify(exactly = 1) { movieRepository.getMovieTrailersById(456) }
     }
 
@@ -46,7 +47,7 @@ class GetMovieTrailersUseCaseTest {
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { movieRepository.getMovieTrailersById(123) }
     }
 
@@ -57,8 +58,8 @@ class GetMovieTrailersUseCaseTest {
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result).isEqualTo(singleTrailer)
+        assertThat(result).hasSize(1)
+        assertThat(result).isEqualTo(singleTrailer)
         coVerify(exactly = 1) { movieRepository.getMovieTrailersById(123) }
     }
 

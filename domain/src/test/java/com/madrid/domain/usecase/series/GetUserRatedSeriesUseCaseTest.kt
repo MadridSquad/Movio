@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.series
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Series
 import com.madrid.domain.repository.AuthenticationRepository
 import com.madrid.domain.repository.SeriesRepository
@@ -57,7 +58,7 @@ class GetUserRatedSeriesUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(expectedRatedSeries)
+        assertThat(result).isEqualTo(expectedRatedSeries)
         coVerify(exactly = 1) { seriesRepository.getUserSeriesRate(sessionId) }
     }
 
@@ -70,7 +71,7 @@ class GetUserRatedSeriesUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { seriesRepository.getUserSeriesRate(sessionId) }
     }
 
@@ -96,10 +97,10 @@ class GetUserRatedSeriesUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result.first().rate).isEqualTo(9.0)
-        Truth.assertThat(result.first().series.title).isEqualTo("Single Series")
-        Truth.assertThat(result).isEqualTo(expectedRatedSeries)
+        assertThat(result).hasSize(1)
+        assertThat(result.first().rate).isEqualTo(9.0)
+        assertThat(result.first().series.title).isEqualTo("Single Series")
+        assertThat(result).isEqualTo(expectedRatedSeries)
         coVerify(exactly = 1) { seriesRepository.getUserSeriesRate(sessionId) }
     }
 
@@ -125,8 +126,8 @@ class GetUserRatedSeriesUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).hasSize(10)
-        Truth.assertThat(result).containsExactlyElementsIn(expectedRatedSeries)
+        assertThat(result).hasSize(10)
+        assertThat(result).containsExactlyElementsIn(expectedRatedSeries)
         coVerify(exactly = 1) { seriesRepository.getUserSeriesRate(sessionId) }
     }
 
@@ -152,7 +153,7 @@ class GetUserRatedSeriesUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(expectedRatedSeries)
+        assertThat(result).isEqualTo(expectedRatedSeries)
         coVerify(exactly = 1) { seriesRepository.getUserSeriesRate(sessionId) }
     }
 
@@ -218,7 +219,7 @@ class GetUserRatedSeriesUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).containsExactlyElementsIn(expectedRatedSeries).inOrder()
+        assertThat(result).containsExactlyElementsIn(expectedRatedSeries).inOrder()
         coVerify(exactly = 1) { seriesRepository.getUserSeriesRate(sessionId) }
     }
 
@@ -268,10 +269,10 @@ class GetUserRatedSeriesUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result[0].rate).isEqualTo(0.0)
-        Truth.assertThat(result[1].rate).isEqualTo(5.5)
-        Truth.assertThat(result[2].rate).isEqualTo(10.0)
-        Truth.assertThat(result).isEqualTo(expectedRatedSeries)
+        assertThat(result[0].rate).isEqualTo(0.0)
+        assertThat(result[1].rate).isEqualTo(5.5)
+        assertThat(result[2].rate).isEqualTo(10.0)
+        assertThat(result).isEqualTo(expectedRatedSeries)
         coVerify(exactly = 1) { seriesRepository.getUserSeriesRate(sessionId) }
     }
 }

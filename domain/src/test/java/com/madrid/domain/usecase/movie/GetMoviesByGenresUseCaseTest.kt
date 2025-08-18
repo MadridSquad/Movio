@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.movie
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.repository.MovieRepository
@@ -26,7 +27,7 @@ class GetMoviesByGenresUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(testMoviesMap)
+        assertThat(result).isEqualTo(testMoviesMap)
         coVerify(exactly = 1) { movieRepository.getMoviesByGenres() }
     }
 
@@ -36,7 +37,7 @@ class GetMoviesByGenresUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { movieRepository.getMoviesByGenres() }
     }
 
@@ -48,8 +49,8 @@ class GetMoviesByGenresUseCaseTest {
 
             val result = useCase.invoke()
 
-            Truth.assertThat(result).hasSize(1)
-            Truth.assertThat(result).isEqualTo(singleGenreMap)
+            assertThat(result).hasSize(1)
+            assertThat(result).isEqualTo(singleGenreMap)
             coVerify(exactly = 1) { movieRepository.getMoviesByGenres() }
         }
 
@@ -64,9 +65,9 @@ class GetMoviesByGenresUseCaseTest {
 
             val result = useCase.invoke()
 
-            Truth.assertThat(result).isEqualTo(emptyMoviesMap)
-            Truth.assertThat(result["Action"]).isEmpty()
-            Truth.assertThat(result["Drama"]).isEmpty()
+            assertThat(result).isEqualTo(emptyMoviesMap)
+            assertThat(result["Action"]).isEmpty()
+            assertThat(result["Drama"]).isEmpty()
             coVerify(exactly = 1) { movieRepository.getMoviesByGenres() }
         }
 

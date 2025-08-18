@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.series
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Series
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -47,7 +48,7 @@ class IsFavoriteSeriesUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         coVerify(exactly = 1) { getFavoriteSeriesUseCase() }
     }
 
@@ -80,7 +81,7 @@ class IsFavoriteSeriesUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isFalse()
+        assertThat(result).isFalse()
         coVerify(exactly = 1) { getFavoriteSeriesUseCase() }
     }
 
@@ -92,7 +93,7 @@ class IsFavoriteSeriesUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isFalse()
+        assertThat(result).isFalse()
         coVerify(exactly = 1) { getFavoriteSeriesUseCase() }
     }
 
@@ -115,7 +116,7 @@ class IsFavoriteSeriesUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         coVerify(exactly = 1) { getFavoriteSeriesUseCase() }
     }
 
@@ -158,7 +159,7 @@ class IsFavoriteSeriesUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         coVerify(exactly = 1) { getFavoriteSeriesUseCase() }
     }
 
@@ -201,7 +202,7 @@ class IsFavoriteSeriesUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         coVerify(exactly = 1) { getFavoriteSeriesUseCase() }
     }
 
@@ -224,7 +225,7 @@ class IsFavoriteSeriesUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         coVerify(exactly = 1) { getFavoriteSeriesUseCase() }
     }
 
@@ -247,7 +248,7 @@ class IsFavoriteSeriesUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         coVerify(exactly = 1) { getFavoriteSeriesUseCase() }
     }
 
@@ -298,7 +299,7 @@ class IsFavoriteSeriesUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         coVerify(exactly = 1) { getFavoriteSeriesUseCase() }
     }
 }

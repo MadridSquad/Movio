@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.series
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Series
 import org.junit.Before
@@ -54,7 +55,7 @@ class FilterSeriesByCategoryUseCaseTest {
 
         val result = useCase.invoke(series, category)
 
-        Truth.assertThat(result).containsExactly(series[0], series[2])
+        assertThat(result).containsExactly(series[0], series[2])
     }
 
     @Test
@@ -87,7 +88,7 @@ class FilterSeriesByCategoryUseCaseTest {
 
         val result = useCase.invoke(series, category)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
     }
 
     @Test
@@ -97,7 +98,7 @@ class FilterSeriesByCategoryUseCaseTest {
 
         val result = useCase.invoke(series, category)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
     }
 
     @Test
@@ -128,7 +129,7 @@ class FilterSeriesByCategoryUseCaseTest {
 
         val result = useCase.invoke(series, category)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
     }
 
     @Test
@@ -160,7 +161,7 @@ class FilterSeriesByCategoryUseCaseTest {
 
         val result = useCase.invoke(series, category)
 
-        Truth.assertThat(result).containsExactly(series[0], series[1])
+        assertThat(result).containsExactly(series[0], series[1])
     }
 
     @Test
@@ -184,6 +185,6 @@ class FilterSeriesByCategoryUseCaseTest {
 
         val result = useCase.invoke(series, category)
 
-        Truth.assertThat(result).containsExactly(series[0])
+        assertThat(result).containsExactly(series[0])
     }
 }

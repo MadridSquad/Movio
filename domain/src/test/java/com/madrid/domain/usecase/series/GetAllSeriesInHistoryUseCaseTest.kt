@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.series
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Series
 import com.madrid.domain.repository.SeriesRepository
 import io.mockk.coEvery
@@ -47,7 +48,7 @@ class GetAllSeriesInHistoryUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(expectedSeries)
+        assertThat(result).isEqualTo(expectedSeries)
         coVerify(exactly = 1) { seriesRepository.getAllSeriesInHistory() }
     }
 
@@ -58,7 +59,7 @@ class GetAllSeriesInHistoryUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { seriesRepository.getAllSeriesInHistory() }
     }
 
@@ -80,8 +81,8 @@ class GetAllSeriesInHistoryUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result).isEqualTo(expectedSeries)
+        assertThat(result).hasSize(1)
+        assertThat(result).isEqualTo(expectedSeries)
         coVerify(exactly = 1) { seriesRepository.getAllSeriesInHistory() }
     }
 
@@ -103,8 +104,8 @@ class GetAllSeriesInHistoryUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).hasSize(10)
-        Truth.assertThat(result).isEqualTo(expectedSeries)
+        assertThat(result).hasSize(10)
+        assertThat(result).isEqualTo(expectedSeries)
         coVerify(exactly = 1) { seriesRepository.getAllSeriesInHistory() }
     }
 

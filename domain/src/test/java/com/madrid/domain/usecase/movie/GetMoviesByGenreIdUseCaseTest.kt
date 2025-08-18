@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.movie
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.SortType
@@ -33,7 +34,7 @@ class GetMoviesByGenreIdUseCaseTest {
 
         val result = useCase.invoke(1, 123, SortType.POPULARITY)
 
-        Truth.assertThat(result).isEqualTo(testMovies)
+        assertThat(result).isEqualTo(testMovies)
         coVerify(exactly = 1) { movieRepository.getMoviesByGenreId(1, 123, SortType.POPULARITY) }
     }
 
@@ -49,7 +50,7 @@ class GetMoviesByGenreIdUseCaseTest {
 
         val result = useCase.invoke(1, null, SortType.POPULARITY)
 
-        Truth.assertThat(result).isEqualTo(testMovies)
+        assertThat(result).isEqualTo(testMovies)
         coVerify(exactly = 1) { movieRepository.getMoviesByGenreId(1, null, SortType.POPULARITY) }
     }
 
@@ -57,7 +58,7 @@ class GetMoviesByGenreIdUseCaseTest {
     fun `invoke SHOULD return movies with different sort type`() = runTest {
         coEvery { movieRepository.getMoviesByGenreId(1, 123, SortType.LATEST) } returns testMovies
         val result = useCase.invoke(1, 123, SortType.LATEST)
-        Truth.assertThat(result).isEqualTo(testMovies)
+        assertThat(result).isEqualTo(testMovies)
         coVerify(exactly = 1) { movieRepository.getMoviesByGenreId(1, 123, SortType.LATEST) }
     }
 
@@ -73,7 +74,7 @@ class GetMoviesByGenreIdUseCaseTest {
 
         val result = useCase.invoke(2, 123, SortType.POPULARITY)
 
-        Truth.assertThat(result).isEqualTo(testMovies)
+        assertThat(result).isEqualTo(testMovies)
         coVerify(exactly = 1) { movieRepository.getMoviesByGenreId(2, 123, SortType.POPULARITY) }
     }
 
@@ -89,7 +90,7 @@ class GetMoviesByGenreIdUseCaseTest {
 
         val result = useCase.invoke(1, 123, SortType.POPULARITY)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { movieRepository.getMoviesByGenreId(1, 123, SortType.POPULARITY) }
     }
 

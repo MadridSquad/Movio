@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.series
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Series
 import com.madrid.domain.repository.SeriesRepository
@@ -41,7 +42,7 @@ class GetSeriesDetailsUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedSeries)
+        assertThat(result).isEqualTo(expectedSeries)
         coVerify(exactly = 1) { seriesRepository.getSeriesDetailsById(seriesId) }
         coVerify(exactly = 1) { seriesRepository.increaseSeriesGenreInterestPoints("Action") }
         coVerify(exactly = 1) { seriesRepository.increaseSeriesGenreInterestPoints("Drama") }
@@ -65,7 +66,7 @@ class GetSeriesDetailsUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedSeries)
+        assertThat(result).isEqualTo(expectedSeries)
         coVerify(exactly = 1) { seriesRepository.getSeriesDetailsById(seriesId) }
         coVerify(exactly = 1) { seriesRepository.increaseSeriesGenreInterestPoints("Comedy") }
     }
@@ -88,7 +89,7 @@ class GetSeriesDetailsUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedSeries)
+        assertThat(result).isEqualTo(expectedSeries)
         coVerify(exactly = 1) { seriesRepository.getSeriesDetailsById(seriesId) }
         coVerify(exactly = 0) { seriesRepository.increaseSeriesGenreInterestPoints(any()) }
     }
@@ -116,7 +117,7 @@ class GetSeriesDetailsUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedSeries)
+        assertThat(result).isEqualTo(expectedSeries)
         coVerify(exactly = 1) { seriesRepository.getSeriesDetailsById(seriesId) }
         coVerify(exactly = 1) { seriesRepository.increaseSeriesGenreInterestPoints("Thriller") }
         coVerify(exactly = 1) { seriesRepository.increaseSeriesGenreInterestPoints("Mystery") }
@@ -150,7 +151,7 @@ class GetSeriesDetailsUseCaseTest {
 
         val result = useCase.invoke(seriesId)
 
-        Truth.assertThat(result).isEqualTo(expectedSeries)
+        assertThat(result).isEqualTo(expectedSeries)
         coVerify(exactly = 1) { seriesRepository.getSeriesDetailsById(seriesId) }
         coVerify(exactly = 1) { seriesRepository.increaseSeriesGenreInterestPoints("Documentary") }
     }

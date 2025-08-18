@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.series
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.repository.SeriesRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -26,7 +27,7 @@ class AddRatingSeriesUseCaseTest {
 
         val result = useCase.invoke(movieId, rate)
 
-        Truth.assertThat(result).isEqualTo(Unit)
+        assertThat(result).isEqualTo(Unit)
         coVerify(exactly = 1) { seriesRepository.addRatingSeries(movieId, rate) }
     }
 
@@ -38,7 +39,7 @@ class AddRatingSeriesUseCaseTest {
 
         val result = useCase.invoke(movieId, rate)
 
-        Truth.assertThat(result).isEqualTo(Unit)
+        assertThat(result).isEqualTo(Unit)
         coVerify(exactly = 1) { seriesRepository.addRatingSeries(movieId, rate) }
     }
 
@@ -50,7 +51,7 @@ class AddRatingSeriesUseCaseTest {
 
         val result = useCase.invoke(movieId, rate)
 
-        Truth.assertThat(result).isEqualTo(Unit)
+        assertThat(result).isEqualTo(Unit)
         coVerify(exactly = 1) { seriesRepository.addRatingSeries(movieId, rate) }
     }
 
@@ -62,7 +63,7 @@ class AddRatingSeriesUseCaseTest {
 
         val result = useCase.invoke(movieId, rate)
 
-        Truth.assertThat(result).isEqualTo(Unit)
+        assertThat(result).isEqualTo(Unit)
         coVerify(exactly = 1) { seriesRepository.addRatingSeries(movieId, rate) }
     }
 
@@ -88,7 +89,7 @@ class AddRatingSeriesUseCaseTest {
 
         val result = useCase.invoke(movieId, rate)
 
-        Truth.assertThat(result).isEqualTo(Unit)
+        assertThat(result).isEqualTo(Unit)
         coVerify(exactly = 1) { seriesRepository.addRatingSeries(movieId, rate) }
     }
 }

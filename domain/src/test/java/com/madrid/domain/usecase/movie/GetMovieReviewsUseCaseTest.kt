@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.movie
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Review
 import com.madrid.domain.repository.MovieRepository
 import io.mockk.coEvery
@@ -25,7 +26,7 @@ class GetMovieReviewsUseCaseTest {
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEqualTo(testReviews)
+        assertThat(result).isEqualTo(testReviews)
         coVerify(exactly = 1) { movieRepository.getMovieReviewsById(123) }
     }
 
@@ -37,7 +38,7 @@ class GetMovieReviewsUseCaseTest {
 
         val result = useCase.invoke(456)
 
-        Truth.assertThat(result).isEqualTo(anotherReviews)
+        assertThat(result).isEqualTo(anotherReviews)
         coVerify(exactly = 1) { movieRepository.getMovieReviewsById(456) }
     }
 
@@ -47,7 +48,7 @@ class GetMovieReviewsUseCaseTest {
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { movieRepository.getMovieReviewsById(123) }
     }
 
@@ -58,8 +59,8 @@ class GetMovieReviewsUseCaseTest {
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result).isEqualTo(singleReview)
+        assertThat(result).hasSize(1)
+        assertThat(result).isEqualTo(singleReview)
         coVerify(exactly = 1) { movieRepository.getMovieReviewsById(123) }
     }
 

@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.movie
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Trailer
@@ -26,7 +27,7 @@ class IsFavoriteMovieUseCaseTest {
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         coVerify(exactly = 1) { getFavoriteMoviesUseCase() }
     }
 
@@ -36,7 +37,7 @@ class IsFavoriteMovieUseCaseTest {
 
         val result = useCase.invoke(999)
 
-        Truth.assertThat(result).isFalse()
+        assertThat(result).isFalse()
         coVerify(exactly = 1) { getFavoriteMoviesUseCase() }
     }
 
@@ -46,7 +47,7 @@ class IsFavoriteMovieUseCaseTest {
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isFalse()
+        assertThat(result).isFalse()
         coVerify(exactly = 1) { getFavoriteMoviesUseCase() }
     }
 
@@ -56,7 +57,7 @@ class IsFavoriteMovieUseCaseTest {
 
         val result = useCase.invoke(124)
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         coVerify(exactly = 1) { getFavoriteMoviesUseCase() }
     }
 
@@ -66,7 +67,7 @@ class IsFavoriteMovieUseCaseTest {
 
         val result = useCase.invoke(-1)
 
-        Truth.assertThat(result).isFalse()
+        assertThat(result).isFalse()
         coVerify(exactly = 1) { getFavoriteMoviesUseCase() }
     }
 

@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.movie
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.repository.AuthenticationRepository
 import com.madrid.domain.repository.MovieRepository
@@ -29,7 +29,7 @@ class GetFavoriteMoviesUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(listOf(testMovie))
+        assertThat(result).isEqualTo(listOf(testMovie))
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { movieRepository.getFavoriteMovies("session123") }
     }
@@ -41,7 +41,7 @@ class GetFavoriteMoviesUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { movieRepository.getFavoriteMovies("session123") }
     }
 
@@ -53,8 +53,8 @@ class GetFavoriteMoviesUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).hasSize(2)
-        Truth.assertThat(result).isEqualTo(favoriteMovies)
+        assertThat(result).hasSize(2)
+        assertThat(result).isEqualTo(favoriteMovies)
     }
 
     @Test

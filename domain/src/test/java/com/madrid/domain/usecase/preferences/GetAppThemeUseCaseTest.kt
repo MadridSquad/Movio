@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.preferences
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.repository.PreferencesRepository
 import com.madrid.domain.utils.AppTheme
 import io.mockk.every
@@ -28,7 +28,7 @@ class GetAppThemeUseCaseTest {
 
         val result = useCase.invoke().first()
 
-        Truth.assertThat(result).isEqualTo(AppTheme.DARK)
+        assertThat(result).isEqualTo(AppTheme.DARK)
         verify(exactly = 1) { preferencesRepository.getAppDarkModeOn() }
     }
 
@@ -38,7 +38,7 @@ class GetAppThemeUseCaseTest {
 
         val result = useCase.invoke().first()
 
-        Truth.assertThat(result).isEqualTo(AppTheme.LIGHT)
+        assertThat(result).isEqualTo(AppTheme.LIGHT)
         verify(exactly = 1) { preferencesRepository.getAppDarkModeOn() }
     }
 
@@ -48,7 +48,7 @@ class GetAppThemeUseCaseTest {
 
         val result = useCase.invoke().first()
 
-        Truth.assertThat(result).isEqualTo(AppTheme.DARK)
+        assertThat(result).isEqualTo(AppTheme.DARK)
         verify(exactly = 1) { preferencesRepository.getAppDarkModeOn() }
     }
 

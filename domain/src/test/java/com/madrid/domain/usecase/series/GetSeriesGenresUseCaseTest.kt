@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.series
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.repository.SeriesRepository
 import io.mockk.coEvery
@@ -30,7 +31,7 @@ class GetSeriesGenresUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(expectedGenres)
+        assertThat(result).isEqualTo(expectedGenres)
         coVerify(exactly = 1) { seriesRepository.getSeriesGenres() }
     }
 
@@ -41,7 +42,7 @@ class GetSeriesGenresUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { seriesRepository.getSeriesGenres() }
     }
 
@@ -52,9 +53,9 @@ class GetSeriesGenresUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result.first().name).isEqualTo("Thriller")
-        Truth.assertThat(result).isEqualTo(expectedGenres)
+        assertThat(result).hasSize(1)
+        assertThat(result.first().name).isEqualTo("Thriller")
+        assertThat(result).isEqualTo(expectedGenres)
         coVerify(exactly = 1) { seriesRepository.getSeriesGenres() }
     }
 
@@ -71,8 +72,8 @@ class GetSeriesGenresUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).hasSize(5)
-        Truth.assertThat(result).containsExactlyElementsIn(expectedGenres)
+        assertThat(result).hasSize(5)
+        assertThat(result).containsExactlyElementsIn(expectedGenres)
         coVerify(exactly = 1) { seriesRepository.getSeriesGenres() }
     }
 
@@ -94,7 +95,7 @@ class GetSeriesGenresUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).containsExactlyElementsIn(expectedGenres).inOrder()
+        assertThat(result).containsExactlyElementsIn(expectedGenres).inOrder()
         coVerify(exactly = 1) { seriesRepository.getSeriesGenres() }
     }
 
@@ -105,8 +106,8 @@ class GetSeriesGenresUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).hasSize(50)
-        Truth.assertThat(result).isEqualTo(expectedGenres)
+        assertThat(result).hasSize(50)
+        assertThat(result).isEqualTo(expectedGenres)
         coVerify(exactly = 1) { seriesRepository.getSeriesGenres() }
     }
 }

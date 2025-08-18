@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.artist
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.repository.ArtistRepository
 import io.mockk.coEvery
@@ -25,7 +26,7 @@ class GetArtistMoviesUseCaseTest {
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEqualTo(testMovies)
+        assertThat(result).isEqualTo(testMovies)
         coVerify(exactly = 1) { artistRepository.getArtistMovies(123) }
     }
 
@@ -36,7 +37,7 @@ class GetArtistMoviesUseCaseTest {
 
         val result = useCase.invoke(456)
 
-        Truth.assertThat(result).isEqualTo(anotherMovie)
+        assertThat(result).isEqualTo(anotherMovie)
         coVerify(exactly = 1) { artistRepository.getArtistMovies(456) }
     }
 
@@ -46,7 +47,7 @@ class GetArtistMoviesUseCaseTest {
 
         val result = useCase.invoke(789)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { artistRepository.getArtistMovies(789) }
     }
 

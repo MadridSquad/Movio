@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.preferences
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.repository.PreferencesRepository
 import com.madrid.domain.utils.AppLanguage
 import io.mockk.every
@@ -28,7 +28,7 @@ class GetLanguageUseCaseTest {
 
         val result = useCase.invoke().first()
 
-        Truth.assertThat(result).isEqualTo(AppLanguage.ENGLISH)
+        assertThat(result).isEqualTo(AppLanguage.ENGLISH)
         verify(exactly = 1) { preferencesRepository.getAppLanguage() }
     }
 
@@ -38,7 +38,7 @@ class GetLanguageUseCaseTest {
             every { preferencesRepository.getAppLanguage() } returns flowOf(AppLanguage.ARABIC)
             val result = useCase.invoke().first()
 
-            Truth.assertThat(result).isEqualTo(AppLanguage.ARABIC)
+            assertThat(result).isEqualTo(AppLanguage.ARABIC)
             verify(exactly = 1) { preferencesRepository.getAppLanguage() }
         }
 
@@ -47,7 +47,7 @@ class GetLanguageUseCaseTest {
         every { preferencesRepository.getAppLanguage() } returns flowOf(AppLanguage.ENGLISH)
         val result = useCase.invoke().first()
 
-        Truth.assertThat(result).isEqualTo(AppLanguage.ENGLISH)
+        assertThat(result).isEqualTo(AppLanguage.ENGLISH)
         verify(exactly = 1) { preferencesRepository.getAppLanguage() }
     }
 
@@ -58,7 +58,7 @@ class GetLanguageUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(expectedFlow)
+        assertThat(result).isEqualTo(expectedFlow)
         verify(exactly = 1) { preferencesRepository.getAppLanguage() }
     }
 

@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.movie
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Trailer
@@ -27,11 +28,11 @@ class GetMoviesWithTrailersTest {
 
         val result = useCase.invoke(testMovies)
 
-        Truth.assertThat(result).hasSize(2)
-        Truth.assertThat(result[0].trailer?.key).isEqualTo("test_key_1")
-        Truth.assertThat(result[0].trailer?.id).isEqualTo("trailer_1")
-        Truth.assertThat(result[1].trailer?.key).isEqualTo("test_key_2")
-        Truth.assertThat(result[1].trailer?.id).isEqualTo("trailer_2")
+        assertThat(result).hasSize(2)
+        assertThat(result[0].trailer?.key).isEqualTo("test_key_1")
+        assertThat(result[0].trailer?.id).isEqualTo("trailer_1")
+        assertThat(result[1].trailer?.key).isEqualTo("test_key_2")
+        assertThat(result[1].trailer?.id).isEqualTo("trailer_2")
         coVerify(exactly = 1) { movieTrailersUseCase(123) }
         coVerify(exactly = 1) { movieTrailersUseCase(124) }
     }
@@ -43,11 +44,11 @@ class GetMoviesWithTrailersTest {
 
         val result = useCase.invoke(testMovies)
 
-        Truth.assertThat(result).hasSize(2)
-        Truth.assertThat(result[0].trailer?.key).isEmpty()
-        Truth.assertThat(result[0].trailer?.id).isEmpty()
-        Truth.assertThat(result[1].trailer?.key).isEmpty()
-        Truth.assertThat(result[1].trailer?.id).isEmpty()
+        assertThat(result).hasSize(2)
+        assertThat(result[0].trailer?.key).isEmpty()
+        assertThat(result[0].trailer?.id).isEmpty()
+        assertThat(result[1].trailer?.key).isEmpty()
+        assertThat(result[1].trailer?.id).isEmpty()
         coVerify(exactly = 1) { movieTrailersUseCase(123) }
         coVerify(exactly = 1) { movieTrailersUseCase(124) }
     }
@@ -56,7 +57,7 @@ class GetMoviesWithTrailersTest {
     fun `invoke SHOULD return empty list when input movies list is empty`() = runTest {
         val result = useCase.invoke(emptyList())
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 0) { movieTrailersUseCase(any()) }
     }
 
@@ -67,9 +68,9 @@ class GetMoviesWithTrailersTest {
 
         val result = useCase.invoke(listOf(testMovies[0]))
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result[0].trailer?.key).isEqualTo("test_key_1")
-        Truth.assertThat(result[0].trailer?.id).isEqualTo("trailer_1")
+        assertThat(result).hasSize(1)
+        assertThat(result[0].trailer?.key).isEqualTo("test_key_1")
+        assertThat(result[0].trailer?.id).isEqualTo("trailer_1")
         coVerify(exactly = 1) { movieTrailersUseCase(123) }
     }
 
@@ -79,9 +80,9 @@ class GetMoviesWithTrailersTest {
 
         val result = useCase.invoke(listOf(testMovies[0]))
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result[0].trailer?.key).isEqualTo("test_key_1")
-        Truth.assertThat(result[0].trailer?.id).isEqualTo("trailer_1")
+        assertThat(result).hasSize(1)
+        assertThat(result[0].trailer?.key).isEqualTo("test_key_1")
+        assertThat(result[0].trailer?.id).isEqualTo("trailer_1")
         coVerify(exactly = 1) { movieTrailersUseCase(123) }
     }
 

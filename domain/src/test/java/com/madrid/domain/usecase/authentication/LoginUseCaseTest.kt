@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.authentication
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.exceptions.GuestLoginException
 import com.madrid.domain.exceptions.InvalidCredentialsException
 import com.madrid.domain.exceptions.UnknownException
@@ -33,7 +33,7 @@ class LoginUseCaseTest {
 
         val result = useCase.execute("testuser", "testpass")
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         coVerify(exactly = 1) { authenticationRepository.login("testuser", "testpass") }
     }
 
@@ -79,7 +79,7 @@ class LoginUseCaseTest {
 
         val result = useCase.loginAsGuest()
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         coVerify(exactly = 1) { authenticationRepository.loginAsGuest() }
     }
 
@@ -104,7 +104,7 @@ class LoginUseCaseTest {
 
         val result = useCase.checkActiveSession().first()
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         verify(exactly = 1) { authenticationRepository.isUserLoggedIn() }
     }
 
@@ -114,7 +114,7 @@ class LoginUseCaseTest {
 
         val result = useCase.checkActiveSession().first()
 
-        Truth.assertThat(result).isFalse()
+        assertThat(result).isFalse()
         verify(exactly = 1) { authenticationRepository.isUserLoggedIn() }
     }
 
@@ -124,7 +124,7 @@ class LoginUseCaseTest {
 
         val result = useCase.isGuest().first()
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         verify(exactly = 1) { authenticationRepository.isGuest() }
     }
 
@@ -134,7 +134,7 @@ class LoginUseCaseTest {
 
         val result = useCase.isGuest().first()
 
-        Truth.assertThat(result).isFalse()
+        assertThat(result).isFalse()
         verify(exactly = 1) { authenticationRepository.isGuest() }
     }
 

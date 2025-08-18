@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.movie
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.repository.MovieRepository
 import io.mockk.coEvery
@@ -25,7 +25,7 @@ class GetMovieGenresUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(testGenres)
+        assertThat(result).isEqualTo(testGenres)
         coVerify(exactly = 1) { movieRepository.getMoviesGenres() }
     }
 
@@ -35,7 +35,7 @@ class GetMovieGenresUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { movieRepository.getMoviesGenres() }
     }
 
@@ -46,8 +46,8 @@ class GetMovieGenresUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result).isEqualTo(singleGenre)
+        assertThat(result).hasSize(1)
+        assertThat(result).isEqualTo(singleGenre)
         coVerify(exactly = 1) { movieRepository.getMoviesGenres() }
     }
 

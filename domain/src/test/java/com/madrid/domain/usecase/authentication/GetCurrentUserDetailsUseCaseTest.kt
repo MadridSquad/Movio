@@ -2,7 +2,7 @@
 
 package com.madrid.domain.usecase.authentication
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.User
 import com.madrid.domain.repository.AuthenticationRepository
 import io.mockk.coEvery
@@ -29,7 +29,7 @@ class GetCurrentUserDetailsUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(testUser)
+        assertThat(result).isEqualTo(testUser)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { authenticationRepository.getCurrentUser("test_session_id") }
     }
@@ -41,7 +41,7 @@ class GetCurrentUserDetailsUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isNull()
+        assertThat(result).isNull()
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { authenticationRepository.getCurrentUser("test_session_id") }
     }
@@ -54,7 +54,7 @@ class GetCurrentUserDetailsUseCaseTest {
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(testUser)
+        assertThat(result).isEqualTo(testUser)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { authenticationRepository.getCurrentUser(customSessionId) }
     }

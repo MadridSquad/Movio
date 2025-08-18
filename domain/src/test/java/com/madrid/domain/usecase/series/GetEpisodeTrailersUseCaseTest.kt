@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.series
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Trailer
 import com.madrid.domain.repository.SeriesRepository
 import io.mockk.coEvery
@@ -39,7 +40,7 @@ class GetEpisodeTrailersUseCaseTest {
 
             val result = useCase.invoke(seriesId, seasonNumber, episodeNumber)
 
-            Truth.assertThat(result).isEqualTo(expectedTrailers)
+            assertThat(result).isEqualTo(expectedTrailers)
             coVerify(exactly = 1) {
                 seriesRepository.getEpisodeTrailers(
                     seriesId,
@@ -65,7 +66,7 @@ class GetEpisodeTrailersUseCaseTest {
 
         val result = useCase.invoke(seriesId, seasonNumber, episodeNumber)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) {
             seriesRepository.getEpisodeTrailers(
                 seriesId,
@@ -90,7 +91,7 @@ class GetEpisodeTrailersUseCaseTest {
 
         val result = useCase.invoke(seriesId, seasonNumber, episodeNumber)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) {
             seriesRepository.getEpisodeTrailers(
                 seriesId,
@@ -116,7 +117,7 @@ class GetEpisodeTrailersUseCaseTest {
 
         val result = useCase.invoke(seriesId, seasonNumber, episodeNumber)
 
-        Truth.assertThat(result).isEqualTo(expectedTrailers)
+        assertThat(result).isEqualTo(expectedTrailers)
         coVerify(exactly = 1) {
             seriesRepository.getEpisodeTrailers(
                 seriesId,
@@ -142,7 +143,7 @@ class GetEpisodeTrailersUseCaseTest {
 
         val result = useCase.invoke(seriesId, seasonNumber, episodeNumber)
 
-        Truth.assertThat(result).isEqualTo(expectedTrailers)
+        assertThat(result).isEqualTo(expectedTrailers)
         coVerify(exactly = 1) {
             seriesRepository.getEpisodeTrailers(
                 seriesId,
@@ -168,8 +169,8 @@ class GetEpisodeTrailersUseCaseTest {
 
         val result = useCase.invoke(seriesId, seasonNumber, episodeNumber)
 
-        Truth.assertThat(result).hasSize(5)
-        Truth.assertThat(result).isEqualTo(expectedTrailers)
+        assertThat(result).hasSize(5)
+        assertThat(result).isEqualTo(expectedTrailers)
         coVerify(exactly = 1) {
             seriesRepository.getEpisodeTrailers(
                 seriesId,

@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.search
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.repository.MovieRepository
 import io.mockk.coEvery
@@ -27,7 +28,7 @@ class GetRecommendedMovieUseCaseTest {
 
         val result = useCase.invoke(page)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { movieRepository.getRecommendedMovies(page) }
     }
 
@@ -39,7 +40,7 @@ class GetRecommendedMovieUseCaseTest {
 
         val result = useCase.invoke(page)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { movieRepository.getRecommendedMovies(page) }
     }
 
@@ -51,7 +52,7 @@ class GetRecommendedMovieUseCaseTest {
 
         val result = useCase.invoke(page)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { movieRepository.getRecommendedMovies(page) }
     }
 
@@ -71,7 +72,7 @@ class GetRecommendedMovieUseCaseTest {
 
         val result = useCase.invoke(page)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { movieRepository.getRecommendedMovies(page) }
     }
 
@@ -83,7 +84,7 @@ class GetRecommendedMovieUseCaseTest {
 
         val result = useCase.invoke(page)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { movieRepository.getRecommendedMovies(page) }
     }
 }

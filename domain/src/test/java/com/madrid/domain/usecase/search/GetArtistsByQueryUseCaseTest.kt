@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.search
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Artist
 import com.madrid.domain.repository.SearchRepository
 import io.mockk.coEvery
@@ -27,7 +28,7 @@ class GetArtistsByQueryUseCaseTest {
 
         val result = useCase.invoke(query)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { searchRepository.getArtistsByQuery(query, 1) }
     }
 
@@ -40,7 +41,7 @@ class GetArtistsByQueryUseCaseTest {
 
         val result = useCase.invoke(query, page)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { searchRepository.getArtistsByQuery(query, page) }
     }
 
@@ -52,7 +53,7 @@ class GetArtistsByQueryUseCaseTest {
 
         val result = useCase.invoke(query)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { searchRepository.getArtistsByQuery(query, 1) }
     }
 
@@ -65,7 +66,7 @@ class GetArtistsByQueryUseCaseTest {
 
         val result = useCase.invoke(query, page)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { searchRepository.getArtistsByQuery(query, page) }
     }
 
@@ -91,7 +92,7 @@ class GetArtistsByQueryUseCaseTest {
 
         val result = useCase.invoke(query, page)
 
-        Truth.assertThat(result).isEqualTo(expectedResult)
+        assertThat(result).isEqualTo(expectedResult)
         coVerify(exactly = 1) { searchRepository.getArtistsByQuery(query, page) }
     }
 }

@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.movie
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.repository.MovieRepository
@@ -26,7 +26,7 @@ class GetMovieDetailsUseCaseTest {
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEqualTo(testMovie)
+        assertThat(result).isEqualTo(testMovie)
         coVerify(exactly = 1) { movieRepository.getMovieDetailsById(123) }
     }
 
@@ -47,7 +47,7 @@ class GetMovieDetailsUseCaseTest {
 
         val result = useCase.invoke(456)
 
-        Truth.assertThat(result).isEqualTo(anotherMovie)
+        assertThat(result).isEqualTo(anotherMovie)
         coVerify(exactly = 1) { movieRepository.getMovieDetailsById(456) }
     }
 
@@ -82,7 +82,7 @@ class GetMovieDetailsUseCaseTest {
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEqualTo(movieWithoutGenres)
+        assertThat(result).isEqualTo(movieWithoutGenres)
         coVerify(exactly = 0) { movieRepository.increaseMovieGenreInterestPoints(any()) }
     }
 

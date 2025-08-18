@@ -1,6 +1,7 @@
 package com.madrid.domain.usecase.search
 
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Series
 import com.madrid.domain.repository.SearchRepository
@@ -56,7 +57,7 @@ class GetSeriesByQueryUseCaseTest {
 
         val result = useCase.invoke(query)
 
-        Truth.assertThat(result).isEqualTo(listOf(series[1], series[0]))
+        assertThat(result).isEqualTo(listOf(series[1], series[0]))
         coVerify(exactly = 1) { seriesRepository.getSeriesGenres() }
         coVerify(exactly = 1) { searchRepository.getSeriesByQuery(query, 1) }
     }
@@ -83,7 +84,7 @@ class GetSeriesByQueryUseCaseTest {
 
         val result = useCase.invoke(query, page)
 
-        Truth.assertThat(result).isEqualTo(series)
+        assertThat(result).isEqualTo(series)
         coVerify(exactly = 1) { seriesRepository.getSeriesGenres() }
         coVerify(exactly = 1) { searchRepository.getSeriesByQuery(query, page) }
     }
@@ -97,7 +98,7 @@ class GetSeriesByQueryUseCaseTest {
 
         val result = useCase.invoke(query)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { seriesRepository.getSeriesGenres() }
         coVerify(exactly = 1) { searchRepository.getSeriesByQuery(query, 1) }
     }
@@ -123,7 +124,7 @@ class GetSeriesByQueryUseCaseTest {
 
         val result = useCase.invoke(query)
 
-        Truth.assertThat(result).isEqualTo(series)
+        assertThat(result).isEqualTo(series)
         coVerify(exactly = 1) { seriesRepository.getSeriesGenres() }
         coVerify(exactly = 1) { searchRepository.getSeriesByQuery(query, 1) }
     }
