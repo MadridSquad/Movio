@@ -17,8 +17,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.CustomTextTitle
@@ -28,6 +30,7 @@ import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.designSystem.modifier.ShimmerCard
 import com.madrid.designSystem.modifier.ShimmerHorizontalCard
 import com.madrid.designSystem.modifier.ShimmerItem
+import com.madrid.designSystem.modifier.removeWidthPaddingFromParent
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesType
@@ -70,36 +73,40 @@ fun MoviesLayout(
 
     LazyVerticalGrid(
         state = lazyGridState,
-        columns = GridCells.Adaptive(minSize = 168.dp),
+        columns = GridCells.Adaptive(minSize = 158.dp),
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        contentPadding = PaddingValues(bottom = 16.dp)
+        contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 16.dp)
     ) {
         item(span = { GridItemSpan(maxLineSpan) }) {
 
-            ShimmerItem(isLoading = isSliderLoading) {
+            ShimmerItem(
+                isLoading = isSliderLoading
+            ) {
                 MovioPager(
                     medias = trendingMovies.take(7),
                     onClickItem = { id -> navController.navigate(Destinations.MovieDetailsScreen(id)) },
                     onClickMediaButton = { mediaIndex -> onClickMediaButton(mediaIndex) },
-                    isLoading = isLoading
+                    isLoading = isLoading,
+                    modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                 )
             }
         }
         item(span = { GridItemSpan(maxLineSpan) }) {
-
             ShimmerHorizontalCard(
+                modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                 isLoading = isTopRatedLoading,
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.top_rating),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
                 endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
                 onSeeAllClick = { navController.navigate(Destinations.SeeAllMoviesScreen(type = SeeAllMoviesType.TOP_RATING)) },
                 headerModifier = Modifier.padding(horizontal = 16.dp),
-                itemCount = 5
+                itemCount = 20
             ) {
                 CustomHorizontalCard(
+                    modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                     primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.top_rating),
                     secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
                     endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
@@ -116,15 +123,17 @@ fun MoviesLayout(
 
         item(span = { GridItemSpan(maxLineSpan) }) {
             ShimmerHorizontalCard(
+                modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                 isLoading = isNowPlayingLoading,
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.now_playing),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
                 endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
                 onSeeAllClick = { navController.navigate(Destinations.SeeAllMoviesScreen(type = SeeAllMoviesType.NOW_PLAYING)) },
                 headerModifier = Modifier.padding(horizontal = 16.dp),
-                itemCount = 5
+                itemCount = 20,
             ) {
                 CustomHorizontalCard(
+                    modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                     primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.now_playing),
                     secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
                     endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
@@ -141,15 +150,17 @@ fun MoviesLayout(
 
         item(span = { GridItemSpan(maxLineSpan) }) {
             ShimmerHorizontalCard(
+                modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                 isLoading = isUpComingLoading,
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.upcoming),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
                 endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
                 onSeeAllClick = { navController.navigate(Destinations.SeeAllMoviesScreen(type = SeeAllMoviesType.UPCOMING)) },
                 headerModifier = Modifier.padding(horizontal = 16.dp),
-                itemCount = 5
+                itemCount = 20
             ) {
                 CustomHorizontalCard(
+                    modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                     primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.upcoming),
                     secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
                     endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
@@ -169,7 +180,7 @@ fun MoviesLayout(
                 secondaryText = stringResource(com.madrid.presentation.R.string.see_all),
                 endIcon = painterResource(R.drawable.outline_alt_arrow_left),
                 onSeeAllClick = { navController.navigate(Destinations.SeeAllMoviesScreen(type = SeeAllMoviesType.MORE_RECOMMENDED)) },
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 20.dp)
+                modifier = Modifier.padding(top = 20.dp)
             )
         }
 
@@ -191,9 +202,21 @@ fun MoviesLayout(
                     rate = media.rating.take(3),
                     height = 220.dp,
                     onClick = { navController.navigate(Destinations.MovieDetailsScreen(media.id.toInt())) },
-                    modifier = Modifier.padding(start = 6.dp, end = 6.dp)
                 )
             }
         }
     }
 }
+
+
+//fun Modifier.removeWidthPaddingFromParent(parentPadding: Dp) = layout { measurable, constraints ->
+//    val newMaxWidth = constraints.maxWidth + 2 * parentPadding.roundToPx()
+//
+//    val newConstraints = constraints.copy(maxWidth = newMaxWidth)
+//
+//    val placeable = measurable.measure(newConstraints)
+//
+//    layout(constraints.maxWidth, placeable.height) {
+//        placeable.place(-parentPadding.roundToPx(), 0)
+//    }
+//}

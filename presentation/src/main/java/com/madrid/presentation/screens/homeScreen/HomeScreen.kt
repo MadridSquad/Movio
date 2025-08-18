@@ -111,7 +111,7 @@ fun HomeScreenContent(
         ) {
             HomeAppBar(
                 modifier = Modifier.padding(horizontal = 16.dp),
-                image = state.profileImage,
+                imageUrl = state.profileImage,
                 onClickIcon = { interactionListener.onClickProfile() }
             )
             HeaderSectionBar(

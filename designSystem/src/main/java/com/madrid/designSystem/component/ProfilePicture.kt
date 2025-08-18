@@ -1,6 +1,5 @@
 package com.madrid.designSystem.component
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -25,7 +24,6 @@ fun ProfilePicture(
     image: String? = null,
     size: Dp,
 ) {
-
     Box(
         modifier = modifier
             .size(size)

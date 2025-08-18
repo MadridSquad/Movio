@@ -34,6 +34,7 @@ fun MovioIcon(
                     }
             )
         }
+
         tint != null -> {
             Image(
                 painter = painter,
@@ -42,6 +43,7 @@ fun MovioIcon(
                 colorFilter = ColorFilter.tint(tint)
             )
         }
+
         else -> {
             Image(
                 painter = painter,

@@ -19,7 +19,7 @@ fun DialogWithButtonLayout(
     description: String,
     modifier: Modifier = Modifier,
     @DrawableRes image: Int,
-    imageSize : Int = 88,
+    imageSize: Int = 88,
     topBarTitle: String = "",
     buttonText: String = "",
     onClick: () -> Unit = {},
@@ -61,7 +61,6 @@ fun DialogWithButtonLayout(
             )
         }
     }
-
 }
 
 @Preview(
