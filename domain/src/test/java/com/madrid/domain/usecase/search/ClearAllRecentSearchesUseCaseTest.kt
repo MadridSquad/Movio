@@ -18,14 +18,14 @@ class ClearAllRecentSearchesUseCaseTest {
     }
 
     @Test
-    fun `Should call repository clearAllRecentSearches`() = runTest {
+    fun `should call repository clearAllRecentSearches`() = runTest {
         useCase.invoke()
 
         coVerify(exactly = 1) { searchRepository.clearAllRecentSearches() }
     }
 
     @Test
-    fun `Should complete successfully when repository succeeds`() = runTest {
+    fun `should complete successfully when repository succeeds`() = runTest {
         coEvery { searchRepository.clearAllRecentSearches() } returns Unit
 
         useCase.invoke()
@@ -34,14 +34,14 @@ class ClearAllRecentSearchesUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { searchRepository.clearAllRecentSearches() } throws RuntimeException("Clear error")
 
         useCase.invoke()
     }
 
     @Test
-    fun `Should call repository method exactly once on multiple calls`() = runTest {
+    fun `should call repository method exactly once on multiple calls`() = runTest {
         useCase.invoke()
         useCase.invoke()
 
@@ -49,7 +49,7 @@ class ClearAllRecentSearchesUseCaseTest {
     }
 
     @Test
-    fun `Should handle repository call without parameters`() = runTest {
+    fun `should handle repository call without parameters`() = runTest {
         coEvery { searchRepository.clearAllRecentSearches() } returns Unit
 
         useCase.invoke()

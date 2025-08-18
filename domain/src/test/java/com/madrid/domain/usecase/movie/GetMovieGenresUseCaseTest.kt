@@ -20,7 +20,7 @@ class GetMovieGenresUseCaseTest {
     }
 
     @Test
-    fun `Should return genres list from repository`() = runTest {
+    fun `should return genres list from repository`() = runTest {
         coEvery { movieRepository.getMoviesGenres() } returns testGenres
 
         val result = useCase.invoke()
@@ -30,7 +30,7 @@ class GetMovieGenresUseCaseTest {
     }
 
     @Test
-    fun `Should return empty list when repository returns empty list`() = runTest {
+    fun `should return empty list when repository returns empty list`() = runTest {
         coEvery { movieRepository.getMoviesGenres() } returns emptyList()
 
         val result = useCase.invoke()
@@ -40,7 +40,7 @@ class GetMovieGenresUseCaseTest {
     }
 
     @Test
-    fun `Should return single genre when repository returns single genre`() = runTest {
+    fun `should return single genre when repository returns single genre`() = runTest {
         val singleGenre = listOf(Genre(id = 1, name = "Action"))
         coEvery { movieRepository.getMoviesGenres() } returns singleGenre
 
@@ -52,21 +52,21 @@ class GetMovieGenresUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { movieRepository.getMoviesGenres() } throws RuntimeException("Network error")
 
         useCase.invoke()
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `Should throw exception when repository throws IllegalStateException`() = runTest {
+    fun `should throw exception when repository throws IllegalStateException`() = runTest {
         coEvery { movieRepository.getMoviesGenres() } throws IllegalStateException("Repository error")
 
         useCase.invoke()
     }
 
     @Test
-    fun `Should call repository method exactly once`() = runTest {
+    fun `should call repository method exactly once`() = runTest {
         coEvery { movieRepository.getMoviesGenres() } returns testGenres
 
         useCase.invoke()

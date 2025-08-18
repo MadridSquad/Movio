@@ -21,7 +21,7 @@ class IsFavoriteMovieUseCaseTest {
     }
 
     @Test
-    fun `Should return true when movie is in favorites list`() = runTest {
+    fun `should return true when movie is in favorites list`() = runTest {
         coEvery { getFavoriteMoviesUseCase() } returns testMovies
 
         val result = useCase.invoke(123)
@@ -31,7 +31,7 @@ class IsFavoriteMovieUseCaseTest {
     }
 
     @Test
-    fun `Should return false when movie is not in favorites list`() = runTest {
+    fun `should return false when movie is not in favorites list`() = runTest {
         coEvery { getFavoriteMoviesUseCase() } returns testMovies
 
         val result = useCase.invoke(999)
@@ -41,7 +41,7 @@ class IsFavoriteMovieUseCaseTest {
     }
 
     @Test
-    fun `Should return false when favorites list is empty`() = runTest {
+    fun `should return false when favorites list is empty`() = runTest {
         coEvery { getFavoriteMoviesUseCase() } returns emptyList()
 
         val result = useCase.invoke(123)
@@ -51,7 +51,7 @@ class IsFavoriteMovieUseCaseTest {
     }
 
     @Test
-    fun `Should return true when movie id matches exactly`() = runTest {
+    fun `should return true when movie id matches exactly`() = runTest {
         coEvery { getFavoriteMoviesUseCase() } returns testMovies
 
         val result = useCase.invoke(124)
@@ -61,7 +61,7 @@ class IsFavoriteMovieUseCaseTest {
     }
 
     @Test
-    fun `Should return false for negative movie id when not in favorites`() = runTest {
+    fun `should return false for negative movie id when not in favorites`() = runTest {
         coEvery { getFavoriteMoviesUseCase() } returns testMovies
 
         val result = useCase.invoke(-1)
@@ -71,14 +71,14 @@ class IsFavoriteMovieUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when getFavoriteMoviesUseCase fails`() = runTest {
+    fun `should throw exception when getFavoriteMoviesUseCase fails`() = runTest {
         coEvery { getFavoriteMoviesUseCase() } throws RuntimeException("Network error")
 
         useCase.invoke(123)
     }
 
     @Test
-    fun `Should call getFavoriteMoviesUseCase exactly once`() = runTest {
+    fun `should call getFavoriteMoviesUseCase exactly once`() = runTest {
         coEvery { getFavoriteMoviesUseCase() } returns testMovies
 
         useCase.invoke(123)

@@ -23,7 +23,7 @@ class GetCurrentUserDetailsUseCaseTest {
     }
 
     @Test
-    fun `Should return user when repository returns user`() = runTest {
+    fun `should return user when repository returns user`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { authenticationRepository.getCurrentUser("test_session_id") } returns testUser
 
@@ -35,7 +35,7 @@ class GetCurrentUserDetailsUseCaseTest {
     }
 
     @Test
-    fun `Should return null when repository returns null`() = runTest {
+    fun `should return null when repository returns null`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { authenticationRepository.getCurrentUser("test_session_id") } returns null
 
@@ -47,7 +47,7 @@ class GetCurrentUserDetailsUseCaseTest {
     }
 
     @Test
-    fun `Should use custom session id from authentication repository`() = runTest {
+    fun `should use custom session id from authentication repository`() = runTest {
         val customSessionId = "custom_session_123"
         coEvery { authenticationRepository.getSessionId() } returns flowOf(customSessionId)
         coEvery { authenticationRepository.getCurrentUser(customSessionId) } returns testUser
@@ -60,14 +60,14 @@ class GetCurrentUserDetailsUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when getSessionId fails`() = runTest {
+    fun `should throw exception when getSessionId fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } throws RuntimeException("Session error")
 
         useCase.invoke()
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when getCurrentUser fails`() = runTest {
+    fun `should throw exception when getCurrentUser fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { authenticationRepository.getCurrentUser("test_session_id") } throws RuntimeException(
             "User error"
@@ -77,7 +77,7 @@ class GetCurrentUserDetailsUseCaseTest {
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `Should throw exception when session id is empty`() = runTest {
+    fun `should throw exception when session id is empty`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("")
         coEvery { authenticationRepository.getCurrentUser("") } throws IllegalStateException("Empty session ID")
 
@@ -85,7 +85,7 @@ class GetCurrentUserDetailsUseCaseTest {
     }
 
     @Test
-    fun `Should call repository methods in correct order`() = runTest {
+    fun `should call repository methods in correct order`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { authenticationRepository.getCurrentUser("test_session_id") } returns testUser
 

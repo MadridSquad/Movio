@@ -22,7 +22,7 @@ class GetSimilarMoviesUseCaseTest {
     }
 
     @Test
-    fun `Should return similar movies list from repository`() = runTest {
+    fun `should return similar movies list from repository`() = runTest {
         coEvery { movieRepository.getSimilarMoviesById(123) } returns testMovies
 
         val result = useCase.invoke(123)
@@ -32,7 +32,7 @@ class GetSimilarMoviesUseCaseTest {
     }
 
     @Test
-    fun `Should return correct movies for different movie id`() = runTest {
+    fun `should return correct movies for different movie id`() = runTest {
         val anotherMovies =
             listOf(testMovies.first().copy(id = 456, title = "Another Similar Movie"))
         coEvery { movieRepository.getSimilarMoviesById(456) } returns anotherMovies
@@ -44,7 +44,7 @@ class GetSimilarMoviesUseCaseTest {
     }
 
     @Test
-    fun `Should return empty list when repository returns empty list`() = runTest {
+    fun `should return empty list when repository returns empty list`() = runTest {
         coEvery { movieRepository.getSimilarMoviesById(123) } returns emptyList()
 
         val result = useCase.invoke(123)
@@ -54,7 +54,7 @@ class GetSimilarMoviesUseCaseTest {
     }
 
     @Test
-    fun `Should return single movie when repository returns single movie`() = runTest {
+    fun `should return single movie when repository returns single movie`() = runTest {
         val singleMovie = listOf(testMovies.first())
         coEvery { movieRepository.getSimilarMoviesById(123) } returns singleMovie
 
@@ -66,14 +66,14 @@ class GetSimilarMoviesUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { movieRepository.getSimilarMoviesById(123) } throws RuntimeException("Network error")
 
         useCase.invoke(123)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `Should throw exception when repository throws IllegalArgumentException`() =
+    fun `should throw exception when repository throws IllegalArgumentException`() =
         runTest {
             coEvery { movieRepository.getSimilarMoviesById(-1) } throws IllegalArgumentException("Invalid movie ID")
 
@@ -81,7 +81,7 @@ class GetSimilarMoviesUseCaseTest {
         }
 
     @Test
-    fun `Should call repository with correct movie id`() = runTest {
+    fun `should call repository with correct movie id`() = runTest {
         coEvery { movieRepository.getSimilarMoviesById(999) } returns testMovies
 
         useCase.invoke(999)

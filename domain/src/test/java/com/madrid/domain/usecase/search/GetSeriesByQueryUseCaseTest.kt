@@ -23,7 +23,7 @@ class GetSeriesByQueryUseCaseTest {
     }
 
     @Test
-    fun `Should call repositories and return sorted series by interest points`() = runTest {
+    fun `should call repositories and return sorted series by interest points`() = runTest {
         val query = "Breaking"
         val genres = listOf(
             Genre(id = 1, name = "Drama", interestPoints = 100),
@@ -62,7 +62,7 @@ class GetSeriesByQueryUseCaseTest {
     }
 
     @Test
-    fun `Should call repositories with specific page number`() = runTest {
+    fun `should call repositories with specific page number`() = runTest {
         val query = "Game of Thrones"
         val page = 3
         val genres = listOf(Genre(id = 1, name = "Fantasy", interestPoints = 75))
@@ -89,7 +89,7 @@ class GetSeriesByQueryUseCaseTest {
     }
 
     @Test
-    fun `Should handle empty series list`() = runTest {
+    fun `should handle empty series list`() = runTest {
         val query = "Unknown"
         val genres = listOf(Genre(id = 1, name = "Thriller", interestPoints = 80))
         coEvery { seriesRepository.getSeriesGenres() } returns genres
@@ -103,7 +103,7 @@ class GetSeriesByQueryUseCaseTest {
     }
 
     @Test
-    fun `Should handle series with unknown genres`() = runTest {
+    fun `should handle series with unknown genres`() = runTest {
         val query = "Horror"
         val genres = listOf(Genre(id = 1, name = "Drama", interestPoints = 90))
         val series = listOf(
@@ -129,7 +129,7 @@ class GetSeriesByQueryUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when seriesRepository fails`() = runTest {
+    fun `should throw exception when seriesRepository fails`() = runTest {
         val query = "Test"
         coEvery { seriesRepository.getSeriesGenres() } throws RuntimeException("Repository error")
 
@@ -137,7 +137,7 @@ class GetSeriesByQueryUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when searchRepository fails`() = runTest {
+    fun `should throw exception when searchRepository fails`() = runTest {
         val query = "Test"
         val genres = listOf(Genre(id = 1, name = "Action", interestPoints = 100))
         coEvery { seriesRepository.getSeriesGenres() } returns genres

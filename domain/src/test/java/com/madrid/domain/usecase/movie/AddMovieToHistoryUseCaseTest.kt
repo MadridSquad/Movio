@@ -19,7 +19,7 @@ class AddMovieToHistoryUseCaseTest {
     }
 
     @Test
-    fun `Should add movie to history successfully`() = runTest {
+    fun `should add movie to history successfully`() = runTest {
         coEvery { movieRepository.addMovieToHistory(123) } returns Unit
 
         val result = useCase.invoke(123)
@@ -29,7 +29,7 @@ class AddMovieToHistoryUseCaseTest {
     }
 
     @Test
-    fun `Should add correct movie for different movie id`() = runTest {
+    fun `should add correct movie for different movie id`() = runTest {
         coEvery { movieRepository.addMovieToHistory(456) } returns Unit
 
         val result = useCase.invoke(456)
@@ -39,14 +39,14 @@ class AddMovieToHistoryUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { movieRepository.addMovieToHistory(123) } throws RuntimeException("Database error")
 
         useCase.invoke(123)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `Should throw exception when repository throws IllegalArgumentException`() =
+    fun `should throw exception when repository throws IllegalArgumentException`() =
         runTest {
             coEvery { movieRepository.addMovieToHistory(-1) } throws IllegalArgumentException("Invalid movie ID")
 
@@ -54,7 +54,7 @@ class AddMovieToHistoryUseCaseTest {
         }
 
     @Test
-    fun `Should call repository with correct movie id`() = runTest {
+    fun `should call repository with correct movie id`() = runTest {
         coEvery { movieRepository.addMovieToHistory(999) } returns Unit
 
         useCase.invoke(999)

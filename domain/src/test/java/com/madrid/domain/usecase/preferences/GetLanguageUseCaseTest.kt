@@ -23,7 +23,7 @@ class GetLanguageUseCaseTest {
     }
 
     @Test
-    fun `Should return language when repository returns language`() = runTest {
+    fun `should return language when repository returns language`() = runTest {
         every { preferencesRepository.getAppLanguage() } returns flowOf(AppLanguage.ENGLISH)
 
         val result = useCase.invoke().first()
@@ -33,7 +33,7 @@ class GetLanguageUseCaseTest {
     }
 
     @Test
-    fun `Should return different language when repository returns different language`() =
+    fun `should return different language when repository returns different language`() =
         runTest {
             every { preferencesRepository.getAppLanguage() } returns flowOf(AppLanguage.ARABIC)
             val result = useCase.invoke().first()
@@ -43,7 +43,7 @@ class GetLanguageUseCaseTest {
         }
 
     @Test
-    fun `Should return empty string when repository returns empty string`() = runTest {
+    fun `should return empty string when repository returns empty string`() = runTest {
         every { preferencesRepository.getAppLanguage() } returns flowOf(AppLanguage.ENGLISH)
         val result = useCase.invoke().first()
 
@@ -52,7 +52,7 @@ class GetLanguageUseCaseTest {
     }
 
     @Test
-    fun `Should return flow from repository`() {
+    fun `should return flow from repository`() {
         val expectedFlow = flowOf(AppLanguage.ARABIC)
         every { preferencesRepository.getAppLanguage() } returns expectedFlow
 
@@ -63,7 +63,7 @@ class GetLanguageUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         every { preferencesRepository.getAppLanguage() } throws RuntimeException("Preferences error")
 
         useCase.invoke().first()

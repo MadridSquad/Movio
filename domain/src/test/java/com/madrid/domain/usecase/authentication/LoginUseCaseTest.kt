@@ -28,7 +28,7 @@ class LoginUseCaseTest {
     }
 
     @Test
-    fun `execute SHOULD return true when login is successful`() = runTest {
+    fun `execute should return true when login is successful`() = runTest {
         coEvery { authenticationRepository.login("testuser", "testpass") } returns true
 
         val result = useCase.execute("testuser", "testpass")
@@ -38,7 +38,7 @@ class LoginUseCaseTest {
     }
 
     @Test(expected = InvalidCredentialsException::class)
-    fun `execute SHOULD throw InvalidCredentialsException when repository returns false`() =
+    fun `execute should throw InvalidCredentialsException when repository returns false`() =
         runTest {
             coEvery { authenticationRepository.login("testuser", "testpass") } returns false
 
@@ -46,22 +46,22 @@ class LoginUseCaseTest {
         }
 
     @Test(expected = ValidationException::class)
-    fun `execute SHOULD throw ValidationException when username is empty`() = runTest {
+    fun `execute should throw ValidationException when username is empty`() = runTest {
         useCase.execute("", "testpass")
     }
 
     @Test(expected = ValidationException::class)
-    fun `execute SHOULD throw ValidationException when password is empty`() = runTest {
+    fun `execute should throw ValidationException when password is empty`() = runTest {
         useCase.execute("testuser", "")
     }
 
     @Test(expected = ValidationException::class)
-    fun `execute SHOULD throw ValidationException when both credentials are empty`() = runTest {
+    fun `execute should throw ValidationException when both credentials are empty`() = runTest {
         useCase.execute("", "")
     }
 
     @Test(expected = UnknownException::class)
-    fun `execute SHOULD throw UnknownException when repository throws unexpected exception`() =
+    fun `execute should throw UnknownException when repository throws unexpected exception`() =
         runTest {
             coEvery {
                 authenticationRepository.login(
@@ -74,7 +74,7 @@ class LoginUseCaseTest {
         }
 
     @Test
-    fun `loginAsGuest SHOULD return true when guest login is successful`() = runTest {
+    fun `loginAsGuest should return true when guest login is successful`() = runTest {
         coEvery { authenticationRepository.loginAsGuest() } returns true
 
         val result = useCase.loginAsGuest()
@@ -84,14 +84,14 @@ class LoginUseCaseTest {
     }
 
     @Test(expected = GuestLoginException::class)
-    fun `loginAsGuest SHOULD throw GuestLoginException when repository returns false`() = runTest {
+    fun `loginAsGuest should throw GuestLoginException when repository returns false`() = runTest {
         coEvery { authenticationRepository.loginAsGuest() } returns false
 
         useCase.loginAsGuest()
     }
 
     @Test(expected = UnknownException::class)
-    fun `loginAsGuest SHOULD throw UnknownException when repository throws unexpected exception`() =
+    fun `loginAsGuest should throw UnknownException when repository throws unexpected exception`() =
         runTest {
             coEvery { authenticationRepository.loginAsGuest() } throws RuntimeException("Network error")
 
@@ -99,7 +99,7 @@ class LoginUseCaseTest {
         }
 
     @Test
-    fun `checkActiveSession SHOULD return true when user is logged in`() = runTest {
+    fun `checkActiveSession should return true when user is logged in`() = runTest {
         every { authenticationRepository.isUserLoggedIn() } returns flowOf(true)
 
         val result = useCase.checkActiveSession().first()
@@ -109,7 +109,7 @@ class LoginUseCaseTest {
     }
 
     @Test
-    fun `checkActiveSession SHOULD return false when user is not logged in`() = runTest {
+    fun `checkActiveSession should return false when user is not logged in`() = runTest {
         every { authenticationRepository.isUserLoggedIn() } returns flowOf(false)
 
         val result = useCase.checkActiveSession().first()
@@ -119,7 +119,7 @@ class LoginUseCaseTest {
     }
 
     @Test
-    fun `isGuest SHOULD return true when user is guest`() = runTest {
+    fun `isGuest should return true when user is guest`() = runTest {
         every { authenticationRepository.isGuest() } returns flowOf(true)
 
         val result = useCase.isGuest().first()
@@ -129,7 +129,7 @@ class LoginUseCaseTest {
     }
 
     @Test
-    fun `isGuest SHOULD return false when user is not guest`() = runTest {
+    fun `isGuest should return false when user is not guest`() = runTest {
         every { authenticationRepository.isGuest() } returns flowOf(false)
 
         val result = useCase.isGuest().first()
@@ -139,7 +139,7 @@ class LoginUseCaseTest {
     }
 
     @Test
-    fun `execute SHOULD call validateCredentials before repository login`() = runTest {
+    fun `execute should call validateCredentials before repository login`() = runTest {
         coEvery { authenticationRepository.login("testuser", "testpass") } returns true
 
         useCase.execute("testuser", "testpass")

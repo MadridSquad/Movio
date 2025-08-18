@@ -20,7 +20,7 @@ class GetAiringTodaySeriesUseCaseTest {
     }
 
     @Test
-    fun `Should call repository getAiringTodaySeries with page`() = runTest {
+    fun `should call repository getAiringTodaySeries with page`() = runTest {
         val page = 1
         val expectedResult = emptyList<Series>()
         coEvery { seriesRepository.getAiringTodaySeries(page) } returns expectedResult
@@ -32,7 +32,7 @@ class GetAiringTodaySeriesUseCaseTest {
     }
 
     @Test
-    fun `Should call repository getAiringTodaySeries with first page`() = runTest {
+    fun `should call repository getAiringTodaySeries with first page`() = runTest {
         val page = 1
         val expectedResult = emptyList<Series>()
         coEvery { seriesRepository.getAiringTodaySeries(page) } returns expectedResult
@@ -44,7 +44,7 @@ class GetAiringTodaySeriesUseCaseTest {
     }
 
     @Test
-    fun `Should call repository getAiringTodaySeries with multiple pages`() = runTest {
+    fun `should call repository getAiringTodaySeries with multiple pages`() = runTest {
         val page = 5
         val expectedResult = emptyList<Series>()
         coEvery { seriesRepository.getAiringTodaySeries(page) } returns expectedResult
@@ -56,7 +56,7 @@ class GetAiringTodaySeriesUseCaseTest {
     }
 
     @Test
-    fun `Should call repository getAiringTodaySeries with large page number`() = runTest {
+    fun `should call repository getAiringTodaySeries with large page number`() = runTest {
         val page = 999
         val expectedResult = emptyList<Series>()
         coEvery { seriesRepository.getAiringTodaySeries(page) } returns expectedResult
@@ -68,7 +68,7 @@ class GetAiringTodaySeriesUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         val page = 1
         coEvery { seriesRepository.getAiringTodaySeries(page) } throws RuntimeException("Network error")
 
@@ -76,7 +76,7 @@ class GetAiringTodaySeriesUseCaseTest {
     }
 
     @Test
-    fun `Should return repository result when successful`() = runTest {
+    fun `should return repository result when successful`() = runTest {
         val page = 2
         val expectedResult = emptyList<Series>()
         coEvery { seriesRepository.getAiringTodaySeries(page) } returns expectedResult

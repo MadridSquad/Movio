@@ -21,7 +21,7 @@ class GetSeriesByGenreIdUseCaseTest {
     }
 
     @Test
-    fun `Should call repository getSeriesByGenreId with page genreId and sortBy`() =
+    fun `should call repository getSeriesByGenreId with page genreId and sortBy`() =
         runTest {
             val page = 1
             val genreId = 123
@@ -63,7 +63,7 @@ class GetSeriesByGenreIdUseCaseTest {
         }
 
     @Test
-    fun `Should handle null genreId`() = runTest {
+    fun `should handle null genreId`() = runTest {
         val page = 1
         val genreId = null
         val sortBy = SortType.ALL
@@ -94,7 +94,7 @@ class GetSeriesByGenreIdUseCaseTest {
     }
 
     @Test
-    fun `Should return empty list when no series found`() = runTest {
+    fun `should return empty list when no series found`() = runTest {
         val page = 1
         val genreId = 456
         val sortBy = SortType.POPULARITY
@@ -114,7 +114,7 @@ class GetSeriesByGenreIdUseCaseTest {
     }
 
     @Test
-    fun `Should handle different sort types`() = runTest {
+    fun `should handle different sort types`() = runTest {
         val page = 2
         val genreId = 789
         val sortBy = SortType.LATEST
@@ -145,7 +145,7 @@ class GetSeriesByGenreIdUseCaseTest {
     }
 
     @Test
-    fun `Should handle large page numbers`() = runTest {
+    fun `should handle large page numbers`() = runTest {
         val page = 999
         val genreId = 111
         val sortBy = SortType.POPULARITY
@@ -176,7 +176,7 @@ class GetSeriesByGenreIdUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         val page = 1
         val genreId = 123
         val sortBy = SortType.POPULARITY
@@ -192,7 +192,7 @@ class GetSeriesByGenreIdUseCaseTest {
     }
 
     @Test
-    fun `Should return multiple series for genre`() = runTest {
+    fun `should return multiple series for genre`() = runTest {
         val page = 3
         val genreId = 555
         val sortBy = SortType.POPULARITY

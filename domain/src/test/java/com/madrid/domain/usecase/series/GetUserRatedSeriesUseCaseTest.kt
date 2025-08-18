@@ -24,7 +24,7 @@ class GetUserRatedSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should get sessionId and return user rated series`() = runTest {
+    fun `should get sessionId and return user rated series`() = runTest {
         val sessionId = "test_session_123"
         val expectedRatedSeries = listOf(
             RatedSeries(
@@ -62,7 +62,7 @@ class GetUserRatedSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should return empty list when no user rated series found`() = runTest {
+    fun `should return empty list when no user rated series found`() = runTest {
         val sessionId = "empty_session"
         val expectedRatedSeries = emptyList<RatedSeries>()
         coEvery { authenticationRepository.getSessionId() } returns flowOf(sessionId)
@@ -75,7 +75,7 @@ class GetUserRatedSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should return single rated series`() = runTest {
+    fun `should return single rated series`() = runTest {
         val sessionId = "single_session"
         val expectedRatedSeries = listOf(
             RatedSeries(
@@ -104,7 +104,7 @@ class GetUserRatedSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should return multiple rated series`() = runTest {
+    fun `should return multiple rated series`() = runTest {
         val sessionId = "multiple_session"
         val expectedRatedSeries = (1..10).map {
             RatedSeries(
@@ -131,7 +131,7 @@ class GetUserRatedSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should handle different sessionId values`() = runTest {
+    fun `should handle different sessionId values`() = runTest {
         val sessionId = "different_session_456"
         val expectedRatedSeries = listOf(
             RatedSeries(
@@ -157,14 +157,14 @@ class GetUserRatedSeriesUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when authenticationRepository fails`() = runTest {
+    fun `should throw exception when authenticationRepository fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } throws RuntimeException("Auth error")
 
         useCase.invoke()
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when seriesRepository fails`() = runTest {
+    fun `should throw exception when seriesRepository fails`() = runTest {
         val sessionId = "failing_session"
         coEvery { authenticationRepository.getSessionId() } returns flowOf(sessionId)
         coEvery { seriesRepository.getUserSeriesRate(sessionId) } throws RuntimeException("Network error")
@@ -173,7 +173,7 @@ class GetUserRatedSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should return rated series in correct order`() = runTest {
+    fun `should return rated series in correct order`() = runTest {
         val sessionId = "ordered_session"
         val expectedRatedSeries = listOf(
             RatedSeries(
@@ -223,7 +223,7 @@ class GetUserRatedSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should handle different rating values`() = runTest {
+    fun `should handle different rating values`() = runTest {
         val sessionId = "rating_session"
         val expectedRatedSeries = listOf(
             RatedSeries(

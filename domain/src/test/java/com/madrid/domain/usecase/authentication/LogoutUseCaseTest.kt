@@ -18,21 +18,21 @@ class LogoutUseCaseTest {
     }
 
     @Test
-    fun `execute SHOULD call repository logout`() = runTest {
+    fun `execute should call repository logout`() = runTest {
         useCase.execute()
 
         coVerify(exactly = 1) { authenticationRepository.logout() }
     }
 
     @Test(expected = RuntimeException::class)
-    fun `execute SHOULD throw exception when repository fails`() = runTest {
+    fun `execute should throw exception when repository fails`() = runTest {
         coEvery { authenticationRepository.logout() } throws RuntimeException("Logout error")
 
         useCase.execute()
     }
 
     @Test
-    fun `execute SHOULD complete successfully when repository succeeds`() = runTest {
+    fun `execute should complete successfully when repository succeeds`() = runTest {
         coEvery { authenticationRepository.logout() } returns Unit
 
         useCase.execute()

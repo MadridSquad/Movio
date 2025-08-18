@@ -20,7 +20,7 @@ class GetAllSeriesInHistoryUseCaseTest {
     }
 
     @Test
-    fun `Should call repository getAllSeriesInHistory and return series list`() = runTest {
+    fun `should call repository getAllSeriesInHistory and return series list`() = runTest {
         val expectedSeries = listOf(
             Series(
                 id = 1,
@@ -52,7 +52,7 @@ class GetAllSeriesInHistoryUseCaseTest {
     }
 
     @Test
-    fun `Should return empty list when no series in history`() = runTest {
+    fun `should return empty list when no series in history`() = runTest {
         val expectedSeries = emptyList<Series>()
         coEvery { seriesRepository.getAllSeriesInHistory() } returns expectedSeries
 
@@ -63,7 +63,7 @@ class GetAllSeriesInHistoryUseCaseTest {
     }
 
     @Test
-    fun `Should return single series when only one in history`() = runTest {
+    fun `should return single series when only one in history`() = runTest {
         val expectedSeries = listOf(
             Series(
                 id = 1,
@@ -86,7 +86,7 @@ class GetAllSeriesInHistoryUseCaseTest {
     }
 
     @Test
-    fun `Should return multiple series when many in history`() = runTest {
+    fun `should return multiple series when many in history`() = runTest {
         val expectedSeries = (1..10).map {
             Series(
                 id = it,
@@ -109,14 +109,14 @@ class GetAllSeriesInHistoryUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { seriesRepository.getAllSeriesInHistory() } throws RuntimeException("Database error")
 
         useCase.invoke()
     }
 
     @Test
-    fun `Should call repository exactly once`() = runTest {
+    fun `should call repository exactly once`() = runTest {
         val expectedSeries = listOf(
             Series(
                 id = 1,

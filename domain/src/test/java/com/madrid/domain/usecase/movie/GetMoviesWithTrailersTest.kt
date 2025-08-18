@@ -21,7 +21,7 @@ class GetMoviesWithTrailersTest {
     }
 
     @Test
-    fun `Should return movies with trailers when trailers exist`() = runTest {
+    fun `should return movies with trailers when trailers exist`() = runTest {
         coEvery { movieTrailersUseCase(123) } returns listOf(testTrailer)
         coEvery { movieTrailersUseCase(124) } returns listOf(testTrailer2)
 
@@ -37,7 +37,7 @@ class GetMoviesWithTrailersTest {
     }
 
     @Test
-    fun `Should return movies with empty trailers when no trailers found`() = runTest {
+    fun `should return movies with empty trailers when no trailers found`() = runTest {
         coEvery { movieTrailersUseCase(123) } returns emptyList()
         coEvery { movieTrailersUseCase(124) } returns emptyList()
 
@@ -53,7 +53,7 @@ class GetMoviesWithTrailersTest {
     }
 
     @Test
-    fun `Should return empty list when input movies list is empty`() = runTest {
+    fun `should return empty list when input movies list is empty`() = runTest {
         val result = useCase.invoke(emptyList())
 
         assertThat(result).isEmpty()
@@ -61,7 +61,7 @@ class GetMoviesWithTrailersTest {
     }
 
     @Test
-    fun `Should use first trailer when multiple trailers exist`() = runTest {
+    fun `should use first trailer when multiple trailers exist`() = runTest {
         val multipleTrailers = listOf(testTrailer, testTrailer2)
         coEvery { movieTrailersUseCase(123) } returns multipleTrailers
 
@@ -74,7 +74,7 @@ class GetMoviesWithTrailersTest {
     }
 
     @Test
-    fun `Should handle single movie with trailer`() = runTest {
+    fun `should handle single movie with trailer`() = runTest {
         coEvery { movieTrailersUseCase(123) } returns listOf(testTrailer)
 
         val result = useCase.invoke(listOf(testMovies[0]))
@@ -86,14 +86,14 @@ class GetMoviesWithTrailersTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when movieTrailersUseCase fails`() = runTest {
+    fun `should throw exception when movieTrailersUseCase fails`() = runTest {
         coEvery { movieTrailersUseCase(123) } throws RuntimeException("Network error")
 
         useCase.invoke(listOf(testMovies[0]))
     }
 
     @Test
-    fun `Should call movieTrailersUseCase for each movie`() = runTest {
+    fun `should call movieTrailersUseCase for each movie`() = runTest {
         coEvery { movieTrailersUseCase(any()) } returns listOf(testTrailer)
 
         useCase.invoke(testMovies)

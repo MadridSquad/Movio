@@ -20,7 +20,7 @@ class GetTopRatedSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should call repository getTopRatedSeries and return list`() = runTest {
+    fun `should call repository getTopRatedSeries and return list`() = runTest {
         val page = 1
         val expectedSeries = listOf(
             Series(
@@ -53,7 +53,7 @@ class GetTopRatedSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should return empty list when no top rated series found`() = runTest {
+    fun `should return empty list when no top rated series found`() = runTest {
         val page = 1
         val expectedSeries = emptyList<Series>()
         coEvery { seriesRepository.getTopRatedSeries(page = page) } returns expectedSeries
@@ -65,7 +65,7 @@ class GetTopRatedSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should return single top rated series`() = runTest {
+    fun `should return single top rated series`() = runTest {
         val page = 1
         val expectedSeries = listOf(
             Series(
@@ -90,7 +90,7 @@ class GetTopRatedSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should return multiple top rated series`() = runTest {
+    fun `should return multiple top rated series`() = runTest {
         val page = 1
         val expectedSeries = (1..20).map {
             Series(
@@ -114,7 +114,7 @@ class GetTopRatedSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should handle different page values`() = runTest {
+    fun `should handle different page values`() = runTest {
         val page = 5
         val expectedSeries = listOf(
             Series(
@@ -137,7 +137,7 @@ class GetTopRatedSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should handle first page`() = runTest {
+    fun `should handle first page`() = runTest {
         val page = 1
         val expectedSeries = listOf(
             Series(
@@ -160,7 +160,7 @@ class GetTopRatedSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should handle large page values`() = runTest {
+    fun `should handle large page values`() = runTest {
         val page = 999
         val expectedSeries = listOf(
             Series(
@@ -183,7 +183,7 @@ class GetTopRatedSeriesUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         val page = 1
         coEvery { seriesRepository.getTopRatedSeries(page = page) } throws RuntimeException("Network error")
 
@@ -191,7 +191,7 @@ class GetTopRatedSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should return top rated series in correct order`() = runTest {
+    fun `should return top rated series in correct order`() = runTest {
         val page = 1
         val expectedSeries = listOf(
             Series(

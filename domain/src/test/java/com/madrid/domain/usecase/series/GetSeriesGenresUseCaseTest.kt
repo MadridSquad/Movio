@@ -20,7 +20,7 @@ class GetSeriesGenresUseCaseTest {
     }
 
     @Test
-    fun `Should call repository getSeriesGenres and return list`() = runTest {
+    fun `should call repository getSeriesGenres and return list`() = runTest {
         val expectedGenres = listOf(
             Genre(id = 1, name = "Action"),
             Genre(id = 2, name = "Comedy"),
@@ -35,7 +35,7 @@ class GetSeriesGenresUseCaseTest {
     }
 
     @Test
-    fun `Should return empty list when no genres found`() = runTest {
+    fun `should return empty list when no genres found`() = runTest {
         val expectedGenres = emptyList<Genre>()
         coEvery { seriesRepository.getSeriesGenres() } returns expectedGenres
 
@@ -46,7 +46,7 @@ class GetSeriesGenresUseCaseTest {
     }
 
     @Test
-    fun `Should return single genre`() = runTest {
+    fun `should return single genre`() = runTest {
         val expectedGenres = listOf(Genre(id = 1, name = "Thriller"))
         coEvery { seriesRepository.getSeriesGenres() } returns expectedGenres
 
@@ -59,7 +59,7 @@ class GetSeriesGenresUseCaseTest {
     }
 
     @Test
-    fun `Should return multiple genres`() = runTest {
+    fun `should return multiple genres`() = runTest {
         val expectedGenres = listOf(
             Genre(id = 1, name = "Horror"),
             Genre(id = 2, name = "Sci-Fi"),
@@ -77,14 +77,14 @@ class GetSeriesGenresUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { seriesRepository.getSeriesGenres() } throws RuntimeException("Network error")
 
         useCase.invoke()
     }
 
     @Test
-    fun `Should return genres in correct order`() = runTest {
+    fun `should return genres in correct order`() = runTest {
         val expectedGenres = listOf(
             Genre(id = 3, name = "Crime"),
             Genre(id = 1, name = "Adventure"),
@@ -99,7 +99,7 @@ class GetSeriesGenresUseCaseTest {
     }
 
     @Test
-    fun `Should handle large number of genres`() = runTest {
+    fun `should handle large number of genres`() = runTest {
         val expectedGenres = (1..50).map { Genre(id = it, name = "Genre $it") }
         coEvery { seriesRepository.getSeriesGenres() } returns expectedGenres
 

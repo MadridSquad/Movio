@@ -20,7 +20,7 @@ class GetArtistsByQueryUseCaseTest {
     }
 
     @Test
-    fun `Should call repository getArtistsByQuery with query and default page`() = runTest {
+    fun `should call repository getArtistsByQuery with query and default page`() = runTest {
         val query = "Madonna"
         val expectedResult = emptyList<Artist>()
         coEvery { searchRepository.getArtistsByQuery(query, 1) } returns expectedResult
@@ -32,7 +32,7 @@ class GetArtistsByQueryUseCaseTest {
     }
 
     @Test
-    fun `Should call repository getArtistsByQuery with query and specific page`() = runTest {
+    fun `should call repository getArtistsByQuery with query and specific page`() = runTest {
         val query = "Beatles"
         val page = 2
         val expectedResult = emptyList<Artist>()
@@ -45,7 +45,7 @@ class GetArtistsByQueryUseCaseTest {
     }
 
     @Test
-    fun `Should call repository getArtistsByQuery with empty query`() = runTest {
+    fun `should call repository getArtistsByQuery with empty query`() = runTest {
         val query = ""
         val expectedResult = emptyList<Artist>()
         coEvery { searchRepository.getArtistsByQuery(query, 1) } returns expectedResult
@@ -57,7 +57,7 @@ class GetArtistsByQueryUseCaseTest {
     }
 
     @Test
-    fun `Should call repository getArtistsByQuery with large page number`() = runTest {
+    fun `should call repository getArtistsByQuery with large page number`() = runTest {
         val query = "Adele"
         val page = 100
         val expectedResult = emptyList<Artist>()
@@ -70,7 +70,7 @@ class GetArtistsByQueryUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         val query = "Artist"
         coEvery {
             searchRepository.getArtistsByQuery(
@@ -83,7 +83,7 @@ class GetArtistsByQueryUseCaseTest {
     }
 
     @Test
-    fun `Should return repository result when successful`() = runTest {
+    fun `should return repository result when successful`() = runTest {
         val query = "Taylor Swift"
         val page = 3
         val expectedResult = emptyList<Artist>()

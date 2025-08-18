@@ -19,7 +19,7 @@ class AddRatingSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should call repository addRatingSeries with movieId and rate`() = runTest {
+    fun `should call repository addRatingSeries with movieId and rate`() = runTest {
         val movieId = 1
         val rate = 4.5
         coEvery { seriesRepository.addRatingSeries(movieId, rate) } returns Unit
@@ -31,7 +31,7 @@ class AddRatingSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should call repository addRatingSeries with minimum rate`() = runTest {
+    fun `should call repository addRatingSeries with minimum rate`() = runTest {
         val movieId = 123
         val rate = 0.0
         coEvery { seriesRepository.addRatingSeries(movieId, rate) } returns Unit
@@ -43,7 +43,7 @@ class AddRatingSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should call repository addRatingSeries with maximum rate`() = runTest {
+    fun `should call repository addRatingSeries with maximum rate`() = runTest {
         val movieId = 456
         val rate = 10.0
         coEvery { seriesRepository.addRatingSeries(movieId, rate) } returns Unit
@@ -55,7 +55,7 @@ class AddRatingSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should call repository addRatingSeries with negative movieId`() = runTest {
+    fun `should call repository addRatingSeries with negative movieId`() = runTest {
         val movieId = -1
         val rate = 3.5
         coEvery { seriesRepository.addRatingSeries(movieId, rate) } returns Unit
@@ -67,7 +67,7 @@ class AddRatingSeriesUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         val movieId = 1
         val rate = 5.0
         coEvery {
@@ -81,7 +81,7 @@ class AddRatingSeriesUseCaseTest {
     }
 
     @Test
-    fun `Should call repository addRatingSeries with decimal rate`() = runTest {
+    fun `should call repository addRatingSeries with decimal rate`() = runTest {
         val movieId = 789
         val rate = 7.25
         coEvery { seriesRepository.addRatingSeries(movieId, rate) } returns Unit

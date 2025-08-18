@@ -20,7 +20,7 @@ class GetSeriesTopCastUseCaseTest {
     }
 
     @Test
-    fun `Should call repository getSeriesCreditsById and return list`() = runTest {
+    fun `should call repository getSeriesCreditsById and return list`() = runTest {
         val seriesId = 123
         val expectedArtists = listOf(
             Artist(
@@ -51,7 +51,7 @@ class GetSeriesTopCastUseCaseTest {
     }
 
     @Test
-    fun `Should return empty list when no cast found`() = runTest {
+    fun `should return empty list when no cast found`() = runTest {
         val seriesId = 456
         val expectedArtists = emptyList<Artist>()
         coEvery { seriesRepository.getSeriesCreditsById(seriesId) } returns expectedArtists
@@ -63,7 +63,7 @@ class GetSeriesTopCastUseCaseTest {
     }
 
     @Test
-    fun `Should return single artist`() = runTest {
+    fun `should return single artist`() = runTest {
         val seriesId = 789
         val expectedArtists = listOf(
             Artist(
@@ -87,7 +87,7 @@ class GetSeriesTopCastUseCaseTest {
     }
 
     @Test
-    fun `Should return multiple artists`() = runTest {
+    fun `should return multiple artists`() = runTest {
         val seriesId = 111
         val expectedArtists = (1..15).map {
             Artist(
@@ -110,7 +110,7 @@ class GetSeriesTopCastUseCaseTest {
     }
 
     @Test
-    fun `Should handle different seriesId values`() = runTest {
+    fun `should handle different seriesId values`() = runTest {
         val seriesId = 0
         val expectedArtists = listOf(
             Artist(
@@ -132,7 +132,7 @@ class GetSeriesTopCastUseCaseTest {
     }
 
     @Test
-    fun `Should handle large seriesId values`() = runTest {
+    fun `should handle large seriesId values`() = runTest {
         val seriesId = 999999
         val expectedArtists = listOf(
             Artist(
@@ -154,7 +154,7 @@ class GetSeriesTopCastUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         val seriesId = 123
         coEvery { seriesRepository.getSeriesCreditsById(seriesId) } throws RuntimeException("Network error")
 
@@ -162,7 +162,7 @@ class GetSeriesTopCastUseCaseTest {
     }
 
     @Test
-    fun `Should return cast in correct order`() = runTest {
+    fun `should return cast in correct order`() = runTest {
         val seriesId = 222
         val expectedArtists = listOf(
             Artist(

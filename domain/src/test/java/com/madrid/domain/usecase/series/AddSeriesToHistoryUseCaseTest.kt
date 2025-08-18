@@ -19,7 +19,7 @@ class AddSeriesToHistoryUseCaseTest {
     }
 
     @Test
-    fun `Should call repository addSeriesToHistory with seriesId`() = runTest {
+    fun `should call repository addSeriesToHistory with seriesId`() = runTest {
         val seriesId = 1
         val expectedResult = Unit
         coEvery { seriesRepository.addSeriesToHistory(seriesId) } returns expectedResult
@@ -31,7 +31,7 @@ class AddSeriesToHistoryUseCaseTest {
     }
 
     @Test
-    fun `Should call repository addSeriesToHistory with positive seriesId`() = runTest {
+    fun `should call repository addSeriesToHistory with positive seriesId`() = runTest {
         val seriesId = 123
         val expectedResult = Unit
         coEvery { seriesRepository.addSeriesToHistory(seriesId) } returns expectedResult
@@ -43,7 +43,7 @@ class AddSeriesToHistoryUseCaseTest {
     }
 
     @Test
-    fun `Should call repository addSeriesToHistory with large seriesId`() = runTest {
+    fun `should call repository addSeriesToHistory with large seriesId`() = runTest {
         val seriesId = 999999
         val expectedResult = Unit
         coEvery { seriesRepository.addSeriesToHistory(seriesId) } returns expectedResult
@@ -55,7 +55,7 @@ class AddSeriesToHistoryUseCaseTest {
     }
 
     @Test
-    fun `Should call repository addSeriesToHistory with zero seriesId`() = runTest {
+    fun `should call repository addSeriesToHistory with zero seriesId`() = runTest {
         val seriesId = 0
         val expectedResult = Unit
         coEvery { seriesRepository.addSeriesToHistory(seriesId) } returns expectedResult
@@ -67,7 +67,7 @@ class AddSeriesToHistoryUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         val seriesId = 1
         coEvery { seriesRepository.addSeriesToHistory(seriesId) } throws RuntimeException("History error")
 
@@ -75,7 +75,7 @@ class AddSeriesToHistoryUseCaseTest {
     }
 
     @Test
-    fun `Should return repository result when successful`() = runTest {
+    fun `should return repository result when successful`() = runTest {
         val seriesId = 456
         val expectedResult = Unit
         coEvery { seriesRepository.addSeriesToHistory(seriesId) } returns expectedResult

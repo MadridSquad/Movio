@@ -20,7 +20,7 @@ class GetArtistDetailsUseCaseTest {
     }
 
     @Test
-    fun `Should return artist details from repository`() = runTest {
+    fun `should return artist details from repository`() = runTest {
         coEvery { artistRepository.getArtistDetailsById(123) } returns testArtist
 
         val result = useCase.invoke(123)
@@ -30,7 +30,7 @@ class GetArtistDetailsUseCaseTest {
     }
 
     @Test
-    fun `Should return correct artist for different artist id`() = runTest {
+    fun `should return correct artist for different artist id`() = runTest {
         val anotherArtist = testArtist.copy(id = 456, name = "Another Artist")
         coEvery { artistRepository.getArtistDetailsById(456) } returns anotherArtist
 
@@ -41,14 +41,14 @@ class GetArtistDetailsUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { artistRepository.getArtistDetailsById(123) } throws RuntimeException("Network error")
 
         useCase.invoke(123)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `Should throw exception when repository throws IllegalArgumentException`() =
+    fun `should throw exception when repository throws IllegalArgumentException`() =
         runTest {
             coEvery { artistRepository.getArtistDetailsById(-1) } throws IllegalArgumentException("Invalid artist ID")
 
@@ -56,7 +56,7 @@ class GetArtistDetailsUseCaseTest {
         }
 
     @Test
-    fun `Should call repository with correct artist id`() = runTest {
+    fun `should call repository with correct artist id`() = runTest {
         coEvery { artistRepository.getArtistDetailsById(999) } returns testArtist
 
         useCase.invoke(999)

@@ -24,7 +24,7 @@ class GetFavoriteMoviesUseCaseTest {
     }
 
     @Test
-    fun `Should return favorite movies from repository`() = runTest {
+    fun `should return favorite movies from repository`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("session123")
         coEvery { movieRepository.getFavoriteMovies("session123") } returns listOf(testMovie)
 
@@ -36,7 +36,7 @@ class GetFavoriteMoviesUseCaseTest {
     }
 
     @Test
-    fun `Should return empty list when no favorite movies exist`() = runTest {
+    fun `should return empty list when no favorite movies exist`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("session123")
         coEvery { movieRepository.getFavoriteMovies("session123") } returns emptyList()
 
@@ -47,7 +47,7 @@ class GetFavoriteMoviesUseCaseTest {
     }
 
     @Test
-    fun `Should return multiple favorite movies`() = runTest {
+    fun `should return multiple favorite movies`() = runTest {
         val favoriteMovies = listOf(testMovie, testMovie.copy(id = 456, title = "Another Movie"))
         coEvery { authenticationRepository.getSessionId() } returns flowOf("session123")
         coEvery { movieRepository.getFavoriteMovies("session123") } returns favoriteMovies
@@ -59,7 +59,7 @@ class GetFavoriteMoviesUseCaseTest {
     }
 
     @Test
-    fun `Should use correct session id from authentication repository`() = runTest {
+    fun `should use correct session id from authentication repository`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("different_session")
         coEvery { movieRepository.getFavoriteMovies("different_session") } returns listOf(testMovie)
 
@@ -69,14 +69,14 @@ class GetFavoriteMoviesUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when authentication repository fails`() = runTest {
+    fun `should throw exception when authentication repository fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } throws RuntimeException("Auth error")
 
         useCase.invoke()
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when movie repository fails`() = runTest {
+    fun `should throw exception when movie repository fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("session123")
         coEvery { movieRepository.getFavoriteMovies("session123") } throws RuntimeException("Network error")
 
@@ -84,7 +84,7 @@ class GetFavoriteMoviesUseCaseTest {
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `Should throw exception when session id is invalid`() = runTest {
+    fun `should throw exception when session id is invalid`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("")
         coEvery { movieRepository.getFavoriteMovies("") } throws IllegalStateException("Invalid session")
 

@@ -21,7 +21,7 @@ class GetMovieDetailsUseCaseTest {
     }
 
     @Test
-    fun `Should return movie details from repository`() = runTest {
+    fun `should return movie details from repository`() = runTest {
         coEvery { movieRepository.getMovieDetailsById(123) } returns testMovie
 
         val result = useCase.invoke(123)
@@ -31,7 +31,7 @@ class GetMovieDetailsUseCaseTest {
     }
 
     @Test
-    fun `Should increase genre interest points for each genre`() = runTest {
+    fun `should increase genre interest points for each genre`() = runTest {
         coEvery { movieRepository.getMovieDetailsById(123) } returns testMovie
 
         useCase.invoke(123)
@@ -41,7 +41,7 @@ class GetMovieDetailsUseCaseTest {
     }
 
     @Test
-    fun `Should return correct movie for different movie id`() = runTest {
+    fun `should return correct movie for different movie id`() = runTest {
         val anotherMovie = testMovie.copy(id = 456, title = "Another Movie")
         coEvery { movieRepository.getMovieDetailsById(456) } returns anotherMovie
 
@@ -52,14 +52,14 @@ class GetMovieDetailsUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { movieRepository.getMovieDetailsById(123) } throws RuntimeException("Network error")
 
         useCase.invoke(123)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `Should throw exception when repository throws IllegalArgumentException`() =
+    fun `should throw exception when repository throws IllegalArgumentException`() =
         runTest {
             coEvery { movieRepository.getMovieDetailsById(-1) } throws IllegalArgumentException("Invalid movie ID")
 
@@ -67,7 +67,7 @@ class GetMovieDetailsUseCaseTest {
         }
 
     @Test
-    fun `Should call repository with correct movie id`() = runTest {
+    fun `should call repository with correct movie id`() = runTest {
         coEvery { movieRepository.getMovieDetailsById(999) } returns testMovie
 
         useCase.invoke(999)
@@ -76,7 +76,7 @@ class GetMovieDetailsUseCaseTest {
     }
 
     @Test
-    fun `Should handle movie with empty genres list`() = runTest {
+    fun `should handle movie with empty genres list`() = runTest {
         val movieWithoutGenres = testMovie.copy(genre = emptyList())
         coEvery { movieRepository.getMovieDetailsById(123) } returns movieWithoutGenres
 

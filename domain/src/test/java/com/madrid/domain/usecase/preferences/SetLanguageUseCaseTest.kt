@@ -19,14 +19,14 @@ class SetLanguageUseCaseTest {
     }
 
     @Test
-    fun `Should call repository setAppLanguage with English`() = runTest {
+    fun `should call repository setAppLanguage with English`() = runTest {
         useCase.invoke(AppLanguage.ENGLISH)
 
         coVerify(exactly = 1) { preferencesRepository.setAppLanguage(AppLanguage.ENGLISH) }
     }
 
     @Test
-    fun `Should call repository setAppLanguage with Arabic`() = runTest {
+    fun `should call repository setAppLanguage with Arabic`() = runTest {
         useCase.invoke(AppLanguage.ARABIC)
 
         coVerify(exactly = 1) { preferencesRepository.setAppLanguage(AppLanguage.ARABIC) }
@@ -34,21 +34,21 @@ class SetLanguageUseCaseTest {
 
 
     @Test
-    fun `Should call repository setAppLanguage with system language`() = runTest {
+    fun `should call repository setAppLanguage with system language`() = runTest {
         useCase.invoke(AppLanguage.ENGLISH)
 
         coVerify(exactly = 1) { preferencesRepository.setAppLanguage(AppLanguage.ENGLISH) }
     }
 
     @Test(expected = RuntimeException::class)
-    fun `Should throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { preferencesRepository.setAppLanguage(any()) } throws RuntimeException("Preferences error")
 
         useCase.invoke(AppLanguage.ENGLISH)
     }
 
     @Test
-    fun `Should complete successfully when repository succeeds`() = runTest {
+    fun `should complete successfully when repository succeeds`() = runTest {
         coEvery { preferencesRepository.setAppLanguage(AppLanguage.ARABIC) } returns Unit
 
         useCase.invoke(AppLanguage.ARABIC)
