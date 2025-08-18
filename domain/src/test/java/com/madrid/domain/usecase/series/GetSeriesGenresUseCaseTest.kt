@@ -1,0 +1,112 @@
+package com.madrid.domain.usecase.series
+
+import com.google.common.truth.Truth
+import com.madrid.domain.entity.Genre
+import com.madrid.domain.repository.SeriesRepository
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
+import kotlinx.coroutines.test.runTest
+import org.junit.Before
+import org.junit.Test
+
+class GetSeriesGenresUseCaseTest {
+    private val seriesRepository: SeriesRepository = mockk(relaxed = true)
+    private lateinit var useCase: GetSeriesGenresUseCase
+
+    @Before
+    fun setUp() {
+        useCase = GetSeriesGenresUseCase(seriesRepository)
+    }
+
+    @Test
+    fun `invoke SHOULD call repository getSeriesGenres and return list`() = runTest {
+        val expectedGenres = listOf(
+            Genre(id = 1, name = "Action"),
+            Genre(id = 2, name = "Comedy"),
+            Genre(id = 3, name = "Drama")
+        )
+        coEvery { seriesRepository.getSeriesGenres() } returns expectedGenres
+
+        val result = useCase.invoke()
+
+        Truth.assertThat(result).isEqualTo(expectedGenres)
+        coVerify(exactly = 1) { seriesRepository.getSeriesGenres() }
+    }
+
+    @Test
+    fun `invoke SHOULD return empty list when no genres found`() = runTest {
+        val expectedGenres = emptyList<Genre>()
+        coEvery { seriesRepository.getSeriesGenres() } returns expectedGenres
+
+        val result = useCase.invoke()
+
+        Truth.assertThat(result).isEmpty()
+        coVerify(exactly = 1) { seriesRepository.getSeriesGenres() }
+    }
+
+    @Test
+    fun `invoke SHOULD return single genre`() = runTest {
+        val expectedGenres = listOf(Genre(id = 1, name = "Thriller"))
+        coEvery { seriesRepository.getSeriesGenres() } returns expectedGenres
+
+        val result = useCase.invoke()
+
+        Truth.assertThat(result).hasSize(1)
+        Truth.assertThat(result.first().name).isEqualTo("Thriller")
+        Truth.assertThat(result).isEqualTo(expectedGenres)
+        coVerify(exactly = 1) { seriesRepository.getSeriesGenres() }
+    }
+
+    @Test
+    fun `invoke SHOULD return multiple genres`() = runTest {
+        val expectedGenres = listOf(
+            Genre(id = 1, name = "Horror"),
+            Genre(id = 2, name = "Sci-Fi"),
+            Genre(id = 3, name = "Romance"),
+            Genre(id = 4, name = "Mystery"),
+            Genre(id = 5, name = "Documentary")
+        )
+        coEvery { seriesRepository.getSeriesGenres() } returns expectedGenres
+
+        val result = useCase.invoke()
+
+        Truth.assertThat(result).hasSize(5)
+        Truth.assertThat(result).containsExactlyElementsIn(expectedGenres)
+        coVerify(exactly = 1) { seriesRepository.getSeriesGenres() }
+    }
+
+    @Test(expected = RuntimeException::class)
+    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+        coEvery { seriesRepository.getSeriesGenres() } throws RuntimeException("Network error")
+
+        useCase.invoke()
+    }
+
+    @Test
+    fun `invoke SHOULD return genres in correct order`() = runTest {
+        val expectedGenres = listOf(
+            Genre(id = 3, name = "Crime"),
+            Genre(id = 1, name = "Adventure"),
+            Genre(id = 2, name = "Biography")
+        )
+        coEvery { seriesRepository.getSeriesGenres() } returns expectedGenres
+
+        val result = useCase.invoke()
+
+        Truth.assertThat(result).containsExactlyElementsIn(expectedGenres).inOrder()
+        coVerify(exactly = 1) { seriesRepository.getSeriesGenres() }
+    }
+
+    @Test
+    fun `invoke SHOULD handle large number of genres`() = runTest {
+        val expectedGenres = (1..50).map { Genre(id = it, name = "Genre $it") }
+        coEvery { seriesRepository.getSeriesGenres() } returns expectedGenres
+
+        val result = useCase.invoke()
+
+        Truth.assertThat(result).hasSize(50)
+        Truth.assertThat(result).isEqualTo(expectedGenres)
+        coVerify(exactly = 1) { seriesRepository.getSeriesGenres() }
+    }
+}
