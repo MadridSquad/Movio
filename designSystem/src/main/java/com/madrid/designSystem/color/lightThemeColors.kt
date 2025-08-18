@@ -2,7 +2,6 @@ package com.madrid.designSystem.color
 
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import com.madrid.designSystem.theme.Theme
 
 val lightThemeColors = MovioColors(
     brand = Brand(
@@ -41,6 +40,8 @@ val lightThemeColors = MovioColors(
         defaultImageBackground = Color(0xFFA1AEC3),
         startColorForCardShadow = Color(0xBD000000),
         endColorForCardShadow = Color(0x00000000),
+        shimmerPrimary = Color(0xFFF0F0F0),
+        shimmerSecondary = Color(0xFFE0E0E0),
     ),
     gradients = Gradients(
         iconGradient = Brush.linearGradient(
