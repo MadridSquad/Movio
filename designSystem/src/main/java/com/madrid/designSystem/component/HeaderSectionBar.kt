@@ -100,22 +100,11 @@ fun HeaderSectionBar(
                         .height(1.dp)
                         .width(with(density) { tabWidth.toDp() })
                         .alpha(underlineAlpha)
-                        .background(brush = underlineGlowBrush())
+                        .background(brush = Theme.color.gradients.underlineGlowBrushGradient)
                 )
             }
         }
     }
-}
-
-@Composable
-fun underlineGlowBrush(): Brush {
-    return Brush.horizontalGradient(
-        colors = listOf(
-            Theme.color.system.firstColorForUnderlineGlowBrush,
-            Theme.color.system.secondColorForUnderlineGlowBrush,
-            Theme.color.system.thirdColorForUnderlineGlowBrush
-        )
-    )
 }
 
 @Preview
