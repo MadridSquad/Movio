@@ -223,6 +223,7 @@ fun ContentSearchScreen(
                     onSearchQueryChange(newQuery)
                     showRecentSearch = 1
                 },
+                borderBrushColors = null,
                 hintText = stringResource(com.madrid.presentation.R.string.searchdot),
                 startIconPainter = painterResource(R.drawable.search_normal),
                 endIconPainter = painterResource(R.drawable.outline_add),
