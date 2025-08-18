@@ -82,6 +82,7 @@ fun CreateListBottomSheet(
                 hintText = stringResource(R.string.create_list_hint),
                 startIconPainter = painterResource(id = R.drawable.outline_minimalistic),
                 endIconPainter = null,
+                borderBrushColors = null,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp)
