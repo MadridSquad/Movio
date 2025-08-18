@@ -42,7 +42,7 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.refreshScreenHolder.RefreshScreenHolder
 import com.madrid.presentation.screens.searchScreen.features.recentSearchLayout.FilterSearchScreen
-import com.madrid.presentation.screens.searchScreen.features.recentSearchLayout.forYouAndExploreScreen
+import com.madrid.presentation.screens.searchScreen.features.recentSearchLayout.ForYouAndExploreScreen
 import com.madrid.presentation.screens.searchScreen.features.recentSearchLayout.recentSearchScreen
 import com.madrid.presentation.screens.searchScreen.utils.FilterPagesItem
 import com.madrid.presentation.viewModel.searchViewModel.SearchScreenState
@@ -240,7 +240,7 @@ fun ContentSearchScreen(
             }
 
             if (searchQuery.isEmpty() && showRecentSearch != 1) {
-                forYouAndExploreScreen(
+                ForYouAndExploreScreen(
                     showSearchResults = showSearchResults,
                     isLoading = isLoading,
                     isError = isError,

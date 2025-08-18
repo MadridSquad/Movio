@@ -39,7 +39,7 @@ import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.viewModel.searchViewModel.SearchScreenState
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
-fun LazyGridScope.forYouAndExploreScreen(
+fun LazyGridScope.ForYouAndExploreScreen(
     showSearchResults: Boolean,
     isLoading: Boolean,
     isError: Boolean,
