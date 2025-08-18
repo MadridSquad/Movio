@@ -69,12 +69,17 @@ class MovieRepositoryImpl @Inject constructor(
         if (page == pageNumberCached) {
             val localMovies = localDataSource.getRecommendedMovies()
             if (localMovies.isNotEmpty()) {
-                return localMovies.map { it.toMovie() }
+                return localMovies.map {
+                    val genres = localDataSource
+                        .getMovieGenresByIds(it.genresIds)
+                        .map { genreTable -> genreTable.toGenre() }
+                    it.toMovie(genres)
+                }
             }
         }
 
         val remoteResult = remoteDataSource.getPopularMovies(page)
-        val remoteMovies = remoteResult.movieResults.map { it.toMovie() }
+        val remoteMovies = remoteResult.movieResults.map { it.toMovieWithGenres() }
         remoteMovies.forEach { movie ->
             localDataSource.insertSectionMovie(
                 movie.toSectionMovieTable().copy(movieSection = MovieSection.RECOMMENDED.value)
@@ -108,7 +113,6 @@ class MovieRepositoryImpl @Inject constructor(
                 movie.toSectionMovieTable().copy(movieSection = MovieSection.TRENDING.value)
             )
         }
-
         return remoteMovies
     }
 
@@ -138,16 +142,23 @@ class MovieRepositoryImpl @Inject constructor(
         if (page == pageNumberCached) {
             val localMovies = localDataSource.getTopRatingMovies()
             if (localMovies.isNotEmpty()) {
-                return localMovies.map { it.toMovie() }
+                return localMovies.map {
+                    val genres = localDataSource
+                        .getMovieGenresByIds(it.genresIds)
+                        .map { genreTable -> genreTable.toGenre() }
+                    it.toMovie(genres)
+                }
             }
         }
 
         val remoteResult = remoteDataSource.getTopRatedMovies(page)
-        val remoteMovies = remoteResult.movieResults.map { it.toMovie() }
-        remoteMovies.forEach { movie ->
-            localDataSource.insertSectionMovie(
-                movie.toSectionMovieTable().copy(movieSection = MovieSection.TOP_RATED.value)
-            )
+        val remoteMovies = remoteResult.movieResults.map { it.toMovieWithGenres() }
+        if (page == pageNumberCached) {
+            remoteMovies.forEach { movie ->
+                localDataSource.insertSectionMovie(
+                    movie.toSectionMovieTable().copy(movieSection = MovieSection.TOP_RATED.value)
+                )
+            }
         }
 
         return remoteMovies
@@ -176,14 +187,17 @@ class MovieRepositoryImpl @Inject constructor(
             val localMovies = localDataSource.getNowPlayingMovies()
 
             if (localMovies.isNotEmpty()) {
-                return localMovies.map { it.toMovie() }
+                return localMovies.map {
+                    val genres = localDataSource
+                        .getMovieGenresByIds(it.genresIds)
+                        .map { genreTable -> genreTable.toGenre() }
+                    it.toMovie(genres)
+                }
             }
         }
 
         val remoteResult = remoteDataSource.getNowPlayingMovie(page)
-
         val remoteMovies = remoteResult.nowPlayingMovieResults?.map { it.toMovie() } ?: emptyList()
-
         remoteMovies.forEach { movie ->
             localDataSource.insertSectionMovie(
                 movie.toSectionMovieTable().copy(movieSection = MovieSection.NOW_PLAYING.value)
@@ -196,7 +210,12 @@ class MovieRepositoryImpl @Inject constructor(
         if (page == pageNumberCached) {
             val localMovies = localDataSource.getUpComingMovies()
             if (localMovies.isNotEmpty()) {
-                return localMovies.map { it.toMovie() }
+                return localMovies.map {
+                    val genres = localDataSource
+                        .getMovieGenresByIds(it.genresIds)
+                        .map { genreTable -> genreTable.toGenre() }
+                    it.toMovie(genres)
+                }
             }
         }
 
