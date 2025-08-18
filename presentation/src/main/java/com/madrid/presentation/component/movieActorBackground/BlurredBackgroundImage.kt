@@ -15,11 +15,12 @@ import com.madrid.detectImageContent.FilteredImage
 @Composable
 fun BlurredBackgroundImage(
     posterImageUrl: String,
+    modifier: Modifier=Modifier,
     blurRadius: Dp = 20.dp
 ) {
     val overlayColor = Theme.color.system.blur.copy(alpha = 0.5f)
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize()
             .background(overlayColor)
     ) {
         FilteredImage(

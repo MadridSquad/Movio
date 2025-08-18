@@ -13,9 +13,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.madrid.designSystem.theme.Theme
 
 @Composable
 fun MoviePosterDetailScreen(
@@ -23,7 +25,6 @@ fun MoviePosterDetailScreen(
     imageUrl: String,
     isActor: Boolean = false
 ) {
-    val overlay = Color(0xCC181828)
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -38,7 +39,14 @@ fun MoviePosterDetailScreen(
             Box(
                 Modifier
                     .matchParentSize()
-                    .background(overlay)
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(
+                                Theme.color.surfaces.surfaceContainer.copy(alpha = 0.5f),
+                                Color.Transparent
+                            ),
+                        )
+                    )
             )
             if (isActor) {
                 Box(
@@ -48,7 +56,7 @@ fun MoviePosterDetailScreen(
                         .clip(CircleShape)
                 ) {
                     ActorOverlay(
-                        actorImageUrl = imageUrl,
+                        actorImageUrl = imageUrl
                     )
                 }
             } else {
@@ -58,7 +66,6 @@ fun MoviePosterDetailScreen(
                         .padding(bottom = 35.dp)
                         .size(width = 200.dp, height = 260.dp)
                         .clip(RoundedCornerShape(8.dp))
-                        .background(Color.Black.copy(alpha = 0.7f)),
                 ) {
                     PosterCard(
                         posterImageUrl = imageUrl,
