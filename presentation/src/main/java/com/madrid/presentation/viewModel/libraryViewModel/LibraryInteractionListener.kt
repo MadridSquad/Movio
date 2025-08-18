@@ -8,4 +8,8 @@ interface LibraryInteractionListener {
     fun onWatchListViewAllClick()
     fun onViewAllClick(type: ViewAllType)
     fun onLoginBtnClick()
+    fun onAddButtonClicked()
+    fun dismissCreateListBottomSheet()
+    fun onCreateButtonClicked(name : String)
+    fun onDismissSnackBar()
 }
