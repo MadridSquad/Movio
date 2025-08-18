@@ -100,27 +100,18 @@ fun HeaderSectionBar(
                         .height(1.dp)
                         .width(with(density) { tabWidth.toDp() })
                         .alpha(underlineAlpha)
-                        .background(brush = underlineGlowBrush())
+                        .background(brush = Theme.color.gradients.underlineGlowBrushGradient)
                 )
             }
         }
     }
 }
 
-@Composable
-fun underlineGlowBrush(): Brush {
-    return Brush.horizontalGradient(
-        colors = listOf(
-            Color(0x33EBE6FE),Color(0xFFFFF5F3),Color(0x33FFFFFF)
-        )
-    )
-}
-
 @Preview
 @Composable
-private fun HeaderSectionBarPreview(){
+private fun HeaderSectionBarPreview() {
     HeaderSectionBar(
-        tabs = listOf("Yasser","Ahmed","Messi","Mohamed"),
+        tabs = listOf("Yasser", "Ahmed", "Messi", "Mohamed"),
         selectedTabIndex = 0,
         onTabSelected = {},
         modifier = Modifier

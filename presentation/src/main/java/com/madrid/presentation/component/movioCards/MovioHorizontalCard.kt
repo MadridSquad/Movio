@@ -88,7 +88,6 @@ private fun MovioCategory(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 private fun HorizontalCardPreview() {
