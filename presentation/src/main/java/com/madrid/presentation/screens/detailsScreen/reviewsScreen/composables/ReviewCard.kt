@@ -30,10 +30,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
+import com.madrid.designSystem.component.ImageViewer
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
-import com.madrid.detectImageContent.FilteredImage
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
 
 @Composable
@@ -84,7 +84,7 @@ fun ReviewCard(
                     contentAlignment = Alignment.Center
                 ) {
                     MovioArtistsCard(
-                        imageUrl = com.madrid.detectimagecontent.R.drawable.place_holder.toString(),
+                        imageUrl = com.madrid.presentation.R.drawable.img_artist_placeholder.toString(),
                         modifier = Modifier
                             .clip(CircleShape),
                         circleImageSize = 118.dp,
