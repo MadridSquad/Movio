@@ -182,4 +182,5 @@ dependencies {
 
     //work manager
     implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.coil.compose)
 }
