@@ -36,6 +36,7 @@ import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.designSystem.modifier.ShimmerCard
 import com.madrid.designSystem.modifier.ShimmerHorizontalCard
 import com.madrid.designSystem.modifier.ShimmerItem
+import com.madrid.designSystem.modifier.removeWidthPaddingFromParent
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTvShowType
@@ -87,7 +88,7 @@ fun TvShowsLayout(
     ) {
         item(span = { GridItemSpan(maxLineSpan) }) {
             ShimmerItem(
-                modifier = Modifier.fillWidthOfParent(16.dp),
+                modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                 isLoading = isTrendingSeriesLoading
             ) {
                 MovioPager(
@@ -102,7 +103,7 @@ fun TvShowsLayout(
                     },
                     onClickMediaButton = onClickMediaButton,
                     isLoading = isLoading,
-                    modifier = Modifier.fillWidthOfParent(16.dp),
+                    modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                 )
                 Box(
                     modifier = Modifier
@@ -114,13 +115,13 @@ fun TvShowsLayout(
                                 colors = listOf(Color.Transparent, Theme.color.surfaces.surface)
                             )
                         )
-                        .fillWidthOfParent(16.dp)
+                        .removeWidthPaddingFromParent(16.dp)
                 )
             }
         }
         item(span = { GridItemSpan(maxLineSpan) }) {
             ShimmerHorizontalCard(
-                modifier = Modifier.fillWidthOfParent(16.dp),
+                modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                 isLoading = isTopRatedSeriesLoading,
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.top_rating),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
@@ -136,7 +137,7 @@ fun TvShowsLayout(
                 itemCount = 20
             ) {
                 CustomHorizontalCard(
-                    modifier = Modifier.fillWidthOfParent(16.dp),
+                    modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                     primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.top_rating),
                     secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
                     endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
@@ -163,7 +164,7 @@ fun TvShowsLayout(
 
         item(span = { GridItemSpan(maxLineSpan) }) {
             ShimmerHorizontalCard(
-                modifier = Modifier.fillWidthOfParent(16.dp),
+                modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                 isLoading = isAiringTodaySeriesLoading,
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.airing_today),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
@@ -179,7 +180,7 @@ fun TvShowsLayout(
                 itemCount = 20
             ) {
                 CustomHorizontalCard(
-                    modifier = Modifier.fillWidthOfParent(16.dp),
+                    modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                     primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.airing_today),
                     secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
                     endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
@@ -207,7 +208,7 @@ fun TvShowsLayout(
         item(span = { GridItemSpan(maxLineSpan) }) {
 
             ShimmerHorizontalCard(
-                modifier = Modifier.fillWidthOfParent(16.dp),
+                modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                 isLoading = isOnAirSeriesLoading,
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.on_tv),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
@@ -223,7 +224,7 @@ fun TvShowsLayout(
                 itemCount = 20
             ) {
                 CustomHorizontalCard(
-                    modifier = Modifier.fillWidthOfParent(16.dp),
+                    modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                     primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.on_tv),
                     secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
                     endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
@@ -272,7 +273,7 @@ fun TvShowsLayout(
                         .clip(RoundedCornerShape(8.dp))
                         .width(150.dp)
                         .height(220.dp)
-                        .fillWidthOfParent(16.dp)
+                        .removeWidthPaddingFromParent(16.dp)
                 )
             }
         } else {

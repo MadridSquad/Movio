@@ -30,6 +30,7 @@ import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.designSystem.modifier.ShimmerCard
 import com.madrid.designSystem.modifier.ShimmerHorizontalCard
 import com.madrid.designSystem.modifier.ShimmerItem
+import com.madrid.designSystem.modifier.removeWidthPaddingFromParent
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesType
@@ -89,13 +90,13 @@ fun MoviesLayout(
                     onClickItem = { id -> navController.navigate(Destinations.MovieDetailsScreen(id)) },
                     onClickMediaButton = { mediaIndex -> onClickMediaButton(mediaIndex) },
                     isLoading = isLoading,
-                    modifier = Modifier.fillWidthOfParent(16.dp),
+                    modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                 )
             }
         }
         item(span = { GridItemSpan(maxLineSpan) }) {
             ShimmerHorizontalCard(
-                modifier = Modifier.fillWidthOfParent(16.dp),
+                modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                 isLoading = isTopRatedLoading,
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.top_rating),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
@@ -105,7 +106,7 @@ fun MoviesLayout(
                 itemCount = 20
             ) {
                 CustomHorizontalCard(
-                    modifier = Modifier.fillWidthOfParent(16.dp),
+                    modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                     primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.top_rating),
                     secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
                     endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
@@ -122,7 +123,7 @@ fun MoviesLayout(
 
         item(span = { GridItemSpan(maxLineSpan) }) {
             ShimmerHorizontalCard(
-                modifier = Modifier.fillWidthOfParent(16.dp),
+                modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                 isLoading = isNowPlayingLoading,
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.now_playing),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
@@ -132,7 +133,7 @@ fun MoviesLayout(
                 itemCount = 20,
             ) {
                 CustomHorizontalCard(
-                    modifier = Modifier.fillWidthOfParent(16.dp),
+                    modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                     primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.now_playing),
                     secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
                     endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
@@ -149,7 +150,7 @@ fun MoviesLayout(
 
         item(span = { GridItemSpan(maxLineSpan) }) {
             ShimmerHorizontalCard(
-                modifier = Modifier.fillWidthOfParent(16.dp),
+                modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                 isLoading = isUpComingLoading,
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.upcoming),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
@@ -159,7 +160,7 @@ fun MoviesLayout(
                 itemCount = 20
             ) {
                 CustomHorizontalCard(
-                    modifier = Modifier.fillWidthOfParent(16.dp),
+                    modifier = Modifier.removeWidthPaddingFromParent(16.dp),
                     primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.upcoming),
                     secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.see_all),
                     endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
@@ -208,14 +209,14 @@ fun MoviesLayout(
 }
 
 
-fun Modifier.fillWidthOfParent(parentPadding: Dp) = layout { measurable, constraints ->
-    val newMaxWidth = constraints.maxWidth + 2 * parentPadding.roundToPx()
-
-    val newConstraints = constraints.copy(maxWidth = newMaxWidth)
-
-    val placeable = measurable.measure(newConstraints)
-
-    layout(constraints.maxWidth, placeable.height) {
-        placeable.place(-parentPadding.roundToPx(), 0)
-    }
-}
+//fun Modifier.removeWidthPaddingFromParent(parentPadding: Dp) = layout { measurable, constraints ->
+//    val newMaxWidth = constraints.maxWidth + 2 * parentPadding.roundToPx()
+//
+//    val newConstraints = constraints.copy(maxWidth = newMaxWidth)
+//
+//    val placeable = measurable.measure(newConstraints)
+//
+//    layout(constraints.maxWidth, placeable.height) {
+//        placeable.place(-parentPadding.roundToPx(), 0)
+//    }
+//}
