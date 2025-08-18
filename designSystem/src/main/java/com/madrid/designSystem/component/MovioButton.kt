@@ -53,23 +53,6 @@ fun MovioButton(
     }
 }
 
-@Composable
-fun MovioTextButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    textColor: Color = Theme.color.brand.primary,
-    textStyle: androidx.compose.ui.text.TextStyle = Theme.textStyle.label.smallRegular14
-) {
-    MovioText(
-        text = text,
-        color = textColor,
-        textStyle = textStyle,
-        modifier = modifier.clickable { onClick() }
-    )
-}
-
-
 @Preview
 @Composable
 fun MovioButtonPreview() {

@@ -210,12 +210,12 @@ fun ContentSearchScreen(
         modifier = modifier
             .fillMaxSize()
             .statusBarsPadding(),
-        ) {
+    ) {
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 158.dp),
             modifier = modifier
                 .background(Theme.color.surfaces.surface),
-            contentPadding = PaddingValues( horizontal = 16.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
 
@@ -228,6 +228,7 @@ fun ContentSearchScreen(
                         onSearchQueryChange(newQuery)
                         showRecentSearch = 1
                     },
+                    borderBrushColors = null,
                     hintText = stringResource(com.madrid.presentation.R.string.searchdot),
                     startIconPainter = painterResource(R.drawable.search_normal),
                     endIconPainter = painterResource(R.drawable.outline_add),

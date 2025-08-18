@@ -25,11 +25,11 @@ fun RateIcon(
     rate: String,
     modifier: Modifier = Modifier,
     icon: Painter = painterResource(R.drawable.bold_star),
-    contentAlignment:Alignment = Alignment.Center
+    contentAlignment: Alignment = Alignment.Center
 ) {
     Box(
         modifier = modifier
-            .padding(top = 4.dp, end= 4.dp)
+            .padding(top = 4.dp, end = 4.dp)
             .height(16.dp),
         contentAlignment = contentAlignment
     ) {
@@ -55,7 +55,7 @@ fun RateIcon(
     }
 }
 
-@Preview(showBackground = true , showSystemUi = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun RateIconPreview() {
     RateIcon(

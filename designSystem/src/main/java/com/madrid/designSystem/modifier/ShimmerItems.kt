@@ -181,47 +181,45 @@ fun ShimmerHorizontalCard(
     secondaryTextForCustomTextTitle: String? = null,
     endIconForCustomTextTitle: Painter? = null,
     onSeeAllClick: (() -> Unit)? = null,
-    itemCount: Int = 5,
+    itemCount: Int = 20,
     contentAfterLoading: @Composable () -> Unit,
 ) {
-    Column(modifier = modifier) {
-
-        if (isLoading) {
-            CustomTextTitle(
-                modifier = headerModifier.padding(bottom = 12.dp),
-                primaryText = primaryTextForCustomTextTitle,
-                startIcon = startIconForPrimaryTextTitle,
-                secondaryText = secondaryTextForCustomTextTitle,
-                endIcon = endIconForCustomTextTitle,
-                onSeeAllClick = onSeeAllClick,
-                isListEmpty = isLoading
-            )
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier.height(200.dp),
-                contentPadding = PaddingValues(horizontal = 16.dp)
-            ) {
-                items(itemCount) {
-                    Column {
-                        Box(
-                            modifier = Modifier
-                                .size(width = 124.dp, height = 160.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .shimmerEffect()
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Box(
-                            modifier = Modifier
-                                .width(112.dp)
-                                .height(15.dp)
-                                .clip(RoundedCornerShape(24.dp))
-                                .shimmerEffect()
-                        )
-                    }
+    if (isLoading) {
+        CustomTextTitle(
+            modifier = headerModifier.padding(bottom = 12.dp),
+            primaryText = primaryTextForCustomTextTitle,
+            startIcon = startIconForPrimaryTextTitle,
+            secondaryText = secondaryTextForCustomTextTitle,
+            endIcon = endIconForCustomTextTitle,
+            onSeeAllClick = onSeeAllClick,
+            isListEmpty = isLoading
+        )
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = modifier.height(200.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp)
+        ) {
+            items(itemCount) {
+                Column {
+                    Box(
+                        modifier = Modifier
+                            .size(width = 124.dp, height = 160.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .shimmerEffect()
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Box(
+                        modifier = Modifier
+                            .width(112.dp)
+                            .height(15.dp)
+                            .clip(RoundedCornerShape(24.dp))
+                            .shimmerEffect()
+                    )
                 }
             }
-        } else {
-            contentAfterLoading()
         }
+    } else {
+        contentAfterLoading()
     }
+
 }

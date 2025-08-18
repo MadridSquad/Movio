@@ -74,7 +74,8 @@ fun CustomHorizontalCard(
     secondaryTextForCustomTextTitle: String? = null,
     endIconForCustomTextTitle: Painter? = null,
     onSeeAllClick: (() -> Unit)? = null,
-    onMediaClickWithId: (id: String) -> Unit = {},
+    onMediaClick: ((MediaUiState) -> Unit)? = null,
+    onMediaClickWithId: ((String) -> Unit)? = null,
 ) {
     Column(modifier = modifier) {
         CustomTextTitle(
@@ -99,7 +100,12 @@ fun CustomHorizontalCard(
                         rate = media.rating.take(3),
                         width = 124.dp,
                         imageHeight = 160.dp,
-                        onClick = { onMediaClickWithId(media.id) }
+                        onClick = {
+                            when {
+                                onMediaClick != null -> onMediaClick(media)
+                                onMediaClickWithId != null -> onMediaClickWithId(media.id)
+                            }
+                        }
                     )
                 }
             }

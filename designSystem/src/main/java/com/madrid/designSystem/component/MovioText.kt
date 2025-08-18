@@ -49,7 +49,7 @@ fun MovioText(
 fun MovioRecentSearchText(
     text: AnnotatedString,
     modifier: Modifier = Modifier,
-     textStyle: TextStyle,
+    textStyle: TextStyle,
     maxLines: Int = Int.MAX_VALUE,
     textAlign: TextAlign? = null,
     overflow: TextOverflow = TextOverflow.Ellipsis,

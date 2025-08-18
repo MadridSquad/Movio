@@ -117,16 +117,3 @@ private fun TrendingMovieCardPrevNight() {
         )
     }
 }
-
-@Preview
-@Composable
-private fun TrendingMovieCardPrevLight() {
-    MovioTheme(isDarkTheme = false) {
-        TrendingMovieCard(
-            "",
-            movieTitle = "Ocean with David Attenborough",
-            movieCategory = "Documentary",
-            rating = "4.5"
-        )
-    }
-}

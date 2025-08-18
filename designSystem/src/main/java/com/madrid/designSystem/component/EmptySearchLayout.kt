@@ -1,6 +1,5 @@
 package com.madrid.designSystem.component
 
-
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,17 +19,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.madrid.designSystem.theme.Theme
 import com.madrid.designSystem.R
-
+import com.madrid.designSystem.theme.Theme
 
 @Composable
 fun EmptySearchLayout(
     title: String,
     description: String,
+    modifier: Modifier = Modifier,
     @DrawableRes image: Int,
-    imageSize: Int = 128,
-    modifier: Modifier = Modifier
+    imageSize: Int = 128
 ) {
     Column(
         modifier = modifier
@@ -68,7 +66,6 @@ fun EmptySearchLayout(
     }
 }
 
-
 @Preview
 @Composable
 private fun EmptySearchLayoutPreview() {
@@ -79,5 +76,3 @@ private fun EmptySearchLayoutPreview() {
         modifier = Modifier.padding(16.dp)
     )
 }
-
-

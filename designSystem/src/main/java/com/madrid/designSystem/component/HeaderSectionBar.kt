@@ -24,8 +24,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
@@ -100,20 +98,11 @@ fun HeaderSectionBar(
                         .height(1.dp)
                         .width(with(density) { tabWidth.toDp() })
                         .alpha(underlineAlpha)
-                        .background(brush = underlineGlowBrush())
+                        .background(brush = Theme.color.gradients.underlineGlowBrushGradient)
                 )
             }
         }
     }
-}
-
-@Composable
-fun underlineGlowBrush(): Brush {
-    return Brush.horizontalGradient(
-        colors = listOf(
-            Color(0x33EBE6FE), Color(0xFFFFF5F3), Color(0x33FFFFFF)
-        )
-    )
 }
 
 @Preview

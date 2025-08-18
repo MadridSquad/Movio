@@ -15,11 +15,9 @@ import com.madrid.designSystem.theme.Theme
 
 @Composable
 fun LoadingSearchCard(modifier: Modifier = Modifier) {
-
     Column(
         modifier = modifier.background(Theme.color.surfaces.surface),
     ) {
-
         Box(
             modifier = modifier
                 .width(101.dp)
