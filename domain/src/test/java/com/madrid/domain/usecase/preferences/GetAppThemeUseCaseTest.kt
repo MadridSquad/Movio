@@ -23,7 +23,7 @@ class GetAppThemeUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return dark theme when dark mode is enabled`() = runTest {
+    fun `Should return dark theme when dark mode is enabled`() = runTest {
         every { preferencesRepository.getAppDarkModeOn() } returns flowOf(AppTheme.DARK)
 
         val result = useCase.invoke().first()
@@ -33,7 +33,7 @@ class GetAppThemeUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return light theme when dark mode is disabled`() = runTest {
+    fun `Should return light theme when dark mode is disabled`() = runTest {
         every { preferencesRepository.getAppDarkModeOn() } returns flowOf(AppTheme.LIGHT)
 
         val result = useCase.invoke().first()
@@ -43,7 +43,7 @@ class GetAppThemeUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return flow from repository mapped to themes`() = runTest {
+    fun `Should return flow from repository mapped to themes`() = runTest {
         every { preferencesRepository.getAppDarkModeOn() } returns flowOf(AppTheme.DARK)
 
         val result = useCase.invoke().first()
@@ -53,7 +53,7 @@ class GetAppThemeUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         every { preferencesRepository.getAppDarkModeOn() } throws RuntimeException("Preferences error")
 
         useCase.invoke().first()

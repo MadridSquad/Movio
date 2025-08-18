@@ -23,7 +23,7 @@ class GetFavoriteSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD get sessionId and return favorite series`() = runTest {
+    fun `Should get sessionId and return favorite series`() = runTest {
         val sessionId = "test_session_123"
         val expectedSeries = listOf(
             Series(
@@ -57,7 +57,7 @@ class GetFavoriteSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty list when no favorite series found`() = runTest {
+    fun `Should return empty list when no favorite series found`() = runTest {
         val sessionId = "test_session_456"
         val expectedSeries = emptyList<Series>()
         coEvery { authenticationRepository.getSessionId() } returns flowOf(sessionId)
@@ -70,7 +70,7 @@ class GetFavoriteSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle different sessionId values`() = runTest {
+    fun `Should handle different sessionId values`() = runTest {
         val sessionId = "different_session_789"
         val expectedSeries = listOf(
             Series(
@@ -94,7 +94,7 @@ class GetFavoriteSeriesUseCaseTest {
     }
     
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when series repository fails`() = runTest {
+    fun `Should throw exception when series repository fails`() = runTest {
         val sessionId = "error_session"
         coEvery { authenticationRepository.getSessionId() } returns flowOf(sessionId)
         coEvery { seriesRepository.getFavoriteSeries(sessionId) } throws RuntimeException("Database error")
@@ -103,14 +103,14 @@ class GetFavoriteSeriesUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when authentication repository fails`() = runTest {
+    fun `Should throw exception when authentication repository fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } throws RuntimeException("Auth error")
 
         useCase.invoke()
     }
 
     @Test
-    fun `invoke SHOULD return multiple favorite series`() = runTest {
+    fun `Should return multiple favorite series`() = runTest {
         val sessionId = "multi_session"
         val expectedSeries = (1..10).map {
             Series(

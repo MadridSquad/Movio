@@ -20,7 +20,7 @@ class GetSeriesReviewsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository getSeriesReviewsById and return list`() = runTest {
+    fun `Should call repository getSeriesReviewsById and return list`() = runTest {
         val seriesId = 123
         val expectedReviews = listOf(
             Review(
@@ -49,7 +49,7 @@ class GetSeriesReviewsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty list when no reviews found`() = runTest {
+    fun `Should return empty list when no reviews found`() = runTest {
         val seriesId = 456
         val expectedReviews = emptyList<Review>()
         coEvery { seriesRepository.getSeriesReviewsById(seriesId) } returns expectedReviews
@@ -61,7 +61,7 @@ class GetSeriesReviewsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return single review`() = runTest {
+    fun `Should return single review`() = runTest {
         val seriesId = 789
         val expectedReviews = listOf(
             Review(
@@ -84,7 +84,7 @@ class GetSeriesReviewsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return multiple reviews`() = runTest {
+    fun `Should return multiple reviews`() = runTest {
         val seriesId = 111
         val expectedReviews = (1..10).map {
             Review(
@@ -106,7 +106,7 @@ class GetSeriesReviewsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle different seriesId values`() = runTest {
+    fun `Should handle different seriesId values`() = runTest {
         val seriesId = 0
         val expectedReviews = listOf(
             Review(
@@ -127,7 +127,7 @@ class GetSeriesReviewsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle large seriesId values`() = runTest {
+    fun `Should handle large seriesId values`() = runTest {
         val seriesId = 999999
         val expectedReviews = listOf(
             Review(
@@ -148,7 +148,7 @@ class GetSeriesReviewsUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         val seriesId = 123
         coEvery { seriesRepository.getSeriesReviewsById(seriesId) } throws RuntimeException("Network error")
 
@@ -156,7 +156,7 @@ class GetSeriesReviewsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return reviews in correct order`() = runTest {
+    fun `Should return reviews in correct order`() = runTest {
         val seriesId = 222
         val expectedReviews = listOf(
             Review(

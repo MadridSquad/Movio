@@ -21,7 +21,7 @@ class GetMoviesByGenresUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return movies map from repository`() = runTest {
+    fun `Should return movies map from repository`() = runTest {
         coEvery { movieRepository.getMoviesByGenres() } returns testMoviesMap
 
         val result = useCase.invoke()
@@ -31,7 +31,7 @@ class GetMoviesByGenresUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty map when repository returns empty map`() = runTest {
+    fun `Should return empty map when repository returns empty map`() = runTest {
         coEvery { movieRepository.getMoviesByGenres() } returns emptyMap()
 
         val result = useCase.invoke()
@@ -41,7 +41,7 @@ class GetMoviesByGenresUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return single genre with movies when repository returns single entry`() =
+    fun `Should return single genre with movies when repository returns single entry`() =
         runTest {
             val singleGenreMap = mapOf("Action" to testMovies)
             coEvery { movieRepository.getMoviesByGenres() } returns singleGenreMap
@@ -54,7 +54,7 @@ class GetMoviesByGenresUseCaseTest {
         }
 
     @Test
-    fun `invoke SHOULD return map with empty movie lists when repository returns empty lists`() =
+    fun `Should return map with empty movie lists when repository returns empty lists`() =
         runTest {
             val emptyMoviesMap = mapOf(
                 "Action" to emptyList<Movie>(),
@@ -71,21 +71,21 @@ class GetMoviesByGenresUseCaseTest {
         }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         coEvery { movieRepository.getMoviesByGenres() } throws RuntimeException("Network error")
 
         useCase.invoke()
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `invoke SHOULD throw exception when repository throws IllegalStateException`() = runTest {
+    fun `Should throw exception when repository throws IllegalStateException`() = runTest {
         coEvery { movieRepository.getMoviesByGenres() } throws IllegalStateException("Repository error")
 
         useCase.invoke()
     }
 
     @Test
-    fun `invoke SHOULD call repository method exactly once`() = runTest {
+    fun `Should call repository method exactly once`() = runTest {
         coEvery { movieRepository.getMoviesByGenres() } returns testMoviesMap
 
         useCase.invoke()

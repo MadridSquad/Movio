@@ -25,7 +25,7 @@ class GetWatchListItemsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return watch list items when repository succeeds`() = runTest {
+    fun `Should return watch list items when repository succeeds`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery {
             listRepository.getListItemsById(
@@ -42,7 +42,7 @@ class GetWatchListItemsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty watch list when repository returns empty lists`() = runTest {
+    fun `Should return empty watch list when repository returns empty lists`() = runTest {
         val emptyWatchListItems = GetWatchListItemsUseCase.WatchListItems(
             movies = emptyList(),
             series = emptyList()
@@ -65,7 +65,7 @@ class GetWatchListItemsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD use custom session id from authentication repository`() = runTest {
+    fun `Should use custom session id from authentication repository`() = runTest {
         val customSessionId = "custom_session_456"
         coEvery { authenticationRepository.getSessionId() } returns flowOf(customSessionId)
         coEvery { listRepository.getListItemsById(123, customSessionId) } returns testWatchListItems
@@ -78,7 +78,7 @@ class GetWatchListItemsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle different list ids`() = runTest {
+    fun `Should handle different list ids`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery {
             listRepository.getListItemsById(
@@ -95,14 +95,14 @@ class GetWatchListItemsUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when authentication repository fails`() = runTest {
+    fun `Should throw exception when authentication repository fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } throws RuntimeException("Authentication error")
 
         useCase.invoke(123)
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when list repository fails`() = runTest {
+    fun `Should throw exception when list repository fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { listRepository.getListItemsById(123, "test_session_id") } throws RuntimeException(
             "List error"
@@ -112,7 +112,7 @@ class GetWatchListItemsUseCaseTest {
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `invoke SHOULD throw exception when session id is empty`() = runTest {
+    fun `Should throw exception when session id is empty`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("")
         coEvery {
             listRepository.getListItemsById(
@@ -125,7 +125,7 @@ class GetWatchListItemsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repositories in correct order`() = runTest {
+    fun `Should call repositories in correct order`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery {
             listRepository.getListItemsById(

@@ -20,7 +20,7 @@ class GetEpisodeTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository getEpisodeTrailers with seriesId seasonNumber and episodeNumber`() =
+    fun `Should call repository getEpisodeTrailers with seriesId seasonNumber and episodeNumber`() =
         runTest {
             val seriesId = 1
             val seasonNumber = 1
@@ -50,7 +50,7 @@ class GetEpisodeTrailersUseCaseTest {
         }
 
     @Test
-    fun `invoke SHOULD return empty list when no trailers found`() = runTest {
+    fun `Should return empty list when no trailers found`() = runTest {
         val seriesId = 1
         val seasonNumber = 1
         val episodeNumber = 1
@@ -76,7 +76,7 @@ class GetEpisodeTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty list when repository throws exception`() = runTest {
+    fun `Should return empty list when repository throws exception`() = runTest {
         val seriesId = 1
         val seasonNumber = 1
         val episodeNumber = 1
@@ -101,7 +101,7 @@ class GetEpisodeTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle different episode parameters`() = runTest {
+    fun `Should handle different episode parameters`() = runTest {
         val seriesId = 123
         val seasonNumber = 5
         val episodeNumber = 10
@@ -127,7 +127,7 @@ class GetEpisodeTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle large parameter values`() = runTest {
+    fun `Should handle large parameter values`() = runTest {
         val seriesId = 999999
         val seasonNumber = 100
         val episodeNumber = 50
@@ -153,7 +153,7 @@ class GetEpisodeTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return multiple trailers when available`() = runTest {
+    fun `Should return multiple trailers when available`() = runTest {
         val seriesId = 456
         val seasonNumber = 2
         val episodeNumber = 3

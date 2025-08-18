@@ -20,7 +20,7 @@ class GetArtistMoviesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return artist movies from repository`() = runTest {
+    fun `Should return artist movies from repository`() = runTest {
         coEvery { artistRepository.getArtistMovies(123) } returns testMovies
 
         val result = useCase.invoke(123)
@@ -30,7 +30,7 @@ class GetArtistMoviesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return correct movies for different artist id`() = runTest {
+    fun `Should return correct movies for different artist id`() = runTest {
         val anotherMovie = listOf(testMovies.first().copy(id = 456, title = "Another Movie"))
         coEvery { artistRepository.getArtistMovies(456) } returns anotherMovie
 
@@ -41,7 +41,7 @@ class GetArtistMoviesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty list when artist has no movies`() = runTest {
+    fun `Should return empty list when artist has no movies`() = runTest {
         coEvery { artistRepository.getArtistMovies(789) } returns emptyList()
 
         val result = useCase.invoke(789)
@@ -51,14 +51,14 @@ class GetArtistMoviesUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         coEvery { artistRepository.getArtistMovies(123) } throws RuntimeException("Network error")
 
         useCase.invoke(123)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `invoke SHOULD throw exception when repository throws IllegalArgumentException`() =
+    fun `Should throw exception when repository throws IllegalArgumentException`() =
         runTest {
             coEvery { artistRepository.getArtistMovies(-1) } throws IllegalArgumentException("Invalid artist ID")
 
@@ -66,7 +66,7 @@ class GetArtistMoviesUseCaseTest {
         }
 
     @Test
-    fun `invoke SHOULD call repository with correct artist id`() = runTest {
+    fun `Should call repository with correct artist id`() = runTest {
         coEvery { artistRepository.getArtistMovies(999) } returns testMovies
 
         useCase.invoke(999)

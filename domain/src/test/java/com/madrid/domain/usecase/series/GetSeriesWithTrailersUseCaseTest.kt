@@ -20,7 +20,7 @@ class GetSeriesWithTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD add trailer to series when trailers exist`() = runTest {
+    fun `Should add trailer to series when trailers exist`() = runTest {
         val series = listOf(
             Series(
                 id = 1,
@@ -64,7 +64,7 @@ class GetSeriesWithTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return series unchanged when no trailers exist`() = runTest {
+    fun `Should return series unchanged when no trailers exist`() = runTest {
         val series = listOf(
             Series(
                 id = 1,
@@ -103,7 +103,7 @@ class GetSeriesWithTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle mixed scenarios with some series having trailers`() = runTest {
+    fun `Should handle mixed scenarios with some series having trailers`() = runTest {
         val series = listOf(
             Series(
                 id = 1,
@@ -154,7 +154,7 @@ class GetSeriesWithTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty list when input is empty`() = runTest {
+    fun `Should return empty list when input is empty`() = runTest {
         val series = emptyList<Series>()
 
         val result = useCase.invoke(series)
@@ -164,7 +164,7 @@ class GetSeriesWithTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle single series with trailer`() = runTest {
+    fun `Should handle single series with trailer`() = runTest {
         val series = listOf(
             Series(
                 id = 1,
@@ -190,7 +190,7 @@ class GetSeriesWithTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle single series without trailer`() = runTest {
+    fun `Should handle single series without trailer`() = runTest {
         val series = listOf(
             Series(
                 id = 1,
@@ -215,7 +215,7 @@ class GetSeriesWithTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD use only first trailer when multiple exist`() = runTest {
+    fun `Should use only first trailer when multiple exist`() = runTest {
         val series = listOf(
             Series(
                 id = 1,
@@ -245,7 +245,7 @@ class GetSeriesWithTrailersUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when getSeriesTrailersUseCase fails`() = runTest {
+    fun `Should throw exception when getSeriesTrailersUseCase fails`() = runTest {
         val series = listOf(
             Series(
                 id = 1,
@@ -265,7 +265,7 @@ class GetSeriesWithTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD preserve series properties when adding trailer`() = runTest {
+    fun `Should preserve series properties when adding trailer`() = runTest {
         val originalSeries = Series(
             id = 1,
             title = "Original Title",

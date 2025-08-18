@@ -20,7 +20,7 @@ class GetSimilarSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository getSimilarSeriesById and return list`() = runTest {
+    fun `Should call repository getSimilarSeriesById and return list`() = runTest {
         val seriesId = 123
         val expectedSeries = listOf(
             Series(
@@ -53,7 +53,7 @@ class GetSimilarSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty list when no similar series found`() = runTest {
+    fun `Should return empty list when no similar series found`() = runTest {
         val seriesId = 456
         val expectedSeries = emptyList<Series>()
         coEvery { seriesRepository.getSimilarSeriesById(seriesId) } returns expectedSeries
@@ -65,7 +65,7 @@ class GetSimilarSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return single similar series`() = runTest {
+    fun `Should return single similar series`() = runTest {
         val seriesId = 789
         val expectedSeries = listOf(
             Series(
@@ -90,7 +90,7 @@ class GetSimilarSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return multiple similar series`() = runTest {
+    fun `Should return multiple similar series`() = runTest {
         val seriesId = 111
         val expectedSeries = (1..20).map {
             Series(
@@ -114,7 +114,7 @@ class GetSimilarSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle different seriesId values`() = runTest {
+    fun `Should handle different seriesId values`() = runTest {
         val seriesId = 0
         val expectedSeries = listOf(
             Series(
@@ -137,7 +137,7 @@ class GetSimilarSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle large seriesId values`() = runTest {
+    fun `Should handle large seriesId values`() = runTest {
         val seriesId = 999999
         val expectedSeries = listOf(
             Series(
@@ -160,7 +160,7 @@ class GetSimilarSeriesUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         val seriesId = 123
         coEvery { seriesRepository.getSimilarSeriesById(seriesId) } throws RuntimeException("Network error")
 
@@ -168,7 +168,7 @@ class GetSimilarSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return similar series in correct order`() = runTest {
+    fun `Should return similar series in correct order`() = runTest {
         val seriesId = 222
         val expectedSeries = listOf(
             Series(

@@ -20,7 +20,7 @@ class GetEpisodesForSeasonUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository getEpisodesBySeriesId with seriesId and seasonNumber`() =
+    fun `Should call repository getEpisodesBySeriesId with seriesId and seasonNumber`() =
         runTest {
             val seriesId = 1
             val seasonNumber = 1
@@ -56,7 +56,7 @@ class GetEpisodesForSeasonUseCaseTest {
         }
 
     @Test
-    fun `invoke SHOULD return empty list when no episodes found`() = runTest {
+    fun `Should return empty list when no episodes found`() = runTest {
         val seriesId = 1
         val seasonNumber = 1
         val expectedEpisodes = emptyList<Episode>()
@@ -74,7 +74,7 @@ class GetEpisodesForSeasonUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle different season numbers`() = runTest {
+    fun `Should handle different season numbers`() = runTest {
         val seriesId = 123
         val seasonNumber = 5
         val expectedEpisodes = listOf(
@@ -101,7 +101,7 @@ class GetEpisodesForSeasonUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle large seriesId and seasonNumber`() = runTest {
+    fun `Should handle large seriesId and seasonNumber`() = runTest {
         val seriesId = 999999
         val seasonNumber = 100
         val expectedEpisodes = listOf(
@@ -128,7 +128,7 @@ class GetEpisodesForSeasonUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         val seriesId = 1
         val seasonNumber = 1
         coEvery {
@@ -142,7 +142,7 @@ class GetEpisodesForSeasonUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return multiple episodes for season`() = runTest {
+    fun `Should return multiple episodes for season`() = runTest {
         val seriesId = 456
         val seasonNumber = 2
         val expectedEpisodes = (1..10).map {

@@ -20,7 +20,7 @@ class GetAllMoviesInHistoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return movies list from repository`() = runTest {
+    fun `Should return movies list from repository`() = runTest {
         coEvery { movieRepository.getAllMoviesInHistory() } returns testMovies
 
         val result = useCase.invoke()
@@ -30,7 +30,7 @@ class GetAllMoviesInHistoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty list when repository returns empty list`() = runTest {
+    fun `Should return empty list when repository returns empty list`() = runTest {
         coEvery { movieRepository.getAllMoviesInHistory() } returns emptyList()
 
         val result = useCase.invoke()
@@ -40,21 +40,21 @@ class GetAllMoviesInHistoryUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         coEvery { movieRepository.getAllMoviesInHistory() } throws RuntimeException("Network error")
 
         useCase.invoke()
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `invoke SHOULD throw exception when repository throws IllegalStateException`() = runTest {
+    fun `Should throw exception when repository throws IllegalStateException`() = runTest {
         coEvery { movieRepository.getAllMoviesInHistory() } throws IllegalStateException("Database error")
 
         useCase.invoke()
     }
 
     @Test
-    fun `invoke SHOULD call repository method exactly once`() = runTest {
+    fun `Should call repository method exactly once`() = runTest {
         coEvery { movieRepository.getAllMoviesInHistory() } returns testMovies
 
         useCase.invoke()

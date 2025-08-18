@@ -22,7 +22,7 @@ class GetUpcomingMovieUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return movies list from repository`() = runTest {
+    fun `Should return movies list from repository`() = runTest {
         coEvery { movieRepository.getUpcomingMovie(1) } returns testMovies
 
         val result = useCase.invoke(1)
@@ -32,7 +32,7 @@ class GetUpcomingMovieUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return movies for different page`() = runTest {
+    fun `Should return movies for different page`() = runTest {
         coEvery { movieRepository.getUpcomingMovie(2) } returns testMovies
 
         val result = useCase.invoke(2)
@@ -42,7 +42,7 @@ class GetUpcomingMovieUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty list when repository returns empty list`() = runTest {
+    fun `Should return empty list when repository returns empty list`() = runTest {
         coEvery { movieRepository.getUpcomingMovie(1) } returns emptyList()
 
         val result = useCase.invoke(1)
@@ -52,7 +52,7 @@ class GetUpcomingMovieUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return single movie when repository returns single movie`() = runTest {
+    fun `Should return single movie when repository returns single movie`() = runTest {
         val singleMovie = listOf(testMovies.first())
         coEvery { movieRepository.getUpcomingMovie(1) } returns singleMovie
 
@@ -64,14 +64,14 @@ class GetUpcomingMovieUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         coEvery { movieRepository.getUpcomingMovie(1) } throws RuntimeException("Network error")
 
         useCase.invoke(1)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `invoke SHOULD throw exception when repository throws IllegalArgumentException`() =
+    fun `Should throw exception when repository throws IllegalArgumentException`() =
         runTest {
             coEvery { movieRepository.getUpcomingMovie(-1) } throws IllegalArgumentException("Invalid page number")
 
@@ -79,7 +79,7 @@ class GetUpcomingMovieUseCaseTest {
         }
 
     @Test
-    fun `invoke SHOULD call repository with correct page parameter`() = runTest {
+    fun `Should call repository with correct page parameter`() = runTest {
         coEvery { movieRepository.getUpcomingMovie(5) } returns testMovies
 
         useCase.invoke(5)

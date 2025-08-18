@@ -19,7 +19,7 @@ class IsFavoriteSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return true when series is in favorites`() = runTest {
+    fun `Should return true when series is in favorites`() = runTest {
         val seriesId = 123
         val favoriteSeries = listOf(
             Series(
@@ -52,7 +52,7 @@ class IsFavoriteSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return false when series is not in favorites`() = runTest {
+    fun `Should return false when series is not in favorites`() = runTest {
         val seriesId = 999
         val favoriteSeries = listOf(
             Series(
@@ -85,7 +85,7 @@ class IsFavoriteSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return false when favorites list is empty`() = runTest {
+    fun `Should return false when favorites list is empty`() = runTest {
         val seriesId = 123
         val favoriteSeries = emptyList<Series>()
         coEvery { getFavoriteSeriesUseCase() } returns favoriteSeries
@@ -97,7 +97,7 @@ class IsFavoriteSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return true when series is the only favorite`() = runTest {
+    fun `Should return true when series is the only favorite`() = runTest {
         val seriesId = 123
         val favoriteSeries = listOf(
             Series(
@@ -120,7 +120,7 @@ class IsFavoriteSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return true when series is first in favorites list`() = runTest {
+    fun `Should return true when series is first in favorites list`() = runTest {
         val seriesId = 123
         val favoriteSeries = listOf(
             Series(
@@ -163,7 +163,7 @@ class IsFavoriteSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return true when series is last in favorites list`() = runTest {
+    fun `Should return true when series is last in favorites list`() = runTest {
         val seriesId = 789
         val favoriteSeries = listOf(
             Series(
@@ -206,7 +206,7 @@ class IsFavoriteSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle different seriesId values`() = runTest {
+    fun `Should handle different seriesId values`() = runTest {
         val seriesId = 0
         val favoriteSeries = listOf(
             Series(
@@ -229,7 +229,7 @@ class IsFavoriteSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle large seriesId values`() = runTest {
+    fun `Should handle large seriesId values`() = runTest {
         val seriesId = 999999
         val favoriteSeries = listOf(
             Series(
@@ -252,7 +252,7 @@ class IsFavoriteSeriesUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when getFavoriteSeriesUseCase fails`() = runTest {
+    fun `Should throw exception when getFavoriteSeriesUseCase fails`() = runTest {
         val seriesId = 123
         coEvery { getFavoriteSeriesUseCase() } throws RuntimeException("Network error")
 
@@ -260,7 +260,7 @@ class IsFavoriteSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return true when series appears multiple times in favorites`() = runTest {
+    fun `Should return true when series appears multiple times in favorites`() = runTest {
         val seriesId = 123
         val favoriteSeries = listOf(
             Series(

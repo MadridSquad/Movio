@@ -22,7 +22,7 @@ class GetMoviesByGenreIdUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return movies list from repository`() = runTest {
+    fun `Should return movies list from repository`() = runTest {
         coEvery {
             movieRepository.getMoviesByGenreId(
                 1,
@@ -38,7 +38,7 @@ class GetMoviesByGenreIdUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return movies with null genre id`() = runTest {
+    fun `Should return movies with null genre id`() = runTest {
         coEvery {
             movieRepository.getMoviesByGenreId(
                 1,
@@ -54,7 +54,7 @@ class GetMoviesByGenreIdUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return movies with different sort type`() = runTest {
+    fun `Should return movies with different sort type`() = runTest {
         coEvery { movieRepository.getMoviesByGenreId(1, 123, SortType.LATEST) } returns testMovies
         val result = useCase.invoke(1, 123, SortType.LATEST)
         assertThat(result).isEqualTo(testMovies)
@@ -62,7 +62,7 @@ class GetMoviesByGenreIdUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return movies for different page`() = runTest {
+    fun `Should return movies for different page`() = runTest {
         coEvery {
             movieRepository.getMoviesByGenreId(
                 2,
@@ -78,7 +78,7 @@ class GetMoviesByGenreIdUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty list when repository returns empty list`() = runTest {
+    fun `Should return empty list when repository returns empty list`() = runTest {
         coEvery {
             movieRepository.getMoviesByGenreId(
                 1,
@@ -94,7 +94,7 @@ class GetMoviesByGenreIdUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         coEvery {
             movieRepository.getMoviesByGenreId(
                 1,
@@ -107,7 +107,7 @@ class GetMoviesByGenreIdUseCaseTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `invoke SHOULD throw exception when repository throws IllegalArgumentException`() =
+    fun `Should throw exception when repository throws IllegalArgumentException`() =
         runTest {
             coEvery {
                 movieRepository.getMoviesByGenreId(
@@ -121,7 +121,7 @@ class GetMoviesByGenreIdUseCaseTest {
         }
 
     @Test
-    fun `invoke SHOULD call repository with correct parameters`() = runTest {
+    fun `Should call repository with correct parameters`() = runTest {
         coEvery { movieRepository.getMoviesByGenreId(5, 999, SortType.ALL) } returns testMovies
 
         useCase.invoke(5, 999, SortType.ALL)

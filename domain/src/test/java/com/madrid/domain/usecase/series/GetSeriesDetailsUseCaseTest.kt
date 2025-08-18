@@ -21,7 +21,7 @@ class GetSeriesDetailsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD get series details and increase genre interest points`() = runTest {
+    fun `Should get series details and increase genre interest points`() = runTest {
         val seriesId = 123
         val genres = listOf(
             Genre(id = 1, name = "Action"),
@@ -48,7 +48,7 @@ class GetSeriesDetailsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle series with single genre`() = runTest {
+    fun `Should handle series with single genre`() = runTest {
         val seriesId = 456
         val genres = listOf(Genre(id = 1, name = "Comedy"))
         val expectedSeries = Series(
@@ -71,7 +71,7 @@ class GetSeriesDetailsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle series with no genres`() = runTest {
+    fun `Should handle series with no genres`() = runTest {
         val seriesId = 789
         val genres = emptyList<Genre>()
         val expectedSeries = Series(
@@ -94,7 +94,7 @@ class GetSeriesDetailsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle series with multiple genres`() = runTest {
+    fun `Should handle series with multiple genres`() = runTest {
         val seriesId = 111
         val genres = listOf(
             Genre(id = 1, name = "Thriller"),
@@ -125,7 +125,7 @@ class GetSeriesDetailsUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when getSeriesDetailsById fails`() = runTest {
+    fun `Should throw exception when getSeriesDetailsById fails`() = runTest {
         val seriesId = 999
         coEvery { seriesRepository.getSeriesDetailsById(seriesId) } throws RuntimeException("Series not found")
 
@@ -133,7 +133,7 @@ class GetSeriesDetailsUseCaseTest {
     }
     
     @Test
-    fun `invoke SHOULD handle different seriesId values`() = runTest {
+    fun `Should handle different seriesId values`() = runTest {
         val seriesId = 0
         val genres = listOf(Genre(id = 1, name = "Documentary"))
         val expectedSeries = Series(

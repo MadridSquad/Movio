@@ -20,7 +20,7 @@ class GetPopularMoviesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository getPopularMovies with default page`() = runTest {
+    fun `Should call repository getPopularMovies with default page`() = runTest {
         val expectedResult = emptyList<Movie>()
         coEvery { movieRepository.getPopularMovies(1) } returns expectedResult
 
@@ -31,7 +31,7 @@ class GetPopularMoviesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository getPopularMovies with specific page`() = runTest {
+    fun `Should call repository getPopularMovies with specific page`() = runTest {
         val page = 2
         val expectedResult = emptyList<Movie>()
         coEvery { movieRepository.getPopularMovies(page) } returns expectedResult
@@ -43,7 +43,7 @@ class GetPopularMoviesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository getPopularMovies with large page number`() = runTest {
+    fun `Should call repository getPopularMovies with large page number`() = runTest {
         val page = 100
         val expectedResult = emptyList<Movie>()
         coEvery { movieRepository.getPopularMovies(page) } returns expectedResult
@@ -55,14 +55,14 @@ class GetPopularMoviesUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         coEvery { movieRepository.getPopularMovies(1) } throws RuntimeException("Popular movies error")
 
         useCase.invoke()
     }
 
     @Test
-    fun `invoke SHOULD return repository result when successful`() = runTest {
+    fun `Should return repository result when successful`() = runTest {
         val page = 3
         val expectedResult = emptyList<Movie>()
         coEvery { movieRepository.getPopularMovies(page) } returns expectedResult
@@ -74,7 +74,7 @@ class GetPopularMoviesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle zero page number`() = runTest {
+    fun `Should handle zero page number`() = runTest {
         val page = 0
         val expectedResult = emptyList<Movie>()
         coEvery { movieRepository.getPopularMovies(page) } returns expectedResult

@@ -19,7 +19,7 @@ class DeleteSeriesFromHistoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository deleteSeriesFromHistory with seriesId`() = runTest {
+    fun `Should call repository deleteSeriesFromHistory with seriesId`() = runTest {
         val seriesId = 1
         val expectedResult = Unit
         coEvery { seriesRepository.deleteSeriesFromHistory(seriesId) } returns expectedResult
@@ -31,7 +31,7 @@ class DeleteSeriesFromHistoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository deleteSeriesFromHistory with positive seriesId`() = runTest {
+    fun `Should call repository deleteSeriesFromHistory with positive seriesId`() = runTest {
         val seriesId = 123
         val expectedResult = Unit
         coEvery { seriesRepository.deleteSeriesFromHistory(seriesId) } returns expectedResult
@@ -43,7 +43,7 @@ class DeleteSeriesFromHistoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository deleteSeriesFromHistory with large seriesId`() = runTest {
+    fun `Should call repository deleteSeriesFromHistory with large seriesId`() = runTest {
         val seriesId = 999999
         val expectedResult = Unit
         coEvery { seriesRepository.deleteSeriesFromHistory(seriesId) } returns expectedResult
@@ -55,7 +55,7 @@ class DeleteSeriesFromHistoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository deleteSeriesFromHistory with zero seriesId`() = runTest {
+    fun `Should call repository deleteSeriesFromHistory with zero seriesId`() = runTest {
         val seriesId = 0
         val expectedResult = Unit
         coEvery { seriesRepository.deleteSeriesFromHistory(seriesId) } returns expectedResult
@@ -67,7 +67,7 @@ class DeleteSeriesFromHistoryUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         val seriesId = 1
         coEvery { seriesRepository.deleteSeriesFromHistory(seriesId) } throws RuntimeException("Delete history error")
 
@@ -75,7 +75,7 @@ class DeleteSeriesFromHistoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return repository result when successful`() = runTest {
+    fun `Should return repository result when successful`() = runTest {
         val seriesId = 456
         val expectedResult = Unit
         coEvery { seriesRepository.deleteSeriesFromHistory(seriesId) } returns expectedResult

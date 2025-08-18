@@ -20,7 +20,7 @@ class GetRecommendedSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository getRecommendedSeries with page`() = runTest {
+    fun `Should call repository getRecommendedSeries with page`() = runTest {
         val page = 1
         val expectedResult = emptyList<Series>()
         coEvery { seriesRepository.getRecommendedSeries(page) } returns expectedResult
@@ -32,7 +32,7 @@ class GetRecommendedSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository getRecommendedSeries with first page`() = runTest {
+    fun `Should call repository getRecommendedSeries with first page`() = runTest {
         val page = 1
         val expectedResult = emptyList<Series>()
         coEvery { seriesRepository.getRecommendedSeries(page) } returns expectedResult
@@ -44,7 +44,7 @@ class GetRecommendedSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository getRecommendedSeries with multiple pages`() = runTest {
+    fun `Should call repository getRecommendedSeries with multiple pages`() = runTest {
         val page = 5
         val expectedResult = emptyList<Series>()
         coEvery { seriesRepository.getRecommendedSeries(page) } returns expectedResult
@@ -56,7 +56,7 @@ class GetRecommendedSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository getRecommendedSeries with large page number`() = runTest {
+    fun `Should call repository getRecommendedSeries with large page number`() = runTest {
         val page = 999
         val expectedResult = emptyList<Series>()
         coEvery { seriesRepository.getRecommendedSeries(page) } returns expectedResult
@@ -68,7 +68,7 @@ class GetRecommendedSeriesUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         val page = 1
         coEvery { seriesRepository.getRecommendedSeries(page) } throws RuntimeException("Network error")
 
@@ -76,7 +76,7 @@ class GetRecommendedSeriesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return repository result when successful`() = runTest {
+    fun `Should return repository result when successful`() = runTest {
         val page = 2
         val expectedResult = emptyList<Series>()
         coEvery { seriesRepository.getRecommendedSeries(page) } returns expectedResult

@@ -20,7 +20,7 @@ class GetSeriesByGenresUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository getSeriesByGenres and return map`() = runTest {
+    fun `Should call repository getSeriesByGenres and return map`() = runTest {
         val expectedMap = mapOf(
             "Action" to listOf(
                 Series(
@@ -56,7 +56,7 @@ class GetSeriesByGenresUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty map when no series found`() = runTest {
+    fun `Should return empty map when no series found`() = runTest {
         val expectedMap = emptyMap<String, List<Series>>()
         coEvery { seriesRepository.getSeriesByGenres() } returns expectedMap
 
@@ -67,7 +67,7 @@ class GetSeriesByGenresUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return single genre with multiple series`() = runTest {
+    fun `Should return single genre with multiple series`() = runTest {
         val expectedMap = mapOf(
             "Drama" to listOf(
                 Series(
@@ -113,7 +113,7 @@ class GetSeriesByGenresUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return multiple genres with series`() = runTest {
+    fun `Should return multiple genres with series`() = runTest {
         val expectedMap = mapOf(
             "Thriller" to listOf(
                 Series(
@@ -178,7 +178,7 @@ class GetSeriesByGenresUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle genres with empty series lists`() = runTest {
+    fun `Should handle genres with empty series lists`() = runTest {
         val expectedMap = mapOf(
             "Documentary" to emptyList(),
             "Animation" to listOf(
@@ -206,14 +206,14 @@ class GetSeriesByGenresUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         coEvery { seriesRepository.getSeriesByGenres() } throws RuntimeException("Network error")
 
         useCase.invoke()
     }
 
     @Test
-    fun `invoke SHOULD return large map with many genres and series`() = runTest {
+    fun `Should return large map with many genres and series`() = runTest {
         val expectedMap = (1..10).associate { genreIndex ->
             "Genre$genreIndex" to (1..5).map { seriesIndex ->
                 Series(

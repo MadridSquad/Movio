@@ -26,7 +26,7 @@ class GetUserRatedMovieUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return user rated movies list from repository`() = runTest {
+    fun `Should return user rated movies list from repository`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { movieRepository.getUserMovieRate("test_session_id") } returns testRatedMovies
 
@@ -38,7 +38,7 @@ class GetUserRatedMovieUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty list when repository returns empty list`() = runTest {
+    fun `Should return empty list when repository returns empty list`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { movieRepository.getUserMovieRate("test_session_id") } returns emptyList()
 
@@ -50,7 +50,7 @@ class GetUserRatedMovieUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return single rated movie when repository returns single movie`() = runTest {
+    fun `Should return single rated movie when repository returns single movie`() = runTest {
         val singleRatedMovie = listOf(testRatedMovies.first())
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { movieRepository.getUserMovieRate("test_session_id") } returns singleRatedMovie
@@ -64,7 +64,7 @@ class GetUserRatedMovieUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD use correct session id from authentication repository`() = runTest {
+    fun `Should use correct session id from authentication repository`() = runTest {
         val customSessionId = "custom_session_123"
         coEvery { authenticationRepository.getSessionId() } returns flowOf(customSessionId)
         coEvery { movieRepository.getUserMovieRate(customSessionId) } returns testRatedMovies
@@ -77,7 +77,7 @@ class GetUserRatedMovieUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when movie repository fails`() = runTest {
+    fun `Should throw exception when movie repository fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { movieRepository.getUserMovieRate("test_session_id") } throws RuntimeException("Network error")
 
@@ -85,14 +85,14 @@ class GetUserRatedMovieUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when authentication repository fails`() = runTest {
+    fun `Should throw exception when authentication repository fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } throws RuntimeException("Authentication error")
 
         useCase.invoke()
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `invoke SHOULD throw exception when session id is empty`() = runTest {
+    fun `Should throw exception when session id is empty`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("")
         coEvery { movieRepository.getUserMovieRate("") } throws IllegalStateException("Empty session ID")
 

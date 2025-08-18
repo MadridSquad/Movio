@@ -15,7 +15,7 @@ class FilterSeriesByCategoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return series that match the category`() {
+    fun `Should return series that match the category`() {
         val category = 1
         val matchingGenre = Genre(id = 1, name = "Drama", interestPoints = 0)
         val nonMatchingGenre = Genre(id = 2, name = "Comedy", interestPoints = 0)
@@ -58,7 +58,7 @@ class FilterSeriesByCategoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty list when no series match category`() {
+    fun `Should return empty list when no series match category`() {
         val category = 3
         val genre1 = Genre(id = 1, name = "Drama", interestPoints = 0)
         val genre2 = Genre(id = 2, name = "Comedy", interestPoints = 0)
@@ -91,7 +91,7 @@ class FilterSeriesByCategoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty list when series list is empty`() {
+    fun `Should return empty list when series list is empty`() {
         val category = 1
         val series = emptyList<Series>()
 
@@ -101,7 +101,7 @@ class FilterSeriesByCategoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty list when series have no genres`() {
+    fun `Should return empty list when series have no genres`() {
         val category = 1
         val series = listOf(
             Series(
@@ -132,7 +132,7 @@ class FilterSeriesByCategoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return all series when all match the category`() {
+    fun `Should return all series when all match the category`() {
         val category = 1
         val matchingGenre = Genre(id = 1, name = "Drama", interestPoints = 0)
         val series = listOf(
@@ -164,7 +164,7 @@ class FilterSeriesByCategoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return series with multiple genres when one matches category`() {
+    fun `Should return series with multiple genres when one matches category`() {
         val category = 2
         val genre1 = Genre(id = 1, name = "Drama", interestPoints = 0)
         val genre2 = Genre(id = 2, name = "Comedy", interestPoints = 0)

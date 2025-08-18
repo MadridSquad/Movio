@@ -19,7 +19,7 @@ class GetRecentSearchesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository getRecentSearches`() = runTest {
+    fun `Should call repository getRecentSearches`() = runTest {
         val expectedResult = emptyList<String>()
         coEvery { searchRepository.getRecentSearches() } returns expectedResult
 
@@ -30,7 +30,7 @@ class GetRecentSearchesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return repository result when successful`() = runTest {
+    fun `Should return repository result when successful`() = runTest {
         val expectedResult = listOf("Search1", "Search2", "Search3")
         coEvery { searchRepository.getRecentSearches() } returns expectedResult
 
@@ -41,14 +41,14 @@ class GetRecentSearchesUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         coEvery { searchRepository.getRecentSearches() } throws RuntimeException("Recent searches error")
 
         useCase.invoke()
     }
 
     @Test
-    fun `invoke SHOULD call repository method exactly once on multiple calls`() = runTest {
+    fun `Should call repository method exactly once on multiple calls`() = runTest {
         val expectedResult = listOf("Recent1", "Recent2")
         coEvery { searchRepository.getRecentSearches() } returns expectedResult
 
@@ -59,7 +59,7 @@ class GetRecentSearchesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle repository call without parameters`() = runTest {
+    fun `Should handle repository call without parameters`() = runTest {
         val expectedResult = emptyList<String>()
         coEvery { searchRepository.getRecentSearches() } returns expectedResult
 

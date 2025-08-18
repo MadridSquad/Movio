@@ -20,7 +20,7 @@ class GetSeriesTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository getSeriesTrailersById twice and return list`() = runTest {
+    fun `Should call repository getSeriesTrailersById twice and return list`() = runTest {
         val seriesId = 123
         val expectedTrailers = listOf(
             Trailer(key = "trailer1", id = "1"),
@@ -35,7 +35,7 @@ class GetSeriesTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty list when no trailers found`() = runTest {
+    fun `Should return empty list when no trailers found`() = runTest {
         val seriesId = 456
         val expectedTrailers = emptyList<Trailer>()
         coEvery { seriesRepository.getSeriesTrailersById(seriesId) } returns expectedTrailers
@@ -47,7 +47,7 @@ class GetSeriesTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return single trailer`() = runTest {
+    fun `Should return single trailer`() = runTest {
         val seriesId = 789
         val expectedTrailers = listOf(Trailer(key = "mainTrailer", id = "1"))
         coEvery { seriesRepository.getSeriesTrailersById(seriesId) } returns expectedTrailers
@@ -61,7 +61,7 @@ class GetSeriesTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return multiple trailers`() = runTest {
+    fun `Should return multiple trailers`() = runTest {
         val seriesId = 111
         val expectedTrailers = (1..5).map {
             Trailer(key = "trailer$it", id = it.toString())
@@ -76,7 +76,7 @@ class GetSeriesTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle exception in try block and still return trailers`() = runTest {
+    fun `Should handle exception in try block and still return trailers`() = runTest {
         val seriesId = 222
         val expectedTrailers = listOf(Trailer(key = "recoveryTrailer", id = "1"))
         coEvery { seriesRepository.getSeriesTrailersById(seriesId) } throws RuntimeException("First call error") andThen expectedTrailers
@@ -88,7 +88,7 @@ class GetSeriesTrailersUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when both repository calls fail`() = runTest {
+    fun `Should throw exception when both repository calls fail`() = runTest {
         val seriesId = 333
         coEvery { seriesRepository.getSeriesTrailersById(seriesId) } throws RuntimeException("Network error")
 
@@ -96,7 +96,7 @@ class GetSeriesTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle different seriesId values`() = runTest {
+    fun `Should handle different seriesId values`() = runTest {
         val seriesId = 0
         val expectedTrailers = listOf(Trailer(key = "zeroSeriesTrailer", id = "1"))
         coEvery { seriesRepository.getSeriesTrailersById(seriesId) } returns expectedTrailers
@@ -108,7 +108,7 @@ class GetSeriesTrailersUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return trailers in correct order`() = runTest {
+    fun `Should return trailers in correct order`() = runTest {
         val seriesId = 444
         val expectedTrailers = listOf(
             Trailer(key = "thirdTrailer", id = "3"),

@@ -15,7 +15,7 @@ class FilterMoviesByCategoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return movies matching the specified category`() {
+    fun `Should return movies matching the specified category`() {
         val movieList = listOf(testMovieAction, testMovieComedy, testMovieActionComedy)
 
         val result = useCase.invoke(movieList, 1) // Action category
@@ -24,7 +24,7 @@ class FilterMoviesByCategoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty list when no movies match category`() {
+    fun `Should return empty list when no movies match category`() {
         val movieList = listOf(testMovieAction, testMovieComedy)
 
         val result = useCase.invoke(movieList, 999) // Non-existent category
@@ -33,14 +33,14 @@ class FilterMoviesByCategoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return empty list when input list is empty`() {
+    fun `Should return empty list when input list is empty`() {
         val result = useCase.invoke(emptyList(), 1)
 
         assertThat(result).isEmpty()
     }
 
     @Test
-    fun `invoke SHOULD return all movies when all match the category`() {
+    fun `Should return all movies when all match the category`() {
         val movieList = listOf(testMovieAction, testMovieActionComedy)
 
         val result = useCase.invoke(movieList, 1) // Action category
@@ -49,7 +49,7 @@ class FilterMoviesByCategoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle movies with multiple genres correctly`() {
+    fun `Should handle movies with multiple genres correctly`() {
         val movieList = listOf(testMovieActionComedy)
 
         val resultAction = useCase.invoke(movieList, 1) // Action
@@ -60,7 +60,7 @@ class FilterMoviesByCategoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return correct movies for different categories`() {
+    fun `Should return correct movies for different categories`() {
         val movieList = listOf(testMovieAction, testMovieComedy, testMovieActionComedy)
 
         val actionResult = useCase.invoke(movieList, 1)
@@ -71,7 +71,7 @@ class FilterMoviesByCategoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle single movie with matching category`() {
+    fun `Should handle single movie with matching category`() {
         val movieList = listOf(testMovieAction)
 
         val result = useCase.invoke(movieList, 1)

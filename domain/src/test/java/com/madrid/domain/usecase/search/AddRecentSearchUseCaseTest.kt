@@ -18,7 +18,7 @@ class AddRecentSearchUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository addRecentSearchByQuery with search query`() = runTest {
+    fun `Should call repository addRecentSearchByQuery with search query`() = runTest {
         val searchQuery = "Batman"
 
         useCase.invoke(searchQuery)
@@ -27,7 +27,7 @@ class AddRecentSearchUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository addRecentSearchByQuery with different search query`() =
+    fun `Should call repository addRecentSearchByQuery with different search query`() =
         runTest {
             val searchQuery = "Spider-Man"
 
@@ -37,7 +37,7 @@ class AddRecentSearchUseCaseTest {
         }
 
     @Test
-    fun `invoke SHOULD call repository addRecentSearchByQuery with empty string`() = runTest {
+    fun `Should call repository addRecentSearchByQuery with empty string`() = runTest {
         val searchQuery = ""
 
         useCase.invoke(searchQuery)
@@ -46,7 +46,7 @@ class AddRecentSearchUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository addRecentSearchByQuery with whitespace string`() = runTest {
+    fun `Should call repository addRecentSearchByQuery with whitespace string`() = runTest {
         val searchQuery = "   "
 
         useCase.invoke(searchQuery)
@@ -55,7 +55,7 @@ class AddRecentSearchUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository addRecentSearchByQuery with special characters`() = runTest {
+    fun `Should call repository addRecentSearchByQuery with special characters`() = runTest {
         val searchQuery = "Movie & TV Show #1"
 
         useCase.invoke(searchQuery)
@@ -64,7 +64,7 @@ class AddRecentSearchUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         val searchQuery = "Batman"
         coEvery { searchRepository.addRecentSearchByQuery(searchQuery) } throws RuntimeException("Search error")
 
@@ -72,7 +72,7 @@ class AddRecentSearchUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD complete successfully when repository succeeds`() = runTest {
+    fun `Should complete successfully when repository succeeds`() = runTest {
         val searchQuery = "Avengers"
         coEvery { searchRepository.addRecentSearchByQuery(searchQuery) } returns Unit
 

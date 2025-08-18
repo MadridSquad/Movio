@@ -19,7 +19,7 @@ class RemoveRecentSearchUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository removeRecentSearchByQuery with item`() = runTest {
+    fun `Should call repository removeRecentSearchByQuery with item`() = runTest {
         val item = "Batman"
         val expectedResult = Unit
         coEvery { searchRepository.removeRecentSearchByQuery(item) } returns expectedResult
@@ -31,7 +31,7 @@ class RemoveRecentSearchUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository removeRecentSearchByQuery with empty string`() = runTest {
+    fun `Should call repository removeRecentSearchByQuery with empty string`() = runTest {
         val item = ""
         val expectedResult = Unit
         coEvery { searchRepository.removeRecentSearchByQuery(item) } returns expectedResult
@@ -43,7 +43,7 @@ class RemoveRecentSearchUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository removeRecentSearchByQuery with long string`() = runTest {
+    fun `Should call repository removeRecentSearchByQuery with long string`() = runTest {
         val item = "Very long search query with multiple words and characters"
         val expectedResult = Unit
         coEvery { searchRepository.removeRecentSearchByQuery(item) } returns expectedResult
@@ -55,7 +55,7 @@ class RemoveRecentSearchUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         val item = "Test"
         coEvery { searchRepository.removeRecentSearchByQuery(item) } throws RuntimeException("Remove search error")
 
@@ -63,7 +63,7 @@ class RemoveRecentSearchUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return repository result when successful`() = runTest {
+    fun `Should return repository result when successful`() = runTest {
         val item = "Spider-Man"
         val expectedResult = Unit
         coEvery { searchRepository.removeRecentSearchByQuery(item) } returns expectedResult
@@ -75,7 +75,7 @@ class RemoveRecentSearchUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle special characters in item`() = runTest {
+    fun `Should handle special characters in item`() = runTest {
         val item = "Action & Adventure @2024!"
         val expectedResult = Unit
         coEvery { searchRepository.removeRecentSearchByQuery(item) } returns expectedResult

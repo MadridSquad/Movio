@@ -19,35 +19,35 @@ class SetAppThemeUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository setAppDarkModeOn with dark theme`() = runTest {
+    fun `Should call repository setAppDarkModeOn with dark theme`() = runTest {
         useCase.invoke(AppTheme.DARK)
 
         coVerify(exactly = 1) { preferencesRepository.setAppDarkModeOn(AppTheme.DARK) }
     }
 
     @Test
-    fun `invoke SHOULD call repository setAppDarkModeOn with light theme`() = runTest {
+    fun `Should call repository setAppDarkModeOn with light theme`() = runTest {
         useCase.invoke(AppTheme.LIGHT)
 
         coVerify(exactly = 1) { preferencesRepository.setAppDarkModeOn(AppTheme.LIGHT) }
     }
 
     @Test
-    fun `invoke SHOULD call repository setAppDarkModeOn with system theme`() = runTest {
+    fun `Should call repository setAppDarkModeOn with system theme`() = runTest {
         useCase.invoke(AppTheme.LIGHT)
 
         coVerify(exactly = 1) { preferencesRepository.setAppDarkModeOn(AppTheme.LIGHT) }
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `Should throw exception when repository fails`() = runTest {
         coEvery { preferencesRepository.setAppDarkModeOn(any()) } throws RuntimeException("Preferences error")
 
         useCase.invoke(AppTheme.DARK)
     }
 
     @Test
-    fun `invoke SHOULD complete successfully when repository succeeds`() = runTest {
+    fun `Should complete successfully when repository succeeds`() = runTest {
         coEvery { preferencesRepository.setAppDarkModeOn(AppTheme.LIGHT) } returns Unit
 
         useCase.invoke(AppTheme.LIGHT)
