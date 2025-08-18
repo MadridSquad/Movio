@@ -179,6 +179,7 @@ private fun AuthenticatedRatingContent(
             imageUrl = topImageUrl,
             circleImageSize = 88.dp,
             artistsName = movieName,
+            paddingBetweenImageAndText = 8.dp,
         )
         MovioText(
             modifier = Modifier.padding(top = 24.dp),

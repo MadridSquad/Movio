@@ -89,6 +89,7 @@ fun ReviewCard(
                             .clip(CircleShape),
                         circleImageSize = 118.dp,
                         artistsName = reviewerName,
+                        paddingBetweenImageAndText = 0.dp,
                     )
                 }
             }
