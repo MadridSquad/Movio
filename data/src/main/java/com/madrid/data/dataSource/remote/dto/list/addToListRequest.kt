@@ -14,7 +14,7 @@ data class MovieListBody(
 
 data class CreateListResponse(
     val success: Boolean,
-    val status_code: Int,
-    val status_message: String,
-    val list_id: Int
+    val statusCode: Int,
+    val statusMessage: String,
+    val listId: Int
 )

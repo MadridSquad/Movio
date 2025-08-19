@@ -14,6 +14,6 @@ fun ListOperationResponse.toListOperationStatus(): ListOperationStatus {
 fun CreateListResponse.toCreateListStatus(): ListOperationStatus {
     return ListOperationStatus(
         success = this.success,
-        message = this.status_message
+        message = this.statusMessage
     )
 }
