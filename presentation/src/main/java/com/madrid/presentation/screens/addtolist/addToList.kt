@@ -34,8 +34,8 @@ fun ListManagementBottomSheet(
     isVisible: Boolean,
     onDismiss: () -> Unit,
     movieId: Int,
+    modifier: Modifier = Modifier,
     viewModel: MovieListViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.state.collectAsState()
 
@@ -119,7 +119,7 @@ fun ListManagementBottomSheet(
                             onSelectionChanged = { userList, isSelected ->
                                 if (isSelected) {
                                     viewModel.addMovieToList(
-                                        listId = userList.id.toInt(),
+                                        listId = userList.id,
                                         movieId = movieId
                                     )
                                 }

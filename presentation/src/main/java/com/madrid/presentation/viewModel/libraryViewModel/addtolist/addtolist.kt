@@ -56,7 +56,7 @@ class MovieListViewModel @Inject constructor(
                 val uiLists = userLists.map { watchList ->
                     WatchListItemUiState(
                         id = watchList.id,
-                        videosSize = watchList.itemCount ?: 0, // Assuming itemCount exists
+                        videosSize = watchList.itemCount, // Assuming itemCount exists
                         watchListTitle = watchList.name
                     )
                 }
