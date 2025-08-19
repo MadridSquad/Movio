@@ -1,5 +1,6 @@
 package com.madrid.presentation.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -51,7 +52,19 @@ fun MovieHomeCard(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxSize()
-                .height(200.dp)
+                .height(200.dp),
+            error = {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(), contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.image_placeholder),
+                        contentScale = ContentScale.FillBounds,
+                        contentDescription = null,
+                    )
+                }
+            }
         )
         Box(
             modifier = Modifier
