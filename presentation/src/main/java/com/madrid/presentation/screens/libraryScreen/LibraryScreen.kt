@@ -120,11 +120,11 @@ private fun LibraryScreenContent(
 
     CreateListSection(
         onDismissSnackBar = libraryInteractionListener::onDismissSnackBar,
-        onCreateButtonClicked = libraryInteractionListener::onCreateButtonClicked,
+        onCreateButtonClicked = libraryInteractionListener::onCreateWatchListButtonClicked,
         dismissCreateListBottomSheet = libraryInteractionListener::dismissCreateListBottomSheet,
-        showSnackBar = state.showSnackBar,
+        showSnackBar = state.isSnackBarVisible,
         snackBarMessage = state.snackBarMessage,
-        showCreateListBottomSheet = state.showCreateListBottomSheet
+        showCreateListBottomSheet = state.isCreateListBottomSheetVisible
     )
 }
 
@@ -153,7 +153,7 @@ private fun LibraryColumn(
                 endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
                 onSeeAllClick = libraryInteractionListener::onWatchListViewAllClick,
                 onWatchListClick = libraryInteractionListener::onItemWatchListClick,
-                onEmptyWatchListClick = libraryInteractionListener::onAddButtonClicked
+                onEmptyWatchListClick = libraryInteractionListener::onAddWatchListClicked
             )
         }
         item {

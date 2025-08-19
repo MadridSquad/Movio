@@ -43,15 +43,15 @@ class LibraryViewModel @Inject constructor(
         )
     }
 
-    override fun onAddButtonClicked() {
-        updateState { it.copy(showCreateListBottomSheet = true) }
+    override fun onAddWatchListClicked() {
+        updateState { it.copy(isCreateListBottomSheetVisible = true) }
     }
 
     override fun dismissCreateListBottomSheet() {
-        updateState { it.copy(showCreateListBottomSheet = false) }
+        updateState { it.copy(isCreateListBottomSheetVisible = false) }
     }
 
-    override fun onCreateButtonClicked(name: String) {
+    override fun onCreateWatchListButtonClicked(name: String) {
         tryToExecute(
             function = { createMovieListUseCase(name) },
             onSuccess = { onCreateSuccess() },
@@ -69,8 +69,8 @@ class LibraryViewModel @Inject constructor(
     private fun onCreateSuccess() {
         updateState {
             it.copy(
-                showCreateListBottomSheet = false,
-                showSnackBar = true,
+                isCreateListBottomSheetVisible = false,
+                isSnackBarVisible = true,
                 snackBarMessage = R.string.new_list_created_successfully
             )
         }
@@ -78,7 +78,7 @@ class LibraryViewModel @Inject constructor(
     }
 
     override fun onDismissSnackBar() {
-        updateState { it.copy(showSnackBar = false) }
+        updateState { it.copy(isSnackBarVisible = false) }
     }
 
     fun getIsGuest() {
