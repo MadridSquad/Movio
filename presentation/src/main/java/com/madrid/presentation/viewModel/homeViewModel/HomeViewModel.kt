@@ -167,7 +167,8 @@ class HomeViewModel @Inject constructor(
             )
         }
         val selectedCategoryId = state.value.categoryTabUiState.selectedCategory?.id
-        fetchMediaByCategory(selectedCategoryId, sortType)
+        val genreId = if (selectedCategoryId == -1) null else selectedCategoryId
+        fetchMediaByCategory(genreId, sortType)
     }
 
     override fun onMediaSelected(mediaId: Int, mediaType: MediaType) {
@@ -177,7 +178,7 @@ class HomeViewModel @Inject constructor(
     override fun onClickTryAgainButton() {
         val selectedCategoryId = state.value.categoryTabUiState.selectedCategory?.id
         val selectedSortingType = state.value.categoryTabUiState.sortingType
-        if( selectedCategoryId == -1) {
+        if (selectedCategoryId == -1) {
             fetchMediaByCategory(null, selectedSortingType)
         } else {
             fetchMediaByCategory(selectedCategoryId, selectedSortingType)
