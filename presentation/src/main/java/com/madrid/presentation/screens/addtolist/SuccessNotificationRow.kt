@@ -25,11 +25,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.R.string
 import kotlinx.coroutines.delay
 
 @Composable
@@ -117,7 +119,7 @@ fun PreviewSuccessNotificationRow() {
         SuccessNotificationRow(
             isVisible = true,
             message = "Item has been deleted",
-            actionText = "Undo",
+            actionText = stringResource(string.undo),
             onAction = { /* Handle undo action */ },
         )
     }

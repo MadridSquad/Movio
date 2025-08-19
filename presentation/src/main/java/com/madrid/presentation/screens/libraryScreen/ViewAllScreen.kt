@@ -33,7 +33,6 @@ import com.madrid.presentation.viewModel.libraryViewModel.viewAll.ViewAllUiState
 import com.madrid.presentation.viewModel.libraryViewModel.viewAll.ViewAllViewModel
 import com.madrid.presentation.viewModel.shared.MediaType
 import com.madrid.presentation.viewModel.shared.MediaUiState
-import kotlin.collections.firstOrNull
 import com.madrid.presentation.R as presentationR
 
 @Composable
@@ -160,7 +159,9 @@ private fun EmptyListContent(title: String, description: String) {
         description = description,
         image = R.drawable.empty,
         imageSize = 180,
-        modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
     )
 }
 
@@ -215,7 +216,7 @@ private fun UndoSnackBar(
         SuccessNotificationRow(
             isVisible = showSnackBar,
             message = stringResource(snackBarMessage),
-            actionText = "Undo",
+            actionText = stringResource(com.madrid.presentation.R.string.undo),
             icon = painterResource(id = R.drawable.archive_tick),
             onDismiss = interactionListener::onDismissSnackBar,
             onAction = interactionListener::onUndoDeleteClicked,
