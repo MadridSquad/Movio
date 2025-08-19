@@ -190,8 +190,8 @@ fun MovieDetailsScreen(
                     movieName = uiState.movieName,
                     movieCategory = uiState.genreMovie,
                     date = uiState.dataMovie,
-                    time = uiState.movieDuration,
-                    rate = uiState.rate.take(3),
+                    time = uiState.movieDuration.takeIf { it != "0" && it != "0min" && it.isNotBlank() },
+                    rate = uiState.rate.takeIf { it != "0.0" && it != "0" && it.isNotBlank() }?.take(3),
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                 )
                 BottomMediaActions(
