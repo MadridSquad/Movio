@@ -12,7 +12,6 @@ import javax.inject.Inject
 
 class AuthenticationRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
-    private val localDataSource: LocalDataSource,
     private val authenticationDatasource: UserPreferences
 ) : AuthenticationRepository {
 
@@ -21,18 +20,9 @@ class AuthenticationRepositoryImpl @Inject constructor(
         password: String
     ): Boolean {
         val userToken = remoteDataSource.getSessionId(username, password)
-        Log.d("TAG in login", "login: user token $userToken")
         authenticationDatasource.setAuthToken(userToken)
         authenticationDatasource.setIsGuest(false)
         return true
-    }
-
-    override suspend fun register(
-        email: String,
-        password: String,
-        username: String
-    ): User {
-        TODO("Not yet implemented")
     }
 
     override suspend fun logout() {
@@ -49,27 +39,6 @@ class AuthenticationRepositoryImpl @Inject constructor(
 
     override fun isUserLoggedIn(): Flow<Boolean> {
        return authenticationDatasource.isUserLoggedIn()
-    }
-
-    override suspend fun refreshToken(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-
-    override suspend fun sendPasswordResetEmail(email: String): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun updateUserProfile(user: User): User {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun deleteAccount(): Boolean {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun isTokenExpired(token: String?): Boolean {
-        TODO("Not yet implemented")
     }
 
     override suspend fun loginAsGuest(): Boolean {

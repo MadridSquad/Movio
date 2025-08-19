@@ -22,3 +22,5 @@ secret.properties
 /data/schemas
 /Kamel.jks
 /key.properties
+detectImageContent/build/
+

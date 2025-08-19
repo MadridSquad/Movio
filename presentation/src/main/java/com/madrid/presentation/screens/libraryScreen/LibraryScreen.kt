@@ -80,7 +80,7 @@ fun LibraryScreen(
 
                 is LibraryScreenEffect.NavigateToLogin -> {
                     navController.navigate(
-                        Destinations.AuthenticationScreen
+                        Destinations.LoginScreen
                     )
                 }
             }
