@@ -1,7 +1,7 @@
 package com.madrid.data.dataSource.remote.dto.list
 
 data class AddToListRequest(
-    val media_id: Int,
+    val mediaId: Int,
     val media_type: String = "movie"
 )
 

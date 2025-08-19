@@ -406,7 +406,7 @@ class RemoteDataSourceImpl @Inject constructor(
         sessionId: String
     ): ListOperationResponse {
         val request = AddToListRequest(
-            media_id = movieId,
+            mediaId = movieId,
             media_type = "movie"
         )
 
