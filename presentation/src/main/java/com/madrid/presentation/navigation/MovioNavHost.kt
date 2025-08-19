@@ -1,6 +1,5 @@
 package com.madrid.presentation.navigation
 
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
@@ -66,10 +65,10 @@ fun MovioNavHost(
             } else if (isLoggedIn.not()) Destinations.LoginScreen
             else Destinations.HomeScreen,
         enterTransition = {
-            fadeIn(tween(0))
+            fadeIn()
         },
         exitTransition = {
-            fadeOut(tween(0))
+            fadeOut()
         }
     ) {
         composable<Destinations.SeeAllForYouScreen> {

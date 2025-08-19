@@ -1,8 +1,10 @@
 package com.madrid.presentation.screens.homeScreen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -40,6 +43,7 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTVShowsViewModel
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun SeeAllTVShowsScreen(
     viewModel: SeeAllTVShowsViewModel
@@ -95,7 +99,7 @@ fun SeeAllTVShowsScreen(
         )
         Spacer(Modifier.height(24.dp))
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 100.dp),
+            columns = GridCells.Adaptive(minSize = 101.33.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .background(Theme.color.surfaces.surface)
@@ -151,22 +155,27 @@ fun SeeAllTVShowsScreen(
                     items(
                         count = listOfItem.itemCount,
                     ) { index ->
-                        val movie = listOfItem[index]
-                        MovioVerticalCard(
+                        BoxWithConstraints {
+                            val cardWidth = maxWidth
+                            val cardHeight = cardWidth * (136f / 101.33f)
+                            val movie = listOfItem[index]
+                            MovioVerticalCard(
+                                modifier = Modifier.width(cardWidth),
                             description = movie?.name ?: "no description",
                             movieImage = movie?.imageUrl
                                 ?: "https://image.tmdb.org/t/p/w500/5xKGk6q5g7mVmg7k7U1RrLSHwz6.jpg",
                             rate = movie?.rate?.take(3) ?: "4.3",
-                            height = 136.dp,
-                            onClick = {
-                                navController.navigate(
-                                    Destinations.SeriesDetailsScreen(
-                                        listOfItem[index]!!.id.toInt(),
-                                        seasonNumber = 1
+                            imageHeight = cardHeight,
+                                onClick = {
+                                    navController.navigate(
+                                        Destinations.SeriesDetailsScreen(
+                                            listOfItem[index]!!.id.toInt(),
+                                            seasonNumber = 1
+                                        )
                                     )
-                                )
-                            }
-                        )
+                                }
+                            )
+                        }
                     }
                 }
             }

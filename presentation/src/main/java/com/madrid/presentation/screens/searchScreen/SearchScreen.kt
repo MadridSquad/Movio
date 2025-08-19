@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -40,8 +41,8 @@ import com.madrid.presentation.component.emptyRecentSearch
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.refreshScreenHolder.RefreshScreenHolder
-import com.madrid.presentation.screens.searchScreen.features.recentSearchLayout.filterSearchScreen
-import com.madrid.presentation.screens.searchScreen.features.recentSearchLayout.forYouAndExploreScreen
+import com.madrid.presentation.screens.searchScreen.features.recentSearchLayout.FilterSearchScreen
+import com.madrid.presentation.screens.searchScreen.features.recentSearchLayout.ForYouAndExploreScreen
 import com.madrid.presentation.screens.searchScreen.features.recentSearchLayout.recentSearchScreen
 import com.madrid.presentation.screens.searchScreen.utils.FilterPagesItem
 import com.madrid.presentation.viewModel.searchViewModel.SearchScreenState
@@ -204,51 +205,72 @@ fun ContentSearchScreen(
                 }
             }
     }
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
+
+    Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Theme.color.surfaces.surface)
             .statusBarsPadding(),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        item(
-            span = { GridItemSpan(maxLineSpan) }
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = 158.dp),
+            modifier = modifier
+                .background(Theme.color.surfaces.surface),
+            contentPadding = PaddingValues(horizontal = 16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
-            BasicTextInputField(
-                value = searchQuery,
-                onValueChange = { newQuery ->
-                    onSearchQueryChange(newQuery)
-                    showRecentSearch = 1
-                },
-                borderBrushColors = null,
-                hintText = stringResource(com.madrid.presentation.R.string.searchdot),
-                startIconPainter = painterResource(R.drawable.search_normal),
-                endIconPainter = painterResource(R.drawable.outline_add),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { onSearchBarClick() }
-                    .padding(top = 16.dp),
-                onClickEndIcon = { onSearchQueryChange("") }
-            )
+
+            item(
+                span = { GridItemSpan(maxLineSpan) }
+            ) {
+                BasicTextInputField(
+                    value = searchQuery,
+                    onValueChange = { newQuery ->
+                        onSearchQueryChange(newQuery)
+                        showRecentSearch = 1
+                    },
+                    borderBrushColors = null,
+                    hintText = stringResource(com.madrid.presentation.R.string.searchdot),
+                    startIconPainter = painterResource(R.drawable.search_normal),
+                    endIconPainter = painterResource(R.drawable.outline_add),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp)
+                        .clickable { onSearchBarClick() },
+                    onClickEndIcon = { onSearchQueryChange("") }
+                )
+            }
+
+            if (searchQuery.isEmpty() && showRecentSearch != 1) {
+                ForYouAndExploreScreen(
+                    showSearchResults = showSearchResults,
+                    isLoading = isLoading,
+                    isError = isError,
+                    forYouMovies = forYouMovies,
+                    onMovieClick = onMovieClick,
+                    exploreMoreMovies = exploreMoreMovies,
+                    onClickSeeAll = { onClickSeeAll() },
+                    parentPadding = 16.dp
+                )
+            }
+
+            if (showRecentSearch == 1 && searchHistory.isNotEmpty()) {
+                recentSearchScreen(
+                    searchHistory = searchHistory,
+                    searchQuery = searchQuery,
+                    onSearchItemClick = { onSearchItemClick(it) },
+                    onRemoveItem = { onRemoveItem(it) },
+                    onClearAll = { onClearAll() },
+                    highlightCharactersInText = highLightRecentSearch,
+                )
+            }
+            if (showRecentSearch == 1 && searchHistory.isEmpty()) {
+                emptyRecentSearch()
+            }
         }
 
-        if (searchQuery.isEmpty() && showRecentSearch != 1) {
-            forYouAndExploreScreen(
-                showSearchResults = showSearchResults,
-                isLoading = isLoading,
-                isError = isError,
-                forYouMovies = forYouMovies,
-                onMovieClick = onMovieClick,
-                exploreMoreMovies = exploreMoreMovies,
-                onClickSeeAll = { onClickSeeAll() }
-            )
-        }
         if (searchQuery.isNotEmpty() && showRecentSearch != 1) {
 
-            filterSearchScreen(
+            FilterSearchScreen(
                 typeOfFilterSearch = typeOfFilterSearch,
                 topRated = topRated,
                 movies = movies,
@@ -283,21 +305,7 @@ fun ContentSearchScreen(
                     onTopResultClick(movieId)
                 }
             )
-
-        }
-
-        if (showRecentSearch == 1 && searchHistory.isNotEmpty()) {
-            recentSearchScreen(
-                searchHistory = searchHistory,
-                searchQuery = searchQuery,
-                onSearchItemClick = { onSearchItemClick(it) },
-                onRemoveItem = { onRemoveItem(it) },
-                onClearAll = { onClearAll() },
-                highlightCharactersInText = highLightRecentSearch,
-            )
-        }
-        if (showRecentSearch == 1 && searchHistory.isEmpty()) {
-            emptyRecentSearch()
         }
     }
+
 }

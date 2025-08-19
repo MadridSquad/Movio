@@ -1,6 +1,8 @@
 package com.madrid.presentation.screens.homeScreen.layout
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -17,26 +19,25 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.layout
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.CustomTextTitle
-import com.madrid.presentation.component.CustomHorizontalCard
-import com.madrid.presentation.component.MovioPager
-import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.designSystem.modifier.ShimmerCard
 import com.madrid.designSystem.modifier.ShimmerHorizontalCard
 import com.madrid.designSystem.modifier.ShimmerItem
 import com.madrid.designSystem.modifier.removeWidthPaddingFromParent
+import com.madrid.presentation.component.CustomHorizontalCard
+import com.madrid.presentation.component.MovioPager
+import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesType
 import com.madrid.presentation.viewModel.shared.MediaUiState
 import kotlinx.coroutines.flow.distinctUntilChanged
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun MoviesLayout(
     trendingMovies: List<MediaUiState>,
@@ -196,13 +197,18 @@ fun MoviesLayout(
             }
         } else {
             itemsIndexed(recommendedMovies) { index, media ->
-                MovioVerticalCard(
-                    description = media.title,
-                    movieImage = media.imageUrl,
-                    rate = media.rating.take(3),
-                    height = 220.dp,
-                    onClick = { navController.navigate(Destinations.MovieDetailsScreen(media.id.toInt())) },
-                )
+                BoxWithConstraints {
+                    val cardWidth = maxWidth
+                    val cardHeight = cardWidth * (180f / 158)
+                    MovioVerticalCard(
+                        modifier = Modifier.width(cardWidth),
+                        description = media.title,
+                        movieImage = media.imageUrl,
+                        rate = media.rating.take(3),
+                        imageHeight = cardHeight,
+                        onClick = { navController.navigate(Destinations.MovieDetailsScreen(media.id.toInt())) },
+                    )
+                }
             }
         }
     }

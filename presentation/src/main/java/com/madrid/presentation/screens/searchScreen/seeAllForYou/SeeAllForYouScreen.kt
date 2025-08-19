@@ -170,7 +170,7 @@ private fun SeeAllForYouScreenContent(
                         movieImage = exploreMoreMovies[index]!!.imageUrl,
                         rate = exploreMoreMovies[index]!!.rating,
                         width = 101.dp,
-                        height = 136.dp,
+                        imageHeight = 136.dp,
                         onClick = { onMovieClick(exploreMoreMovies[index]!!.id.toInt()) }
                     )
                 }
