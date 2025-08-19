@@ -1,8 +1,10 @@
 package com.madrid.presentation.screens.homeScreen
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -40,6 +43,7 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesViewModel
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun SeeAllMoviesScreen(
     viewModel: SeeAllMoviesViewModel
@@ -63,7 +67,15 @@ fun SeeAllMoviesScreen(
     }
     Column {
 
-        TopAppBar(uiState.title, secondIcon = null, thirdIcon = null, onFirstIconClick = { navController.navigate(Destinations.HomeScreen)}, modifier = Modifier.padding(horizontal = 16.dp).statusBarsPadding())
+        TopAppBar(
+            uiState.title,
+            secondIcon = null,
+            thirdIcon = null,
+            onFirstIconClick = { navController.navigate(Destinations.HomeScreen) },
+            modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .statusBarsPadding()
+        )
         Spacer(Modifier.height(16.dp))
         val updatedItems: MutableList<String> = items.map { it.name }.toMutableList()
         updatedItems.add(0, "All")
@@ -80,7 +92,7 @@ fun SeeAllMoviesScreen(
         )
         Spacer(Modifier.height(24.dp))
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 100.dp),
+            columns = GridCells.Adaptive(minSize = 101.33.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .background(Theme.color.surfaces.surface)
@@ -108,7 +120,7 @@ fun SeeAllMoviesScreen(
                     item(
                         span = { GridItemSpan(maxLineSpan) }
                     ) {
-                        Column (
+                        Column(
                             modifier = Modifier
                                 .fillMaxSize(),
                             verticalArrangement = Arrangement.Center,
@@ -138,7 +150,7 @@ fun SeeAllMoviesScreen(
 
                 listOfItem.itemCount == 0 && listOfItem.loadState.refresh is LoadState.NotLoading && listOfItem.loadState.refresh.endOfPaginationReached -> {
                     item(span = { GridItemSpan(maxLineSpan) }) {
-                        Column (
+                        Column(
                             modifier = Modifier
                                 .fillMaxSize(),
                             verticalArrangement = Arrangement.Center,
@@ -170,20 +182,27 @@ fun SeeAllMoviesScreen(
                     items(
                         count = listOfItem.itemCount,
                     ) { index ->
-                        val movie = listOfItem[index]
-                        MovioVerticalCard(
-                            description = movie?.name ?: stringResource(R.string.no_results_found),
-                            movieImage = movie?.imageUrl ?: "https://image.tmdb.org/t/p/w500/5xKGk6q5g7mVmg7k7U1RrLSHwz6.jpg",
-                            rate = movie?.rate?.take(3) ?: "4.5",
-                            height = 136.dp,
-                            onClick = {
-                                navController.navigate(
-                                    Destinations.MovieDetailsScreen(
-                                        listOfItem[index]!!.id.toInt() ,
+                        BoxWithConstraints {
+                            val cardWidth = maxWidth
+                            val cardHeight = cardWidth * (136f / 101.33f)
+                            val movie = listOfItem[index]
+                            MovioVerticalCard(
+                                modifier = Modifier.width(cardWidth),
+                                description = movie?.name
+                                    ?: stringResource(R.string.no_results_found),
+                                movieImage = movie?.imageUrl
+                                    ?: "https://image.tmdb.org/t/p/w500/5xKGk6q5g7mVmg7k7U1RrLSHwz6.jpg",
+                                rate = movie?.rate?.take(3) ?: "4.5",
+                                height = cardHeight,
+                                onClick = {
+                                    navController.navigate(
+                                        Destinations.MovieDetailsScreen(
+                                            listOfItem[index]!!.id.toInt(),
+                                        )
                                     )
-                                )
-                            }
-                        )
+                                }
+                            )
+                        }
                     }
                 }
             }

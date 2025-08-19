@@ -1,8 +1,10 @@
 package com.madrid.presentation.screens.homeScreen.layout
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -43,6 +45,7 @@ import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTvShowType
 import com.madrid.presentation.viewModel.shared.MediaUiState
 import kotlinx.coroutines.flow.distinctUntilChanged
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun TvShowsLayout(
     trendingSeries: List<MediaUiState>,
@@ -278,20 +281,25 @@ fun TvShowsLayout(
             }
         } else {
             itemsIndexed(recommendedSeries) { index, media ->
-                MovioVerticalCard(
-                    description = media.title,
-                    movieImage = media.imageUrl,
-                    rate = media.rating.take(3),
-                    height = 220.dp,
-                    onClick = {
-                        navController.navigate(
-                            Destinations.SeriesDetailsScreen(
-                                media.id.toInt(),
-                                1
+                BoxWithConstraints {
+                    val cardWidth = maxWidth
+                    val cardHeight = cardWidth * (180f / 158)
+                    MovioVerticalCard(
+                        modifier = Modifier.width(cardWidth),
+                        description = media.title,
+                        movieImage = media.imageUrl,
+                        rate = media.rating.take(3),
+                        height = cardHeight,
+                        onClick = {
+                            navController.navigate(
+                                Destinations.SeriesDetailsScreen(
+                                    media.id.toInt(),
+                                    1
+                                )
                             )
-                        )
-                    },
-                )
+                        },
+                    )
+                }
             }
         }
     }
