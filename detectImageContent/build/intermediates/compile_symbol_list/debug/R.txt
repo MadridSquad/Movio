@@ -1,1 +1,0 @@
-int drawable place_holder 0x0
