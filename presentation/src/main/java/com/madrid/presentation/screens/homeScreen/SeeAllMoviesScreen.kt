@@ -63,7 +63,9 @@ fun SeeAllMoviesScreen(
     }
     Column {
 
-        TopAppBar(uiState.title, secondIcon = null, thirdIcon = null, onFirstIconClick = { navController.navigate(Destinations.HomeScreen)}, modifier = Modifier.padding(horizontal = 16.dp).statusBarsPadding())
+        TopAppBar(uiState.title, secondIcon = null, thirdIcon = null, onFirstIconClick = { navController.navigate(Destinations.HomeScreen)}, modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .statusBarsPadding())
         Spacer(Modifier.height(16.dp))
         val updatedItems: MutableList<String> = items.map { it.name }.toMutableList()
         updatedItems.add(0, "All")
@@ -115,7 +117,7 @@ fun SeeAllMoviesScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             MovioText(
-                                text = stringResource(com.madrid.presentation.R.string.internet_is_not_available),
+                                text = stringResource(R.string.internet_is_not_available),
                                 textStyle = Theme.textStyle.title.mediumMedium16,
                                 color = Theme.color.surfaces.onSurface,
                                 textAlign = TextAlign.Center,
@@ -123,7 +125,7 @@ fun SeeAllMoviesScreen(
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             MovioText(
-                                text = stringResource(com.madrid.presentation.R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
+                                text = stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
                                 textStyle = Theme.textStyle.label.smallRegular12,
                                 color = Theme.color.surfaces.onSurfaceContainer,
                                 textAlign = TextAlign.Center,
@@ -153,7 +155,7 @@ fun SeeAllMoviesScreen(
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             MovioText(
-                                text = stringResource(com.madrid.presentation.R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
+                                text = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
                                 textStyle = Theme.textStyle.label.smallRegular12,
                                 color = Theme.color.surfaces.onSurfaceContainer,
                                 textAlign = TextAlign.Center,

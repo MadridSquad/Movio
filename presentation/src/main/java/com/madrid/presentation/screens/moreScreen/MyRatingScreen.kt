@@ -101,7 +101,7 @@ fun MyRatingScreen(
             )
         }
 
-        state.ratedMedia.isEmpty() -> {
+        else -> {
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -156,12 +156,12 @@ private fun MyRatingScreenContent(
             items(
                 count = state.ratedMedia.size
             ) { index ->
-                val Media = state.ratedMedia[index]
+                val media = state.ratedMedia[index]
                 MovioRatingCard(
-                    movieTitle = Media.mediaTitle,
-                    movieImageUrl = Media.imageUrL,
+                    movieTitle = media.mediaTitle,
+                    movieImageUrl = media.imageUrL,
                     height = 100.dp,
-                    rate = Media.rate,
+                    rate = media.rate,
                     modifier = Modifier.padding(top = 16.dp),
                     onClick = {
                         interaction.onMediaClick(
