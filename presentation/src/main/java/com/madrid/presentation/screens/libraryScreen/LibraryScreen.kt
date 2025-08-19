@@ -1,15 +1,18 @@
 package com.madrid.presentation.screens.libraryScreen
 
+import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -22,6 +25,8 @@ import com.madrid.presentation.component.CustomHorizontalCard
 import com.madrid.presentation.component.CustomHorizontalCardForWatchList
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
+import com.madrid.presentation.screens.addtolist.CreateListBottomSheet
+import com.madrid.presentation.screens.addtolist.SuccessNotificationRow
 import com.madrid.presentation.screens.libraryScreen.component.LibraryScreenHeader
 import com.madrid.presentation.screens.refreshScreenHolder.RefreshScreenHolder
 import com.madrid.presentation.viewModel.libraryViewModel.LibraryInteractionListener
@@ -75,7 +80,7 @@ fun LibraryScreen(
 
                 is LibraryScreenEffect.NavigateToLogin -> {
                     navController.navigate(
-                        Destinations.AuthenticationScreen
+                        Destinations.LoginScreen
                     )
                 }
             }
@@ -104,7 +109,7 @@ private fun LibraryScreenContent(
     ) {
         LoginLayout(interactionListener = libraryInteractionListener)
     }
-    
+
     AnimatedVisibility(
         visible = state.isGuest.not(),
         enter = fadeIn(),
@@ -112,6 +117,15 @@ private fun LibraryScreenContent(
     ) {
         LibraryColumn(state, libraryInteractionListener)
     }
+
+    CreateListSection(
+        onDismissSnackBar = libraryInteractionListener::onDismissSnackBar,
+        onCreateButtonClicked = libraryInteractionListener::onCreateWatchListButtonClicked,
+        dismissCreateListBottomSheet = libraryInteractionListener::dismissCreateListBottomSheet,
+        showSnackBar = state.isSnackBarVisible,
+        snackBarMessage = state.snackBarMessage,
+        showCreateListBottomSheet = state.isCreateListBottomSheetVisible
+    )
 }
 
 @Composable
@@ -137,8 +151,9 @@ private fun LibraryColumn(
                 startIconForPrimaryTextTitle = painterResource(R.drawable.outline_minimalistic),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.view_all),
                 endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
-                onSeeAllClick = { libraryInteractionListener.onWatchListViewAllClick() },
-                onWatchListClick = libraryInteractionListener::onItemWatchListClick
+                onSeeAllClick = libraryInteractionListener::onWatchListViewAllClick,
+                onWatchListClick = libraryInteractionListener::onItemWatchListClick,
+                onEmptyWatchListClick = libraryInteractionListener::onAddWatchListClicked
             )
         }
         item {
@@ -185,5 +200,35 @@ private fun LoginLayout(
         image = R.drawable.library_main_icon,
         buttonText = stringResource(presentationR.string.login),
         onClick = { interactionListener.onLoginBtnClick() },
+    )
+}
+
+@Composable
+private fun CreateListSection(
+    onDismissSnackBar: () -> Unit,
+    onCreateButtonClicked: (String) -> Unit,
+    dismissCreateListBottomSheet: () -> Unit,
+    showSnackBar: Boolean,
+    @StringRes snackBarMessage: Int,
+    showCreateListBottomSheet: Boolean
+) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        SuccessNotificationRow(
+            isVisible = showSnackBar,
+            message = stringResource(snackBarMessage),
+            icon = painterResource(id = R.drawable.archive_tick),
+            onDismiss = onDismissSnackBar,
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 16.dp, vertical = 24.dp)
+        )
+    }
+    CreateListBottomSheet(
+        show = showCreateListBottomSheet,
+        onCreateClick = onCreateButtonClicked,
+        onDismiss = dismissCreateListBottomSheet,
     )
 }

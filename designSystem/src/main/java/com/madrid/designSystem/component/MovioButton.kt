@@ -21,10 +21,12 @@ import com.madrid.designSystem.theme.Theme
 fun MovioButton(
     modifier: Modifier = Modifier,
     color: Color = Theme.color.brand.primary,
+
     backgroundColor: Color? = color,
     onClick: () -> Unit,
     enabled: Boolean = true,
     content: @Composable RowScope.() -> Unit,
+
 ) {
     val buttonModifier = if (backgroundColor != null) {
         modifier

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -14,14 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.R
 import com.madrid.presentation.viewModel.loginViewModel.LoginUiState
 
 
 @Composable
+
 fun LoginErrorAndForgotPassword(
     modifier: Modifier = Modifier,
     state: LoginUiState,
@@ -30,33 +30,31 @@ fun LoginErrorAndForgotPassword(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = 24.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+
+,        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
+
         if (state.errorMessage != null) {
-            MovioIcon(
-                painterResource(R.drawable.info_circle),
+            MovioIcon(painter = painterResource(com.madrid.designSystem.R.drawable.info_circle),
+                contentDescription = "error Text ",
                 tint = Theme.color.system.onError,
-                contentDescription = null,
-                modifier = Modifier.padding(end = 4.dp)
-            )
+
+                )
+
 
             MovioText(
-                text = state.errorMessage,
+                text = stringResource(state.errorMessage),
                 textStyle = Theme.textStyle.label.mediumMedium12,
                 color = Theme.color.system.onError,
                 maxLines = 2,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 8.dp)
-            )
+                modifier = Modifier.weight(1f))
         } else {
             Spacer(modifier = Modifier.weight(1f))
         }
 
         MovioText(
-            text = stringResource(com.madrid.presentation.R.string.forgot_password),
+            text = stringResource(R.string.forgot_password),
             textStyle = Theme.textStyle.label.mediumMedium12,
             color = Theme.color.surfaces.onSurfaceVariant,
             modifier = Modifier.clickable(

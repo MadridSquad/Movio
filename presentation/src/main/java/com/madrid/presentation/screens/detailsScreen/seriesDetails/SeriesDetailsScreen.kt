@@ -251,6 +251,7 @@ fun SeriesDetailsScreen(
                                             .align(CenterHorizontally)
                                             .padding(bottom = 16.dp),
                                     )
+
                                     MovioText(
                                         text = stringResource(R.string.you_dont_have_an_account),
                                         textStyle = Theme.textStyle.title.mediumMedium16,
@@ -281,7 +282,7 @@ fun SeriesDetailsScreen(
                                             .height(48.dp),
                                         onClick = {
                                             showAddRatingBottomSheet = false
-                                            navController.navigate(Destinations.AuthenticationScreen)
+                                            navController.navigate(Destinations.LoginScreen)
                                         },
                                         colors = ButtonDefaults.buttonColors(
                                             backgroundColor = Theme.color.brand.primary,

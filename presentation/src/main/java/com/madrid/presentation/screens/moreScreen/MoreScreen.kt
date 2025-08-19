@@ -65,7 +65,7 @@ fun MoreScreen(
         viewModel.effect.collect { effect ->
             when (effect) {
                 is MoreEffect.navigateToLogin -> {
-                    navController.navigate(Destinations.AuthenticationScreen)
+                    navController.navigate(Destinations.LoginScreen)
                 }
 
                 is MoreEffect.navigateToMyRatings -> {
@@ -80,14 +80,14 @@ fun MoreScreen(
         interactionListener = viewModel as MoreInteractionListener,
         currentLocale = currentLocale,
         currentLanguage = deviceLocale.language,
-        appVersion = appVersion.toString()
+        appVersion = "v$appVersion"
     )
 
     LogoutConfirmationBottomSheet(
         isVisible = state.isLogoutSheetVisible,
         onDismiss = { viewModel.dismissLogoutSheet() },
         onNavigateToAuth = {
-            navController.navigate(Destinations.AuthenticationScreen) {
+            navController.navigate(Destinations.LoginScreen) {
                 popUpTo(0) { inclusive = true }
             }
         },
@@ -197,7 +197,6 @@ private fun MoreScreenContent(
                 )
             }
 
-
             AnimatedVisibility(state.isLanguageSheetVisible) {
                 SelectionBottomSheet(
                     title = stringResource(R.string.choose_language),
@@ -205,6 +204,7 @@ private fun MoreScreenContent(
                         currentLocale.value =
                             if (selectedLanguage == Language.Arabic.code) Language.Arabic else Language.English
                         Language.setLocale(context = context, localeCode = currentLocale.value.code)
+                        interactionListener.onConfirmLanguage()
                         interactionListener.onDismissBottomSheet()
                     },
                     isShown = state.isLanguageSheetVisible,

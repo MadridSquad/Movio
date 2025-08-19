@@ -20,8 +20,7 @@ fun OrDivider() {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 20.dp),
-        verticalAlignment = Alignment.CenterVertically
+      ,  verticalAlignment = Alignment.CenterVertically
     ) {
         Divider(
             modifier = Modifier

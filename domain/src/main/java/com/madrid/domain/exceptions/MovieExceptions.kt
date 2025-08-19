@@ -6,34 +6,16 @@ open class MovioException(message: String) : Exception(message)
 class UnknownException(message: String) : MovioException(message)
 
 open class AuthorizationException(message: String) : MovioException(message)
-class InvalidCredentialsException : AuthorizationException("Invalid username or password")
-class AccountLockedException : AuthorizationException("Account locked. Contact support.")
-class SessionExpiredException : AuthorizationException("Session expired. Please login again.")
-class GuestLoginException : AuthorizationException("Guest login failed")
-class UnauthorizedException : AuthorizationException("Unauthorized")
+class InvalidCredentialsException(message: String) : AuthorizationException(message)
 
-// Validation Exceptions
-sealed class ValidationException(message: String) : AuthorizationException(message) {
+class UnauthorizedException(message: String) : AuthorizationException(message)
+open  class ValidationException(message: String) : MovioException(message)
+class InvalidValidationPasswordException(message: String) : ValidationException(message)
 
-    sealed class EmptyField(fieldName: String) :
-        ValidationException("$fieldName cannot be empty") {
-        object Username : EmptyField("Username")
-        object Password : EmptyField("Password")
-    }
+class InvalidValidationUserException(message: String) : ValidationException(message)
 
-    companion object {
-        fun validateField(fieldName: String, value: String) {
-            if (value.isBlank()) {
-                throw when (fieldName) {
-                    "Username" -> EmptyField.Username
-                    "Password" -> EmptyField.Password
-                    else -> throw IllegalArgumentException("Invalid field name: $fieldName")
 
-                }
-            }
-        }
-    }
-}
+
 
 open class ServerException(message: String) : MovioException(message)
 

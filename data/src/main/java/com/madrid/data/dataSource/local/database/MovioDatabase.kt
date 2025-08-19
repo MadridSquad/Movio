@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.madrid.data.dataSource.local.converter.Converters
 import com.madrid.data.dataSource.local.dao.ArtistDao
 import com.madrid.data.dataSource.local.dao.MovieDao
 import com.madrid.data.dataSource.local.dao.MovieGenreDao
@@ -36,6 +38,7 @@ import com.madrid.data.dataSource.local.table.relationship.SeriesGenreCrossRef
     ],
     version = 1
 )
+@TypeConverters(Converters::class)
 abstract class MovioDatabase : RoomDatabase() {
 
     abstract fun movieDao(): MovieDao

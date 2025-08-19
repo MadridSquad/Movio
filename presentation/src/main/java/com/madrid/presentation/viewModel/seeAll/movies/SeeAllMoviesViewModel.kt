@@ -35,7 +35,6 @@ class SeeAllMoviesViewModel @AssistedInject constructor(
         ): SeeAllMoviesViewModel
     }
     init {
-        Log.d("TAG zoz", "in view model init")
         loadTitle()
         loadGenres()
         loadAllMovies()
@@ -49,7 +48,6 @@ class SeeAllMoviesViewModel @AssistedInject constructor(
         tryToExecute(
             function = { getMoviesGenresUseCase() },
             onSuccess = { genres ->
-                Log.d("TAG zoz", "in view model init")
                 updateState { it.copy(genre = genres.map { genre -> genre.toCategoryUiState() }) }
             },
             onError = { /* Handle if needed */ }

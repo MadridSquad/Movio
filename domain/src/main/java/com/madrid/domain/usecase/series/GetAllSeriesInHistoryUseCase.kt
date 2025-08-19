@@ -6,6 +6,7 @@ import javax.inject.Inject
 
 class GetAllSeriesInHistoryUseCase @Inject constructor(private val seriesRepository: SeriesRepository) {
     suspend operator fun invoke(): List<Series> {
+        seriesRepository.getSeriesGenres()
         return seriesRepository.getAllSeriesInHistory()
     }
 }

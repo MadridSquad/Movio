@@ -59,7 +59,7 @@ fun OnBoardingPager(modifier: Modifier = Modifier) {
         if (swipeProgress == 1f) {
             delay(200)
             context.vibrateDevice()
-            navController.navigate(Destinations.AuthenticationScreen) {
+            navController.navigate(Destinations.LoginScreen) {
                 popUpTo(Destinations.OnBoarding) {
                     inclusive = true
                 }

@@ -21,6 +21,7 @@ fun LoginInputFields(
     onUsernameChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onTogglePassword: () -> Unit,
+
 ) {
     Column(modifier = modifier) {
         BasicTextInputField(
@@ -29,10 +30,7 @@ fun LoginInputFields(
             value = state.username,
             onValueChange = onUsernameChange,
             modifier = Modifier.padding(bottom = 12.dp),
-            isError = state.errorMessage != null &&
-                    (state.errorMessage.contains("Username") ||
-                            state.errorMessage.contains("Invalid")),
-
+            isError = state.isUsernameValid,
             errorBorderBrush = Theme.color.gradients.errorBorderGradient,
             endIconPainter = null
         )
@@ -49,13 +47,15 @@ fun LoginInputFields(
             ),
             onClickEndIcon = onTogglePassword,
             modifier = Modifier.padding(bottom = 12.dp),
-            isError = state.errorMessage != null &&
-                    (state.errorMessage.contains("Password") ||
-                            state.errorMessage.contains("Invalid")),
+            isError =state.isPasswordValid,
             errorBorderBrush = Theme.color.gradients.errorBorderGradient,
+
             letterSpacing = if (state.showPassword) 0 else 8
+
         )
 
     }
+
+
 
 }

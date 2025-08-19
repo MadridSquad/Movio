@@ -23,7 +23,7 @@ fun responseWrapper(
     } catch (e: Exception) {
         when (response.code) {
             in redirectRange -> throw UnknownException(message = "Redirect Error: ${e.message}")
-            in unauthorizedRange -> throw UnauthorizedException()
+            in unauthorizedRange -> throw UnauthorizedException(" Unauthorized Error: ${e.message}")
             timeoutCode -> throw TimeoutException(message = "Timeout Error: ${e.message}")
             in serverErrorRange -> throw ServerException(message = "Server Error: ${e.message}")
             invalidRequestCode -> throw ServerException(message = "Invalid Request: ${e.message}")

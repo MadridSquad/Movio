@@ -66,8 +66,8 @@ import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.R
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.toReviewScreenUiState
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMoviesSection
-import com.madrid.presentation.viewModel.libraryViewModel.addtolist.MovieListViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.DetailsMovieViewModel
+import com.madrid.presentation.viewModel.libraryViewModel.addtolist.MovieListViewModel
 
 
 @Composable
@@ -140,7 +140,7 @@ fun MovieDetailsScreen(
                     .offset(y = 342.dp)
                     .background(
                         Brush.verticalGradient(
-                            colors = listOf(Color.Transparent , Theme.color.surfaces.surface)
+                            colors = listOf(Color.Transparent, Theme.color.surfaces.surface)
                         )
                     )
             )
@@ -265,7 +265,7 @@ fun MovieDetailsScreen(
                                         .height(48.dp),
                                     onClick = {
                                         showAddRatingBottomSheet = false
-                                        navController.navigate(Destinations.AuthenticationScreen)                                    },
+                                        navController.navigate(Destinations.LoginScreen)                                    },
                                     colors = ButtonDefaults.buttonColors(
                                         backgroundColor = Theme.color.brand.primary,
                                     ),
@@ -326,19 +326,32 @@ fun MovieDetailsScreen(
                                         )
                                         .height(48.dp),
                                     onClick = {
-                                        viewModel.addRating()
-                                        showAddRatingBottomSheet = false
-                                        showDoneRatingBottomSheet = true
+                                        // Only proceed if user has selected a rating
+                                        if (uiState.userRating > 0) {
+                                            viewModel.addRating()
+                                            showAddRatingBottomSheet = false
+                                            showDoneRatingBottomSheet = true
+                                        }
                                     },
+                                    enabled = uiState.userRating > 0, // Disable button when no rating selected
                                     colors = ButtonDefaults.buttonColors(
-                                        backgroundColor = Theme.color.brand.primary,
+                                        backgroundColor = if (uiState.userRating > 0)
+                                            Theme.color.brand.primary
+                                        else
+                                            Theme.color.surfaces.onSurfaceVariant.copy(alpha = 0.3f),
+                                        disabledBackgroundColor = Theme.color.surfaces.onSurfaceVariant.copy(
+                                            alpha = 0.3f
+                                        )
                                     ),
                                     shape = RoundedCornerShape(24.dp),
                                     elevation = ButtonDefaults.elevation(0.dp)
                                 ) {
                                     MovioText(
                                         text = stringResource(R.string.submit),
-                                        color = Theme.color.brand.onPrimary,
+                                        color = if (uiState.userRating > 0)
+                                            Theme.color.brand.onPrimary
+                                        else
+                                            Theme.color.surfaces.onSurfaceVariant.copy(alpha = 0.6f),
                                         textStyle = Theme.textStyle.label.mediumMedium14
                                     )
                                 }
@@ -370,7 +383,9 @@ fun MovieDetailsScreen(
                                     .padding(bottom = 16.dp)
                             )
                             Row(
-                                modifier = Modifier.padding(top = 16.dp).align(Alignment.CenterHorizontally),
+                                modifier = Modifier
+                                    .padding(top = 16.dp)
+                                    .align(Alignment.CenterHorizontally),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
                                 (1..5).forEach { i ->
