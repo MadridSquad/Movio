@@ -63,6 +63,14 @@ class LocalDataSourceImpl @Inject constructor(
         seriesGenreDao.insertGenre(genre)
     }
 
+    override suspend fun clearMovieGenres() {
+        movieGenreDao.deleteAllGenres()
+    }
+
+    override suspend fun clearSeriesGenres() {
+        seriesGenreDao.deleteAllGenres()
+    }
+
     override suspend fun searchMovieByQueryFromDB(query: String, page: Int): List<MovieWithGenres> {
         val offset = calculateOffset(page)
         return movieDao.searchMovies("%$query%", offset)

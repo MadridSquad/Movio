@@ -122,6 +122,48 @@ fun NowPlayingMovieResult.toMovie(): Movie {
     )
 }
 
+fun NowPlayingMovieResult.toMovieResult(): MovieResult{
+    return MovieResult(
+        adult = this.adult,
+        backdropPath = this.backdropPath,
+        genreIds = this.genreIds,
+        id = this.id,
+        originalLanguage = this.originalLanguage,
+        originalTitle = this.originalTitle,
+        overview = this.overview,
+        popularity = this.popularity,
+        posterPath = this.posterPath,
+        releaseDate = this.releaseDate,
+        title = this.title,
+        video = this.video,
+        voteAverage = this.voteAverage,
+        voteCount = this.voteCount,
+        rating = this.voteAverage
+    )
+}
+
+fun UpcomingMovieResult.toMovieResult(): MovieResult{
+    return MovieResult(
+        adult = this.adult,
+        backdropPath = this.backdropPath,
+        genreIds = this.genreIds,
+        id = this.id,
+        originalLanguage = this.originalLanguage,
+        originalTitle = this.originalTitle,
+        overview = this.overview,
+        popularity = this.popularity,
+        posterPath = this.posterPath,
+        releaseDate = this.releaseDate,
+        title = this.title,
+        video = this.video,
+        voteAverage = this.voteAverage,
+        voteCount = this.voteCount,
+        rating = this.voteAverage
+    )
+}
+
+
+
 fun UpcomingMoviesResponse.toMovies(): List<Movie> {
     return this.upcomingMovieResult?.map {
         it.toMovie()

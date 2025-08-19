@@ -23,6 +23,8 @@ interface LocalDataSource {
     suspend fun insertArtist(artist: ArtistTable)
     suspend fun insertMovieGenre(genre: MovieGenreTable)
     suspend fun insertSeriesGenre(genre: SeriesGenreTable)
+    suspend fun clearMovieGenres()
+    suspend fun clearSeriesGenres()
 
     suspend fun getTopRatedMovies(): List<MovieTable>
 
