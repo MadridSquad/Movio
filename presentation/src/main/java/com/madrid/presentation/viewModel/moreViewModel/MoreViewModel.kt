@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.madrid.domain.usecase.authentication.GetCurrentUserDetailsUseCase
 import com.madrid.domain.usecase.authentication.LoginUseCase
+import com.madrid.domain.usecase.genre.ClearGenresCacheUseCase
+import com.madrid.domain.usecase.movie.ClearHomeMoviesCacheUseCase
 import com.madrid.domain.usecase.preferences.GetAppThemeUseCase
 import com.madrid.domain.usecase.preferences.SetAppThemeUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
@@ -19,6 +21,8 @@ class MoreViewModel @Inject constructor(
     private val getCurrentUserDetailsUseCase: GetCurrentUserDetailsUseCase,
     private val getAppThemeUseCase: GetAppThemeUseCase,
     private val setAppThemeUseCase: SetAppThemeUseCase,
+    private val clearHomeMoviesCacheUseCase: ClearHomeMoviesCacheUseCase,
+    private val clearGenresCacheUseCase: ClearGenresCacheUseCase
 ) :
     BaseViewModel<MoreUiState, MoreEffect>(MoreUiState()),
     MoreInteractionListener {
@@ -27,7 +31,6 @@ class MoreViewModel @Inject constructor(
         fetchIsGuest()
         fetchCurrentUserDetails()
         initAppTheme()
-//        getAppVersion()
     }
 
     override fun onLoginBtnClick() {
@@ -119,6 +122,19 @@ class MoreViewModel @Inject constructor(
         updateState { it.copy(isLanguageSheetVisible = true) }
     }
 
+    override fun onConfirmLanguage() {
+        tryToExecute(
+            function = {
+                clearHomeMoviesCacheUseCase()
+                clearGenresCacheUseCase()
+            },
+            onSuccess = {
+                updateState { it.copy(isLanguageSheetVisible = false) }
+            },
+            onError = { onError() }
+        )
+    }
+
     override fun onDismissBottomSheet() {
         updateState {
             it.copy(
@@ -134,10 +150,6 @@ class MoreViewModel @Inject constructor(
 
     fun dismissLogoutSheet() {
         updateState { it.copy(isLogoutSheetVisible = false) }
-    }
-
-    private fun getAppVersion(): String {
-        TODO("Not yet implemented")
     }
 
     private fun onError(message: String = "") {

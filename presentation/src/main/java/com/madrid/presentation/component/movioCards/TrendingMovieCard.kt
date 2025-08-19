@@ -19,8 +19,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.madrid.designSystem.R
+import com.madrid.designSystem.component.ImageViewer
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.MovioTheme
@@ -40,15 +40,14 @@ fun TrendingMovieCard(
             .width(240.dp)
     ) {
 
-        AsyncImage(
+        ImageViewer(
             model = imgUrl,
+            contentDescription = "Movie Poster",
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))
                 .fillMaxHeight()
                 .width(76.dp),
-            contentDescription = "Movie Poster",
-            contentScale = ContentScale.Crop,
-            placeholder = painterResource(com.madrid.detectimagecontent.R.drawable.place_holder),
+            contentScale = ContentScale.Crop
         )
 
         Box(

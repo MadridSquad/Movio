@@ -74,6 +74,10 @@ class SeriesRepositoryImpl @Inject constructor(
         ).episodes?.map { it.toEpisode() } ?: emptyList()
     }
 
+    override suspend fun clearSeriesGenres(){
+        localDataSource.clearSeriesGenres()
+    }
+
     override suspend fun getTopRatedSeries(page: Int): List<Series> {
         return remoteDataSource.getTopRatedSeries(page = page).toTvShows()
     }

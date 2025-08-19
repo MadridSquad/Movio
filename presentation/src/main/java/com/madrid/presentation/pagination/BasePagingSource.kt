@@ -18,7 +18,7 @@ abstract class BasePagingSource<T : Any>(
             LoadResult.Page(
                 data = data,
                 prevKey = if (currentPage == initialPage) null else currentPage - 1,
-                nextKey = if (data.isEmpty() || data.size < pageSize) null else currentPage + 1
+                nextKey = if (data.isEmpty()) null else currentPage + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

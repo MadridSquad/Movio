@@ -28,4 +28,5 @@
     <string name="english">الإنجليزية</string>
     <string name="choose_theme">اختر المظهر</string>
     <string name="choose_language">اختر اللغة</string>
+    <string name="passwordiconanimation">أيقونة اظهار كلمة السر </string>
 </resources>

@@ -14,8 +14,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
 import com.madrid.designSystem.R
 
 @Composable
@@ -37,17 +35,25 @@ fun ProfilePicture(
                 )
             )
     ) {
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(image)
-                .crossfade(true)
-                .build(),
+        ImageViewer(
+            model = image,
             contentDescription = "Profile Picture",
-            placeholder = painterResource(R.drawable.bold_profile_circle),
-            error = painterResource(R.drawable.bold_profile_circle),
-            modifier = Modifier
-                .align(Alignment.Center),
-            contentScale = ContentScale.Crop
+            modifier = Modifier.align(Alignment.Center),
+            contentScale = ContentScale.Crop,
+            loading = {
+                MovioIcon(
+                    painter = painterResource(R.drawable.bold_profile_circle),
+                    contentDescription = "Loading profile",
+                    modifier = Modifier.size(size)
+                )
+            },
+            error = {
+                MovioIcon(
+                    painter = painterResource(R.drawable.bold_profile_circle),
+                    contentDescription = "Default profile",
+                    modifier = Modifier.size(size)
+                )
+            }
         )
     }
 }

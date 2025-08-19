@@ -23,7 +23,7 @@ class RemoveMovieFromListUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD remove movie from list with correct parameters`() = runTest {
+    fun `should remove movie from list with correct parameters`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
 
         useCase.invoke(mediaId = 123, listId = 456)
@@ -39,7 +39,7 @@ class RemoveMovieFromListUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD use custom session id from authentication repository`() = runTest {
+    fun `should use custom session id from authentication repository`() = runTest {
         val customSessionId = "custom_session_123"
         coEvery { authenticationRepository.getSessionId() } returns flowOf(customSessionId)
 
@@ -56,7 +56,7 @@ class RemoveMovieFromListUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle different media and list ids`() = runTest {
+    fun `should handle different media and list ids`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
 
         useCase.invoke(mediaId = 1, listId = 1)
@@ -72,14 +72,14 @@ class RemoveMovieFromListUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when authentication repository fails`() = runTest {
+    fun `should throw exception when authentication repository fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } throws RuntimeException("Authentication error")
 
         useCase.invoke(mediaId = 123, listId = 456)
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when movie repository fails`() = runTest {
+    fun `should throw exception when movie repository fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery {
             movieRepository.removeMovieFromList(
@@ -93,7 +93,7 @@ class RemoveMovieFromListUseCaseTest {
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `invoke SHOULD throw exception when session id is empty`() = runTest {
+    fun `should throw exception when session id is empty`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("")
         coEvery {
             movieRepository.removeMovieFromList(
@@ -107,7 +107,7 @@ class RemoveMovieFromListUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repositories in correct order`() = runTest {
+    fun `should call repositories in correct order`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
 
         useCase.invoke(mediaId = 123, listId = 456)

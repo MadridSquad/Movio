@@ -18,11 +18,15 @@ import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 
 @Composable
- fun SignUpRow(onSignUpClick: () -> Unit,
+ fun SignUpRow(
+    modifier: Modifier = Modifier,
+    onSignUpClick: () -> Unit,
 
 ) {
     Row(
+
         modifier = Modifier.fillMaxWidth(),
+
         horizontalArrangement = Arrangement.Center
 
     ) {

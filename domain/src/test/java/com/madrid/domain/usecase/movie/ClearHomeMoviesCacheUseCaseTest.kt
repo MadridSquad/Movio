@@ -18,14 +18,14 @@ class ClearHomeMoviesCacheUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository clearHomeMoviesCache method`() = runTest {
+    fun `should call repository clearHomeMoviesCache method`() = runTest {
         useCase.invoke()
 
         coVerify(exactly = 1) { movieRepository.clearHomeMoviesCache() }
     }
 
     @Test
-    fun `invoke SHOULD complete successfully when repository succeeds`() = runTest {
+    fun `should complete successfully when repository succeeds`() = runTest {
         coEvery { movieRepository.clearHomeMoviesCache() } returns Unit
 
         useCase.invoke()
@@ -34,21 +34,21 @@ class ClearHomeMoviesCacheUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { movieRepository.clearHomeMoviesCache() } throws RuntimeException("Cache clear failed")
 
         useCase.invoke()
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `invoke SHOULD throw exception when repository throws IllegalStateException`() = runTest {
+    fun `should throw exception when repository throws IllegalStateException`() = runTest {
         coEvery { movieRepository.clearHomeMoviesCache() } throws IllegalStateException("Invalid cache state")
 
         useCase.invoke()
     }
 
     @Test
-    fun `invoke SHOULD call repository method only once per invocation`() = runTest {
+    fun `should call repository method only once per invocation`() = runTest {
         useCase.invoke()
         useCase.invoke()
 

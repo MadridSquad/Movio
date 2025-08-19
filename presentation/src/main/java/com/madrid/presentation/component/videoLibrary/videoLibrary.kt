@@ -21,8 +21,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
 import com.madrid.designSystem.R
+import com.madrid.designSystem.component.ImageViewer
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
@@ -47,15 +47,34 @@ fun VideoLibrary(
             contentAlignment = Alignment.Center
         )
         {
-            Image(
-                contentScale = ContentScale.Crop,
-                modifier = Modifier,
-                painter = if (posterUrl != null) rememberAsyncImagePainter(posterUrl) else
-                    painterResource(
-                        com.madrid.presentation.R.drawable.library_background
-                    ),
-                contentDescription = stringResource(com.madrid.presentation.R.string.background_image_of_squares),
-            )
+            if (posterUrl != null) {
+                ImageViewer(
+                    model = posterUrl,
+                    contentDescription = stringResource(com.madrid.presentation.R.string.background_image_of_squares),
+                    modifier = Modifier.fillMaxWidth(),
+                    contentScale = ContentScale.Crop,
+                    loading = {
+                        Image(
+                            painter = painterResource(com.madrid.presentation.R.drawable.library_background),
+                            contentDescription = stringResource(com.madrid.presentation.R.string.background_image_of_squares),
+                            contentScale = ContentScale.Crop
+                        )
+                    },
+                    error = {
+                        Image(
+                            painter = painterResource(com.madrid.presentation.R.drawable.library_background),
+                            contentDescription = stringResource(com.madrid.presentation.R.string.background_image_of_squares),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                )
+            } else {
+                Image(
+                    painter = painterResource(com.madrid.presentation.R.drawable.library_background),
+                    contentDescription = stringResource(com.madrid.presentation.R.string.background_image_of_squares),
+                    contentScale = ContentScale.Crop
+                )
+            }
             MovioIcon(
                 modifier = Modifier
                     .align(Alignment.TopEnd)

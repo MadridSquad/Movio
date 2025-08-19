@@ -8,9 +8,11 @@ import javax.inject.Inject
 
 class GetFavoriteMoviesUseCase@Inject constructor(
     private val movieRepository: MovieRepository,
-    private val authenticationRepository: AuthenticationRepository
+    private val authenticationRepository: AuthenticationRepository,
+    private val getMovieGenresUseCase: GetMovieGenresUseCase,
 ) {
     suspend operator fun invoke(): List<Movie> {
+        getMovieGenresUseCase()
         val sessionId = authenticationRepository.getSessionId().first()
         return movieRepository.getFavoriteMovies(sessionId)
     }

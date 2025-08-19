@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.movie
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Trailer
@@ -26,58 +26,58 @@ class GetUserRatedMovieUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return user rated movies list from repository`() = runTest {
+    fun `should return user rated movies list from repository`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { movieRepository.getUserMovieRate("test_session_id") } returns testRatedMovies
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(testRatedMovies)
+        assertThat(result).isEqualTo(testRatedMovies)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { movieRepository.getUserMovieRate("test_session_id") }
     }
 
     @Test
-    fun `invoke SHOULD return empty list when repository returns empty list`() = runTest {
+    fun `should return empty list when repository returns empty list`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { movieRepository.getUserMovieRate("test_session_id") } returns emptyList()
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { movieRepository.getUserMovieRate("test_session_id") }
     }
 
     @Test
-    fun `invoke SHOULD return single rated movie when repository returns single movie`() = runTest {
+    fun `should return single rated movie when repository returns single movie`() = runTest {
         val singleRatedMovie = listOf(testRatedMovies.first())
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { movieRepository.getUserMovieRate("test_session_id") } returns singleRatedMovie
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result).isEqualTo(singleRatedMovie)
+        assertThat(result).hasSize(1)
+        assertThat(result).isEqualTo(singleRatedMovie)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { movieRepository.getUserMovieRate("test_session_id") }
     }
 
     @Test
-    fun `invoke SHOULD use correct session id from authentication repository`() = runTest {
+    fun `should use correct session id from authentication repository`() = runTest {
         val customSessionId = "custom_session_123"
         coEvery { authenticationRepository.getSessionId() } returns flowOf(customSessionId)
         coEvery { movieRepository.getUserMovieRate(customSessionId) } returns testRatedMovies
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(testRatedMovies)
+        assertThat(result).isEqualTo(testRatedMovies)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { movieRepository.getUserMovieRate(customSessionId) }
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when movie repository fails`() = runTest {
+    fun `should throw exception when movie repository fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { movieRepository.getUserMovieRate("test_session_id") } throws RuntimeException("Network error")
 
@@ -85,14 +85,14 @@ class GetUserRatedMovieUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when authentication repository fails`() = runTest {
+    fun `should throw exception when authentication repository fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } throws RuntimeException("Authentication error")
 
         useCase.invoke()
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `invoke SHOULD throw exception when session id is empty`() = runTest {
+    fun `should throw exception when session id is empty`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("")
         coEvery { movieRepository.getUserMovieRate("") } throws IllegalStateException("Empty session ID")
 
