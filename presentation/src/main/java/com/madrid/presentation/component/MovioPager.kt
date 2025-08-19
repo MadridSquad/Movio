@@ -23,6 +23,8 @@ import androidx.compose.ui.draw.BlurredEdgeTreatment.Companion.Unbounded
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -79,7 +81,7 @@ fun MovioPager(
                 contentDescription = "null",
                 modifier = Modifier
                     .matchParentSize()
-                    .blur(radius = 16.dp, edgeTreatment = Unbounded),
+                    .blur(radius = 20.dp, edgeTreatment = Unbounded),
                 contentScale = ContentScale.Crop
             )
 
@@ -164,29 +166,42 @@ private fun MovioPagerIndicator(
     modifier: Modifier = Modifier
 ) {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-        Row(
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = modifier
-        ) {
-            val indicatorRange =
-                if (isRtl) (pageCount - 1) downTo 0 else 0 until pageCount
-            repeat(pageCount) { index ->
-                val isSelected = currentPage == index
-                Box(
-                    modifier = Modifier
-                        .padding(horizontal = 4.dp)
-                        .size(if (isSelected) 15.dp else 5.dp, 5.dp)
-                        .clip(if (isSelected) RoundedCornerShape(50) else CircleShape)
-                        .background(
-                            if (isSelected)
-                                Theme.color.surfaces.onSurfaceAt1
-                            else
-                                Theme.color.surfaces.onSurfaceAt2
+        Box(contentAlignment = Alignment.Center){
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(30.dp)
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(Color.Transparent , Theme.color.surfaces.surface)
                         )
-                )
+                    )
+            )
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = modifier
+            ) {
+                val indicatorRange =
+                    if (isRtl) (pageCount - 1) downTo 0 else 0 until pageCount
+                repeat(pageCount) { index ->
+                    val isSelected = currentPage == index
+                    Box(
+                        modifier = Modifier
+                            .padding(horizontal = 4.dp)
+                            .size(if (isSelected) 15.dp else 5.dp, 5.dp)
+                            .clip(if (isSelected) RoundedCornerShape(50) else CircleShape)
+                            .background(
+                                if (isSelected)
+                                    Theme.color.surfaces.onSurfaceAt1
+                                else
+                                    Theme.color.surfaces.onSurfaceAt2
+                            )
+                    )
+                }
             }
         }
+
     }
 }
 @Preview(showBackground = true, showSystemUi = true)
