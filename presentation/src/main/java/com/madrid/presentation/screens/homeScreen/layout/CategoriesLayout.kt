@@ -10,9 +10,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -57,6 +59,7 @@ fun CategoriesLayout(
         )
     )
     val displayedCategories = allCategory + categories
+    val rowState = rememberLazyListState()
     Box(
         Modifier
             .fillMaxSize()
@@ -68,6 +71,7 @@ fun CategoriesLayout(
                     displayedCategories = displayedCategories,
                     selectedCategory = selectedCategory,
                     onCategorySelected = onCategorySelected,
+                    rowState = rowState
                 )
                 SortingSection(
                     modifier = Modifier.padding(top = 44.dp),
@@ -101,6 +105,7 @@ fun CategoriesLayout(
                     displayedCategories = displayedCategories,
                     selectedCategory = selectedCategory,
                     onCategorySelected = onCategorySelected,
+                    rowState = rowState
                 )
                 SortingSection(
                     modifier = Modifier.padding(top = 44.dp),
@@ -142,7 +147,8 @@ fun CategoriesLayout(
                                 .removeWidthPaddingFromParent(16.dp),
                             displayedCategories = displayedCategories,
                             selectedCategory = selectedCategory,
-                            onCategorySelected = onCategorySelected
+                            onCategorySelected = onCategorySelected,
+                            rowState = rowState
                         )
                     }
 
@@ -185,7 +191,8 @@ private fun CategorySection(
     modifier: Modifier = Modifier,
     displayedCategories: List<CategoryUiState>,
     selectedCategory: CategoryUiState?,
-    onCategorySelected: (CategoryUiState) -> Unit
+    onCategorySelected: (CategoryUiState) -> Unit,
+    rowState: LazyListState,
 ) {
     FilterBar(
         modifier = modifier,
@@ -196,7 +203,8 @@ private fun CategorySection(
             onCategorySelected(
                 displayedCategories.find { it.name == category } ?: CategoryUiState()
             )
-        }
+        },
+        rowState = rowState
     )
 }
 
