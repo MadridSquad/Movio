@@ -25,7 +25,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
@@ -66,7 +65,9 @@ fun SeeAllTVShowsScreen(
 
     Column {
 
-        TopAppBar(uiState.title, secondIcon = null, thirdIcon = null, onFirstIconClick = { navController.navigate(Destinations.HomeScreen)}, modifier = Modifier.padding(horizontal = 16.dp).statusBarsPadding())
+        TopAppBar(uiState.title, secondIcon = null, thirdIcon = null, onFirstIconClick = { navController.navigate(Destinations.HomeScreen)}, modifier = Modifier
+            .padding(horizontal = 16.dp)
+            .statusBarsPadding())
         Spacer(Modifier.height(16.dp))
         val updatedItems: MutableList<String> = items.map { it.name }.toMutableList()
         updatedItems.add(0, "All")
@@ -125,7 +126,7 @@ fun SeeAllTVShowsScreen(
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             MovioText(
-                                text = stringResource(com.madrid.presentation.R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
+                                text = stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
                                 textStyle = Theme.textStyle.label.smallRegular12,
                                 color = Theme.color.surfaces.onSurfaceContainer,
                                 textAlign = TextAlign.Center,
@@ -155,7 +156,7 @@ fun SeeAllTVShowsScreen(
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             MovioText(
-                                text = stringResource(com.madrid.presentation.R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
+                                text = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
                                 textStyle = Theme.textStyle.label.smallRegular12,
                                 color = Theme.color.surfaces.onSurfaceContainer,
                                 textAlign = TextAlign.Center,
@@ -194,11 +195,4 @@ fun SeeAllTVShowsScreen(
         }
     }
 
-}
-
-
-@Preview
-@Composable
-private fun TopRatingScreenPreview(modifier: Modifier = Modifier) {
-//    SeeAllTVShowsScreen()
 }

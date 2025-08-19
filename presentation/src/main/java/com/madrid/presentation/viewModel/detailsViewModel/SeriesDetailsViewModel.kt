@@ -100,7 +100,7 @@ class SeriesDetailsViewModel @Inject constructor(
         tryToExecute(
             function = { getSeriesDetailsUseCase(args.seriesId) },
             onSuccess = { series ->
-                updateState {
+                updateState { it ->
                     it.copy(
                         seriesId = series.id,
                         topImageUrl = series.imageUrl,

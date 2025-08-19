@@ -124,7 +124,7 @@ class SeeAllTVShowsViewModel @AssistedInject constructor(
             launchPagingRequest(
                 pagingSourceFactory = {
                     SeeAllSeriesWithGenrePagingSource(
-                        genreId = genre!!.id,
+                        genreId = genre.id,
                         strategy::getTvShowsBasedOnCategory
                     )
                 },

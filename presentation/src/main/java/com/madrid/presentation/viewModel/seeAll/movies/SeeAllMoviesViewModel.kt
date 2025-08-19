@@ -1,6 +1,5 @@
 package com.madrid.presentation.viewModel.seeAll.movies
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
