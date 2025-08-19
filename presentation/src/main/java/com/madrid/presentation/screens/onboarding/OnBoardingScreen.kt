@@ -62,7 +62,9 @@ fun OnBoardingScreen() {
 
         Spacer(Modifier.height(40.dp))
         Column(Modifier.padding(horizontal = 16.dp)) {
-            Row() {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 MovioText(
                     text = stringResource(R.string.open),
                     textStyle = Theme.textStyle.display.mediumMedium20,
@@ -71,7 +73,7 @@ fun OnBoardingScreen() {
                 Spacer(Modifier.width(5.dp))
                 MovioText(
                     text = stringResource(R.string.movio),
-                    textStyle = Theme.textStyle.headline.largeBold18,
+                    textStyle = Theme.textStyle.display.largeBold24,
                     brush = Brush.verticalGradient(
                         colors = listOf(Theme.color.brand.onPrimary, Color(0xFF7C5DF6))
                     )

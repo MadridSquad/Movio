@@ -236,6 +236,11 @@ class DetailsMovieViewModel @Inject constructor(
     }
 
     fun addRating() {
+        // Validate that user has selected a rating (not 0)
+        if (state.value.userRating == 0) {
+            return // Don't submit if no rating selected
+        }
+
         tryToExecute(
             function = {
                 getAddRatingMoviesUseCase(
