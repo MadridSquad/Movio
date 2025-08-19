@@ -38,7 +38,7 @@ fun FilterBar(
             contentPadding = PaddingValues(horizontal = contentHorizontalPadding),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            itemsIndexed(items) { index,item ->
+            itemsIndexed(items) { index, item ->
                 FilterChip(
                     text = item,
                     isSelected = item == selectedItem,
@@ -60,7 +60,6 @@ fun FilterBar(
         }
     }
 }
-
 
 @Composable
 fun FilterChip(
@@ -103,11 +102,11 @@ fun FilterChip(
     }
 }
 
-
 @Preview(showBackground = true)
 @Composable
 private fun FilterBarPreview() {
-    val items = listOf("Movies", "Series", "Artists", "Top Rated","Top Rated","Top Rated","Top Rated")
+    val items =
+        listOf("Movies", "Series", "Artists", "Top Rated", "Top Rated", "Top Rated", "Top Rated")
     val selected = remember { mutableStateOf("Movies") }
 
     FilterBar(

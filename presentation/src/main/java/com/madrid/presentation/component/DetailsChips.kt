@@ -37,7 +37,7 @@ fun DetailsChips(
                 shape = RoundedCornerShape(24.dp)
             )
             .border(
-                width = 1.dp, color = Theme.color.surfaces.onSurfaceAt2,
+                width = 1.dp, color = Theme.color.surfaces.onSurfaceAt3,
                 shape = RoundedCornerShape(24.dp)
             )
             .padding(vertical = 8.dp, horizontal = 12.dp),

@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,8 +30,7 @@ fun MovioVerticalCard(
     movieImage: String,
     rate: String,
     width: Dp? = null,
-    height: Dp,
-    gap: Dp = 0.dp,
+    imageHeight: Dp,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -44,7 +42,7 @@ fun MovioVerticalCard(
         Box(
             modifier = Modifier
                 .then(if (width != null) Modifier.width(width) else Modifier.fillMaxWidth())
-                .height(height)
+                .height(imageHeight)
                 .padding(bottom = 8.dp)
         ) {
             BasicImageCard(
@@ -53,7 +51,7 @@ fun MovioVerticalCard(
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(height)
+                    .height(imageHeight)
                     .clip(RoundedCornerShape(8.dp))
             )
             RateIcon(
@@ -99,7 +97,7 @@ private fun VerticalCardPreview() {
             description = "Spider-Man ",
             movieImage = "https://image.tmdb.org/t/p/w500/5xKGk6q5g7mVmg7k7U1RrLSHwz6.jpg",
             width = 200.dp,
-            height = 150.dp,
+            imageHeight = 150.dp,
             onClick = {},
             rate = "4.0",
         )

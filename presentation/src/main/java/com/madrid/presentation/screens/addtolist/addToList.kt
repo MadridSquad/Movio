@@ -43,13 +43,10 @@ fun ListManagementBottomSheet(
     var showSuccessNotification by remember { mutableStateOf(false) }
     var successMessage: String? by remember { mutableStateOf("") }
     var bottomSheetVisible by remember(isVisible) { mutableStateOf(isVisible) }
-
-    // Load user lists when bottom sheet becomes visible
     LaunchedEffect(isVisible) {
         if (isVisible) {
             currentMode = ListBottomSheetMode.LIST_SELECTION
             bottomSheetVisible = true
-            // THIS IS THE KEY FIX - Actually load the lists!
             viewModel.loadUserLists()
         } else {
             bottomSheetVisible = false
@@ -77,19 +74,14 @@ fun ListManagementBottomSheet(
             viewModel.clearSuccess()
         }
     }
-
-    // Handle error messages
     LaunchedEffect(uiState.errorMessage) {
         if (uiState.errorMessage != null) {
-            // Show error message (you might want to show a toast or error dialog)
-            // For now, we'll just clear it after showing
             delay(3000)
             viewModel.clearError()
         }
     }
 
     Box(modifier = modifier.fillMaxSize()) {
-        // Bottom Sheet
         MovioBottomSheet(
             show = bottomSheetVisible,
             onDismiss = {
@@ -143,8 +135,6 @@ fun ListManagementBottomSheet(
                 }
             }
         }
-
-        // Success notification - positioned at bottom of screen, outside bottom sheet
         if (showSuccessNotification) {
             Box(
                 modifier = Modifier
@@ -162,8 +152,6 @@ fun ListManagementBottomSheet(
         }
 
         uiState.errorMessage?.let { errorMessage ->
-            // You can implement error display here
-            // For example, show a toast or error dialog
         }
     }
 }

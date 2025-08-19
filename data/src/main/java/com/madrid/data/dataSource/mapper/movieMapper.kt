@@ -3,6 +3,7 @@ package com.madrid.data.dataSource.mapper
 import com.madrid.data.dataSource.local.table.MovieTable
 import com.madrid.data.dataSource.remote.dto.movie.MovieDetailsResponse
 import com.madrid.data.dataSource.remote.dto.movie.MovieResult
+import com.madrid.domain.entity.Review
 
 fun MovieResult.toMovieTable(): MovieTable {
     return MovieTable(

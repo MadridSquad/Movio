@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.movie
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.repository.MovieRepository
@@ -21,40 +21,40 @@ class GetMoviesByGenresUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return movies map from repository`() = runTest {
+    fun `should return movies map from repository`() = runTest {
         coEvery { movieRepository.getMoviesByGenres() } returns testMoviesMap
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(testMoviesMap)
+        assertThat(result).isEqualTo(testMoviesMap)
         coVerify(exactly = 1) { movieRepository.getMoviesByGenres() }
     }
 
     @Test
-    fun `invoke SHOULD return empty map when repository returns empty map`() = runTest {
+    fun `should return empty map when repository returns empty map`() = runTest {
         coEvery { movieRepository.getMoviesByGenres() } returns emptyMap()
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { movieRepository.getMoviesByGenres() }
     }
 
     @Test
-    fun `invoke SHOULD return single genre with movies when repository returns single entry`() =
+    fun `should return single genre with movies when repository returns single entry`() =
         runTest {
             val singleGenreMap = mapOf("Action" to testMovies)
             coEvery { movieRepository.getMoviesByGenres() } returns singleGenreMap
 
             val result = useCase.invoke()
 
-            Truth.assertThat(result).hasSize(1)
-            Truth.assertThat(result).isEqualTo(singleGenreMap)
+            assertThat(result).hasSize(1)
+            assertThat(result).isEqualTo(singleGenreMap)
             coVerify(exactly = 1) { movieRepository.getMoviesByGenres() }
         }
 
     @Test
-    fun `invoke SHOULD return map with empty movie lists when repository returns empty lists`() =
+    fun `should return map with empty movie lists when repository returns empty lists`() =
         runTest {
             val emptyMoviesMap = mapOf(
                 "Action" to emptyList<Movie>(),
@@ -64,28 +64,28 @@ class GetMoviesByGenresUseCaseTest {
 
             val result = useCase.invoke()
 
-            Truth.assertThat(result).isEqualTo(emptyMoviesMap)
-            Truth.assertThat(result["Action"]).isEmpty()
-            Truth.assertThat(result["Drama"]).isEmpty()
+            assertThat(result).isEqualTo(emptyMoviesMap)
+            assertThat(result["Action"]).isEmpty()
+            assertThat(result["Drama"]).isEmpty()
             coVerify(exactly = 1) { movieRepository.getMoviesByGenres() }
         }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { movieRepository.getMoviesByGenres() } throws RuntimeException("Network error")
 
         useCase.invoke()
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `invoke SHOULD throw exception when repository throws IllegalStateException`() = runTest {
+    fun `should throw exception when repository throws IllegalStateException`() = runTest {
         coEvery { movieRepository.getMoviesByGenres() } throws IllegalStateException("Repository error")
 
         useCase.invoke()
     }
 
     @Test
-    fun `invoke SHOULD call repository method exactly once`() = runTest {
+    fun `should call repository method exactly once`() = runTest {
         coEvery { movieRepository.getMoviesByGenres() } returns testMoviesMap
 
         useCase.invoke()

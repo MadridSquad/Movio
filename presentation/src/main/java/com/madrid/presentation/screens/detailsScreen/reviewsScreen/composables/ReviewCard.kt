@@ -1,5 +1,7 @@
 package com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -30,8 +32,8 @@ import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
+import com.madrid.designSystem.component.ImageViewer
 import com.madrid.designSystem.theme.Theme
-import com.madrid.detectImageContent.FilteredImage
 
 @Composable
 fun ReviewCard(
@@ -60,17 +62,20 @@ fun ReviewCard(
                 color = Theme.color.surfaces.onSurfaceAt3
             )
             .padding(12.dp)
+            .animateContentSize(
+                animationSpec = tween(durationMillis = 300)
+            )
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            FilteredImage(
-                imageUrl = reviewerImageUrl,
+            ImageViewer(
+                model = reviewerImageUrl,
                 contentDescription = null,
                 modifier = Modifier
                     .clip(CircleShape)
-                    .size(32.dp)
+                    .size(32.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column(
@@ -133,7 +138,7 @@ fun ReviewCard(
 }
 
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 private fun ReviewCardPreview() {
     ReviewCard(

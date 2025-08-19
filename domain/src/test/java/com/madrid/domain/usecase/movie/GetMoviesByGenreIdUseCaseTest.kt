@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.movie
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.SortType
@@ -22,7 +22,7 @@ class GetMoviesByGenreIdUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return movies list from repository`() = runTest {
+    fun `should return movies list from repository`() = runTest {
         coEvery {
             movieRepository.getMoviesByGenreId(
                 1,
@@ -33,12 +33,12 @@ class GetMoviesByGenreIdUseCaseTest {
 
         val result = useCase.invoke(1, 123, SortType.POPULARITY)
 
-        Truth.assertThat(result).isEqualTo(testMovies)
+        assertThat(result).isEqualTo(testMovies)
         coVerify(exactly = 1) { movieRepository.getMoviesByGenreId(1, 123, SortType.POPULARITY) }
     }
 
     @Test
-    fun `invoke SHOULD return movies with null genre id`() = runTest {
+    fun `should return movies with null genre id`() = runTest {
         coEvery {
             movieRepository.getMoviesByGenreId(
                 1,
@@ -49,20 +49,20 @@ class GetMoviesByGenreIdUseCaseTest {
 
         val result = useCase.invoke(1, null, SortType.POPULARITY)
 
-        Truth.assertThat(result).isEqualTo(testMovies)
+        assertThat(result).isEqualTo(testMovies)
         coVerify(exactly = 1) { movieRepository.getMoviesByGenreId(1, null, SortType.POPULARITY) }
     }
 
     @Test
-    fun `invoke SHOULD return movies with different sort type`() = runTest {
+    fun `should return movies with different sort type`() = runTest {
         coEvery { movieRepository.getMoviesByGenreId(1, 123, SortType.LATEST) } returns testMovies
         val result = useCase.invoke(1, 123, SortType.LATEST)
-        Truth.assertThat(result).isEqualTo(testMovies)
+        assertThat(result).isEqualTo(testMovies)
         coVerify(exactly = 1) { movieRepository.getMoviesByGenreId(1, 123, SortType.LATEST) }
     }
 
     @Test
-    fun `invoke SHOULD return movies for different page`() = runTest {
+    fun `should return movies for different page`() = runTest {
         coEvery {
             movieRepository.getMoviesByGenreId(
                 2,
@@ -73,12 +73,12 @@ class GetMoviesByGenreIdUseCaseTest {
 
         val result = useCase.invoke(2, 123, SortType.POPULARITY)
 
-        Truth.assertThat(result).isEqualTo(testMovies)
+        assertThat(result).isEqualTo(testMovies)
         coVerify(exactly = 1) { movieRepository.getMoviesByGenreId(2, 123, SortType.POPULARITY) }
     }
 
     @Test
-    fun `invoke SHOULD return empty list when repository returns empty list`() = runTest {
+    fun `should return empty list when repository returns empty list`() = runTest {
         coEvery {
             movieRepository.getMoviesByGenreId(
                 1,
@@ -89,12 +89,12 @@ class GetMoviesByGenreIdUseCaseTest {
 
         val result = useCase.invoke(1, 123, SortType.POPULARITY)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { movieRepository.getMoviesByGenreId(1, 123, SortType.POPULARITY) }
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery {
             movieRepository.getMoviesByGenreId(
                 1,
@@ -107,7 +107,7 @@ class GetMoviesByGenreIdUseCaseTest {
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `invoke SHOULD throw exception when repository throws IllegalArgumentException`() =
+    fun `should throw exception when repository throws IllegalArgumentException`() =
         runTest {
             coEvery {
                 movieRepository.getMoviesByGenreId(
@@ -121,7 +121,7 @@ class GetMoviesByGenreIdUseCaseTest {
         }
 
     @Test
-    fun `invoke SHOULD call repository with correct parameters`() = runTest {
+    fun `should call repository with correct parameters`() = runTest {
         coEvery { movieRepository.getMoviesByGenreId(5, 999, SortType.ALL) } returns testMovies
 
         useCase.invoke(5, 999, SortType.ALL)

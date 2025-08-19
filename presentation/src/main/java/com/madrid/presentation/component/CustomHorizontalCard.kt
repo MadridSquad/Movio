@@ -55,7 +55,7 @@ fun CustomHorizontalCard(
                         movieImage = media.imageUrl,
                         rate = media.rating.take(3),
                         width = 124.dp,
-                        height = 160.dp,
+                        imageHeight = 160.dp,
                         onClick = { onMediaClick(media) }
                     )
                 }
@@ -74,7 +74,8 @@ fun CustomHorizontalCard(
     secondaryTextForCustomTextTitle: String? = null,
     endIconForCustomTextTitle: Painter? = null,
     onSeeAllClick: (() -> Unit)? = null,
-    onMediaClickWithId: (id: String) -> Unit = {},
+    onMediaClick: ((MediaUiState) -> Unit)? = null,
+    onMediaClickWithId: ((String) -> Unit)? = null,
 ) {
     Column(modifier = modifier) {
         CustomTextTitle(
@@ -98,8 +99,13 @@ fun CustomHorizontalCard(
                         movieImage = media.imageUrl,
                         rate = media.rating.take(3),
                         width = 124.dp,
-                        height = 160.dp,
-                        onClick = { onMediaClickWithId(media.id) }
+                        imageHeight = 160.dp,
+                        onClick = {
+                            when {
+                                onMediaClick != null -> onMediaClick(media)
+                                onMediaClickWithId != null -> onMediaClickWithId(media.id)
+                            }
+                        }
                     )
                 }
             }

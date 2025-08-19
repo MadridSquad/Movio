@@ -36,7 +36,7 @@ fun BottomRowForVideoLibrary(
             textStyle = Theme.textStyle.label.smallRegular12,
         )
         MovioIcon(
-            modifier = Modifier.size(width = 18.dp ,height = 12.dp ),
+            modifier = Modifier.size(width = 18.dp, height = 12.dp),
             painter = painterResource(R.drawable.video_lib),
             contentDescription = stringResource(com.madrid.presentation.R.string.watch_list_icon)
         )

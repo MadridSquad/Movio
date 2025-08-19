@@ -12,11 +12,11 @@ import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.theme.Theme
 
 @Composable
-fun MovioCard (
+fun MovioCard(
     modifier: Modifier = Modifier,
     shape: Shape = CardDefaults.shape,
     containerColor: Color = Theme.color.surfaces.onSurfaceVariant,
-    defaultElevationSize : Dp = 0.dp,
+    defaultElevationSize: Dp = 0.dp,
     border: BorderStroke? = null,
 ) {
     Card(
@@ -25,7 +25,7 @@ fun MovioCard (
         colors = CardDefaults.cardColors(
             containerColor = containerColor
         ),
-        elevation =CardDefaults.cardElevation(defaultElevation =defaultElevationSize),
+        elevation = CardDefaults.cardElevation(defaultElevation = defaultElevationSize),
         border = border,
     ) {
 

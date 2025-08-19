@@ -1,15 +1,15 @@
 package com.madrid.presentation.viewModel.libraryViewModel
 
 import com.madrid.domain.usecase.authentication.LoginUseCase
+import com.madrid.domain.usecase.movie.CreateMovieListUseCase
 import com.madrid.domain.usecase.movie.GetAllMoviesInHistoryUseCase
 import com.madrid.domain.usecase.movie.GetFavoriteMoviesUseCase
 import com.madrid.domain.usecase.watchList.GetWatchListsUseCase
+import com.madrid.presentation.R
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.libraryViewModel.viewAll.factory.ViewAllType
 import com.madrid.presentation.viewModel.shared.toMediaUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 @HiltViewModel
@@ -18,6 +18,7 @@ class LibraryViewModel @Inject constructor(
     private val getFavoriteUseCase: GetFavoriteMoviesUseCase,
     private val getHistoryUseCase: GetAllMoviesInHistoryUseCase,
     private val isLoggedInUseCase: LoginUseCase,
+    private val createMovieListUseCase: CreateMovieListUseCase
 ) : BaseViewModel<LibraryScreenState, LibraryScreenEffect>(
     LibraryScreenState()
 ), LibraryInteractionListener {
@@ -40,6 +41,44 @@ class LibraryViewModel @Inject constructor(
         emitNewEffect(
             LibraryScreenEffect.NavigateToLogin
         )
+    }
+
+    override fun onAddWatchListClicked() {
+        updateState { it.copy(isCreateListBottomSheetVisible = true) }
+    }
+
+    override fun dismissCreateListBottomSheet() {
+        updateState { it.copy(isCreateListBottomSheetVisible = false) }
+    }
+
+    override fun onCreateWatchListButtonClicked(name: String) {
+        tryToExecute(
+            function = { createMovieListUseCase(name) },
+            onSuccess = { onCreateSuccess() },
+            onError = { throwable ->
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = throwable.message.toString()
+                    )
+                }
+            },
+        )
+    }
+
+    private fun onCreateSuccess() {
+        updateState {
+            it.copy(
+                isCreateListBottomSheetVisible = false,
+                isSnackBarVisible = true,
+                snackBarMessage = R.string.new_list_created_successfully
+            )
+        }
+        onRefresh()
+    }
+
+    override fun onDismissSnackBar() {
+        updateState { it.copy(isSnackBarVisible = false) }
     }
 
     fun getIsGuest() {

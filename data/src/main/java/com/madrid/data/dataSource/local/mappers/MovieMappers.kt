@@ -29,7 +29,7 @@ fun Movie.toSectionMovieTable(): SectionsMovieTable {
         movieDuration = this.movieDuration,
         description = this.description,
         movieSection = "",
-        genresIds = this.genre.map { it.id }.firstOrNull() ?: -1
+        genresIds = this.genre.map { it.id }
     )
 }
 

@@ -1,6 +1,5 @@
 package com.madrid.data.dataSource.remote.mapper
 
-import com.madrid.data.dataSource.local.mappers.toGenre
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.common.TrailerResult
 import com.madrid.data.dataSource.remote.dto.movie.CastNetwork
@@ -121,6 +120,48 @@ fun NowPlayingMovieResult.toMovie(): Movie {
         movieDuration = "",
     )
 }
+
+fun NowPlayingMovieResult.toMovieResult(): MovieResult{
+    return MovieResult(
+        adult = this.adult,
+        backdropPath = this.backdropPath,
+        genreIds = this.genreIds,
+        id = this.id,
+        originalLanguage = this.originalLanguage,
+        originalTitle = this.originalTitle,
+        overview = this.overview,
+        popularity = this.popularity,
+        posterPath = this.posterPath,
+        releaseDate = this.releaseDate,
+        title = this.title,
+        video = this.video,
+        voteAverage = this.voteAverage,
+        voteCount = this.voteCount,
+        rating = this.voteAverage
+    )
+}
+
+fun UpcomingMovieResult.toMovieResult(): MovieResult{
+    return MovieResult(
+        adult = this.adult,
+        backdropPath = this.backdropPath,
+        genreIds = this.genreIds,
+        id = this.id,
+        originalLanguage = this.originalLanguage,
+        originalTitle = this.originalTitle,
+        overview = this.overview,
+        popularity = this.popularity,
+        posterPath = this.posterPath,
+        releaseDate = this.releaseDate,
+        title = this.title,
+        video = this.video,
+        voteAverage = this.voteAverage,
+        voteCount = this.voteCount,
+        rating = this.voteAverage
+    )
+}
+
+
 
 fun UpcomingMoviesResponse.toMovies(): List<Movie> {
     return this.upcomingMovieResult?.map {

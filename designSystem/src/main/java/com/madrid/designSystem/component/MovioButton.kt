@@ -21,10 +21,12 @@ import com.madrid.designSystem.theme.Theme
 fun MovioButton(
     modifier: Modifier = Modifier,
     color: Color = Theme.color.brand.primary,
+
     backgroundColor: Color? = color,
     onClick: () -> Unit,
     enabled: Boolean = true,
     content: @Composable RowScope.() -> Unit,
+
 ) {
     val buttonModifier = if (backgroundColor != null) {
         modifier
@@ -52,23 +54,6 @@ fun MovioButton(
         )
     }
 }
-
-@Composable
-fun MovioTextButton(
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    textColor: Color = Theme.color.brand.primary,
-    textStyle: androidx.compose.ui.text.TextStyle = Theme.textStyle.label.smallRegular14
-) {
-    MovioText(
-        text = text,
-        color = textColor,
-        textStyle = textStyle,
-        modifier = modifier.clickable { onClick() }
-    )
-}
-
 
 @Preview
 @Composable

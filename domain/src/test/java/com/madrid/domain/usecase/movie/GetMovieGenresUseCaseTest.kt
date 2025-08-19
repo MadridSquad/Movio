@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.movie
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.repository.MovieRepository
 import io.mockk.coEvery
@@ -20,53 +20,53 @@ class GetMovieGenresUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return genres list from repository`() = runTest {
+    fun `should return genres list from repository`() = runTest {
         coEvery { movieRepository.getMoviesGenres() } returns testGenres
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(testGenres)
+        assertThat(result).isEqualTo(testGenres)
         coVerify(exactly = 1) { movieRepository.getMoviesGenres() }
     }
 
     @Test
-    fun `invoke SHOULD return empty list when repository returns empty list`() = runTest {
+    fun `should return empty list when repository returns empty list`() = runTest {
         coEvery { movieRepository.getMoviesGenres() } returns emptyList()
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { movieRepository.getMoviesGenres() }
     }
 
     @Test
-    fun `invoke SHOULD return single genre when repository returns single genre`() = runTest {
+    fun `should return single genre when repository returns single genre`() = runTest {
         val singleGenre = listOf(Genre(id = 1, name = "Action"))
         coEvery { movieRepository.getMoviesGenres() } returns singleGenre
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result).isEqualTo(singleGenre)
+        assertThat(result).hasSize(1)
+        assertThat(result).isEqualTo(singleGenre)
         coVerify(exactly = 1) { movieRepository.getMoviesGenres() }
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { movieRepository.getMoviesGenres() } throws RuntimeException("Network error")
 
         useCase.invoke()
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `invoke SHOULD throw exception when repository throws IllegalStateException`() = runTest {
+    fun `should throw exception when repository throws IllegalStateException`() = runTest {
         coEvery { movieRepository.getMoviesGenres() } throws IllegalStateException("Repository error")
 
         useCase.invoke()
     }
 
     @Test
-    fun `invoke SHOULD call repository method exactly once`() = runTest {
+    fun `should call repository method exactly once`() = runTest {
         coEvery { movieRepository.getMoviesGenres() } returns testGenres
 
         useCase.invoke()

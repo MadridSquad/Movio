@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.movie
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Review
 import com.madrid.domain.repository.MovieRepository
 import io.mockk.coEvery
@@ -20,58 +20,58 @@ class GetMovieReviewsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return reviews list from repository`() = runTest {
+    fun `should return reviews list from repository`() = runTest {
         coEvery { movieRepository.getMovieReviewsById(123) } returns testReviews
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEqualTo(testReviews)
+        assertThat(result).isEqualTo(testReviews)
         coVerify(exactly = 1) { movieRepository.getMovieReviewsById(123) }
     }
 
     @Test
-    fun `invoke SHOULD return correct reviews for different movie id`() = runTest {
+    fun `should return correct reviews for different movie id`() = runTest {
         val anotherReviews =
             listOf(testReviews.first().copy(reviewId = "456", comment = "Another review"))
         coEvery { movieRepository.getMovieReviewsById(456) } returns anotherReviews
 
         val result = useCase.invoke(456)
 
-        Truth.assertThat(result).isEqualTo(anotherReviews)
+        assertThat(result).isEqualTo(anotherReviews)
         coVerify(exactly = 1) { movieRepository.getMovieReviewsById(456) }
     }
 
     @Test
-    fun `invoke SHOULD return empty list when repository returns empty list`() = runTest {
+    fun `should return empty list when repository returns empty list`() = runTest {
         coEvery { movieRepository.getMovieReviewsById(123) } returns emptyList()
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { movieRepository.getMovieReviewsById(123) }
     }
 
     @Test
-    fun `invoke SHOULD return single review when repository returns single review`() = runTest {
+    fun `should return single review when repository returns single review`() = runTest {
         val singleReview = listOf(testReviews.first())
         coEvery { movieRepository.getMovieReviewsById(123) } returns singleReview
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result).isEqualTo(singleReview)
+        assertThat(result).hasSize(1)
+        assertThat(result).isEqualTo(singleReview)
         coVerify(exactly = 1) { movieRepository.getMovieReviewsById(123) }
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { movieRepository.getMovieReviewsById(123) } throws RuntimeException("Network error")
 
         useCase.invoke(123)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `invoke SHOULD throw exception when repository throws IllegalArgumentException`() =
+    fun `should throw exception when repository throws IllegalArgumentException`() =
         runTest {
             coEvery { movieRepository.getMovieReviewsById(-1) } throws IllegalArgumentException("Invalid movie ID")
 
@@ -79,7 +79,7 @@ class GetMovieReviewsUseCaseTest {
         }
 
     @Test
-    fun `invoke SHOULD call repository with correct movie id`() = runTest {
+    fun `should call repository with correct movie id`() = runTest {
         coEvery { movieRepository.getMovieReviewsById(999) } returns testReviews
 
         useCase.invoke(999)

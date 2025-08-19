@@ -1,9 +1,11 @@
 package com.madrid.designSystem.component.textInputField
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,10 +29,12 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
+import com.madrid.designSystem.R
 import com.madrid.designSystem.theme.Theme
 
 @Composable
@@ -43,31 +47,35 @@ fun BasicTextInputField(
     modifier: Modifier = Modifier,
     onClickEndIcon: () -> Unit = { },
     visualTransformation: VisualTransformation = VisualTransformation.None,
-    borderBrushColors: Brush = Theme.color.gradients.borderGradient ,
+    borderBrushColors: Brush? = Theme.color.gradients.borderGradient,
     errorBorderBrush: Brush = Theme.color.gradients.errorBorderGradient,
     isError: Boolean = false,
     iconColorInFocus: Color = Theme.color.surfaces.onSurface,
     iconColorNotFocus: Color = Theme.color.surfaces.onSurfaceContainer,
     cursorColor: Color = Theme.color.surfaces.onSurface,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
-    letterSpacing: Int = 0
+    letterSpacing: Int = 0,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(
+        autoCorrect = false,
+        keyboardType = KeyboardType.Password
+    ),
+    keyboardActions : KeyboardActions= KeyboardActions.Default
 ) {
-    var isFocused by remember { mutableStateOf(false) }
-    val focusRequester = remember { FocusRequester() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
 
     val borderModifier = when {
         isError -> Modifier.border(
-            width = 1.dp,
+            width = 2.dp,
             brush = errorBorderBrush,
             shape = RoundedCornerShape(8.dp)
         )
-        isFocused || value.isNotEmpty() -> Modifier.border(
+
+        (isFocused || value.isNotEmpty()) && borderBrushColors != null -> Modifier.border(
             width = 1.dp,
             brush = borderBrushColors,
             shape = RoundedCornerShape(8.dp)
         )
+
         else -> Modifier
     }
 
@@ -86,10 +94,8 @@ fun BasicTextInputField(
         visualTransformation = visualTransformation,
         modifier = modifier
             .fillMaxWidth()
+            .then(borderModifier)
             .background(Theme.color.surfaces.surfaceContainer, RoundedCornerShape(8.dp))
-            .then(
-                borderModifier
-            )
             .padding(horizontal = 12.dp, vertical = 14.dp),
 
         decorationBox = { innerTextField ->
@@ -125,19 +131,27 @@ fun BasicTextInputField(
                 }
 
                 if (endIconPainter != null && value.isNotEmpty()) {
-                    Icon(
-                        painter = endIconPainter,
-                        contentDescription = null,
-                        tint = if (isFocused || value.isNotEmpty())
-                            iconColorInFocus
-                        else {
-                            iconColorNotFocus
-                        },
-                        modifier = Modifier
-                            .padding(start = 12.dp)
-                            .size(20.dp)
-                            .clickable { onClickEndIcon() }
-                    )
+                    Crossfade(
+                        targetState = endIconPainter,
+                        label = stringResource(R.string.passwordiconanimation)
+                    ) { icon ->
+                        Icon(
+                            painter = icon,
+                            contentDescription = null,
+                            tint = if (isFocused || value.isNotEmpty())
+                                iconColorInFocus
+                            else {
+                                iconColorNotFocus
+                            },
+                            modifier = Modifier
+                                .padding(start = 12.dp)
+                                .size(20.dp)
+                                .clickable(
+                                    indication = null,
+                                    interactionSource = remember { MutableInteractionSource() }
+                                ) { onClickEndIcon() }
+                        )
+                    }
                 }
             }
         },

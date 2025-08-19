@@ -49,7 +49,7 @@ fun MovioText(
 fun MovioRecentSearchText(
     text: AnnotatedString,
     modifier: Modifier = Modifier,
-     textStyle: TextStyle,
+    textStyle: TextStyle,
     maxLines: Int = Int.MAX_VALUE,
     textAlign: TextAlign? = null,
     overflow: TextOverflow = TextOverflow.Ellipsis,
@@ -82,7 +82,6 @@ fun MovioRecentSearchText(
             overflow = overflow
         )
 
-
         MovioIcon(
             painter = endIcon,
             contentDescription = "end icon",
@@ -91,6 +90,5 @@ fun MovioRecentSearchText(
                 .size(24.dp)
                 .clickable { onEndIconClick() }
         )
-
     }
 }

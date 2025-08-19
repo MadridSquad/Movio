@@ -1,6 +1,8 @@
 package com.madrid.presentation.viewModel.homeViewModel
 
+import androidx.annotation.StringRes
 import androidx.paging.PagingData
+import com.madrid.presentation.R
 import com.madrid.presentation.viewModel.shared.MediaUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -8,7 +10,7 @@ import kotlinx.coroutines.flow.emptyFlow
 data class HomeScreenState(
     val isLoading: Boolean = false,
     val errorMessage: String = "",
-    val profileImage : String? = null ,
+    val profileImage: String? = null,
     val allTabUiState: AllTabUiState = AllTabUiState(),
     val movieTabUiState: MovieTabUiState = MovieTabUiState(),
     val tvShowTabUiState: TvShowTabUiState = TvShowTabUiState(),
@@ -43,7 +45,7 @@ data class TvShowTabUiState(
 data class CategoryTabUiState(
     val isLoading: Boolean = false,
     val categories: List<CategoryUiState> = emptyList(),
-    val selectedCategory: CategoryUiState = CategoryUiState(),
+    val selectedCategory: CategoryUiState? = CategoryUiState(),
     val media: Flow<PagingData<MediaUiState>> = emptyFlow(),
     val sortingType: SortingType = SortingType.ALL,
 )
@@ -59,8 +61,8 @@ data class CategoryUiState(
     val name: String = "All",
 )
 
-enum class SortingType(val value: String) {
-    ALL("All"),
-    POPULARITY("Popularity"),
-    LATEST("Latest")
+enum class SortingType(@StringRes val value: Int) {
+    ALL(R.string.all),
+    POPULARITY(R.string.popularity),
+    LATEST(R.string.latest),
 }

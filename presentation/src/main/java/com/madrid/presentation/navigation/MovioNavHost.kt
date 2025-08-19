@@ -1,6 +1,5 @@
 package com.madrid.presentation.navigation
 
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
@@ -11,7 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.madrid.presentation.screens.detailsScreen.castDetails.ActorDetails
 import com.madrid.presentation.screens.detailsScreen.castDetails.TopCastDetailsScreen
-import com.madrid.presentation.screens.detailsScreen.detailsMovieScreen.MovieDetailsScreen
+import com.madrid.presentation.screens.detailsScreen.movieDetail.MovieDetailsScreen
 import com.madrid.presentation.screens.detailsScreen.reviewsScreen.ReviewsScreen
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.EpisodesScreen
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.SeasonsScreen
@@ -24,8 +23,7 @@ import com.madrid.presentation.screens.libraryScreen.LibraryScreen
 import com.madrid.presentation.screens.libraryScreen.ViewAllScreen
 import com.madrid.presentation.screens.libraryScreen.WatchlistViewAllScreen
 import com.madrid.presentation.screens.libraryScreen.watchList.WatchListDetailsScreen
-import com.madrid.presentation.screens.loginScreen.AuthenticationScreen
-import com.madrid.presentation.screens.loginScreen.component.ForgotPassword
+import com.madrid.presentation.screens.loginScreen.LoginScreen
 import com.madrid.presentation.screens.loginScreen.component.WebViewScreen
 import com.madrid.presentation.screens.moreScreen.MoreScreen
 import com.madrid.presentation.screens.moreScreen.MyRatingScreen
@@ -64,13 +62,13 @@ fun MovioNavHost(
             if (isFirstLaunch) {
                 setOnBoardingComplete(true)
                 Destinations.OnBoarding
-            } else if (isLoggedIn.not()) Destinations.AuthenticationScreen
+            } else if (isLoggedIn.not()) Destinations.LoginScreen
             else Destinations.HomeScreen,
         enterTransition = {
-            fadeIn(tween(0))
+            fadeIn()
         },
         exitTransition = {
-            fadeOut(tween(0))
+            fadeOut()
         }
     ) {
         composable<Destinations.SeeAllForYouScreen> {
@@ -123,12 +121,12 @@ fun MovioNavHost(
         composable<Destinations.SimilarMediaScreen> {
             SeeAllSimilarMediaScreen()
         }
-        composable<Destinations.AuthenticationScreen> {
-            AuthenticationScreen()
+        composable<Destinations.LoginScreen> {
+            LoginScreen()
         }
         composable<Destinations.ForgotPassword> {
             val url = it.toRoute<Destinations.ForgotPassword>().url
-            ForgotPassword(url = url)
+            WebViewScreen(url = url)
         }
         composable<Destinations.WebViewScreen> {
             val url = it.toRoute<Destinations.WebViewScreen>().url

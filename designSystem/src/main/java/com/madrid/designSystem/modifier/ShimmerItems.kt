@@ -19,11 +19,14 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.BeyondBoundsLayout
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.designSystem.component.shimmerEffect
@@ -36,6 +39,10 @@ fun ShimmerItem(
     contentAfterLoading: @Composable () -> Unit,
 ) {
     if (isLoading) {
+        CompositionLocalProvider(
+            LocalLayoutDirection provides LayoutDirection.Ltr
+        ) {
+
         Row(
             modifier = modifier
                 .padding(top = 132.dp)
@@ -60,7 +67,7 @@ fun ShimmerItem(
                 ShimmerPagerCard()
             }
         }
-    }
+    }}
     if (!isLoading) {
         contentAfterLoading()
     }
@@ -78,7 +85,7 @@ fun ShimmerPagerCard(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .padding(top = 207.dp, start = 8.dp)
                 .clip(RoundedCornerShape(24.dp))
-                .background(Color(0xFF101128))
+                .background(Theme.color.system.shimmerPrimary)
                 .width(44.dp)
                 .height(20.dp)
         )
@@ -86,7 +93,7 @@ fun ShimmerPagerCard(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .padding(top = 232.dp, start = 8.dp)
                 .clip(RoundedCornerShape(24.dp))
-                .background(Color(0xFF101128))
+                .background(Theme.color.system.shimmerPrimary)
                 .width(44.dp)
                 .height(20.dp)
         )
@@ -94,7 +101,7 @@ fun ShimmerPagerCard(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .padding(top = 232.dp, start = 59.dp)
                 .clip(RoundedCornerShape(24.dp))
-                .background(Color(0xFF101128))
+                .background(Theme.color.system.shimmerPrimary)
                 .width(44.dp)
                 .height(20.dp)
         )
@@ -102,7 +109,7 @@ fun ShimmerPagerCard(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .padding(top = 232.dp, start = 112.dp)
                 .clip(RoundedCornerShape(24.dp))
-                .background(Color(0xFF101128))
+                .background(Theme.color.system.shimmerPrimary)
                 .width(44.dp)
                 .height(20.dp)
         )

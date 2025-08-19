@@ -39,7 +39,9 @@ val lightThemeColors = MovioColors(
         dropShadow = Color(0x0F000000),
         defaultImageBackground = Color(0xFFA1AEC3),
         startColorForCardShadow = Color(0xBD000000),
-        endColorForCardShadow = Color(0x00000000)
+        endColorForCardShadow = Color(0x00000000),
+        shimmerPrimary = Color(0xFFF0F0F0),
+        shimmerSecondary = Color(0xFFE0E0E0),
     ),
     gradients = Gradients(
         iconGradient = Brush.linearGradient(
@@ -62,6 +64,13 @@ val lightThemeColors = MovioColors(
             )
         ),
 
+        underlineGlowBrushGradient = Brush.horizontalGradient(
+            colors = listOf(
+                Color(0x3349378A),
+                Color(0xFF49378A),
+                Color(0x3349378A)
+            )
+        )
     )
 
 )
