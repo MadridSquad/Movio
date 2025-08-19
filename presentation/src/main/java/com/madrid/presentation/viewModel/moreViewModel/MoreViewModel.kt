@@ -34,11 +34,11 @@ class MoreViewModel @Inject constructor(
     }
 
     override fun onLoginBtnClick() {
-        emitNewEffect(MoreEffect.navigateToLogin)
+        emitNewEffect(MoreEffect.NavigateToLogin)
     }
 
     override fun onMyRatingsBtnClick() {
-        emitNewEffect(MoreEffect.navigateToMyRatings)
+        emitNewEffect(MoreEffect.NavigateToMyRatings)
     }
 
     private fun fetchCurrentUserDetails() {

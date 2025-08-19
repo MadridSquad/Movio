@@ -64,11 +64,11 @@ fun MoreScreen(
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
-                is MoreEffect.navigateToLogin -> {
+                is MoreEffect.NavigateToLogin -> {
                     navController.navigate(Destinations.AuthenticationScreen)
                 }
 
-                is MoreEffect.navigateToMyRatings -> {
+                is MoreEffect.NavigateToMyRatings -> {
                     navController.navigate(Destinations.MyRatingScreen)
                 }
             }
