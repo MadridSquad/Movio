@@ -29,7 +29,8 @@ fun SeeAllSimilarMediaScreen(
     val navController = LocalNavController.current
     val similarMovies = uiState.medias.map { media ->
         // Log each media's details including rating
-        Log.d("SimilarMediaDebug",
+        Log.d(
+            "SimilarMediaDebug",
             "Media ID: ${media.mediaId}, " +
                     "Title: ${media.mediaName}, " +
                     "Rating: ${media.rate}, " +
@@ -50,7 +51,10 @@ fun SeeAllSimilarMediaScreen(
         isMovie = uiState.isMovie,
         onClickBack = { navController.popBackStack() },
         onClickMedia = { id, isMovie ->
-            Log.d("SimilarMediaDebug", "Navigating to ${if (isMovie) "movie" else "series"} details for ID: $id")
+            Log.d(
+                "SimilarMediaDebug",
+                "Navigating to ${if (isMovie) "movie" else "series"} details for ID: $id"
+            )
             if (!isMovie) navController.navigate(Destinations.SeriesDetailsScreen(id, 1))
             else navController.navigate(Destinations.MovieDetailsScreen(id))
         }
@@ -69,7 +73,7 @@ fun SeeAllSimilarMediaScreenContent(
         Modifier
             .fillMaxSize()
             .padding(horizontal = 4.dp, vertical = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         TopAppBar(
             text = headerName,
@@ -84,13 +88,14 @@ fun SeeAllSimilarMediaScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Theme.color.surfaces.surface)
-            .padding(horizontal = 6.dp),
+                .padding(horizontal = 6.dp),
         ) {
             items(similarMovies.size) { index ->
                 val movie = similarMovies[index]
 
                 // Log before rendering each card
-                Log.d("SimilarMediaDebug",
+                Log.d(
+                    "SimilarMediaDebug",
                     "Rendering card #$index: ${movie.title} " +
                             "| Rating: ${movie.rating} " +
                             "| Image: ${movie.imageUrl.take(20)}..."
@@ -101,12 +106,11 @@ fun SeeAllSimilarMediaScreenContent(
                     movieImage = movie.imageUrl,
                     rate = movie.rating,
                     width = 101.dp,
-                    height = 136.dp,
+                    imageHeight = 136.dp,
                     onClick = {
                         onClickMedia(movie.id, isMovie)
                     },
                     modifier = Modifier.padding(top = 16.dp, start = 6.dp),
-
                 )
             }
         }

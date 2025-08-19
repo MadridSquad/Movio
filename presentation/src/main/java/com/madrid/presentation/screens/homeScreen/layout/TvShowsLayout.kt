@@ -289,7 +289,7 @@ fun TvShowsLayout(
                         description = media.title,
                         movieImage = media.imageUrl,
                         rate = media.rating.take(3),
-                        height = cardHeight,
+                        imageHeight = cardHeight,
                         onClick = {
                             navController.navigate(
                                 Destinations.SeriesDetailsScreen(

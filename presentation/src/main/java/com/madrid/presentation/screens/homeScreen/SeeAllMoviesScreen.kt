@@ -193,7 +193,7 @@ fun SeeAllMoviesScreen(
                                 movieImage = movie?.imageUrl
                                     ?: "https://image.tmdb.org/t/p/w500/5xKGk6q5g7mVmg7k7U1RrLSHwz6.jpg",
                                 rate = movie?.rate?.take(3) ?: "4.5",
-                                height = cardHeight,
+                                imageHeight = cardHeight,
                                 onClick = {
                                     navController.navigate(
                                         Destinations.MovieDetailsScreen(
@@ -208,5 +208,4 @@ fun SeeAllMoviesScreen(
             }
         }
     }
-
 }
