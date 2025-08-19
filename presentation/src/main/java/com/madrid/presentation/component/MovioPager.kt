@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
@@ -23,8 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.BlurredEdgeTreatment.Companion.Unbounded
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -33,8 +30,8 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.compose.ui.zIndex
-import com.madrid.designSystem.theme.Theme
 import com.madrid.designSystem.component.ImageViewer
+import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.viewModel.homeViewModel.CategoryUiState
 import com.madrid.presentation.viewModel.shared.MediaType
 import com.madrid.presentation.viewModel.shared.MediaUiState
@@ -72,7 +69,7 @@ fun MovioPager(
         Box(
             modifier = modifier
                 .fillMaxWidth()
-                .height(443.dp)
+                .height(413.dp)
                 ,
             contentAlignment = Alignment.BottomCenter
         ) {
@@ -167,32 +164,29 @@ private fun MovioPagerIndicator(
     modifier: Modifier = Modifier
 ) {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-        Box(contentAlignment = Alignment.Center){
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = modifier
-            ) {
-                val indicatorRange =
-                    if (isRtl) (pageCount - 1) downTo 0 else 0 until pageCount
-                repeat(pageCount) { index ->
-                    val isSelected = currentPage == index
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = 4.dp)
-                            .size(if (isSelected) 15.dp else 5.dp, 5.dp)
-                            .clip(if (isSelected) RoundedCornerShape(50) else CircleShape)
-                            .background(
-                                if (isSelected)
-                                    Theme.color.surfaces.onSurfaceAt1
-                                else
-                                    Theme.color.surfaces.onSurfaceAt2
-                            )
-                    )
-                }
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = modifier
+        ) {
+            val indicatorRange =
+                if (isRtl) (pageCount - 1) downTo 0 else 0 until pageCount
+            repeat(pageCount) { index ->
+                val isSelected = currentPage == index
+                Box(
+                    modifier = Modifier
+                        .padding(horizontal = 4.dp)
+                        .size(if (isSelected) 15.dp else 5.dp, 5.dp)
+                        .clip(if (isSelected) RoundedCornerShape(50) else CircleShape)
+                        .background(
+                            if (isSelected)
+                                Theme.color.surfaces.onSurfaceAt1
+                            else
+                                Theme.color.surfaces.onSurfaceAt2
+                        )
+                )
             }
         }
-
     }
 }
 @Preview(showBackground = true, showSystemUi = true)
