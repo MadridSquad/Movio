@@ -28,7 +28,7 @@ import kotlinx.coroutines.delay
 enum class ListBottomSheetMode {
     LIST_SELECTION,
     CREATE_NEW_LIST,
-    DELETE_FROM_LIST
+    REMOVE_FROM_LIST,
 }
 
 @Composable
@@ -45,6 +45,7 @@ fun ListManagementBottomSheet(
     var showSuccessNotification by remember { mutableStateOf(false) }
     var successMessage: String? by remember { mutableStateOf("") }
     var bottomSheetVisible by remember(isVisible) { mutableStateOf(isVisible) }
+
     LaunchedEffect(isVisible) {
         if (isVisible) {
             currentMode = ListBottomSheetMode.LIST_SELECTION
@@ -76,6 +77,19 @@ fun ListManagementBottomSheet(
             viewModel.clearSuccess()
         }
     }
+
+    // Add LaunchedEffect for remove success
+    LaunchedEffect(uiState.removeFromListSuccess) {
+        if (uiState.removeFromListSuccess && uiState.successMessage != null) {
+            successMessage = uiState.successMessage
+            bottomSheetVisible = false
+            delay(200)
+            showSuccessNotification = true
+            onDismiss()
+            viewModel.clearSuccess()
+        }
+    }
+
     LaunchedEffect(uiState.errorMessage) {
         if (uiState.errorMessage != null) {
             delay(3000)
@@ -103,6 +117,23 @@ fun ListManagementBottomSheet(
                 label = "ListBottomSheetAnimation"
             ) { mode ->
                 when (mode) {
+                    ListBottomSheetMode.REMOVE_FROM_LIST -> {
+                        RemoveFromListBottomSheet(
+                            userLists = uiState.userLists,
+                            movieId = movieId,
+                            isLoading = uiState.isLoadingLists,
+                            onDeleteConfirmed = { userList ->
+                                viewModel.removeMovieFromList(
+                                    listId = userList.id,
+                                    movieId = movieId
+                                )
+                            },
+                            onDismiss = {
+                                currentMode = ListBottomSheetMode.LIST_SELECTION
+                            }
+                        )
+                    }
+
                     ListBottomSheetMode.LIST_SELECTION -> {
                         ListSelectionContent(
                             initialUserLists = uiState.userLists,
@@ -110,19 +141,18 @@ fun ListManagementBottomSheet(
                             onCreateNewListClick = {
                                 currentMode = ListBottomSheetMode.CREATE_NEW_LIST
                             },
-                            onSelectionChanged = { watchList, isSelected ->
-                                viewModel.removeMovieFromList(
-                                    listId = watchList.id,
-                                    movieId = movieId,
-                                    onSuccess = {
-                                        viewModel.loadUserLists()
-                                    }
-                                )
+                            onSelectionChanged = { userList, isSelected ->
+                                if (isSelected) {
+                                    viewModel.addMovieToList(
+                                        listId = userList.id,
+                                        movieId = movieId
+                                    )
+                                } else {
+                                    // When deselecting, switch to remove mode
+                                    currentMode = ListBottomSheetMode.REMOVE_FROM_LIST
+                                }
                             },
                             movieId = movieId,
-                            onDeleteModeClick = {
-                                currentMode = ListBottomSheetMode.DELETE_FROM_LIST
-                            },
                         )
                     }
 
@@ -139,26 +169,6 @@ fun ListManagementBottomSheet(
                             },
                         )
                     }
-                    ListBottomSheetMode.DELETE_FROM_LIST -> {
-                        DeleteFromListContent(
-                            userLists = uiState.userLists,
-                            movieId = movieId,
-                            isLoading = uiState.isLoading,
-                            onDeleteConfirmed = { watchList ->
-                                viewModel.removeMovieFromList(
-                                    listId = watchList.id,
-                                    movieId = movieId,
-                                    onSuccess = {
-                                        viewModel.loadUserLists()
-                                    }
-                                )
-                            },
-                            onDismiss = {
-                                currentMode = ListBottomSheetMode.LIST_SELECTION
-                            }
-                        )
-                    }
-
                 }
             }
         }
@@ -172,14 +182,18 @@ fun ListManagementBottomSheet(
             ) {
                 SuccessNotificationRow(
                     isVisible = showSuccessNotification,
+                    message = successMessage,
                     onDismiss = {
                         showSuccessNotification = false
+                        successMessage = null
                     }
                 )
             }
         }
 
         uiState.errorMessage?.let { errorMessage ->
+            // Add error handling UI here if needed
+            // For example, you could show an error snackbar or toast
         }
     }
 }

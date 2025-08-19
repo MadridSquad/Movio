@@ -45,8 +45,7 @@ class MovieListViewModel @Inject constructor(
 
                 updateState {
                     it.copy(
-                        userLists = userLists, // Keep original for other operations
-                        watchListItems = uiLists, // Add UI-specific list
+                        userLists = userLists,
                         isLoadingLists = false
                     )
                 }
@@ -67,7 +66,7 @@ class MovieListViewModel @Inject constructor(
         onSuccess: (() -> Unit)? = null
     ) {
         viewModelScope.launch(dispatcher) {
-            updateState { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
+            updateState { it.copy(errorMessage = null, successMessage = null) }
 
             try {
                 val status: ListOperationStatus = removeMovieFromListUseCase(
@@ -78,7 +77,6 @@ class MovieListViewModel @Inject constructor(
                 if (status.success) {
                     updateState {
                         it.copy(
-                            isLoading = false,
                             successMessage = status.message
                         )
                     }
@@ -86,7 +84,6 @@ class MovieListViewModel @Inject constructor(
                 } else {
                     updateState {
                         it.copy(
-                            isLoading = false,
                             errorMessage = status.message
                         )
                     }
@@ -94,7 +91,6 @@ class MovieListViewModel @Inject constructor(
             } catch (ex: MovioException) {
                 updateState {
                     it.copy(
-                        isLoading = false,
                         errorMessage = getErrorMessage(ex)
                     )
                 }
@@ -107,7 +103,7 @@ class MovieListViewModel @Inject constructor(
         onSuccess: (() -> Unit)? = null
     ) {
         viewModelScope.launch(dispatcher) {
-            updateState { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
+            updateState { it.copy( errorMessage = null, successMessage = null) }
 
             try {
                 val status: ListOperationStatus = createMovieListUseCase(
@@ -119,7 +115,6 @@ class MovieListViewModel @Inject constructor(
                 if (status.success) {
                     updateState {
                         it.copy(
-                            isLoading = false,
                             createListSuccess = true,
                             successMessage = status.message
                         )
@@ -130,7 +125,6 @@ class MovieListViewModel @Inject constructor(
                 } else {
                     updateState {
                         it.copy(
-                            isLoading = false,
                             errorMessage = status.message
                         )
                     }
@@ -138,7 +132,6 @@ class MovieListViewModel @Inject constructor(
             } catch (ex: MovioException) {
                 updateState {
                     it.copy(
-                        isLoading = false,
                         errorMessage = getErrorMessage(ex)
                     )
                 }
@@ -152,7 +145,7 @@ class MovieListViewModel @Inject constructor(
         onSuccess: (() -> Unit)? = null
     ) {
         viewModelScope.launch(dispatcher) {
-            updateState { it.copy(isLoading = true, errorMessage = null, successMessage = null) }
+            updateState { it.copy(errorMessage = null, successMessage = null) }
 
             try {
                 val status: ListOperationStatus = addMovieToListUseCase(
@@ -163,7 +156,6 @@ class MovieListViewModel @Inject constructor(
                 if (status.success) {
                     updateState {
                         it.copy(
-                            isLoading = false,
                             addToListSuccess = true,
                             successMessage = status.message
                         )
@@ -172,7 +164,6 @@ class MovieListViewModel @Inject constructor(
                 } else {
                     updateState {
                         it.copy(
-                            isLoading = false,
                             errorMessage = status.message
                         )
                     }
@@ -180,7 +171,6 @@ class MovieListViewModel @Inject constructor(
             } catch (ex: MovioException) {
                 updateState {
                     it.copy(
-                        isLoading = false,
                         errorMessage = getErrorMessage(ex)
                     )
                 }

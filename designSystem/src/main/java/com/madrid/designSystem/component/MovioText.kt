@@ -22,7 +22,7 @@ import com.madrid.designSystem.theme.Theme
 
 @Composable
 fun MovioText(
-    text: String,
+    text: String?,
     modifier: Modifier = Modifier,
     brush: Brush? = null,
     color: Color = Color.Unspecified,
@@ -31,18 +31,20 @@ fun MovioText(
     textAlign: TextAlign? = null,
     overflow: TextOverflow = TextOverflow.Ellipsis
 ) {
-    Text(
-        text = text,
-        textAlign = textAlign,
-        style = if (brush != null) {
-            textStyle.copy(brush = brush)
-        } else {
-            textStyle.copy(color = color)
-        },
-        modifier = modifier,
-        maxLines = maxLines,
-        overflow = overflow
-    )
+    if (text != null) {
+        Text(
+            text = text,
+            textAlign = textAlign,
+            style = if (brush != null) {
+                textStyle.copy(brush = brush)
+            } else {
+                textStyle.copy(color = color)
+            },
+            modifier = modifier,
+            maxLines = maxLines,
+            overflow = overflow
+        )
+    }
 }
 
 @Composable

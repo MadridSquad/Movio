@@ -7,22 +7,19 @@ data class WatchList(
     val description: String = "",
     val posterUrl: String? = null,
     var isSelected: Boolean = false,
-
+    val movieIds: List<Int> = emptyList(),
     var isLoading: Boolean = false
 )
 
 
 data class MovieListUiState(
-    val isLoading: Boolean = false,
-    val errorMessage: String? = null,
-    val successMessage: String? = null,
-    val createListSuccess: Boolean = false,
-    val addToListSuccess: Boolean = false,
-    var isSelected: Boolean = false,
-
     val userLists: List<WatchList> = emptyList(),
-    val watchListItems: List<WatchListItemUiState> = emptyList(),
-    val isLoadingLists: Boolean = false
+    val isLoadingLists: Boolean = false,
+    val addToListSuccess: Boolean = false,
+    val createListSuccess: Boolean = false,
+    val removeFromListSuccess: Boolean = false,
+    val successMessage: String? = null,
+    val errorMessage: String? = null
 )
 
 data class WatchListItemUiState(
