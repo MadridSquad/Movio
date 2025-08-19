@@ -21,8 +21,8 @@ class HistoryViewAll @Inject constructor(
     private val addSeriesToHistoryUseCase: AddSeriesToHistoryUseCase
 ) : ViewAllStrategy {
 
-    override fun getTitle(): String {
-        return "History"
+    override fun getTitle(): Int {
+        return R.string.history
     }
 
     override fun getEmptyListMessage(): Int {

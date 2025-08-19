@@ -12,7 +12,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.madrid.detectImageContent.FilteredImage
+import com.madrid.designSystem.component.ImageViewer
 
 @Composable
 fun BoxScope.ActorOverlay(actorImageUrl: String) {
@@ -23,8 +23,8 @@ fun BoxScope.ActorOverlay(actorImageUrl: String) {
             .shadow(8.dp, CircleShape, clip = false)
             .clip(CircleShape)
     ) {
-        FilteredImage(
-            imageUrl = actorImageUrl,
+        ImageViewer(
+            model = actorImageUrl,
             modifier = Modifier
                 .fillMaxSize()
                 .clip(CircleShape),
@@ -32,4 +32,4 @@ fun BoxScope.ActorOverlay(actorImageUrl: String) {
             contentScale = ContentScale.Crop
         )
     }
-} 
+}

@@ -69,7 +69,7 @@ fun SuccessNotificationRow(
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
                 .background(
-                    Color(0xFF1A162F)
+                    color = Theme.color.surfaces.surfaceContainer
                 )
                 .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -85,7 +85,7 @@ fun SuccessNotificationRow(
             MovioText(
                 modifier = Modifier.weight(1f),
                 text = message,
-                color = Color.White,
+                color = Theme.color.surfaces.onSurface,
                 textStyle = Theme.textStyle.label.mediumMedium14
             )
             if (actionText != null) {

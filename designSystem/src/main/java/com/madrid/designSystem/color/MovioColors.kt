@@ -49,6 +49,8 @@ data class System(
     val defaultImageBackground: Color,
     val startColorForCardShadow: Color,
     val endColorForCardShadow: Color,
+    val shimmerPrimary: Color,
+    val shimmerSecondary: Color,
 )
 
 data class Gradients(

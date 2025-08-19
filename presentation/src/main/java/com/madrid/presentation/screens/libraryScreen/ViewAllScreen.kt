@@ -84,7 +84,7 @@ fun ViewAllScreenContent(
         modifier = Modifier.statusBarsPadding()
     ) {
         TopAppBar(
-            text = state.title,
+            text = stringResource(state.title),
             secondIcon = null,
             thirdIcon = null,
             onFirstIconClick = { interactionListener.onBackClicked() },
@@ -114,13 +114,14 @@ fun ViewAllScreenContent(
             exit = fadeOut()
         ) {
             EmptyListContent(
-                title = state.title,
+                title = stringResource(state.title),
                 description = stringResource(state.emptyListMessage)
             )
         }
 
         AnimatedVisibility(
-            visible = state.isLoading.not() && state.errorMessage.isNullOrBlank() && state.items.isEmpty().not(),
+            visible = state.isLoading.not() && state.errorMessage.isNullOrBlank() && state.items.isEmpty()
+                .not(),
             enter = fadeIn(),
             exit = fadeOut()
         ) {
@@ -160,7 +161,9 @@ private fun EmptyListContent(title: String, description: String) {
         description = description,
         image = R.drawable.empty,
         imageSize = 180,
-        modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
     )
 }
 
@@ -187,7 +190,7 @@ private fun ShowItemsColumn(
             SwipeToDeleteCard(
                 title = item.title,
                 movieRate = item.rating,
-                movieCategory = item.category.firstOrNull()?.name?: "",
+                movieCategory = item.category.firstOrNull()?.name ?: "",
                 movieImageUrl = item.imageUrl,
                 onDelete = {
                     interactionListener
@@ -215,7 +218,7 @@ private fun UndoSnackBar(
         SuccessNotificationRow(
             isVisible = showSnackBar,
             message = stringResource(snackBarMessage),
-            actionText = "Undo",
+            actionText = stringResource(presentationR.string.undo),
             icon = painterResource(id = R.drawable.archive_tick),
             onDismiss = interactionListener::onDismissSnackBar,
             onAction = interactionListener::onUndoDeleteClicked,

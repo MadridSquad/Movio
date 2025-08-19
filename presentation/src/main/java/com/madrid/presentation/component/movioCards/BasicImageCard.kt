@@ -11,8 +11,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.madrid.designSystem.component.ImageViewer
 import com.madrid.designSystem.theme.MovioTheme
-import com.madrid.detectImageContent.FilteredImage
 import com.madrid.presentation.R.string
 
 @Composable
@@ -25,8 +25,8 @@ fun BasicImageCard(
     Box(
         modifier = modifier
     ) {
-        FilteredImage(
-            imageUrl = imageUrl,
+        ImageViewer(
+            model = imageUrl,
             contentDescription = stringResource(string.moive_image),
             modifier = Modifier
                 .fillMaxSize()
