@@ -21,7 +21,6 @@ class WatchlistViewAllViewModel @Inject constructor(
     WatchListViewAllInteractionListener {
 
     init {
-        loadGenres()
         loadWatchLists()
     }
 
@@ -44,34 +43,6 @@ class WatchlistViewAllViewModel @Inject constructor(
                 }
             },
             onError = { error -> onError(error) }
-        )
-    }
-
-    private fun loadGenres() {
-        updateState {
-            it.copy(
-                isLoading = true,
-                errorMessage = null
-            )
-        }
-        tryToExecute(
-            function = {
-                getMovieGenresUseCase()
-                getSeriesGenresUseCase()
-            },
-            onSuccess = {
-                updateState {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = null
-                    )
-                }
-            },
-            onError = { throwable ->
-                updateState {
-                    it.copy(errorMessage = throwable.message.toString())
-                }
-            }
         )
     }
 

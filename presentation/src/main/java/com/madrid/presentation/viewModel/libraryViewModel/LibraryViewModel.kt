@@ -36,7 +36,6 @@ class LibraryViewModel @Inject constructor(
         getHistoryList()
     }
 
-
     override fun onLoginBtnClick() {
         emitNewEffect(
             LibraryScreenEffect.NavigateToLogin
@@ -82,13 +81,19 @@ class LibraryViewModel @Inject constructor(
     }
 
     fun getIsGuest() {
+        updateState {
+            it.copy(
+                isLoading = true,
+                errorMessage = null
+            )
+        }
         tryToCollect(
             function = {
                 isLoggedInUseCase.isGuest()
             },
             onNewValue = { isGuest ->
                 updateState {
-                    it.copy(isGuest = isGuest)
+                    it.copy(isGuest = isGuest, isLoading = false)
                 }
             },
             onError = { throwable ->

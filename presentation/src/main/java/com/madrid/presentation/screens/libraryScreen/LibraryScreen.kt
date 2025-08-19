@@ -111,7 +111,7 @@ private fun LibraryScreenContent(
     }
 
     AnimatedVisibility(
-        visible = state.isGuest.not(),
+        visible = state.isGuest.not() && state.isLoading.not(),
         enter = fadeIn(),
         exit = fadeOut()
     ) {
