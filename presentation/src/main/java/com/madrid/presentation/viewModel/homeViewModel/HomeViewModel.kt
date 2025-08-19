@@ -175,7 +175,7 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun onClickTryAgainButton() {
-        val selectedCategoryId = state.value.categoryTabUiState.selectedCategory.id
+        val selectedCategoryId = state.value.categoryTabUiState.selectedCategory?.id
         val selectedSortingType = state.value.categoryTabUiState.sortingType
         if( selectedCategoryId == -1) {
             fetchMediaByCategory(null, selectedSortingType)
