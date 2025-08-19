@@ -18,7 +18,7 @@ class DeleteMovieFromHistoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository deleteMovieFromHistory with correct movieId`() = runTest {
+    fun `should call repository deleteMovieFromHistory with correct movieId`() = runTest {
         coEvery { movieRepository.deleteMovieFromHistory(123) } returns Unit
 
         useCase.invoke(123)
@@ -27,7 +27,7 @@ class DeleteMovieFromHistoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository with different movie id`() = runTest {
+    fun `should call repository with different movie id`() = runTest {
         coEvery { movieRepository.deleteMovieFromHistory(456) } returns Unit
 
         useCase.invoke(456)
@@ -36,14 +36,14 @@ class DeleteMovieFromHistoryUseCaseTest {
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { movieRepository.deleteMovieFromHistory(123) } throws RuntimeException("Database error")
 
         useCase.invoke(123)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `invoke SHOULD throw exception when repository throws IllegalArgumentException`() =
+    fun `should throw exception when repository throws IllegalArgumentException`() =
         runTest {
             coEvery { movieRepository.deleteMovieFromHistory(-1) } throws IllegalArgumentException("Invalid movie ID")
 
@@ -51,7 +51,7 @@ class DeleteMovieFromHistoryUseCaseTest {
         }
 
     @Test
-    fun `invoke SHOULD call repository with zero movieId`() = runTest {
+    fun `should call repository with zero movieId`() = runTest {
         coEvery { movieRepository.deleteMovieFromHistory(0) } returns Unit
 
         useCase.invoke(0)
@@ -60,7 +60,7 @@ class DeleteMovieFromHistoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repository with large movieId`() = runTest {
+    fun `should call repository with large movieId`() = runTest {
         val largeMovieId = 999999
         coEvery { movieRepository.deleteMovieFromHistory(largeMovieId) } returns Unit
 

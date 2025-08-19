@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.movie
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import org.junit.Before
@@ -15,68 +15,68 @@ class FilterMoviesByCategoryUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return movies matching the specified category`() {
+    fun `should return movies matching the specified category`() {
         val movieList = listOf(testMovieAction, testMovieComedy, testMovieActionComedy)
 
         val result = useCase.invoke(movieList, 1) // Action category
 
-        Truth.assertThat(result).containsExactly(testMovieAction, testMovieActionComedy)
+        assertThat(result).containsExactly(testMovieAction, testMovieActionComedy)
     }
 
     @Test
-    fun `invoke SHOULD return empty list when no movies match category`() {
+    fun `should return empty list when no movies match category`() {
         val movieList = listOf(testMovieAction, testMovieComedy)
 
         val result = useCase.invoke(movieList, 999) // Non-existent category
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
     }
 
     @Test
-    fun `invoke SHOULD return empty list when input list is empty`() {
+    fun `should return empty list when input list is empty`() {
         val result = useCase.invoke(emptyList(), 1)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
     }
 
     @Test
-    fun `invoke SHOULD return all movies when all match the category`() {
+    fun `should return all movies when all match the category`() {
         val movieList = listOf(testMovieAction, testMovieActionComedy)
 
         val result = useCase.invoke(movieList, 1) // Action category
 
-        Truth.assertThat(result).containsExactly(testMovieAction, testMovieActionComedy)
+        assertThat(result).containsExactly(testMovieAction, testMovieActionComedy)
     }
 
     @Test
-    fun `invoke SHOULD handle movies with multiple genres correctly`() {
+    fun `should handle movies with multiple genres correctly`() {
         val movieList = listOf(testMovieActionComedy)
 
         val resultAction = useCase.invoke(movieList, 1) // Action
         val resultComedy = useCase.invoke(movieList, 2) // Comedy
 
-        Truth.assertThat(resultAction).containsExactly(testMovieActionComedy)
-        Truth.assertThat(resultComedy).containsExactly(testMovieActionComedy)
+        assertThat(resultAction).containsExactly(testMovieActionComedy)
+        assertThat(resultComedy).containsExactly(testMovieActionComedy)
     }
 
     @Test
-    fun `invoke SHOULD return correct movies for different categories`() {
+    fun `should return correct movies for different categories`() {
         val movieList = listOf(testMovieAction, testMovieComedy, testMovieActionComedy)
 
         val actionResult = useCase.invoke(movieList, 1)
         val comedyResult = useCase.invoke(movieList, 2)
 
-        Truth.assertThat(actionResult).containsExactly(testMovieAction, testMovieActionComedy)
-        Truth.assertThat(comedyResult).containsExactly(testMovieComedy, testMovieActionComedy)
+        assertThat(actionResult).containsExactly(testMovieAction, testMovieActionComedy)
+        assertThat(comedyResult).containsExactly(testMovieComedy, testMovieActionComedy)
     }
 
     @Test
-    fun `invoke SHOULD handle single movie with matching category`() {
+    fun `should handle single movie with matching category`() {
         val movieList = listOf(testMovieAction)
 
         val result = useCase.invoke(movieList, 1)
 
-        Truth.assertThat(result).containsExactly(testMovieAction)
+        assertThat(result).containsExactly(testMovieAction)
     }
 
     private companion object {

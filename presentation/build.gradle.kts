@@ -47,7 +47,6 @@ android {
 
 dependencies {
     implementation(project(":designSystem"))
-    implementation(project(":detectImageContent"))
     implementation(project(":domain"))
 
     implementation(libs.androidx.ui.tooling.preview)

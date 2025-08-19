@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.movie
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Genre
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.repository.MovieRepository
@@ -21,17 +21,17 @@ class GetMovieDetailsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return movie details from repository`() = runTest {
+    fun `should return movie details from repository`() = runTest {
         coEvery { movieRepository.getMovieDetailsById(123) } returns testMovie
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEqualTo(testMovie)
+        assertThat(result).isEqualTo(testMovie)
         coVerify(exactly = 1) { movieRepository.getMovieDetailsById(123) }
     }
 
     @Test
-    fun `invoke SHOULD increase genre interest points for each genre`() = runTest {
+    fun `should increase genre interest points for each genre`() = runTest {
         coEvery { movieRepository.getMovieDetailsById(123) } returns testMovie
 
         useCase.invoke(123)
@@ -41,25 +41,25 @@ class GetMovieDetailsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return correct movie for different movie id`() = runTest {
+    fun `should return correct movie for different movie id`() = runTest {
         val anotherMovie = testMovie.copy(id = 456, title = "Another Movie")
         coEvery { movieRepository.getMovieDetailsById(456) } returns anotherMovie
 
         val result = useCase.invoke(456)
 
-        Truth.assertThat(result).isEqualTo(anotherMovie)
+        assertThat(result).isEqualTo(anotherMovie)
         coVerify(exactly = 1) { movieRepository.getMovieDetailsById(456) }
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { movieRepository.getMovieDetailsById(123) } throws RuntimeException("Network error")
 
         useCase.invoke(123)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `invoke SHOULD throw exception when repository throws IllegalArgumentException`() =
+    fun `should throw exception when repository throws IllegalArgumentException`() =
         runTest {
             coEvery { movieRepository.getMovieDetailsById(-1) } throws IllegalArgumentException("Invalid movie ID")
 
@@ -67,7 +67,7 @@ class GetMovieDetailsUseCaseTest {
         }
 
     @Test
-    fun `invoke SHOULD call repository with correct movie id`() = runTest {
+    fun `should call repository with correct movie id`() = runTest {
         coEvery { movieRepository.getMovieDetailsById(999) } returns testMovie
 
         useCase.invoke(999)
@@ -76,13 +76,13 @@ class GetMovieDetailsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD handle movie with empty genres list`() = runTest {
+    fun `should handle movie with empty genres list`() = runTest {
         val movieWithoutGenres = testMovie.copy(genre = emptyList())
         coEvery { movieRepository.getMovieDetailsById(123) } returns movieWithoutGenres
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEqualTo(movieWithoutGenres)
+        assertThat(result).isEqualTo(movieWithoutGenres)
         coVerify(exactly = 0) { movieRepository.increaseMovieGenreInterestPoints(any()) }
     }
 

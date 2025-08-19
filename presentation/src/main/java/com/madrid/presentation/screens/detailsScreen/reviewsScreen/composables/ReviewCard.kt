@@ -30,8 +30,8 @@ import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
+import com.madrid.designSystem.component.ImageViewer
 import com.madrid.designSystem.theme.Theme
-import com.madrid.detectImageContent.FilteredImage
 
 @Composable
 fun ReviewCard(
@@ -65,12 +65,12 @@ fun ReviewCard(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            FilteredImage(
-                imageUrl = reviewerImageUrl,
+            ImageViewer(
+                model = reviewerImageUrl,
                 contentDescription = null,
                 modifier = Modifier
                     .clip(CircleShape)
-                    .size(32.dp)
+                    .size(32.dp),
             )
             Spacer(modifier = Modifier.width(8.dp))
             Column(

@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.watchList
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.WatchList
 import com.madrid.domain.repository.AuthenticationRepository
 import com.madrid.domain.repository.ListRepository
@@ -24,51 +24,51 @@ class GetWatchListsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return watch lists when repository succeeds`() = runTest {
+    fun `should return watch lists when repository succeeds`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { listRepository.getLists("test_session_id") } returns testWatchLists
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(testWatchLists)
+        assertThat(result).isEqualTo(testWatchLists)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { listRepository.getLists("test_session_id") }
     }
 
     @Test
-    fun `invoke SHOULD return empty list when repository returns empty list`() = runTest {
+    fun `should return empty list when repository returns empty list`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { listRepository.getLists("test_session_id") } returns emptyList()
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { listRepository.getLists("test_session_id") }
     }
 
     @Test
-    fun `invoke SHOULD use custom session id from authentication repository`() = runTest {
+    fun `should use custom session id from authentication repository`() = runTest {
         val customSessionId = "custom_session_789"
         coEvery { authenticationRepository.getSessionId() } returns flowOf(customSessionId)
         coEvery { listRepository.getLists(customSessionId) } returns testWatchLists
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).isEqualTo(testWatchLists)
+        assertThat(result).isEqualTo(testWatchLists)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { listRepository.getLists(customSessionId) }
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when authentication repository fails`() = runTest {
+    fun `should throw exception when authentication repository fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } throws RuntimeException("Authentication error")
 
         useCase.invoke()
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when list repository fails`() = runTest {
+    fun `should throw exception when list repository fails`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { listRepository.getLists("test_session_id") } throws RuntimeException("List error")
 
@@ -76,7 +76,7 @@ class GetWatchListsUseCaseTest {
     }
 
     @Test(expected = IllegalStateException::class)
-    fun `invoke SHOULD throw exception when session id is empty`() = runTest {
+    fun `should throw exception when session id is empty`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("")
         coEvery { listRepository.getLists("") } throws IllegalStateException("Empty session ID")
 
@@ -84,7 +84,7 @@ class GetWatchListsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD call repositories in correct order`() = runTest {
+    fun `should call repositories in correct order`() = runTest {
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { listRepository.getLists("test_session_id") } returns testWatchLists
 
@@ -95,15 +95,15 @@ class GetWatchListsUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return single watch list when repository returns one item`() = runTest {
+    fun `should return single watch list when repository returns one item`() = runTest {
         val singleWatchList = listOf(testWatchLists.first())
         coEvery { authenticationRepository.getSessionId() } returns flowOf("test_session_id")
         coEvery { listRepository.getLists("test_session_id") } returns singleWatchList
 
         val result = useCase.invoke()
 
-        Truth.assertThat(result).hasSize(1)
-        Truth.assertThat(result).isEqualTo(singleWatchList)
+        assertThat(result).hasSize(1)
+        assertThat(result).isEqualTo(singleWatchList)
         coVerify(exactly = 1) { authenticationRepository.getSessionId() }
         coVerify(exactly = 1) { listRepository.getLists("test_session_id") }
     }

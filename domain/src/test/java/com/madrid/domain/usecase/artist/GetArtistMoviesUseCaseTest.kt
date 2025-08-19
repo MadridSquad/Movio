@@ -1,6 +1,6 @@
 package com.madrid.domain.usecase.artist
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.repository.ArtistRepository
 import io.mockk.coEvery
@@ -20,45 +20,45 @@ class GetArtistMoviesUseCaseTest {
     }
 
     @Test
-    fun `invoke SHOULD return artist movies from repository`() = runTest {
+    fun `should return artist movies from repository`() = runTest {
         coEvery { artistRepository.getArtistMovies(123) } returns testMovies
 
         val result = useCase.invoke(123)
 
-        Truth.assertThat(result).isEqualTo(testMovies)
+        assertThat(result).isEqualTo(testMovies)
         coVerify(exactly = 1) { artistRepository.getArtistMovies(123) }
     }
 
     @Test
-    fun `invoke SHOULD return correct movies for different artist id`() = runTest {
+    fun `should return correct movies for different artist id`() = runTest {
         val anotherMovie = listOf(testMovies.first().copy(id = 456, title = "Another Movie"))
         coEvery { artistRepository.getArtistMovies(456) } returns anotherMovie
 
         val result = useCase.invoke(456)
 
-        Truth.assertThat(result).isEqualTo(anotherMovie)
+        assertThat(result).isEqualTo(anotherMovie)
         coVerify(exactly = 1) { artistRepository.getArtistMovies(456) }
     }
 
     @Test
-    fun `invoke SHOULD return empty list when artist has no movies`() = runTest {
+    fun `should return empty list when artist has no movies`() = runTest {
         coEvery { artistRepository.getArtistMovies(789) } returns emptyList()
 
         val result = useCase.invoke(789)
 
-        Truth.assertThat(result).isEmpty()
+        assertThat(result).isEmpty()
         coVerify(exactly = 1) { artistRepository.getArtistMovies(789) }
     }
 
     @Test(expected = RuntimeException::class)
-    fun `invoke SHOULD throw exception when repository fails`() = runTest {
+    fun `should throw exception when repository fails`() = runTest {
         coEvery { artistRepository.getArtistMovies(123) } throws RuntimeException("Network error")
 
         useCase.invoke(123)
     }
 
     @Test(expected = IllegalArgumentException::class)
-    fun `invoke SHOULD throw exception when repository throws IllegalArgumentException`() =
+    fun `should throw exception when repository throws IllegalArgumentException`() =
         runTest {
             coEvery { artistRepository.getArtistMovies(-1) } throws IllegalArgumentException("Invalid artist ID")
 
@@ -66,7 +66,7 @@ class GetArtistMoviesUseCaseTest {
         }
 
     @Test
-    fun `invoke SHOULD call repository with correct artist id`() = runTest {
+    fun `should call repository with correct artist id`() = runTest {
         coEvery { artistRepository.getArtistMovies(999) } returns testMovies
 
         useCase.invoke(999)

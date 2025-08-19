@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.CustomTextTitle
@@ -78,7 +77,7 @@ fun ShimmerPagerCard(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .padding(top = 207.dp, start = 8.dp)
                 .clip(RoundedCornerShape(24.dp))
-                .background(Color(0xFF101128))
+                .background(Theme.color.system.shimmerPrimary)
                 .width(44.dp)
                 .height(20.dp)
         )
@@ -86,7 +85,7 @@ fun ShimmerPagerCard(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .padding(top = 232.dp, start = 8.dp)
                 .clip(RoundedCornerShape(24.dp))
-                .background(Color(0xFF101128))
+                .background(Theme.color.system.shimmerPrimary)
                 .width(44.dp)
                 .height(20.dp)
         )
@@ -94,7 +93,7 @@ fun ShimmerPagerCard(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .padding(top = 232.dp, start = 59.dp)
                 .clip(RoundedCornerShape(24.dp))
-                .background(Color(0xFF101128))
+                .background(Theme.color.system.shimmerPrimary)
                 .width(44.dp)
                 .height(20.dp)
         )
@@ -102,7 +101,7 @@ fun ShimmerPagerCard(modifier: Modifier = Modifier) {
             modifier = Modifier
                 .padding(top = 232.dp, start = 112.dp)
                 .clip(RoundedCornerShape(24.dp))
-                .background(Color(0xFF101128))
+                .background(Theme.color.system.shimmerPrimary)
                 .width(44.dp)
                 .height(20.dp)
         )

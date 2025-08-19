@@ -2,7 +2,7 @@
 
 package com.madrid.domain.usecase.authentication
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.repository.AuthenticationRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -25,59 +25,59 @@ class CheckFirstLaunchUseCaseTest {
     }
 
     @Test
-    fun `isFirstLaunch SHOULD return true when repository returns true`() = runTest {
+    fun `isFirstLaunch should return true when repository returns true`() = runTest {
         every { authenticationRepository.isFirstLaunch() } returns flowOf(true)
 
         val result = useCase.isFirstLaunch().first()
 
-        Truth.assertThat(result).isTrue()
+        assertThat(result).isTrue()
         verify(exactly = 1) { authenticationRepository.isFirstLaunch() }
     }
 
     @Test
-    fun `isFirstLaunch SHOULD return false when repository returns false`() = runTest {
+    fun `isFirstLaunch should return false when repository returns false`() = runTest {
         every { authenticationRepository.isFirstLaunch() } returns flowOf(false)
 
         val result = useCase.isFirstLaunch().first()
 
-        Truth.assertThat(result).isFalse()
+        assertThat(result).isFalse()
         verify(exactly = 1) { authenticationRepository.isFirstLaunch() }
     }
 
     @Test
-    fun `isFirstLaunch SHOULD return flow from repository`() = runTest {
+    fun `isFirstLaunch should return flow from repository`() = runTest {
         val expectedFlow = flowOf(true)
         every { authenticationRepository.isFirstLaunch() } returns expectedFlow
 
         val result = useCase.isFirstLaunch()
 
-        Truth.assertThat(result).isEqualTo(expectedFlow)
+        assertThat(result).isEqualTo(expectedFlow)
         verify(exactly = 1) { authenticationRepository.isFirstLaunch() }
     }
 
     @Test
-    fun `setOnBoardingDone SHOULD call repository with true parameter`() = runTest {
+    fun `setOnBoardingDone should call repository with true parameter`() = runTest {
         useCase.setOnBoardingDone(isCompleted = true)
 
         coVerify(exactly = 1) { authenticationRepository.setOnboardingCompleted(isCompleted = true) }
     }
 
     @Test
-    fun `setOnBoardingDone SHOULD call repository with false parameter`() = runTest {
+    fun `setOnBoardingDone should call repository with false parameter`() = runTest {
         useCase.setOnBoardingDone(isCompleted = false)
 
         coVerify(exactly = 1) { authenticationRepository.setOnboardingCompleted(isCompleted = false) }
     }
 
     @Test(expected = RuntimeException::class)
-    fun `isFirstLaunch SHOULD throw exception when repository fails`() = runTest {
+    fun `isFirstLaunch should throw exception when repository fails`() = runTest {
         every { authenticationRepository.isFirstLaunch() } throws RuntimeException("Repository error")
 
         useCase.isFirstLaunch()
     }
 
     @Test(expected = RuntimeException::class)
-    fun `setOnBoardingDone SHOULD throw exception when repository fails`() = runTest {
+    fun `setOnBoardingDone should throw exception when repository fails`() = runTest {
         coEvery { authenticationRepository.setOnboardingCompleted(any()) } throws RuntimeException("Repository error")
 
         useCase.setOnBoardingDone(isCompleted = true)
