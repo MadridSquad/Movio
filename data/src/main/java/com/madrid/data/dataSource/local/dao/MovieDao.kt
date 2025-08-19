@@ -9,7 +9,6 @@ import androidx.room.Transaction
 import androidx.room.Update
 import androidx.room.Upsert
 import com.madrid.data.dataSource.local.table.MediaHistoryTable
-import com.madrid.data.dataSource.local.table.MovieSection
 import com.madrid.data.dataSource.local.table.MovieTable
 import com.madrid.data.dataSource.local.table.SectionsMovieTable
 import com.madrid.data.dataSource.local.table.relationship.MovieGenreCrossRef
