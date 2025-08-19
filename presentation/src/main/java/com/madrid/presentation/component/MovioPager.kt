@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
@@ -124,7 +125,7 @@ fun MovioPager(
                             contentAlignment = Alignment.Center
                         ) {
                             MovieHomeCard(
-                                modifier = Modifier
+                                modifier = Modifier.offset(y = 20.dp)
                                     .graphicsLayer {
                                         scaleX = scale
                                         scaleY = scale
@@ -145,12 +146,24 @@ fun MovioPager(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                MovioPagerIndicator(
-                    pageCount = medias.size,
-                    currentPage = pagerState.currentPage,
-                    isRtl = isRtl,
-                    modifier = Modifier.padding(bottom = 4.dp)
-                )
+                Box(contentAlignment = Alignment.Center){
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(30.dp)
+                            .background(
+                                Brush.verticalGradient(
+                                    colors = listOf(Color.Transparent, Theme.color.surfaces.surface)
+                                )
+                            )
+                    )
+                    MovioPagerIndicator(
+                        pageCount = medias.size,
+                        currentPage = pagerState.currentPage,
+                        isRtl = isRtl,
+                        modifier = Modifier.padding(bottom = 4.dp)
+                    )
+                }
             }
         }
     }
@@ -167,16 +180,16 @@ private fun MovioPagerIndicator(
 ) {
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
         Box(contentAlignment = Alignment.Center){
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(Color.Transparent , Theme.color.surfaces.surface)
-                        )
-                    )
-            )
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(30.dp)
+//                    .background(
+//                        Brush.verticalGradient(
+//                            colors = listOf(Color.Transparent , Theme.color.surfaces.surface)
+//                        )
+//                    )
+//            )
             Row(
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
