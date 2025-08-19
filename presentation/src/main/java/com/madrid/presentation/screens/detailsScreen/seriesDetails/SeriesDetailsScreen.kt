@@ -282,7 +282,7 @@ fun SeriesDetailsScreen(
                                             .height(48.dp),
                                         onClick = {
                                             showAddRatingBottomSheet = false
-                                            navController.navigate(Destinations.AuthenticationScreen)
+                                            navController.navigate(Destinations.LoginScreen)
                                         },
                                         colors = ButtonDefaults.buttonColors(
                                             backgroundColor = Theme.color.brand.primary,

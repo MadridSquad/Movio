@@ -82,7 +82,7 @@ enum class ToastDuration(val timeMillis: Long) {
 @Composable
 private fun MovioToastPreview() {
 
-    MovioToast(
+    MovioSnakBar(
         message = "Something went wrong",
         onDismiss = {}
     )
