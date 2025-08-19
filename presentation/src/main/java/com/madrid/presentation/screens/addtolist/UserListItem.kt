@@ -25,24 +25,26 @@ import com.madrid.domain.entity.WatchList
 @Composable
 fun UserListItem(
     userList: WatchList,
+    movieId: Int,
     isGlobalLoading: Boolean = false,
-    onToggleSelection: (WatchList) -> Unit,
+    onToggleSelection: (WatchList, Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val isItemEnabled = !isGlobalLoading && !userList.isLoading
+    val isMovieInList = userList.movieIds.contains(movieId) || userList.isSelected
     val isItemLoading = isGlobalLoading || userList.isLoading
+    val isItemEnabled = !isItemLoading
 
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .height(40.dp)
+            .height(48.dp)
             .clickable(
                 enabled = isItemEnabled,
                 role = Role.Checkbox,
-                onClickLabel = if (userList.isSelected) "Remove from list" else "Add to list"
+                onClickLabel = if (isMovieInList) "Remove from ${userList.name}" else "Add to ${userList.name}"
             ) {
                 if (isItemEnabled) {
-                    onToggleSelection(userList)
+                    onToggleSelection(userList, !isMovieInList)
                 }
             }
             .padding(horizontal = 16.dp, vertical = 8.dp),
@@ -57,7 +59,7 @@ fun UserListItem(
             } else {
                 Theme.color.surfaces.onSurface.copy(alpha = 0.6f)
             },
-            modifier = Modifier.height(17.dp)
+            modifier = Modifier.weight(1f) // Use weight instead of fixed height
         )
 
         Box(
@@ -74,7 +76,7 @@ fun UserListItem(
                     )
                 }
 
-                userList.isSelected -> {
+                isMovieInList -> {
                     Box(
                         modifier = Modifier
                             .size(40.dp)
@@ -83,7 +85,7 @@ fun UserListItem(
                     ) {
                         MovioIcon(
                             painter = painterResource(id = R.drawable.bold_check_circle),
-                            contentDescription = "Added to list",
+                            contentDescription = "Movie is in ${userList.name}",
                             tint = Theme.color.brand.primary,
                             modifier = Modifier.size(24.dp)
                         )
@@ -91,20 +93,16 @@ fun UserListItem(
                 }
 
                 else -> {
-                    Box(
-                        contentAlignment = Alignment.Center
-                    ) {
-                        MovioIcon(
-                            painter = painterResource(id = com.madrid.presentation.R.drawable.ic_add_continer),
-                            contentDescription = "Add to list",
-                            modifier = Modifier.size(24.dp),
-                            tint = if (isItemEnabled) {
-                                Theme.color.surfaces.onSurface
-                            } else {
-                                Theme.color.surfaces.onSurface.copy(alpha = 0.6f)
-                            }
-                        )
-                    }
+                    MovioIcon(
+                        painter = painterResource(id = com.madrid.presentation.R.drawable.ic_add_continer),
+                        contentDescription = "Add to ${userList.name}",
+                        modifier = Modifier.size(24.dp),
+                        tint = if (isItemEnabled) {
+                            Theme.color.surfaces.onSurface
+                        } else {
+                            Theme.color.surfaces.onSurface.copy(alpha = 0.6f)
+                        }
+                    )
                 }
             }
         }

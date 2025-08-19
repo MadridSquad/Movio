@@ -192,8 +192,6 @@ fun ListManagementBottomSheet(
         }
 
         uiState.errorMessage?.let { errorMessage ->
-            // Add error handling UI here if needed
-            // For example, you could show an error snackbar or toast
         }
     }
 }
