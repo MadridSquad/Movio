@@ -1,7 +1,9 @@
 package com.madrid.presentation.screens.homeScreen.layout
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -30,6 +32,7 @@ import com.madrid.presentation.viewModel.homeViewModel.SortingType
 import com.madrid.presentation.viewModel.shared.MediaType
 import com.madrid.presentation.viewModel.shared.MediaUiState
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun CategoriesLayout(
     modifier: Modifier = Modifier,
@@ -44,7 +47,7 @@ fun CategoriesLayout(
 ) {
     val context = LocalContext.current
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 102.dp),
+        columns = GridCells.Adaptive(minSize = 101.33.dp),
         modifier = modifier
             .fillMaxSize()
             .padding(top = 132.dp)
@@ -84,8 +87,9 @@ fun CategoriesLayout(
                 items = SortingType.entries.map { stringResource(it.value) },
                 selectedItem = stringResource(sortingType.value),
                 onItemClick = { sortingValue ->
-                    val sorting = SortingType.entries.find { context.getString(it.value) == sortingValue }
-                        ?: SortingType.ALL
+                    val sorting =
+                        SortingType.entries.find { context.getString(it.value) == sortingValue }
+                            ?: SortingType.ALL
                     onSortingTypeSelected(sorting)
                 }
             )
@@ -103,18 +107,23 @@ fun CategoriesLayout(
             }
         } else {
             items(mediaItems.itemCount) { index ->
-                MovioVerticalCard(
-                    description = mediaItems[index]?.title ?: "",
-                    movieImage = mediaItems[index]?.imageUrl ?: "",
-                    rate = mediaItems[index]?.rating ?: "",
-                    height = 180.dp,
-                    onClick = {
-                        onMediaItemClicked(
-                            mediaItems[index]?.id?.toIntOrNull() ?: 0,
-                            mediaItems[index]?.mediaType ?: MediaType.MOVIE
-                        )
-                    }
-                )
+                BoxWithConstraints {
+                    val cardWidth = maxWidth
+                    val cardHeight = cardWidth * (136f / 101.33f)
+                    MovioVerticalCard(
+                        modifier = Modifier.width(cardWidth),
+                        description = mediaItems[index]?.title ?: "",
+                        movieImage = mediaItems[index]?.imageUrl ?: "",
+                        rate = mediaItems[index]?.rating ?: "",
+                        height = cardHeight,
+                        onClick = {
+                            onMediaItemClicked(
+                                mediaItems[index]?.id?.toIntOrNull() ?: 0,
+                                mediaItems[index]?.mediaType ?: MediaType.MOVIE
+                            )
+                        }
+                    )
+                }
             }
         }
     }
