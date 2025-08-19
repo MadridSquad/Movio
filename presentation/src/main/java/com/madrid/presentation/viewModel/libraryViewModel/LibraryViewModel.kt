@@ -110,7 +110,7 @@ class LibraryViewModel @Inject constructor(
                 getWatchListUseCase()
             },
             onSuccess = { watchList ->
-                updateState {
+                updateState { it ->
                     it.copy(
                         isLoading = false,
                         watchList = watchList.map { it.toWatchListState() }
@@ -139,7 +139,7 @@ class LibraryViewModel @Inject constructor(
                 getFavoriteUseCase()
             },
             onSuccess = { favoriteList ->
-                updateState {
+                updateState { it ->
                     it.copy(
                         isLoading = false,
                         favoriteList = favoriteList.map { it.toMediaUiState() }
@@ -168,7 +168,7 @@ class LibraryViewModel @Inject constructor(
                 getHistoryUseCase()
             },
             onSuccess = { historyList ->
-                updateState {
+                updateState { it ->
                     it.copy(
                         isLoading = false,
                         historyList = historyList.map { it.toMediaUiState() }
