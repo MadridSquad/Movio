@@ -12,7 +12,7 @@ import com.madrid.domain.entity.Movie
 import com.madrid.domain.usecase.movie.GetMovieGenresUseCase
 import com.madrid.presentation.pagination.SeeAllMoviesPagingSource
 import com.madrid.presentation.pagination.SeeAllMoviesWithGenrePagingSource
-import com.madrid.presentation.utils.RateFormatter
+import com.madrid.presentation.utils.formatRate
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -87,7 +87,7 @@ class SeeAllMoviesViewModel @AssistedInject constructor(
                             MoviesUiState(
                                 id = movie.id.toString(),
                                 imageUrl = movie.imageUrl,
-                                rate = RateFormatter.formatRate(movie.rate),
+                                rate = formatRate(movie.rate),
                                 name = movie.title,
                                 genre = movie.genre.map { it.toCategoryUiState() },
                             )

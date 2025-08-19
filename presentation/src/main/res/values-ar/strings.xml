@@ -178,4 +178,5 @@
 
     <string name="popularity">الأكثر شعبية</string>
     <string name="latest">الأحدث</string>
+    <string name="success_message">تمت الاضافة الى القائمة بنجاح</string>
 </resources>

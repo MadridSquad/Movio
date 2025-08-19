@@ -1,4 +1,4 @@
-package com.madrid.presentation.screens.logOut
+package com.madrid.presentation.component.logout
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

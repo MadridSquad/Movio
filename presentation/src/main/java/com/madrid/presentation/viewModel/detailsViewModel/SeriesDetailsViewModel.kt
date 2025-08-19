@@ -19,7 +19,8 @@ import com.madrid.domain.usecase.series.GetSimilarSeriesUseCase
 import com.madrid.domain.usecase.series.IsFavoriteSeriesUseCase
 import com.madrid.domain.usecase.series.SetSeriesFavoriteStatusUseCase
 import com.madrid.presentation.navigation.Destinations
-import com.madrid.presentation.utils.RateFormatter
+import com.madrid.presentation.utils.formatDate
+import com.madrid.presentation.utils.formatRate
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -106,7 +107,7 @@ class SeriesDetailsViewModel @Inject constructor(
                         topImageUrl = series.imageUrl,
                         seriesName = series.title,
                         seriesGenre = series.genre.map { it.name },
-                        rate = RateFormatter.formatRate(series.rate),
+                        rate = formatRate(series.rate),
                         numberOfSeasons = series.seasons.size,
                         productionDate = formatDateKotlinx(series.airDate),
                         description = series.description,
@@ -320,7 +321,7 @@ fun Series.toUiState(): SeriesUiState {
         id = this.id,
         name = this.title,
         imageUrl = this.imageUrl,
-        rate = RateFormatter.formatRate(this.rate)
+        rate =formatRate(this.rate)
     )
 }
 
@@ -330,7 +331,7 @@ fun Review.toUiState(): ReviewUiState {
         reviewerName = this.reviewerName,
         reviewerImageUrl = this.reviewerPhotoUrl,
         rating = this.rate.toFloat(),
-        date = (this.date),
+        date = formatDate(this.date),
         content = this.comment
     )
 }

@@ -25,123 +25,28 @@ fun ListSelectionContent(
     onDeleteModeClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier
 ) {
-    // Fix 1: Better logic for determining if movie is in list
-    // Instead of checking if list name contains movieId, check if movie is actually in the list
-    var userLists by remember(initialUserLists) {
-        mutableStateOf(
-            initialUserLists.map { list ->
-                list.copy(
-                    isLoading = false
-                )
-            }
-        )
-    }
-
-    // Fix 2: Update state when initialUserLists changes
-    LaunchedEffect(initialUserLists) {
-        userLists = initialUserLists.map { list ->
-            list.copy(
-                isLoading = false
-            )
-        }
-    }
-
     Column(
-        modifier = modifier
+        modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            .padding(vertical = 4.dp)
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            MovioText(
-                text = "Add to List",
-                textStyle = Theme.textStyle.body.mediumMedium14,
-                color = Theme.color.surfaces.onSurface,
-            )
-            MovioText(
-                text = "+ Create New",
-                textStyle = Theme.textStyle.body.mediumMedium14,
-                color = Theme.color.brand.primary,
-                modifier = Modifier.clickable { onCreateNewListClick() }
-            )
-        }
+        CreateNewListItem(
+            onListCreated = onCreateNewListClick,
+        )
 
-        when {
-            isLoading -> {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(32.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    MovioIcon(
-                        painter = painterResource(id = R.drawable.loading),
-                        contentDescription = "Loading",
-                        tint = Theme.color.surfaces.onSurfaceContainer,
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-            }
-
-            userLists.isEmpty() -> {
-                // Empty state
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(32.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    MovioText(
-                        text = "No lists available",
-                        textStyle = Theme.textStyle.body.mediumMedium14,
-                        color = Theme.color.surfaces.onSurfaceContainer,
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    MovioText(
-                        text = "Create your first list",
-                        textStyle = Theme.textStyle.body.mediumMedium12,
-                        color = Theme.color.brand.primary,
-                        modifier = Modifier.clickable { onCreateNewListClick() }
-                    )
-                }
-            }
-
-            else -> {
-                // Content state
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    items(
-                        items = userLists,
-                        key = { it.id }
-                    ) { userList ->
-                        UserListItem(
-                            userList = userList,
-                            isGlobalLoading = false,
-                            onToggleSelection = { list ->
-                                // Fix 4: Better state update logic
-                                val updatedLists = userLists.map { currentList ->
-                                    if (currentList.id == list.id) {
-                                        currentList.copy(
-                                            isSelected = !currentList.isSelected,
-                                            isLoading = true
-                                        )
-                                    } else {
-                                        currentList
-                                    }
-                                }
-                                userLists = updatedLists
-
-                                // Call the parent callback
-                                onSelectionChanged(list, !list.isSelected)
+        if (initialUserLists.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                items(initialUserLists) { userList ->
+                    UserListItem(
+                        userList = userList,
+                        onToggleSelection = { toggledList ->
+                            if (!isLoading && !toggledList.isLoading) {
+                                onSelectionChanged?.invoke(toggledList, true)
                             }
-                        )
-                    }
+                        }
+                    )
                 }
             }
         }

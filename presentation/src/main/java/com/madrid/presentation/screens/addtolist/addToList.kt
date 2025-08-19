@@ -45,13 +45,10 @@ fun ListManagementBottomSheet(
     var showSuccessNotification by remember { mutableStateOf(false) }
     var successMessage: String? by remember { mutableStateOf("") }
     var bottomSheetVisible by remember(isVisible) { mutableStateOf(isVisible) }
-
-    // Load user lists when bottom sheet becomes visible
     LaunchedEffect(isVisible) {
         if (isVisible) {
             currentMode = ListBottomSheetMode.LIST_SELECTION
             bottomSheetVisible = true
-            // THIS IS THE KEY FIX - Actually load the lists!
             viewModel.loadUserLists()
         } else {
             bottomSheetVisible = false
@@ -79,8 +76,6 @@ fun ListManagementBottomSheet(
             viewModel.clearSuccess()
         }
     }
-
-    // Handle error messages
     LaunchedEffect(uiState.errorMessage) {
         if (uiState.errorMessage != null) {
             delay(3000)
@@ -89,7 +84,6 @@ fun ListManagementBottomSheet(
     }
 
     Box(modifier = modifier.fillMaxSize()) {
-        // Bottom Sheet
         MovioBottomSheet(
             show = bottomSheetVisible,
             onDismiss = {
