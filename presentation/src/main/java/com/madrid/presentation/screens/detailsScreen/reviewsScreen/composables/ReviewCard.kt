@@ -1,5 +1,7 @@
 package com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -60,6 +62,9 @@ fun ReviewCard(
                 color = Theme.color.surfaces.onSurfaceAt3
             )
             .padding(12.dp)
+            .animateContentSize(
+                animationSpec = tween(durationMillis = 300)
+            )
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -133,7 +138,7 @@ fun ReviewCard(
 }
 
 
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 private fun ReviewCardPreview() {
     ReviewCard(
