@@ -76,7 +76,7 @@ fun RatingBottomSheetContent(
                     GuestRatingContent(
                         onLoginClick = {
                             onDismiss()
-                            navController.navigate(Destinations.AuthenticationScreen)
+                            navController.navigate(Destinations.LoginScreen)
                         }
                     )
                 } else {
