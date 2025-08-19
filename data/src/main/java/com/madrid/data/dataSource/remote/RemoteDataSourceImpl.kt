@@ -407,7 +407,7 @@ class RemoteDataSourceImpl @Inject constructor(
     ): ListOperationResponse {
         val request = AddToListRequest(
             mediaId = movieId,
-            media_type = "movie"
+            mediaType = "movie"
         )
 
         // Return the actual API response, not a hardcoded one
