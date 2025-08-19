@@ -83,7 +83,7 @@ fun ViewAllScreenContent(
         modifier = Modifier.statusBarsPadding()
     ) {
         TopAppBar(
-            text = state.title,
+            text = stringResource(state.title),
             secondIcon = null,
             thirdIcon = null,
             onFirstIconClick = { interactionListener.onBackClicked() },
@@ -113,13 +113,14 @@ fun ViewAllScreenContent(
             exit = fadeOut()
         ) {
             EmptyListContent(
-                title = state.title,
+                title = stringResource(state.title),
                 description = stringResource(state.emptyListMessage)
             )
         }
 
         AnimatedVisibility(
-            visible = state.isLoading.not() && state.errorMessage.isNullOrBlank() && state.items.isEmpty().not(),
+            visible = state.isLoading.not() && state.errorMessage.isNullOrBlank() && state.items.isEmpty()
+                .not(),
             enter = fadeIn(),
             exit = fadeOut()
         ) {
@@ -188,7 +189,7 @@ private fun ShowItemsColumn(
             SwipeToDeleteCard(
                 title = item.title,
                 movieRate = item.rating,
-                movieCategory = item.category.firstOrNull()?.name?: "",
+                movieCategory = item.category.firstOrNull()?.name ?: "",
                 movieImageUrl = item.imageUrl,
                 onDelete = {
                     interactionListener

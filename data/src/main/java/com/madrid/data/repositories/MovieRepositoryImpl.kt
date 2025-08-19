@@ -261,6 +261,10 @@ class MovieRepositoryImpl @Inject constructor(
         localDataSource.clearHomeMoviesCache()
     }
 
+    override suspend fun clearMovieGenres(){
+        localDataSource.clearMovieGenres()
+    }
+
     override suspend fun addMovieToHistory(movieId: Int) {
         localDataSource.addMovieToHistory(movieId = movieId)
     }

@@ -80,7 +80,7 @@ class HomeViewModel @Inject constructor(
                     it.copy(
                         categoryTabUiState = it.categoryTabUiState.copy(
                             categories = genres,
-                            selectedCategory = genres.first()
+                            selectedCategory = null
                         )
                     )
                 }
@@ -94,10 +94,8 @@ class HomeViewModel @Inject constructor(
         val moviesGenres = getMovieGenresUseCase()
         val seriesGenres = getSeriesGenresUseCase()
         val genres = (moviesGenres + seriesGenres).distinctBy { it.id }
-        val allCategory = listOf(
-            CategoryUiState(id = -1, name = "All")
-        )
-        return allCategory + genres.map { it.toCategoryUiState() }
+
+        return genres.map { it.toCategoryUiState() }
     }
 
     private fun fetchMediaByCategory(genreId: Int?, sortingType: SortingType) {
@@ -161,9 +159,8 @@ class HomeViewModel @Inject constructor(
                 )
             )
         }
-        val selectedCategoryId = state.value.categoryTabUiState.selectedCategory.id
-        val genreId = if (selectedCategoryId == -1) null else selectedCategoryId
-        fetchMediaByCategory(genreId, sortType)
+        val selectedCategoryId = state.value.categoryTabUiState.selectedCategory?.id
+        fetchMediaByCategory(selectedCategoryId, sortType)
     }
 
     override fun onMediaSelected(mediaId: Int, mediaType: MediaType) {
