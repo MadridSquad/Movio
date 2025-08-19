@@ -1,6 +1,5 @@
 package com.madrid.presentation.screens.homeScreen.layout
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -24,7 +23,6 @@ import com.madrid.designSystem.component.DialogWithButtonLayout
 import com.madrid.designSystem.component.FilterBar
 import com.madrid.designSystem.modifier.ShimmerCard
 import com.madrid.designSystem.modifier.removeWidthPaddingFromParent
-import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.viewModel.homeViewModel.CategoryUiState
@@ -45,95 +43,149 @@ fun CategoriesLayout(
     onTryAgainClicked: () -> Unit,
     isLoading: Boolean
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 102.dp),
-        modifier = modifier
-            .fillMaxSize()
-            .padding(top = 132.dp)
-            .background(Theme.color.surfaces.surface),
-        contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        item(span = { GridItemSpan(maxLineSpan) }) {
-            FilterBar(
-                modifier = Modifier
-                    .removeWidthPaddingFromParent(16.dp)
-                    .padding(top = 4.dp),
-                contentHorizontalPadding = 16.dp,
-                items = categories.map { it.name },
-                selectedItem = selectedCategory.name,
-                onItemClick = { category ->
-                    onCategorySelected(
-                        categories.find { it.name == category } ?: CategoryUiState()
-                    )
-                }
-            )
-        }
-
-        item(span = { GridItemSpan(maxLineSpan) }) {
-            FilterBar(
-                modifier = Modifier.padding(bottom = 12.dp),
-                contentHorizontalPadding = 0.dp,
-                items = SortingType.entries.map { it.value },
-                selectedItem = sortingType.value,
-                onItemClick = { sortingValue ->
-                    val sorting = SortingType.entries.find { it.value == sortingValue }
-                        ?: SortingType.ALL
-                    onSortingTypeSelected(sorting)
-                }
-            )
-        }
-
+    Box(Modifier
+        .fillMaxSize()
+        .padding(top = 136.dp)) {
         when (mediaItems.loadState.refresh) {
             is LoadState.Loading -> {
-                items(9) {
-                    ShimmerCard(
-                        isLoading = true,
-                        modifier = Modifier
-                            .clip(RoundedCornerShape(8.dp))
-                            .width(150.dp)
-                            .height(180.dp)
-                    )
-                }
-            }
-
-            is LoadState.Error -> {
-                item(span = { GridItemSpan(maxLineSpan) }) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        DialogWithButtonLayout(
-                            title = stringResource(R.string.empty_no_internet_title),
-                            description = stringResource(R.string.empty_no_internet_description),
-                            image = R.drawable.img_no_internet,
-                            buttonText = stringResource(R.string.try_again),
-                            onClick =  onTryAgainClicked,
-                            imageSize = 150,
+                FilterBar(
+                    modifier = Modifier,
+                    contentHorizontalPadding = 16.dp,
+                    items = categories.map { it.name },
+                    selectedItem = selectedCategory.name,
+                    onItemClick = { category ->
+                        onCategorySelected(
+                            categories.find { it.name == category } ?: CategoryUiState()
+                        )
+                    }
+                )
+                FilterBar(
+                    modifier = Modifier.padding(top = 44.dp),
+                    contentHorizontalPadding = 16.dp,
+                    items = SortingType.entries.map { it.value },
+                    selectedItem = sortingType.value,
+                    onItemClick = { sortingValue ->
+                        val sorting = SortingType.entries.find { it.value == sortingValue }
+                            ?: SortingType.ALL
+                        onSortingTypeSelected(sorting)
+                    }
+                )
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(minSize = 102.dp),
+                    modifier = modifier
+                        .fillMaxSize()
+                        .padding(top = 100.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    items(12) {
+                        ShimmerCard(
+                            isLoading = true,
                             modifier = Modifier
-                                .fillMaxSize()
-                                .padding(horizontal = 16.dp, vertical = 32.dp),
+                                .clip(RoundedCornerShape(8.dp))
+                                .width(150.dp)
+                                .height(180.dp)
                         )
                     }
                 }
             }
 
-            else -> {
-                items(mediaItems.itemCount) { index ->
-                    MovioVerticalCard(
-                        description = mediaItems[index]?.title ?: "",
-                        movieImage = mediaItems[index]?.imageUrl ?: "",
-                        rate = mediaItems[index]?.rating ?: "",
-                        height = 180.dp,
-                        onClick = {
-                            onMediaItemClicked(
-                                mediaItems[index]?.id?.toIntOrNull() ?: 0,
-                                mediaItems[index]?.mediaType ?: MediaType.MOVIE
-                            )
-                        }
+
+            is LoadState.Error -> {
+                FilterBar(
+                    modifier = Modifier,
+                    contentHorizontalPadding = 16.dp,
+                    items = categories.map { it.name },
+                    selectedItem = selectedCategory.name,
+                    onItemClick = { category ->
+                        onCategorySelected(
+                            categories.find { it.name == category } ?: CategoryUiState()
+                        )
+                    }
+                )
+                FilterBar(
+                    modifier = Modifier.padding(top = 44.dp),
+                    contentHorizontalPadding = 16.dp,
+                    items = SortingType.entries.map { it.value },
+                    selectedItem = sortingType.value,
+                    onItemClick = { sortingValue ->
+                        val sorting = SortingType.entries.find { it.value == sortingValue }
+                            ?: SortingType.ALL
+                        onSortingTypeSelected(sorting)
+                    }
+                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    DialogWithButtonLayout(
+                        title = stringResource(R.string.empty_no_internet_title),
+                        description = stringResource(R.string.empty_no_internet_description),
+                        image = R.drawable.img_no_internet,
+                        buttonText = stringResource(R.string.try_again),
+                        onClick = onTryAgainClicked,
+                        imageSize = 150,
+                        modifier = Modifier
+
                     )
+                }
+            }
+
+            else -> {
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(minSize = 102.dp),
+                    modifier = modifier
+                        .fillMaxSize()
+                        .padding(top = 132.dp),
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        FilterBar(
+                            modifier = Modifier
+                                .removeWidthPaddingFromParent(16.dp)
+                                .padding(top = 4.dp),
+                            contentHorizontalPadding = 16.dp,
+                            items = categories.map { it.name },
+                            selectedItem = selectedCategory.name,
+                            onItemClick = { category ->
+                                onCategorySelected(
+                                    categories.find { it.name == category } ?: CategoryUiState()
+                                )
+                            }
+                        )
+                    }
+
+                    item(span = { GridItemSpan(maxLineSpan) }) {
+                        FilterBar(
+                            modifier = Modifier.padding(bottom = 12.dp),
+                            contentHorizontalPadding = 0.dp,
+                            items = SortingType.entries.map { it.value },
+                            selectedItem = sortingType.value,
+                            onItemClick = { sortingValue ->
+                                val sorting = SortingType.entries.find { it.value == sortingValue }
+                                    ?: SortingType.ALL
+                                onSortingTypeSelected(sorting)
+                            }
+                        )
+                    }
+                    items(mediaItems.itemCount) { index ->
+                        MovioVerticalCard(
+                            description = mediaItems[index]?.title ?: "",
+                            movieImage = mediaItems[index]?.imageUrl ?: "",
+                            rate = mediaItems[index]?.rating ?: "",
+                            height = 180.dp,
+                            onClick = {
+                                onMediaItemClicked(
+                                    mediaItems[index]?.id?.toIntOrNull() ?: 0,
+                                    mediaItems[index]?.mediaType ?: MediaType.MOVIE
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }
