@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,6 +51,7 @@ import com.madrid.presentation.screens.detailsScreen.seriesDetails.component.cop
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.component.playSeriesTrailer
 import com.madrid.presentation.viewModel.detailsViewModel.ReviewUiState
 import com.madrid.presentation.viewModel.detailsViewModel.ReviewsScreenUiState
+import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsEffect
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsInteractionListener
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsUiState
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsViewModel
@@ -64,6 +66,37 @@ fun SeriesDetailsScreen(
     val interactionListener = viewModel as SeriesDetailsInteractionListener
     val navController = LocalNavController.current
     val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModel.effect.collect { effect ->
+            when (effect) {
+                is SeriesDetailsEffect.NavigateBack -> {
+                    navController.popBackStack()
+                }
+
+                is SeriesDetailsEffect.NavigateToSeriesDetails -> {
+                    navController.navigate(Destinations.SeriesDetailsScreen(effect.seriesId, 1))
+                }
+
+                is SeriesDetailsEffect.NavigateToActorDetails -> {
+                    navController.navigate(Destinations.ActorDetails(effect.actorId))
+                }
+
+                is SeriesDetailsEffect.NavigateToEpisodesScreen -> {
+                    navController.navigate(
+                        Destinations.EpisodesScreen(
+                            seriesId = effect.seriesId,
+                            seasonNumber = effect.seasonNumber
+                        )
+                    )
+                }
+
+                is SeriesDetailsEffect.NavigateToAuthenticationScreen -> {
+                    navController.navigate(Destinations.AuthenticationScreen)
+                }
+            }
+        }
+    }
 
     when {
         uiState.showLoadingScreen -> {
@@ -147,7 +180,7 @@ private fun SeriesDetailsScreenContent(
             modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
             onFirstIconClick = { interactionListener.onBackClick() },
             onSecondIconClick = { interactionListener.onShareShareBottomSheetClick() },
-            onThirdIconClick = { interactionListener.onFavoriteClick() },
+            onThirdIconClick = { interactionListener.onFavoriteClick(uiState.seriesId) },
             isFavorite = uiState.isFavourite
         )
         Column(
@@ -184,7 +217,7 @@ private fun SeriesDetailsScreenContent(
                 onDismiss = { interactionListener.onDismissAddRatingBottomSheet() },
                 content = {
                     if (uiState.isGuest) {
-                        GussetView(uiState, navController, interactionListener)
+                        GussetView(uiState, interactionListener)
                     } else {
                         AddRatingBottomSheet(uiState, viewModel, interactionListener)
                     }
@@ -201,11 +234,12 @@ private fun SeriesDetailsScreenContent(
                 uiState = uiState
             )
             TopCastSection(
-                uiState = uiState, navController = navController
+                uiState = uiState, navController = navController,
+                interactionListener = interactionListener
             )
             CurrentSeasonsSection(
-                navController = navController,
-                uiState = uiState
+                navController = navController, uiState = uiState,
+                interactionListener = interactionListener
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -227,7 +261,8 @@ private fun SeriesDetailsScreenContent(
 
             SimilarSeriesHorizontalSection(
                 navController = navController,
-                uiState = uiState
+                uiState = uiState,
+                interactionListener = interactionListener
             )
         }
     }

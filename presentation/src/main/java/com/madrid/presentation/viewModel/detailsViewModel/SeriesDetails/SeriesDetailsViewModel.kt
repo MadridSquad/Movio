@@ -31,18 +31,18 @@ import javax.inject.Inject
 @HiltViewModel
 class SeriesDetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
-    val getSeriesTopCastUseCase: GetSeriesTopCastUseCase,
-    val getSeriesReviewsUseCase: GetSeriesReviewsUseCase,
-    val getSimilarSeriesUseCase: GetSimilarSeriesUseCase,
-    val getEpisodesForSeasonUseCase: GetEpisodesForSeasonUseCase,
-    val addSeriesToHistoryUseCase: AddSeriesToHistoryUseCase,
-    val addRatingSeriesUseCase: AddRatingSeriesUseCase,
-    val isGuestUseCase: LoginUseCase,
-    val getSeriesTrailersUseCase: GetSeriesTrailersUseCase,
-    val setSeriesFavoriteStatusUseCase: SetSeriesFavoriteStatusUseCase,
-    val isFavoriteSeriesUseCase: IsFavoriteSeriesUseCase,
-    val getEpisodeTrailersUseCase: GetEpisodeTrailersUseCase,
+    private val getSeriesDetailsUseCase: GetSeriesDetailsUseCase,
+    private val getSeriesTopCastUseCase: GetSeriesTopCastUseCase,
+    private val getSeriesReviewsUseCase: GetSeriesReviewsUseCase,
+    private val getSimilarSeriesUseCase: GetSimilarSeriesUseCase,
+    private val getEpisodesForSeasonUseCase: GetEpisodesForSeasonUseCase,
+    private val addSeriesToHistoryUseCase: AddSeriesToHistoryUseCase,
+    private val addRatingSeriesUseCase: AddRatingSeriesUseCase,
+    private val isGuestUseCase: LoginUseCase,
+    private val getSeriesTrailersUseCase: GetSeriesTrailersUseCase,
+    private val setSeriesFavoriteStatusUseCase: SetSeriesFavoriteStatusUseCase,
+    private val isFavoriteSeriesUseCase: IsFavoriteSeriesUseCase,
+    private val getEpisodeTrailersUseCase: GetEpisodeTrailersUseCase,
 ) : BaseViewModel<SeriesDetailsUiState
         , SeriesDetailsEffect>(SeriesDetailsUiState()), SeriesDetailsInteractionListener
 {
@@ -51,19 +51,19 @@ class SeriesDetailsViewModel @Inject constructor(
     init {
         loadData()
         saveSeriesToHistory()
-        onClickFavoriteIcon(args.seriesId)
         checkIfFavoriteSeries()
+        isGuest()
+        loadAllSeasonsEpisodes()
     }
 
     private fun loadData() {
-        loadLoadSeries()
-        loadAllSeasonsEpisodes()
+        loadSeries()
         loadCastData()
         loadReviews()
         loadSimilarSeries()
     }
 
-    private fun loadLoadSeries() {
+    private fun loadSeries() {
         updateState { it.copy(showLoadingScreen = true) }
         tryToExecute(
             function = { getSeriesDetailsUseCase(args.seriesId) },
@@ -120,7 +120,7 @@ class SeriesDetailsViewModel @Inject constructor(
        )
     }
 
-    private fun addRating() {////////////////////////////////////////////////////////////////////////////////////////////
+    private fun addRating() {
         tryToExecute(
             function = {
                addRatingSeriesUseCase(
@@ -160,6 +160,134 @@ class SeriesDetailsViewModel @Inject constructor(
         )
     }
 
+    private fun isGuest() {
+       tryToCollect(function = { isGuestUseCase.isGuest()},
+           onNewValue = { result-> ::onCheckGuestNewValue.invoke(result)},
+           onError = {::onGuestError.invoke()}
+       )
+    }
+
+    private fun loadEpisodeTrailer(
+        seriesId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int,
+        onTrailerLoaded: (String?) -> Unit
+    ) {
+        tryToExecute(
+            function = { getEpisodeTrailersUseCase(seriesId, seasonNumber, episodeNumber) },
+            onSuccess = { trailers -> ::onSuccessLoadEpisodeTrailer.invoke(trailers,onTrailerLoaded)},
+            onError = { onTrailerLoaded(null) }
+        )
+    }
+
+    fun updateSelectedSeason(seasonNumber: Int) = loadSeasonEpisodes(seasonNumber)
+
+    override fun onBackClick() {
+        emitNewEffect(effect = SeriesDetailsEffect.NavigateBack)
+    }
+
+    override fun onRateClick() {
+        addRating()
+    }
+
+    override fun onFavoriteClick(seriesId: Int) {
+        onClickFavoriteIcon(seriesId)
+    }
+
+    override fun onPlayItClick() {
+        loadTrailer()
+    }
+
+    override fun onEpisodePlayItClick(
+        seriesId: Int,
+        seasonNumber: Int,
+        episodeNumber: Int,
+        onTrailerLoaded: (String?) -> Unit
+    ) {
+        loadEpisodeTrailer(
+            seriesId = seriesId, seasonNumber = seasonNumber,
+            episodeNumber =episodeNumber ,
+            onTrailerLoaded = onTrailerLoaded
+        )
+    }
+
+    override fun onSeriesClick() {
+        emitNewEffect(effect = SeriesDetailsEffect.NavigateToSeriesDetails(args.seriesId))
+    }
+
+    override fun onSeeAllClick() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onActorCardClick(actorId: Int) {
+        emitNewEffect(effect = SeriesDetailsEffect.NavigateToActorDetails(actorId))
+    }
+
+    override fun onSimilarSeriesCardClick(seriesId: Int) {
+        emitNewEffect(effect = SeriesDetailsEffect.NavigateToSeriesDetails(seriesId))
+    }
+
+    override fun onCurrentSeasonCardClick(seriesId: Int,seasonNumber: Int) {
+        emitNewEffect(effect = SeriesDetailsEffect.NavigateToEpisodesScreen(seriesId, seasonNumber =  seasonNumber))
+    }
+
+    override fun onRetryClick() {
+        loadData()
+    }
+
+    override fun onLoginClick() {
+        emitNewEffect(effect = SeriesDetailsEffect.NavigateToAuthenticationScreen)
+    }
+
+    override fun onShareShareBottomSheetClick() {
+        updateState { it.copy(showSheet=true) }
+    }
+
+    override fun onDismissShareShareBottomSheetClick() {
+        updateState { it.copy(showSheet=false) }
+    }
+
+    override fun onShowDoneRatingBottomSheetClick() {
+        updateState { it.copy(showDoneRatingBottomSheet= true) }
+    }
+
+    override fun onDismissShowDoneRatingBottomSheetClick() {
+        updateState { it.copy(showDoneRatingBottomSheet= false) }
+    }
+
+    override fun onShowAddRatingBottomSheetClick() {
+        updateState { it.copy(showAddRatingBottomSheet= true) }
+    }
+
+    override fun onDismissAddRatingBottomSheet() {
+        updateState { it.copy(showAddRatingBottomSheet= false) }
+    }
+
+    override fun onShowAddToListBottomSheet() {
+        updateState { it.copy(showAddToListBottomSheet = true) }
+    }
+
+    override fun onDismissAddToListBottomSheet() {
+        updateState { it.copy(showAddToListBottomSheet = false) }
+    }
+
+    private fun onError() {
+        updateState {
+            it.copy(isError = true, showLoadingScreen = false)
+        }
+    }
+
+    private fun onGuestError(){
+         updateState { it.copy(isGuest = true)
+        }
+    }
+
+    private fun onErrorCheckIfFavoriteSeries(){
+        updateState {
+            state -> state.copy(isFavourite = false)
+        }
+    }
+
     private fun onSuccessLoadSeries(series: Series) {
         updateState {
             it.copy(
@@ -177,13 +305,7 @@ class SeriesDetailsViewModel @Inject constructor(
                 isError = false,
             )
         }
-        loadSeasonEpisodes(
-            if (series.seasons.first().seasonNumber == 0) args.seasonNumber
-            else args.seasonNumber
-        )
     }
-
-    fun updateSelectedSeason(seasonNumber: Int) = loadSeasonEpisodes(seasonNumber)
 
     private fun onSuccessLoadSeasonsEpisodes(episode: List<Episode>) {
         state.value.currentSeasonsUiStates.forEachIndexed { index, season ->
@@ -204,11 +326,15 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     private fun onSuccessLoadCast(artists:List<Artist>){
-        updateState { it.copy(topCast = artists.map { artist -> artist.mapToUiState() })}
+        updateState {
+            it.copy(topCast = artists.map { artist -> artist.mapToUiState() })
+        }
     }
 
     private fun onSuccessLoadReviews(reviews:List<Review>){
-        updateState { it.copy(reviews = reviews.map { review -> review.toUiState() })}
+        updateState {
+            it.copy(reviews = reviews.map { review -> review.toUiState() })
+        }
     }
 
     private fun onSuccessLoadTrailer(trailers:List<Trailer>){
@@ -219,7 +345,9 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     private fun onSuccessLoadFavourite(){
-       updateState { it.copy(isFavourite = state.value.isFavourite.not()) }
+        updateState {
+            it.copy(isFavourite = state.value.isFavourite.not())
+        }
     }
 
     private fun onSuccessCheckIfFavoriteSeries(isFavorite:Boolean){
@@ -236,19 +364,11 @@ class SeriesDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun onErrorCheckIfFavoriteSeries(){
-        updateState { state ->
-            state.copy(isFavourite = false)
-        }
-    }
-
     private fun onSuccessLoadSeasonEpisodes(episodes:List<Episode>,seasonNumber:Int){
         updateState { state ->
             state.copy(
                 selectedSeasonUiState = state.selectedSeasonUiState.copy(
-                    episodesUiStates = episodes.map { episode ->
-                        episode.toUiState()
-                    },
+                    episodesUiStates = episodes.map { episode -> episode.toUiState() },
                     numberOfEpisodes = episodes.size,
                     seasonNumber = seasonNumber,
                     imageUrl = state.currentSeasonsUiStates[
@@ -260,48 +380,14 @@ class SeriesDetailsViewModel @Inject constructor(
         }
     }
 
-    override fun onBackClick() {
-        emitNewEffect(effect = SeriesDetailsEffect.NavigateBack)
+    private fun onSuccessLoadEpisodeTrailer(trailers:List<Trailer> ,onTrailerLoaded: (String?) -> Unit){
+        val trailerKey = trailers.firstOrNull()?.key
+        onTrailerLoaded(trailerKey)
     }
 
-    override fun onShareClick() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onRateClick() {
-        addRating()
-    }
-
-    override fun onFavoriteClick() {
-        onClickFavoriteIcon(args.seriesId)
-    }
-
-    override fun onAddToListClick() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onPlayItClick() {
-        loadTrailer()
-    }
-
-    override fun onSeriesClick() {
-        emitNewEffect(effect = SeriesDetailsEffect.NavigateToSeriesDetails(args.seriesId))
-    }
-
-    override fun onSeeAllClick() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onCardClick() {
-        TODO("Not yet implemented")
-    }
-
-    override fun onRetryClick() {
-        //emitNewEffect(effect = SeriesDetailsEffect.RetryLoadData)
-        loadData()
-    }
-
-    private fun onError() {
-        updateState { it.copy(isError = true, showLoadingScreen = false) }
+    private fun onCheckGuestNewValue(result:Boolean){
+        updateState {
+            it.copy(isGuest = result)
+        }
     }
 }

@@ -7,12 +7,14 @@ import androidx.navigation.NavHostController
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarSeries
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarSeriesSection
+import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsInteractionListener
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsUiState
 
 @Composable
 fun SimilarSeriesHorizontalSection(
     navController: NavHostController,
-    uiState: SeriesDetailsUiState
+    uiState: SeriesDetailsUiState,
+    interactionListener: SeriesDetailsInteractionListener
 ) {
     if (uiState.similarSeries.isNotEmpty()) {
         SimilarSeriesSection(
@@ -33,13 +35,9 @@ fun SimilarSeriesHorizontalSection(
                 )
             },
             onSeriesClick = { series ->
-                navController.navigate(
-                    Destinations.SeriesDetailsScreen(
-                        seriesId = series.id,
-                        1
-                    )
-                )
-            }, modifier = Modifier.navigationBarsPadding()
+                interactionListener.onSimilarSeriesCardClick(series.id)
+            },
+            modifier = Modifier.navigationBarsPadding()
         )
     }
 }

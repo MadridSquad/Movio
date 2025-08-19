@@ -16,12 +16,17 @@ import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioSeasonCard
 import com.madrid.presentation.navigation.Destinations
+import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsInteractionListener
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsUiState
 import com.madrid.presentation.viewModel.shared.parser.formatFullDateKtx
 import com.madrid.presentation.viewModel.shared.parser.formatYearKtx
 
 @Composable
-fun CurrentSeasonsSection(navController: NavHostController, uiState: SeriesDetailsUiState) {
+fun CurrentSeasonsSection(
+    navController: NavHostController,
+    interactionListener: SeriesDetailsInteractionListener,
+    uiState: SeriesDetailsUiState
+) {
     val seasons = uiState.currentSeasonsUiStates
 
     CurrentSeasonsTitle(
@@ -38,11 +43,9 @@ fun CurrentSeasonsSection(navController: NavHostController, uiState: SeriesDetai
                 movieRate = season.rate,
                 totalNumberOfEpisodes = season.numberOfEpisodes.toString(),
                 onClick = {
-                    navController.navigate(
-                        Destinations.EpisodesScreen(
-                            seriesId = uiState.seriesId,
-                            seasonNumber = season.seasonNumber
-                        )
+                    interactionListener.onCurrentSeasonCardClick(
+                        uiState.seriesId,
+                        season.seasonNumber
                     )
                 },
                 yearOfPublish = season.productionDate.formatYearKtx(),
@@ -62,7 +65,7 @@ fun CurrentSeasonsTitle(uiState: SeriesDetailsUiState, navController: NavHostCon
         endIcon = painterResource(com.madrid.designSystem.R.drawable.outline_alt_arrow_left),
         onSeeAllClick = {
             navController.navigate(
-                Destinations.SeasonsScreen(uiState.seriesId, 1)
+                Destinations.SeasonsScreen(uiState.seriesId,1)
             )
         },
         modifier = Modifier

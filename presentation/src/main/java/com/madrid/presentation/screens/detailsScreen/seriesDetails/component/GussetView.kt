@@ -27,7 +27,6 @@ import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDe
 @Composable
 fun GussetView(
     uiState: SeriesDetailsUiState,
-    navController: NavHostController,
     interactionListener: SeriesDetailsInteractionListener
 ) {
     if (uiState.isGuest) {
@@ -71,7 +70,6 @@ fun GussetView(
                 onClick = {
                     interactionListener.onDismissShareShareBottomSheetClick()
                     interactionListener.onLoginClick()
-                    navController.navigate(Destinations.AuthenticationScreen)
                 },
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = Theme.color.brand.primary,

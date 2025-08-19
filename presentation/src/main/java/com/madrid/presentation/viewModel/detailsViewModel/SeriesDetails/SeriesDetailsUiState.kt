@@ -23,7 +23,11 @@ data class SeriesDetailsUiState(
     val isFavourite: Boolean = false,
     val isAddedToList: Boolean = false,
     val userRating: Int = 0,
-    val isGuest: Boolean = true
+    val isGuest: Boolean = true,
+    val showSheet: Boolean = false,
+    val showAddRatingBottomSheet: Boolean = false,
+    val showDoneRatingBottomSheet: Boolean = false,
+    val showAddToListBottomSheet: Boolean = false,
 )
 
 data class SeriesUiState(
