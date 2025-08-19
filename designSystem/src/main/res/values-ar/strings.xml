@@ -29,4 +29,5 @@
     <string name="choose_theme">اختر المظهر</string>
     <string name="choose_language">اختر اللغة</string>
     <string name="passwordiconanimation">أيقونة اظهار كلمة السر </string>
+    <string name="image_loading_error">خطأ في تحميل الصورة</string>
 </resources>
