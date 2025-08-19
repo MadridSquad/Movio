@@ -37,7 +37,7 @@ import kotlinx.coroutines.delay
 fun SuccessNotificationRow(
     isVisible: Boolean,
     modifier: Modifier = Modifier,
-    message: String = R.string.success_message.toString(),
+    message: String = "Successfully added to your collection.",
     onAction: () -> Unit = {},
     actionText: String? = null,
     onDismiss: () -> Unit = {},
@@ -81,8 +81,6 @@ fun SuccessNotificationRow(
                 painter = icon,
                 contentDescription = "Success",
             )
-
-            // Success message
             MovioText(
                 modifier = Modifier.weight(1f),
                 text = message,
