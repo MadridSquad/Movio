@@ -20,8 +20,8 @@ fun MovieDetailsHeader(
     movieName: String,
     movieCategory: List<String>,
     date: String,
-    time: String,
-    rate: String,
+    time: String?,
+    rate: String?,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -36,7 +36,6 @@ fun MovieDetailsHeader(
         )
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier
         ) {
             movieCategory.forEach {
                 MovioText(
@@ -46,20 +45,27 @@ fun MovieDetailsHeader(
                 )
             }
         }
+
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(vertical = 4.dp)
         ) {
-            DetailsChips(
-                icon = painterResource(com.madrid.designSystem.R.drawable.bold_star),
-                iconTint = Theme.color.system.warning,
-                text = rate,
-            )
-            DetailsChips(
-                icon = painterResource(com.madrid.designSystem.R.drawable.outline_clock_circle),
-                iconTint = Theme.color.surfaces.onSurfaceVariant,
-                text = time,
-            )
+            rate?.let {
+                DetailsChips(
+                    icon = painterResource(com.madrid.designSystem.R.drawable.bold_star),
+                    iconTint = Theme.color.system.warning,
+                    text = it,
+                )
+            }
+
+            time?.let {
+                DetailsChips(
+                    icon = painterResource(com.madrid.designSystem.R.drawable.outline_clock_circle),
+                    iconTint = Theme.color.surfaces.onSurfaceVariant,
+                    text = it,
+                )
+            }
+
             DetailsChips(
                 icon = painterResource(com.madrid.designSystem.R.drawable.outline_calendar),
                 iconTint = Theme.color.surfaces.onSurfaceVariant,

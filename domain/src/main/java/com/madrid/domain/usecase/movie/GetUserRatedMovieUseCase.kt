@@ -20,6 +20,7 @@ class GetUserRatedMovieUseCase @Inject constructor(
 
     data class RatedMovie(
         val rate: Double,
-        val movie: Movie
+        val movie: Movie,
+        val date: String
     )
 }

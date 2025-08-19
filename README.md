@@ -13,7 +13,6 @@ A modern Android app built with Jetpack Compose for browsing and watching series
 ## 🚀 Features
 
 ### 🎯 **Smart Movie Discovery**
-- **AI-Powered Content Detection**: Advanced image analysis to identify movies from screenshots or posters
 - **Personalized Recommendations**: Intelligent suggestion engine based on viewing history and preferences
 - **Episode Trailers**: Seamless trailer integration for TV shows and movie series
 
@@ -35,15 +34,6 @@ A modern Android app built with Jetpack Compose for browsing and watching series
 - **Clean Architecture**: Separation of concerns with Domain-Data-Presentation layers
 - **Dependency Injection**: Hilt-powered DI for testable, maintainable code
 - **Modular Design**: Feature-based modules for scalability
-## 🤖 AI/ML Features
-
-The app includes intelligent content detection capabilities:
-
-### Image Content Analysis
-- **Scene Detection**: Automatically detect and categorize scene types
-- **Content Rating**: AI-powered content appropriateness detection
-- **Image Quality Assessment**: Analyze image quality for optimal display
-- **Auto-tagging**: Generate relevant tags for series posters and scenes
 
 ## 🛠️ Tech Stack
 
@@ -61,7 +51,6 @@ The app includes intelligent content detection capabilities:
 - **Async Programming**: Coroutines + Flow
 - **Database**: Room
 - **Testing**: JUnit, MockK, Truth
-- **Content Detection**: ML Kit / TensorFlow Lite
 ## 🏗️ App Architecture
 The app follows **Clean Architecture** principles with **MVVM** pattern and **Modularization** for robust, scalable, and testable code:
 
@@ -108,11 +97,6 @@ The app is structured using a **multi-module architecture** to promote separatio
 - Reusable Compose components
 - Design tokens and guidelines
 - Cross-module UI consistency
-#### `:detectImageContent` - AI/ML Content Analysis Module
-**Responsibilities:**
-- **Image Content Analysis**: Automatically detect haram or inappropriate elements in series posters and episode images  
-- **Scene Content Detection**: Identify and flag scenes containing haram content for automatic blurring  
-- **Content Filtering**: AI-powered detection to blur inappropriate content for compliance with family-friendly viewing standards  
 ## 📋 Prerequisites
 
 - Android Studio Narwhal (2025.1.2) or later

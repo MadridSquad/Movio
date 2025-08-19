@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.R
 import kotlinx.coroutines.delay
 
 @Composable
@@ -80,8 +81,6 @@ fun SuccessNotificationRow(
                 painter = icon,
                 contentDescription = "Success",
             )
-
-            // Success message
             MovioText(
                 modifier = Modifier.weight(1f),
                 text = message,

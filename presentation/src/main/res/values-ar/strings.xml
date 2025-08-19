@@ -171,4 +171,5 @@
     <string name="Or">أو</string>
     <string name="don_t_have_an_account">ليس لديك حساب؟</string>
     <string name="sign_up">إنشاء حساب</string>
+    <string name="success_message">تمت الاضافة الى القائمة بنجاح</string>
 </resources>

@@ -13,6 +13,8 @@ data class RatedMediaState(
     val imageUrL: String = "",
     val mediaTitle: String = "",
     val rate: String = "",
-    val mediaType: MediaType=MediaType.MOVIE,
-    val mediaId :Int
+    val mediaType: MediaType = MediaType.MOVIE,
+    val mediaId: Int,
+    val date: String,
+    val imageUrl: String
 )

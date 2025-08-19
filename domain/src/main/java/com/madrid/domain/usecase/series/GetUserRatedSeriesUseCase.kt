@@ -17,6 +17,7 @@ class GetUserRatedSeriesUseCase @Inject constructor(
 
     data class RatedSeries(
         val rate: Double,
-        val series: Series
+        val series: Series,
+        val date: String
     )
 }

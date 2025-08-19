@@ -1,5 +1,6 @@
 package com.madrid.designSystem.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,9 +13,12 @@ import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
+import com.madrid.designSystem.R
 
 /**
  * A customizable image viewer component that uses SubcomposeAsyncImage for efficient image loading.
@@ -49,7 +53,22 @@ fun ImageViewer(
         )
     },
     success: (@Composable () -> Unit)? = null,
-    error: (@Composable () -> Unit)? = null,
+    error: (@Composable () -> Unit)? = {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .clip(shape = RoundedCornerShape(8.dp)),
+            contentAlignment = Alignment.Center
+        ) {
+            Image(
+                painter = painterResource(R.drawable.image_placeholder),
+                contentDescription = stringResource(R.string.image_loading_error),
+                modifier = Modifier.fillMaxSize(),
+                alignment = Alignment.Center,
+                contentScale = ContentScale.Inside,
+            )
+        }
+    },
     onLoading: (() -> Unit)? = null,
     onSuccess: (() -> Unit)? = null,
     onError: () -> Unit = {},

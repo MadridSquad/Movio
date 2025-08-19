@@ -10,7 +10,7 @@ import androidx.paging.map
 import com.madrid.domain.usecase.series.GetSeriesGenresUseCase
 import com.madrid.presentation.pagination.SeeAllSeriesPagingSource
 import com.madrid.presentation.pagination.SeeAllSeriesWithGenrePagingSource
-import com.madrid.presentation.utils.RateFormatter
+import com.madrid.presentation.utils.formatRate
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -100,7 +100,7 @@ class SeeAllTVShowsViewModel @AssistedInject constructor(
                         SeriesUiState(
                             id = series.id.toString(),
                             imageUrl = series.imageUrl,
-                            rate = RateFormatter.formatRate(series.rate),
+                            rate = formatRate(series.rate),
                             name = series.title,
                         )
                     }
@@ -136,7 +136,7 @@ class SeeAllTVShowsViewModel @AssistedInject constructor(
                             SeriesUiState(
                                 id = series.id.toString(),
                                 imageUrl = series.imageUrl,
-                                rate = RateFormatter.formatRate(series.rate),
+                                rate = formatRate(series.rate),
                                 name = series.title,
                             )
                         }

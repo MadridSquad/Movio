@@ -38,7 +38,7 @@ class ReviewsScreenViewModel @Inject constructor(
                     })
                 }
             },
-            onError = { e -> Log.d("TAG lol", "loadMovieReviews: ${e.message}") },
+            onError = { e -> e.message },
         )
     }
 

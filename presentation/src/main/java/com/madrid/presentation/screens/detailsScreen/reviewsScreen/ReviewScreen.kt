@@ -29,14 +29,23 @@ import com.madrid.presentation.viewModel.detailsViewModel.ReviewsScreenViewModel
 fun ReviewsScreen(viewModel: ReviewsScreenViewModel = hiltViewModel()) {
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current
-    ReviewsScreenContent(uiState, onClickBack = { navController.popBackStack() })
+    ReviewsScreenContent(
+        uiState = uiState,
+        onClickBack = { navController.popBackStack() }
+    )
 }
 
 @Composable
-fun ReviewsScreenContent(uiState: ReviewsScreenUiState, onClickBack: () -> Unit = {}) {
-    Column(Modifier
-        .fillMaxSize()
-        .padding(horizontal = 16.dp).navigationBarsPadding()) {
+fun ReviewsScreenContent(
+    uiState: ReviewsScreenUiState,
+    onClickBack: () -> Unit = {}
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
+            .navigationBarsPadding()
+    ) {
         TopAppBar(
             text = stringResource(R.string.reviews),
             secondIcon = null,
@@ -44,21 +53,25 @@ fun ReviewsScreenContent(uiState: ReviewsScreenUiState, onClickBack: () -> Unit 
             modifier = Modifier.padding(start = 16.dp, top = 36.dp),
             onFirstIconClick = { onClickBack() }
         )
-        Spacer(Modifier.height(16.dp))
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         val reviews = uiState.reviews
-        LazyColumn(
-            contentPadding = PaddingValues(bottom = 40.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(reviews) { review ->
-                ReviewCard(
-                    reviewerName = review.reviewerName,
-                    reviewerImageUrl = review.reviewerImageUrl,
-                    rating = review.rating,
-                    date = review.date,
-                    content = review.content,
-                    modifier = Modifier.fillMaxWidth()
-                )
+        if (reviews.isNotEmpty()) {
+            LazyColumn(
+                contentPadding = PaddingValues(bottom = 40.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(reviews) { review ->
+                    ReviewCard(
+                        reviewerName = review.reviewerName,
+                        reviewerImageUrl = review.reviewerImageUrl.toString(),
+                        rating = review.rating,
+                        date = review.date,
+                        content = review.content,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
         }
     }
