@@ -41,10 +41,10 @@ fun ShimmerItem(
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            Box() {
+            Box {
                 ShimmerPagerCard(
                     Modifier
-                        .offset(x = -150.dp, y = 30.dp)
+                        .offset(x = (-150).dp, y = 30.dp)
                         .rotate(-20f)
                         .width(150.dp)
                         .height(200.dp)
@@ -191,7 +191,7 @@ fun ShimmerHorizontalCard(
             secondaryText = secondaryTextForCustomTextTitle,
             endIcon = endIconForCustomTextTitle,
             onSeeAllClick = onSeeAllClick,
-            isListEmpty = isLoading
+            isListEmpty = true
         )
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(12.dp),

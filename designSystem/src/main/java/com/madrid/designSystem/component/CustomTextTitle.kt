@@ -41,8 +41,7 @@ fun CustomTextTitle(
                     .size(24.dp)
             )
         }
-        Column (
-        ){
+        Column {
             MovioText(
                 text = primaryText,
                 color = Theme.color.surfaces.onSurface,
