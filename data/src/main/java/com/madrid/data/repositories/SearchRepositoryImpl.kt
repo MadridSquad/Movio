@@ -29,7 +29,7 @@ class SearchRepositoryImpl @Inject constructor (
             remoteDataSource.searchMoviesByQuery(
                 name = query,
                 page = page
-            ).movieResults?.forEach { movieResult ->
+            ).movieResults.forEach { movieResult ->
                 movieResult.genreIds?.forEach { genreId ->
                     localDataSource.relateMovieToGenre(
                         MovieGenreCrossRef(
@@ -51,7 +51,7 @@ class SearchRepositoryImpl @Inject constructor (
             remoteDataSource.searchSeriesByQuery(
                 name = query,
                 page = page
-            ).seriesResults?.forEach { seriesResult ->
+            ).seriesResults.forEach { seriesResult ->
                 seriesResult.genreIds?.forEach { genreId ->
                     localDataSource.relateSeriesToGenre(
                         SeriesGenreCrossRef(

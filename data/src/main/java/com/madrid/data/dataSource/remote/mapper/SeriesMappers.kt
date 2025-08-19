@@ -42,7 +42,7 @@ fun AiringTodayTvShowsResponse.toTvShows(): List<Series> {
 
 fun RecommendedSeriesResponse.toTvShows(): List<Series> {
     return this.recommendedSeriesResults?.map {
-        it?.toSeries() ?: getDefaultSeries()
+        it.toSeries()
     } ?: emptyList()
 }
 

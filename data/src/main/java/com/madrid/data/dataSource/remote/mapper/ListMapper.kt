@@ -24,7 +24,7 @@ fun ListItemDto.toMovie(genres: List<Genre>): Movie {
     return Movie(
         id = id,
         title = title ?: "no name",
-        imageUrl = "https://image.tmdb.org/t/p/original/$posterPath" ?: "",
+        imageUrl = "https://image.tmdb.org/t/p/original/$posterPath",
         rate = voteAverage,
         releaseDate = releaseDate ?: "",
         movieDuration = "",
@@ -38,7 +38,7 @@ fun ListItemDto.toSeries(genres: List<Genre>): Series {
     return Series(
         id = id,
         title = title ?: "no name",
-        imageUrl = "https://image.tmdb.org/t/p/original/$posterPath" ?: "",
+        imageUrl = "https://image.tmdb.org/t/p/original/$posterPath",
         rate = voteAverage,
         description = overview ?: "",
         airDate = "",

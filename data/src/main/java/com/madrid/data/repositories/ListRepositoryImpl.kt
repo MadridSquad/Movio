@@ -1,6 +1,5 @@
 package com.madrid.data.repositories
 
-import android.util.Log
 import com.madrid.data.dataSource.local.mappers.toGenre
 import com.madrid.data.dataSource.remote.mapper.toWatchList
 import com.madrid.data.dataSource.remote.mapper.toWatchListItems
