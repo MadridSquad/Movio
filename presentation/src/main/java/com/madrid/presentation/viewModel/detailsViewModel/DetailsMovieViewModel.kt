@@ -18,6 +18,7 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.utils.formatRate
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.shared.formatDate
 import com.madrid.presentation.viewModel.shared.formatDuration
 import com.madrid.presentation.viewModel.shared.parser.formatDateOfBirth
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -71,7 +72,7 @@ class DetailsMovieViewModel @Inject constructor(
                     it.copy(
                         movieId = movie.id,
                         topImageUrl = movie.imageUrl,
-                        dataMovie = movie.releaseDate,
+                        dataMovie =formatDate(movie.releaseDate),
                         movieName = movie.title,
                         rate = formatRate(movie.rate),
                         movieDuration = formatDuration(movie.movieDuration),
@@ -229,9 +230,8 @@ class DetailsMovieViewModel @Inject constructor(
     }
 
     fun addRating() {
-        // Validate that user has selected a rating (not 0)
         if (state.value.userRating == 0) {
-            return // Don't submit if no rating selected
+            return
         }
 
         tryToExecute(
