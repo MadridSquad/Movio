@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,12 +54,10 @@ fun BasicTextInputField(
     iconColorNotFocus: Color = Theme.color.surfaces.onSurfaceContainer,
     cursorColor: Color = Theme.color.surfaces.onSurface,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
-    keyboardActions: KeyboardActions = KeyboardActions.Default,
+
     letterSpacing: Int = 0
 ) {
     val isFocused by interactionSource.collectIsFocusedAsState()
-    val focusRequester = remember { FocusRequester() }
 
     val borderModifier = when {
         isError -> Modifier.border(
@@ -153,7 +152,9 @@ fun BasicTextInputField(
             }
         },
         cursorBrush = SolidColor(cursorColor),
-        keyboardOptions = keyboardOptions,
-        keyboardActions = keyboardActions
+        keyboardOptions = KeyboardOptions(
+            autoCorrect = false,
+            keyboardType = KeyboardType.Password
+        )
     )
 }
