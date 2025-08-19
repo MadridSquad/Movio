@@ -5,7 +5,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -42,6 +41,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.R.drawable
 import com.madrid.designSystem.component.EmptySearchLayout
@@ -66,8 +66,8 @@ import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.R
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.toReviewScreenUiState
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMoviesSection
-import com.madrid.presentation.viewModel.libraryViewModel.addtolist.MovieListViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.DetailsMovieViewModel
+import com.madrid.presentation.viewModel.libraryViewModel.addtolist.MovieListViewModel
 
 
 @Composable
@@ -140,7 +140,7 @@ fun MovieDetailsScreen(
                     .offset(y = 342.dp)
                     .background(
                         Brush.verticalGradient(
-                            colors = listOf(Color.Transparent , Theme.color.surfaces.surface)
+                            colors = listOf(Color.Transparent, Theme.color.surfaces.surface)
                         )
                     )
             )
@@ -204,12 +204,12 @@ fun MovieDetailsScreen(
                         showAddRatingBottomSheet = true
                     },
                     onPlayClick = {
-                        uiState.trailerKey?.let { key ->
+                        uiState.trailerKey.let { key ->
                             val youtubeAppIntent =
-                                Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$key"))
+                                Intent(Intent.ACTION_VIEW, "vnd.youtube:$key".toUri())
                             val youtubeWebIntent = Intent(
                                 Intent.ACTION_VIEW,
-                                Uri.parse("https://www.youtube.com/watch?v=$key")
+                                "https://www.youtube.com/watch?v=$key".toUri()
                             )
 
                             try {
@@ -286,7 +286,7 @@ fun MovieDetailsScreen(
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth(),
-                                horizontalAlignment = Alignment.CenterHorizontally
+                                horizontalAlignment = CenterHorizontally
                             ) {
                                 MovioArtistsCard(
                                     imageUrl = uiState.topImageUrl,
@@ -370,7 +370,9 @@ fun MovieDetailsScreen(
                                     .padding(bottom = 16.dp)
                             )
                             Row(
-                                modifier = Modifier.padding(top = 16.dp).align(Alignment.CenterHorizontally),
+                                modifier = Modifier
+                                    .padding(top = 16.dp)
+                                    .align(CenterHorizontally),
                                 horizontalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
                                 (1..5).forEach { i ->
