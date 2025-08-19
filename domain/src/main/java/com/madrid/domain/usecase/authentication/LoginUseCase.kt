@@ -34,8 +34,8 @@ class LoginUseCase @Inject constructor(
     suspend fun loginAsGuest(): Boolean {
 
         try {
-            val successisGuest = authenticationRepository.loginAsGuest()
-            if (!successisGuest) throw GuestLoginException()
+            val successIsGuest = authenticationRepository.loginAsGuest()
+            if (!successIsGuest) throw GuestLoginException()
             return true
         } catch (e: MovioException) {
             throw e
