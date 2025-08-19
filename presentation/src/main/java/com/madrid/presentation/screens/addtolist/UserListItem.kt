@@ -25,9 +25,9 @@ import com.madrid.domain.entity.WatchList
 @Composable
 fun UserListItem(
     userList: WatchList,
+    modifier: Modifier = Modifier,
     isGlobalLoading: Boolean = false,
     onToggleSelection: (WatchList) -> Unit,
-    modifier: Modifier = Modifier
 ) {
     val isItemEnabled = !isGlobalLoading && !userList.isLoading
     val isItemLoading = isGlobalLoading || userList.isLoading
@@ -98,11 +98,7 @@ fun UserListItem(
                             painter = painterResource(id = com.madrid.presentation.R.drawable.ic_add_continer),
                             contentDescription = "Add to list",
                             modifier = Modifier.size(24.dp),
-                            tint = if (isItemEnabled) {
-                                Theme.color.surfaces.onSurface
-                            } else {
-                                Theme.color.surfaces.onSurface.copy(alpha = 0.6f)
-                            }
+                            tint = Theme.color.surfaces.onSurface
                         )
                     }
                 }

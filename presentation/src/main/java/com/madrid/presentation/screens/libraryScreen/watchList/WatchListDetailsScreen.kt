@@ -111,7 +111,7 @@ private fun WatchListDetailsScreenContent(
                 image = R.drawable.empty_list,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp, vertical = 16.dp,),
+                    .padding(horizontal = 16.dp, vertical = 16.dp),
                 imageSize = 180,
             )
         }

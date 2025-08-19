@@ -3,7 +3,6 @@ package com.madrid.presentation.screens.homeScreen.layout
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,14 +28,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.CustomTextTitle
-import com.madrid.designSystem.theme.Theme
-import com.madrid.presentation.component.CustomHorizontalCard
-import com.madrid.presentation.component.MovioPager
-import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.designSystem.modifier.ShimmerCard
 import com.madrid.designSystem.modifier.ShimmerHorizontalCard
 import com.madrid.designSystem.modifier.ShimmerItem
 import com.madrid.designSystem.modifier.removeWidthPaddingFromParent
+import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.component.CustomHorizontalCard
+import com.madrid.presentation.component.MovioPager
+import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTvShowType
