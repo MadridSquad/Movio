@@ -1,7 +1,6 @@
 package com.madrid.presentation.navigation
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
@@ -65,11 +64,9 @@ fun MovioNavGraph(
         AnimatedVisibility(
             visible = currentDestination != null,
             enter = slideInVertically(
-                animationSpec = tween(0),
                 initialOffsetY = { it }
             ),
             exit = slideOutVertically(
-                animationSpec = tween(0),
                 targetOffsetY = { it }
             )
         ) {
