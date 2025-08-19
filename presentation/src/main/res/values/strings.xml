@@ -152,4 +152,5 @@
     <string name="undo">Undo</string>
     <string name="popularity">Popularity</string>
     <string name="latest">Latest</string>
+    <string name="success_message">Successfully added to your collection.</string>
 </resources>

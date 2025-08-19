@@ -30,13 +30,14 @@ import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.R
 import kotlinx.coroutines.delay
 
 @Composable
 fun SuccessNotificationRow(
     isVisible: Boolean,
     modifier: Modifier = Modifier,
-    message: String = "Successfully added to your collection.",
+    message: String = R.string.success_message.toString(),
     onAction: () -> Unit = {},
     actionText: String? = null,
     onDismiss: () -> Unit = {},

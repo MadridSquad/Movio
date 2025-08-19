@@ -2,6 +2,7 @@ package com.madrid.presentation.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -47,7 +48,7 @@ fun BottomMediaActions(
             .height(56.dp)
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceEvenly
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         if (onRateClick != null) {
             Column(
@@ -156,7 +157,9 @@ private fun PlayButton(onClick: () -> Unit) {
         MovioIcon(
             painter = painterResource(R.drawable.icon_paly),
             contentDescription = stringResource(com.madrid.presentation.R.string.play),
-            modifier = Modifier.size(28.dp),
+            modifier = Modifier
+                .align(Alignment.Center)
+                .size(24.dp),
             tint = Color.White
         )
     }
