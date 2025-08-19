@@ -56,13 +56,17 @@ fun OnBoardingScreen() {
                 .height(114.dp)
                 .align(Alignment.CenterHorizontally)
         )
-        Box(modifier = Modifier.align(Alignment.CenterHorizontally).offset(y = -8.dp)){
+        Box(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .offset(y = (-8).dp)
+        ) {
             LogoWithBackground()
         }
 
         Spacer(Modifier.height(40.dp))
         Column(Modifier.padding(horizontal = 16.dp)) {
-            Row() {
+            Row {
                 MovioText(
                     text = stringResource(R.string.open),
                     textStyle = Theme.textStyle.display.mediumMedium20,
@@ -101,9 +105,9 @@ fun OnBoardingScreen() {
     }
 }
 
-private @Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun PreviewOnBoardingScreen() {
+private fun PreviewOnBoardingScreen() {
     MovioTheme {
         OnBoardingScreen()
     }
