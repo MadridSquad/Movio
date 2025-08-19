@@ -26,8 +26,8 @@ import com.madrid.designSystem.theme.Theme
 @Composable
 fun CreateNewListItem(
     onListCreated: () -> Unit,
+    modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
-    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier

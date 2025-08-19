@@ -58,9 +58,7 @@ fun BottomMediaActions(
                 MediaActionItem(
                     modifier = Modifier.size(24.dp),
                     label = stringResource(com.madrid.presentation.R.string.rate_it),
-                    isActive = isRated,
                     inactiveIcon = R.drawable.outline_star,
-                    tint = Theme.color.surfaces.onSurfaceContainer,
                     onToggle = {
                         isRated = !isRated
                         onRateClick(isRated)
@@ -84,13 +82,11 @@ fun BottomMediaActions(
             ) {
                 MediaActionItem(
                     label = stringResource(com.madrid.presentation.R.string.add_to_list),
-                    isActive = isSaved,
                     inactiveIcon = R.drawable.outline_bookmark,
                     onToggle = {
                         isSaved = !isSaved
                         onAddToListClick(isSaved)
                     },
-                    tint = Theme.color.surfaces.onSurfaceVariant,
                     modifier = Modifier.size(24.dp)
                 )
             }
@@ -102,10 +98,8 @@ fun BottomMediaActions(
 @Composable
 private fun MediaActionItem(
     label: String,
-    isActive: Boolean,
     inactiveIcon: Int,
     onToggle: () -> Unit,
-    tint: Color,
     modifier: Modifier
 ) {
     Column(
