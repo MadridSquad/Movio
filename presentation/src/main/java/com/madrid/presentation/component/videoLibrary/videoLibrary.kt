@@ -6,27 +6,23 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
 import com.madrid.designSystem.R
+import com.madrid.designSystem.component.ImageViewer
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
@@ -51,15 +47,34 @@ fun VideoLibrary(
             contentAlignment = Alignment.Center
         )
         {
-            Image(
-                contentScale = ContentScale.Crop,
-                modifier = Modifier,
-                painter = if (posterUrl != null) rememberAsyncImagePainter(posterUrl) else
-                    painterResource(
-                        com.madrid.presentation.R.drawable.library_background
-                    ),
-                contentDescription = stringResource(com.madrid.presentation.R.string.background_image_of_squares),
-            )
+            if (posterUrl != null) {
+                ImageViewer(
+                    model = posterUrl,
+                    contentDescription = stringResource(com.madrid.presentation.R.string.background_image_of_squares),
+                    modifier = Modifier.fillMaxWidth(),
+                    contentScale = ContentScale.Crop,
+                    loading = {
+                        Image(
+                            painter = painterResource(com.madrid.presentation.R.drawable.library_background),
+                            contentDescription = stringResource(com.madrid.presentation.R.string.background_image_of_squares),
+                            contentScale = ContentScale.Crop
+                        )
+                    },
+                    error = {
+                        Image(
+                            painter = painterResource(com.madrid.presentation.R.drawable.library_background),
+                            contentDescription = stringResource(com.madrid.presentation.R.string.background_image_of_squares),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                )
+            } else {
+                Image(
+                    painter = painterResource(com.madrid.presentation.R.drawable.library_background),
+                    contentDescription = stringResource(com.madrid.presentation.R.string.background_image_of_squares),
+                    contentScale = ContentScale.Crop
+                )
+            }
             MovioIcon(
                 modifier = Modifier
                     .align(Alignment.TopEnd)
@@ -101,7 +116,6 @@ fun VideoLibrary(
         )
     }
 }
-
 
 @Preview(showBackground = true, heightDp = 500)
 @Composable

@@ -64,7 +64,6 @@ fun MovioRatingCard(
     }
 }
 
-
 @Composable
 fun RatingStarsCard(rating: String) {
     Row(
@@ -90,4 +89,3 @@ fun RatingStarsCard(rating: String) {
         )
     }
 }
-

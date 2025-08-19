@@ -16,10 +16,10 @@
     <string name="play">Play</string>
     <string name="rate_it">Rate it</string>
     <string name="more_screen">More Screen</string>
-    <string name="episodes_count">Episodes %1$d</string>
-    <string name="episode_number">Episode %1$d</string>
+    <string name="episodes_count">Episodes %1$s</string>
+    <string name="episode_number">Episode %1$s</string>
     <string name="episode_duration">%1$d m</string>
-    <string name="season_count">%1$d Seasons</string>
+    <string name="season_count">%1$s Seasons</string>
     <string name="library_screen">Library Screen</string>
     <string name="submit">Submit</string>
     <string name="add_your_overall_rating_for_this_movie">Add your overall rating for this movie</string>
@@ -38,6 +38,10 @@
     <string name="dot">dot</string>
     <string name="stars_icon_rate">stars icon rate</string>
     <string name="season">season %1$s</string>
+    <string name="year_and_episodes">%1$s | %2$s Episodes</string>
+    <string name="season_of_movie">Season</string>
+    <string name="season_of">of</string>//premiered on
+    <string name="premiered">premiered on %1$s</string>
     <string name="episodes">%1$s Episodes</string>
     <string name="of">of %1$s</string>
     <string name="searchdot">Search ...</string>

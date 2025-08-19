@@ -25,7 +25,6 @@ import kotlinx.coroutines.delay
 @Composable
 fun MovioToast(
     message: String,
-
     modifier: Modifier = Modifier,
     duration: ToastDuration = ToastDuration.SHORT,
     icon: Painter? = painterResource(id = R.drawable.danger),
@@ -41,7 +40,8 @@ fun MovioToast(
 
     if (alpha > 0f) {
         Row(
-            modifier = modifier.fillMaxWidth()
+            modifier = modifier
+                .fillMaxWidth()
                 .padding(16.dp)
                 .height(48.dp)
                 .background(
@@ -81,10 +81,8 @@ enum class ToastDuration(val timeMillis: Long) {
 @Preview(showBackground = true)
 @Composable
 private fun MovioToastPreview() {
-
-        MovioToast(
-            message = "Something went wrong",
-            onDismiss = {}
-        )
-    }
-
+    MovioToast(
+        message = "Something went wrong",
+        onDismiss = {}
+    )
+}

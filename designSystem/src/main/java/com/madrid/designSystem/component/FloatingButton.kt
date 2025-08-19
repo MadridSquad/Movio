@@ -19,7 +19,7 @@ fun FloatingButton(
     onClick: () -> Unit,
     size: Int,
     icon: Painter,
-    contentDescription : String? = null
+    contentDescription: String? = null
 ) {
     FloatingActionButton(
         modifier = modifier
@@ -32,7 +32,7 @@ fun FloatingButton(
                 painter = icon,
                 contentDescription = contentDescription,
                 tint = Color.White,
-                modifier = Modifier.size((size/2).dp)
+                modifier = Modifier.size((size / 2).dp)
             )
         }
     )

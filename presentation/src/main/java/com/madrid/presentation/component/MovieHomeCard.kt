@@ -25,10 +25,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.madrid.designSystem.R
+import com.madrid.designSystem.component.ImageViewer
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
-import com.madrid.detectImageContent.FilteredImage
 
 @Composable
 fun MovieHomeCard(
@@ -45,8 +45,8 @@ fun MovieHomeCard(
                 RoundedCornerShape(8.dp)
             ),
     ) {
-        FilteredImage(
-            imageUrl = movieId,
+        ImageViewer(
+            model = movieId,
             contentDescription = name,
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -83,8 +83,8 @@ fun MovieHomeCard(
                 .height(51.dp)
         ) {
 
-            FilteredImage(
-                imageUrl = movieId,
+            ImageViewer(
+                model = movieId,
                 contentDescription = name,
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier
@@ -103,12 +103,13 @@ fun MovieHomeCard(
                     name,
                     color = Theme.color.brand.onPrimary,
                     textStyle = Theme.textStyle.label.mediumMedium12,
+                    maxLines = 1
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
-                    genres.forEach {
+                    genres.take(3).forEach {
                         MovioText(
                             text = it,
                             color = Theme.color.surfaces.onSurfaceContainer,

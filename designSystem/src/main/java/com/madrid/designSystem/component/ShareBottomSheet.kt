@@ -76,7 +76,9 @@ fun ShareOptionItem(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.clickable { onClick() }.height(71.dp)
+        modifier = Modifier
+            .clickable { onClick() }
+            .height(71.dp)
     ) {
         Box(
             contentAlignment = Alignment.Center,

@@ -177,7 +177,7 @@ fun SeeAllTVShowsScreen(
                             description = movie?.name ?: "no description" ,
                             movieImage = movie?.imageUrl ?:"https://image.tmdb.org/t/p/w500/5xKGk6q5g7mVmg7k7U1RrLSHwz6.jpg",
                             rate = movie?.rate?.take(3) ?: "4.3",
-                            height = 180.dp,
+                            height = 136.dp,
                             onClick = {
                                 navController.navigate(
                                     Destinations.SeriesDetailsScreen(

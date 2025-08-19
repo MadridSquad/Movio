@@ -25,6 +25,10 @@ class ActorDetailsViewModel @Inject constructor(
         loadActorDetails()
     }
 
+    fun retryLoadData() {
+        loadActorDetails()
+    }
+
     private fun loadActorDetails() {
         tryToExecute(
             function = {
