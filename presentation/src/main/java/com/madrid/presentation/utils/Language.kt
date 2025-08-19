@@ -1,5 +1,6 @@
 package com.madrid.presentation.utils
 
+import android.annotation.SuppressLint
 import android.app.LocaleManager
 import android.content.Context
 import android.content.SharedPreferences
@@ -46,8 +47,9 @@ sealed class Language {
             )
         }
 
+        @Suppress("DEPRECATION")
         private fun setLocaleForDevicesLowerThanTiramisu(localeTag: String, context: Context) {
-            val locale = Locale(localeTag)
+            @Suppress("DEPRECATION") val locale = Locale(localeTag)
             Locale.setDefault(locale)
             val resources = context.resources
             val configuration = resources.configuration
@@ -55,6 +57,7 @@ sealed class Language {
             resources.updateConfiguration(configuration, resources.displayMetrics)
         }
 
+        @SuppressLint("UseKtx")
         private fun saveToLocalSharedAndUpdateResources(context: Context, localeTag: String) {
             val sharedPref = getLocaleSharedPreference(context) ?: return
 

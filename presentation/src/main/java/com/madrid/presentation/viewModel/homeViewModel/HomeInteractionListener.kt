@@ -1,6 +1,5 @@
 package com.madrid.presentation.viewModel.homeViewModel
 
-import android.content.Context
 import com.madrid.presentation.viewModel.shared.MediaType
 
 interface HomeInteractionListener {

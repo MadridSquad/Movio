@@ -253,9 +253,3 @@ private fun openYoutubeMediaTrailer(key: String, context: Context) {
         }
     }
 }
-
-enum class HomeTab {
-    MOVIES,
-    TV_SHOWS,
-    CATEGORIES
-}

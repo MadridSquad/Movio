@@ -35,7 +35,7 @@ import com.madrid.presentation.viewModel.libraryViewModel.LibraryScreenState
 import com.madrid.presentation.viewModel.libraryViewModel.LibraryViewModel
 import com.madrid.presentation.viewModel.libraryViewModel.viewAll.factory.ViewAllType
 import kotlinx.coroutines.flow.collectLatest
-import com.madrid.presentation.R as presentationR
+
 
 @Composable
 fun LibraryScreen(
@@ -195,10 +195,10 @@ private fun LoginLayout(
             .fillMaxSize()
             .padding(horizontal = 16.dp)
             .padding(bottom = 32.dp),
-        title = stringResource(presentationR.string.unlock_your_personal_library),
-        description = stringResource(presentationR.string.access_your_watch_history_favorites_and_watchlist_all_in_one_place),
+        title = stringResource(com.madrid.presentation.R.string.unlock_your_personal_library),
+        description = stringResource(com.madrid.presentation.R.string.access_your_watch_history_favorites_and_watchlist_all_in_one_place),
         image = R.drawable.library_main_icon,
-        buttonText = stringResource(presentationR.string.login),
+        buttonText = stringResource(com.madrid.presentation.R.string.login),
         onClick = { interactionListener.onLoginBtnClick() },
     )
 }
