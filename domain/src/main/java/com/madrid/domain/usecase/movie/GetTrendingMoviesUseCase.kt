@@ -1,10 +1,14 @@
 package com.madrid.domain.usecase.movie
 
+import com.madrid.domain.entity.Movie
 import com.madrid.domain.repository.MovieRepository
 import javax.inject.Inject
 
 class GetTrendingMoviesUseCase @Inject constructor(
     private val movieRepository: MovieRepository
 ) {
-    suspend operator fun invoke(page: Int) = movieRepository.getTrendingMovies(page)
+    suspend operator fun invoke(page: Int) : List<Movie> {
+        movieRepository.getMoviesGenres() // Intentionally calling getMoviesGenres() for its side effects (caching)
+        return movieRepository.getTrendingMovies(page)
+    }
 }

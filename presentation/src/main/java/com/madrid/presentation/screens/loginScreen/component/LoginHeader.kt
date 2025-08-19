@@ -24,7 +24,9 @@ import com.madrid.designSystem.theme.Theme
 
 
 @Composable
-fun LoginHeader() {
+fun LoginHeader(
+    modifier: Modifier= Modifier
+) {
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
