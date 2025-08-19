@@ -65,7 +65,7 @@ fun MoreScreen(
         viewModel.effect.collect { effect ->
             when (effect) {
                 is MoreEffect.navigateToLogin -> {
-                    navController.navigate(Destinations.AuthenticationScreen)
+                    navController.navigate(Destinations.LoginScreen)
                 }
 
                 is MoreEffect.navigateToMyRatings -> {
@@ -87,7 +87,7 @@ fun MoreScreen(
         isVisible = state.isLogoutSheetVisible,
         onDismiss = { viewModel.dismissLogoutSheet() },
         onNavigateToAuth = {
-            navController.navigate(Destinations.AuthenticationScreen) {
+            navController.navigate(Destinations.LoginScreen) {
                 popUpTo(0) { inclusive = true }
             }
         },

@@ -31,4 +31,5 @@
     <string name="Rating">تقييم</string>
     <string name="less">اقل</string>
     <string name="more">اكثر</string>
+    <string name="passwordiconanimation">أيقونة اظهار كلمة السر </string>
 </resources>

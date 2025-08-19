@@ -8,8 +8,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -33,7 +36,8 @@ fun ShareBottomSheetContent(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 16.dp),
+            .padding(bottom = 32.dp)
+            .navigationBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -78,13 +82,14 @@ fun ShareOptionItem(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .clickable { onClick() }
-            .height(71.dp)
+            .wrapContentHeight()
+            .width(74.dp)
     ) {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
-                .size(48.dp)
                 .clip(shape = CircleShape)
+                .size(48.dp)
                 .background(Theme.color.surfaces.surfaceContainer)
 
         ) {
@@ -107,7 +112,18 @@ fun ShareOptionItem(
 @Preview(showBackground = true)
 @Composable
 private fun ShareBottomSheetContentPreview() {
-    MovioTheme {
-        ShareBottomSheetContent({}, {}, {})
+    MovioTheme(isDarkTheme = true) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .background(Theme.color.surfaces.surface)
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+
+            ShareBottomSheetContent({}, {}, {})
+        }
     }
+
 }

@@ -17,7 +17,7 @@ sealed interface Destinations {
     data object OnBoarding : Destinations
 
     @Serializable
-    data object AuthenticationScreen : Destinations
+    data object LoginScreen : Destinations
 
     @Serializable
     data object HomeScreen : Destinations
