@@ -8,8 +8,12 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
@@ -27,10 +31,18 @@ fun LoginErrorAndForgotPassword(
         modifier = modifier
             .fillMaxWidth()
 
-,        horizontalArrangement = Arrangement.SpaceBetween
+,        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
 
         if (state.errorMessage != null) {
+            MovioIcon(painter = painterResource(com.madrid.designSystem.R.drawable.info_circle),
+                contentDescription = "error Text ",
+                tint = Theme.color.system.onError,
+
+                )
+
+
             MovioText(
                 text = stringResource(state.errorMessage),
                 textStyle = Theme.textStyle.label.mediumMedium12,
