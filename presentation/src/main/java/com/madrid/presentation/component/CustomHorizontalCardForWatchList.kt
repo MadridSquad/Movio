@@ -1,6 +1,7 @@
 package com.madrid.presentation.component
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -31,6 +32,7 @@ fun CustomHorizontalCardForWatchList(
     endIconForCustomTextTitle: Painter? = null,
     onSeeAllClick: (() -> Unit)? = null,
     onWatchListClick: (WatchListState) -> Unit = {},
+    onEmptyWatchListClick: () -> Unit = {},
 ) {
     Column(
         modifier = modifier,
@@ -45,7 +47,9 @@ fun CustomHorizontalCardForWatchList(
         )
 
         AnimatedVisibility(listOfWatch.isEmpty()) {
-            AddWatchListItem(modifier = Modifier.padding(horizontal = 16.dp))
+            AddWatchListItem(modifier = Modifier
+                .padding(horizontal = 16.dp)
+                .clickable(onClick = onEmptyWatchListClick))
         }
         AnimatedVisibility(listOfWatch.isNotEmpty()) {
             LazyRow(

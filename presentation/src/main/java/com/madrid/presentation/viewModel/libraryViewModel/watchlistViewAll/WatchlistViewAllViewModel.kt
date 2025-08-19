@@ -1,6 +1,8 @@
 package com.madrid.presentation.viewModel.libraryViewModel.watchlistViewAll
 
 import com.madrid.domain.usecase.movie.CreateMovieListUseCase
+import com.madrid.domain.usecase.movie.GetMovieGenresUseCase
+import com.madrid.domain.usecase.series.GetSeriesGenresUseCase
 import com.madrid.domain.usecase.watchList.GetWatchListsUseCase
 import com.madrid.presentation.R
 import com.madrid.presentation.viewModel.base.BaseViewModel
@@ -13,10 +15,13 @@ import javax.inject.Inject
 class WatchlistViewAllViewModel @Inject constructor(
     private val getWatchListUseCase: GetWatchListsUseCase,
     private val createMovieListUseCase: CreateMovieListUseCase,
+    private val getMovieGenresUseCase: GetMovieGenresUseCase,
+    private val getSeriesGenresUseCase: GetSeriesGenresUseCase,
 ) : BaseViewModel<WatchlistViewAllUiState, WatchlistViewAllEffect>(WatchlistViewAllUiState()),
     WatchListViewAllInteractionListener {
 
     init {
+        loadGenres()
         loadWatchLists()
     }
 
@@ -39,6 +44,34 @@ class WatchlistViewAllViewModel @Inject constructor(
                 }
             },
             onError = { error -> onError(error) }
+        )
+    }
+
+    private fun loadGenres() {
+        updateState {
+            it.copy(
+                isLoading = true,
+                errorMessage = null
+            )
+        }
+        tryToExecute(
+            function = {
+                getMovieGenresUseCase()
+                getSeriesGenresUseCase()
+            },
+            onSuccess = {
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = null
+                    )
+                }
+            },
+            onError = { throwable ->
+                updateState {
+                    it.copy(errorMessage = throwable.message.toString())
+                }
+            }
         )
     }
 
