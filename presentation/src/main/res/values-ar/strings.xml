@@ -13,14 +13,7 @@
     <string name="actioniconcolor">لون ايقونة </string>
     <string name="play">تشغيل</string>
     <string name="rate_it">قيم</string>
-    <string name="login">سجل الدخول</string>
-    <string name="forgot_password">نسيت كلمة المرور ؟</string>
-    <string name="welcome_back">أهلا بعودتك</string>
-    <string name="username">اسم المستخدم</string>
-    <string name="password">كلمة المرور</string>
-    <string name="Or">أو</string>
-    <string name="don_t_have_an_account">هل لديك حساب ؟</string>
-    <string name="sign_up">إنشاء حساب</string>
+
     <string name="more_screen">المزيد</string>
     <string name="episodes_count">الحلقات %1$s</string>
     <string name="season_count">%1$s المواسم</string>
@@ -57,7 +50,7 @@
     <string name="more">المزيد</string>
     <string name="home">الرئيسية</string>
     <string name="search">البحث</string>
-    <string name="top_result">افضل النتائج</string>
+    <string name="top_results">افضل النتائج</string>
     <string name="Movies">الأفلام</string>
     <string name="Series">المسلسلات</string>
     <string name="Artists">الممثلون</string>
@@ -101,12 +94,9 @@
     <string name="empty_no_history_description">ابدأ بمشاهدة الأفلام والمسلسلات وسنقوم بتتبع سجل مشاهداتك هنا.</string>
     <string name="empty_search_title">ماذا تبحث اليوم؟</string>
     <string name="empty_search_description">ابدأ بالكتابة في شريط البحث للعثور على ما تحتاجه.</string>
-    <string name="username_is_required">اسم المستخدم مطلوب</string>
-    <string name="password_is_required">كلمة المرور مطلوبة</string>
-    <string name="invalid_username_or_password">اسم المستخدم أو كلمة المرور غير صحيحة</string>
-    <string name="account_locked_contact_support">الحساب مغلق تواصل مع الدعم</string>
-    <string name="network_error_try_again">خطأ في الشبكة حاول مرة أخرى</string>
-    <string name="continue_as_a_guest">الإستمرار كزائر</string>
+    <string name="username_and_password_are_required">اسم المستخدم وكلمة السر مطلوب</string>
+
+
     <string name="Home">الرئيسية</string>
     <string name="Library">المكتبة</string>
     <string name="More">المزيد</string>
@@ -151,4 +141,41 @@
     <string name="Start_watching_movies_and_shows">إبدء بمشاهدة الأفلام و المسلسلات. وسنقوم بتتبع سجل المشاهدة الخاص بك هنا.</string>
     <string name="empty_list_description">احفظ الأفلام والعروض التي تريد مشاهدتها، وستظهر هنا عندما تكون مستعدًا.</string>
     <string name="undo">تراجع</string>
+
+    <!-- Validation Errors -->
+    <string name="username_is_required">اسم المستخدم مطلوب</string>
+    <string name="password_is_required">كلمة المرور مطلوبة</string>
+    <!-- Authentication Errors -->
+    <string name="invalid_username_or_password">اسم المستخدم أو كلمة المرور غير صحيحة</string>
+    <string name="account_locked_contact_support">الحساب مغلق تواصل مع الدعم</string>
+    <string name="unauthorized">الوصول غير المصرح به</string>
+    <!-- Network Errors -->
+    <string name="network_error_try_again">خطأ في الشبكة حاول مرة أخرى</string>
+    <string name="network_error">لا يوجد اتصال بالانترنت </string>
+    <string name="network_timeout">"انتهت مهلة الطلبt</string>
+    <!-- Server Errors -->
+    <string name="server_error">خطأ في الخادم، يرجى المحاولة لاحقًا</string>
+    <string name="bad_request">طلب سيء</string>
+    <string name="resource.not_found">لم يتم العثور على المورد</string>
+    <!-- General Errors -->
+    <string name="unknown_error">لقد حدث خطأ ما </string>
+    <!-- UI Labels -->
+    <string name="continue_as_a_guest">الإستمرار كزائر</string>
+    <string name="login">سجل الدخول</string>
+    <string name="forgot_password">نسيت كلمة المرور ؟</string>
+    <string name="welcome_back">أهلا بعودتك</string>
+    <string name="username">اسم المستخدم</string>
+    <string name="password">كلمة المرور</string>
+    <string name="Or">أو</string>
+    <string name="don_t_have_an_account">ليس لديك حساب؟</string>
+    <string name="sign_up">إنشاء حساب</string>
+
+
+
+
+
+
+
+    <string name="popularity">الأكثر شعبية</string>
+    <string name="latest">الأحدث</string>
 </resources>

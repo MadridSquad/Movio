@@ -7,6 +7,7 @@ interface MoreInteractionListener {
     fun onSelectTheme(themeType: ThemeType)
     fun onConfirmTheme()
     fun onClickLanguage()
+    fun onConfirmLanguage()
     fun onDismissBottomSheet()
     fun onLogoutBtnClick()
 }

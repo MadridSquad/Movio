@@ -6,7 +6,7 @@ import com.madrid.presentation.viewModel.shared.MediaType
 import com.madrid.presentation.viewModel.shared.MediaUiState
 
 data class ViewAllUiState(
-    val title: String = "",
+    val title: Int = R.string.favorites,
     val items: List<MediaUiState> = emptyList(),
     val emptyListMessage : Int = R.string.Start_adding_the_movies_and_shows_you_love,
     val isLoading: Boolean = false,

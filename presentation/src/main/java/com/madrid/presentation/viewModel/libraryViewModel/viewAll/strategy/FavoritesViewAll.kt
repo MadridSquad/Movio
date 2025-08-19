@@ -17,8 +17,8 @@ class FavoritesViewAll @Inject constructor(
     private val setSeriesFavoriteStatusUseCase: SetSeriesFavoriteStatusUseCase
 ) : ViewAllStrategy {
 
-    override fun getTitle(): String {
-        return "Favorites"
+    override fun getTitle(): Int {
+        return R.string.favorites
     }
 
     override fun getEmptyListMessage(): Int {

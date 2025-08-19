@@ -112,7 +112,7 @@ fun AllMediaLayout() {
                 description = media.title,
                 movieImage = media.imageUrl,
                 rate = media.rating,
-                height = 220.dp,
+                imageHeight = 220.dp,
                 onClick = {},
                 modifier = Modifier.padding(start = startPaddingValue.dp, end = endPaddingValue.dp)
             )

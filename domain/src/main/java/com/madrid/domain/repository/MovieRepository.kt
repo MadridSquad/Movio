@@ -19,6 +19,7 @@ interface MovieRepository {
     suspend fun getExploreMoreMovies(page: Int): List<Movie>
     suspend fun getTrendingMovies(page: Int): List<Movie>
     suspend fun getMoviesGenres(): List<Genre>
+    suspend fun clearMovieGenres()
     suspend fun increaseMovieGenreInterestPoints(genreTitle: String)
     suspend fun getMoviesByGenres(): Map<String, List<Movie>>
     suspend fun getTopRatedMovies(page: Int): List<Movie>

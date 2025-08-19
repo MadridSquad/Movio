@@ -13,7 +13,7 @@ data class SectionsMovieTable(
     val movieDuration: String,
     val description: String,
     val movieSection: String,
-    val genresIds: Int
+    val genresIds: List<Int>
 )
 
 enum class MovieSection(val value: String){
