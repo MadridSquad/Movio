@@ -53,7 +53,6 @@ fun CreateListBottomSheet(
                     end = 16.dp,
                 )
         ) {
-            // Title
             MovioText(
                 text = stringResource(R.string.create_list_title),
                 textStyle = Theme.textStyle.body.mediumMedium14,
@@ -61,8 +60,6 @@ fun CreateListBottomSheet(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
-
-            // Description
             MovioText(
                 text = stringResource(R.string.create_list_description),
                 textStyle = Theme.textStyle.label.smallRegular12,

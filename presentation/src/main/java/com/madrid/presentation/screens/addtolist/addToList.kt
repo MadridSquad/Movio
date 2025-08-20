@@ -1,21 +1,13 @@
 package com.madrid.presentation.screens.addtolist
 
-import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -24,24 +16,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.madrid.designSystem.R.drawable
 import com.madrid.designSystem.component.MovioBottomSheet
-import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
-import com.madrid.domain.entity.MovieListUiState
-import com.madrid.domain.entity.WatchList
-import com.madrid.presentation.R
-import com.madrid.presentation.navigation.Destinations
-import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.viewModel.detailsViewModel.DetailsMovieViewModel
 import com.madrid.presentation.viewModel.libraryViewModel.addtolist.MovieListViewModel
 import kotlinx.coroutines.delay
 
@@ -53,15 +32,12 @@ enum class ListBottomSheetMode {
 @Composable
 fun ListManagementBottomSheet(
     viewModel: MovieListViewModel = hiltViewModel(),
-    viewModels: DetailsMovieViewModel = hiltViewModel(),
     isVisible: Boolean,
     onDismiss: () -> Unit,
     movieId: Int,
     modifier: Modifier = Modifier
 ) {
-    val navController = LocalNavController.current
     val uiState by viewModel.state.collectAsState()
-    val movieUiState by viewModels.state.collectAsState()
     var currentMode by remember { mutableStateOf(ListBottomSheetMode.LIST_SELECTION) }
     var showSuccessNotification by remember { mutableStateOf(false) }
     var successMessage: String? by remember { mutableStateOf("") }
@@ -143,20 +119,16 @@ fun ListManagementBottomSheet(
                                 currentMode = ListBottomSheetMode.CREATE_NEW_LIST
                             },
                             onSelectionChanged = { userList, isSelected ->
-                                Log.d("on add to list, on click list","list is : $userList")
-                                Log.d("on add to list, on click list","movie id is : $movieId")
                                 if (!userList.movieIds.contains(movieId)) {
                                     viewModel.addMovieToList(
                                         listId = userList.id,
                                         movieId = movieId
                                     )
-                                    Log.d("on add to list, on click list","in 111")
                                 } else {
                                     viewModel.removeMovieFromList(
                                         listId = userList.id,
                                         movieId = movieId
                                     )
-                                    Log.d("on add to list, on click list","in 222")
                                 }
                             },
                             movieId = movieId,
@@ -191,15 +163,9 @@ fun ListManagementBottomSheet(
                 SuccessNotificationRow(
                     isVisible = showSuccessNotification,
                     message = successMessage,
-                    onDismiss = {
-                        showSuccessNotification = false
-                        successMessage = null
-                    }
+                    onDismiss = { showSuccessNotification = false }
                 )
             }
-        }
-
-        uiState.errorMessage?.let { errorMessage ->
         }
     }
 }
