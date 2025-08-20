@@ -8,7 +8,11 @@ import com.madrid.domain.entity.Series
 import com.madrid.domain.entity.WatchList
 import com.madrid.domain.usecase.watchList.GetWatchListItemsUseCase
 
-fun ListDto.toWatchList(): WatchList {
+fun ListDto.toWatchList(listItems: List<ListItemDto> = emptyList()): WatchList {
+    val movieIds = listItems
+        .filter { it.mediaType == "movie" }
+        .mapNotNull { it.id }
+
     return WatchList(
         id = id,
         name = name ?: "",
@@ -16,7 +20,8 @@ fun ListDto.toWatchList(): WatchList {
         description = description ?: "",
         posterUrl = posterPath,
         isSelected = false,
-        isLoading = false
+        isLoading = false,
+        movieIds = movieIds
     )
 }
 
@@ -33,7 +38,6 @@ fun ListItemDto.toMovie(genres: List<Genre>): Movie {
     )
 }
 
-
 fun ListItemDto.toSeries(genres: List<Genre>): Series {
     return Series(
         id = id,
@@ -46,7 +50,6 @@ fun ListItemDto.toSeries(genres: List<Genre>): Series {
         genre = genres,
     )
 }
-
 
 fun List<ListItemDto>.toWatchListItems(
     moviesGenres: Map<Int, Genre>,
