@@ -53,9 +53,7 @@ fun WatchlistViewAllScreen(
         viewModel.effect.collect { effect ->
             when (effect) {
                 is WatchlistViewAllEffect.NavigateBack -> {
-                    navController.navigate(
-                        Destinations.LibraryScreen
-                    )
+                    navController.navigateUp()
                 }
 
                 is WatchlistViewAllEffect.NavigateToDetails -> {

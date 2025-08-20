@@ -1,5 +1,6 @@
 package com.madrid.presentation.viewModel.libraryViewModel
 
+import android.util.Log
 import com.madrid.domain.usecase.authentication.LoginUseCase
 import com.madrid.domain.usecase.movie.CreateMovieListUseCase
 import com.madrid.domain.usecase.movie.GetAllMoviesInHistoryUseCase
@@ -23,7 +24,7 @@ class LibraryViewModel @Inject constructor(
     LibraryScreenState()
 ), LibraryInteractionListener {
 
-    init {
+    fun loadData(){
         getWatchList()
         getFavoriteList()
         getHistoryList()
