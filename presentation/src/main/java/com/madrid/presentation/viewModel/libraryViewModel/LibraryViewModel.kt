@@ -1,13 +1,11 @@
 package com.madrid.presentation.viewModel.libraryViewModel
 
-import android.util.Log
 import com.madrid.domain.usecase.authentication.LoginUseCase
 import com.madrid.domain.usecase.movie.CreateMovieListUseCase
 import com.madrid.domain.usecase.movie.GetAllMoviesInHistoryUseCase
 import com.madrid.domain.usecase.movie.GetFavoriteMoviesUseCase
-import com.madrid.domain.usecase.watchList.GetWatchListsUseCase
 import com.madrid.domain.usecase.series.GetAllSeriesInHistoryUseCase
-
+import com.madrid.domain.usecase.watchList.GetWatchListsUseCase
 import com.madrid.presentation.R
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.libraryViewModel.viewAll.factory.ViewAllType
@@ -27,7 +25,7 @@ class LibraryViewModel @Inject constructor(
     LibraryScreenState()
 ), LibraryInteractionListener {
 
-    fun loadData(){
+    fun loadData() {
         getWatchList()
         getFavoriteList()
         getHistoryList()
@@ -167,7 +165,6 @@ class LibraryViewModel @Inject constructor(
     }
 
     private fun getHistoryList() {
-        Log.d("in get history","getHistoryList")
         updateState {
             it.copy(
                 isLoading = true,
@@ -179,7 +176,6 @@ class LibraryViewModel @Inject constructor(
                         getSeriesHistoryUseCase().map { it.toMediaUiState() }
             },
             onSuccess = { historyList ->
-                Log.d("in get history","success , $historyList")
                 updateState {
                     it.copy(
                         isLoading = false,
@@ -188,7 +184,6 @@ class LibraryViewModel @Inject constructor(
                 }
             },
             onError = { throwable ->
-                Log.d("in get history","success , ${throwable.message}")
                 updateState {
                     it.copy(
                         isLoading = false,
