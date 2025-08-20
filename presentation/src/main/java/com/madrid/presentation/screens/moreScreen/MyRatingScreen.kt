@@ -45,7 +45,9 @@ fun MyRatingScreen(
         viewModel.effect.collect { effect ->
             when (effect) {
                 is MyRatingEffect.NavigateBack -> {
-                    navController.popBackStack()
+                    navController.navigate(
+                        Destinations.MoreScreen
+                    )
                 }
 
                 is MyRatingEffect.NavigateToMediaDetails -> {
@@ -72,23 +74,30 @@ fun MyRatingScreen(
             LoadingScreen(message = stringResource(R.string.loading))
         }
 
-        state.isLoading -> {
-            Box(
+        state.isError -> {
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 64.dp),
-                contentAlignment = Alignment.Center
+                    .statusBarsPadding()
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 32.dp)
             ) {
+
+                TopAppBar(
+                    text = stringResource(R.string.my_ratings),
+                    secondIcon = null,
+                    thirdIcon = null,
+                    onFirstIconClick = viewModel::onBackClick
+                )
                 DialogWithButtonLayout(
                     title = stringResource(R.string.internet_is_not_available),
                     description = stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
                     image = R.drawable.img_no_internet,
+                    imageSize = 150,
                     buttonText = stringResource(R.string.try_again),
                     onClick = { navController.navigate(Destinations.MyRatingScreen) },
                     modifier = Modifier
                         .fillMaxSize()
-                        .navigationBarsPadding()
-                        .padding(16.dp)
                 )
             }
         }
@@ -105,7 +114,7 @@ fun MyRatingScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 64.dp),
+                    .statusBarsPadding(),
                 contentAlignment = Alignment.Center
             ) {
                 Column {
@@ -136,7 +145,7 @@ private fun MyRatingScreenContent(
 ) {
     Column(
         Modifier
-            .padding(16.dp)
+            .padding(horizontal = 16.dp)
             .background(Theme.color.surfaces.surface)
             .statusBarsPadding()
             .navigationBarsPadding()
@@ -159,7 +168,7 @@ private fun MyRatingScreenContent(
                 val Media = state.ratedMedia[index]
                 MovioRatingCard(
                     movieTitle = Media.mediaTitle,
-                    movieImageUrl = Media.imageUrL,
+                    movieImageUrl = Media.imageUrl,
                     height = 100.dp,
                     rate = Media.rate,
                     modifier = Modifier.padding(top = 16.dp),

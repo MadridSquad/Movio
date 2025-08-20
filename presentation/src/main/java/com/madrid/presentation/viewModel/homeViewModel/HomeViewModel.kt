@@ -135,7 +135,14 @@ class HomeViewModel @Inject constructor(
         when (index) {
             0 -> loadMoviesLayoutData()
             1 -> loadSeriesLayoutData()
-            2 -> loadGenres()
+            2 -> {
+                updateState { state ->
+                    state.copy(
+                        categoryTabUiState = CategoryTabUiState()
+                    )
+                }
+                loadGenres()
+            }
         }
     }
 
@@ -160,11 +167,22 @@ class HomeViewModel @Inject constructor(
             )
         }
         val selectedCategoryId = state.value.categoryTabUiState.selectedCategory?.id
-        fetchMediaByCategory(selectedCategoryId, sortType)
+        val genreId = if (selectedCategoryId == -1) null else selectedCategoryId
+        fetchMediaByCategory(genreId, sortType)
     }
 
     override fun onMediaSelected(mediaId: Int, mediaType: MediaType) {
         emitNewEffect(HomeScreenEffect.NavigateToMediaDetails(mediaId, mediaType))
+    }
+
+    override fun onClickTryAgainButton() {
+        val selectedCategoryId = state.value.categoryTabUiState.selectedCategory?.id
+        val selectedSortingType = state.value.categoryTabUiState.sortingType
+        if (selectedCategoryId == -1) {
+            fetchMediaByCategory(null, selectedSortingType)
+        } else {
+            fetchMediaByCategory(selectedCategoryId, selectedSortingType)
+        }
     }
 
     override fun onClickProfile() {
@@ -290,6 +308,14 @@ class HomeViewModel @Inject constructor(
             else state.value.tvShowTabUiState.trending.media[mediaIndex].trailerKey
         emitNewEffect(HomeScreenEffect.GoToYoutube(key))
 
+    }
+
+    override fun onRefresh() {
+        when(state.value.selectedTabIndex){
+            0 -> loadMoviesLayoutData()
+            1 -> loadSeriesLayoutData()
+            2 -> loadGenres()
+        }
     }
 
     private fun loadTopRatingMoviesSection() {

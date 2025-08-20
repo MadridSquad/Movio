@@ -34,6 +34,7 @@ import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.homeScreen.layout.CategoriesLayout
 import com.madrid.presentation.screens.homeScreen.layout.MoviesLayout
 import com.madrid.presentation.screens.homeScreen.layout.TvShowsLayout
+import com.madrid.presentation.screens.refreshScreenHolder.RefreshScreenHolder
 import com.madrid.presentation.viewModel.homeViewModel.CategoryUiState
 import com.madrid.presentation.viewModel.homeViewModel.HomeInteractionListener
 import com.madrid.presentation.viewModel.homeViewModel.HomeScreenEffect
@@ -69,7 +70,12 @@ fun HomeScreen(
             }
         }
     }
-    HomeScreenContent(state = state, homeViewModel)
+    RefreshScreenHolder(
+        refreshState = state.refreshState,
+        onRefresh = { homeViewModel.onRefresh() }
+    ){
+        HomeScreenContent(state = state, homeViewModel)
+    }
 }
 
 
@@ -101,7 +107,8 @@ fun HomeScreenContent(
             },
             onSelectCategory = interactionListener::onSelectCategory,
             onSelectSortingType = interactionListener::onSelectSortingType,
-            onMediaSelected = interactionListener::onMediaSelected
+            onMediaSelected = interactionListener::onMediaSelected,
+            onTryAgainClicked = interactionListener::onClickTryAgainButton
         )
         Column(
             modifier = Modifier
@@ -137,6 +144,7 @@ private fun LayoutContent(
     onSelectCategory: (CategoryUiState) -> Unit = {},
     onSelectSortingType: (SortingType) -> Unit = {},
     onMediaSelected: (Int, MediaType) -> Unit = { _, _ -> },
+    onTryAgainClicked: () -> Unit = { }
 ) {
     when (uiState.selectedTabIndex) {
         0 -> LoadMoviesLayout(
@@ -155,7 +163,8 @@ private fun LayoutContent(
             uiState = uiState,
             onSelectCategory = onSelectCategory,
             onSelectSortingType = onSelectSortingType,
-            onMediaSelected = onMediaSelected
+            onMediaSelected = onMediaSelected,
+            onTryAgainClicked = onTryAgainClicked
         )
     }
 }
@@ -222,7 +231,8 @@ private fun LoadCategoriesLayout(
     onSelectCategory: (CategoryUiState) -> Unit = {},
     onSelectSortingType: (SortingType) -> Unit = {},
     onMediaSelected: (Int, MediaType) -> Unit = { _, _ -> },
-){
+    onTryAgainClicked: () -> Unit
+) {
     CategoriesLayout(
         categories = uiState.categoryTabUiState.categories,
         selectedCategory = uiState.categoryTabUiState.selectedCategory,
@@ -233,7 +243,8 @@ private fun LoadCategoriesLayout(
             onSelectSortingType(sortingType)
         },
         onMediaItemClicked = onMediaSelected,
-        isLoading = uiState.categoryTabUiState.isLoading
+        isLoading = uiState.categoryTabUiState.isLoading,
+        onTryAgainClicked = onTryAgainClicked,
     )
 }
 
@@ -252,10 +263,4 @@ private fun openYoutubeMediaTrailer(key: String, context: Context) {
             context.startActivity(youtubeWebIntent)
         }
     }
-}
-
-enum class HomeTab {
-    MOVIES,
-    TV_SHOWS,
-    CATEGORIES
 }

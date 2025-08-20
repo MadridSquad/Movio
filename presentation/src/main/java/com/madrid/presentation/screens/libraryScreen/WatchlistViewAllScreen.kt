@@ -102,7 +102,7 @@ fun WatchlistViewAllScreenContent(
         ) { LoadingContent() }
 
         AnimatedVisibility(
-            visible = state.errorMessage.isNullOrBlank().not(),
+            visible = state.isLoading.not() && state.errorMessage.isNullOrBlank().not(),
             enter = fadeIn(),
             exit = fadeOut()
         ) {

@@ -1,5 +1,6 @@
 package com.madrid.presentation.component
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -35,6 +36,7 @@ fun MovieHomeCard(
     name: String,
     movieId: String,
     genres: List<String>,
+    onClickButton: () -> Unit,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -43,7 +45,8 @@ fun MovieHomeCard(
             .fillMaxSize()
             .clip(
                 RoundedCornerShape(8.dp)
-            ),
+            )
+            .clickable( onClick = onClick),
     ) {
         ImageViewer(
             model = movieId,
@@ -51,7 +54,19 @@ fun MovieHomeCard(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxSize()
-                .height(200.dp)
+                .height(200.dp),
+            error = {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize(), contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.image_placeholder),
+                        contentScale = ContentScale.FillBounds,
+                        contentDescription = null,
+                    )
+                }
+            }
         )
         Box(
             modifier = Modifier
@@ -61,7 +76,7 @@ fun MovieHomeCard(
                 .background(color = Theme.color.surfaces.onSurfaceAt2)
                 .blur(32.dp)
                 .clickable {
-                    onClick()
+                    onClickButton()
                 }
         )
         MovioIcon(
@@ -72,7 +87,7 @@ fun MovieHomeCard(
                 .align(Alignment.Center)
                 .size(width = 13.6.dp, height = 14.46.dp)
                 .clickable {
-                    onClick()
+                    onClickButton()
                 }
         )
         Box(

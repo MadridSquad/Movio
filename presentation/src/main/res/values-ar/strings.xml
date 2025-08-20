@@ -96,7 +96,6 @@
     <string name="empty_search_description">ابدأ بالكتابة في شريط البحث للعثور على ما تحتاجه.</string>
     <string name="username_and_password_are_required">اسم المستخدم وكلمة السر مطلوب</string>
 
-
     <string name="Home">الرئيسية</string>
     <string name="Library">المكتبة</string>
     <string name="More">المزيد</string>
@@ -141,6 +140,9 @@
     <string name="Start_watching_movies_and_shows">إبدء بمشاهدة الأفلام و المسلسلات. وسنقوم بتتبع سجل المشاهدة الخاص بك هنا.</string>
     <string name="empty_list_description">احفظ الأفلام والعروض التي تريد مشاهدتها، وستظهر هنا عندما تكون مستعدًا.</string>
     <string name="undo">تراجع</string>
+    <string name="category_empty_description">لا يوجد محتوى في هذا القسم حاليًا، لكننا سنقوم بتحديثه قريبًا</string>
+    <string name="popularity">الأكثر شعبية</string>
+    <string name="latest">الأحدث</string>
 
     <!-- Validation Errors -->
     <string name="username_is_required">اسم المستخدم مطلوب</string>
@@ -169,14 +171,5 @@
     <string name="Or">أو</string>
     <string name="don_t_have_an_account">ليس لديك حساب؟</string>
     <string name="sign_up">إنشاء حساب</string>
-
-
-
-
-
-
-
-    <string name="popularity">الأكثر شعبية</string>
-    <string name="latest">الأحدث</string>
     <string name="success_message">تمت الاضافة الى القائمة بنجاح</string>
 </resources>

@@ -29,6 +29,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import kotlin.text.contains
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
@@ -59,15 +60,20 @@ class SearchViewModel @Inject constructor(
     }
 
     fun updateSearchQuery(
-        newSearchQuery : String ,
-    ){
-        updateState {searchScreenState->
+        newSearchQuery: String,
+    ) {
+        updateState { searchScreenState ->
             searchScreenState.copy(
+                isDoAction = !searchScreenState.isDoAction,
                 searchUiState = searchScreenState.searchUiState.copy(
-                    searchQuery = newSearchQuery
-                )
+                    searchQuery = newSearchQuery,
+                    isSearchQueryChange = true
+                ),
+
             )
         }
+        onChangeRecentSearchUiState()
+
     }
     fun addRecentSearch(recentSearch: String) {
         tryToExecute(
@@ -75,37 +81,54 @@ class SearchViewModel @Inject constructor(
                 addRecentSearchUseCase(item = recentSearch)
                 getRecentSearchesUseCase()
             },
-            onSuccess = { result -> updateState { it.copy(recentSearchUiState = result) } },
+            onSuccess = ::onUpdateRecentSuccess,
             onError = {}
         )
     }
 
     fun clearAll() {
+        updateState {searchScreenStat->
+            searchScreenStat.copy(
+                isDoAction = !searchScreenStat.isDoAction
+            )
+        }
+
         tryToExecute(
             function = {
                 clearAllRecentSearchesUseCase()
                 getRecentSearchesUseCase()
             },
-            onSuccess = { result -> updateState { it.copy(recentSearchUiState = result) } },
+            onSuccess = ::onUpdateRecentSuccess,
             onError = {}
         )
     }
 
     fun removeRecentSearch(searchItem: String) {
+        updateState {searchScreenStat->
+            searchScreenStat.copy(
+                isDoAction = !searchScreenStat.isDoAction
+            )
+        }
         tryToExecute(
             function = {
                 removeRecentSearchUseCase(searchItem)
                 getRecentSearchesUseCase()
             },
-            onSuccess = { result ->
-                updateState {
-                    it.copy(
-                        recentSearchUiState = result
-                    )
-                }
+            onSuccess = {
+                onUpdateRecentSuccess(it)
+
             },
             onError = {},
         )
+    }
+    fun changeValueOfIsChangeSearchQuery(){
+        updateState {searchScreenState->
+           searchScreenState.copy(
+               searchScreenState.searchUiState.copy(
+                   isSearchQueryChange = false
+               )
+           )
+        }
     }
 
     private fun loadInitialData() {
@@ -248,9 +271,37 @@ class SearchViewModel @Inject constructor(
 
 
     private fun onUpdateRecentSuccess(result: List<String>) {
-        updateState {
-            it.copy(
-                recentSearchUiState = result
+        updateState {searchScreenState->
+            searchScreenState.copy(
+                allRecentSearchTexts = result,
+            )
+        }
+        onChangeRecentSearchUiState()
+    }
+
+    private fun onChangeRecentSearchUiState() {
+        updateState {searchScreenState->
+            searchScreenState.copy(
+                recentSearchUiState = if (searchScreenState.searchUiState.searchQuery.isEmpty() ||
+                    searchScreenState.searchUiState.searchQuery.isBlank()
+                ) {
+                    searchScreenState.allRecentSearchTexts
+                } else {
+                    val queryWords = searchScreenState
+                        .searchUiState
+                        .searchQuery
+                        .trim()
+                        .lowercase()
+                        .split(" ")
+                        .map { it.trim() }
+                        .filter { it.isNotEmpty() }
+
+                   searchScreenState
+                        .allRecentSearchTexts
+                        .filter { recentText ->
+                            queryWords.all { recentText.contains(it) }
+                        }
+                }
             )
         }
     }
@@ -441,19 +492,49 @@ class SearchViewModel @Inject constructor(
                         searchIndex = foundIndex + pureQuery.length
                     }
                 }
-            for (index in 0 until fullText.length){
-                val color = if (index in numberSet) {
-                    matchColor
-                } else {
-                    normalColor
-                }
-                builder.pushStyle(textStyle.copy(color = color).toSpanStyle())
-                builder.append(fullText[index])
-                builder.pop()
-            }
 
+            builder.pushStyle(textStyle.copy(color = normalColor).toSpanStyle())
+            builder.append(fullText)
+
+            numberSet.toRanges().forEach { range ->
+                builder.addStyle(
+                    textStyle.copy(color = matchColor).toSpanStyle(),
+                    start = range.first,
+                    end = range.last + 1
+                )
+            }
             return builder.toAnnotatedString()
 
+        }
+    }
+
+    private fun Set<Int>.toRanges(): List<IntRange> {
+        if (isEmpty()) return emptyList()
+
+        val sorted = this.sorted()
+        val ranges = mutableListOf<IntRange>()
+
+        var rangeStart = sorted.first()
+        var prev = sorted.first()
+
+        for (i in 1 until sorted.size) {
+            val current = sorted[i]
+            if (current != prev + 1) {
+                ranges.add(rangeStart..prev)
+                rangeStart = current
+            }
+            prev = current
+        }
+        ranges.add(rangeStart..prev)
+
+        return ranges
+    }
+
+    fun doAction(){
+        updateState {searchScreenStat->
+            searchScreenStat.copy(
+                isDoAction = !searchScreenStat.isDoAction
+            )
         }
     }
 

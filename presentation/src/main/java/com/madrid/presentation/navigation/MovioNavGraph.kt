@@ -41,10 +41,10 @@ fun MovioNavGraph(
     Column(
         Modifier
             .fillMaxSize()
-            .navigationBarsPadding()
             .background(
                 color = Theme.color.surfaces.surface
             )
+            .navigationBarsPadding()
     ) {
         Column(
             modifier = Modifier
@@ -81,3 +81,4 @@ fun MovioNavGraph(
         }
     }
 }
+

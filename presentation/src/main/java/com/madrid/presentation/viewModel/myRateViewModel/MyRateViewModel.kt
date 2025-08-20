@@ -6,7 +6,6 @@ import com.madrid.domain.usecase.series.GetUserRatedSeriesUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.shared.MediaType
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,17 +29,16 @@ class MyRateViewModel @Inject constructor(
     }
 
     private fun loadRatedMedia() {
-        updateState { it.copy(showLoadingScreen = true, isLoading = true) }
+        updateState { it.copy(showLoadingScreen = true, isError = false) }
 
         viewModelScope.launch {
-            delay(1050)
             tryToExecute(
                 function = { loadData() },
                 onSuccess = { result ->
                     updateState {
                         it.copy(
                             ratedMedia = result,
-                            isLoading = false,
+                            isError = false,
                             showLoadingScreen = false
                         )
                     }
@@ -48,7 +46,7 @@ class MyRateViewModel @Inject constructor(
                 onError = {
                     updateState {
                         it.copy(
-                            isLoading = true,
+                            isError = true,
                             showLoadingScreen = false
                         )
                     }
@@ -56,6 +54,7 @@ class MyRateViewModel @Inject constructor(
             )
         }
     }
+
     private suspend fun loadData(): List<RatedMediaState> {
         val movie = getUserRatedMovieUseCase().map { it.toRatedMediaUiState() }
         val series = getUserRatedSeriesUseCase().map { it.toRatedMediaUiState() }

@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.emptyFlow
 
 data class HomeScreenState(
     val isLoading: Boolean = false,
+    val refreshState: Boolean = false,
     val errorMessage: String = "",
     val profileImage: String? = null,
     val allTabUiState: AllTabUiState = AllTabUiState(),

@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.BlurredEdgeTreatment.Companion.Unbounded
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -31,8 +30,8 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.compose.ui.zIndex
-import com.madrid.designSystem.theme.Theme
 import com.madrid.designSystem.component.ImageViewer
+import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.viewModel.homeViewModel.CategoryUiState
 import com.madrid.presentation.viewModel.shared.MediaType
 import com.madrid.presentation.viewModel.shared.MediaUiState
@@ -71,7 +70,7 @@ fun MovioPager(
             modifier = modifier
                 .fillMaxWidth()
                 .height(413.dp)
-                .shadow(elevation = 8.dp),
+                ,
             contentAlignment = Alignment.BottomCenter
         ) {
             ImageViewer(
@@ -79,7 +78,7 @@ fun MovioPager(
                 contentDescription = "null",
                 modifier = Modifier
                     .matchParentSize()
-                    .blur(radius = 16.dp, edgeTreatment = Unbounded),
+                    .blur(radius = 20.dp, edgeTreatment = Unbounded),
                 contentScale = ContentScale.Crop
             )
 
@@ -135,7 +134,8 @@ fun MovioPager(
                                 movieId = medias[page].imageUrl,
                                 name = medias[page].title,
                                 genres = medias[page].category.map { it.name },
-                                onClick = { onClickMediaButton(page) },
+                                onClickButton = { onClickMediaButton(page) },
+                                onClick = { onClickItem(medias[page].id.toInt()) }
                             )
                         }
                     }

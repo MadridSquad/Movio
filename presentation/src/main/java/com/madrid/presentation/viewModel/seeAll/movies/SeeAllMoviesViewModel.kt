@@ -1,6 +1,5 @@
 package com.madrid.presentation.viewModel.seeAll.movies
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -34,6 +33,7 @@ class SeeAllMoviesViewModel @AssistedInject constructor(
             strategy: SeeAllMoviesStrategy,
         ): SeeAllMoviesViewModel
     }
+
     init {
         loadTitle()
         loadGenres()
@@ -77,7 +77,7 @@ class SeeAllMoviesViewModel @AssistedInject constructor(
             launchPagingRequest(
                 pagingSourceFactory = {
                     SeeAllMoviesWithGenrePagingSource(
-                        genreId =  genre.id,
+                        genreId = genre.id,
                         getAllMovie = strategy::getMoviesBasedOnCategory
                     )
                 },
@@ -97,6 +97,7 @@ class SeeAllMoviesViewModel @AssistedInject constructor(
                     updateState {
                         it.copy(
                             filteredMovies = result,
+                            selectedGenre = genre.name,
                             isLoading = false
                         )
                     }
@@ -104,6 +105,16 @@ class SeeAllMoviesViewModel @AssistedInject constructor(
                 }
             )
         }
+    }
+
+    override fun onTryAgainClick() {
+        val genres = state.value.genre
+        val selectedGenre = state.value.selectedGenre
+        onGenreSelect(
+            if (selectedGenre != null) {
+                genres.find { it.name == selectedGenre }
+            } else null
+        )
     }
 
     override fun onMovieClick(movieId: Int) {
