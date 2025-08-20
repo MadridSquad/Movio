@@ -36,6 +36,7 @@ class MovieRepositoryImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
 ) : MovieRepository {
     private val pageNumberCached = 1
+
     private suspend fun MovieResult.toMovieWithGenres(): Movie {
         val genres = localDataSource
             .getMovieGenresByIds(this.genreIds ?: emptyList()).map { it.toGenre() }
@@ -100,7 +101,6 @@ class MovieRepositoryImpl @Inject constructor(
                 return localMovies.map {
                     val genres = localDataSource
                         .getMovieGenresByIds(it.genresIds)
-
                         .map { genreTable -> genreTable.toGenre() }
                     it.toMovie(genres)
                 }
@@ -258,18 +258,6 @@ class MovieRepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun removeMovieFromList(listId: Int, mediaId: Int, sessionId: String): ListOperationStatus {
-        remoteDataSource.removeMovieFromList(
-            listId = listId,
-            mediaId = mediaId,
-            sessionId = sessionId
-        )
-        return ListOperationStatus(
-            success = true,
-            message = "Movie removed from list successfully"
-        )
-    }
-
     override suspend fun getMoviesByGenreId(
         page: Int,
         genreId: Int?,
@@ -294,7 +282,7 @@ class MovieRepositoryImpl @Inject constructor(
         localDataSource.clearHomeMoviesCache()
     }
 
-    override suspend fun clearMovieGenres(){
+    override suspend fun clearMovieGenres() {
         localDataSource.clearMovieGenres()
     }
 
@@ -341,5 +329,30 @@ class MovieRepositoryImpl @Inject constructor(
         return response.toListOperationStatus()
     }
 
+    override suspend fun removeMovieFromList(listId: Int, mediaId: Int, sessionId: String): ListOperationStatus {
+        return try {
+            remoteDataSource.removeMovieFromList(
+                listId = listId,
+                mediaId = mediaId,
+                sessionId = sessionId
+            )
+            ListOperationStatus(
+                success = true,
+                message = "Movie removed from list successfully"
+            )
+        } catch (e: Exception) {
+            ListOperationStatus(
+                success = false,
+                message = e.message ?: "Failed to remove movie from list"
+            )
+        }
+    }
 
+    private fun getSortType(sortBy: SortType): String {
+        return when (sortBy) {
+            // Add your sort type mappings here
+            // Example: SortType.POPULARITY_DESC -> "popularity.desc"
+            else -> "popularity.desc"
+        }
+    }
 }

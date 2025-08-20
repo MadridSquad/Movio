@@ -3,8 +3,8 @@ package com.madrid.domain.usecase.movie
 import com.madrid.domain.entity.ListOperationStatus
 import com.madrid.domain.repository.AuthenticationRepository
 import com.madrid.domain.repository.MovieRepository
-import javax.inject.Inject // Changed: Use javax.inject instead of jakarta.inject
 import kotlinx.coroutines.flow.first
+import javax.inject.Inject
 
 class RemoveMovieFromListUseCase @Inject constructor(
     private val movieRepository: MovieRepository,
@@ -14,7 +14,22 @@ class RemoveMovieFromListUseCase @Inject constructor(
         listId: Int,
         movieId: Int
     ): ListOperationStatus {
-        val sessionId = authenticationRepository.getSessionId().first()
-        return movieRepository.removeMovieFromList(listId, movieId, sessionId)
+        return try {
+            val sessionId = authenticationRepository.getSessionId().first()
+
+            if (sessionId.isEmpty()) {
+                return ListOperationStatus(
+                    success = false,
+                    message = "User not authenticated"
+                )
+            }
+
+            movieRepository.removeMovieFromList(listId, movieId, sessionId)
+        } catch (e: Exception) {
+            ListOperationStatus(
+                success = false,
+                message = e.message ?: "Failed to remove movie from list"
+            )
+        }
     }
 }

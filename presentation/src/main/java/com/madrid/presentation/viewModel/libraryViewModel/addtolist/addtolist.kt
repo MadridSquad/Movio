@@ -78,8 +78,22 @@ class MovieListViewModel @Inject constructor(
                 )
 
                 if (status.success) {
-                    updateState {
-                        it.copy(
+                    // Update the UI state to reflect the removal
+                    updateState { currentState ->
+                        val updatedLists = currentState.userLists.map { watchList ->
+                            if (watchList.id == listId) {
+                                watchList.copy(
+                                    movieIds = watchList.movieIds.filter { it != movieId },
+                                    itemCount = watchList.itemCount - 1
+                                )
+                            } else {
+                                watchList
+                            }
+                        }
+
+                        currentState.copy(
+                            userLists = updatedLists,
+                            removeFromListSuccess = true,
                             successMessage = status.message
                         )
                     }
@@ -100,7 +114,6 @@ class MovieListViewModel @Inject constructor(
             }
         }
     }
-
     fun createMovieList(
         name: String,
         onSuccess: (() -> Unit)? = null
@@ -141,7 +154,6 @@ class MovieListViewModel @Inject constructor(
             }
         }
     }
-
     fun addMovieToList(
         listId: Int,
         movieId: Int,
@@ -157,8 +169,21 @@ class MovieListViewModel @Inject constructor(
                 )
 
                 if (status.success) {
-                    updateState {
-                        it.copy(
+                    // Update the UI state to reflect the addition
+                    updateState { currentState ->
+                        val updatedLists = currentState.userLists.map { watchList ->
+                            if (watchList.id == listId) {
+                                watchList.copy(
+                                    movieIds = watchList.movieIds + movieId,
+                                    itemCount = watchList.itemCount + 1
+                                )
+                            } else {
+                                watchList
+                            }
+                        }
+
+                        currentState.copy(
+                            userLists = updatedLists,
                             addToListSuccess = true,
                             successMessage = status.message
                         )
@@ -180,37 +205,6 @@ class MovieListViewModel @Inject constructor(
             }
         }
     }
-
-    fun updateUserLists(lists: List<WatchList>) {
-        updateState { it.copy(userLists = lists) }
-    }
-
-    fun handleEvent(event: MovieListEvent) {
-        when (event) {
-            MovieListEvent.ClearMessages -> {
-                updateState {
-                    it.copy(
-                        errorMessage = null,
-                        successMessage = null
-                    )
-                }
-            }
-            MovieListEvent.DismissNotification -> {
-                updateState {
-                    it.copy(
-                        createListSuccess = false,
-                        addToListSuccess = false,
-                        errorMessage = null,
-                        successMessage = null
-                    )
-                }
-            }
-            MovieListEvent.LoadUserLists -> {
-                loadUserLists()
-            }
-        }
-    }
-
     fun clearError() {
         updateState { it.copy(errorMessage = null) }
     }
