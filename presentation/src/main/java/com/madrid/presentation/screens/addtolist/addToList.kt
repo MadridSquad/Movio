@@ -36,6 +36,7 @@ import com.madrid.designSystem.component.MovioBottomSheet
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.domain.entity.MovieListUiState
+import com.madrid.domain.entity.WatchList
 import com.madrid.presentation.R
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
@@ -46,7 +47,6 @@ import kotlinx.coroutines.delay
 enum class ListBottomSheetMode {
     LIST_SELECTION,
     CREATE_NEW_LIST,
-    REMOVE_FROM_LIST,
 }
 
 @Composable
@@ -121,18 +121,15 @@ fun ListManagementBottomSheet(
             show = bottomSheetVisible,
             onDismiss = {
                 bottomSheetVisible = false
-                currentMode = ListBottomSheetMode.LIST_SELECTION
                 onDismiss()
             },
-            containerColor = if (currentMode == ListBottomSheetMode.CREATE_NEW_LIST)
-                Color.Transparent else Theme.color.surfaces.surface,
+            containerColor = Theme.color.surfaces.surface
         ) {
-
             if (movieUiState.isGuest) {
                 Column {
                     Image(
                         painter = painterResource(id = drawable.library_main_icon),
-                        contentDescription = "Search Icon",
+                        contentDescription = "library main icon",
                         modifier = Modifier
                             .size(width = 60.dp, height = 66.dp)
                             .align(CenterHorizontally)
@@ -197,23 +194,6 @@ fun ListManagementBottomSheet(
                     label = "ListBottomSheetAnimation"
                 ) { mode ->
                     when (mode) {
-                        ListBottomSheetMode.REMOVE_FROM_LIST -> {
-                            RemoveFromListBottomSheet(
-                                userLists = uiState.userLists,
-                                movieId = movieId,
-                                isLoading = uiState.isLoadingLists,
-                                onDeleteConfirmed = { userList ->
-                                    viewModel.removeMovieFromList(
-                                        listId = userList.id,
-                                        movieId = movieId
-                                    )
-                                },
-                                onDismiss = {
-                                    currentMode = ListBottomSheetMode.LIST_SELECTION
-                                }
-                            )
-                        }
-
                         ListBottomSheetMode.LIST_SELECTION -> {
                             ListSelectionContent(
                                 initialUserLists = uiState.userLists,
@@ -222,14 +202,16 @@ fun ListManagementBottomSheet(
                                     currentMode = ListBottomSheetMode.CREATE_NEW_LIST
                                 },
                                 onSelectionChanged = { userList, isSelected ->
-                                    if (isSelected) {
+                                    if (!userList.movieIds.contains(movieId)) {
                                         viewModel.addMovieToList(
                                             listId = userList.id,
                                             movieId = movieId
                                         )
                                     } else {
-                                        // When deselecting, switch to remove mode
-                                        currentMode = ListBottomSheetMode.REMOVE_FROM_LIST
+                                        viewModel.removeMovieFromList(
+                                            listId = userList.id,
+                                            movieId = movieId
+                                        )
                                     }
                                 },
                                 movieId = movieId,
