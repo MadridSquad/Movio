@@ -8,10 +8,15 @@ import javax.inject.Inject
 
 class GetWatchListsUseCase @Inject constructor(
     private val authenticationRepository: AuthenticationRepository,
-    private val listRepository: ListRepository
+    private val listRepository: ListRepository,
+    private val getWatchListItemsUseCase: GetWatchListItemsUseCase
 ) {
     suspend operator fun invoke(): List<WatchList> {
         val sessionId = authenticationRepository.getSessionId().first()
-        return listRepository.getLists(sessionId)
+        val lists = listRepository.getLists(sessionId)
+        return lists.map { list ->
+            val items = getWatchListItemsUseCase(list.id)
+            list.copy(movieIds = items.movies.map { it.id } + items.series.map { it.id })
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.madrid.presentation.screens.addtolist
 
+import android.util.Log
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
@@ -125,115 +126,59 @@ fun ListManagementBottomSheet(
             },
             containerColor = Theme.color.surfaces.surface
         ) {
-            if (movieUiState.isGuest) {
-                Column {
-                    Image(
-                        painter = painterResource(id = drawable.library_main_icon),
-                        contentDescription = "library main icon",
-                        modifier = Modifier
-                            .size(width = 60.dp, height = 66.dp)
-                            .align(CenterHorizontally)
-                            .padding(bottom = 16.dp),
-                    )
-                    MovioText(
-                        text = stringResource(R.string.you_dont_have_an_account),
-                        textStyle = Theme.textStyle.title.mediumMedium16,
-                        color = Theme.color.surfaces.onSurface,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 8.dp)
-                    )
-                    MovioText(
-                        text = stringResource(R.string.this_rating_is_only_available_to_registered_users_Login_to_share_your_rating),
-                        textStyle = Theme.textStyle.label.smallRegular12,
-                        color = Theme.color.surfaces.onSurfaceContainer,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp)
-                    )
-                    Button(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                top = 40.dp,
-                                bottom = 32.dp,
-                                start = 16.dp,
-                                end = 16.dp
-                            )
-                            .height(48.dp),
-                        onClick = {
-                            bottomSheetVisible = false
-                            onDismiss()
-                            navController.navigate(Destinations.LoginScreen)
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Theme.color.brand.primary,
-                        ),
-                        shape = RoundedCornerShape(24.dp),
-                        elevation = ButtonDefaults.elevation(0.dp)
-                    ) {
-                        MovioText(
-                            text = stringResource(R.string.login),
-                            textStyle = Theme.textStyle.label.mediumMedium14,
-                            color = Theme.color.brand.onPrimary,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier
-                                .fillMaxWidth()
+            AnimatedContent(
+                targetState = currentMode,
+                transitionSpec = {
+                    slideInHorizontally(initialOffsetX = { if (targetState == ListBottomSheetMode.CREATE_NEW_LIST) it else -it }) togetherWith
+                            slideOutHorizontally(targetOffsetX = { if (targetState == ListBottomSheetMode.CREATE_NEW_LIST) -it else it })
+                },
+                label = "ListBottomSheetAnimation"
+            ) { mode ->
+                when (mode) {
+                    ListBottomSheetMode.LIST_SELECTION -> {
+                        ListSelectionContent(
+                            initialUserLists = uiState.userLists,
+                            isLoading = uiState.isLoadingLists,
+                            onCreateNewListClick = {
+                                currentMode = ListBottomSheetMode.CREATE_NEW_LIST
+                            },
+                            onSelectionChanged = { userList, isSelected ->
+                                Log.d("on add to list, on click list","list is : $userList")
+                                Log.d("on add to list, on click list","movie id is : $movieId")
+                                if (!userList.movieIds.contains(movieId)) {
+                                    viewModel.addMovieToList(
+                                        listId = userList.id,
+                                        movieId = movieId
+                                    )
+                                    Log.d("on add to list, on click list","in 111")
+                                } else {
+                                    viewModel.removeMovieFromList(
+                                        listId = userList.id,
+                                        movieId = movieId
+                                    )
+                                    Log.d("on add to list, on click list","in 222")
+                                }
+                            },
+                            movieId = movieId,
+                        )
+                    }
+
+                    ListBottomSheetMode.CREATE_NEW_LIST -> {
+                        CreateListBottomSheet(
+                            show = true,
+                            onCreateClick = { listName ->
+                                viewModel.createMovieList(
+                                    name = listName
+                                )
+                            },
+                            onDismiss = {
+                                currentMode = ListBottomSheetMode.LIST_SELECTION
+                            },
                         )
                     }
                 }
-            } else {
-                AnimatedContent(
-                    targetState = currentMode,
-                    transitionSpec = {
-                        slideInHorizontally(initialOffsetX = { if (targetState == ListBottomSheetMode.CREATE_NEW_LIST) it else -it }) togetherWith
-                                slideOutHorizontally(targetOffsetX = { if (targetState == ListBottomSheetMode.CREATE_NEW_LIST) -it else it })
-                    },
-                    label = "ListBottomSheetAnimation"
-                ) { mode ->
-                    when (mode) {
-                        ListBottomSheetMode.LIST_SELECTION -> {
-                            ListSelectionContent(
-                                initialUserLists = uiState.userLists,
-                                isLoading = uiState.isLoadingLists,
-                                onCreateNewListClick = {
-                                    currentMode = ListBottomSheetMode.CREATE_NEW_LIST
-                                },
-                                onSelectionChanged = { userList, isSelected ->
-                                    if (!userList.movieIds.contains(movieId)) {
-                                        viewModel.addMovieToList(
-                                            listId = userList.id,
-                                            movieId = movieId
-                                        )
-                                    } else {
-                                        viewModel.removeMovieFromList(
-                                            listId = userList.id,
-                                            movieId = movieId
-                                        )
-                                    }
-                                },
-                                movieId = movieId,
-                            )
-                        }
-
-                        ListBottomSheetMode.CREATE_NEW_LIST -> {
-                            CreateListBottomSheet(
-                                show = true,
-                                onCreateClick = { listName ->
-                                    viewModel.createMovieList(
-                                        name = listName
-                                    )
-                                },
-                                onDismiss = {
-                                    currentMode = ListBottomSheetMode.LIST_SELECTION
-                                },
-                            )
-                        }
-                    }
-                }
             }
+
         }
 
         if (showSuccessNotification) {

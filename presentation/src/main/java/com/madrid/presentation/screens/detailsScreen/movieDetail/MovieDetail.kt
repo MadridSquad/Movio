@@ -57,6 +57,7 @@ import com.madrid.presentation.component.BottomMediaActions
 import com.madrid.presentation.component.CastMember
 import com.madrid.presentation.component.TopCastHorizontalScroll
 import com.madrid.presentation.component.header.MovieDetailsHeader
+import com.madrid.presentation.component.logout.LogoutConfirmationBottomSheet
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
 import com.madrid.presentation.navigation.Destinations
@@ -80,6 +81,7 @@ fun MovieDetailsScreen(
     val context = LocalContext.current
     var showShareSheet by remember { mutableStateOf(false) }
     var showAddToListBottomSheet by remember { mutableStateOf(false) }
+    var showLoginBottomSheet by remember { mutableStateOf(false) }
 
     fun copyToClipboard(text: String) {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -195,7 +197,8 @@ fun MovieDetailsScreen(
                 )
                 BottomMediaActions(
                     onAddToListClick = {
-                        showAddToListBottomSheet = true
+                        showAddToListBottomSheet = uiState.isGuest.not()
+                        showLoginBottomSheet = uiState.isGuest
                     },
                     onRateClick = {
                         showAddRatingBottomSheet = true
@@ -503,5 +506,11 @@ fun MovieDetailsScreen(
         isVisible = showAddToListBottomSheet,
         onDismiss = { showAddToListBottomSheet = false },
         movieId = uiState.movieId,
+    )
+
+    LogoutConfirmationBottomSheet(
+        isVisible = showLoginBottomSheet,
+        onDismiss = { showLoginBottomSheet = false },
+        onNavigateToAuth = { navController.navigate(Destinations.LoginScreen) },
     )
 }

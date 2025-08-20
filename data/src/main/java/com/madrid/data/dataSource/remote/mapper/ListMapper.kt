@@ -16,7 +16,7 @@ fun ListDto.toWatchList(): WatchList {
         description = description ?: "",
         posterUrl = posterPath,
         isSelected = false,
-        isLoading = false
+        isLoading = false,
     )
 }
 

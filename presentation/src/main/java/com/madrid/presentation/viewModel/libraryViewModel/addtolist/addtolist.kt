@@ -1,5 +1,6 @@
 package com.madrid.presentation.viewModel.libraryViewModel.addtolist
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.madrid.domain.entity.ListOperationStatus
 import com.madrid.domain.entity.MovieListEvent
@@ -11,6 +12,7 @@ import com.madrid.domain.exceptions.NetworkException
 import com.madrid.domain.usecase.movie.AddMovieToListUseCase
 import com.madrid.domain.usecase.movie.CreateMovieListUseCase
 import com.madrid.domain.usecase.movie.RemoveMovieFromListUseCase
+import com.madrid.domain.usecase.watchList.GetWatchListItemsUseCase
 import com.madrid.domain.usecase.watchList.GetWatchListsUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -34,7 +36,8 @@ class MovieListViewModel @Inject constructor(
 
             try {
                 val userLists = getWatchListsUseCase() // Changed: Call invoke() on the use case
-                // Map domain entities to UI state
+                Log.d("in add to list view model","lists: ${userLists.first()}")
+
                 val uiLists = userLists.map { watchList ->
                     WatchListItemUiState(
                         id = watchList.id,
