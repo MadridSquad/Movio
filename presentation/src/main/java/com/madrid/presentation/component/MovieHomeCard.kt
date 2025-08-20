@@ -36,6 +36,7 @@ fun MovieHomeCard(
     name: String,
     movieId: String,
     genres: List<String>,
+    onClickButton: () -> Unit,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -44,7 +45,8 @@ fun MovieHomeCard(
             .fillMaxSize()
             .clip(
                 RoundedCornerShape(8.dp)
-            ),
+            )
+            .clickable( onClick = onClick),
     ) {
         ImageViewer(
             model = movieId,
@@ -74,7 +76,7 @@ fun MovieHomeCard(
                 .background(color = Theme.color.surfaces.onSurfaceAt2)
                 .blur(32.dp)
                 .clickable {
-                    onClick()
+                    onClickButton()
                 }
         )
         MovioIcon(
@@ -85,7 +87,7 @@ fun MovieHomeCard(
                 .align(Alignment.Center)
                 .size(width = 13.6.dp, height = 14.46.dp)
                 .clickable {
-                    onClick()
+                    onClickButton()
                 }
         )
         Box(

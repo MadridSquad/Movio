@@ -310,6 +310,14 @@ class HomeViewModel @Inject constructor(
 
     }
 
+    override fun onRefresh() {
+        when(state.value.selectedTabIndex){
+            0 -> loadMoviesLayoutData()
+            1 -> loadSeriesLayoutData()
+            2 -> loadGenres()
+        }
+    }
+
     private fun loadTopRatingMoviesSection() {
         tryToExecute(
             function = {

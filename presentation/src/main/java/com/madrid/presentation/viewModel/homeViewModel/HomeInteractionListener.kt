@@ -12,4 +12,5 @@ interface HomeInteractionListener {
     fun loadSeriesLayoutData()
     fun onClickProfile()
     fun onClickPlayButton(mediaIndex: Int, mediaType: MediaType)
+    fun onRefresh()
 }
