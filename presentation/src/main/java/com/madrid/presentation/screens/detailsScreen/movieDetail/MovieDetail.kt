@@ -76,7 +76,6 @@ fun MovieDetailsScreen(
     addToListViewModel: MovieListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsState()
-    val addToListUiState by addToListViewModel.state.collectAsState()
     val navController = LocalNavController.current
     val context = LocalContext.current
     var showShareSheet by remember { mutableStateOf(false) }
@@ -504,6 +503,5 @@ fun MovieDetailsScreen(
         isVisible = showAddToListBottomSheet,
         onDismiss = { showAddToListBottomSheet = false },
         movieId = uiState.movieId,
-        viewModel = addToListViewModel
     )
 }
