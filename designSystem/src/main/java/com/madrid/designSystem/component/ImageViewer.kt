@@ -56,8 +56,7 @@ fun ImageViewer(
     error: (@Composable () -> Unit)? = {
         Box(
             modifier = Modifier
-                .fillMaxSize()
-                .clip(shape = RoundedCornerShape(8.dp)),
+                .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
             Image(
@@ -65,7 +64,7 @@ fun ImageViewer(
                 contentDescription = stringResource(R.string.image_loading_error),
                 modifier = Modifier.fillMaxSize(),
                 alignment = Alignment.Center,
-                contentScale = ContentScale.Inside,
+                contentScale = ContentScale.FillBounds,
             )
         }
     },

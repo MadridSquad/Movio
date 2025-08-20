@@ -1,9 +1,13 @@
 package com.madrid.presentation.component.movioCards
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,10 +18,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.madrid.designSystem.R
+import com.madrid.designSystem.component.ImageViewer
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
@@ -38,12 +48,15 @@ fun MovioRatingCard(
             .clickable { onClick() },
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        BasicImageCard(
-            imageUrl = movieImageUrl,
+
+        ImageViewer(
+            model = movieImageUrl,
+            contentDescription = movieTitle,
+            contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .width(76.dp)
-                .height(height),
-            radius = 8.dp
+                .height(height)
+                .clip(RoundedCornerShape(8.dp)),
         )
         Column(
             modifier = Modifier
@@ -88,4 +101,28 @@ fun RatingStarsCard(rating: String) {
             textStyle = Theme.textStyle.label.smallRegular12,
         )
     }
+}
+
+@Preview
+@Composable
+fun MovioRatingCardPreview() {
+    MovioRatingCard(
+        movieTitle = "Spiderman No Way Home",
+        movieImageUrl = "https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+        height = 100.dp,
+        rate = "4.5",
+        onClick = {}
+    )
+}
+
+@Preview
+@Composable
+fun RatingStarsCardPreview() {
+    RatingStarsCard(rating = "3.5")
+}
+
+@Preview
+@Composable
+fun RatingStarsCardFullPreview() {
+    RatingStarsCard(rating = "5.0")
 }

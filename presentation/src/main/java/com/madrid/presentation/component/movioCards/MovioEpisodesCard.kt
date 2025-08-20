@@ -1,11 +1,13 @@
 package com.madrid.presentation.component.movioCards
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
+import com.madrid.designSystem.component.ImageViewer
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.MovioTheme
@@ -45,13 +48,30 @@ fun MovioEpisodesCard(
             modifier = Modifier
                 .height(74.dp)
         ) {
-            BasicImageCard(
-                imageUrl = movieImageUrl,
+
+            ImageViewer(
+                model = movieImageUrl,
+                contentDescription = movieTitle,
                 modifier = Modifier
                     .height(74.dp)
                     .width(100.dp)
                     .clip(RoundedCornerShape(8.dp)),
-                radius = 8.dp,
+                contentScale = androidx.compose.ui.layout.ContentScale.Crop,
+                error = {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(8.dp))
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.image_placeholder),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clip(RoundedCornerShape(8.dp))
+                        )
+                    }
+                }
             )
             Box(
                 modifier = Modifier

@@ -9,7 +9,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -40,13 +39,7 @@ fun ProfilePicture(
             contentDescription = "Profile Picture",
             modifier = Modifier.align(Alignment.Center),
             contentScale = ContentScale.Crop,
-            loading = {
-                MovioIcon(
-                    painter = painterResource(R.drawable.bold_profile_circle),
-                    contentDescription = "Loading profile",
-                    modifier = Modifier.size(size)
-                )
-            },
+            loading = {},
             error = {
                 MovioIcon(
                     painter = painterResource(R.drawable.bold_profile_circle),
