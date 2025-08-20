@@ -114,7 +114,7 @@ fun MyRatingScreen(
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 64.dp),
+                    .statusBarsPadding(),
                 contentAlignment = Alignment.Center
             ) {
                 Column {
@@ -145,7 +145,7 @@ private fun MyRatingScreenContent(
 ) {
     Column(
         Modifier
-            .padding(16.dp)
+            .padding(horizontal = 16.dp)
             .background(Theme.color.surfaces.surface)
             .statusBarsPadding()
             .navigationBarsPadding()
