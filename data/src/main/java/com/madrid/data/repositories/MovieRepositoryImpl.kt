@@ -347,12 +347,4 @@ class MovieRepositoryImpl @Inject constructor(
             )
         }
     }
-
-    private fun getSortType(sortBy: SortType): String {
-        return when (sortBy) {
-            // Add your sort type mappings here
-            // Example: SortType.POPULARITY_DESC -> "popularity.desc"
-            else -> "popularity.desc"
-        }
-    }
 }
