@@ -1,6 +1,5 @@
 package com.madrid.presentation.viewModel.homeViewModel
 
-import android.content.Context
 import com.madrid.presentation.viewModel.shared.MediaType
 
 interface HomeInteractionListener {
@@ -8,6 +7,7 @@ interface HomeInteractionListener {
     fun onSelectCategory(category: CategoryUiState)
     fun onSelectSortingType(sortType: SortingType)
     fun onMediaSelected(mediaId: Int, mediaType: MediaType)
+    fun onClickTryAgainButton()
     fun loadMoviesLayoutData()
     fun loadSeriesLayoutData()
     fun onClickProfile()

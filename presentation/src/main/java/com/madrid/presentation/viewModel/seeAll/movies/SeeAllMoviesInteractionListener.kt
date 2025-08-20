@@ -5,4 +5,5 @@ interface SeeAllMoviesInteractionListener {
     fun onGenreSelect(genre: CategoryUiState? = null)
     fun onBackClick()
     fun onClickAllChip()
+    fun onTryAgainClick()
 }

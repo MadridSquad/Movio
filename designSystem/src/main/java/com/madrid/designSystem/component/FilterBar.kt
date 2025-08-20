@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,12 +33,14 @@ fun FilterBar(
     modifier: Modifier = Modifier,
     scrollable: Boolean = true,
     contentHorizontalPadding: Dp = 16.dp,
+    rowState: LazyListState = rememberLazyListState()
 ) {
     if (scrollable) {
         LazyRow(
             modifier = modifier,
             contentPadding = PaddingValues(horizontal = contentHorizontalPadding),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
+            state = rowState
         ) {
             itemsIndexed(items) { index, item ->
                 FilterChip(

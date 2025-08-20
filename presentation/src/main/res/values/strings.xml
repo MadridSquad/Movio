@@ -97,7 +97,6 @@
     <string name="empty_search_title">What are you looking for today?</string>
     <string name="empty_search_description">Start typing in the search bar to find what you need.</string>
 
-
     <string name="Home">Home</string>
     <string name="Library">Library</string>
     <string name="More">More</string>
@@ -138,7 +137,9 @@
     <string name="Start_watching_movies_and_shows">Start watching movies and shows, and we’ll keep track of your viewing history here.</string>
     <string name="empty_list_description">Save the movies and shows you want to watch, and they’ll appear here when you’re ready.</string>
     <string name="undo">Undo</string>
-
+    <string name="category_empty_description">This category is currently empty, but we add new movies and shows regularly. Stay tuned!</string>
+    <string name="popularity">Popularity</string>
+    <string name="latest">Latest</string>
 
     <!-- Validation Errors -->
     <string name="username_is_required">Username is required</string>
@@ -170,13 +171,5 @@
     <string name="continue_as_a_guest">Continue as a guest</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="login">Login</string>
-
-
-
-
-
-
-    <string name="popularity">Popularity</string>
-    <string name="latest">Latest</string>
     <string name="success_message">Successfully added to your collection.</string>
 </resources>
