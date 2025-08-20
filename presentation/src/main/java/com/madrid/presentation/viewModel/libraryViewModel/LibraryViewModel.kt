@@ -27,7 +27,7 @@ class LibraryViewModel @Inject constructor(
     LibraryScreenState()
 ), LibraryInteractionListener {
 
-    init {
+    fun loadData(){
         getWatchList()
         getFavoriteList()
         getHistoryList()
