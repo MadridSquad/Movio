@@ -54,8 +54,12 @@ fun BasicTextInputField(
     iconColorNotFocus: Color = Theme.color.surfaces.onSurfaceContainer,
     cursorColor: Color = Theme.color.surfaces.onSurface,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-
-    letterSpacing: Int = 0
+    letterSpacing: Int = 0,
+    keyboardOptions: KeyboardOptions = KeyboardOptions(
+        autoCorrect = false,
+        keyboardType = KeyboardType.Password
+    ),
+    keyboardActions : KeyboardActions= KeyboardActions.Default
 ) {
     val isFocused by interactionSource.collectIsFocusedAsState()
 
@@ -152,9 +156,7 @@ fun BasicTextInputField(
             }
         },
         cursorBrush = SolidColor(cursorColor),
-        keyboardOptions = KeyboardOptions(
-            autoCorrect = false,
-            keyboardType = KeyboardType.Password
-        )
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions
     )
 }
