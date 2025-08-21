@@ -23,6 +23,7 @@ import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
+import com.madrid.presentation.component.GlowingCircle
 import com.madrid.presentation.component.movioCards.MovioRatingCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
@@ -143,42 +144,52 @@ private fun MyRatingScreenContent(
     onBackClick: () -> Unit,
     interaction: MyRatingInteractionListener,
 ) {
-    Column(
-        Modifier
-            .padding(horizontal = 16.dp)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
             .background(Theme.color.surfaces.surface)
-            .statusBarsPadding()
-            .navigationBarsPadding()
+
     ) {
-        TopAppBar(
-            text = stringResource(R.string.my_ratings),
-            secondIcon = null,
-            thirdIcon = null,
-            onFirstIconClick = { onBackClick() },
-        )
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(1),
+        GlowingCircle(
             modifier = Modifier
-                .fillMaxSize()
-                .background(Theme.color.surfaces.surface),
+                .align(Alignment.TopEnd)
+                .statusBarsPadding()
+        )
+        Column(
+            Modifier
+                .padding(horizontal = 16.dp)
+                .statusBarsPadding()
+                .navigationBarsPadding()
         ) {
-            items(
-                count = state.ratedMedia.size
-            ) { index ->
-                val Media = state.ratedMedia[index]
-                MovioRatingCard(
-                    movieTitle = Media.mediaTitle,
-                    movieImageUrl = Media.imageUrl,
-                    height = 100.dp,
-                    rate = Media.rate,
-                    modifier = Modifier.padding(top = 16.dp),
-                    onClick = {
-                        interaction.onMediaClick(
-                            mediaType = state.ratedMedia[index].mediaType,
-                            mediaId = state.ratedMedia[index].mediaId
-                        )
-                    },
-                )
+            TopAppBar(
+                text = stringResource(R.string.my_ratings),
+                secondIcon = null,
+                thirdIcon = null,
+                onFirstIconClick = { onBackClick() },
+            )
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(1),
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                items(
+                    count = state.ratedMedia.size
+                ) { index ->
+                    val Media = state.ratedMedia[index]
+                    MovioRatingCard(
+                        movieTitle = Media.mediaTitle,
+                        movieImageUrl = Media.imageUrl,
+                        height = 100.dp,
+                        rate = Media.rate,
+                        modifier = Modifier.padding(top = 16.dp),
+                        onClick = {
+                            interaction.onMediaClick(
+                                mediaType = state.ratedMedia[index].mediaType,
+                                mediaId = state.ratedMedia[index].mediaId
+                            )
+                        },
+                    )
+                }
             }
         }
     }
