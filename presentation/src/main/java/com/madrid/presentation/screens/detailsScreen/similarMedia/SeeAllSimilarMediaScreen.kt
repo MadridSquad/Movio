@@ -1,10 +1,11 @@
 package com.madrid.presentation.screens.detailsScreen.similarMedia
 
 import android.util.Log
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
@@ -15,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.TopAppBar
-import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.component.GlowingCircle
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
@@ -69,49 +70,58 @@ fun SeeAllSimilarMediaScreenContent(
     onClickBack: () -> Unit = {},
     onClickMedia: (Int, Boolean) -> Unit = { _, _ -> }
 ) {
-    Column(
-        Modifier
+    Box(
+        modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 4.dp, vertical = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TopAppBar(
-            text = headerName,
-            secondIcon = null,
-            thirdIcon = null,
-            modifier = Modifier.padding(start = 16.dp, top = 32.dp, end = 16.dp),
-            onFirstIconClick = { onClickBack() }
-        )
-
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 101.dp),
+        GlowingCircle(
             modifier = Modifier
+                .statusBarsPadding()
+                .align(Alignment.TopEnd),
+        )
+        Column(
+            Modifier
                 .fillMaxSize()
-                .background(Theme.color.surfaces.surface)
-                .padding(horizontal = 6.dp),
+                .padding(horizontal = 4.dp, vertical = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(similarMovies.size) { index ->
-                val movie = similarMovies[index]
+            TopAppBar(
+                text = headerName,
+                secondIcon = null,
+                thirdIcon = null,
+                modifier = Modifier.padding(start = 16.dp, top = 32.dp, end = 16.dp),
+                onFirstIconClick = { onClickBack() }
+            )
 
-                // Log before rendering each card
-                Log.d(
-                    "SimilarMediaDebug",
-                    "Rendering card #$index: ${movie.title} " +
-                            "| Rating: ${movie.rating} " +
-                            "| Image: ${movie.imageUrl.take(20)}..."
-                )
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(minSize = 101.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 6.dp),
+            ) {
+                items(similarMovies.size) { index ->
+                    val movie = similarMovies[index]
 
-                MovioVerticalCard(
-                    description = movie.title,
-                    movieImage = movie.imageUrl,
-                    rate = movie.rating,
-                    width = 101.dp,
-                    imageHeight = 136.dp,
-                    onClick = {
-                        onClickMedia(movie.id, isMovie)
-                    },
-                    modifier = Modifier.padding(top = 16.dp, start = 6.dp),
-                )
+                    // Log before rendering each card
+                    Log.d(
+                        "SimilarMediaDebug",
+                        "Rendering card #$index: ${movie.title} " +
+                                "| Rating: ${movie.rating} " +
+                                "| Image: ${movie.imageUrl.take(20)}..."
+                    )
+
+                    MovioVerticalCard(
+                        description = movie.title,
+                        movieImage = movie.imageUrl,
+                        rate = movie.rating,
+                        width = 101.dp,
+                        imageHeight = 136.dp,
+                        onClick = {
+                            onClickMedia(movie.id, isMovie)
+                        },
+                        modifier = Modifier.padding(top = 16.dp, start = 6.dp),
+                    )
+                }
             }
         }
     }
