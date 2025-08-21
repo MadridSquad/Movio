@@ -46,7 +46,7 @@ fun LoginErrorAndForgotPassword(
             MovioText(
                 text = stringResource(state.errorMessage),
                 textStyle = Theme.textStyle.label.mediumMedium12,
-                color = Theme.color.system.onError,
+                color = Theme.color.system.onErrorContainer,
                 maxLines = 2,
                 modifier = Modifier.weight(1f))
         } else {
