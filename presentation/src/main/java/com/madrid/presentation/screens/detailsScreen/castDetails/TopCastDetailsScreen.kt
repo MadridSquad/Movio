@@ -23,7 +23,7 @@ import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.viewModel.detailsViewModel.MovieDetailsUiState
+import com.madrid.presentation.viewModel.detailsViewModel.movie.MovieDetailsUiState
 import com.madrid.presentation.viewModel.detailsViewModel.TopCastViewModel
 
 @Composable

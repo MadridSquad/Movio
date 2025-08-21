@@ -1,4 +1,4 @@
-package com.madrid.presentation.viewModel.detailsViewModel
+package com.madrid.presentation.viewModel.detailsViewModel.movie
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -17,13 +17,14 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.viewModel.shared.parser.formatRate
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.detailsViewModel.ReviewUiState
+import com.madrid.presentation.viewModel.detailsViewModel.actor.ActorDetailsUiState
+import com.madrid.presentation.viewModel.detailsViewModel.toReviewUiState
 import com.madrid.presentation.viewModel.shared.formatDuration
 import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
 import com.madrid.presentation.viewModel.shared.parser.formatDateOfBirth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -39,7 +40,7 @@ class MovieDetailsViewModel @Inject constructor(
     private val isGuestUseCase: LoginUseCase,
     private val setMovieFavoriteStatusUseCase: SetMovieFavoriteStatusUseCase,
     private val isFavoriteMovieUseCase: IsFavoriteMovieUseCase
-) : BaseViewModel<DetailsMovieUiState, Nothing>(DetailsMovieUiState()),
+) : BaseViewModel<ActorDetailsUiState, Nothing>(ActorDetailsUiState()),
     MovieDetailsInteractionListener {
     val args = saveStateHandle.toRoute<Destinations.MovieDetailsScreen>()
 

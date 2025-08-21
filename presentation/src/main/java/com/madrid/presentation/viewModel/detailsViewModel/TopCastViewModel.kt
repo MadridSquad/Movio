@@ -7,6 +7,7 @@ import com.madrid.domain.usecase.movie.GetMovieTopCastUseCase
 import com.madrid.domain.usecase.series.GetSeriesTopCastUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.detailsViewModel.movie.MovieDetailsUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

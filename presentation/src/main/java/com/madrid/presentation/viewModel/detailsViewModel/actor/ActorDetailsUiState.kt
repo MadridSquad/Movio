@@ -1,9 +1,10 @@
-package com.madrid.presentation.viewModel.detailsViewModel
+package com.madrid.presentation.viewModel.detailsViewModel.actor
 
 import com.madrid.domain.entity.Artist
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
+import com.madrid.presentation.viewModel.detailsViewModel.ReviewUiState
 
-data class DetailsMovieUiState(
+data class ActorDetailsUiState(
     val isLoved: Boolean = false,
     val topImageUrl: String = "",
     val movieName: String = "",

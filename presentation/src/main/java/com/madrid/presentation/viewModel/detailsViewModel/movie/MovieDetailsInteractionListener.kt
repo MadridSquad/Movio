@@ -1,4 +1,4 @@
-package com.madrid.presentation.viewModel.detailsViewModel
+package com.madrid.presentation.viewModel.detailsViewModel.movie
 
 interface MovieDetailsInteractionListener {
     fun onClickLoveIcon(movieId: Int)

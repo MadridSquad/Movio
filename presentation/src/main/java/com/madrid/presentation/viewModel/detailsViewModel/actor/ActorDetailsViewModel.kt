@@ -1,13 +1,14 @@
-package com.madrid.presentation.viewModel.detailsViewModel
+package com.madrid.presentation.viewModel.detailsViewModel.actor
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
 import com.madrid.domain.usecase.artist.GetArtistDetailsUseCase
 import com.madrid.domain.usecase.artist.GetArtistMoviesUseCase
 import com.madrid.presentation.navigation.Destinations
-import com.madrid.presentation.viewModel.shared.parser.formatRate
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.detailsViewModel.movie.MovieDetailsUiState
 import com.madrid.presentation.viewModel.shared.parser.formatDateOfBirth
+import com.madrid.presentation.viewModel.shared.parser.formatRate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

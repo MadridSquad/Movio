@@ -67,7 +67,7 @@ import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.R
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.toReviewScreenUiState
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMoviesSection
-import com.madrid.presentation.viewModel.detailsViewModel.MovieDetailsViewModel
+import com.madrid.presentation.viewModel.detailsViewModel.movie.MovieDetailsViewModel
 import com.madrid.presentation.viewModel.libraryViewModel.addtolist.MovieListViewModel
 
 
