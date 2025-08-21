@@ -21,12 +21,14 @@ import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.domain.entity.WatchList
+import com.madrid.presentation.viewModel.libraryViewModel.addtolist.WatchListItemUiState
+import com.madrid.presentation.viewModel.shared.WatchListUiState
 
 @Composable
 fun UserListItem(
-    userList: WatchList,
+    userList: WatchListItemUiState,
     isGlobalLoading: Boolean = false,
-    onToggleSelection: (WatchList) -> Unit,
+    onToggleSelection: (WatchListItemUiState) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val isItemEnabled = !isGlobalLoading && !userList.isLoading
@@ -50,7 +52,7 @@ fun UserListItem(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         MovioText(
-            text = userList.name,
+            text = userList.watchListTitle,
             textStyle = Theme.textStyle.body.mediumMedium14,
             color = if (isItemEnabled) {
                 Theme.color.surfaces.onSurface

@@ -9,7 +9,9 @@ import com.madrid.domain.usecase.watchList.GetWatchListsUseCase
 import com.madrid.presentation.R
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.libraryViewModel.viewAll.factory.ViewAllType
+import com.madrid.presentation.viewModel.shared.WatchListUiState
 import com.madrid.presentation.viewModel.shared.toMediaUiState
+import com.madrid.presentation.viewModel.shared.toWatchListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -120,7 +122,7 @@ class LibraryViewModel @Inject constructor(
                 updateState {
                     it.copy(
                         isLoading = false,
-                        watchList = watchList.map { it.toWatchListState() }
+                        watchList = watchList.map { it.toWatchListUiState() }
                     )
                 }
             },
@@ -202,7 +204,7 @@ class LibraryViewModel @Inject constructor(
         )
     }
 
-    override fun onItemWatchListClick(watchListItem: WatchListState) {
+    override fun onItemWatchListClick(watchListItem: WatchListUiState) {
         emitNewEffect(
             LibraryScreenEffect.NavigateToWatchListDetails(
                 watchListId = watchListItem.id,

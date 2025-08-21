@@ -38,7 +38,6 @@ class MovieListViewModel @Inject constructor(
                     }
                     updateState {
                         it.copy(
-                            userLists = userLists, // Keep original for other operations
                             watchListItems = uiLists, // Add UI-specific list
                             isLoadingLists = false
                         )

@@ -113,7 +113,7 @@ fun ListManagementBottomSheet(
                 when (mode) {
                     ListBottomSheetMode.LIST_SELECTION -> {
                         ListSelectionContent(
-                            initialUserLists = uiState.userLists, // Use lists from ViewModel state
+                            initialUserLists = uiState.watchListItems, // Use lists from ViewModel state
                             isLoading = uiState.isLoadingLists, // Use loading state from ViewModel
                             onCreateNewListClick = {
                                 currentMode = ListBottomSheetMode.CREATE_NEW_LIST

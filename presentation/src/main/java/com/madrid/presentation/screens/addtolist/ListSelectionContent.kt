@@ -7,16 +7,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.domain.entity.WatchList
+import com.madrid.presentation.viewModel.libraryViewModel.addtolist.WatchListItemUiState
+import com.madrid.presentation.viewModel.shared.WatchListUiState
 
 @Composable
 fun ListSelectionContent(
-    initialUserLists: List<WatchList>,
+    initialUserLists: List<WatchListItemUiState>,
     isLoading: Boolean = false,
     onCreateNewListClick: () -> Unit = {},
-    onSelectionChanged: ((WatchList, Boolean) -> Unit)? = null
+    onSelectionChanged: ((WatchListItemUiState, Boolean) -> Unit)? = null
 ) {
     Column(
         modifier = Modifier
