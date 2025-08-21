@@ -116,33 +116,24 @@ class MovieListViewModel @Inject constructor(
                     movieId = movieId
                 )
             },
-            onSuccess = { status ->
-                Log.d("MovieListViewModel", "Add to list status: $status")
-                if (status.success) {
-                    updateState {
-                        it.copy(
-                            isLoading = false,
-                            addToListSuccess = true,
-                            successMessage = status.message,
-                        )
-                    }
-                    onSuccess?.invoke()
-
-                } else {
-                    updateState {
-                        it.copy(
-                            isLoading = false,
-                            addToListSuccess = true,
-                            errorMessage = status.message,
-                            successMessage = status.message
-                        )
-                    }
-                }
-            },
-            onError = {
+            onSuccess = {
                 updateState {
                     it.copy(
                         isLoading = false,
+                        addToListSuccess = true,
+                        successMessage = "Movie added to list successfully!",
+                    )
+                }
+                onSuccess?.invoke()
+            },
+            onError = { ex ->
+                Log.d("MovieListViewModel", "addMovieToList: ${ex.message}")
+                updateState {
+                    it.copy(
+                        isLoading = false,
+                        addToListSuccess = true,
+                        errorMessage = ex.message,
+                        successMessage = ex.message
                     )
                 }
             }

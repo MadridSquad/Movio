@@ -27,7 +27,7 @@ class AddMovieToListUseCase @Inject constructor(
     suspend operator fun invoke(
         listId: Int,
         movieId: Int
-    ): ListOperationStatus {
+    ) {
         val sessionId = authenticationRepository.getSessionId().first()
         return movieRepository.addMovieToList(listId, sessionId, movieId)
     }

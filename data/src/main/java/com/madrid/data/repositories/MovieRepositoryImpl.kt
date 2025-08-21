@@ -328,13 +328,12 @@ class MovieRepositoryImpl @Inject constructor(
         listId: Int,
         sessionId: String,
         mediaId: Int
-    ): ListOperationStatus {
-        val response = remoteDataSource.addMovieToList(
+    ) {
+        remoteDataSource.addMovieToList(
             listId = listId,
             sessionId = sessionId,
             movieId = mediaId
         )
-        return response.toListOperationStatus()
     }
 
 

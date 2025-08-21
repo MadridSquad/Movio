@@ -146,7 +146,8 @@ fun ListManagementBottomSheet(
                     isVisible = showSuccessNotification,
                     onDismiss = {
                         showSuccessNotification = false
-                    }
+                    },
+                    message = successMessage ?: "Successfully added to your collection.",
                 )
             }
         }
