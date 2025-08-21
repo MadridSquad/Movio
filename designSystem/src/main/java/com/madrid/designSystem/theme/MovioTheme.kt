@@ -9,6 +9,9 @@ import androidx.core.view.WindowInsetsControllerCompat
 import com.madrid.designSystem.color.LocalMovioColor
 import com.madrid.designSystem.color.darkThemeColors
 import com.madrid.designSystem.color.lightThemeColors
+import com.madrid.designSystem.image.LocalMovioDrawable
+import com.madrid.designSystem.image.darkThemeDrawables
+import com.madrid.designSystem.image.lightThemeDrawables
 import com.madrid.designSystem.text_style.LocalMovioTextStyle
 import com.madrid.designSystem.text_style.defaultTextStyle
 
@@ -19,11 +22,12 @@ fun MovioTheme(
 ) {
     UpdateStatusBarIconsForTheme(isDarkTheme)
     val theme = if (isDarkTheme) darkThemeColors else lightThemeColors
+    val drawablesTheme = if (isDarkTheme) darkThemeDrawables else lightThemeDrawables
 
     CompositionLocalProvider(
         LocalMovioColor provides theme,
         LocalMovioTextStyle provides defaultTextStyle,
-
+        LocalMovioDrawable provides drawablesTheme
         ) {
         content()
     }

@@ -118,7 +118,7 @@ fun SeriesDetailsScreen(
                 DialogWithButtonLayout(
                     title = stringResource(R.string.internet_is_not_available),
                     description = stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
-                    image = R.drawable.img_no_internet,
+                    image = Theme.drawables.noInternetId,
                     buttonText = stringResource(R.string.try_again),
                     onClick = { interactionListener.onRetryButtonClick()
                     },

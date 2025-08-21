@@ -21,6 +21,7 @@ import androidx.paging.compose.LazyPagingItems
 import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.HeaderSectionBar
 import com.madrid.designSystem.component.LoadingSearchCard
+import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
@@ -94,7 +95,7 @@ fun FilterSearchScreen(
                                 EmptySearchLayout(
                                     title = stringResource(R.string.no_results_found),
                                     description = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
-                                    image = R.drawable.img_no_sesrch_found
+                                    image = Theme.drawables.notFoundLayoutId
                                 )
                             }
                         }
@@ -112,7 +113,7 @@ fun FilterSearchScreen(
                                 EmptySearchLayout(
                                     title = stringResource(R.string.no_results_found),
                                     description = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
-                                    image = R.drawable.img_no_sesrch_found
+                                    image = Theme.drawables.notFoundLayoutId
                                 )
                             }
                         }
@@ -177,7 +178,7 @@ fun FilterSearchScreen(
                                 EmptySearchLayout(
                                     title = stringResource(R.string.no_results_found),
                                     description = stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
-                                    image = R.drawable.img_no_internet
+                                    image = Theme.drawables.noInternetId
                                 )
                             }
                         }
@@ -198,7 +199,7 @@ fun FilterSearchScreen(
                                 EmptySearchLayout(
                                     title = stringResource(R.string.no_results_found),
                                     description = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
-                                    image = R.drawable.img_no_sesrch_found // Use a "no results" image
+                                    image = Theme.drawables.notFoundLayoutId
                                 )
                             }
                         }
@@ -264,7 +265,7 @@ fun FilterSearchScreen(
                                     title = stringResource(R.string.internet_is_not_available),
                                     description =
                                         stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
-                                    image = R.drawable.img_no_internet
+                                    image = Theme.drawables.noInternetId
                                 )
                             }
                         }
@@ -284,7 +285,7 @@ fun FilterSearchScreen(
                                 EmptySearchLayout(
                                     title = stringResource(R.string.no_results_found),
                                     description = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
-                                    image = R.drawable.img_no_sesrch_found // Use a "no results" image
+                                    image = Theme.drawables.notFoundLayoutId
                                 )
                             }
                         }
@@ -351,7 +352,7 @@ fun FilterSearchScreen(
                                 EmptySearchLayout(
                                     title = stringResource(R.string.internet_is_not_available),
                                     description = "Please make sure you are connected to the internet and try again.",
-                                    image = R.drawable.img_no_internet
+                                    image = Theme.drawables.noInternetId
                                 )
                             }
                         }
@@ -371,7 +372,7 @@ fun FilterSearchScreen(
                                 EmptySearchLayout(
                                     title = stringResource(R.string.no_results_found),
                                     description = stringResource(R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
-                                    image = R.drawable.img_no_sesrch_found // Use a "no results" image
+                                    image = Theme.drawables.notFoundLayoutId
                                 )
                             }
                         }

@@ -137,7 +137,7 @@ private fun SeeAllForYouScreenContent(
                         EmptySearchLayout(
                             title = stringResource(com.madrid.presentation.R.string.internet_is_not_available),
                             description = stringResource(com.madrid.presentation.R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
-                            image = com.madrid.presentation.R.drawable.img_no_internet
+                            image = Theme.drawables.noInternetId
                         )
                     }
                 }
@@ -154,7 +154,7 @@ private fun SeeAllForYouScreenContent(
                         EmptySearchLayout(
                             title = stringResource(com.madrid.presentation.R.string.no_results_found),
                             description = stringResource(com.madrid.presentation.R.string.we_couldn_t_find_anything_matching_your_search_try_checking_the_spelling_or_explore_something_else),
-                            image = com.madrid.presentation.R.drawable.img_no_sesrch_found
+                            image = Theme.drawables.notFoundLayoutId
                         )
                     }
                 }

@@ -1,5 +1,6 @@
 package com.madrid.presentation.component.header
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row

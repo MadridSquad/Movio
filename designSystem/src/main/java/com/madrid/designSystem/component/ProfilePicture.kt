@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
+import com.madrid.designSystem.theme.Theme
 
 @Composable
 fun ProfilePicture(
@@ -42,7 +43,7 @@ fun ProfilePicture(
             loading = {},
             error = {
                 MovioIcon(
-                    painter = painterResource(R.drawable.bold_profile_circle),
+                    painter = painterResource(Theme.drawables.profilePlaceHolderId),
                     contentDescription = "Default profile",
                     modifier = Modifier.size(size)
                 )

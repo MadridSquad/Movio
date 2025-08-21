@@ -22,6 +22,7 @@ import com.madrid.designSystem.R
 import com.madrid.designSystem.component.DialogWithButtonLayout
 import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.TopAppBar
+import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.SwipeToDeleteCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
@@ -141,7 +142,7 @@ private fun ErrorContent(onClick: () -> Unit = {}) {
     DialogWithButtonLayout(
         title = stringResource(presentationR.string.internet_is_not_available),
         description = stringResource(presentationR.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
-        image = R.drawable.no_internet,
+        image = Theme.drawables.noInternetId,
         imageSize = 150,
         modifier = Modifier
             .padding(horizontal = 16.dp)
@@ -157,7 +158,7 @@ private fun EmptyListContent(title: String, description: String) {
     EmptySearchLayout(
         title = stringResource(presentationR.string.empty_list_message, title),
         description = description,
-        image = R.drawable.empty,
+        image = Theme.drawables.emptyLayoutId,
         imageSize = 180,
         modifier = Modifier
             .fillMaxSize()

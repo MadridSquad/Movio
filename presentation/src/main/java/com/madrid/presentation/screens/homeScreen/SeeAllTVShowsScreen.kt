@@ -168,7 +168,7 @@ fun SeeAllTVShowsScreen(
             DialogWithButtonLayout(
                 title = stringResource(R.string.empty_no_internet_title),
                 description = stringResource(R.string.empty_no_internet_description),
-                image = R.drawable.img_no_internet,
+                image = Theme.drawables.noInternetId,
                 buttonText = stringResource(R.string.try_again),
                 onClick = { viewModel.onTryAgainClick() },
                 imageSize = 170,
@@ -186,7 +186,7 @@ fun SeeAllTVShowsScreen(
             EmptySearchLayout(
                 title = stringResource(R.string.nothing_here_yet),
                 description = stringResource(R.string.category_empty_description),
-                image = R.drawable.img_no_sesrch_found,
+                image = Theme.drawables.notFoundLayoutId,
                 imageSize = 170,
                 modifier = Modifier
                     .fillMaxSize()
