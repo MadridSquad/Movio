@@ -24,14 +24,3 @@ fun Review.toReviewUiState(): ReviewUiState {
         content = this.comment
     )
 }
-
-fun Review.toFormattedReview(): Review {
-    return Review(
-        reviewId = this.reviewId,
-        reviewerName = this.reviewerName,
-        reviewerPhotoUrl = this.reviewerPhotoUrl,
-        rate = this.rate,
-        date = formatDate(this.date),
-        comment = this.comment
-    )
-}

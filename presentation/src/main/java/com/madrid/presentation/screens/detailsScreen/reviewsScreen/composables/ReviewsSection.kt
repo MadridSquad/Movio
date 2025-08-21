@@ -16,27 +16,26 @@ import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.presentation.R
 import com.madrid.presentation.viewModel.detailsViewModel.ReviewUiState
-import com.madrid.presentation.viewModel.detailsViewModel.ReviewsScreenUiState
+import com.madrid.presentation.viewModel.detailsViewModel.SeeAllType
 
 @Composable
 fun ReviewScreen(
-    uiState: ReviewsScreenUiState,
+    reviews: List<ReviewUiState>,
     modifier: Modifier = Modifier,
-    onSeeAllReviews: () -> Unit = {},
-    reviews: List<ReviewUiState> = uiState.reviews,
+    onSeeAllReviews: () -> Unit = {}
 ) {
     if (reviews.isNotEmpty()) {
         Column(
             modifier = modifier.fillMaxWidth()
         ) {
             CustomTextTitle(
-                primaryText = stringResource(R.string.reviews),
+                primaryText = stringResource(SeeAllType.Review.stringResId),
                 secondaryText = stringResource(R.string.see_all),
                 endIcon = painterResource(com.madrid.designSystem.R.drawable.outline_alt_arrow_left),
                 onSeeAllClick = { onSeeAllReviews() },
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp)
             )
-            ReviewsSectionContent(reviews = uiState.reviews)
+            ReviewsSectionContent(reviews = reviews)
         }
     }
 }

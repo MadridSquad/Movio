@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -20,8 +20,8 @@ import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioSeasonCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
+import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsViewModel
 import com.madrid.presentation.viewModel.shared.parser.formatFullDateKtx
 import com.madrid.presentation.viewModel.shared.parser.formatYearKtx
 
@@ -31,7 +31,7 @@ fun SeasonsScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()) {
     val navController = LocalNavController.current
     SeasonsScreenContent(
         uiState = uiState,
-        onClickBack = { navController.navigate(Destinations.SeriesDetailsScreen(uiState.seriesId, seasonNumber = 1)) },
+        onClickBack = { navController.popBackStack() },
         onClickSeason = { seasonNumber ->
             navController.navigate(
                 Destinations.EpisodesScreen(
@@ -66,7 +66,7 @@ fun SeasonsScreenContent(
         LazyColumn(
             contentPadding = PaddingValues(bottom = 40.dp)
         ) {
-            itemsIndexed(seasons) { index, season ->
+            items(seasons) { season ->
                 MovioSeasonCard(
                     movieTitle = season.title,
                     movieImage = season.imageUrl,

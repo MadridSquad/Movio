@@ -173,4 +173,6 @@
     <string name="don_t_have_an_account">ليس لديك حساب؟</string>
     <string name="sign_up">إنشاء حساب</string>
     <string name="success_message">تمت الاضافة الى القائمة بنجاح</string>
+    <string name="feature_not_supported">هذه الخاصية غير متوفرة.</string>
+    <string name="party_icon">ايقونة احتفال</string>
 </resources>

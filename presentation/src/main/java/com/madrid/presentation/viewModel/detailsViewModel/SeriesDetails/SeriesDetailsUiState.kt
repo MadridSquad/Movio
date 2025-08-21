@@ -1,27 +1,36 @@
 package com.madrid.presentation.viewModel.detailsViewModel
 
+import com.madrid.presentation.R
+
 data class SeriesDetailsUiState(
     val seriesId: Int = 0,
-    val isFavourite: Boolean = false,
-    val topImageUrl: String = "",
     val seriesName: String = "",
-    val seriesGenre: List<String> = emptyList(),
+    val description: String = "",
+    val topImageUrl: String = "",
     val rate: String = "",
+    val seriesGenre: List<String> = emptyList(),
     val numberOfSeasons: Int = 0,
     val productionDate: String = "",
-    val isRated: Boolean = false,
-    val isAddedToList: Boolean = false,
-    val description: String = "",
     val topCast: List<ArtistUiState> = emptyList(),
     val currentSeasonsUiStates: List<SeasonUiState> = emptyList(),
     val reviews: List<ReviewUiState> = emptyList(),
     val similarSeries: List<SeriesUiState> = emptyList(),
     val selectedSeasonUiState: SeasonUiState = SeasonUiState(),
-    val isError :Boolean = false,
+    val trailerKey: String = "",
+    val isError: Boolean = false,
+    val showLoadingScreen: Boolean = false,
+    val isRated: Boolean = false,
+    val isFavourite: Boolean = false,
+    val isAddedToList: Boolean = false,
     val userRating: Int = 0,
     val isGuest: Boolean = true,
-    val trailerKey: String = "",
-    val showLoadingScreen: Boolean = false,
+    val showSheet: Boolean = false,
+    val showAddRatingBottomSheet: Boolean = false,
+    val showDoneRatingBottomSheet: Boolean = false,
+    val showAddToListBottomSheet: Boolean = false,
+    val seeAllType: SeeAllType = SeeAllType.TopCast,
+    val errorResMessageId: Int = R.string.feature_not_supported,
+    val showSnackBar: Boolean = false,
     val isLoginBottomSheetVisible: Boolean = false
 )
 
@@ -30,7 +39,6 @@ data class SeriesUiState(
     val imageUrl: String = "",
     val rate: String = "",
     val name: String = "",
-    val date: String = ""
 )
 
 data class ArtistUiState(
@@ -41,7 +49,7 @@ data class ArtistUiState(
 
 data class SeasonUiState(
     val id: Int = 0,
-    val title :String="",
+    val title: String = "",
     val imageUrl: String = "",
     val seasonNumber: Int = 0,
     val productionDate: String = "",
@@ -59,3 +67,10 @@ data class EpisodeUiState(
     val rate: String = "",
     val trailerKey: String?
 )
+
+enum class SeeAllType(val stringResId: Int) {
+    TopCast(R.string.top_cast),
+    Season(R.string.current_seasons),
+    Review(R.string.reviews),
+    SimilarSeries(R.string.similar_series)
+}

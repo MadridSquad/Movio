@@ -172,5 +172,7 @@
     <string name="continue_as_a_guest">Continue as a guest</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="login">Login</string>
-    <string name="success_message">Successfully added to your collection.</string>
+    <string name="success_message">Successfully added to your collection.</string>//This feature is not supported in series
+    <string name="feature_not_supported">This feature is not supported.</string>
+    <string name="party_icon">Party Icon</string>
 </resources>
