@@ -56,14 +56,7 @@ class LibraryViewModel @Inject constructor(
         tryToExecute(
             function = { createMovieListUseCase(name) },
             onSuccess = { onCreateSuccess() },
-            onError = { throwable ->
-                updateState {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = throwable.message.toString()
-                    )
-                }
-            },
+            onError = { throwable -> onError(message = throwable.message) },
         )
     }
 
@@ -98,20 +91,12 @@ class LibraryViewModel @Inject constructor(
                     it.copy(isGuest = isGuest, isLoading = false)
                 }
             },
-            onError = { throwable ->
-                updateState {
-                    it.copy(errorMessage = throwable.message.toString())
-                }
-            }
+            onError = { throwable -> onError(message = throwable.message) }
         )
     }
 
     private fun getWatchList() {
-        updateState {
-            it.copy(
-                isLoading = true,
-            )
-        }
+        setLoading(true)
         tryToExecute(
             function = {
                 getWatchListUseCase()
@@ -124,23 +109,12 @@ class LibraryViewModel @Inject constructor(
                     )
                 }
             },
-            onError = { throwable ->
-                updateState {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = throwable.message.toString()
-                    )
-                }
-            },
+            onError = { throwable -> onError(throwable.message) },
         )
     }
 
     private fun getFavoriteList() {
-        updateState {
-            it.copy(
-                isLoading = true,
-            )
-        }
+        setLoading(true)
         tryToExecute(
             function = {
                 getFavoriteUseCase()
@@ -153,14 +127,7 @@ class LibraryViewModel @Inject constructor(
                     )
                 }
             },
-            onError = { throwable ->
-                updateState {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = throwable.message.toString()
-                    )
-                }
-            },
+            onError = { throwable -> onError(throwable.message) },
         )
     }
 
@@ -183,14 +150,7 @@ class LibraryViewModel @Inject constructor(
                     )
                 }
             },
-            onError = { throwable ->
-                updateState {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = throwable.message.toString()
-                    )
-                }
-            },
+            onError = { throwable -> onError(throwable.message) },
         )
 
     }
@@ -223,4 +183,11 @@ class LibraryViewModel @Inject constructor(
         )
     }
 
+    fun setLoading(isLoading: Boolean = true) {
+        updateState { it.copy(isLoading = isLoading) }
+    }
+
+    fun onError(message: String) {
+        updateState { it.copy(isLoading = false, errorMessage = message) }
+    }
 }
