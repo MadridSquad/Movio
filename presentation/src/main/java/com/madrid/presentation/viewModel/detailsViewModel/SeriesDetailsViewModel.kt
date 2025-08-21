@@ -280,6 +280,10 @@ class SeriesDetailsViewModel @Inject constructor(
     }
 
     fun onClickFavoriteIcon(seriesId: Int) {
+        if (state.value.isGuest) {
+            updateState { it.copy(isLoginBottomSheetVisible = true) }
+            return
+        }
         tryToExecute(
             function = { setSeriesFavoriteStatusUseCase(seriesId, state.value.isFavourite.not()) },
             onSuccess = {
@@ -313,6 +317,10 @@ class SeriesDetailsViewModel @Inject constructor(
                 }
             },
         )
+    }
+
+    fun onDismissLoginBottomSheet() {
+        updateState { it.copy(isLoginBottomSheetVisible = false) }
     }
 }
 

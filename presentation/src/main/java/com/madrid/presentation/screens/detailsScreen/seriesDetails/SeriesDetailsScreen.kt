@@ -62,6 +62,7 @@ import com.madrid.presentation.component.BottomMediaActions
 import com.madrid.presentation.component.CastMember
 import com.madrid.presentation.component.TopCastHorizontalScroll
 import com.madrid.presentation.component.header.SeriesDetailsHeader
+import com.madrid.presentation.component.logout.LogoutConfirmationBottomSheet
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
 import com.madrid.presentation.component.movioCards.MovioSeasonCard
@@ -551,6 +552,19 @@ fun SeriesDetailsScreen(
                             modifier = Modifier.padding(vertical = 8.dp),
                         )
                     }
+
+                    LogoutConfirmationBottomSheet(
+                        title = stringResource(R.string.you_dont_have_an_account),
+                        description = stringResource(R.string.please_log_in_or_create_an_account_to_save_items_to_your_favorites_and_access_them_later),
+                        actionButtonText = stringResource(R.string.login),
+                        isVisible = uiState.isLoginBottomSheetVisible,
+                        onDismiss = { viewModel.onDismissLoginBottomSheet() },
+                        onNavigateToAuth = {
+                            navController.navigate(Destinations.LoginScreen) {
+                                popUpTo(Destinations.LoginScreen) { inclusive = false }
+                            }
+                        },
+                    )
                 }
             }
         }

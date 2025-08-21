@@ -57,6 +57,7 @@ import com.madrid.presentation.component.BottomMediaActions
 import com.madrid.presentation.component.CastMember
 import com.madrid.presentation.component.TopCastHorizontalScroll
 import com.madrid.presentation.component.header.MovieDetailsHeader
+import com.madrid.presentation.component.logout.LogoutConfirmationBottomSheet
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
 import com.madrid.presentation.navigation.Destinations
@@ -191,7 +192,8 @@ fun MovieDetailsScreen(
                     movieCategory = uiState.genreMovie,
                     date = uiState.dataMovie,
                     time = uiState.movieDuration.takeIf { it != "0" && it != "0min" && it.isNotBlank() },
-                    rate = uiState.rate.takeIf { it != "0.0" && it != "0" && it.isNotBlank() }?.take(3),
+                    rate = uiState.rate.takeIf { it != "0.0" && it != "0" && it.isNotBlank() }
+                        ?.take(3),
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                 )
                 BottomMediaActions(
@@ -496,6 +498,19 @@ fun MovieDetailsScreen(
                             rating = movie.rating
                         )
                     }
+                )
+
+                LogoutConfirmationBottomSheet(
+                    title = stringResource(R.string.you_dont_have_an_account),
+                    description = stringResource(R.string.please_log_in_or_create_an_account_to_save_items_to_your_favorites_and_access_them_later),
+                    actionButtonText = stringResource(R.string.login),
+                    isVisible = uiState.isLoginBottomSheetVisible,
+                    onDismiss = { viewModel.onDismissLoginBottomSheet() },
+                    onNavigateToAuth = {
+                        navController.navigate(Destinations.LoginScreen) {
+                            popUpTo(Destinations.LoginScreen) { inclusive = false }
+                        }
+                    },
                 )
             }
         }
