@@ -165,16 +165,16 @@ class SeriesRepositoryImpl @Inject constructor(
         return result.ratedSeries.map { it.toRatedSeries() }
     }
 
-    override suspend fun addSeriesToHistory(seriesId: Int) {
-        localDataSource.addSeriesToHistory(seriesId = seriesId)
+    override suspend fun addSeriesToHistory(seriesId: Int,userId: Int) {
+        localDataSource.addSeriesToHistory(seriesId = seriesId, userId = userId)
     }
 
-    override suspend fun deleteSeriesFromHistory(seriesId: Int){
-        localDataSource.deleteSeriesFromHistory(seriesId = seriesId)
+    override suspend fun deleteSeriesFromHistory(seriesId: Int,userId: Int){
+        localDataSource.deleteSeriesFromHistory(seriesId = seriesId, userId = userId)
     }
 
-    override suspend fun getAllSeriesInHistory(): List<Series> {
-        val seriesIds = localDataSource.getAllSeriesInHistory().map { it.mediaId }
+    override suspend fun getAllSeriesInHistory(userId: Int): List<Series> {
+        val seriesIds = localDataSource.getAllSeriesInHistory(userId = userId).map { it.mediaId }
         return seriesIds.map { getSeriesDetailsById(it) }
     }
 

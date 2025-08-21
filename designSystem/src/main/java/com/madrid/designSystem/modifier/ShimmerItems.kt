@@ -192,36 +192,38 @@ fun ShimmerHorizontalCard(
     contentAfterLoading: @Composable () -> Unit,
 ) {
     if (isLoading) {
-        CustomTextTitle(
-            modifier = headerModifier.padding(bottom = 12.dp),
-            primaryText = primaryTextForCustomTextTitle,
-            startIcon = startIconForPrimaryTextTitle,
-            secondaryText = secondaryTextForCustomTextTitle,
-            endIcon = endIconForCustomTextTitle,
-            onSeeAllClick = onSeeAllClick,
-            isListEmpty = isLoading
-        )
-        LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            modifier = modifier.height(200.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp)
-        ) {
-            items(itemCount) {
-                Column {
-                    Box(
-                        modifier = Modifier
-                            .size(width = 124.dp, height = 160.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .shimmerEffect()
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Box(
-                        modifier = Modifier
-                            .width(112.dp)
-                            .height(15.dp)
-                            .clip(RoundedCornerShape(24.dp))
-                            .shimmerEffect()
-                    )
+        Column {
+            CustomTextTitle(
+                modifier = headerModifier.padding(bottom = 12.dp),
+                primaryText = primaryTextForCustomTextTitle,
+                startIcon = startIconForPrimaryTextTitle,
+                secondaryText = secondaryTextForCustomTextTitle,
+                endIcon = endIconForCustomTextTitle,
+                onSeeAllClick = onSeeAllClick,
+                isListEmpty = isLoading
+            )
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = modifier.height(200.dp),
+                contentPadding = PaddingValues(horizontal = 16.dp)
+            ) {
+                items(itemCount) {
+                    Column {
+                        Box(
+                            modifier = Modifier
+                                .size(width = 124.dp, height = 160.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .shimmerEffect()
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Box(
+                            modifier = Modifier
+                                .width(112.dp)
+                                .height(15.dp)
+                                .clip(RoundedCornerShape(24.dp))
+                                .shimmerEffect()
+                        )
+                    }
                 }
             }
         }

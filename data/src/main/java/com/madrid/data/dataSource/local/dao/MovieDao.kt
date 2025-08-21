@@ -28,8 +28,8 @@ interface MovieDao {
     @Upsert
     suspend fun insertHistoryMovie(movie: MediaHistoryTable)
 
-    @Query("DELETE FROM MEDIA_HISTORY_TABLE WHERE mediaType = 'Movie' AND mediaId = :movieId")
-    suspend fun deleteMovieFromHistory(movieId: Int)
+    @Query("DELETE FROM MEDIA_HISTORY_TABLE WHERE mediaType = 'Movie' AND userId = :userId AND mediaId = :movieId")
+    suspend fun deleteMovieFromHistory(movieId: Int,userId: Int)
 
     @Delete
     suspend fun deleteMovie(movie: MovieTable)
@@ -40,8 +40,8 @@ interface MovieDao {
     @Update
     suspend fun updateMovie(movie: MovieTable)
 
-    @Query("SELECT * FROM MEDIA_HISTORY_TABLE WHERE mediaType = 'Movie' ORDER BY addedAt DESC")
-    suspend fun getALLMoviesInHistory(): List<MediaHistoryTable>
+    @Query("SELECT * FROM MEDIA_HISTORY_TABLE WHERE mediaType = 'Movie' AND userId = :userId ORDER BY addedAt DESC")
+    suspend fun getALLMoviesInHistory(userId: Int): List<MediaHistoryTable>
 
     @Query("SELECT * FROM MOVIE_TABLE WHERE movieId = :id")
     suspend fun getMovieById(id: Int): MovieTable?

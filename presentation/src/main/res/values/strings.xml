@@ -123,7 +123,8 @@
     <string name="star_icon">star icon</string>
     <string name="done">Done</string>
     <string name="background_image_of_squares">background image of squares</string>
-    <string name="you_dont_have_an_account">You dont have an account</string>
+    <string name="you_dont_have_an_account">You don\'t have an account</string>
+    <string name="please_log_in_or_create_an_account_to_save_items_to_your_favorites_and_access_them_later">Please log in or create an account to save items to your favorites and access them later.</string>
     <string name="thank_you_for_your_rating">Thank you for your rating!</string>
     <string name="this_rating_is_only_available_to_registered_users_Login_to_share_your_rating">This rating is only available to registered users, Log in to share your rating</string>
     <string name="watch_list_icon">watch list icon</string>

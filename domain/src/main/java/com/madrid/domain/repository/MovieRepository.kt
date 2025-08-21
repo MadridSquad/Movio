@@ -30,9 +30,9 @@ interface MovieRepository {
     suspend fun getUserMovieRate(sessionId: String): List<GetUserRatedMovieUseCase.RatedMovie>
     suspend fun addRatingMovie(movieId: Int, rate: Double)
     suspend fun clearHomeMoviesCache()
-    suspend fun addMovieToHistory(movieId: Int)
-    suspend fun deleteMovieFromHistory(movieId: Int)
-    suspend fun getAllMoviesInHistory(): List<Movie>
+    suspend fun addMovieToHistory(movieId: Int,userId: Int)
+    suspend fun deleteMovieFromHistory(movieId: Int,userId: Int)
+    suspend fun getAllMoviesInHistory(userId: Int): List<Movie>
     suspend fun getFavoriteMovies(sessionId: String): List<Movie>
     suspend fun setMovieFavoriteStatus(movieId: Int, sessionId: String, isFavorite: Boolean)
 

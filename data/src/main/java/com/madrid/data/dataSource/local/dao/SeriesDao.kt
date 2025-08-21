@@ -25,11 +25,11 @@ interface SeriesDao {
     @Upsert
     suspend fun insertHistorySeries(series: MediaHistoryTable)
 
-    @Query("DELETE FROM MEDIA_HISTORY_TABLE WHERE mediaType = 'Series' AND mediaId = :seriesId")
-    suspend fun deleteSeriesFromHistory(seriesId: Int)
+    @Query("DELETE FROM MEDIA_HISTORY_TABLE WHERE mediaType = 'Series' AND userId = :userId AND mediaId = :seriesId")
+    suspend fun deleteSeriesFromHistory(seriesId: Int,userId: Int)
 
-    @Query("SELECT * FROM MEDIA_HISTORY_TABLE WHERE mediaType = 'Series' ORDER BY addedAt DESC")
-    suspend fun getALLSeriesInHistory(): List<MediaHistoryTable>
+    @Query("SELECT * FROM MEDIA_HISTORY_TABLE WHERE mediaType = 'Series' AND userId = :userId ORDER BY addedAt DESC")
+    suspend fun getALLSeriesInHistory(userId: Int): List<MediaHistoryTable>
 
     @Query("SELECT * FROM SERIES_TABLE WHERE seriesId = :id")
     suspend fun getSeriesById(id: Int): SeriesTable?
