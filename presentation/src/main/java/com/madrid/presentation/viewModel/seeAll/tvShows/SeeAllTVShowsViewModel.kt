@@ -12,6 +12,7 @@ import com.madrid.presentation.pagination.SeeAllSeriesPagingSource
 import com.madrid.presentation.pagination.SeeAllSeriesWithGenrePagingSource
 import com.madrid.presentation.viewModel.shared.parser.formatRate
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.shared.CategoryUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
