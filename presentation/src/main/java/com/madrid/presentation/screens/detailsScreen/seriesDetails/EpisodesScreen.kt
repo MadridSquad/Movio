@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,8 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -35,25 +31,24 @@ import com.madrid.presentation.R
 import com.madrid.presentation.component.CustomDropdown
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.component.movioCards.MovioEpisodesCard
-import com.madrid.presentation.navigation.LocalNavController
+import com.madrid.presentation.utils.seriesBottomFade
 import com.madrid.presentation.viewModel.detailsViewModel.EpisodeUiState
+import com.madrid.presentation.viewModel.detailsViewModel.SeasonUiState
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsInteractionListener
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
 
 @Composable
-fun EpisodesScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()
+fun EpisodesScreen(
+    viewModel: SeriesDetailsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsState()
     val interactionListener = viewModel as SeriesDetailsInteractionListener
-    val navController = LocalNavController.current
     val context = LocalContext.current
 
     EpisodesScreenContent(
         uiState = uiState,
-        onSeasonSelection = viewModel::updateSelectedSeason,
         onClickEpisode = { episode ->
-
             interactionListener.onEpisodePlayItClick(
                 seriesId = uiState.seriesId,
                 seasonNumber = uiState.selectedSeasonUiState.seasonNumber,
@@ -62,115 +57,65 @@ fun EpisodesScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()
                 openTrailer(trailerKey, context)
             }
         },
-        onClickBack = { navController.popBackStack() }
+        interactionListener = interactionListener
     )
 }
 
 @Composable
-fun EpisodesScreenContent(
+private fun EpisodesScreenContent(
     uiState: SeriesDetailsUiState,
-    onSeasonSelection: (Int) -> Unit = {},
+    interactionListener: SeriesDetailsInteractionListener,
     onClickEpisode: (EpisodeUiState) -> Unit = {},
-    onClickBack: () -> Unit = {},
+    episodes: List<EpisodeUiState> = uiState.selectedSeasonUiState.episodesUiStates
 ) {
-    val episodes: List<EpisodeUiState> = uiState.selectedSeasonUiState.episodesUiStates
     LazyColumn(
         Modifier
             .fillMaxSize()
             .background(Theme.color.surfaces.surface)
+            .navigationBarsPadding()
     ) {
         item {
-            Box {
-                TopAppBar(
-                    text = null,
-                    secondIcon = null,
-                    thirdIcon = null,
-                    modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
-                    onFirstIconClick = { onClickBack() }
-                )
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Theme.color.surfaces.surface)
-                ) {
-                    MoviePosterDetailScreen(
-                        imageUrl = uiState.topImageUrl,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(30.dp)
-                            .offset(y = 342.dp)
-                            .background(
-                                Brush.verticalGradient(
-                                    colors = listOf(Color.Transparent, Theme.color.surfaces.surface)
-                                )
-                            )
-                    )
-                }
-            }
+            SerirseHeaderSection(
+                onBackButtonClick = { interactionListener.onBackButtonClick() },
+                topImageUrl = uiState.topImageUrl
+            )
         }
         item {
-            Row(
-                modifier = Modifier
-                    .padding(start = 16.dp, end = 16.dp, bottom = 16.dp)
+            Row(modifier = Modifier.padding(horizontal = 16.dp).padding(bottom = 16.dp)
             ) {
-                MovioText(
-                    text = stringResource(
-                        R.string.episodes,
-                        uiState.selectedSeasonUiState.numberOfEpisodes.toString()
-                    ),
-                    textStyle = Theme.textStyle.headline.mediumMedium18,
-                    color = Theme.color.surfaces.onSurface,
-                    modifier = Modifier
-                        .padding(vertical = 5.dp)
-                        .align(Alignment.CenterVertically)
+                NumberOfEpisodesTitle(
+                    modifier = Modifier.align(Alignment.CenterVertically),
+                    numberOfEpisodes = uiState.selectedSeasonUiState.numberOfEpisodes.toString()
                 )
-                Spacer(Modifier.weight(1f))
-                val seasonLabel = stringResource(
-                    R.string.season,
-                    uiState.selectedSeasonUiState.seasonNumber.toString()
-                )
-                var selectedItem by remember { mutableStateOf(seasonLabel) }
-                val seasonNumbers = (1..uiState.currentSeasonsUiStates.size).toList()
 
-                if (uiState.currentSeasonsUiStates.isNotEmpty()) {
-                    CustomDropdown(
-                        items = seasonNumbers.map { number ->
-                            stringResource(R.string.season, number.toString())
-                        },
-                        selectedItem = stringResource(
-                            R.string.season,
-                            uiState.selectedSeasonUiState.seasonNumber.toString()
-                        ),
-                        labelSelector = { it },
-                        onItemSelected = { selected ->
-                            selectedItem = selected
-                            onSeasonSelection(selected.substringAfterLast(" ").toInt())
-                        }
-                    )
-                }
+                Spacer(Modifier.weight(1f))
+
+                DropdownSeasonMenu(
+                    seasonNumber = uiState.selectedSeasonUiState.seasonNumber.toString(),
+                    currentSeasonsUiStates = uiState.currentSeasonsUiStates,
+                    onSeasonSelection = interactionListener::updateSelectedSeason
+                )
             }
         }
+
         items(episodes) { episode ->
             MovioEpisodesCard(
                 movieTitle = episode.episodeName,
                 movieRate = (episode.rate.toFloat() / 2).toString().take(3),
-                currentMovieEpisode = stringResource(
-                    R.string.episode_number,
-                    episode.episodeNumber.toString()
-                ),
+                currentMovieEpisode = stringResource(R.string.episode_number, episode.episodeNumber.toString()),
                 movieTime = "${episode.episodeDuration} m",
                 movieImageUrl = episode.imageUrl,
                 onClick = { onClickEpisode(episode) },
-                modifier = Modifier.padding(bottom = 12.dp, start = 16.dp, end = 16.dp)
+                modifier = Modifier
+                    .padding(bottom = 12.dp)
+                    .padding( start = 16.dp, end = 16.dp)
             )
         }
     }
 }
 
-private fun openTrailer(trailerKey:String?,context:Context){
+
+private fun openTrailer(trailerKey: String?, context: Context) {
     trailerKey?.let {
         val intent = Intent(
             Intent.ACTION_VIEW,
@@ -178,4 +123,64 @@ private fun openTrailer(trailerKey:String?,context:Context){
         )
         context.startActivity(intent)
     }
+}
+
+
+@Composable
+private fun SerirseHeaderSection(onBackButtonClick: () -> Unit, topImageUrl: String) {
+    Box {
+        TopAppBar(
+            text = null,
+            secondIcon = null,
+            thirdIcon = null,
+            modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
+            onFirstIconClick = { onBackButtonClick() }
+        )
+        Box(
+            modifier = Modifier.fillMaxSize().background(Theme.color.surfaces.surface)
+        ) {
+            MoviePosterDetailScreen(imageUrl = topImageUrl, modifier = Modifier.fillMaxSize())
+
+            Box(modifier = Modifier.seriesBottomFade())
+        }
+    }
+}
+
+
+@Composable
+private fun DropdownSeasonMenu(
+    seasonNumber: String,
+    currentSeasonsUiStates: List<SeasonUiState>,
+    onSeasonSelection: (Int) -> Unit = {}
+) {
+    val seasonLabel = stringResource(R.string.season, seasonNumber)
+
+    var selectedItem by remember { mutableStateOf(seasonLabel) }
+    val seasonNumbers = (1..currentSeasonsUiStates.size).toList()
+
+    if (currentSeasonsUiStates.isNotEmpty()) {
+
+        CustomDropdown(
+            items = seasonNumbers.map { number ->
+                stringResource(R.string.season, number.toString())
+            },
+            selectedItem = stringResource(R.string.season, seasonNumber),
+            labelSelector = { it },
+            onItemSelected = { selected ->
+                selectedItem = selected
+                onSeasonSelection(selected.substringAfterLast(" ").toInt())
+            }
+        )
+    }
+}
+
+@Composable
+private fun NumberOfEpisodesTitle(modifier: Modifier = Modifier,numberOfEpisodes:String) {
+    MovioText(
+        text = stringResource(R.string.episodes, numberOfEpisodes),
+        textStyle = Theme.textStyle.headline.mediumMedium18,
+        color = Theme.color.surfaces.onSurface,
+        modifier = modifier
+            .padding(vertical = 5.dp)
+    )
 }

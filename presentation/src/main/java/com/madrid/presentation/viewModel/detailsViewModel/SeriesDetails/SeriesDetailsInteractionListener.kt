@@ -4,6 +4,7 @@ import com.madrid.presentation.viewModel.detailsViewModel.SeeAllType
 
 
 interface SeriesDetailsInteractionListener {
+    fun updateSelectedSeason(seasonNumber: Int)
     fun onBackButtonClick()
     fun onRateButtonClick()
     fun onFavoriteClick(seriesId: Int)

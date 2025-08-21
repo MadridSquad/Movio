@@ -181,7 +181,7 @@ class SeriesDetailsViewModel @Inject constructor(
         )
     }
 
-    fun updateSelectedSeason(seasonNumber: Int) = loadSelectedSeasonEpisodes(seasonNumber)
+    override fun updateSelectedSeason(seasonNumber: Int) { loadSelectedSeasonEpisodes(seasonNumber) }
 
     override fun onBackButtonClick() {
         emitNewEffect(effect = SeriesDetailsEffect.NavigateBack)
