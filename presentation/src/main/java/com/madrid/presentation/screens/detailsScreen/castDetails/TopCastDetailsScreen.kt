@@ -2,11 +2,13 @@ package com.madrid.presentation.screens.detailsScreen.castDetails
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
@@ -20,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
+import com.madrid.presentation.component.GlowingCircle
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
@@ -55,42 +58,51 @@ fun TopCastDetailsContent(
     onBackClick: () -> Unit
 ) {
 
-    Column(
-        Modifier
+    Box (
+        modifier = Modifier
             .fillMaxSize()
-            .padding(vertical = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-        TopAppBar(
-            stringResource(R.string.top_cast),
-            secondIcon = null,
-            thirdIcon = null,
-            modifier = Modifier.padding(start = 16.dp, top = 32.dp, end = 16.dp),
-            onFirstIconClick = { onBackClick() }
-        )
-        LazyVerticalGrid(
-            columns = GridCells.Adaptive(101.dp),
+    ){
+        GlowingCircle(
             modifier = Modifier
+                .statusBarsPadding()
+                .align(Alignment.TopEnd),
+        )
+        Column(
+            Modifier
                 .fillMaxSize()
-                .background(Theme.color.surfaces.surface),
-            contentPadding = PaddingValues(
-                top = 16.dp,
-                start = 16.dp,
-                end = 16.dp
-            ),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .padding(vertical = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            items(artist.size) { index ->
-                MovioArtistsCard(
-                    modifier = Modifier.size(width = 101.dp, height = 111.dp),
-                    artistsName = artist[index].actorName,
-                    paddingBetweenImageAndText = 8.dp,
-                    imageUrl = artist[index].actorImageUrl,
-                    onClick = { onActorClick(artist[index].id.toInt()) },
-                    circleImageSize = 88.dp
-                )
+
+            TopAppBar(
+                stringResource(R.string.top_cast),
+                secondIcon = null,
+                thirdIcon = null,
+                modifier = Modifier.padding(start = 16.dp, top = 32.dp, end = 16.dp),
+                onFirstIconClick = { onBackClick() }
+            )
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(101.dp),
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentPadding = PaddingValues(
+                    top = 16.dp,
+                    start = 16.dp,
+                    end = 16.dp
+                ),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(artist.size) { index ->
+                    MovioArtistsCard(
+                        modifier = Modifier.size(width = 101.dp, height = 111.dp),
+                        artistsName = artist[index].actorName,
+                        paddingBetweenImageAndText = 8.dp,
+                        imageUrl = artist[index].actorImageUrl,
+                        onClick = { onActorClick(artist[index].id.toInt()) },
+                        circleImageSize = 88.dp
+                    )
+                }
             }
         }
     }
