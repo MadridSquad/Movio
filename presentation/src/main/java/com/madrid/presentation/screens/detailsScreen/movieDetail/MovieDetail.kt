@@ -18,7 +18,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -35,8 +34,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -65,6 +62,7 @@ import com.madrid.presentation.screens.addtolist.ListManagementBottomSheet
 import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.ReviewScreen
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMoviesSection
+import com.madrid.presentation.utils.seriesBottomFade
 import com.madrid.presentation.viewModel.detailsViewModel.ArtistUiState
 import com.madrid.presentation.viewModel.detailsViewModel.DetailsMovieViewModel
 import com.madrid.presentation.viewModel.libraryViewModel.addtolist.MovieListViewModel
@@ -131,17 +129,7 @@ fun MovieDetailsScreen(
                 imageUrl = uiState.topImageUrl,
                 modifier = Modifier.fillMaxSize()
             )
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-                    .offset(y = 342.dp)
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(Color.Transparent, Theme.color.surfaces.surface)
-                        )
-                    )
-            )
+            Box(modifier = Modifier.seriesBottomFade())
 
             MovioBottomSheet(
                 show = showShareSheet,
