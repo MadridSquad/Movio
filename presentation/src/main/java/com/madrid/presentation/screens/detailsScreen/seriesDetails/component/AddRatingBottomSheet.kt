@@ -22,13 +22,16 @@ import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsInteractionListener
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
 
 @Composable
 fun AddRatingBottomSheet(
-    uiState: SeriesDetailsUiState,
-    interactionListener: SeriesDetailsInteractionListener,
+    imageUrl: String,
+    seriesName: String,
+    userRating: Int,
+    onPickRatingNumber: (rating: Int) -> Unit,
+    onDismissAddRatingBottomSheet: () -> Unit,
+    onRateButtonClick: () -> Unit,
+    onShowDoneRatingBottomSheetClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -37,9 +40,9 @@ fun AddRatingBottomSheet(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         MovioArtistsCard(
-            imageUrl = uiState.topImageUrl,
+            imageUrl = imageUrl,
             circleImageSize = 88.dp,
-            artistsName = uiState.seriesName,
+            artistsName = seriesName,
             paddingBetweenImageAndText = 8.dp,
         )
         MovioText(
@@ -56,12 +59,10 @@ fun AddRatingBottomSheet(
                 MovioIcon(
                     painter = painterResource(com.madrid.designSystem.R.drawable.bold_star),
                     contentDescription = null,
-                    tint = if (i <= uiState.userRating) Theme.color.system.warning else Theme.color.surfaces.onSurfaceVariant,
+                    tint = if (i <= userRating) Theme.color.system.warning else Theme.color.surfaces.onSurfaceVariant,
                     modifier = Modifier
                         .size(28.dp)
-                        .clickable {
-                            interactionListener.onPickRatingNumber(i)
-                        }
+                        .clickable { onPickRatingNumber(i) }
                 )
             }
         }
@@ -76,9 +77,9 @@ fun AddRatingBottomSheet(
                 )
                 .height(48.dp),
             onClick = {
-                interactionListener.onRateButtonClick()
-                interactionListener.onDismissAddRatingBottomSheet()
-                interactionListener.onShowDoneRatingBottomSheetClick()
+                onRateButtonClick()
+                onDismissAddRatingBottomSheet()
+                onShowDoneRatingBottomSheetClick()
             },
             colors = ButtonDefaults.buttonColors(
                 backgroundColor = Theme.color.brand.primary,

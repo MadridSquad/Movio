@@ -23,17 +23,16 @@ import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsInteractionListener
 
 @Composable
 fun DoneAddRating(
     userRating: Int,
     showDoneRatingBottomSheet: Boolean,
-    listener: SeriesDetailsInteractionListener
+    onDismissDoneRatingClick: () ->Unit
 ) {
     MovioBottomSheet(
         show = showDoneRatingBottomSheet,
-        onDismiss = { listener.onDismissShowDoneRatingBottomSheetClick() },
+        onDismiss = { onDismissDoneRatingClick() },
         content = {
             Column {
                 Image(
@@ -75,7 +74,7 @@ fun DoneAddRating(
                         .fillMaxWidth()
                         .padding(top = 40.dp, bottom = 32.dp, start = 16.dp, end = 16.dp)
                         .height(48.dp),
-                    onClick = { listener.onDismissShowDoneRatingBottomSheetClick() },
+                    onClick = { onDismissDoneRatingClick() },
                     colors = ButtonDefaults.buttonColors(backgroundColor = Theme.color.brand.primary,),
                     shape = RoundedCornerShape(24.dp),
                     elevation = ButtonDefaults.elevation(0.dp)

@@ -44,7 +44,6 @@ import com.madrid.presentation.screens.detailsScreen.seriesDetails.component.Add
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.component.CurrentSeasonsSection
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.component.DescriptionSection
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.component.DoneAddRating
-import com.madrid.presentation.screens.detailsScreen.seriesDetails.component.GussetView
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.component.ShareBottomSheet
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.component.SimilarSeriesHorizontalSection
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.component.TopCastSection
@@ -136,7 +135,6 @@ fun SeriesDetailsScreen(
                 context = context,
                 uiState = uiState,
                 listener = interactionListener,
-                viewModel = viewModel,
             )
         }
     }
@@ -147,7 +145,6 @@ private fun SeriesDetailsScreenContent(
     uiState: SeriesDetailsUiState,
     context: Context,
     listener: SeriesDetailsInteractionListener,
-    viewModel: SeriesDetailsViewModel,
 ) {
     ShareBottomSheet(
         copyToClipboard = { text -> copyToClipboard(text, context) },
@@ -219,28 +216,48 @@ private fun SeriesDetailsScreenContent(
                 onDismiss = { listener.onDismissAddRatingBottomSheet() },
                 content = {
                     if (uiState.isGuest) {
-                        GussetView(listener)
+                        LogoutConfirmationBottomSheet(
+                            isVisible = uiState.isGuest,
+                            onDismiss = { listener.onDismissShareBottomSheetClick() },
+                            onNavigateToAuth ={ listener.onLoginButtonClick() },
+                            title = stringResource(R.string.you_dont_have_an_account),
+                            description = stringResource(R.string.this_rating_is_only_available_to_registered_users_Login_to_share_your_rating) ,
+                            actionButtonText = stringResource(R.string.login)
+                        )
                     } else {
-                        AddRatingBottomSheet(uiState, viewModel)
+                        AddRatingBottomSheet(
+                            onDismissAddRatingBottomSheet = { listener.onDismissAddRatingBottomSheet() },
+                            onRateButtonClick = { listener.onRateButtonClick() },
+                            onShowDoneRatingBottomSheetClick = { listener.onShowDoneRatingBottomSheetClick() },
+                            onPickRatingNumber = { listener.onPickRatingNumber(it) },
+                            imageUrl = uiState.topImageUrl,
+                            seriesName = uiState.seriesName,
+                            userRating = uiState.userRating,
+                        )
                     }
                 }
             )
 
             DoneAddRating(
                 showDoneRatingBottomSheet = uiState.showDoneRatingBottomSheet,
-                userRating = uiState.userRating, listener = listener
+                userRating = uiState.userRating,
+                onDismissDoneRatingClick = { listener.onDismissShowDoneRatingBottomSheetClick() }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
             DescriptionSection(description = uiState.description)
 
-            TopCastSection(artists = uiState.topCast, seriesId = uiState.seriesId, listener = listener)
+            TopCastSection(
+                artists = uiState.topCast,
+                onActorCardClick = { actorId ->  listener.onActorCardClick(actorId) },
+                onSeeAllClick = { listener.onSeeAllClick(seriesId = uiState.seriesId, seeAllType = SeeAllType.TopCast) },
+            )
 
             CurrentSeasonsSection(
-                seriesId = uiState.seriesId,
                 seasons = uiState.currentSeasonsUiStates,
-                listener = listener
+                onSeeAllClick ={ listener.onSeeAllClick(uiState.seriesId,SeeAllType.Season) },
+                onCurrentSeasonCardClick = { listener.onCurrentSeasonCardClick(uiState.seriesId,1)},
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -248,16 +265,15 @@ private fun SeriesDetailsScreenContent(
             if (uiState.reviews.isNotEmpty()) {
                 ReviewScreen(
                     reviews = uiState.reviews,
-                    onSeeAllReviews = {
-                        listener.onSeeAllClick(uiState.seriesId, SeeAllType.Review)
-                    },
+                    onSeeAllReviews = { listener.onSeeAllClick(uiState.seriesId, SeeAllType.Review) },
                 )
                 Spacer(modifier = Modifier.height(32.dp))
             }
 
             SimilarSeriesHorizontalSection(
                 uiState = uiState,
-                interactionListener = listener
+                onSeeAllClick = { listener.onSeeAllClick(seriesId = uiState.seriesId, seeAllType = SeeAllType.SimilarSeries) },
+                onSimilarSeriesCardClick = {listener.onSimilarSeriesCardClick(uiState.seriesId)}
             )
         }
         LogoutConfirmationBottomSheet(

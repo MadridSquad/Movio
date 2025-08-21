@@ -5,14 +5,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarSeries
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarSeriesSection
-import com.madrid.presentation.viewModel.detailsViewModel.SeeAllType
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsInteractionListener
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
 
 @Composable
 fun SimilarSeriesHorizontalSection(
     uiState: SeriesDetailsUiState,
-    interactionListener: SeriesDetailsInteractionListener
+    onSeeAllClick: () -> Unit,
+    onSimilarSeriesCardClick: (Int) -> Unit,
 ) {
     if (uiState.similarSeries.isNotEmpty()) {
         SimilarSeriesSection(
@@ -24,12 +23,8 @@ fun SimilarSeriesHorizontalSection(
                     rating = series.rate.take(3).toDoubleOrNull() ?: 0.0
                 )
             },
-            onSeeAllClick = {
-                interactionListener.onSeeAllClick(uiState.seriesId, SeeAllType.SimilarSeries)
-            },
-            onSeriesClick = { series ->
-                interactionListener.onSimilarSeriesCardClick(series.id)
-            },
+            onSeeAllClick = { onSeeAllClick() },
+            onSeriesClick = { series -> onSimilarSeriesCardClick(series.id) },
             modifier = Modifier.navigationBarsPadding()
         )
     }
