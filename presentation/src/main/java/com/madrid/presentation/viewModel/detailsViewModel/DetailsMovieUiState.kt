@@ -20,7 +20,6 @@ data class DetailsMovieUiState(
     val description: String = "",
     val casts: List<Artist> = emptyList(),
     val reviews: List<ReviewUiState> = emptyList(),
-
     val similarMovies: List<SimilarMovie> = emptyList(),
     val trailerKey: String = "",
     val isLoginBottomSheetVisible: Boolean = false
