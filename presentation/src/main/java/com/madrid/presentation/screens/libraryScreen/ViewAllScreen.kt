@@ -22,6 +22,7 @@ import com.madrid.designSystem.R
 import com.madrid.designSystem.component.DialogWithButtonLayout
 import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.TopAppBar
+import com.madrid.presentation.component.GlowingCircle
 import com.madrid.presentation.component.SwipeToDeleteCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
@@ -33,7 +34,6 @@ import com.madrid.presentation.viewModel.libraryViewModel.viewAll.ViewAllUiState
 import com.madrid.presentation.viewModel.libraryViewModel.viewAll.ViewAllViewModel
 import com.madrid.presentation.viewModel.shared.MediaType
 import com.madrid.presentation.viewModel.shared.MediaUiState
-import kotlin.collections.firstOrNull
 import com.madrid.presentation.R as presentationR
 
 @Composable
@@ -78,55 +78,62 @@ fun ViewAllScreenContent(
     state: ViewAllUiState,
     interactionListener: ViewAllInteractionListener
 ) {
-    Column(
-        modifier = Modifier.statusBarsPadding()
-    ) {
-        TopAppBar(
-            text = stringResource(state.title),
-            secondIcon = null,
-            thirdIcon = null,
-            onFirstIconClick = { interactionListener.onBackClicked() },
-            modifier = Modifier.padding(
-                horizontal = 16.dp
-            )
+    Box {
+        GlowingCircle(
+            modifier = Modifier
+                .statusBarsPadding()
+                .align(Alignment.TopEnd)
         )
-        AnimatedVisibility(
-            visible = state.isLoading,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) { LoadingContent() }
-
-        AnimatedVisibility(
-            visible = state.errorMessage.isNullOrBlank().not(),
-            enter = fadeIn(),
-            exit = fadeOut()
+        Column(
+            modifier = Modifier.statusBarsPadding()
         ) {
-            ErrorContent(
-                onClick = interactionListener::onTryAgainButtonClicked
+            TopAppBar(
+                text = stringResource(state.title),
+                secondIcon = null,
+                thirdIcon = null,
+                onFirstIconClick = { interactionListener.onBackClicked() },
+                modifier = Modifier.padding(
+                    horizontal = 16.dp
+                )
             )
-        }
+            AnimatedVisibility(
+                visible = state.isLoading,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) { LoadingContent() }
 
-        AnimatedVisibility(
-            visible = state.isLoading.not() && state.errorMessage.isNullOrBlank() && state.items.isEmpty(),
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            EmptyListContent(
-                title = stringResource(state.title),
-                description = stringResource(state.emptyListMessage)
-            )
-        }
+            AnimatedVisibility(
+                visible = state.errorMessage.isNullOrBlank().not(),
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                ErrorContent(
+                    onClick = interactionListener::onTryAgainButtonClicked
+                )
+            }
 
-        AnimatedVisibility(
-            visible = state.isLoading.not() && state.errorMessage.isNullOrBlank() && state.items.isEmpty()
-                .not(),
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            ShowItemsColumn(
-                items = state.items,
-                interactionListener = interactionListener
-            )
+            AnimatedVisibility(
+                visible = state.isLoading.not() && state.errorMessage.isNullOrBlank() && state.items.isEmpty(),
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                EmptyListContent(
+                    title = stringResource(state.title),
+                    description = stringResource(state.emptyListMessage)
+                )
+            }
+
+            AnimatedVisibility(
+                visible = state.isLoading.not() && state.errorMessage.isNullOrBlank() && state.items.isEmpty()
+                    .not(),
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                ShowItemsColumn(
+                    items = state.items,
+                    interactionListener = interactionListener
+                )
+            }
         }
     }
     UndoSnackBar(
