@@ -31,6 +31,7 @@ import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.FloatingButton
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.designSystem.component.shimmerEffect
+import com.madrid.presentation.component.GlowingCircle
 import com.madrid.presentation.component.videoLibrary.VideoLibrary
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
@@ -80,66 +81,74 @@ fun WatchlistViewAllScreenContent(
     interactionListener: WatchListViewAllInteractionListener,
     state: WatchlistViewAllUiState
 ) {
-    Column(
-        modifier = Modifier.statusBarsPadding()
-    ) {
-        TopAppBar(
-            text = stringResource(presentationR.string.watchlist),
-            secondIcon = null,
-            thirdIcon = null,
-            onFirstIconClick = { interactionListener.onBackButtonClicked() },
-            modifier = Modifier.padding(
-                horizontal = 16.dp
-            )
+    Box {
+        GlowingCircle(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .statusBarsPadding()
         )
-
-        AnimatedVisibility(
-            visible = state.isLoading,
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) { LoadingContent() }
-
-        AnimatedVisibility(
-            visible = state.isLoading.not() && state.errorMessage.isNullOrBlank().not(),
-            enter = fadeIn(),
-            exit = fadeOut()
+        Column(
+            modifier = Modifier.statusBarsPadding()
         ) {
-            ErrorContent(
-                onClick = interactionListener::onTryAgainButtonClicked
+            TopAppBar(
+                text = stringResource(presentationR.string.watchlist),
+                secondIcon = null,
+                thirdIcon = null,
+                onFirstIconClick = { interactionListener.onBackButtonClicked() },
+                modifier = Modifier.padding(
+                    horizontal = 16.dp
+                )
             )
-        }
 
-        AnimatedVisibility(
-            visible = state.isLoading.not() && state.errorMessage.isNullOrBlank() && state.watchLists.isEmpty(),
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            EmptyListContent()
-            CreateListSection(
-                onAddButtonClicked = interactionListener::onAddButtonClicked,
-                onDismissSnackBar = interactionListener::onDismissSnackBar,
-                onCreateButtonClicked = interactionListener::onCreateButtonClicked,
-                dismissCreateListBottomSheet = interactionListener::dismissCreateListBottomSheet,
-                showSnackBar = state.showSnackBar,
-                snackBarMessage = state.snackBarMessage,
-                showCreateListBottomSheet = state.showCreateListBottomSheet
-            )
-        }
-        AnimatedVisibility(
-            visible = state.isLoading.not() && state.errorMessage.isNullOrBlank() && state.watchLists.isEmpty().not(),
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            WatchListsGrid(interactionListener, state)
-            CreateListSection(
-                onAddButtonClicked = interactionListener::onAddButtonClicked,
-                onDismissSnackBar = interactionListener::onDismissSnackBar,
-                onCreateButtonClicked = interactionListener::onCreateButtonClicked,
-                dismissCreateListBottomSheet = interactionListener::dismissCreateListBottomSheet,
-                showSnackBar = state.showSnackBar,
-                snackBarMessage = state.snackBarMessage,
-                showCreateListBottomSheet = state.showCreateListBottomSheet
-            )
+            AnimatedVisibility(
+                visible = state.isLoading,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) { LoadingContent() }
+
+            AnimatedVisibility(
+                visible = state.isLoading.not() && state.errorMessage.isNullOrBlank().not(),
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                ErrorContent(
+                    onClick = interactionListener::onTryAgainButtonClicked
+                )
+            }
+
+            AnimatedVisibility(
+                visible = state.isLoading.not() && state.errorMessage.isNullOrBlank() && state.watchLists.isEmpty(),
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                EmptyListContent()
+                CreateListSection(
+                    onAddButtonClicked = interactionListener::onAddButtonClicked,
+                    onDismissSnackBar = interactionListener::onDismissSnackBar,
+                    onCreateButtonClicked = interactionListener::onCreateButtonClicked,
+                    dismissCreateListBottomSheet = interactionListener::dismissCreateListBottomSheet,
+                    showSnackBar = state.showSnackBar,
+                    snackBarMessage = state.snackBarMessage,
+                    showCreateListBottomSheet = state.showCreateListBottomSheet
+                )
+            }
+            AnimatedVisibility(
+                visible = state.isLoading.not() && state.errorMessage.isNullOrBlank() && state.watchLists.isEmpty()
+                    .not(),
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                WatchListsGrid(interactionListener, state)
+                CreateListSection(
+                    onAddButtonClicked = interactionListener::onAddButtonClicked,
+                    onDismissSnackBar = interactionListener::onDismissSnackBar,
+                    onCreateButtonClicked = interactionListener::onCreateButtonClicked,
+                    dismissCreateListBottomSheet = interactionListener::dismissCreateListBottomSheet,
+                    showSnackBar = state.showSnackBar,
+                    snackBarMessage = state.snackBarMessage,
+                    showCreateListBottomSheet = state.showCreateListBottomSheet
+                )
+            }
         }
     }
 }
@@ -193,7 +202,9 @@ private fun EmptyListContent() {
         description = stringResource(presentationR.string.add_movies_and_tv_shows_to_build_your_personal_watchlist), //stringResource(presentationR.string.no_results_found),
         image = R.drawable.empty,
         imageSize = 180,
-        modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp)
     )
 }
 
