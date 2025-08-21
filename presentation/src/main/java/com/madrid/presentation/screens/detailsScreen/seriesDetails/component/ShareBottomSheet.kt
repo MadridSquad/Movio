@@ -17,13 +17,13 @@ fun ShareBottomSheet(
 ) {
     MovioBottomSheet(
         show = uiState.showSheet,
-        onDismiss = { interactionListener.onDismissShareShareBottomSheetClick() },
+        onDismiss = { interactionListener.onDismissShareBottomSheetClick() },
         containerColor = Theme.color.surfaces.surface
     ) {
         ShareBottomSheetContent(
             onCopyLink = {
                 copyToClipboard("https://www.themoviedb.org/tv/${uiState.seriesId}")
-                interactionListener.onDismissShareShareBottomSheetClick()
+                interactionListener.onDismissShareBottomSheetClick()
             },
             onShareFacebook = {
                 shareToApp(
@@ -31,7 +31,7 @@ fun ShareBottomSheet(
                     "https://www.themoviedb.org/tv/${uiState.seriesId}",
                     context = context
                 )
-                interactionListener.onDismissShareShareBottomSheetClick()
+                interactionListener.onDismissShareBottomSheetClick()
             },
             onShareX = {
                 shareToApp(
@@ -39,7 +39,7 @@ fun ShareBottomSheet(
                     "https://www.themoviedb.org/tv/${uiState.seriesId}",
                     context = context
                 )
-                interactionListener.onDismissShareShareBottomSheetClick()
+                interactionListener.onDismissShareBottomSheetClick()
             }
         )
     }

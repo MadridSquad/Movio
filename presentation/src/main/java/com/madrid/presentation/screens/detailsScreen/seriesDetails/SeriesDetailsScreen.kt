@@ -121,7 +121,7 @@ fun SeriesDetailsScreen(
                     image = R.drawable.img_no_internet,
                     buttonText = stringResource(R.string.try_again),
                     onClick = {
-                        interactionListener.onRetryClick()
+                        interactionListener.onRetryButtonClick()
                     },
                     modifier = Modifier
                         .fillMaxSize()
@@ -134,7 +134,7 @@ fun SeriesDetailsScreen(
             SeriesDetailsScreenContent(
                 context = context,
                 uiState = uiState,
-                interactionListener = interactionListener,
+                listener = interactionListener,
                 viewModel = viewModel,
             )
         }
@@ -145,14 +145,14 @@ fun SeriesDetailsScreen(
 private fun SeriesDetailsScreenContent(
     uiState: SeriesDetailsUiState,
     context: Context,
-    interactionListener: SeriesDetailsInteractionListener,
+    listener: SeriesDetailsInteractionListener,
     viewModel: SeriesDetailsViewModel,
 ) {
     ShareBottomSheet(
         copyToClipboard = { text -> copyToClipboard(text, context) },
         context = context,
         uiState = uiState,
-        interactionListener = interactionListener
+        interactionListener = listener
     )
 
     Box(
@@ -178,9 +178,9 @@ private fun SeriesDetailsScreenContent(
         TopAppBar(
             text = null,
             modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
-            onFirstIconClick = { interactionListener.onBackClick() },
-            onSecondIconClick = { interactionListener.onShareShareBottomSheetClick() },
-            onThirdIconClick = { interactionListener.onFavoriteClick(uiState.seriesId) },
+            onFirstIconClick = { listener.onBackButtonClick() },
+            onSecondIconClick = { listener.onShareBottomSheetClick() },
+            onThirdIconClick = { listener.onFavoriteClick(uiState.seriesId) },
             isFavorite = uiState.isFavourite
         )
         Column(
@@ -195,8 +195,7 @@ private fun SeriesDetailsScreenContent(
                 seriesCategory = uiState.seriesGenre,
                 date = uiState.productionDate,
                 time = stringResource(
-                    id = R.string.season_count,
-                    uiState.numberOfSeasons.toString()
+                    id = R.string.season_count, uiState.numberOfSeasons.toString()
                 ),
                 rate = uiState.rate.take(3),
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
@@ -204,39 +203,44 @@ private fun SeriesDetailsScreenContent(
 
             BottomMediaActions(
                 onRateClick = {
-                    interactionListener.onShowAddRatingBottomSheetClick()
+                    listener.onShowAddRatingBottomSheetClick()
                 },
                 onPlayClick = {
-                    interactionListener.onPlayItClick()
+                    listener.onPlayItClick()
                     playSeriesTrailer(context, uiState)
                 },
-                onAddToListClick = { interactionListener.onShowSnackBar()
-
-                     },
+                onAddToListClick = { listener.onShowSnackBar() },
                 modifier = Modifier.padding(vertical = 16.dp)
             )
 
             MovioBottomSheet(
                 show = uiState.showAddRatingBottomSheet,
-                onDismiss = { interactionListener.onDismissAddRatingBottomSheet() },
+                onDismiss = { listener.onDismissAddRatingBottomSheet() },
                 content = {
                     if (uiState.isGuest) {
-                        GussetView(uiState, interactionListener)
+                        GussetView(listener)
                     } else {
-                        AddRatingBottomSheet(uiState, viewModel, interactionListener)
+                        AddRatingBottomSheet(uiState, viewModel)
                     }
                 }
             )
 
-            DoneAddRating(uiState = uiState, interactionListener = interactionListener)
+            DoneAddRating(
+                showDoneRatingBottomSheet = uiState.showDoneRatingBottomSheet,
+                userRating = uiState.userRating, listener = listener
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            DescriptionSection(uiState = uiState)
+            DescriptionSection(description = uiState.description)
 
-            TopCastSection(uiState = uiState, interactionListener = interactionListener)
+            TopCastSection(artists = uiState.topCast, seriesId = uiState.seriesId, listener = listener)
 
-            CurrentSeasonsSection(uiState = uiState, interactionListener = interactionListener)
+            CurrentSeasonsSection(
+                seriesId = uiState.seriesId,
+                seasons = uiState.currentSeasonsUiStates,
+                listener = listener
+            )
 
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -244,7 +248,7 @@ private fun SeriesDetailsScreenContent(
                 ReviewScreen(
                     reviews = uiState.reviews,
                     onSeeAllReviews = {
-                        interactionListener.onSeeAllClick(uiState.seriesId, SeeAllType.Review)
+                        listener.onSeeAllClick(uiState.seriesId, SeeAllType.Review)
                     },
                 )
                 Spacer(modifier = Modifier.height(32.dp))
@@ -261,7 +265,7 @@ private fun SeriesDetailsScreenContent(
             MovioSnakBar(
                 message = stringResource(uiState.errorResMessageId),
                 duration = ToastDuration.SHORT,
-                onDismiss = { interactionListener.onDismissSnackBar() },
+                onDismiss = { listener.onDismissSnackBar() },
                 modifier = Modifier
                     .padding(16.dp)
                     .align(Alignment.BottomCenter)

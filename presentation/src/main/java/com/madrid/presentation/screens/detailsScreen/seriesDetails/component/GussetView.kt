@@ -20,69 +20,65 @@ import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsInteractionListener
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsUiState
 
 @Composable
 fun GussetView(
-    uiState: SeriesDetailsUiState,
-    interactionListener: SeriesDetailsInteractionListener
+    listener: SeriesDetailsInteractionListener
 ) {
-    if (uiState.isGuest) {
-        Column {
-            Image(
-                painter = painterResource(id = R.drawable.library_main_icon),
-                contentDescription = "Search Icon",
-                modifier = Modifier
-                    .size(width = 60.dp, height = 66.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 16.dp),
-            )
-            MovioText(
-                text = stringResource(com.madrid.presentation.R.string.you_dont_have_an_account),
-                textStyle = Theme.textStyle.title.mediumMedium16,
-                color = Theme.color.surfaces.onSurface,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp)
-            )
-            MovioText(
-                text = stringResource(com.madrid.presentation.R.string.this_rating_is_only_available_to_registered_users_Login_to_share_your_rating),
-                textStyle = Theme.textStyle.label.smallRegular12,
-                color = Theme.color.surfaces.onSurfaceContainer,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            )
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(
-                        top = 40.dp,
-                        bottom = 32.dp,
-                        start = 16.dp,
-                        end = 16.dp
-                    )
-                    .height(48.dp),
-                onClick = {
-                    interactionListener.onDismissShareShareBottomSheetClick()
-                    interactionListener.onLoginClick()
-                },
-                colors = ButtonDefaults.buttonColors(
-                    backgroundColor = Theme.color.brand.primary,
-                ),
-                shape = RoundedCornerShape(24.dp),
-                elevation = ButtonDefaults.elevation(0.dp)
-            ) {
-                MovioText(
-                    text = stringResource(com.madrid.presentation.R.string.login),
-                    textStyle = Theme.textStyle.label.mediumMedium14,
-                    color = Theme.color.brand.onPrimary,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth()
+    Column {
+        Image(
+            painter = painterResource(id = R.drawable.library_main_icon),
+            contentDescription = "Search Icon",
+            modifier = Modifier
+                .size(width = 60.dp, height = 66.dp)
+                .align(Alignment.CenterHorizontally)
+                .padding(bottom = 16.dp),
+        )
+        MovioText(
+            text = stringResource(com.madrid.presentation.R.string.you_dont_have_an_account),
+            textStyle = Theme.textStyle.title.mediumMedium16,
+            color = Theme.color.surfaces.onSurface,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp)
+        )
+        MovioText(
+            text = stringResource(com.madrid.presentation.R.string.this_rating_is_only_available_to_registered_users_Login_to_share_your_rating),
+            textStyle = Theme.textStyle.label.smallRegular12,
+            color = Theme.color.surfaces.onSurfaceContainer,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+        )
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(
+                    top = 40.dp,
+                    bottom = 32.dp,
+                    start = 16.dp,
+                    end = 16.dp
                 )
-            }
+                .height(48.dp),
+            onClick = {
+                listener.onDismissShareBottomSheetClick()
+                listener.onLoginButtonClick()
+            },
+            colors = ButtonDefaults.buttonColors(
+                backgroundColor = Theme.color.brand.primary,
+            ),
+            shape = RoundedCornerShape(24.dp),
+            elevation = ButtonDefaults.elevation(0.dp)
+        ) {
+            MovioText(
+                text = stringResource(com.madrid.presentation.R.string.login),
+                textStyle = Theme.textStyle.label.mediumMedium14,
+                color = Theme.color.brand.onPrimary,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
         }
     }
 }

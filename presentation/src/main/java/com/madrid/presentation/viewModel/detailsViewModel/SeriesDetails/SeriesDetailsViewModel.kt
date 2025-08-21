@@ -143,10 +143,6 @@ class SeriesDetailsViewModel @Inject constructor(
         )
     }
 
-    fun onPickRatingNumber(rating: Int) {
-        updateState { it.copy(userRating = rating) }
-    }
-
     private fun loadSelectedSeasonEpisodes(seasonNumber: Int = 1) {
         tryToExecute(
             function = { getEpisodesForSeasonUseCase(args.seriesId, seasonNumber) },
@@ -177,11 +173,11 @@ class SeriesDetailsViewModel @Inject constructor(
 
     fun updateSelectedSeason(seasonNumber: Int) = loadSelectedSeasonEpisodes(seasonNumber)
 
-    override fun onBackClick() {
+    override fun onBackButtonClick() {
         emitNewEffect(effect = SeriesDetailsEffect.NavigateBack)
     }
 
-    override fun onRateClick() {
+    override fun onRateButtonClick() {
         addRating()
     }
 
@@ -191,6 +187,11 @@ class SeriesDetailsViewModel @Inject constructor(
 
     override fun onPlayItClick() {
         loadTrailer()
+    }
+
+    override fun onPickRatingNumber(rating: Int) {
+        updateState { it.copy(userRating = rating)
+        }
     }
 
     override fun onEpisodePlayItClick(
@@ -204,10 +205,6 @@ class SeriesDetailsViewModel @Inject constructor(
             episodeNumber =episodeNumber ,
             onTrailerLoaded = onTrailerLoaded
         )
-    }
-
-    override fun onSeriesClick() {
-        emitNewEffect(effect = SeriesDetailsEffect.NavigateToSeriesDetails(args.seriesId))
     }
 
     override fun onSeeAllClick(seriesId: Int,seeAllType: SeeAllType) {
@@ -226,19 +223,19 @@ class SeriesDetailsViewModel @Inject constructor(
         emitNewEffect(effect = SeriesDetailsEffect.NavigateToEpisodesScreen(seriesId = seriesId, seasonNumber =  seasonNumber))
     }
 
-    override fun onRetryClick() {
+    override fun onRetryButtonClick() {
         loadData()
     }
 
-    override fun onLoginClick() {
+    override fun onLoginButtonClick() {
         emitNewEffect(effect = SeriesDetailsEffect.NavigateToAuthenticationScreen)
     }
 
-    override fun onShareShareBottomSheetClick() {
+    override fun onShareBottomSheetClick() {
         updateState { it.copy(showSheet=true) }
     }
 
-    override fun onDismissShareShareBottomSheetClick() {
+    override fun onDismissShareBottomSheetClick() {
         updateState { it.copy(showSheet=false) }
     }
 

@@ -24,21 +24,21 @@ import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsInteractionListener
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsUiState
 
 @Composable
 fun DoneAddRating(
-    uiState: SeriesDetailsUiState,
-    interactionListener: SeriesDetailsInteractionListener
+    userRating: Int,
+    showDoneRatingBottomSheet: Boolean,
+    listener: SeriesDetailsInteractionListener
 ) {
     MovioBottomSheet(
-        show = uiState.showDoneRatingBottomSheet,
-        onDismiss = { interactionListener.onDismissShowDoneRatingBottomSheetClick() },
+        show = showDoneRatingBottomSheet,
+        onDismiss = { listener.onDismissShowDoneRatingBottomSheetClick() },
         content = {
             Column {
                 Image(
                     painter = painterResource(id = R.drawable.party_icon),
-                    contentDescription = "Party Icon",
+                    contentDescription = stringResource(R.string.party_icon),
                     modifier = Modifier
                         .size(68.dp)
                         .align(Alignment.CenterHorizontally)
@@ -63,9 +63,9 @@ fun DoneAddRating(
                         MovioIcon(
                             painter = painterResource(com.madrid.designSystem.R.drawable.bold_star),
                             contentDescription = null,
-                            tint = if (i <= uiState.userRating) Theme.color.system.warning else Theme.color.surfaces.onSurfaceVariant,
+                            tint = if (i <= userRating) Theme.color.system.warning else Theme.color.surfaces.onSurfaceVariant,
                             modifier = Modifier
-                                .size(if (i == uiState.userRating) 48.dp else 28.dp)
+                                .size(if (i == userRating) 48.dp else 28.dp)
                                 .align(Alignment.CenterVertically)
                         )
                     }
@@ -75,7 +75,7 @@ fun DoneAddRating(
                         .fillMaxWidth()
                         .padding(top = 40.dp, bottom = 32.dp, start = 16.dp, end = 16.dp)
                         .height(48.dp),
-                    onClick = { interactionListener.onDismissShowDoneRatingBottomSheetClick() },
+                    onClick = { listener.onDismissShowDoneRatingBottomSheetClick() },
                     colors = ButtonDefaults.buttonColors(backgroundColor = Theme.color.brand.primary,),
                     shape = RoundedCornerShape(24.dp),
                     elevation = ButtonDefaults.elevation(0.dp)

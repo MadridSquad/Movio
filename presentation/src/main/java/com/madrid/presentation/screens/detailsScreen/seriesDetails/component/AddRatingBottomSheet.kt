@@ -24,12 +24,10 @@ import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsInteractionListener
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsUiState
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsViewModel
 
 @Composable
 fun AddRatingBottomSheet(
     uiState: SeriesDetailsUiState,
-    viewModel: SeriesDetailsViewModel,
     interactionListener: SeriesDetailsInteractionListener,
     modifier: Modifier = Modifier
 ) {
@@ -62,7 +60,7 @@ fun AddRatingBottomSheet(
                     modifier = Modifier
                         .size(28.dp)
                         .clickable {
-                            viewModel.onPickRatingNumber(i)
+                            interactionListener.onPickRatingNumber(i)
                         }
                 )
             }
@@ -78,7 +76,7 @@ fun AddRatingBottomSheet(
                 )
                 .height(48.dp),
             onClick = {
-                interactionListener.onRateClick()
+                interactionListener.onRateButtonClick()
                 interactionListener.onDismissAddRatingBottomSheet()
                 interactionListener.onShowDoneRatingBottomSheetClick()
             },
