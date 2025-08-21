@@ -256,7 +256,7 @@ private fun SeriesDetailsScreenContent(
 
             SimilarSeriesHorizontalSection(
                 uiState = uiState,
-                interactionListener = interactionListener
+                interactionListener = listener
             )
         }
     }

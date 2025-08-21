@@ -28,7 +28,7 @@ fun GussetView(
     Column {
         Image(
             painter = painterResource(id = R.drawable.library_main_icon),
-            contentDescription = "Search Icon",
+            contentDescription = stringResource(com.madrid.presentation.R.string.search),
             modifier = Modifier
                 .size(width = 60.dp, height = 66.dp)
                 .align(Alignment.CenterHorizontally)
