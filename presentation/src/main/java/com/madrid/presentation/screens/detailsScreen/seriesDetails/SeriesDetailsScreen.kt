@@ -67,6 +67,7 @@ fun SeriesDetailsScreen(
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
+
                 is SeriesDetailsEffect.NavigateBack -> {
                     navController.popBackStack()
                 }
@@ -91,6 +92,7 @@ fun SeriesDetailsScreen(
                 is SeriesDetailsEffect.NavigateToAuthenticationScreen -> {
                     navController.navigate(Destinations.LoginScreen)
                 }
+
                 is SeriesDetailsEffect.NavigateToSeeAllScreen -> {
                    when (effect.seeAllType){
                        SeeAllType.TopCast -> navController.navigate(Destinations.TopCast(effect.seriesId,false))
@@ -104,9 +106,7 @@ fun SeriesDetailsScreen(
     }
 
     when {
-        uiState.showLoadingScreen -> {
-            LoadingScreen(message = stringResource(R.string.loading))
-        }
+        uiState.showLoadingScreen -> { LoadingScreen(message = stringResource(R.string.loading)) }
 
         uiState.isError -> {
             Box(
@@ -120,8 +120,7 @@ fun SeriesDetailsScreen(
                     description = stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
                     image = R.drawable.img_no_internet,
                     buttonText = stringResource(R.string.try_again),
-                    onClick = {
-                        interactionListener.onRetryButtonClick()
+                    onClick = { interactionListener.onRetryButtonClick()
                     },
                     modifier = Modifier
                         .fillMaxSize()
@@ -142,8 +141,8 @@ fun SeriesDetailsScreen(
 
 @Composable
 private fun SeriesDetailsScreenContent(
-    uiState: SeriesDetailsUiState,
     context: Context,
+    uiState: SeriesDetailsUiState,
     listener: SeriesDetailsInteractionListener,
 ) {
     ShareBottomSheet(
@@ -273,9 +272,10 @@ private fun SeriesDetailsScreenContent(
             SimilarSeriesHorizontalSection(
                 uiState = uiState,
                 onSeeAllClick = { listener.onSeeAllClick(seriesId = uiState.seriesId, seeAllType = SeeAllType.SimilarSeries) },
-                onSimilarSeriesCardClick = {listener.onSimilarSeriesCardClick(uiState.seriesId)}
+                onSimilarSeriesCardClick = { seriesId-> listener.onSimilarSeriesCardClick(seriesId)}
             )
         }
+
         LogoutConfirmationBottomSheet(
             title = stringResource(R.string.you_dont_have_an_account),
             description = stringResource(R.string.please_log_in_or_create_an_account_to_save_items_to_your_favorites_and_access_them_later),
@@ -285,6 +285,7 @@ private fun SeriesDetailsScreenContent(
             onNavigateToAuth = { listener.onLoginButtonClick() },
         )
     }
+
     if (uiState.showSnackBar) {
         Box(modifier = Modifier.fillMaxSize()) {
             MovioSnakBar(
