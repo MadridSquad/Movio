@@ -1,6 +1,5 @@
 package com.madrid.presentation.viewModel.detailsViewModel
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
@@ -18,7 +17,6 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.utils.formatRate
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import com.madrid.presentation.utils.formatDate
 import com.madrid.presentation.viewModel.shared.formatDuration
 import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
 import com.madrid.presentation.viewModel.shared.parser.formatDateOfBirth
@@ -175,6 +173,10 @@ class DetailsMovieViewModel @Inject constructor(
     }
 
     fun onClickLoveIcon(movieId: Int) {
+        if (state.value.isGuest) {
+            updateState { it.copy(isLoginBottomSheetVisible = true) }
+            return
+        }
         tryToExecute(
             function = {
                 setMovieFavoriteStatusUseCase(movieId, state.value.isLoved.not())
@@ -211,6 +213,7 @@ class DetailsMovieViewModel @Inject constructor(
             dispatcher = Dispatchers.IO
         )
     }
+
     private fun checkIfFavoriteMovie() {
         tryToExecute(
             function = { isFavoriteMovieUseCase(args.movieId) },
@@ -238,5 +241,9 @@ class DetailsMovieViewModel @Inject constructor(
             onSuccess = {},
             onError = {},
         )
+    }
+
+    fun onDismissLoginBottomSheet() {
+        updateState { it.copy(isLoginBottomSheetVisible = false) }
     }
 }

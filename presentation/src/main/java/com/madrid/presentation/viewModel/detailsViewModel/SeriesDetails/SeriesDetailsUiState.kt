@@ -1,7 +1,4 @@
-package com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails
-
-import com.madrid.presentation.R
-import com.madrid.presentation.viewModel.detailsViewModel.ReviewUiState
+package com.madrid.presentation.viewModel.detailsViewModel
 
 data class SeriesDetailsUiState(
     val seriesId: Int = 0,
@@ -31,7 +28,8 @@ data class SeriesDetailsUiState(
     val showAddToListBottomSheet: Boolean = false,
     val seeAllType: SeeAllType = SeeAllType.TopCast,
     val errorResMessageId: Int = R.string.feature_not_supported,
-    val showSnackBar: Boolean = false
+    val showSnackBar: Boolean = false,
+    val isLoginBottomSheetVisible: Boolean = false
 )
 
 data class SeriesUiState(

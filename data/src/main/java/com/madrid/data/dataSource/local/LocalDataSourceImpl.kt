@@ -176,35 +176,37 @@ class LocalDataSourceImpl @Inject constructor(
         movieDao.clearHomeMoviesCache()
     }
 
-    override suspend fun addMovieToHistory(movieId: Int) {
+    override suspend fun addMovieToHistory(movieId: Int,userId: Int) {
         movieDao.insertHistoryMovie(
             MediaHistoryTable(
                 mediaId = movieId,
                 mediaType = "Movie",
-                addedAt = System.currentTimeMillis()
+                addedAt = System.currentTimeMillis(),
+                userId = userId
             )
         )
     }
 
-    override suspend fun deleteMovieFromHistory(movieId: Int){
-        movieDao.deleteMovieFromHistory(movieId)
+    override suspend fun deleteMovieFromHistory(movieId: Int,userId: Int){
+        movieDao.deleteMovieFromHistory(movieId, userId = userId)
     }
 
-    override suspend fun addSeriesToHistory(seriesId: Int) {
+    override suspend fun addSeriesToHistory(seriesId: Int,userId: Int) {
         seriesDao.insertHistorySeries(
             MediaHistoryTable(
                 mediaId = seriesId,
                 mediaType = "Series",
-                addedAt = System.currentTimeMillis()
+                addedAt = System.currentTimeMillis(),
+                userId = userId
             )
         )
     }
 
-    override suspend fun deleteSeriesFromHistory(seriesId: Int){
-        seriesDao.deleteSeriesFromHistory(seriesId = seriesId)
+    override suspend fun deleteSeriesFromHistory(seriesId: Int,userId: Int){
+        seriesDao.deleteSeriesFromHistory(seriesId = seriesId, userId = userId)
     }
 
-    override suspend fun getAllMoviesInHistory() = movieDao.getALLMoviesInHistory()
+    override suspend fun getAllMoviesInHistory(userId: Int) = movieDao.getALLMoviesInHistory(userId = userId)
 
-    override suspend fun getAllSeriesInHistory() = seriesDao.getALLSeriesInHistory()
+    override suspend fun getAllSeriesInHistory(userId: Int) = seriesDao.getALLSeriesInHistory(userId = userId)
 }

@@ -44,6 +44,10 @@ fun LibraryScreen(
     val state = libraryViewModel.state.collectAsStateWithLifecycle().value
     val navController = LocalNavController.current
 
+    LaunchedEffect(Unit) {
+        libraryViewModel.loadData()
+    }
+
     LaunchedEffect(libraryViewModel.effect) {
         libraryViewModel.effect.collectLatest { effect ->
             when (effect) {

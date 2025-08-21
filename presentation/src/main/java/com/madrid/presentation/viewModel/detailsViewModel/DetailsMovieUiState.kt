@@ -21,6 +21,6 @@ data class DetailsMovieUiState(
     val casts: List<Artist> = emptyList(),
     val reviews: List<ReviewUiState> = emptyList(),
     val similarMovies: List<SimilarMovie> = emptyList(),
-    val trailerKey: String = ""
-
+    val trailerKey: String = "",
+    val isLoginBottomSheetVisible: Boolean = false
 )

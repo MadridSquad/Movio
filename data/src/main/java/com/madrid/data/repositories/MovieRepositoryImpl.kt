@@ -294,16 +294,16 @@ class MovieRepositoryImpl @Inject constructor(
         localDataSource.clearMovieGenres()
     }
 
-    override suspend fun addMovieToHistory(movieId: Int) {
-        localDataSource.addMovieToHistory(movieId = movieId)
+    override suspend fun addMovieToHistory(movieId: Int,userId: Int) {
+        localDataSource.addMovieToHistory(movieId = movieId, userId = userId)
     }
 
-    override suspend fun deleteMovieFromHistory(movieId: Int) {
-        localDataSource.deleteMovieFromHistory(movieId)
+    override suspend fun deleteMovieFromHistory(movieId: Int,userId: Int) {
+        localDataSource.deleteMovieFromHistory(movieId = movieId, userId = userId)
     }
 
-    override suspend fun getAllMoviesInHistory(): List<Movie> {
-        val moviesIds = localDataSource.getAllMoviesInHistory().map { it.mediaId }
+    override suspend fun getAllMoviesInHistory(userId: Int): List<Movie> {
+        val moviesIds = localDataSource.getAllMoviesInHistory(userId = userId).map { it.mediaId }
         return moviesIds.map { getMovieDetailsById(it) }
     }
 

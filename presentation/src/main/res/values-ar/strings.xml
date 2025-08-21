@@ -127,6 +127,7 @@
     <string name="done">انتهيت</string>
     <string name="background_image_of_squares">خلفيه الصوره بشكل مربعات</string>
     <string name="you_dont_have_an_account">انت لا تملك حساب</string>
+    <string name="please_log_in_or_create_an_account_to_save_items_to_your_favorites_and_access_them_later">من فضلك سجل دخول أو أنشئ حسابًا لحفظ أعمالك المفضلة والوصول إليها لاحقًا.</string>
     <string name="thank_you_for_your_rating">شكراً لك على التقيم!</string>
     <string name="this_rating_is_only_available_to_registered_users_Login_to_share_your_rating">هذا التقييم متاح فقط للمستخدمين المسجلين، قم بتسجيل الدخول لمشاركة تقييمك</string>
     <string name="watch_list_icon">ايقونه مشاهده القائمه</string>

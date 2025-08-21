@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
@@ -36,15 +35,18 @@ import com.madrid.designSystem.component.MovioButton
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
-import com.madrid.presentation.viewModel.logoutViewModel.LogoutViewModel
 import com.madrid.presentation.viewModel.logoutViewModel.LogoutUiState
+import com.madrid.presentation.viewModel.logoutViewModel.LogoutViewModel
 
 @Composable
 fun LogoutConfirmationBottomSheet(
     isVisible: Boolean,
     onDismiss: () -> Unit,
     onNavigateToAuth: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    title: String = stringResource(id = R.string.conform_log_out),
+    description: String = stringResource(id = R.string.log_out),
+    actionButtonText: String = stringResource(id = R.string.logout),
 ) {
     val viewModel: LogoutViewModel = hiltViewModel()
     val uiState by viewModel.state.collectAsState()
@@ -72,6 +74,10 @@ fun LogoutConfirmationBottomSheet(
                 viewModel.logout(onSuccess = {})
             },
             onClearError = { viewModel.clearError() },
+            modifier = modifier,
+            title = title,
+            description = description,
+            textButton = actionButtonText,
         )
     }
 }
@@ -81,7 +87,10 @@ private fun LogoutConfirmationContent(
     uiState: LogoutUiState,
     onLogoutConfirm: () -> Unit,
     onClearError: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    title: String,
+    description: String,
+    textButton: String,
 ) {
     Column(
         modifier = modifier
@@ -93,7 +102,10 @@ private fun LogoutConfirmationContent(
         LogoutIconSection()
 
         // Text Content Section
-        LogoutTextSection()
+        LogoutTextSection(
+            title = title,
+            description = description
+        )
 
         // Error Message Section
         if (uiState.errorMessage != null) {
@@ -107,7 +119,8 @@ private fun LogoutConfirmationContent(
         LogoutActionButton(
             isLoading = uiState.isLoading,
             onLogoutConfirm = onLogoutConfirm,
-            onClearError = onClearError
+            onClearError = onClearError,
+            textButton = textButton
         )
     }
 }
@@ -129,21 +142,24 @@ private fun LogoutIconSection() {
 }
 
 @Composable
-private fun LogoutTextSection() {
+private fun LogoutTextSection(
+    title: String,
+    description: String
+) {
     Column(
-        modifier = Modifier.padding(horizontal = 16.dp),
+        modifier = Modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         MovioText(
             modifier = Modifier.height(25.dp),
-            text = stringResource(id = R.string.conform_log_out),
+            text = title,
             textStyle = Theme.textStyle.title.mediumMedium16,
             color = Theme.color.surfaces.onSurface,
             textAlign = TextAlign.Center
         )
         MovioText(
-            text = stringResource(id = R.string.log_out),
+            text = description,
             textStyle = Theme.textStyle.label.smallRegular12,
             color = Theme.color.surfaces.onSurfaceContainer,
             textAlign = TextAlign.Center,
@@ -161,7 +177,6 @@ private fun ErrorMessageSection(errorMessage: String) {
         textAlign = TextAlign.Center,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
     )
 }
 
@@ -169,7 +184,8 @@ private fun ErrorMessageSection(errorMessage: String) {
 private fun LogoutActionButton(
     isLoading: Boolean,
     onLogoutConfirm: () -> Unit,
-    onClearError: () -> Unit
+    onClearError: () -> Unit,
+    textButton: String,
 ) {
     MovioButton(
         onClick = {
@@ -180,7 +196,6 @@ private fun LogoutActionButton(
         },
         enabled = !isLoading,
         modifier = Modifier
-            .width(328.dp)
             .height(48.dp)
             .clip(RoundedCornerShape(24.dp))
             .background(
@@ -200,7 +215,7 @@ private fun LogoutActionButton(
                 )
             } else {
                 MovioText(
-                    text = stringResource(id = R.string.logout),
+                    text = textButton,
                     textStyle = Theme.textStyle.label.mediumMedium14,
                     color = Color.White
                 )
@@ -257,7 +272,10 @@ fun LogoutConfirmationBottomSheetPreview() {
                         println("Logout confirmed")
                         showBottomSheet = false
                     },
-                    onClearError = { }
+                    onClearError = { },
+                    title = stringResource(R.string.conform_log_out),
+                    description = stringResource(R.string.log_out),
+                    textButton = stringResource(R.string.logout),
                 )
             }
         }

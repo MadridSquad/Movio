@@ -46,9 +46,7 @@ fun ViewAllScreen(
         viewModel.effect.collect { effect ->
             when (effect) {
                 is ViewAllEffect.NavigateBack -> {
-                    navController.navigate(
-                        Destinations.LibraryScreen
-                    )
+                    navController.navigateUp()
                 }
 
                 is ViewAllEffect.NavigateToDetails -> {
