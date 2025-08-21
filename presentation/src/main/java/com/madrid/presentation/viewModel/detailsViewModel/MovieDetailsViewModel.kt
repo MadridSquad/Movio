@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailsMovieViewModel @Inject constructor(
+class MovieDetailsViewModel @Inject constructor(
     saveStateHandle: SavedStateHandle,
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val getMovieTopCastUseCase: GetMovieTopCastUseCase,
@@ -39,9 +39,7 @@ class DetailsMovieViewModel @Inject constructor(
     private val isGuestUseCase: LoginUseCase,
     private val setMovieFavoriteStatusUseCase: SetMovieFavoriteStatusUseCase,
     private val isFavoriteMovieUseCase: IsFavoriteMovieUseCase
-) : BaseViewModel<DetailsMovieUiState, Nothing>(
-    DetailsMovieUiState()
-) {
+) : BaseViewModel<DetailsMovieUiState, Nothing>(DetailsMovieUiState()) {
     val args = saveStateHandle.toRoute<Destinations.MovieDetailsScreen>()
 
     init {
@@ -161,15 +159,15 @@ class DetailsMovieViewModel @Inject constructor(
     }
 
     private fun fetchIsGuest() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                isGuestUseCase.isGuest().collectLatest { result ->
-                    updateState { it.copy(isGuest = result) }
-                }
-            } catch (e: Exception) {
+        tryToCollect(
+            function = { isGuestUseCase.isGuest() },
+            onNewValue = { result ->
+                updateState { it.copy(isGuest = result) }
+            },
+            onError = { error ->
                 updateState { it.copy(isGuest = true) }
             }
-        }
+        )
     }
 
     fun onClickLoveIcon(movieId: Int) {
@@ -207,8 +205,7 @@ class DetailsMovieViewModel @Inject constructor(
                     updateState { it.copy(trailerKey = trailerKey) }
                 }
             },
-            onError = {
-            },
+            onError = {},
             scope = viewModelScope,
             dispatcher = Dispatchers.IO
         )
