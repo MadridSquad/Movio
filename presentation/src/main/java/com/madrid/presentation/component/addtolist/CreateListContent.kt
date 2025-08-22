@@ -1,6 +1,5 @@
 package com.madrid.presentation.component.addtolist
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,8 +20,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.R
-import com.madrid.designSystem.component.MovioButton
 import com.madrid.designSystem.component.MovioBottomSheet
+import com.madrid.designSystem.component.MovioButton
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.textInputField.BasicTextInputField
@@ -44,14 +43,10 @@ fun CreateListBottomSheet(
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(239.dp)
-                .padding(
-                    start = 16.dp,
-                    end = 16.dp,
-                )
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 16.dp)
         ) {
             // Title
             MovioText(
@@ -59,7 +54,9 @@ fun CreateListBottomSheet(
                 textStyle = Theme.textStyle.body.mediumMedium14,
                 color = Theme.color.surfaces.onSurface,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
             )
 
             // Description
@@ -71,6 +68,7 @@ fun CreateListBottomSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp)
+                    .padding(bottom = 16.dp)
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -84,10 +82,10 @@ fun CreateListBottomSheet(
                 borderBrushColors = null,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp)
+                    .height(48.dp)
             )
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.height(40.dp))
 
             MovioButton(
                 onClick = {
@@ -98,7 +96,7 @@ fun CreateListBottomSheet(
                 enabled = listName.isNotBlank() && !isLoading,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp),
+                    .height(48.dp),
             ) {
                 if (isLoading) {
                     MovioIcon(
@@ -110,7 +108,7 @@ fun CreateListBottomSheet(
                 } else {
                     MovioText(
                         text = stringResource(R.string.create_list_button),
-                        color = Color.White,
+                        color = Theme.color.brand.onPrimary,
                         textStyle = Theme.textStyle.label.mediumMedium16
                     )
                 }
