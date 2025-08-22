@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import com.madrid.designSystem.R
+import com.madrid.designSystem.theme.Theme
 
 /**
  * A customizable image viewer component that uses SubcomposeAsyncImage for efficient image loading.
@@ -60,7 +61,7 @@ fun ImageViewer(
             contentAlignment = Alignment.Center
         ) {
             Image(
-                painter = painterResource(R.drawable.image_placeholder),
+                painter = painterResource(Theme.drawables.imagePlaceHolderId),
                 contentDescription = stringResource(R.string.image_loading_error),
                 modifier = Modifier.fillMaxSize(),
                 alignment = Alignment.Center,

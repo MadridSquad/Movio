@@ -28,7 +28,7 @@ fun LazyGridScope.emptyRecentSearch() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             MovioIcon(
-                painter = painterResource(id = R.drawable.img_search_explore),
+                painter = painterResource(Theme.drawables.notFoundLayoutId),
                 contentDescription = null,
                 modifier = Modifier.size(150.dp),
             )

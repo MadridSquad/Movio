@@ -1,6 +1,5 @@
 package com.madrid.domain.usecase.series
 
-import com.madrid.domain.repository.AuthenticationRepository
 import com.madrid.domain.repository.SeriesRepository
 import com.madrid.domain.usecase.authentication.GetCurrentUserDetailsUseCase
 import javax.inject.Inject

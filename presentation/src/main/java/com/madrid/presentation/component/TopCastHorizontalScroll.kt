@@ -19,26 +19,22 @@ import com.madrid.designSystem.R
 import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
-
-data class CastMember(
-    val id: String,
-    val name: String,
-    val imageUrl: String
-)
+import com.madrid.presentation.viewModel.detailsViewModel.ArtistUiState
+import com.madrid.presentation.viewModel.detailsViewModel.SeeAllType
 
 @Composable
 fun TopCastHorizontalScroll(
     modifier: Modifier = Modifier,
-    castMembers: List<CastMember>,
+    castMembers: List<ArtistUiState>,
     onSeeAllClick: () -> Unit = {},
-    onCastMemberClick: (Int) -> Unit,
+    onCastMemberClick: (Int) -> Unit
 ) {
     Column(
         modifier = modifier
             .fillMaxWidth()
     ) {
         CustomTextTitle(
-            primaryText = stringResource(com.madrid.presentation.R.string.top_cast),
+            primaryText = stringResource(SeeAllType.TopCast.stringResId),
             secondaryText = stringResource(com.madrid.presentation.R.string.see_all),
             endIcon = painterResource(R.drawable.outline_alt_arrow_left),
             onSeeAllClick = { onSeeAllClick() },
@@ -64,7 +60,7 @@ fun TopCastHorizontalScroll(
 @Composable
 private fun CastMemberItem(
     onCastMemberClick: (Int) -> Unit,
-    castMember: CastMember,
+    castMember: ArtistUiState,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -87,18 +83,18 @@ private fun TopCastSectionPreview() {
     MovioTheme {
         TopCastHorizontalScroll(
             castMembers = listOf(
-                CastMember(
-                    id = "1",
+                ArtistUiState(
+                    id = 1,
                     name = "Ana de Armas",
                     imageUrl = "https://image.tmdb.org/t/p/w500/3vxvsmYLTf4jnr163SUlBIWX8qx.jpg"
                 ),
-                CastMember(
-                    id = "2",
+                ArtistUiState(
+                    id = 2,
                     name = "Keanu Reeves",
                     imageUrl = "https://image.tmdb.org/t/p/w500/4D0PpNI0km5B9Gk7SZOo6hJxJ9P.jpg"
                 ),
-                CastMember(
-                    id = "3",
+                ArtistUiState(
+                    id = 3,
                     name = "Ian McShane",
                     imageUrl = "https://image.tmdb.org/t/p/w500/9H7oVx4b6Z0j3EjLZN9mzcqcJjU.jpg"
                 )

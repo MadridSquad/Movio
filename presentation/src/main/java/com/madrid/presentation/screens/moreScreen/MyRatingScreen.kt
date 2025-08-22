@@ -92,7 +92,7 @@ fun MyRatingScreen(
                 DialogWithButtonLayout(
                     title = stringResource(R.string.internet_is_not_available),
                     description = stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
-                    image = R.drawable.img_no_internet,
+                    image = Theme.drawables.noInternetId,
                     imageSize = 150,
                     buttonText = stringResource(R.string.try_again),
                     onClick = { navController.navigate(Destinations.MyRatingScreen) },
@@ -128,7 +128,7 @@ fun MyRatingScreen(
                     EmptySearchLayout(
                         stringResource(R.string.no_ratings_yet),
                         description = stringResource(R.string.you_haven_t_rated_anything_yet_start_exploring_and_share_your_thoughts),
-                        image = R.drawable.img_empty_more,
+                        image = Theme.drawables.emptyLayoutId,
                         modifier = Modifier.fillMaxSize()
                     )
                 }

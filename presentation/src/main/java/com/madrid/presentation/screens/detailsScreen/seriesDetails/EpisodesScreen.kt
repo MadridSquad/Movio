@@ -1,5 +1,6 @@
 package com.madrid.presentation.screens.detailsScreen.seriesDetails
 
+import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -36,30 +37,29 @@ import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailS
 import com.madrid.presentation.component.movioCards.MovioEpisodesCard
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.detailsViewModel.EpisodeUiState
+import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsInteractionListener
+import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsViewModel
 
 @Composable
-fun EpisodesScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()) {
+fun EpisodesScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()
+) {
     val uiState by viewModel.state.collectAsState()
+    val interactionListener = viewModel as SeriesDetailsInteractionListener
     val navController = LocalNavController.current
     val context = LocalContext.current
+
     EpisodesScreenContent(
         uiState = uiState,
         onSeasonSelection = viewModel::updateSelectedSeason,
         onClickEpisode = { episode ->
-            viewModel.loadEpisodeTrailer(
+
+            interactionListener.onEpisodePlayItClick(
                 seriesId = uiState.seriesId,
                 seasonNumber = uiState.selectedSeasonUiState.seasonNumber,
                 episodeNumber = episode.episodeNumber
             ) { trailerKey ->
-                trailerKey?.let {
-                    val intent = Intent(
-                        Intent.ACTION_VIEW,
-                        "https://www.youtube.com/watch?v=$it".toUri()
-                    )
-                    context.startActivity(intent)
-                }
+                openTrailer(trailerKey, context)
             }
         },
         onClickBack = { navController.popBackStack() }
@@ -167,5 +167,15 @@ fun EpisodesScreenContent(
                 modifier = Modifier.padding(bottom = 12.dp, start = 16.dp, end = 16.dp)
             )
         }
+    }
+}
+
+private fun openTrailer(trailerKey:String?,context:Context){
+    trailerKey?.let {
+        val intent = Intent(
+            Intent.ACTION_VIEW,
+            "https://www.youtube.com/watch?v=$it".toUri()
+        )
+        context.startActivity(intent)
     }
 }
