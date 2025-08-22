@@ -6,7 +6,10 @@ import com.madrid.presentation.viewModel.shared.MediaUiState
 import com.madrid.presentation.viewModel.shared.WatchListUiState
 
 data class LibraryScreenState(
+    val isWatchListLoading: Boolean = false,
     val isLoading: Boolean = false,
+    val isFavouriteLoading: Boolean = false,
+    val isHistoryLoading: Boolean = false,
     val errorMessage: String? = null,
     val watchList: List<WatchListUiState> = listOf(),
     val favoriteList: List<MediaUiState> = listOf(),
