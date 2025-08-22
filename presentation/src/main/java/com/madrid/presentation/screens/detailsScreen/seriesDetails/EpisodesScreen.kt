@@ -134,9 +134,9 @@ fun EpisodesScreenContent(
                     uiState.selectedSeasonUiState.seasonNumber.toString()
                 )
                 var selectedItem by remember { mutableStateOf(seasonLabel) }
+
                 val firstSeasonNumber = uiState.currentSeasonsUiStates.firstOrNull()?.seasonNumber ?: 1
-                val lastSeasonNumber = uiState.currentSeasonsUiStates.size - (if(firstSeasonNumber == 0) 1 else 0)
-                Log.d("first season number is","is: isssss: $firstSeasonNumber")
+                val lastSeasonNumber = uiState.currentSeasonsUiStates.size - (if (firstSeasonNumber == 0) 1 else 0)
                 val seasonNumbers = (firstSeasonNumber..lastSeasonNumber).toList()
 
                 if (uiState.currentSeasonsUiStates.isNotEmpty()) {
