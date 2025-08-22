@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -47,10 +48,10 @@ import com.madrid.presentation.utils.copyToClipboard
 import com.madrid.presentation.utils.playSeriesTrailer
 import com.madrid.presentation.utils.seriesBottomFade
 import com.madrid.presentation.viewModel.detailsViewModel.SeeAllType
+import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
 import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsEffect
 import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsInteractionListener
 import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsViewModel
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
 
 @Composable
 fun SeriesDetailsScreen(
@@ -106,19 +107,24 @@ fun SeriesDetailsScreen(
         uiState.showLoadingScreen -> { LoadingScreen(message = stringResource(R.string.loading)) }
 
         uiState.isError -> {
-            Box(
+            Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 64.dp),
-                contentAlignment = Alignment.Center
+                    .statusBarsPadding()
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 32.dp)
             ) {
+                TopAppBar(
+                    text = null,
+                    secondIcon = null, thirdIcon = null,
+                    onFirstIconClick = { interactionListener.onBackButtonClick() }
+                )
                 DialogWithButtonLayout(
                     title = stringResource(R.string.internet_is_not_available),
                     description = stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
                     image = Theme.drawables.noInternetId,
                     buttonText = stringResource(R.string.try_again),
-                    onClick = { interactionListener.onRetryButtonClick()
-                    },
+                    onClick = { interactionListener.onRetryButtonClick() },
                     modifier = Modifier
                         .fillMaxSize()
                         .navigationBarsPadding()

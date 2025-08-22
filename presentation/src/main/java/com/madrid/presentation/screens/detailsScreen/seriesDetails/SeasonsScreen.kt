@@ -18,10 +18,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.TopAppBar
 import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioSeasonCard
-import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
+import com.madrid.presentation.viewModel.detailsViewModel.SeasonUiState
+import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsInteractionListener
 import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsViewModel
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
 import com.madrid.presentation.viewModel.shared.parser.formatFullDateKtx
 import com.madrid.presentation.viewModel.shared.parser.formatYearKtx
 
@@ -30,24 +30,21 @@ fun SeasonsScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current
+    val interactionListener =viewModel as SeriesDetailsInteractionListener
 
     SeasonsScreenContent(
-        uiState = uiState,
+        seasons = uiState.currentSeasonsUiStates,
         onClickBack = { navController.popBackStack() },
         onClickSeason = { seasonNumber ->
-            navController.navigate(
-                Destinations.EpisodesScreen(
-                    seriesId = uiState.seriesId,
-                    seasonNumber = seasonNumber
-                )
-            )
+
+            interactionListener.onCurrentSeasonCardClick(seriesId = uiState.seriesId,seasonNumber)
         },
     )
 }
 
 @Composable
 fun SeasonsScreenContent(
-    uiState: SeriesDetailsUiState,
+    seasons: List<SeasonUiState>,
     onClickBack: () -> Unit = {},
     onClickSeason: (Int) -> Unit = {},
 ) {
@@ -63,7 +60,7 @@ fun SeasonsScreenContent(
             modifier = Modifier.padding(top = 36.dp),
         )
         Spacer(Modifier.height(20.dp))
-        val seasons = uiState.currentSeasonsUiStates
+
         LazyColumn(
             contentPadding = PaddingValues(bottom = 40.dp)
         ) {

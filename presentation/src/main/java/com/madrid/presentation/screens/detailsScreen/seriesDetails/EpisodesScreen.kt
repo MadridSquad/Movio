@@ -31,6 +31,7 @@ import com.madrid.presentation.R
 import com.madrid.presentation.component.CustomDropdown
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.component.movioCards.MovioEpisodesCard
+import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.utils.seriesBottomFade
 import com.madrid.presentation.viewModel.detailsViewModel.EpisodeUiState
 import com.madrid.presentation.viewModel.detailsViewModel.SeasonUiState
@@ -39,9 +40,11 @@ import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDe
 import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsViewModel
 
 @Composable
-fun EpisodesScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()
+fun EpisodesScreen(
+    viewModel: SeriesDetailsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsState()
+    val navController = LocalNavController.current
     val interactionListener = viewModel as SeriesDetailsInteractionListener
     val context = LocalContext.current
 
@@ -54,10 +57,12 @@ fun EpisodesScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()
                 seasonNumber = uiState.selectedSeasonUiState.seasonNumber,
                 episodeNumber = episode.episodeNumber
             ) { trailerKey ->
+
                 openTrailer(trailerKey, context)
             }
         },
         interactionListener = interactionListener,
+        onBackButtonClick = { navController.popBackStack() }
     )
 }
 
@@ -66,6 +71,7 @@ private fun EpisodesScreenContent(
     uiState: SeriesDetailsUiState,
     interactionListener: SeriesDetailsInteractionListener,
     onClickEpisode: (EpisodeUiState) -> Unit = {},
+    onBackButtonClick: () -> Unit,
     episodes: List<EpisodeUiState> = uiState.selectedSeasonUiState.episodesUiStates
 ) {
     LazyColumn(
@@ -75,13 +81,16 @@ private fun EpisodesScreenContent(
             .navigationBarsPadding()
     ) {
         item {
-            SerirseHeaderSection(
-                onBackButtonClick = { interactionListener.onBackButtonClick() },
+            SeriesHeaderSection(
+                onBackButtonClick = { onBackButtonClick() },
                 topImageUrl = uiState.topImageUrl
             )
         }
         item {
-            Row(modifier = Modifier.padding(horizontal = 16.dp).padding(bottom = 16.dp)
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .padding(bottom = 16.dp)
             ) {
                 NumberOfEpisodesTitle(
                     modifier = Modifier.align(Alignment.CenterVertically),
@@ -102,13 +111,16 @@ private fun EpisodesScreenContent(
             MovioEpisodesCard(
                 movieTitle = episode.episodeName,
                 movieRate = (episode.rate.toFloat() / 2).toString().take(3),
-                currentMovieEpisode = stringResource(R.string.episode_number, episode.episodeNumber.toString()),
+                currentMovieEpisode = stringResource(
+                    R.string.episode_number,
+                    episode.episodeNumber.toString()
+                ),
                 movieTime = "${episode.episodeDuration} m",
                 movieImageUrl = episode.imageUrl,
                 onClick = { onClickEpisode(episode) },
                 modifier = Modifier
                     .padding(bottom = 12.dp)
-                    .padding( start = 16.dp, end = 16.dp)
+                    .padding(start = 16.dp, end = 16.dp)
             )
         }
     }
@@ -127,7 +139,7 @@ private fun openTrailer(trailerKey: String?, context: Context) {
 
 
 @Composable
-private fun SerirseHeaderSection(onBackButtonClick: () -> Unit, topImageUrl: String) {
+private fun SeriesHeaderSection(onBackButtonClick: () -> Unit, topImageUrl: String) {
     Box {
         TopAppBar(
             text = null,
@@ -136,7 +148,9 @@ private fun SerirseHeaderSection(onBackButtonClick: () -> Unit, topImageUrl: Str
             onFirstIconClick = { onBackButtonClick() }
         )
         Box(
-            modifier = Modifier.fillMaxSize().background(Theme.color.surfaces.surface)
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Theme.color.surfaces.surface)
         ) {
             MoviePosterDetailScreen(imageUrl = topImageUrl, modifier = Modifier.fillMaxSize())
 
@@ -153,9 +167,11 @@ private fun DropdownSeasonMenu(
     onSeasonSelection: (Int) -> Unit = {}
 ) {
     val seasonLabel = stringResource(R.string.season, seasonNumber)
-
     var selectedItem by remember { mutableStateOf(seasonLabel) }
-    val seasonNumbers = (1..currentSeasonsUiStates.size).toList()
+
+    val firstSeasonNumber = currentSeasonsUiStates.firstOrNull()?.seasonNumber ?: 1
+    val lastSeasonNumber = currentSeasonsUiStates.size - (if (firstSeasonNumber == 0) 1 else 0)
+    val seasonNumbers = (firstSeasonNumber..lastSeasonNumber).toList()
 
     if (currentSeasonsUiStates.isNotEmpty()) {
 
@@ -174,7 +190,7 @@ private fun DropdownSeasonMenu(
 }
 
 @Composable
-private fun NumberOfEpisodesTitle(modifier: Modifier = Modifier,numberOfEpisodes:String) {
+private fun NumberOfEpisodesTitle(modifier: Modifier = Modifier, numberOfEpisodes: String) {
     MovioText(
         text = stringResource(R.string.episodes, numberOfEpisodes),
         textStyle = Theme.textStyle.headline.mediumMedium18,
