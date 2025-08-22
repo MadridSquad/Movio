@@ -162,5 +162,7 @@ class LoginViewModel @Inject constructor(
         if (isGuestFlow || messageResId == R.string.network_error || messageResId == R.string.server_error) {
             emitNewEffect(LoginEffect.ShowToast(messageResId))
         }
-    }}
+    }
+
+}
 
