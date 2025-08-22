@@ -46,7 +46,7 @@ fun MovieHomeCard(
             .clip(
                 RoundedCornerShape(8.dp)
             )
-            .clickable( onClick = onClick),
+            .clickable(onClick = onClick),
     ) {
         ImageViewer(
             model = movieId,
@@ -97,7 +97,6 @@ fun MovieHomeCard(
                 .fillMaxWidth()
                 .height(51.dp)
         ) {
-
             ImageViewer(
                 model = movieId,
                 contentDescription = name,
@@ -106,7 +105,6 @@ fun MovieHomeCard(
                     .fillMaxSize()
                     .blur(25.dp)
             )
-
 
             Column(
                 Modifier
@@ -125,18 +123,21 @@ fun MovieHomeCard(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     genres.take(3).forEach {
-                        MovioText(
-                            text = it,
-                            color = Theme.color.surfaces.onSurfaceContainer,
-                            textStyle = Theme.textStyle.body.smallRegular10,
+                        Box(
                             modifier = Modifier
                                 .border(
                                     width = 0.5.dp,
                                     Theme.color.surfaces.onSurfaceAt3,
                                     RoundedCornerShape(24.dp)
-                                )
-                                .padding(horizontal = 8.dp, vertical = 4.dp),
-                        )
+                                ).padding(vertical = 4.dp, horizontal = 8.dp),
+                        ) {
+                            MovioText(
+                                text = it,
+                                color = Theme.color.surfaces.onSurfaceContainer,
+                                textStyle = Theme.textStyle.body.smallRegular10,
+                                modifier = Modifier.background(Theme.color.brand.primary)
+                            )
+                        }
                     }
                 }
             }

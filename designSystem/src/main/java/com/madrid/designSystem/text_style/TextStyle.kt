@@ -118,7 +118,8 @@ val defaultTextStyle= MovioTextStyle(
         smallRegular10 = TextStyle(
             fontFamily = Inter,
             fontWeight = FontWeight.Normal,
-            fontSize = 10.sp
+            fontSize = 10.sp,
+            lineHeight = 10.sp
         )
     )
 )
