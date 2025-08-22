@@ -81,6 +81,7 @@ fun MovieDetailsScreen(
     val context = LocalContext.current
     var showShareSheet by remember { mutableStateOf(false) }
     var showAddToListBottomSheet by remember { mutableStateOf(false) }
+    var showLogOutBottomSheet by remember { mutableStateOf(false) }
 
     fun copyToClipboard(text: String) {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -197,7 +198,8 @@ fun MovieDetailsScreen(
                 )
                 BottomMediaActions(
                     onAddToListClick = {
-                        showAddToListBottomSheet = true
+                        showAddToListBottomSheet = uiState.isGuest
+                        showLogOutBottomSheet = uiState.isGuest
                     },
                     onRateClick = {
                         showAddRatingBottomSheet = true
@@ -514,10 +516,12 @@ fun MovieDetailsScreen(
             }
         }
     }
-    ListManagementBottomSheet(
-        isVisible = showAddToListBottomSheet,
-        onDismiss = { showAddToListBottomSheet = false },
-        movieId = uiState.movieId,
-        viewModel = addToListViewModel
-    )
+    if(showLogOutBottomSheet){
+        ListManagementBottomSheet(
+            isVisible = showAddToListBottomSheet,
+            onDismiss = { showAddToListBottomSheet = false },
+            movieId = uiState.movieId,
+            viewModel = addToListViewModel
+        )
+    }
 }
