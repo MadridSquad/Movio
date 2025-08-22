@@ -6,7 +6,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -20,14 +19,11 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -36,15 +32,14 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.madrid.designSystem.component.DialogWithButtonLayout
 import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.FilterBar
-import com.madrid.designSystem.component.LoadingSearchCard
 import com.madrid.designSystem.component.TopAppBar
+import com.madrid.designSystem.modifier.ShimmerCard
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTVShowsViewModel
-import com.madrid.presentation.viewModel.shared.CategoryUiState
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
@@ -104,15 +99,14 @@ fun SeeAllTVShowsScreen(
         ) {
             when {
                 listOfItem.itemCount == 0 && listOfItem.loadState.refresh is LoadState.Loading -> {
-                    items(9) {
-                        Box(
+                    items(12) {
+                        ShimmerCard(
+                            isLoading = true,
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(200.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            LoadingSearchCard()
-                        }
+                                .clip(RoundedCornerShape(8.dp))
+                                .width(150.dp)
+                                .height(180.dp)
+                        )
                     }
                 }
 

@@ -3,7 +3,6 @@ package com.madrid.presentation.screens.searchScreen.features.recentSearchLayout
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,9 +17,10 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.items
-import androidx.compose.ui.Alignment
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,8 +31,8 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.CustomTextTitle
-import com.madrid.designSystem.component.LoadingSearchCard
 import com.madrid.designSystem.component.MovioText
+import com.madrid.designSystem.modifier.ShimmerCard
 import com.madrid.designSystem.modifier.removeWidthPaddingFromParent
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
@@ -52,15 +52,15 @@ fun LazyGridScope.ForYouAndExploreScreen(
     if (!showSearchResults) {
         when {
             isLoading -> {
-                items(2) {
-                    Box(
+                items(12) {
+                    ShimmerCard(
+                        isLoading = true,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        LoadingSearchCard()
-                    }
+                            .clip(RoundedCornerShape(8.dp))
+                            .width(150.dp)
+                            .height(180.dp)
+                            .padding(bottom = 12.dp)
+                    )
                 }
             }
 
@@ -131,15 +131,15 @@ fun LazyGridScope.ForYouAndExploreScreen(
     if (!showSearchResults) {
         when {
             exploreMoreMovies.itemCount == 0 && exploreMoreMovies.loadState.refresh is LoadState.Loading -> {
-                items(9) {
-                    Box(
+                items(12) {
+                    ShimmerCard(
+                        isLoading = true,
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(200.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        LoadingSearchCard()
-                    }
+                            .clip(RoundedCornerShape(8.dp))
+                            .width(150.dp)
+                            .height(180.dp)
+                            .padding(bottom = 12.dp)
+                    )
                 }
             }
 

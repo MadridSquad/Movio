@@ -50,10 +50,10 @@ import com.madrid.presentation.screens.detailsScreen.seriesDetails.component.Top
 import com.madrid.presentation.utils.copyToClipboard
 import com.madrid.presentation.utils.playSeriesTrailer
 import com.madrid.presentation.viewModel.detailsViewModel.SeeAllType
+import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
 import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsEffect
 import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsInteractionListener
 import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsViewModel
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
 
 @Composable
 fun SeriesDetailsScreen(
@@ -94,11 +94,34 @@ fun SeriesDetailsScreen(
                 }
 
                 is SeriesDetailsEffect.NavigateToSeeAllScreen -> {
-                   when (effect.seeAllType){
-                       SeeAllType.TopCast -> navController.navigate(Destinations.TopCast(effect.seriesId,false))
-                       SeeAllType.Season -> navController.navigate(Destinations.SeasonsScreen(effect.seriesId,1))
-                       SeeAllType.SimilarSeries -> navController.navigate(Destinations.SimilarMediaScreen(effect.seriesId,false))
-                       SeeAllType.Review -> navController.navigate(Destinations.ReviewsScreen(effect.seriesId,false))
+                    when (effect.seeAllType) {
+                        SeeAllType.TopCast -> navController.navigate(
+                            Destinations.TopCast(
+                                effect.seriesId,
+                                false
+                            )
+                        )
+
+                        SeeAllType.Season -> navController.navigate(
+                            Destinations.SeasonsScreen(
+                                effect.seriesId,
+                                1
+                            )
+                        )
+
+                        SeeAllType.SimilarSeries -> navController.navigate(
+                            Destinations.SimilarMediaScreen(
+                                effect.seriesId,
+                                false
+                            )
+                        )
+
+                        SeeAllType.Review -> navController.navigate(
+                            Destinations.ReviewsScreen(
+                                effect.seriesId,
+                                false
+                            )
+                        )
                     }
                 }
             }
@@ -106,7 +129,9 @@ fun SeriesDetailsScreen(
     }
 
     when {
-        uiState.showLoadingScreen -> { LoadingScreen(message = stringResource(R.string.loading)) }
+        uiState.showLoadingScreen -> {
+            LoadingScreen(message = stringResource(R.string.loading))
+        }
 
         uiState.isError -> {
             Box(
@@ -120,7 +145,8 @@ fun SeriesDetailsScreen(
                     description = stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
                     image = Theme.drawables.noInternetId,
                     buttonText = stringResource(R.string.try_again),
-                    onClick = { interactionListener.onRetryButtonClick()
+                    onClick = {
+                        interactionListener.onRetryButtonClick()
                     },
                     modifier = Modifier
                         .fillMaxSize()
@@ -129,6 +155,7 @@ fun SeriesDetailsScreen(
                 )
             }
         }
+
         else -> {
             SeriesDetailsScreenContent(
                 context = context,
@@ -183,7 +210,6 @@ private fun SeriesDetailsScreenContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 32.dp)
         ) {
             Spacer(modifier = Modifier.height(360.dp))
 
@@ -218,9 +244,9 @@ private fun SeriesDetailsScreenContent(
                         LogoutConfirmationBottomSheet(
                             isVisible = uiState.isGuest,
                             onDismiss = { listener.onDismissShareBottomSheetClick() },
-                            onNavigateToAuth ={ listener.onLoginButtonClick() },
+                            onNavigateToAuth = { listener.onLoginButtonClick() },
                             title = stringResource(R.string.you_dont_have_an_account),
-                            description = stringResource(R.string.this_rating_is_only_available_to_registered_users_Login_to_share_your_rating) ,
+                            description = stringResource(R.string.this_rating_is_only_available_to_registered_users_Login_to_share_your_rating),
                             actionButtonText = stringResource(R.string.login)
                         )
                     } else {
@@ -249,14 +275,24 @@ private fun SeriesDetailsScreenContent(
 
             TopCastSection(
                 artists = uiState.topCast,
-                onActorCardClick = { actorId ->  listener.onActorCardClick(actorId) },
-                onSeeAllClick = { listener.onSeeAllClick(seriesId = uiState.seriesId, seeAllType = SeeAllType.TopCast) },
+                onActorCardClick = { actorId -> listener.onActorCardClick(actorId) },
+                onSeeAllClick = {
+                    listener.onSeeAllClick(
+                        seriesId = uiState.seriesId,
+                        seeAllType = SeeAllType.TopCast
+                    )
+                },
             )
 
             CurrentSeasonsSection(
                 seasons = uiState.currentSeasonsUiStates,
-                onSeeAllClick ={ listener.onSeeAllClick(uiState.seriesId,SeeAllType.Season) },
-                onCurrentSeasonCardClick = {seasonNumber -> listener.onCurrentSeasonCardClick(uiState.seriesId, seasonNumber = seasonNumber)},
+                onSeeAllClick = { listener.onSeeAllClick(uiState.seriesId, SeeAllType.Season) },
+                onCurrentSeasonCardClick = { seasonNumber ->
+                    listener.onCurrentSeasonCardClick(
+                        uiState.seriesId,
+                        seasonNumber = seasonNumber
+                    )
+                },
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -264,15 +300,26 @@ private fun SeriesDetailsScreenContent(
             if (uiState.reviews.isNotEmpty()) {
                 ReviewScreen(
                     reviews = uiState.reviews,
-                    onSeeAllReviews = { listener.onSeeAllClick(uiState.seriesId, SeeAllType.Review) },
+                    onSeeAllReviews = {
+                        listener.onSeeAllClick(
+                            uiState.seriesId,
+                            SeeAllType.Review
+                        )
+                    },
                 )
                 Spacer(modifier = Modifier.height(32.dp))
             }
 
             SimilarSeriesHorizontalSection(
+                modifier = Modifier.padding(bottom = 32.dp),
                 uiState = uiState,
-                onSeeAllClick = { listener.onSeeAllClick(seriesId = uiState.seriesId, seeAllType = SeeAllType.SimilarSeries) },
-                onSimilarSeriesCardClick = { seriesId-> listener.onSimilarSeriesCardClick(seriesId)}
+                onSeeAllClick = {
+                    listener.onSeeAllClick(
+                        seriesId = uiState.seriesId,
+                        seeAllType = SeeAllType.SimilarSeries
+                    )
+                },
+                onSimilarSeriesCardClick = { seriesId -> listener.onSimilarSeriesCardClick(seriesId) }
             )
         }
 

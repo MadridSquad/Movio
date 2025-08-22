@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -68,6 +69,7 @@ fun SelectionBottomSheet(
                     trailingIcon = option.trailingIcon
                 )
             }
+            item{ Spacer(Modifier.height(40.dp)) }
 
             item {
                 MovioButton(
@@ -137,7 +139,8 @@ private fun Option(
                 interactionSource = MutableInteractionSource(),
                 indication = null,
                 onClick = onClick
-            ).padding(horizontal = 12.dp),
+            )
+            .padding(horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (leadingIcon != null) {

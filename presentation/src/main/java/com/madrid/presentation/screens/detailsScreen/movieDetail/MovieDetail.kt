@@ -32,6 +32,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -56,6 +57,7 @@ import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 import com.madrid.presentation.component.BottomMediaActions
 import com.madrid.presentation.component.TopCastHorizontalScroll
+import com.madrid.presentation.component.addtolist.ListManagementBottomSheet
 import com.madrid.presentation.component.header.MovieDetailsHeader
 import com.madrid.presentation.component.logout.LogoutConfirmationBottomSheet
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
@@ -63,13 +65,12 @@ import com.madrid.presentation.component.movioCards.MovioArtistsCard
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.component.addtolist.ListManagementBottomSheet
 import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.ReviewScreen
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMoviesSection
+import com.madrid.presentation.viewModel.addtolist.MovieListViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.ArtistUiState
 import com.madrid.presentation.viewModel.detailsViewModel.movie.MovieDetailsViewModel
-import com.madrid.presentation.viewModel.addtolist.MovieListViewModel
 
 
 @Composable
@@ -83,6 +84,7 @@ fun MovieDetailsScreen(
     val context = LocalContext.current
     var showShareSheet by remember { mutableStateOf(false) }
     var showAddToListBottomSheet by remember { mutableStateOf(false) }
+    var showLogOutBottomSheet by rememberSaveable { mutableStateOf(false) }
 
     fun copyToClipboard(text: String) {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -199,7 +201,8 @@ fun MovieDetailsScreen(
                 )
                 BottomMediaActions(
                     onAddToListClick = {
-                        showAddToListBottomSheet = true
+                        showAddToListBottomSheet = uiState.isGuest.not()
+                        showLogOutBottomSheet = uiState.isGuest
                     },
                     onRateClick = {
                         showAddRatingBottomSheet = true
@@ -476,7 +479,7 @@ fun MovieDetailsScreen(
                 )
                 SimilarMoviesSection(
                     similarMovies = uiState.similarMovies,
-                    modifier = Modifier.padding(vertical = 32.dp),
+                    modifier = Modifier.padding(top = 32.dp),
                     onSeeAllClick = {
                         navController.navigate(
                             Destinations.SimilarMediaScreen(
@@ -505,9 +508,23 @@ fun MovieDetailsScreen(
                         }
                     },
                 )
+
+                LogoutConfirmationBottomSheet(
+                    title = stringResource(R.string.you_dont_have_an_account),
+                    description = stringResource(R.string.please_log_in_or_create_an_account_to_save_items_to_your_favorites_and_access_them_later),
+                    actionButtonText = stringResource(R.string.login),
+                    isVisible = showLogOutBottomSheet,
+                    onDismiss = { showLogOutBottomSheet = false },
+                    onNavigateToAuth = {
+                        navController.navigate(Destinations.LoginScreen) {
+                            popUpTo(Destinations.LoginScreen) { inclusive = false }
+                        }
+                    },
+                )
             }
         }
     }
+
     ListManagementBottomSheet(
         isVisible = showAddToListBottomSheet,
         onDismiss = { showAddToListBottomSheet = false },

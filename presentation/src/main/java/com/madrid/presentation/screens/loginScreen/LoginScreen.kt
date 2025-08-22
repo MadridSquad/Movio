@@ -34,33 +34,36 @@ fun LoginScreen(
     var toastMessage by remember { mutableStateOf<Int?>(null) }
 
     LaunchedEffect(Unit) {
-      viewModel.effect.collect {effect ->
-          when(effect){
-          is LoginEffect.OnLoginSuccess ->{
-              if (state.isGuest){
-                  onGuestLogin()
-              } else {
-                  onLoginSuccess()
-              }
-              navController.navigate(Destinations.HomeScreen) {
-                  popUpTo(Destinations.LoginScreen) {
-                      inclusive = true
-                  }
-              }
-          }
-              is LoginEffect.WebView -> {
-                  navController.navigate(Destinations.WebViewScreen(url = effect.url))
-              }
-            is LoginEffect.ShowToast -> {
-                toastMessage = effect.message
-            }
-              is LoginEffect.DismissToast ->{
-                  toastMessage =null
+        viewModel.effect.collect { effect ->
+            when (effect) {
+                is LoginEffect.OnLoginSuccess -> {
+                    if (state.isGuest) {
+                        onGuestLogin()
+                    } else {
+                        onLoginSuccess()
+                    }
+                    navController.navigate(Destinations.HomeScreen) {
+                        popUpTo(Destinations.LoginScreen) {
+                            inclusive = true
+                        }
+                    }
+                }
 
-              }
-      }
-      }
-  }
+                is LoginEffect.WebView -> {
+                    navController.navigate(Destinations.WebViewScreen(url = effect.url))
+                }
+
+                is LoginEffect.ShowToast -> {
+                    toastMessage = effect.message
+                }
+
+                is LoginEffect.DismissToast -> {
+                    toastMessage = null
+
+                }
+            }
+        }
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         MovieLoginContent(
@@ -72,9 +75,11 @@ fun LoginScreen(
                 message = stringResource(message),
                 duration = ToastDuration.SHORT,
                 onDismiss = { toastMessage = null },
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier
+                    .padding(16.dp)
                     .align(Alignment.BottomCenter)
             )
-        }}
+        }
+    }
 }
 
