@@ -1,7 +1,11 @@
 package com.madrid.presentation.component.addtolist
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,14 +31,16 @@ fun ListSelectionContent(
         CreateNewListItem(
             onListCreated = onCreateNewListClick,
         )
-        Divider(
-            color = Theme.color.surfaces.surfaceContainer,
-            thickness = 1.dp,
+        Box(
             modifier = Modifier
-                .padding(12.dp)
-                .fillMaxWidth(),
-
+                .fillMaxWidth()
+                .height(1.dp)
+                .padding(horizontal = 16.dp)
+                .background(Theme.color.surfaces.surfaceContainer)
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
         if (initialUserLists.isNotEmpty()) {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
