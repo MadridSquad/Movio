@@ -3,10 +3,7 @@ package com.madrid.presentation.viewModel.libraryViewModel.addtolist
 import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.madrid.domain.entity.ListOperationStatus
-import com.madrid.domain.entity.MovieListEvent
-import com.madrid.domain.entity.MovieListUiState
 import com.madrid.domain.entity.WatchList
-import com.madrid.domain.entity.WatchListItemUiState
 import com.madrid.domain.exceptions.MovioException
 import com.madrid.domain.exceptions.NetworkException
 import com.madrid.domain.usecase.movie.AddMovieToListUseCase
@@ -20,6 +17,28 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+data class MovieListUiState(
+    val userLists: List<WatchList> = emptyList(),
+    val isLoadingLists: Boolean = false,
+    val addToListSuccess: Boolean = false,
+    val createListSuccess: Boolean = false,
+    val removeFromListSuccess: Boolean = false,
+    val successMessage: String? = null,
+    val errorMessage: String? = null
+)
+
+data class WatchListItemUiState(
+    val id: Int = 0,
+    val videosSize: Int = 0,
+    val watchListTitle: String = ""
+)
+
+sealed class MovieListEvent {
+    object ClearMessages : MovieListEvent()
+    object DismissNotification : MovieListEvent()
+    object LoadUserLists : MovieListEvent()
+}
 
 @HiltViewModel
 class MovieListViewModel @Inject constructor(

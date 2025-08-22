@@ -10,26 +10,3 @@ data class WatchList(
     var isSelected: Boolean = false,
     var isLoading: Boolean = false
 )
-
-
-data class MovieListUiState(
-    val userLists: List<WatchList> = emptyList(),
-    val isLoadingLists: Boolean = false,
-    val addToListSuccess: Boolean = false,
-    val createListSuccess: Boolean = false,
-    val removeFromListSuccess: Boolean = false,
-    val successMessage: String? = null,
-    val errorMessage: String? = null
-)
-
-data class WatchListItemUiState(
-    val id: Int = 0,
-    val videosSize: Int = 0,
-    val watchListTitle: String = ""
-)
-
-sealed class MovieListEvent {
-    object ClearMessages : MovieListEvent()
-    object DismissNotification : MovieListEvent()
-    object LoadUserLists : MovieListEvent()
-}

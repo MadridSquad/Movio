@@ -1,6 +1,7 @@
 package com.madrid.presentation.viewModel.detailsViewModel
 
 import com.madrid.domain.entity.Artist
+import com.madrid.domain.entity.WatchList
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 
 data class DetailsMovieUiState(
