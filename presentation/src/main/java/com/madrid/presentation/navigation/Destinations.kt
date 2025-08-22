@@ -1,8 +1,8 @@
 package com.madrid.presentation.navigation
 
 import com.madrid.presentation.viewModel.libraryViewModel.viewAll.factory.ViewAllType
-import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesType
-import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTvShowType
+import com.madrid.presentation.viewModel.seeAll.movies.factory.SeeAllMoviesType
+import com.madrid.presentation.viewModel.seeAll.tvShows.factory.SeeAllTvShowType
 import kotlinx.serialization.Serializable
 
 sealed interface Destinations {

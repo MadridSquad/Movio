@@ -55,24 +55,12 @@ fun SeeAllMoviesScreen(
     val items = uiState.genre
     val listOfItem = uiState.filteredMovies.collectAsLazyPagingItems()
 
-    var selectedItem by remember { mutableStateOf("All") }
-
-    LaunchedEffect(Unit) {
-        if (uiState.genre.isNotEmpty()) {
-            val firstGenre = uiState.selectedGenre
-            if (firstGenre != null) {
-                selectedItem = firstGenre
-            }
-            if (selectedItem.isNotEmpty())
-                viewModel.onGenreSelect(uiState.genre.find { it.name == selectedItem })
-        }
-    }
     Column (
         modifier = Modifier
             .fillMaxSize()
     ){
         TopAppBar(
-            uiState.title,
+            stringResource(uiState.title),
             secondIcon = null,
             thirdIcon = null,
             onFirstIconClick = { navController.navigate(Destinations.HomeScreen) },
@@ -82,14 +70,13 @@ fun SeeAllMoviesScreen(
         )
         Spacer(Modifier.height(16.dp))
         val updatedItems: MutableList<String> = items.map { it.name }.toMutableList()
-        updatedItems.add(0, "All")
+        updatedItems.add(0, stringResource(R.string.all))
         FilterBar(
             items = updatedItems,
-            selectedItem = selectedItem,
+            selectedItem = uiState.selectedGenre ?: stringResource(R.string.all),
             onItemClick = { genre ->
-                selectedItem = genre
                 viewModel.onGenreSelect(
-                    if (selectedItem != "All") items.find { it.name == genre } else null
+                    items.find { it.name == genre }
                 )
             },
             scrollable = true

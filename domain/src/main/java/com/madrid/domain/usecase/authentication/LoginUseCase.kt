@@ -11,13 +11,7 @@ class LoginUseCase @Inject constructor(
 ) {
 
     suspend fun login(username: String, password: String): Boolean {
-        return try {
-            authenticationRepository.login(username, password)
-        } catch (e: MovioException) {
-            throw e
-        } catch (e: Exception) {
-            throw UnknownException("Unexpected error during login: ${e.message ?: "Unknown"}")
-        }
+        return authenticationRepository.login(username, password)
     }
 
     suspend fun loginAsGuest(): Boolean {

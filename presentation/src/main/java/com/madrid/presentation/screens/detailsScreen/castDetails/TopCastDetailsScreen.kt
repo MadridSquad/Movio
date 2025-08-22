@@ -23,8 +23,8 @@ import com.madrid.presentation.R
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.viewModel.detailsViewModel.MovieDetailsUiState
-import com.madrid.presentation.viewModel.detailsViewModel.TopCastViewModel
+import com.madrid.presentation.viewModel.detailsViewModel.actor.NetworkDetailsUiState
+import com.madrid.presentation.viewModel.detailsViewModel.topcast.TopCastViewModel
 
 @Composable
 fun TopCastDetailsScreen(
@@ -50,7 +50,7 @@ fun TopCastDetailsScreen(
 
 @Composable
 fun TopCastDetailsContent(
-    artist: List<MovieDetailsUiState.CastUiState>,
+    artist: List<NetworkDetailsUiState.CastUiState>,
     onActorClick: (Int) -> Unit,
     onBackClick: () -> Unit
 ) {

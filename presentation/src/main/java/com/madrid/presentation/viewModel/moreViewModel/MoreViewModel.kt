@@ -42,12 +42,10 @@ class MoreViewModel @Inject constructor(
     }
 
     private fun fetchCurrentUserDetails() {
-        updateState { it.copy(isLoading = true) }
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                Log.d("Tag fetchCurrentUserDetails", " user is:   ")
-                val user = getCurrentUserDetailsUseCase()
-                Log.d("Tag fetchCurrentUserDetails", " user is:   $user")
+        setLoading(true)
+        tryToExecute(
+            function = { getCurrentUserDetailsUseCase() },
+            onSuccess = { user ->
                 updateState {
                     it.copy(
                         isLoading = false,
@@ -56,47 +54,34 @@ class MoreViewModel @Inject constructor(
                         profilePictureUrl = user?.profilePicUrl ?: ""
                     )
                 }
-            } catch (e: Exception) {
-                Log.e("MoreViewModel", "Error fetching current user details", e)
-                updateState {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = e.message ?: "An error occurred",
-                        username = "Guest",
-                        profilePictureUrl = null
-                    )
-                }
-            }
-        }
+            },
+            onError = { e -> onError(message = e.message) }
+        )
     }
 
     private fun fetchIsGuest() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                isGuestUseCase.isGuest().collectLatest { result ->
-                    updateState { it.copy(isGuest = result) }
-                }
-            } catch (e: Exception) {
-                updateState { it.copy(isGuest = true) }
-            }
-        }
+        tryToCollect(
+            function = { isGuestUseCase.isGuest() },
+            onNewValue = { result ->
+                updateState { it.copy(isGuest = result) }
+            },
+            onError = { updateState { it.copy(isGuest = true) } },
+        )
     }
 
     private fun initAppTheme() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                getAppThemeUseCase().collectLatest { appTheme ->
-                    updateState {
-                        it.copy(
-                            selectedTheme = appTheme.toThemeType(),
-                            currentTheme = appTheme.toThemeType()
-                        )
-                    }
+        tryToCollect(
+            function = { getAppThemeUseCase() },
+            onNewValue = { appTheme ->
+                updateState {
+                    it.copy(
+                        selectedTheme = appTheme.toThemeType(),
+                        currentTheme = appTheme.toThemeType()
+                    )
                 }
-            } catch (e: Exception) {
-                Log.e("MoreViewModel", "Error theme ====", e)
-            }
-        }
+            },
+            onError = { updateState { it.copy(isGuest = true) } },
+        )
     }
 
     override fun onClickTheme() {
@@ -156,8 +141,14 @@ class MoreViewModel @Inject constructor(
         updateState {
             it.copy(
                 isLoading = false,
-                errorMessage = message
+                errorMessage = message,
+                username = "Guest",
+                profilePictureUrl = null
             )
         }
+    }
+
+    fun setLoading(isLoading: Boolean = true){
+        updateState { it.copy(isLoading = isLoading) }
     }
 }

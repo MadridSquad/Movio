@@ -10,8 +10,10 @@ import androidx.paging.map
 import com.madrid.domain.usecase.series.GetSeriesGenresUseCase
 import com.madrid.presentation.pagination.SeeAllSeriesPagingSource
 import com.madrid.presentation.pagination.SeeAllSeriesWithGenrePagingSource
-import com.madrid.presentation.utils.formatRate
+import com.madrid.presentation.viewModel.shared.parser.formatRate
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.seeAll.tvShows.strategy.SeeAllTVShowsStrategy
+import com.madrid.presentation.viewModel.shared.CategoryUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -109,6 +111,7 @@ class SeeAllTVShowsViewModel @AssistedInject constructor(
                 updateState {
                     it.copy(
                         filteredSeries = result,
+                        selectedGenre = null,
                         isLoading = false
                     )
                 }
@@ -121,7 +124,6 @@ class SeeAllTVShowsViewModel @AssistedInject constructor(
     override fun onGenreSelect(genre: CategoryUiState?) {
         if (genre == null) {
             loadAllSeries()
-
         } else {
             launchPagingRequest(
                 pagingSourceFactory = {
@@ -146,7 +148,7 @@ class SeeAllTVShowsViewModel @AssistedInject constructor(
                         it.copy(
                             filteredSeries = result,
                             isLoading = false,
-                            selectedGenre = genre.name
+                            selectedGenre = genre.name ,
                         )
                     }
 

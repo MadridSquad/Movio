@@ -4,6 +4,8 @@ import androidx.activity.ComponentActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController.provides
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowInsetsControllerCompat
 import com.madrid.designSystem.color.LocalMovioColor
@@ -27,11 +29,17 @@ fun MovioTheme(
     CompositionLocalProvider(
         LocalMovioColor provides theme,
         LocalMovioTextStyle provides defaultTextStyle,
-        LocalMovioDrawable provides drawablesTheme
-        ) {
+        LocalMovioDrawable provides drawablesTheme,
+        LocalIsDarkTheme provides isDarkTheme
+    ) {
         content()
     }
 }
+
+val LocalIsDarkTheme =
+    compositionLocalOf<Boolean> {
+        error("LocalIsDarkTheme not provided")
+    }
 
 @Composable
 private fun UpdateStatusBarIconsForTheme(darkTheme: Boolean) {

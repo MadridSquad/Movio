@@ -22,7 +22,9 @@ import com.madrid.domain.usecase.series.GetSeriesGenresUseCase
 import com.madrid.domain.usecase.series.GetSeriesWithTrailersUseCase
 import com.madrid.domain.usecase.series.GetTopRatedSeriesUseCase
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.shared.CategoryUiState
 import com.madrid.presentation.viewModel.shared.MediaType
+import com.madrid.presentation.viewModel.shared.toCategoryUiState
 import com.madrid.presentation.viewModel.shared.toMediaUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map

@@ -21,7 +21,7 @@ import com.madrid.presentation.component.CustomHorizontalCard
 import com.madrid.presentation.component.MovioPager
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.screens.homeScreen.component.TrendingLayout
-import com.madrid.presentation.viewModel.homeViewModel.CategoryUiState
+import com.madrid.presentation.viewModel.shared.CategoryUiState
 import com.madrid.presentation.viewModel.shared.MediaType
 import com.madrid.presentation.viewModel.shared.MediaUiState
 

@@ -19,7 +19,7 @@ import com.madrid.designSystem.R
 import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
-import com.madrid.presentation.viewModel.homeViewModel.CategoryUiState
+import com.madrid.presentation.viewModel.shared.CategoryUiState
 import com.madrid.presentation.viewModel.shared.MediaType
 import com.madrid.presentation.viewModel.shared.MediaUiState
 

@@ -35,8 +35,8 @@ import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.videoLibrary.VideoLibrary
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.screens.addtolist.CreateListBottomSheet
-import com.madrid.presentation.screens.addtolist.SuccessNotificationRow
+import com.madrid.presentation.component.addtolist.CreateListBottomSheet
+import com.madrid.presentation.component.addtolist.SuccessNotificationRow
 import com.madrid.presentation.viewModel.libraryViewModel.watchlistViewAll.WatchListViewAllInteractionListener
 import com.madrid.presentation.viewModel.libraryViewModel.watchlistViewAll.WatchlistViewAllEffect
 import com.madrid.presentation.viewModel.libraryViewModel.watchlistViewAll.WatchlistViewAllUiState

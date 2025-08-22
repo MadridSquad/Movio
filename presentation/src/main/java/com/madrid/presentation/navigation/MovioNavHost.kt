@@ -32,9 +32,9 @@ import com.madrid.presentation.screens.searchScreen.SearchScreen
 import com.madrid.presentation.screens.searchScreen.seeAllForYou.SeeAllForYouScreen
 import com.madrid.presentation.viewModel.libraryViewModel.viewAll.ViewAllViewModel
 import com.madrid.presentation.viewModel.libraryViewModel.viewAll.factory.ViewAllFactory
-import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesFactory
+import com.madrid.presentation.viewModel.seeAll.movies.factory.SeeAllMoviesFactory
 import com.madrid.presentation.viewModel.seeAll.movies.SeeAllMoviesViewModel
-import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTVShowsFactory
+import com.madrid.presentation.viewModel.seeAll.tvShows.factory.SeeAllTVShowsFactory
 import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTVShowsViewModel
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn

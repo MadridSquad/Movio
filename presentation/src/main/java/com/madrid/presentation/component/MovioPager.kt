@@ -32,7 +32,7 @@ import androidx.compose.ui.util.lerp
 import androidx.compose.ui.zIndex
 import com.madrid.designSystem.component.ImageViewer
 import com.madrid.designSystem.theme.Theme
-import com.madrid.presentation.viewModel.homeViewModel.CategoryUiState
+import com.madrid.presentation.viewModel.shared.CategoryUiState
 import com.madrid.presentation.viewModel.shared.MediaType
 import com.madrid.presentation.viewModel.shared.MediaUiState
 import kotlinx.coroutines.delay

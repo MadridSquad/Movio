@@ -1,5 +1,6 @@
 package com.madrid.presentation.viewModel.homeViewModel
 
+import com.madrid.presentation.viewModel.shared.CategoryUiState
 import com.madrid.presentation.viewModel.shared.MediaType
 
 interface HomeInteractionListener {

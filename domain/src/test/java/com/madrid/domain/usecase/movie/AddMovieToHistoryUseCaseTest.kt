@@ -2,6 +2,7 @@ package com.madrid.domain.usecase.movie
 
 import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.repository.MovieRepository
+import com.madrid.domain.usecase.authentication.GetCurrentUserDetailsUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -11,36 +12,37 @@ import org.junit.Test
 
 class AddMovieToHistoryUseCaseTest {
     private val movieRepository: MovieRepository = mockk(relaxed = true)
+    private val getCurrentUserDetailsUseCase : GetCurrentUserDetailsUseCase = mockk()
     private lateinit var useCase: AddMovieToHistoryUseCase
 
     @Before
     fun setUp() {
-        useCase = AddMovieToHistoryUseCase(movieRepository)
+        useCase = AddMovieToHistoryUseCase(movieRepository, getCurrentUserDetailsUseCase)
     }
 
     @Test
     fun `should add movie to history successfully`() = runTest {
-        coEvery { movieRepository.addMovieToHistory(123) } returns Unit
+        coEvery { movieRepository.addMovieToHistory(1,123) } returns Unit
 
         val result = useCase.invoke(123)
 
         assertThat(result).isEqualTo(Unit)
-        coVerify(exactly = 1) { movieRepository.addMovieToHistory(123) }
+        coVerify(exactly = 1) { movieRepository.addMovieToHistory(1,123) }
     }
 
     @Test
     fun `should add correct movie for different movie id`() = runTest {
-        coEvery { movieRepository.addMovieToHistory(456) } returns Unit
+        coEvery { movieRepository.addMovieToHistory(1,456) } returns Unit
 
         val result = useCase.invoke(456)
 
         assertThat(result).isEqualTo(Unit)
-        coVerify(exactly = 1) { movieRepository.addMovieToHistory(456) }
+        coVerify(exactly = 1) { movieRepository.addMovieToHistory(1,456) }
     }
 
     @Test(expected = RuntimeException::class)
     fun `should throw exception when repository fails`() = runTest {
-        coEvery { movieRepository.addMovieToHistory(123) } throws RuntimeException("Database error")
+        coEvery { movieRepository.addMovieToHistory(1,123) } throws RuntimeException("Database error")
 
         useCase.invoke(123)
     }
@@ -48,17 +50,17 @@ class AddMovieToHistoryUseCaseTest {
     @Test(expected = IllegalArgumentException::class)
     fun `should throw exception when repository throws IllegalArgumentException`() =
         runTest {
-            coEvery { movieRepository.addMovieToHistory(-1) } throws IllegalArgumentException("Invalid movie ID")
+            coEvery { movieRepository.addMovieToHistory(1,-1) } throws IllegalArgumentException("Invalid movie ID")
 
             useCase.invoke(-1)
         }
 
     @Test
     fun `should call repository with correct movie id`() = runTest {
-        coEvery { movieRepository.addMovieToHistory(999) } returns Unit
+        coEvery { movieRepository.addMovieToHistory(1,999) } returns Unit
 
         useCase.invoke(999)
 
-        coVerify(exactly = 1) { movieRepository.addMovieToHistory(999) }
+        coVerify(exactly = 1) { movieRepository.addMovieToHistory(1,999) }
     }
 }

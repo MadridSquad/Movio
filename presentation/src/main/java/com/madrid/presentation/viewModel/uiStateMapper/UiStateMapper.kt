@@ -3,7 +3,7 @@ package com.madrid.presentation.viewModel.uiStateMapper
 import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Series
-import com.madrid.presentation.utils.formatRate
+import com.madrid.presentation.viewModel.shared.parser.formatRate
 import com.madrid.presentation.viewModel.searchViewModel.SearchScreenState
 
 fun Movie.toMovieUiState(): SearchScreenState.MovieUiState {

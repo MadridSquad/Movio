@@ -61,18 +61,18 @@ import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailS
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.screens.addtolist.ListManagementBottomSheet
+import com.madrid.presentation.component.addtolist.ListManagementBottomSheet
 import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.ReviewScreen
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMoviesSection
 import com.madrid.presentation.viewModel.detailsViewModel.ArtistUiState
-import com.madrid.presentation.viewModel.detailsViewModel.DetailsMovieViewModel
-import com.madrid.presentation.viewModel.libraryViewModel.addtolist.MovieListViewModel
+import com.madrid.presentation.viewModel.detailsViewModel.movie.MovieDetailsViewModel
+import com.madrid.presentation.viewModel.addtolist.MovieListViewModel
 
 
 @Composable
 fun MovieDetailsScreen(
-    viewModel: DetailsMovieViewModel = hiltViewModel(),
+    viewModel: MovieDetailsViewModel = hiltViewModel(),
     addToListViewModel: MovieListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsState()

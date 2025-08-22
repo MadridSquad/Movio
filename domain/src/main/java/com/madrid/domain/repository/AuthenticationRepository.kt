@@ -1,6 +1,5 @@
 package com.madrid.domain.repository
 
-import com.madrid.domain.entity.ListOperationStatus
 import com.madrid.domain.entity.User
 import kotlinx.coroutines.flow.Flow
 
