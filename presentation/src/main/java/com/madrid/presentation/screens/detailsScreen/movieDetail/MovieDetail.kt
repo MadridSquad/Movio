@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -64,6 +65,7 @@ import com.madrid.presentation.component.header.MovieDetailsHeader
 import com.madrid.presentation.component.logout.LogoutConfirmationBottomSheet
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
+import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.ReviewScreen
@@ -565,6 +567,95 @@ fun MovieDetailsScreen(
             )
 
 
+                Spacer(modifier = Modifier.height(16.dp))
+
+                TextWithReadMore(
+                    description = uiState.description,
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    maxLines = 5
+                )
+                TopCastHorizontalScroll(
+                    onSeeAllClick = {
+                        navController.navigate(
+                            Destinations.TopCast(
+                                mediaId = uiState.movieId,
+                                isMovie = true
+                            )
+                        )
+                    },
+                    onCastMemberClick = { castId ->
+                        navController.navigate(
+                            Destinations.ActorDetails(
+                                artistId = castId
+                            )
+                        )
+                    },
+                    modifier = Modifier.padding(top = 32.dp),
+                    castMembers = uiState.casts.map { cast ->
+                        ArtistUiState(
+                            id = cast.id,
+                            name = cast.name,
+                            imageUrl = cast.imageUrl
+                        )
+                    }
+                )
+                ReviewScreen(
+                    reviews = uiState.reviews,
+                    onSeeAllReviews = {
+                        navController.navigate(
+                            Destinations.ReviewsScreen(
+                                uiState.movieId,
+                                isMovie = true
+                            )
+                        )
+                    },
+                    modifier = Modifier.padding(top = 32.dp),
+                )
+                SimilarMoviesSection(
+                    similarMovies = uiState.similarMovies,
+                    modifier = Modifier.padding(top = 32.dp),
+                    onSeeAllClick = {
+                        navController.navigate(
+                            Destinations.SimilarMediaScreen(
+                                mediaId = uiState.movieId,
+                                isMovie = true
+                            )
+                        )
+                    },
+                    onMovieClick = { movie ->
+                        navController.navigate(
+                            Destinations.MovieDetailsScreen(
+                                movieId = movie.id
+                            )
+                        )
+                    }
+                )
+                LogoutConfirmationBottomSheet(
+                    title = stringResource(R.string.you_dont_have_an_account),
+                    description = stringResource(R.string.please_log_in_or_create_an_account_to_save_items_to_your_favorites_and_access_them_later),
+                    actionButtonText = stringResource(R.string.login),
+                    isVisible = uiState.isLoginBottomSheetVisible,
+                    onDismiss = { viewModel.onDismissLoginBottomSheet() },
+                    onNavigateToAuth = {
+                        navController.navigate(Destinations.LoginScreen) {
+                            popUpTo(Destinations.LoginScreen) { inclusive = false }
+                        }
+                    },
+                )
+
+                LogoutConfirmationBottomSheet(
+                    title = stringResource(R.string.you_dont_have_an_account),
+                    description = stringResource(R.string.please_log_in_or_create_an_account_to_save_items_to_your_favorites_and_access_them_later),
+                    actionButtonText = stringResource(R.string.login),
+                    isVisible = showLogOutBottomSheet,
+                    onDismiss = { showLogOutBottomSheet = false },
+                    onNavigateToAuth = {
+                        navController.navigate(Destinations.LoginScreen) {
+                            popUpTo(Destinations.LoginScreen) { inclusive = false }
+                        }
+                    },
+                )
+            }
         }
 
         ListManagementBottomSheet(

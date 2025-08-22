@@ -32,12 +32,12 @@ fun SeeAllSimilarMediaScreen(
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current
     val similarMovies = uiState.medias.map { media ->
-        // Log each media's details including rating
         Log.d(
             "SimilarMediaDebug",
             "Media ID: ${media.mediaId}, " +
                     "Title: ${media.mediaName}, " +
                     "Rating: ${media.rate}, " +
+                    "IsMovie: ${media.isMovie}, " +
                     "Image: ${media.imageUrl.take(20)}..."
         )
 
@@ -45,7 +45,7 @@ fun SeeAllSimilarMediaScreen(
             id = media.mediaId,
             title = media.mediaName,
             imageUrl = media.imageUrl,
-            rating = media.rate
+            rating = media.rate,
         )
     }
 
@@ -59,8 +59,11 @@ fun SeeAllSimilarMediaScreen(
                 "SimilarMediaDebug",
                 "Navigating to ${if (isMovie) "movie" else "series"} details for ID: $id"
             )
-            if (!isMovie) navController.navigate(Destinations.SeriesDetailsScreen(id, 1))
-            else navController.navigate(Destinations.MovieDetailsScreen(id))
+            if (isMovie) {
+                navController.navigate(Destinations.MovieDetailsScreen(id))
+            } else {
+                navController.navigate(Destinations.SeriesDetailsScreen(id, 1))
+            }
         }
     )
 }
