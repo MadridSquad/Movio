@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -61,6 +62,7 @@ import com.madrid.presentation.component.header.MovieDetailsHeader
 import com.madrid.presentation.component.logout.LogoutConfirmationBottomSheet
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.component.movioCards.MovioArtistsCard
+import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.ReviewScreen
@@ -476,6 +478,7 @@ fun MovieDetailsScreen(
                     modifier = Modifier.padding(top = 32.dp),
                 )
                 SimilarMoviesSection(
+                    similarMovies = uiState.similarMovies,
                     modifier = Modifier.padding(top = 32.dp),
                     onSeeAllClick = {
                         navController.navigate(
@@ -491,17 +494,8 @@ fun MovieDetailsScreen(
                                 movieId = movie.id
                             )
                         )
-                    },
-                    similarMovies = uiState.similarMovies.map { movie ->
-                        SimilarMovie(
-                            id = movie.id,
-                            title = movie.title,
-                            imageUrl = movie.imageUrl,
-                            rating = movie.rating
-                        )
                     }
                 )
-
                 LogoutConfirmationBottomSheet(
                     title = stringResource(R.string.you_dont_have_an_account),
                     description = stringResource(R.string.please_log_in_or_create_an_account_to_save_items_to_your_favorites_and_access_them_later),
