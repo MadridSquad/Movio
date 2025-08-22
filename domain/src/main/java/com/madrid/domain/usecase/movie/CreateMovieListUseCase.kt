@@ -18,16 +18,3 @@ class CreateMovieListUseCase @Inject constructor(
         return movieRepository.createMovieList(sessionId, name, description, language)
     }
 }
-
-class AddMovieToListUseCase @Inject constructor(
-    private val movieRepository: MovieRepository,
-    private val authenticationRepository: AuthenticationRepository
-) {
-    suspend operator fun invoke(
-        listId: Int,
-        movieId: Int
-    ) {
-        val sessionId = authenticationRepository.getSessionId().first()
-        return movieRepository.addMovieToList(listId, sessionId, movieId)
-    }
-}
