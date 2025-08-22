@@ -1,4 +1,4 @@
-package com.madrid.presentation.screens.addtolist
+package com.madrid.presentation.component.addtolist
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.slideInHorizontally
@@ -22,8 +22,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.madrid.designSystem.component.MovioBottomSheet
+import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
-import com.madrid.presentation.component.addtolist.MovieListViewModel
+import com.madrid.presentation.viewModel.addtolist.MovieListViewModel
 import kotlinx.coroutines.delay
 
 enum class ListBottomSheetMode {
@@ -100,7 +101,7 @@ fun ListManagementBottomSheet(
                 onDismiss()
             },
             containerColor = if (currentMode == ListBottomSheetMode.CREATE_NEW_LIST)
-                Color.Transparent else com.madrid.designSystem.theme.Theme.color.surfaces.surface,
+                Color.Transparent else Theme.color.surfaces.surface,
         ) {
             AnimatedContent(
                 targetState = currentMode,

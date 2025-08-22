@@ -1,4 +1,4 @@
-package com.madrid.presentation.screens.addtolist
+package com.madrid.presentation.component.addtolist
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

@@ -1,4 +1,4 @@
-package com.madrid.presentation.screens.addtolist
+package com.madrid.presentation.component.addtolist
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,7 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.madrid.presentation.component.addtolist.WatchListItemUiState
+import com.madrid.presentation.viewModel.addtolist.WatchListItemUiState
 
 @Composable
 fun ListSelectionContent(

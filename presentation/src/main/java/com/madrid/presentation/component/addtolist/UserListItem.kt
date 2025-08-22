@@ -1,4 +1,4 @@
-package com.madrid.presentation.screens.addtolist
+package com.madrid.presentation.component.addtolist
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -20,7 +20,7 @@ import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
-import com.madrid.presentation.component.addtolist.WatchListItemUiState
+import com.madrid.presentation.viewModel.addtolist.WatchListItemUiState
 
 @Composable
 fun UserListItem(

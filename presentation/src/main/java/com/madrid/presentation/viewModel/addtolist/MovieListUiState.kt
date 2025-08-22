@@ -1,4 +1,4 @@
-package com.madrid.presentation.component.addtolist
+package com.madrid.presentation.viewModel.addtolist
 
 import com.madrid.presentation.R
 

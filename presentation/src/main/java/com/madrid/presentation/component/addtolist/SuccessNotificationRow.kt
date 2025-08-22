@@ -1,4 +1,4 @@
-package com.madrid.presentation.screens.addtolist
+package com.madrid.presentation.component.addtolist
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Spring
@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.Theme
@@ -40,7 +41,7 @@ fun SuccessNotificationRow(
     onAction: () -> Unit = {},
     actionText: String? = null,
     onDismiss: () -> Unit = {},
-    icon: Painter = painterResource(id = com.madrid.designSystem.R.drawable.archive_tick),
+    icon: Painter = painterResource(id = R.drawable.archive_tick),
 ) {
     LaunchedEffect(isVisible) {
         if (isVisible) {

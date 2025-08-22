@@ -1,4 +1,4 @@
-package com.madrid.presentation.component.addtolist
+package com.madrid.presentation.viewModel.addtolist
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
