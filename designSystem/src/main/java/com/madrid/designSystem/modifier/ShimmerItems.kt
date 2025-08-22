@@ -24,8 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.BeyondBoundsLayout
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.madrid.designSystem.component.CustomTextTitle
@@ -43,31 +43,32 @@ fun ShimmerItem(
             LocalLayoutDirection provides LayoutDirection.Ltr
         ) {
 
-        Row(
-            modifier = modifier
-                .padding(top = 132.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Box() {
-                ShimmerPagerCard(
-                    Modifier
-                        .offset(x = -150.dp, y = 30.dp)
-                        .rotate(-20f)
-                        .width(150.dp)
-                        .height(200.dp)
-                )
-                ShimmerPagerCard(
-                    Modifier
-                        .offset(x = 200.dp, y = 30.dp)
-                        .rotate(20f)
-                        .width(150.dp)
-                        .height(200.dp)
-                )
-                ShimmerPagerCard()
+            Row(
+                modifier = modifier
+                    .padding(top = 132.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Box() {
+                    ShimmerPagerCard(
+                        Modifier
+                            .offset(x = -150.dp, y = 30.dp)
+                            .rotate(-20f)
+                            .width(150.dp)
+                            .height(200.dp)
+                    )
+                    ShimmerPagerCard(
+                        Modifier
+                            .offset(x = 200.dp, y = 30.dp)
+                            .rotate(20f)
+                            .width(150.dp)
+                            .height(200.dp)
+                    )
+                    ShimmerPagerCard()
+                }
             }
         }
-    }}
+    }
     if (!isLoading) {
         contentAfterLoading()
     }
@@ -189,6 +190,7 @@ fun ShimmerHorizontalCard(
     endIconForCustomTextTitle: Painter? = null,
     onSeeAllClick: (() -> Unit)? = null,
     itemCount: Int = 20,
+    cardWidth: Dp = 124.dp,
     contentAfterLoading: @Composable () -> Unit,
 ) {
     if (isLoading) {
@@ -211,7 +213,7 @@ fun ShimmerHorizontalCard(
                     Column {
                         Box(
                             modifier = Modifier
-                                .size(width = 124.dp, height = 160.dp)
+                                .size(width = cardWidth, height = 160.dp)
                                 .clip(RoundedCornerShape(8.dp))
                                 .shimmerEffect()
                         )

@@ -21,12 +21,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.madrid.designSystem.R
 import com.madrid.designSystem.component.DialogWithButtonLayout
+import com.madrid.designSystem.modifier.ShimmerHorizontalCard
+import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.CustomHorizontalCard
 import com.madrid.presentation.component.CustomHorizontalCardForWatchList
-import com.madrid.presentation.navigation.Destinations
-import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.component.addtolist.CreateListBottomSheet
 import com.madrid.presentation.component.addtolist.SuccessNotificationRow
+import com.madrid.presentation.navigation.Destinations
+import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.libraryScreen.component.LibraryScreenHeader
 import com.madrid.presentation.screens.refreshScreenHolder.RefreshScreenHolder
 import com.madrid.presentation.viewModel.libraryViewModel.LibraryInteractionListener
@@ -115,11 +117,30 @@ private fun LibraryScreenContent(
     }
 
     AnimatedVisibility(
-        visible = state.isGuest.not() && state.isLoading.not(),
+        visible = state.errorMessage.isNullOrBlank(),
         enter = fadeIn(),
         exit = fadeOut()
     ) {
         LibraryColumn(state, libraryInteractionListener)
+    }
+
+    AnimatedVisibility(
+        visible = state.errorMessage.isNullOrBlank().not(),
+        enter = fadeIn(),
+        exit = fadeOut()
+    ) {
+        DialogWithButtonLayout(
+            title = stringResource(R.string.empty_no_internet_title),
+            description = stringResource(R.string.empty_no_internet_description),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 32.dp),
+            image = Theme.drawables.noInternetId,
+            imageSize = 180,
+            buttonText = stringResource(com.madrid.presentation.R.string.try_again),
+            onClick = libraryInteractionListener::onTryAgainButtonClicked,
+        )
     }
 
     CreateListSection(
@@ -144,47 +165,75 @@ private fun LibraryColumn(
         verticalArrangement = Arrangement.spacedBy(32.dp),
     ) {
         item {
-            LibraryScreenHeader(stringResource(com.madrid.presentation.R.string.Library))
+            LibraryScreenHeader(stringResource(presentationR.string.Library))
         }
         item {
-            CustomHorizontalCardForWatchList(
+            ShimmerHorizontalCard(
+                isLoading = state.isLoading || state.isWatchListLoading,
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.watchlist),
-                listOfWatch = state.watchList,
-                modifier = Modifier,
-                headerModifier = Modifier.padding(horizontal = 16.dp),
-                startIconForPrimaryTextTitle = painterResource(R.drawable.outline_minimalistic),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.view_all),
                 endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
-                onSeeAllClick = libraryInteractionListener::onWatchListViewAllClick,
-                onWatchListClick = libraryInteractionListener::onItemWatchListClick,
-                onEmptyWatchListClick = libraryInteractionListener::onAddWatchListClicked
-            )
+                headerModifier = Modifier.padding(horizontal = 16.dp),
+                itemCount = 20,
+                cardWidth = 158.dp
+            ) {
+                CustomHorizontalCardForWatchList(
+                    primaryTextForCustomTextTitle = stringResource(presentationR.string.watchlist),
+                    listOfWatch = state.watchList,
+                    modifier = Modifier,
+                    headerModifier = Modifier.padding(horizontal = 16.dp),
+                    startIconForPrimaryTextTitle = painterResource(R.drawable.outline_minimalistic),
+                    secondaryTextForCustomTextTitle = stringResource(presentationR.string.view_all),
+                    endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
+                    onSeeAllClick = libraryInteractionListener::onWatchListViewAllClick,
+                    onWatchListClick = libraryInteractionListener::onItemWatchListClick,
+                    onEmptyWatchListClick = libraryInteractionListener::onAddWatchListClicked
+                )
+            }
         }
         item {
-            CustomHorizontalCard(
+            ShimmerHorizontalCard(
+                isLoading = state.isLoading || state.isFavouriteLoading,
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.favorites),
-                listOfMedia = state.favoriteList,
-                modifier = Modifier,
-                headerModifier = Modifier.padding(horizontal = 16.dp),
-                startIconForPrimaryTextTitle = painterResource(R.drawable.outline_heart),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.view_all),
                 endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
-                onSeeAllClick = { libraryInteractionListener.onViewAllClick(ViewAllType.FAVORITES) },
-                onMediaClickWithId = libraryInteractionListener::onItemClick
-            )
+                headerModifier = Modifier.padding(horizontal = 16.dp),
+                itemCount = 20
+            ) {
+                CustomHorizontalCard(
+                    primaryTextForCustomTextTitle = stringResource(presentationR.string.favorites),
+                    listOfMedia = state.favoriteList,
+                    modifier = Modifier,
+                    headerModifier = Modifier.padding(horizontal = 16.dp),
+                    startIconForPrimaryTextTitle = painterResource(R.drawable.outline_heart),
+                    secondaryTextForCustomTextTitle = stringResource(presentationR.string.view_all),
+                    endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
+                    onSeeAllClick = { libraryInteractionListener.onViewAllClick(ViewAllType.FAVORITES) },
+                    onMediaClickWithId = libraryInteractionListener::onItemClick
+                )
+            }
         }
         item {
-            CustomHorizontalCard(
+            ShimmerHorizontalCard(
+                isLoading = state.isLoading || state.isHistoryLoading,
                 primaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.history),
-                listOfMedia = state.historyList,
-                modifier = Modifier,
-                headerModifier = Modifier.padding(horizontal = 16.dp),
-                startIconForPrimaryTextTitle = painterResource(R.drawable.outline_history),
                 secondaryTextForCustomTextTitle = stringResource(com.madrid.presentation.R.string.view_all),
                 endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
-                onSeeAllClick = { libraryInteractionListener.onViewAllClick(ViewAllType.HISTORY) },
-                onMediaClickWithId = libraryInteractionListener::onItemClick
-            )
+                headerModifier = Modifier.padding(horizontal = 16.dp),
+                itemCount = 20
+            ) {
+                CustomHorizontalCard(
+                    primaryTextForCustomTextTitle = stringResource(presentationR.string.history),
+                    listOfMedia = state.historyList,
+                    modifier = Modifier,
+                    headerModifier = Modifier.padding(horizontal = 16.dp),
+                    startIconForPrimaryTextTitle = painterResource(R.drawable.outline_history),
+                    secondaryTextForCustomTextTitle = stringResource(presentationR.string.view_all),
+                    endIconForCustomTextTitle = painterResource(R.drawable.outline_alt_arrow_left),
+                    onSeeAllClick = { libraryInteractionListener.onViewAllClick(ViewAllType.HISTORY) },
+                    onMediaClickWithId = libraryInteractionListener::onItemClick
+                )
+            }
         }
     }
 }

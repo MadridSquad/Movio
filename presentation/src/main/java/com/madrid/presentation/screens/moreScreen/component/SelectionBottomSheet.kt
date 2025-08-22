@@ -96,7 +96,7 @@ private fun Title(
     title: String,
 ) {
     MovioText(
-        modifier = modifier,
+        modifier = modifier.padding(bottom = 16.dp),
         text = title,
         color = Theme.color.surfaces.onSurface,
         textStyle = Theme.textStyle.title.mediumMedium14,

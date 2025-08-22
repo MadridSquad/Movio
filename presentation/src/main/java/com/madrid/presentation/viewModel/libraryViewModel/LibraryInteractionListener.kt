@@ -13,4 +13,5 @@ interface LibraryInteractionListener {
     fun dismissCreateListBottomSheet()
     fun onCreateWatchListButtonClicked(name : String)
     fun onDismissSnackBar()
+    fun onTryAgainButtonClicked()
 }
