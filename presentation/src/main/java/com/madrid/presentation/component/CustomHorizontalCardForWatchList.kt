@@ -19,19 +19,19 @@ import com.madrid.designSystem.component.CustomTextTitle
 import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.presentation.component.videoLibrary.VideoLibrary
 import com.madrid.presentation.screens.libraryScreen.component.AddWatchListItem
-import com.madrid.presentation.viewModel.libraryViewModel.WatchListState
+import com.madrid.presentation.viewModel.shared.WatchListUiState
 
 @Composable
 fun CustomHorizontalCardForWatchList(
     primaryTextForCustomTextTitle: String,
-    listOfWatch: List<WatchListState>,
+    listOfWatch: List<WatchListUiState>,
     modifier: Modifier = Modifier,
     headerModifier: Modifier = Modifier,
     startIconForPrimaryTextTitle: Painter? = null,
     secondaryTextForCustomTextTitle: String? = null,
     endIconForCustomTextTitle: Painter? = null,
     onSeeAllClick: (() -> Unit)? = null,
-    onWatchListClick: (WatchListState) -> Unit = {},
+    onWatchListClick: (WatchListUiState) -> Unit = {},
     onEmptyWatchListClick: () -> Unit = {},
 ) {
     Column(

@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -15,6 +17,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -32,7 +35,6 @@ import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailS
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.utils.seriesBottomFade
 import com.madrid.presentation.viewModel.detailsViewModel.ActorDetailsViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.MovieDetailsUiState
 
@@ -71,7 +73,7 @@ fun ActorDetails(
                 DialogWithButtonLayout(
                     title = stringResource(R.string.internet_is_not_available),
                     description = stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
-                    image = R.drawable.img_no_internet,
+                    image = Theme.drawables.noInternetId,
                     buttonText = stringResource(R.string.try_again),
                     onClick = {
                         viewModel.retryLoadData()
@@ -89,7 +91,7 @@ fun ActorDetails(
 
 @Composable
 private fun ActorDetailsContent(
-    actor: MovieDetailsUiState.CastUiState,
+    actor: NetworkDetailsUiState.CastUiState,
     onBackClick: () -> Unit,
     onKnownForClick: (Int) -> Unit
 ) {

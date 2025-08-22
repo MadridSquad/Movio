@@ -1,5 +1,6 @@
 package com.madrid.presentation.viewModel.libraryViewModel.layout
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.toRoute
 import com.madrid.domain.usecase.movie.AddMovieToListUseCase
@@ -7,6 +8,7 @@ import com.madrid.domain.usecase.movie.RemoveMovieFromListUseCase
 import com.madrid.domain.usecase.watchList.GetWatchListItemsUseCase
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.base.ErrorState
 import com.madrid.presentation.viewModel.shared.toMediaUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -99,7 +101,8 @@ class WatchListDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun onError(throwable: Throwable) {
+    private fun onError(throwable: ErrorState) {
+        Log.d("WatchListDetailsViewModel", "Error: ${throwable.message}")
         updateState {
             it.copy(
                 isLoading = false,

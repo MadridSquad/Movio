@@ -55,24 +55,12 @@ fun SeeAllMoviesScreen(
     val items = uiState.genre
     val listOfItem = uiState.filteredMovies.collectAsLazyPagingItems()
 
-    var selectedItem by remember { mutableStateOf("All") }
-
-    LaunchedEffect(Unit) {
-        if (uiState.genre.isNotEmpty()) {
-            val firstGenre = uiState.selectedGenre
-            if (firstGenre != null) {
-                selectedItem = firstGenre
-            }
-            if (selectedItem.isNotEmpty())
-                viewModel.onGenreSelect(uiState.genre.find { it.name == selectedItem })
-        }
-    }
     Column (
         modifier = Modifier
             .fillMaxSize()
     ){
         TopAppBar(
-            uiState.title,
+            stringResource(uiState.title),
             secondIcon = null,
             thirdIcon = null,
             onFirstIconClick = { navController.navigate(Destinations.HomeScreen) },
@@ -82,14 +70,13 @@ fun SeeAllMoviesScreen(
         )
         Spacer(Modifier.height(16.dp))
         val updatedItems: MutableList<String> = items.map { it.name }.toMutableList()
-        updatedItems.add(0, "All")
+        updatedItems.add(0, stringResource(R.string.all))
         FilterBar(
             items = updatedItems,
-            selectedItem = selectedItem,
+            selectedItem = uiState.selectedGenre ?: stringResource(R.string.all),
             onItemClick = { genre ->
-                selectedItem = genre
                 viewModel.onGenreSelect(
-                    if (selectedItem != "All") items.find { it.name == genre } else null
+                    items.find { it.name == genre }
                 )
             },
             scrollable = true
@@ -157,7 +144,7 @@ fun SeeAllMoviesScreen(
             DialogWithButtonLayout(
                 title = stringResource(R.string.empty_no_internet_title),
                 description = stringResource(R.string.empty_no_internet_description),
-                image = R.drawable.img_no_internet,
+                image = Theme.drawables.noInternetId,
                 buttonText = stringResource(R.string.try_again),
                 onClick = { viewModel.onTryAgainClick() },
                 imageSize = 170,
@@ -175,7 +162,7 @@ fun SeeAllMoviesScreen(
             EmptySearchLayout(
                 title = stringResource(R.string.nothing_here_yet),
                 description = stringResource(R.string.category_empty_description),
-                image = R.drawable.img_no_sesrch_found,
+                image = Theme.drawables.notFoundLayoutId,
                 imageSize = 170,
                 modifier = Modifier
                     .fillMaxSize()

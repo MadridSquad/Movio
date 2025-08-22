@@ -2,6 +2,7 @@ package com.madrid.domain.usecase.series
 
 import com.google.common.truth.Truth.assertThat
 import com.madrid.domain.repository.SeriesRepository
+import com.madrid.domain.usecase.authentication.GetCurrentUserDetailsUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -11,65 +12,66 @@ import org.junit.Test
 
 class AddSeriesToHistoryUseCaseTest {
     private val seriesRepository: SeriesRepository = mockk(relaxed = true)
+    private val getCurrentUserDetailsUseCase : GetCurrentUserDetailsUseCase = mockk()
     private lateinit var useCase: AddSeriesToHistoryUseCase
 
     @Before
     fun setUp() {
-        useCase = AddSeriesToHistoryUseCase(seriesRepository)
+        useCase = AddSeriesToHistoryUseCase(seriesRepository, getCurrentUserDetailsUseCase)
     }
 
     @Test
     fun `should call repository addSeriesToHistory with seriesId`() = runTest {
         val seriesId = 1
         val expectedResult = Unit
-        coEvery { seriesRepository.addSeriesToHistory(seriesId) } returns expectedResult
+        coEvery { seriesRepository.addSeriesToHistory(seriesId = seriesId, userId = userId) } returns expectedResult
 
         val result = useCase.invoke(seriesId)
 
         assertThat(result).isEqualTo(expectedResult)
-        coVerify(exactly = 1) { seriesRepository.addSeriesToHistory(seriesId) }
+        coVerify(exactly = 1) { seriesRepository.addSeriesToHistory(seriesId = seriesId, userId = userId) }
     }
 
     @Test
     fun `should call repository addSeriesToHistory with positive seriesId`() = runTest {
         val seriesId = 123
         val expectedResult = Unit
-        coEvery { seriesRepository.addSeriesToHistory(seriesId) } returns expectedResult
+        coEvery { seriesRepository.addSeriesToHistory(seriesId = seriesId, userId = userId) } returns expectedResult
 
         val result = useCase.invoke(seriesId)
 
         assertThat(result).isEqualTo(expectedResult)
-        coVerify(exactly = 1) { seriesRepository.addSeriesToHistory(seriesId) }
+        coVerify(exactly = 1) { seriesRepository.addSeriesToHistory(seriesId = seriesId, userId = userId) }
     }
 
     @Test
     fun `should call repository addSeriesToHistory with large seriesId`() = runTest {
         val seriesId = 999999
         val expectedResult = Unit
-        coEvery { seriesRepository.addSeriesToHistory(seriesId) } returns expectedResult
+        coEvery { seriesRepository.addSeriesToHistory(seriesId = seriesId, userId = userId) } returns expectedResult
 
         val result = useCase.invoke(seriesId)
 
         assertThat(result).isEqualTo(expectedResult)
-        coVerify(exactly = 1) { seriesRepository.addSeriesToHistory(seriesId) }
+        coVerify(exactly = 1) { seriesRepository.addSeriesToHistory(seriesId = seriesId, userId = userId) }
     }
 
     @Test
     fun `should call repository addSeriesToHistory with zero seriesId`() = runTest {
         val seriesId = 0
         val expectedResult = Unit
-        coEvery { seriesRepository.addSeriesToHistory(seriesId) } returns expectedResult
+        coEvery { seriesRepository.addSeriesToHistory(seriesId = seriesId, userId = userId) } returns expectedResult
 
         val result = useCase.invoke(seriesId)
 
         assertThat(result).isEqualTo(expectedResult)
-        coVerify(exactly = 1) { seriesRepository.addSeriesToHistory(seriesId) }
+        coVerify(exactly = 1) { seriesRepository.addSeriesToHistory(seriesId = seriesId, userId = userId) }
     }
 
     @Test(expected = RuntimeException::class)
     fun `should throw exception when repository fails`() = runTest {
         val seriesId = 1
-        coEvery { seriesRepository.addSeriesToHistory(seriesId) } throws RuntimeException("History error")
+        coEvery { seriesRepository.addSeriesToHistory(seriesId = seriesId, userId = userId) } throws RuntimeException("History error")
 
         useCase.invoke(seriesId)
     }
@@ -78,11 +80,15 @@ class AddSeriesToHistoryUseCaseTest {
     fun `should return repository result when successful`() = runTest {
         val seriesId = 456
         val expectedResult = Unit
-        coEvery { seriesRepository.addSeriesToHistory(seriesId) } returns expectedResult
+        coEvery { seriesRepository.addSeriesToHistory(seriesId = seriesId, userId = userId) } returns expectedResult
 
         val result = useCase.invoke(seriesId)
 
         assertThat(result).isEqualTo(expectedResult)
-        coVerify(exactly = 1) { seriesRepository.addSeriesToHistory(seriesId) }
+        coVerify(exactly = 1) { seriesRepository.addSeriesToHistory(seriesId = seriesId, userId = userId) }
+    }
+    
+    companion object{
+        private val userId = 1
     }
 }

@@ -16,11 +16,16 @@ import org.junit.Test
 class GetFavoriteMoviesUseCaseTest {
     private val movieRepository: MovieRepository = mockk(relaxed = true)
     private val authenticationRepository: AuthenticationRepository = mockk(relaxed = true)
+    private val getMovieGenresUseCase: GetMovieGenresUseCase = mockk(relaxed = true)
     private lateinit var useCase: GetFavoriteMoviesUseCase
 
     @Before
     fun setUp() {
-        useCase = GetFavoriteMoviesUseCase(movieRepository, authenticationRepository)
+        useCase = GetFavoriteMoviesUseCase(
+            movieRepository,
+            authenticationRepository,
+            getMovieGenresUseCase
+        )
     }
 
     @Test

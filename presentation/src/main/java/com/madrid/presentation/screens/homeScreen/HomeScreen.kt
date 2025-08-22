@@ -35,12 +35,12 @@ import com.madrid.presentation.screens.homeScreen.layout.CategoriesLayout
 import com.madrid.presentation.screens.homeScreen.layout.MoviesLayout
 import com.madrid.presentation.screens.homeScreen.layout.TvShowsLayout
 import com.madrid.presentation.screens.refreshScreenHolder.RefreshScreenHolder
-import com.madrid.presentation.viewModel.homeViewModel.CategoryUiState
 import com.madrid.presentation.viewModel.homeViewModel.HomeInteractionListener
 import com.madrid.presentation.viewModel.homeViewModel.HomeScreenEffect
 import com.madrid.presentation.viewModel.homeViewModel.HomeScreenState
 import com.madrid.presentation.viewModel.homeViewModel.HomeViewModel
 import com.madrid.presentation.viewModel.homeViewModel.SortingType
+import com.madrid.presentation.viewModel.shared.CategoryUiState
 import com.madrid.presentation.viewModel.shared.MediaType
 
 @Composable

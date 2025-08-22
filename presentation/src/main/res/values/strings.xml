@@ -160,6 +160,8 @@
     <string name="server_error">Server error, please try later</string>
     <string name="bad_request">Bad request</string>
     <string name="resource.not_found">Resource not found</string>
+    <string name="already_exists">This item already exists</string>
+
     <!-- General Errors -->
     <string name="unknown_error">unknown error</string>
     <!-- UI Labels -->

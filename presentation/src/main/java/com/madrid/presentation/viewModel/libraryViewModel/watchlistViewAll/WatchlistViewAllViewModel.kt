@@ -6,8 +6,9 @@ import com.madrid.domain.usecase.series.GetSeriesGenresUseCase
 import com.madrid.domain.usecase.watchList.GetWatchListsUseCase
 import com.madrid.presentation.R
 import com.madrid.presentation.viewModel.base.BaseViewModel
-import com.madrid.presentation.viewModel.libraryViewModel.WatchListState
-import com.madrid.presentation.viewModel.libraryViewModel.toWatchListState
+import com.madrid.presentation.viewModel.base.ErrorState
+import com.madrid.presentation.viewModel.shared.WatchListUiState
+import com.madrid.presentation.viewModel.shared.toWatchListUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -36,7 +37,7 @@ class WatchlistViewAllViewModel @Inject constructor(
             onSuccess = { watchLists ->
                 updateState {
                     it.copy(
-                        watchLists = watchLists.map { list -> list.toWatchListState() },
+                        watchLists = watchLists.map { list -> list.toWatchListUiState() },
                         isLoading = false,
                         errorMessage = null
                     )
@@ -52,7 +53,7 @@ class WatchlistViewAllViewModel @Inject constructor(
         )
     }
 
-    override fun onItemClick(watchList: WatchListState) {
+    override fun onItemClick(watchList: WatchListUiState) {
         emitNewEffect(
             WatchlistViewAllEffect.NavigateToDetails(
                 watchListId = watchList.id,
@@ -104,7 +105,7 @@ class WatchlistViewAllViewModel @Inject constructor(
         loadWatchLists()
     }
 
-    private fun onError(error: Throwable) {
+    private fun onError(error: ErrorState) {
         updateState {
             it.copy(
                 isLoading = false,

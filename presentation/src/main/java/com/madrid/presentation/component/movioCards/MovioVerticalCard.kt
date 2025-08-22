@@ -64,7 +64,7 @@ fun MovioVerticalCard(
                             .clip(RoundedCornerShape(8.dp))
                     ) {
                         Image(
-                            painter = painterResource(com.madrid.designSystem.R.drawable.image_placeholder),
+                            painter = painterResource(Theme.drawables.imagePlaceHolderId),
                             contentDescription = null,
                             contentScale = ContentScale.FillBounds,
                             modifier = Modifier

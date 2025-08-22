@@ -11,8 +11,11 @@ import com.madrid.domain.entity.Movie
 import com.madrid.domain.usecase.movie.GetMovieGenresUseCase
 import com.madrid.presentation.pagination.SeeAllMoviesPagingSource
 import com.madrid.presentation.pagination.SeeAllMoviesWithGenrePagingSource
-import com.madrid.presentation.utils.formatRate
+import com.madrid.presentation.viewModel.shared.parser.formatRate
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.seeAll.movies.strategy.SeeAllMoviesStrategy
+import com.madrid.presentation.viewModel.shared.CategoryUiState
+import com.madrid.presentation.viewModel.shared.toCategoryUiState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
@@ -65,7 +68,13 @@ class SeeAllMoviesViewModel @AssistedInject constructor(
                 val mappedFlow = moviesFlow.map { pagingData ->
                     pagingData.map { movie -> movie.toUiState() }
                 }
-                updateState { it.copy(filteredMovies = mappedFlow, isLoading = false) }
+                updateState {
+                    it.copy(
+                        filteredMovies = mappedFlow,
+                        selectedGenre = null,
+                        isLoading = false
+                    )
+                }
             },
         )
     }

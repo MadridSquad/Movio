@@ -6,7 +6,7 @@ import com.madrid.designSystem.component.MovioBottomSheet
 import com.madrid.designSystem.component.ShareBottomSheetContent
 import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.utils.shareToApp
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsInteractionListener
+import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsInteractionListener
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
 
 @Composable

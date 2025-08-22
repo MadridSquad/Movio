@@ -25,8 +25,8 @@ import com.madrid.presentation.component.CustomHorizontalCard
 import com.madrid.presentation.component.CustomHorizontalCardForWatchList
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.screens.addtolist.CreateListBottomSheet
-import com.madrid.presentation.screens.addtolist.SuccessNotificationRow
+import com.madrid.presentation.component.addtolist.CreateListBottomSheet
+import com.madrid.presentation.component.addtolist.SuccessNotificationRow
 import com.madrid.presentation.screens.libraryScreen.component.LibraryScreenHeader
 import com.madrid.presentation.screens.refreshScreenHolder.RefreshScreenHolder
 import com.madrid.presentation.viewModel.libraryViewModel.LibraryInteractionListener

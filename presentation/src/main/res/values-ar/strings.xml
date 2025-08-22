@@ -155,11 +155,13 @@
     <!-- Network Errors -->
     <string name="network_error_try_again">خطأ في الشبكة حاول مرة أخرى</string>
     <string name="network_error">لا يوجد اتصال بالانترنت </string>
-    <string name="network_timeout">"انتهت مهلة الطلبt</string>
+    <string name="network_timeout">"انتهت مهلة الطلب</string>
     <!-- Server Errors -->
     <string name="server_error">خطأ في الخادم، يرجى المحاولة لاحقًا</string>
     <string name="bad_request">طلب سيء</string>
     <string name="resource.not_found">لم يتم العثور على المورد</string>
+    <string name="already_exists">لقد تم إضافته سابقا</string>
+
     <!-- General Errors -->
     <string name="unknown_error">لقد حدث خطأ ما </string>
     <!-- UI Labels -->

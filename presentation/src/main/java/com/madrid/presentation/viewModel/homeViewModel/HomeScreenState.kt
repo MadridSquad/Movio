@@ -3,6 +3,7 @@ package com.madrid.presentation.viewModel.homeViewModel
 import androidx.annotation.StringRes
 import androidx.paging.PagingData
 import com.madrid.presentation.R
+import com.madrid.presentation.viewModel.shared.CategoryUiState
 import com.madrid.presentation.viewModel.shared.MediaUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -55,11 +56,6 @@ data class SectionUiState(
     val isLoading: Boolean = false,
     val title: String = "",
     val media: List<MediaUiState> = emptyList()
-)
-
-data class CategoryUiState(
-    val id: Int = -1,
-    val name: String = "All",
 )
 
 enum class SortingType(@StringRes val value: Int) {

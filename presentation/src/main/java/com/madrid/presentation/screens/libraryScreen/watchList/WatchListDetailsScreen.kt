@@ -24,11 +24,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.madrid.designSystem.component.DialogWithButtonLayout
 import com.madrid.designSystem.component.EmptySearchLayout
 import com.madrid.designSystem.component.TopAppBar
+import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.R
 import com.madrid.presentation.component.SwipeToDeleteCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.screens.addtolist.SuccessNotificationRow
+import com.madrid.presentation.component.addtolist.SuccessNotificationRow
 import com.madrid.presentation.screens.libraryScreen.component.LoadingContent
 import com.madrid.presentation.viewModel.libraryViewModel.layout.WatchListDetailsEffect
 import com.madrid.presentation.viewModel.libraryViewModel.layout.WatchListDetailsInteractionListener
@@ -90,7 +91,7 @@ private fun WatchListDetailsScreenContent(
             DialogWithButtonLayout(
                 title = stringResource(R.string.empty_no_internet_title),
                 description = stringResource(R.string.empty_no_internet_description),
-                image = R.drawable.img_no_internet,
+                image = Theme.drawables.noInternetId,
                 buttonText = stringResource(R.string.try_again),
                 onClick = interaction::onClickTryAgainButton,
                 imageSize = 150,
@@ -108,7 +109,7 @@ private fun WatchListDetailsScreenContent(
             EmptySearchLayout(
                 title = stringResource(R.string.empty_list_message, state.headerTitle),
                 description = stringResource(R.string.empty_list_description),
-                image = R.drawable.empty_list,
+                image = Theme.drawables.saveLayoutId,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(horizontal = 16.dp, vertical = 16.dp,),
