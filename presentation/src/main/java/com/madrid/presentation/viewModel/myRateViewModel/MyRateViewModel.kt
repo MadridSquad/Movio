@@ -37,7 +37,7 @@ class MyRateViewModel @Inject constructor(
                 onSuccess = { result ->
                     updateState {
                         it.copy(
-                            ratedMedia = result,
+                            ratedMedia = result.map { it.copy(rate = (it.rate.toInt()/2).toString()) },
                             isError = false,
                             showLoadingScreen = false
                         )
