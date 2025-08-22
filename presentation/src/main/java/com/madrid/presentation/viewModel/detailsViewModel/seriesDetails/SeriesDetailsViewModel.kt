@@ -26,6 +26,8 @@ import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.SeeAllType
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
+import com.madrid.presentation.viewModel.detailsViewModel.review.ReviewUiState
+import com.madrid.presentation.viewModel.detailsViewModel.review.toReviewUiState
 import com.madrid.presentation.viewModel.shared.parser.formatDateKotlinx
 import com.madrid.presentation.viewModel.shared.parser.formatRate
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -388,13 +390,12 @@ class SeriesDetailsViewModel @Inject constructor(
         }
     }
 
-    private fun onSuccessLoadReviews(reviews: List<Review>) {
-        updateState {
-            it.copy(
-                reviews = reviews.map { review -> review.toUiState() },
-                seeAllType = SeeAllType.Review
-            )
+    private fun onSuccessLoadReviews(domainReviews: List<Review>) {
+
+        updateState { currentState -> currentState.copy(reviews = domainReviews.map { review ->
+            review.toReviewUiState() })
         }
+
     }
 
     private fun onSuccessLoadTrailer(trailers: List<Trailer>) {
