@@ -256,7 +256,7 @@ private fun SeriesDetailsScreenContent(
             CurrentSeasonsSection(
                 seasons = uiState.currentSeasonsUiStates,
                 onSeeAllClick ={ listener.onSeeAllClick(uiState.seriesId,SeeAllType.Season) },
-                onCurrentSeasonCardClick = { listener.onCurrentSeasonCardClick(uiState.seriesId,1)},
+                onCurrentSeasonCardClick = {seasonNumber -> listener.onCurrentSeasonCardClick(uiState.seriesId, seasonNumber = seasonNumber)},
             )
 
             Spacer(modifier = Modifier.height(32.dp))

@@ -1,5 +1,6 @@
 package com.madrid.presentation.screens.detailsScreen.seriesDetails.component
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -23,8 +24,9 @@ import com.madrid.presentation.viewModel.shared.parser.formatYearKtx
 fun CurrentSeasonsSection(
     onSeeAllClick: () -> Unit,
     seasons: List<SeasonUiState>,
-    onCurrentSeasonCardClick: () -> Unit
+    onCurrentSeasonCardClick: (Int) -> Unit
 ) {
+    Log.d("tag series details lol","in current : $seasons")
     CurrentSeasonsTitle(onSeeAllClick = onSeeAllClick)
 
     LazyRow(
@@ -37,7 +39,7 @@ fun CurrentSeasonsSection(
                 movieImage = season.imageUrl,
                 movieRate = season.rate,
                 totalNumberOfEpisodes = season.numberOfEpisodes.toString(),
-                onClick = { onCurrentSeasonCardClick() },
+                onClick = { onCurrentSeasonCardClick(season.seasonNumber) },
                 yearOfPublish = season.productionDate.formatYearKtx(),
                 currentSeason = season.seasonNumber.toString(),
                 timeOfPublish = season.productionDate.formatFullDateKtx(),
