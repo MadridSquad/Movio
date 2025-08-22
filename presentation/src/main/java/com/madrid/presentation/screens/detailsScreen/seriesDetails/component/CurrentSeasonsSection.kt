@@ -1,5 +1,6 @@
 package com.madrid.presentation.screens.detailsScreen.seriesDetails.component
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -25,6 +26,7 @@ fun CurrentSeasonsSection(
     seasons: List<SeasonUiState>,
     onCurrentSeasonCardClick: (Int) -> Unit
 ) {
+    Log.d("tag series details lol","in current : $seasons")
     CurrentSeasonsTitle(onSeeAllClick = onSeeAllClick)
 
     LazyRow(
