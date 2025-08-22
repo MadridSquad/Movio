@@ -38,7 +38,7 @@ fun LoginErrorAndForgotPassword(
         if (state.errorMessage != null) {
             MovioIcon(painter = painterResource(com.madrid.designSystem.R.drawable.info_circle),
                 contentDescription = "error Text ",
-                tint = Theme.color.system.onError,
+                tint = Theme.color.system.onErrorContainer,
 
                 )
 
@@ -46,7 +46,7 @@ fun LoginErrorAndForgotPassword(
             MovioText(
                 text = stringResource(state.errorMessage),
                 textStyle = Theme.textStyle.label.mediumMedium12,
-                color = Theme.color.system.onError,
+                color = Theme.color.system.onErrorContainer,
                 maxLines = 2,
                 modifier = Modifier.weight(1f))
         } else {

@@ -1,11 +1,9 @@
 package com.madrid.presentation.screens.homeScreen.layout
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -38,7 +36,7 @@ import com.madrid.designSystem.modifier.ShimmerItem
 import com.madrid.designSystem.modifier.removeWidthPaddingFromParent
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.viewModel.seeAll.tvShows.SeeAllTvShowType
+import com.madrid.presentation.viewModel.seeAll.tvShows.factory.SeeAllTvShowType
 import com.madrid.presentation.viewModel.shared.MediaUiState
 import kotlinx.coroutines.flow.distinctUntilChanged
 

@@ -19,7 +19,7 @@ import com.madrid.designSystem.theme.Theme
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.viewModel.detailsViewModel.SimilarMediaViewModel
+import com.madrid.presentation.viewModel.detailsViewModel.similarMedia.SimilarMediaViewModel
 
 @Composable
 fun SeeAllSimilarMediaScreen(

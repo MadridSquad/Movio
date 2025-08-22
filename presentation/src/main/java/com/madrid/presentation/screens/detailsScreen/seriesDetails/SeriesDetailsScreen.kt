@@ -50,9 +50,9 @@ import com.madrid.presentation.screens.detailsScreen.seriesDetails.component.Top
 import com.madrid.presentation.utils.copyToClipboard
 import com.madrid.presentation.utils.playSeriesTrailer
 import com.madrid.presentation.viewModel.detailsViewModel.SeeAllType
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsEffect
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsInteractionListener
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsViewModel
+import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsEffect
+import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsInteractionListener
+import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
 
 @Composable
@@ -256,7 +256,7 @@ private fun SeriesDetailsScreenContent(
             CurrentSeasonsSection(
                 seasons = uiState.currentSeasonsUiStates,
                 onSeeAllClick ={ listener.onSeeAllClick(uiState.seriesId,SeeAllType.Season) },
-                onCurrentSeasonCardClick = { listener.onCurrentSeasonCardClick(uiState.seriesId,1)},
+                onCurrentSeasonCardClick = {seasonNumber -> listener.onCurrentSeasonCardClick(uiState.seriesId, seasonNumber = seasonNumber)},
             )
 
             Spacer(modifier = Modifier.height(32.dp))

@@ -22,6 +22,7 @@ import com.madrid.designSystem.R
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.component.ProfilePicture
+import com.madrid.designSystem.theme.LocalIsDarkTheme
 import com.madrid.designSystem.theme.Theme
 
 @Composable
@@ -30,7 +31,7 @@ fun ProfileSection(
     profilePicture: String?,
     onProfileClick: () -> Unit = {}
 ) {
-
+    val isDarkTheme = LocalIsDarkTheme.current
     Column {
         Box(
             modifier = Modifier
@@ -38,7 +39,11 @@ fun ProfileSection(
                 .height(188.dp)
         ) {
             Image(
-                painter = painterResource(com.madrid.presentation.R.drawable.profile_bg),
+                painter = if (isDarkTheme) {
+                    painterResource(com.madrid.presentation.R.drawable.profile_bg)
+                } else {
+                    painterResource(com.madrid.presentation.R.drawable.profile_bg_light)
+                },
                 contentDescription = "Profile Background",
                 modifier = Modifier
                     .matchParentSize()

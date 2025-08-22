@@ -2,8 +2,6 @@ package com.madrid.presentation.viewModel.shared
 
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Series
-import com.madrid.presentation.viewModel.homeViewModel.CategoryUiState
-import com.madrid.presentation.viewModel.homeViewModel.toCategoryUiState
 
 data class MediaUiState(
     val id: String = "",

@@ -1,6 +1,5 @@
 package com.madrid.data.dataSource.remote
 
-import android.util.Log
 import com.madrid.data.dataSource.remote.dto.artist.ArtistDetailsResponse
 import com.madrid.data.dataSource.remote.dto.artist.KnownForMoviesNetwork
 import com.madrid.data.dataSource.remote.dto.artist.SearchArtistResponse
@@ -39,17 +38,11 @@ import com.madrid.data.dataSource.remote.dto.series.SeriesResult
 import com.madrid.data.dataSource.remote.dto.series.SeriesReviewResponse
 import com.madrid.data.dataSource.remote.dto.series.SimilarSeriesResponse
 import com.madrid.data.dataSource.remote.dto.series.TopRatedSeriesResponse
+import com.madrid.data.dataSource.remote.utils.responseWrapper
 import com.madrid.data.dataSource.remote.utils.retrofitResponseWrapper
 import com.madrid.data.repositories.datasource.UserPreferences
 import com.madrid.data.repositories.remote.RemoteDataSource
-import com.madrid.domain.exceptions.AuthorizationException
-import com.madrid.domain.exceptions.InvalidCredentialsException
-import com.madrid.domain.exceptions.NetworkException
-import com.madrid.domain.exceptions.UnknownException
 import kotlinx.coroutines.flow.first
-import retrofit2.HttpException
-import java.io.IOException
-import java.net.HttpURLConnection.HTTP_UNAUTHORIZED
 import javax.inject.Inject
 
 
@@ -59,43 +52,43 @@ class RemoteDataSourceImpl @Inject constructor(
 ) : RemoteDataSource {
     //  region Movies
     override suspend fun searchMoviesByQuery(name: String, page: Int): SearchMovieResponse {
-        return api.searchMoviesByQuery(name, page)
+        return responseWrapper { api.searchMoviesByQuery(name, page) }
     }
 
     override suspend fun getTopRatedMovies(page: Int): SearchMovieResponse {
-        return api.getTopRatedMovies(page)
+        return responseWrapper { api.getTopRatedMovies(page) }
     }
 
     override suspend fun getPopularMovies(page: Int): SearchMovieResponse {
-        return api.getPopularMovie(page)
+        return responseWrapper { api.getPopularMovie(page) }
     }
 
     override suspend fun getMovieDetailsById(movieId: Int): MovieDetailsResponse {
-        return api.getMovieDetailsById(movieId)
+        return responseWrapper { api.getMovieDetailsById(movieId) }
     }
 
     override suspend fun getMovieTrailersByMovieId(movieId: Int): List<TrailerResult> {
-        return api.getMovieTrailersById(movieId).results
+        return responseWrapper { api.getMovieTrailersById(movieId).results }
     }
 
     override suspend fun getMovieCreditById(movieId: Int): MovieCreditsResponse {
-        return api.getMovieCreditById(movieId)
+        return responseWrapper { api.getMovieCreditById(movieId) }
     }
 
     override suspend fun getMovieReviewsById(movieId: Int): MovieReviewResponse {
-        return api.getMovieReviewsById(movieId)
+        return responseWrapper { api.getMovieReviewsById(movieId) }
     }
 
     override suspend fun getSimilarMoviesById(movieId: Int): SimilarMoviesResponse {
-        return api.getSimilarMoviesById(movieId)
+        return responseWrapper { api.getSimilarMoviesById(movieId) }
     }
 
     override suspend fun getMovieGenres(): List<RemoteGenreDto> {
-        return api.getMovieGenres().genres.orEmpty()
+        return responseWrapper { api.getMovieGenres().genres.orEmpty() }
     }
 
     override suspend fun getTrendingMovies(page: Int): SearchMovieResponse {
-        return api.getTrendingMovies(page = page)
+        return responseWrapper { api.getTrendingMovies(page = page) }
     }
 
     override suspend fun getMoviesByGenreId(
@@ -103,60 +96,60 @@ class RemoteDataSourceImpl @Inject constructor(
         genreId: Int?,
         sortBy: String
     ): SearchMovieResponse {
-        return api.getMoviesByGenreId(page, genreId, sortBy)
+        return responseWrapper { api.getMoviesByGenreId(page, genreId, sortBy) }
     }
 
     override suspend fun getFavoriteMovies(sessionId: String): List<MovieResult> {
-        return api.getFavoriteMovies(sessionId).movieResults
+        return responseWrapper { api.getFavoriteMovies(sessionId).movieResults }
     }
     // endregion
 
     // region Series
     override suspend fun getTopRatedSeries(page: Int): TopRatedSeriesResponse {
-        return api.getTopRatedSeries(page)
+        return responseWrapper { api.getTopRatedSeries(page) }
     }
 
     override suspend fun searchSeriesByQuery(name: String, page: Int): SearchSeriesResponse {
-        return api.searchSeriesByQuery(name, page)
+        return responseWrapper { api.searchSeriesByQuery(name, page) }
     }
 
     override suspend fun getSeriesTrailersById(seriesId: Int): List<TrailerResult> {
-        return api.getSeriesTrailersById(seriesId).results
+        return responseWrapper { api.getSeriesTrailersById(seriesId).results }
     }
 
     override suspend fun getSeriesCreditsById(seriesId: Int): SeriesCreditResponse {
-        return api.getSeriesCreditsById(seriesId)
+        return responseWrapper { api.getSeriesCreditsById(seriesId) }
     }
 
     override suspend fun getSeriesReviewsById(seriesId: Int): SeriesReviewResponse {
-        return api.getSeriesReviewsById(seriesId)
+        return responseWrapper { api.getSeriesReviewsById(seriesId) }
     }
 
     override suspend fun getSimilarSeriesById(seriesId: Int): SimilarSeriesResponse {
-        return api.getSimilarSeriesById(seriesId)
+        return responseWrapper { api.getSimilarSeriesById(seriesId) }
     }
 
     override suspend fun getEpisodesBySeasonId(
         seriesId: Int,
         seasonNumber: Int
     ): SeasonResponse {
-        return api.getEpisodesBySeasonId(seriesId, seasonNumber)
+        return responseWrapper { api.getEpisodesBySeasonId(seriesId, seasonNumber) }
     }
 
     override suspend fun getSeriesGenres(): List<RemoteGenreDto> {
-        return api.getSeriesGenres().genres.orEmpty()
+        return responseWrapper { api.getSeriesGenres().genres.orEmpty() }
     }
 
     override suspend fun getTrendingSeries(page: Int): SearchSeriesResponse {
-        return api.getTrendingSeries(page = page)
+        return responseWrapper { api.getTrendingSeries(page = page) }
     }
 
     override suspend fun getSeriesDetailsById(seriesId: Int): SeriesDetailsResponse {
-        return api.getSeriesDetailsById(seriesId)
+        return responseWrapper { api.getSeriesDetailsById(seriesId) }
     }
 
     override suspend fun getFavoriteSeries(sessionId: String): List<SeriesResult> {
-        return api.getFavoriteSeries(sessionId).seriesResults
+        return responseWrapper { api.getFavoriteSeries(sessionId).seriesResults }
     }
 
     override suspend fun getEpisodeTrailers(
@@ -164,58 +157,67 @@ class RemoteDataSourceImpl @Inject constructor(
         seasonNumber: Int,
         seriesId: Int
     ): List<TrailerResult> {
-        return api.getEpisodeTrailers(seriesId, seasonNumber, episodeNumber).results
+        return responseWrapper {
+            api.getEpisodeTrailers(
+                seriesId,
+                seasonNumber,
+                episodeNumber
+            ).results
+        }
     }
-
 
 
     // Artist
     override suspend fun searchArtistByQuery(name: String, page: Int): SearchArtistResponse {
-        return api.searchArtistByQuery(name, page)
+        return responseWrapper { api.searchArtistByQuery(name, page) }
     }
 
     override suspend fun getArtistDetailsById(artistId: Int): ArtistDetailsResponse {
-        return api.getArtistDetailsById(artistId)
+        return responseWrapper { api.getArtistDetailsById(artistId) }
     }
 
     override suspend fun getArtistMovies(artistId: Int): List<KnownForMoviesNetwork> {
-        return api.getArtistKnownForById(artistId).movies ?: emptyList()
+        return responseWrapper { api.getArtistKnownForById(artistId).movies ?: emptyList() }
     }
 
     override suspend fun getOnAirSeries(page: Int): OnAirTvShowsResponse {
-        return api.getOnTheAirTvShows(page = page)
+        return responseWrapper { api.getOnTheAirTvShows(page = page) }
     }
 
     override suspend fun getAiringTodaySeries(page: Int): AiringTodayTvShowsResponse {
-        return api.getAiringTvShowsToday(page = page)
+        return responseWrapper { api.getAiringTvShowsToday(page = page) }
     }
 
     override suspend fun getRecommendedSeries(page: Int): RecommendedSeriesResponse {
-        return api.getPopularTvShows(page = page)
+        return responseWrapper { api.getPopularTvShows(page = page) }
     }
 
     override suspend fun getUpcomingMovie(page: Int): UpcomingMoviesResponse {
-        return api.getUpcomingMovies(page)
+        return responseWrapper { api.getUpcomingMovies(page) }
     }
 
     override suspend fun getNowPlayingMovie(page: Int): NowPlayingMovieResponse {
-        return api.getNowPlayingMovies(page)
+        return responseWrapper { api.getNowPlayingMovies(page) }
     }
 
     override suspend fun addRatingMovie(movieId: Int, value: Double) {
-        return api.addRatingForMovie(
-            movieId = movieId,
-            sessionId = userPreferences.getAuthToken().first(),
-            body = RateRequest(value)
-        )
+        return responseWrapper {
+            api.addRatingForMovie(
+                movieId = movieId,
+                sessionId = userPreferences.getAuthToken().first(),
+                body = RateRequest(value)
+            )
+        }
     }
 
     override suspend fun addRatingSeries(seriesId: Int, value: Double) {
-        return api.addRatingForSeries(
-            seriesId = seriesId,
-            sessionId = userPreferences.getAuthToken().first(),
-            body = RateRequest(value)
-        )
+        return responseWrapper {
+            api.addRatingForSeries(
+                seriesId = seriesId,
+                sessionId = userPreferences.getAuthToken().first(),
+                body = RateRequest(value)
+            )
+        }
     }
 
     override suspend fun getSeriesByGenreId(
@@ -223,22 +225,18 @@ class RemoteDataSourceImpl @Inject constructor(
         genreId: Int?,
         sortBy: String
     ): SearchSeriesResponse {
-        val x = api.getSeriesByGenreId(page, genreId, sortBy)
-        Log.d("TAG getSeriesByGenreId in data ", "getSeriesByGenreId: $x")
-        return x
+        return responseWrapper { api.getSeriesByGenreId(page, genreId, sortBy) }
     }
 
     override suspend fun getCustomLists(sessionId: String): List<ListDto> {
-        return api.getCustomLists(sessionId).results
+        return responseWrapper { api.getCustomLists(sessionId).results }
     }
 
     override suspend fun getCustomListDetails(
         listId: Int,
         sessionId: String
     ): ListsDetailsResponse {
-
-        return api.getCustomListDetails(listId, sessionId)
-
+        return responseWrapper { api.getCustomListDetails(listId, sessionId) }
     }
 
     override suspend fun removeMovieFromList(
@@ -250,22 +248,20 @@ class RemoteDataSourceImpl @Inject constructor(
             mediaId = mediaId
         )
 
-        api.removeMovieFromList(
-            listId = listId,
-            sessionId = sessionId,
-            removeItemRequest = request
-        )
+        responseWrapper {
+            api.removeMovieFromList(
+                listId = listId,
+                sessionId = sessionId,
+                removeItemRequest = request
+            )
+        }
     }
 
-
-
     override suspend fun login(username: String, password: String): String {
-
         return retrofitResponseWrapper {
             getSessionId(username, password)
         }
     }
-
 
     override suspend fun getSessionId(username: String, password: String): String {
         return retrofitResponseWrapper {
@@ -287,13 +283,15 @@ class RemoteDataSourceImpl @Inject constructor(
             mediaId = movieId,
             favorite = isFavorite
         )
-
         val accountId = api.getAccountDetails(sessionId).id
-        api.addToFavorite(
-            accountId = accountId,
-            sessionId = sessionId,
-            body = request
-        )
+
+        responseWrapper {
+            api.addToFavorite(
+                accountId = accountId,
+                sessionId = sessionId,
+                body = request
+            )
+        }
     }
 
     override suspend fun setSeriesFavoriteStatus(
@@ -306,13 +304,15 @@ class RemoteDataSourceImpl @Inject constructor(
             mediaId = seriesId,
             favorite = isFavorite
         )
-
         val accountId = api.getAccountDetails(sessionId).id
-        api.addToFavorite(
-            accountId = accountId,
-            sessionId = sessionId,
-            body = request
-        )
+
+        responseWrapper {
+            api.addToFavorite(
+                accountId = accountId,
+                sessionId = sessionId,
+                body = request
+            )
+        }
     }
 
     override suspend fun loginAsGuest(): String {
@@ -323,14 +323,14 @@ class RemoteDataSourceImpl @Inject constructor(
     }
 
     override suspend fun getCurrentUserDetails(sessionId: String): AccountDetailsResponse {
-        return api.getAccountDetails(sessionId)
+        return responseWrapper { api.getAccountDetails(sessionId) }
     }
 
     override suspend fun createMovieList(
         sessionId: String,
         movieListBody: MovieListBody
     ): CreateListResponse {
-        return api.createMovieList(sessionId, movieListBody)
+        return responseWrapper { api.createMovieList(sessionId, movieListBody) }
     }
 
     override suspend fun addMovieToList(
@@ -343,21 +343,22 @@ class RemoteDataSourceImpl @Inject constructor(
             media_type = "movie"
         )
 
-        // Return the actual API response, not a hardcoded one
-        return api.addMovieToList(
-            listId = listId,
-            sessionId = sessionId,
-            request = request
-        )
+        return responseWrapper {
+            api.addMovieToList(
+                listId = listId,
+                sessionId = sessionId,
+                request = request
+            )
+        }
     }
 
     override suspend fun getUserRatingForMovie(sessionId: String): RatingMovieResponse {
         val accountId = api.getAccountDetails(sessionId).id
-        return api.getUserRatingForMovie(accountId, sessionId)
+        return responseWrapper { api.getUserRatingForMovie(accountId, sessionId) }
     }
 
     override suspend fun getUserRatingForSeries(sessionId: String): RatingSeriesResponse {
         val accountId = api.getAccountDetails(sessionId).id
-        return api.getUserRatingForSeries(accountId, sessionId)
+        return responseWrapper { api.getUserRatingForSeries(accountId, sessionId) }
     }
 }

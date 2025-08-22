@@ -5,8 +5,6 @@ import com.madrid.data.dataSource.local.mappers.toMovie
 import com.madrid.data.dataSource.local.mappers.toSectionMovieTable
 import com.madrid.data.dataSource.local.table.MovieSection
 import com.madrid.data.dataSource.local.table.relationship.MovieGenreCrossRef
-import com.madrid.data.dataSource.mapper.toCreateListStatus
-import com.madrid.data.dataSource.mapper.toListOperationStatus
 import com.madrid.data.dataSource.mapper.toMovieGenreTable
 import com.madrid.data.dataSource.mapper.toMovieTable
 import com.madrid.data.dataSource.remote.dto.list.MovieListBody
@@ -22,7 +20,6 @@ import com.madrid.data.repositories.local.LocalDataSource
 import com.madrid.data.repositories.remote.RemoteDataSource
 import com.madrid.domain.entity.Artist
 import com.madrid.domain.entity.Genre
-import com.madrid.domain.entity.ListOperationStatus
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.entity.Review
 import com.madrid.domain.entity.SortType
@@ -318,23 +315,21 @@ class MovieRepositoryImpl @Inject constructor(
         name: String,
         description: String,
         language: String
-    ): ListOperationStatus {
+    ) {
         val body = MovieListBody(name, description, language)
-        val response = remoteDataSource.createMovieList(sessionId, body)
-        return response.toCreateListStatus()
+        remoteDataSource.createMovieList(sessionId, body)
     }
 
     override suspend fun addMovieToList(
         listId: Int,
         sessionId: String,
         mediaId: Int
-    ): ListOperationStatus {
-        val response = remoteDataSource.addMovieToList(
+    ) {
+        remoteDataSource.addMovieToList(
             listId = listId,
             sessionId = sessionId,
             movieId = mediaId
         )
-        return response.toListOperationStatus()
     }
 
 

@@ -29,7 +29,7 @@ import com.madrid.presentation.R
 import com.madrid.presentation.component.SwipeToDeleteCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.screens.addtolist.SuccessNotificationRow
+import com.madrid.presentation.component.addtolist.SuccessNotificationRow
 import com.madrid.presentation.screens.libraryScreen.component.LoadingContent
 import com.madrid.presentation.viewModel.libraryViewModel.layout.WatchListDetailsEffect
 import com.madrid.presentation.viewModel.libraryViewModel.layout.WatchListDetailsInteractionListener

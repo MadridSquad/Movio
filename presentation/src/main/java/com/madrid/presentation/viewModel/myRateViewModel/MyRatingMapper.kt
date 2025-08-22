@@ -2,8 +2,8 @@ package com.madrid.presentation.viewModel.myRateViewModel
 
 import com.madrid.domain.usecase.movie.GetUserRatedMovieUseCase
 import com.madrid.domain.usecase.series.GetUserRatedSeriesUseCase
-import com.madrid.presentation.utils.formatDate
-import com.madrid.presentation.utils.formatRate
+import com.madrid.presentation.viewModel.shared.parser.formatDate
+import com.madrid.presentation.viewModel.shared.parser.formatRate
 import com.madrid.presentation.viewModel.shared.MediaType
 
 fun GetUserRatedMovieUseCase.RatedMovie.toRatedMediaUiState(): RatedMediaState {

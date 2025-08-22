@@ -2,6 +2,7 @@ package com.madrid.presentation.screens.detailsScreen.seriesDetails
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -37,8 +38,8 @@ import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailS
 import com.madrid.presentation.component.movioCards.MovioEpisodesCard
 import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.viewModel.detailsViewModel.EpisodeUiState
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsInteractionListener
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsViewModel
+import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsInteractionListener
+import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsViewModel
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
 
 @Composable
@@ -94,7 +95,7 @@ fun EpisodesScreenContent(
                         .background(Theme.color.surfaces.surface)
                 ) {
                     MoviePosterDetailScreen(
-                        imageUrl = uiState.topImageUrl,
+                        imageUrl = uiState.selectedSeasonUiState.imageUrl,
                         modifier = Modifier.fillMaxSize()
                     )
                     Box(
@@ -133,7 +134,10 @@ fun EpisodesScreenContent(
                     uiState.selectedSeasonUiState.seasonNumber.toString()
                 )
                 var selectedItem by remember { mutableStateOf(seasonLabel) }
-                val seasonNumbers = (1..uiState.currentSeasonsUiStates.size).toList()
+                val firstSeasonNumber = uiState.currentSeasonsUiStates.firstOrNull()?.seasonNumber ?: 1
+                val lastSeasonNumber = uiState.currentSeasonsUiStates.size - (if(firstSeasonNumber == 0) 1 else 0)
+                Log.d("first season number is","is: isssss: $firstSeasonNumber")
+                val seasonNumbers = (firstSeasonNumber..lastSeasonNumber).toList()
 
                 if (uiState.currentSeasonsUiStates.isNotEmpty()) {
                     CustomDropdown(

@@ -4,6 +4,7 @@ import com.madrid.domain.usecase.movie.GetMovieGenresUseCase
 import com.madrid.domain.usecase.series.GetSeriesGenresUseCase
 import com.madrid.presentation.R
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.base.ErrorState
 import com.madrid.presentation.viewModel.libraryViewModel.viewAll.strategy.ViewAllStrategy
 import com.madrid.presentation.viewModel.shared.MediaType
 import dagger.assisted.Assisted
@@ -111,7 +112,7 @@ class ViewAllViewModel @AssistedInject constructor(
         loadAllItems()
     }
 
-    private fun onError(error: Throwable) {
+    private fun onError(error: ErrorState) {
         updateState {
             it.copy(
                 isLoading = false,
