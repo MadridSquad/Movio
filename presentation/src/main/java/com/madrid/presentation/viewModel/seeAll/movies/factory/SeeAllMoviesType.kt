@@ -1,4 +1,4 @@
-package com.madrid.presentation.viewModel.seeAll.movies
+package com.madrid.presentation.viewModel.seeAll.movies.factory
 
 enum class SeeAllMoviesType {
     TOP_RATING,

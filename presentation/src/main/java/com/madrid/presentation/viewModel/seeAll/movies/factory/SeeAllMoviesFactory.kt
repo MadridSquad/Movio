@@ -1,10 +1,15 @@
-package com.madrid.presentation.viewModel.seeAll.movies
+package com.madrid.presentation.viewModel.seeAll.movies.factory
 
 import com.madrid.domain.usecase.movie.FilterMoviesByCategoryUseCase
 import com.madrid.domain.usecase.movie.GetNowPlayingMovieUseCase
 import com.madrid.domain.usecase.movie.GetTopRatedMoviesUseCase
 import com.madrid.domain.usecase.movie.GetUpcomingMovieUseCase
 import com.madrid.domain.usecase.search.GetRecommendedMovieUseCase
+import com.madrid.presentation.viewModel.seeAll.movies.strategy.SeeAllMoreRecommendedMovies
+import com.madrid.presentation.viewModel.seeAll.movies.strategy.SeeAllMoviesStrategy
+import com.madrid.presentation.viewModel.seeAll.movies.strategy.SeeAllNowPlayingMovies
+import com.madrid.presentation.viewModel.seeAll.movies.strategy.SeeAllTopRatedMovies
+import com.madrid.presentation.viewModel.seeAll.movies.strategy.SeeAllUpComingMovies
 import javax.inject.Inject
 
 class SeeAllMoviesFactory @Inject constructor(

@@ -1,4 +1,4 @@
-package com.madrid.presentation.viewModel.seeAll.tvShows
+package com.madrid.presentation.viewModel.seeAll.tvShows.strategy
 
 import com.madrid.domain.entity.Series
 

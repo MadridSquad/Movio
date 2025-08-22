@@ -1,4 +1,4 @@
-package com.madrid.presentation.viewModel.seeAll.tvShows
+package com.madrid.presentation.viewModel.seeAll.tvShows.factory
 
 enum class SeeAllTvShowType {
     TOP_RATING,

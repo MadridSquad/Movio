@@ -1,24 +1,24 @@
-package com.madrid.presentation.viewModel.seeAll.movies
+package com.madrid.presentation.viewModel.seeAll.movies.strategy
 
 import com.madrid.domain.entity.Movie
 import com.madrid.domain.usecase.movie.FilterMoviesByCategoryUseCase
-import com.madrid.domain.usecase.search.GetRecommendedMovieUseCase
+import com.madrid.domain.usecase.movie.GetUpcomingMovieUseCase
 
-class SeeAllMoreRecommendedMovies(
-    val getRecommendedMovieUseCase: GetRecommendedMovieUseCase,
+class SeeAllUpComingMovies(
+    val getUpcomingMovieUseCase: GetUpcomingMovieUseCase,
     val filterMoviesByCategoryUseCase: FilterMoviesByCategoryUseCase
 ) : SeeAllMoviesStrategy {
     override fun getTitle(): String {
-        return "More Recommended"
+        return "Upcoming"
     }
 
     override suspend fun getAllMovies(page: Int): List<Movie> {
-        return getRecommendedMovieUseCase(page)
+        return getUpcomingMovieUseCase(page)
     }
 
     override suspend fun getMoviesBasedOnCategory(categoryId: Int, page: Int): List<Movie> {
         val movies = getAllMovies(page)
-        return filterMoviesByCategoryUseCase(movies,categoryId)
+        return filterMoviesByCategoryUseCase(movies, categoryId)
     }
 
 }

@@ -13,6 +13,7 @@ import com.madrid.presentation.pagination.SeeAllMoviesPagingSource
 import com.madrid.presentation.pagination.SeeAllMoviesWithGenrePagingSource
 import com.madrid.presentation.viewModel.shared.parser.formatRate
 import com.madrid.presentation.viewModel.base.BaseViewModel
+import com.madrid.presentation.viewModel.seeAll.movies.strategy.SeeAllMoviesStrategy
 import com.madrid.presentation.viewModel.shared.CategoryUiState
 import com.madrid.presentation.viewModel.shared.toCategoryUiState
 import dagger.assisted.Assisted

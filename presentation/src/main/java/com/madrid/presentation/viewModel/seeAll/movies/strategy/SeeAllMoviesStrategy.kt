@@ -1,4 +1,4 @@
-package com.madrid.presentation.viewModel.seeAll.movies
+package com.madrid.presentation.viewModel.seeAll.movies.strategy
 
 import com.madrid.domain.entity.Movie
 
