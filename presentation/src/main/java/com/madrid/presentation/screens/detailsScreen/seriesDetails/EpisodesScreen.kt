@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,8 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -35,23 +31,22 @@ import com.madrid.presentation.R
 import com.madrid.presentation.component.CustomDropdown
 import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailScreen
 import com.madrid.presentation.component.movioCards.MovioEpisodesCard
-import com.madrid.presentation.navigation.LocalNavController
+import com.madrid.presentation.utils.seriesBottomFade
 import com.madrid.presentation.viewModel.detailsViewModel.EpisodeUiState
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsInteractionListener
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetails.SeriesDetailsViewModel
+import com.madrid.presentation.viewModel.detailsViewModel.SeasonUiState
 import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
+import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsInteractionListener
+import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsViewModel
 
 @Composable
 fun EpisodesScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsState()
     val interactionListener = viewModel as SeriesDetailsInteractionListener
-    val navController = LocalNavController.current
     val context = LocalContext.current
 
     EpisodesScreenContent(
         uiState = uiState,
-        onSeasonSelection = viewModel::updateSelectedSeason,
         onClickEpisode = { episode ->
 
             interactionListener.onEpisodePlayItClick(
@@ -62,7 +57,7 @@ fun EpisodesScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()
                 openTrailer(trailerKey, context)
             }
         },
-        onClickBack = { navController.popBackStack() }
+        interactionListener = interactionListener,
     )
 }
 
@@ -136,8 +131,7 @@ private fun SerirseHeaderSection(onBackButtonClick: () -> Unit, topImageUrl: Str
     Box {
         TopAppBar(
             text = null,
-            secondIcon = null,
-            thirdIcon = null,
+            secondIcon = null, thirdIcon = null,
             modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
             onFirstIconClick = { onBackButtonClick() }
         )
