@@ -111,7 +111,8 @@ class LibraryViewModel @Inject constructor(
                 updateState {
                     it.copy(
                         isWatchListLoading = false,
-                        watchList = watchList.map { it.toWatchListUiState() }
+                        watchList = watchList.map { it.toWatchListUiState() },
+                        errorMessage = null
                     )
                 }
             },
@@ -129,7 +130,8 @@ class LibraryViewModel @Inject constructor(
                 updateState {
                     it.copy(
                         isFavouriteLoading = false,
-                        favoriteList = favoriteList.map { it.toMediaUiState() }
+                        favoriteList = favoriteList.map { it.toMediaUiState() },
+                        errorMessage = null
                     )
                 }
             },
@@ -153,7 +155,8 @@ class LibraryViewModel @Inject constructor(
                 updateState {
                     it.copy(
                         isHistoryLoading = false,
-                        historyList = historyList
+                        historyList = historyList,
+                        errorMessage = null
                     )
                 }
             },
