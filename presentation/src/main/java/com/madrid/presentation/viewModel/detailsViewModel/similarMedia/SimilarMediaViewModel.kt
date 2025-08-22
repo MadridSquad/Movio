@@ -72,9 +72,12 @@ fun List<Movie>.toMovieUiState(): List<MediaUiState> {
     return this.map { movie ->
         MediaUiState(
             mediaId = movie.id,
-            isMovie = false,
+            isMovie = true,
             imageUrl = movie.imageUrl,
-            mediaName = movie.title
+            mediaName = movie.title,
+            rate = movie.rate?.let {
+                if (it > 0.0) String.format("%.1f", it) else ""
+            } ?: ""
         )
     }
 }
@@ -86,9 +89,10 @@ fun List<Series>.toSeriesUiState(): List<MediaUiState> {
             isMovie = false,
             imageUrl = series.imageUrl,
             mediaName = series.title,
-            rate = series.rate.toString()
+            rate = series.rate?.let {
+                if (it > 0.0) String.format("%.1f", it) else ""
+            } ?: ""
         )
     }
 }
-
 

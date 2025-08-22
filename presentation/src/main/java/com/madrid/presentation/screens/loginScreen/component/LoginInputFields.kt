@@ -46,7 +46,7 @@ fun LoginInputFields(
                 if (state.showPassword) R.drawable.eye else R.drawable.eye_slash
             ),
             onClickEndIcon = onTogglePassword,
-            modifier = Modifier.padding(bottom = 12.dp),
+          modifier = Modifier.padding(bottom = 8.dp),
             isError =state.isPasswordValid,
             errorBorderBrush = Theme.color.gradients.errorBorderGradient,
 

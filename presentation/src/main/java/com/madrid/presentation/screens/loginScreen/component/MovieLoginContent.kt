@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,6 +27,7 @@ fun MovieLoginContent(
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp.dp
     val screenWidth = configuration.screenWidthDp.dp
+    val focusManager = LocalFocusManager.current
 
     Column(
         modifier = Modifier
@@ -52,7 +54,7 @@ fun MovieLoginContent(
                 onUsernameChange = interactionListener::onUsernameChanged,
                 onPasswordChange = interactionListener::onPasswordChanged,
                 onTogglePassword = interactionListener::onShowPasswordToggled,
-                modifier = Modifier.padding(bottom = 8.dp)
+
             )
 
             LoginErrorAndForgotPassword(
@@ -64,7 +66,10 @@ fun MovieLoginContent(
 
             AnimatedLoginButton(
                 isLoading = state.isLoading,
-                onClick = interactionListener::onLoginClicked,
+                onClick =  {
+                    focusManager.clearFocus()
+                    interactionListener.onLoginClicked()
+                },
                 text = stringResource(R.string.login),
                 modifier = Modifier.padding(bottom = screenHeight * 0.03f)
             )

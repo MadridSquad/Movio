@@ -37,6 +37,7 @@ fun OnBoardingScreen() {
         Modifier
             .fillMaxSize()
             .background(Theme.color.surfaces.surface)
+            .navigationBarsPadding()
             .verticalScroll(rememberScrollState())
     ) {
         Image(
@@ -96,10 +97,9 @@ fun OnBoardingScreen() {
         Spacer(Modifier.weight(1f))
         OnBoardingPager(
             modifier = Modifier
-                .navigationBarsPadding()
+                .padding(bottom = 32.dp)
                 .align(Alignment.CenterHorizontally)
         )
-
     }
 }
 

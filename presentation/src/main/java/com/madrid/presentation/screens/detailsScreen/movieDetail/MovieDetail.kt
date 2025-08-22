@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -34,6 +35,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -62,7 +65,6 @@ import com.madrid.presentation.component.addtolist.ListManagementBottomSheet
 import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.ReviewScreen
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMovie
 import com.madrid.presentation.screens.detailsScreen.similarMedia.SimilarMoviesSection
-import com.madrid.presentation.utils.seriesBottomFade
 import com.madrid.presentation.viewModel.detailsViewModel.ArtistUiState
 import com.madrid.presentation.viewModel.detailsViewModel.movie.MovieDetailsViewModel
 import com.madrid.presentation.viewModel.addtolist.MovieListViewModel
@@ -79,6 +81,7 @@ fun MovieDetailsScreen(
     val context = LocalContext.current
     var showShareSheet by remember { mutableStateOf(false) }
     var showAddToListBottomSheet by remember { mutableStateOf(false) }
+    var showLogOutBottomSheet by rememberSaveable { mutableStateOf(false) }
 
     fun copyToClipboard(text: String) {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -185,7 +188,8 @@ fun MovieDetailsScreen(
                 )
                 BottomMediaActions(
                     onAddToListClick = {
-                        showAddToListBottomSheet = true
+                        showAddToListBottomSheet = uiState.isGuest.not()
+                        showLogOutBottomSheet = uiState.isGuest
                     },
                     onRateClick = {
                         showAddRatingBottomSheet = true
@@ -461,7 +465,8 @@ fun MovieDetailsScreen(
                     modifier = Modifier.padding(top = 32.dp),
                 )
                 SimilarMoviesSection(
-                    modifier = Modifier.padding(vertical = 32.dp),
+                    similarMovies = uiState.similarMovies,
+                    modifier = Modifier.padding(top = 32.dp),
                     onSeeAllClick = {
                         navController.navigate(
                             Destinations.SimilarMediaScreen(
@@ -476,17 +481,8 @@ fun MovieDetailsScreen(
                                 movieId = movie.id
                             )
                         )
-                    },
-                    similarMovies = uiState.similarMovies.map { movie ->
-                        SimilarMovie(
-                            id = movie.id,
-                            title = movie.title,
-                            imageUrl = movie.imageUrl,
-                            rating = movie.rating
-                        )
                     }
                 )
-
                 LogoutConfirmationBottomSheet(
                     title = stringResource(R.string.you_dont_have_an_account),
                     description = stringResource(R.string.please_log_in_or_create_an_account_to_save_items_to_your_favorites_and_access_them_later),
@@ -499,9 +495,23 @@ fun MovieDetailsScreen(
                         }
                     },
                 )
+
+                LogoutConfirmationBottomSheet(
+                    title = stringResource(R.string.you_dont_have_an_account),
+                    description = stringResource(R.string.please_log_in_or_create_an_account_to_save_items_to_your_favorites_and_access_them_later),
+                    actionButtonText = stringResource(R.string.login),
+                    isVisible = showLogOutBottomSheet,
+                    onDismiss = { showLogOutBottomSheet = false },
+                    onNavigateToAuth = {
+                        navController.navigate(Destinations.LoginScreen) {
+                            popUpTo(Destinations.LoginScreen) { inclusive = false }
+                        }
+                    },
+                )
             }
         }
     }
+
     ListManagementBottomSheet(
         isVisible = showAddToListBottomSheet,
         onDismiss = { showAddToListBottomSheet = false },

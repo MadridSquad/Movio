@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -46,7 +46,7 @@ fun TopCastHorizontalScroll(
         ) {
             items(castMembers) { castMember ->
                 CastMemberItem(
-                    modifier = Modifier.size(width = 86.dp, height = 87.dp),
+                    modifier = Modifier.width(86.dp),
                     castMember = castMember,
                     onCastMemberClick = { castId ->
                         onCastMemberClick(castId)

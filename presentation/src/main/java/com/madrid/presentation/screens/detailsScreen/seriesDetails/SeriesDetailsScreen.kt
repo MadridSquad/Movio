@@ -6,10 +6,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
@@ -17,6 +18,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -46,12 +49,11 @@ import com.madrid.presentation.screens.detailsScreen.seriesDetails.component.Sim
 import com.madrid.presentation.screens.detailsScreen.seriesDetails.component.TopCastSection
 import com.madrid.presentation.utils.copyToClipboard
 import com.madrid.presentation.utils.playSeriesTrailer
-import com.madrid.presentation.utils.seriesBottomFade
 import com.madrid.presentation.viewModel.detailsViewModel.SeeAllType
-import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
 import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsEffect
 import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsInteractionListener
 import com.madrid.presentation.viewModel.detailsViewModel.seriesDetails.SeriesDetailsViewModel
+import com.madrid.presentation.viewModel.detailsViewModel.SeriesDetailsUiState
 
 @Composable
 fun SeriesDetailsScreen(
@@ -107,18 +109,12 @@ fun SeriesDetailsScreen(
         uiState.showLoadingScreen -> { LoadingScreen(message = stringResource(R.string.loading)) }
 
         uiState.isError -> {
-            Column(
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .statusBarsPadding()
-                    .padding(horizontal = 16.dp)
-                    .padding(bottom = 32.dp)
+                    .padding(top = 64.dp),
+                contentAlignment = Alignment.Center
             ) {
-                TopAppBar(
-                    text = null,
-                    secondIcon = null, thirdIcon = null,
-                    onFirstIconClick = { interactionListener.onBackButtonClick() }
-                )
                 DialogWithButtonLayout(
                     title = stringResource(R.string.internet_is_not_available),
                     description = stringResource(R.string.please_make_sure_you_are_connected_to_the_internet_and_try_again),
@@ -132,6 +128,7 @@ fun SeriesDetailsScreen(
                 )
             }
         }
+
         else -> {
             SeriesDetailsScreenContent(
                 context = context,
@@ -176,7 +173,6 @@ private fun SeriesDetailsScreenContent(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 32.dp)
         ) {
             Spacer(modifier = Modifier.height(360.dp))
 
@@ -209,9 +205,9 @@ private fun SeriesDetailsScreenContent(
                         LogoutConfirmationBottomSheet(
                             isVisible = uiState.isGuest,
                             onDismiss = { listener.onDismissShareBottomSheetClick() },
-                            onNavigateToAuth ={ listener.onLoginButtonClick() },
+                            onNavigateToAuth = { listener.onLoginButtonClick() },
                             title = stringResource(R.string.you_dont_have_an_account),
-                            description = stringResource(R.string.this_rating_is_only_available_to_registered_users_Login_to_share_your_rating) ,
+                            description = stringResource(R.string.this_rating_is_only_available_to_registered_users_Login_to_share_your_rating),
                             actionButtonText = stringResource(R.string.login)
                         )
                     } else {
@@ -259,6 +255,7 @@ private fun SeriesDetailsScreenContent(
             Spacer(modifier = Modifier.height(32.dp))
 
             SimilarSeriesHorizontalSection(
+                modifier = Modifier.padding(bottom = 32.dp),
                 uiState = uiState,
                 onSeeAllClick = { listener.onSeeAllClick(seriesId = uiState.seriesId, seeAllType = SeeAllType.SimilarSeries) },
                 onSimilarSeriesCardClick = { seriesId-> listener.onSimilarSeriesCardClick(seriesId)}

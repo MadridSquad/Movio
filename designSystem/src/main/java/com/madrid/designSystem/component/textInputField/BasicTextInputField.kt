@@ -83,7 +83,7 @@ fun BasicTextInputField(
             shape = RoundedCornerShape(8.dp)
         )
 
-        (isFocused || value.isNotEmpty()) && borderBrushColors != null -> Modifier.border(
+        isFocused  && borderBrushColors != null -> Modifier.border(
             width = 1.dp,
             brush = borderBrushColors,
             shape = RoundedCornerShape(8.dp)

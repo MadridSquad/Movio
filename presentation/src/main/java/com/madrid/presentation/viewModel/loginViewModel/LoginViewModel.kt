@@ -1,8 +1,6 @@
 package com.madrid.presentation.viewModel.loginViewModel
 
 import androidx.lifecycle.viewModelScope
-import com.madrid.domain.exceptions.MovioException
-import com.madrid.domain.exceptions.UnknownException
 import com.madrid.domain.usecase.authentication.LoginUseCase
 import com.madrid.presentation.R
 import com.madrid.presentation.screens.loginScreen.LoginInteractionListener
@@ -36,6 +34,8 @@ class LoginViewModel @Inject constructor(
     override fun onLoginClicked() {
         val currentState = state.value
         if (currentState.isLoading || currentState.isGuestLoading) return
+        updateState { it.copy(isUsernameValid = false, isPasswordValid = false) }
+
         val errorMessage = when {
             currentState.username.isBlank() && currentState.password.isBlank() -> {
                 updateState { it.copy(isUsernameValid = true, isPasswordValid = true) }
@@ -56,6 +56,7 @@ class LoginViewModel @Inject constructor(
 
             else -> null
         }
+
         if (errorMessage != null) {
             updateState { it.copy(errorMessage = errorMessage) }
             return
@@ -77,7 +78,9 @@ class LoginViewModel @Inject constructor(
                         isLoading = false,
                         isGuestLoading = false,
                         loginSuccess = true,
-                        isGuest = false
+                        isGuest = false,
+                        isUsernameValid = false,
+                        isPasswordValid = false
                     )
                 }
                 emitNewEffect(LoginEffect.OnLoginSuccess("Login success"))
@@ -137,6 +140,11 @@ class LoginViewModel @Inject constructor(
 
     private fun handleMovioException(ex: ErrorState, isGuestFlow: Boolean = false) {
         val messageResId = when (ex) {
+            is InvalidCredentialsError -> {
+
+                updateState { it.copy(isUsernameValid = true, isPasswordValid = true) }
+                R.string.invalid_username_or_password
+            }
             is InvalidCredentialsError -> R.string.invalid_username_or_password
             is AuthorizationError -> R.string.unauthorized
             is NetworkError -> R.string.network_error

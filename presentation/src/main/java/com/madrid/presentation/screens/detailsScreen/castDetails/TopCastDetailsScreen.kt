@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
@@ -84,7 +84,7 @@ fun TopCastDetailsContent(
         ) {
             items(artist.size) { index ->
                 MovioArtistsCard(
-                    modifier = Modifier.size(width = 101.dp, height = 111.dp),
+                    modifier = Modifier.width(101.dp),
                     artistsName = artist[index].actorName,
                     paddingBetweenImageAndText = 8.dp,
                     imageUrl = artist[index].actorImageUrl,
