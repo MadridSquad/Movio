@@ -31,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -81,6 +82,7 @@ fun MovieDetailsScreen(
     val context = LocalContext.current
     var showShareSheet by remember { mutableStateOf(false) }
     var showAddToListBottomSheet by remember { mutableStateOf(false) }
+    var showLogOutBottomSheet by rememberSaveable { mutableStateOf(false) }
 
     fun copyToClipboard(text: String) {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -197,7 +199,8 @@ fun MovieDetailsScreen(
                 )
                 BottomMediaActions(
                     onAddToListClick = {
-                        showAddToListBottomSheet = true
+                        showAddToListBottomSheet = uiState.isGuest.not()
+                        showLogOutBottomSheet = uiState.isGuest
                     },
                     onRateClick = {
                         showAddRatingBottomSheet = true
@@ -511,9 +514,23 @@ fun MovieDetailsScreen(
                         }
                     },
                 )
+
+                LogoutConfirmationBottomSheet(
+                    title = stringResource(R.string.you_dont_have_an_account),
+                    description = stringResource(R.string.please_log_in_or_create_an_account_to_save_items_to_your_favorites_and_access_them_later),
+                    actionButtonText = stringResource(R.string.login),
+                    isVisible = showLogOutBottomSheet,
+                    onDismiss = { showLogOutBottomSheet = false },
+                    onNavigateToAuth = {
+                        navController.navigate(Destinations.LoginScreen) {
+                            popUpTo(Destinations.LoginScreen) { inclusive = false }
+                        }
+                    },
+                )
             }
         }
     }
+
     ListManagementBottomSheet(
         isVisible = showAddToListBottomSheet,
         onDismiss = { showAddToListBottomSheet = false },
