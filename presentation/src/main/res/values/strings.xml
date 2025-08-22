@@ -37,7 +37,7 @@
     <string name="bold_video_circle">start movie icon </string>
     <string name="dot">dot</string>
     <string name="stars_icon_rate">stars icon rate</string>
-    <string name="season">season %1$s</string>
+    <string name="season">Season %1$s</string>
     <string name="year_and_episodes">%1$s | %2$s Episodes</string>
     <string name="season_of_movie">Season</string>
     <string name="season_of">of</string>//premiered on
@@ -177,4 +177,5 @@
     <string name="success_message">Successfully added to your collection.</string>//This feature is not supported in series
     <string name="feature_not_supported">This feature is not supported.</string>
     <string name="party_icon">Party Icon</string>
+    <string name="icon_arrow_down_icon">icon arrow down icon</string>
 </resources>

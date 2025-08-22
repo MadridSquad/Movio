@@ -210,13 +210,13 @@ private fun SeriesDetailsScreenContent(
                         )
                     } else {
                         AddRatingBottomSheet(
+                            seriesName = uiState.seriesName,
+                            imageUrl = uiState.topImageUrl,
+                            userRating = uiState.userRating,
                             onDismissAddRatingBottomSheet = { listener.onDismissAddRatingBottomSheet() },
                             onRateButtonClick = { listener.onRateButtonClick() },
                             onShowDoneRatingBottomSheetClick = { listener.onShowDoneRatingBottomSheetClick() },
                             onPickRatingNumber = { listener.onPickRatingNumber(it) },
-                            imageUrl = uiState.topImageUrl,
-                            seriesName = uiState.seriesName,
-                            userRating = uiState.userRating,
                         )
                     }
                 }
@@ -246,13 +246,11 @@ private fun SeriesDetailsScreenContent(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            if (uiState.reviews.isNotEmpty()) {
-                ReviewScreen(
-                    reviews = uiState.reviews,
-                    onSeeAllReviews = { listener.onSeeAllClick(uiState.seriesId, SeeAllType.Review) },
-                )
-                Spacer(modifier = Modifier.height(32.dp))
-            }
+            ReviewScreen(
+                reviews = uiState.reviews,
+                onSeeAllReviews = { listener.onSeeAllClick(uiState.seriesId, SeeAllType.Review) }
+            )
+            Spacer(modifier = Modifier.height(32.dp))
 
             SimilarSeriesHorizontalSection(
                 uiState = uiState,

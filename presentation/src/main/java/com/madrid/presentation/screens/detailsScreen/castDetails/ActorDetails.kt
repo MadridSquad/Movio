@@ -35,8 +35,9 @@ import com.madrid.presentation.component.movieActorBackground.MoviePosterDetailS
 import com.madrid.presentation.component.movioCards.MovioVerticalCard
 import com.madrid.presentation.navigation.Destinations
 import com.madrid.presentation.navigation.LocalNavController
-import com.madrid.presentation.viewModel.detailsViewModel.ActorDetailsViewModel
-import com.madrid.presentation.viewModel.detailsViewModel.MovieDetailsUiState
+import com.madrid.presentation.utils.seriesBottomFade
+import com.madrid.presentation.viewModel.detailsViewModel.actor.ActorDetailsViewModel
+import com.madrid.presentation.viewModel.detailsViewModel.actor.NetworkDetailsUiState
 
 
 @Composable

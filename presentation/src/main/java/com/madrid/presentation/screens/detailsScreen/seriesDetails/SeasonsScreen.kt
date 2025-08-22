@@ -26,9 +26,11 @@ import com.madrid.presentation.viewModel.shared.parser.formatFullDateKtx
 import com.madrid.presentation.viewModel.shared.parser.formatYearKtx
 
 @Composable
-fun SeasonsScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()) {
+fun SeasonsScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()
+) {
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current
+
     SeasonsScreenContent(
         uiState = uiState,
         onClickBack = { navController.popBackStack() },
@@ -56,8 +58,7 @@ fun SeasonsScreenContent(
     ) {
         TopAppBar(
             text = stringResource(R.string.current_seasons),
-            secondIcon = null,
-            thirdIcon = null,
+            secondIcon = null, thirdIcon = null,
             onFirstIconClick = { onClickBack() },
             modifier = Modifier.padding(top = 36.dp),
         )
