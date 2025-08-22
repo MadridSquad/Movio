@@ -70,7 +70,7 @@ fun SeeAllMoviesScreen(
         )
         Spacer(Modifier.height(16.dp))
         val updatedItems: MutableList<String> = items.map { it.name }.toMutableList()
-        updatedItems.add(0, "All")
+        updatedItems.add(0, stringResource(R.string.all))
         FilterBar(
             items = updatedItems,
             selectedItem = uiState.selectedGenre ?: stringResource(R.string.all),
