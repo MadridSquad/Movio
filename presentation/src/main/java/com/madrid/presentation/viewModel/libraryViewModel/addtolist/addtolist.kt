@@ -97,7 +97,6 @@ class MovieListViewModel @Inject constructor(
                 )
 
                 if (status.success) {
-                    // Update the UI state to reflect the removal
                     updateState { currentState ->
                         val updatedLists = currentState.userLists.map { watchList ->
                             if (watchList.id == listId) {
