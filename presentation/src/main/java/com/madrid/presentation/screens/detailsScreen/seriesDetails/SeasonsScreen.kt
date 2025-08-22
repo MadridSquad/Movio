@@ -2,9 +2,7 @@ package com.madrid.presentation.screens.detailsScreen.seriesDetails
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -59,10 +57,9 @@ fun SeasonsScreenContent(
             onFirstIconClick = { onClickBack() },
             modifier = Modifier.padding(top = 36.dp),
         )
-        Spacer(Modifier.height(20.dp))
 
         LazyColumn(
-            contentPadding = PaddingValues(bottom = 40.dp)
+            contentPadding = PaddingValues(vertical = 6.dp)
         ) {
             items(seasons) { season ->
                 MovioSeasonCard(
@@ -72,9 +69,9 @@ fun SeasonsScreenContent(
                     totalNumberOfEpisodes = season.numberOfEpisodes.toString(),
                     onClick = { onClickSeason(season.seasonNumber) },
                     yearOfPublish = season.productionDate.formatYearKtx(),
-                    currentSeason = season.seasonNumber.toString(),
                     timeOfPublish = season.productionDate.formatFullDateKtx(),
-                    modifier = Modifier.padding(bottom = 6.dp)
+                    currentSeason = season.seasonNumber.toString(),
+                    modifier = Modifier.padding(vertical = 6.dp)
                 )
             }
         }
