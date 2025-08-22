@@ -177,4 +177,5 @@
     <string name="success_message">Successfully added to your collection.</string>//This feature is not supported in series
     <string name="feature_not_supported">This feature is not supported.</string>
     <string name="party_icon">Party Icon</string>
+    <string name="icon_arrow_down_icon">icon arrow down icon</string>
 </resources>

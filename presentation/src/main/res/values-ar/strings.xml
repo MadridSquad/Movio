@@ -177,4 +177,6 @@
     <string name="success_message">تمت الاضافة الى القائمة بنجاح</string>
     <string name="feature_not_supported">هذه الخاصية غير متوفرة.</string>
     <string name="party_icon">ايقونة احتفال</string>
+    <string name="icon_arrow_down_icon"> ايقونة للاسفل </string>
+
 </resources>

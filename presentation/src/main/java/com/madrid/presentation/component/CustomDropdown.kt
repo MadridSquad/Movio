@@ -19,12 +19,14 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import com.madrid.designSystem.component.MovioIcon
 import com.madrid.designSystem.component.MovioText
 import com.madrid.designSystem.theme.MovioTheme
 import com.madrid.designSystem.theme.Theme
+import com.madrid.presentation.R
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -77,7 +79,7 @@ fun <T> CustomDropdown(
                             },
                         )
                     },
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 MovioText(
@@ -87,8 +89,9 @@ fun <T> CustomDropdown(
                 )
                 MovioIcon(
                     painter = painterResource(com.madrid.designSystem.R.drawable.icon_arrow_down),
-                    contentDescription = "icon arrow down icon",
-                    tint = Theme.color.surfaces.onSurfaceVariant
+                    contentDescription = stringResource(R.string.icon_arrow_down_icon),
+                    tint = Theme.color.surfaces.onSurfaceVariant,
+                    modifier = Modifier.padding(start = 4.dp)
                 )
             }
             if (items.size != 1) {
@@ -133,7 +136,7 @@ fun <T> CustomDropdown(
 
 @Preview
 @Composable
-fun CustomDropdownPreview() {
+private fun CustomDropdownPreview() {
     MovioTheme {
         var selectedItem by remember { mutableStateOf("Option 1") }
         CustomDropdown(

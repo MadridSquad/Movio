@@ -2,6 +2,7 @@ package com.madrid.presentation.component.addtolist
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,19 +31,23 @@ fun CreateNewListItem(
     isEnabled: Boolean = true,
     modifier: Modifier = Modifier
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+
     Row(
         modifier = modifier
             .fillMaxWidth()
             .clickable(
                 enabled = isEnabled,
                 role = Role.Button,
-                onClickLabel = "Create a new list"
+                onClickLabel = "Create a new list",
+                indication = null,
+                interactionSource = interactionSource
             ) {
                 if (isEnabled) {
                     onListCreated()
                 }
             }
-            .padding(horizontal = 16.dp, vertical = 16.dp),
+            .padding(horizontal = 16.dp).padding(bottom = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -51,16 +57,16 @@ fun CreateNewListItem(
         ) {
             Box(
                 modifier = Modifier
-                    .size(40.dp)
-                    .padding(8.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(Theme.color.surfaces.surface),
+                    .size(32.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(Theme.color.surfaces.surfaceContainer)
+                    .padding(6.dp),
                 contentAlignment = Alignment.Center
             ) {
                 MovioIcon(
                     painter = painterResource(id = R.drawable.add),
                     contentDescription = "Add new list",
-                    modifier = Modifier.size(24.dp),
+                    modifier = Modifier.size(20.dp),
                     tint = if (isEnabled) {
                         Theme.color.surfaces.onSurface
                     } else {
