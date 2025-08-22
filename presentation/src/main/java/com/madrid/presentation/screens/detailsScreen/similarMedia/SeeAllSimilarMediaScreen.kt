@@ -106,7 +106,7 @@ fun SeeAllSimilarMediaScreenContent(
                     description = movie.title,
                     movieImage = movie.imageUrl,
                     rate = movie.rating,
-                    imageHeight = 178.dp,
+                    imageHeight = 136.dp,
                     onClick = {
                         onClickMedia(movie.id, isMovie)
                     },
