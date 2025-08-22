@@ -1,6 +1,8 @@
 package com.madrid.presentation.screens.detailsScreen.seriesDetails
 
 import android.content.Context
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -64,6 +67,8 @@ fun SeriesDetailsScreen(
     val navController = LocalNavController.current
     val context = LocalContext.current
 
+
+
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             when (effect) {
@@ -83,8 +88,7 @@ fun SeriesDetailsScreen(
                 is SeriesDetailsEffect.NavigateToEpisodesScreen -> {
                     navController.navigate(
                         Destinations.EpisodesScreen(
-                            seriesId = effect.seriesId,
-                            seasonNumber = effect.seasonNumber
+                            seriesId = effect.seriesId, seasonNumber = effect.seasonNumber
                         )
                     )
                 }
@@ -97,29 +101,25 @@ fun SeriesDetailsScreen(
                     when (effect.seeAllType) {
                         SeeAllType.TopCast -> navController.navigate(
                             Destinations.TopCast(
-                                effect.seriesId,
-                                false
+                                effect.seriesId, false
                             )
                         )
 
                         SeeAllType.Season -> navController.navigate(
                             Destinations.SeasonsScreen(
-                                effect.seriesId,
-                                1
+                                effect.seriesId, 1
                             )
                         )
 
                         SeeAllType.SimilarSeries -> navController.navigate(
                             Destinations.SimilarMediaScreen(
-                                effect.seriesId,
-                                false
+                                effect.seriesId, false
                             )
                         )
 
                         SeeAllType.Review -> navController.navigate(
                             Destinations.ReviewsScreen(
-                                effect.seriesId,
-                                false
+                                effect.seriesId, false
                             )
                         )
                     }
@@ -172,6 +172,30 @@ private fun SeriesDetailsScreenContent(
     uiState: SeriesDetailsUiState,
     listener: SeriesDetailsInteractionListener,
 ) {
+    val scrollState = rememberScrollState()
+    val scrollThreshold = 200.dp.value
+    val scrollProgress = (scrollState.value / scrollThreshold).coerceIn(0f, 1f)
+
+    val animatedStartColor by animateColorAsState(
+        targetValue = lerp(
+            start = Color.Transparent,
+            stop = Theme.color.surfaces.surface,
+            fraction = scrollProgress
+        ), animationSpec = tween(durationMillis = 250), label = "topAppBarStartColor"
+    )
+
+    val animatedEndColor by animateColorAsState(
+        targetValue = lerp(
+            start = Color.Transparent,
+            stop = Theme.color.surfaces.surface,
+            fraction = scrollProgress
+        ), animationSpec = tween(durationMillis = 250), label = "topAppBarEndColor"
+    )
+
+    val animatedBrush = Brush.verticalGradient(
+        colors = listOf(animatedStartColor, animatedEndColor)
+    )
+
     ShareBottomSheet(
         copyToClipboard = { text -> copyToClipboard(text, context) },
         context = context,
@@ -180,169 +204,174 @@ private fun SeriesDetailsScreenContent(
     )
 
     Box(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .fillMaxSize()
-            .background(Theme.color.surfaces.surface)
+        modifier = Modifier.fillMaxSize()
     ) {
-        MoviePosterDetailScreen(imageUrl = uiState.topImageUrl, modifier = Modifier.fillMaxSize())
-
-        Box(
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(30.dp)
-                .offset(y = 342.dp)
-                .background(
-                    Brush.verticalGradient(
-                        colors = listOf(Color.Transparent, Theme.color.surfaces.surface)
+                .fillMaxSize()
+                .verticalScroll(scrollState)
+        ) {
+            MoviePosterDetailScreen(
+                imageUrl = uiState.topImageUrl, modifier = Modifier.fillMaxSize()
+            )
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(10.dp)
+                    .offset(y = (-10).dp)
+                    .background(
+                        Brush.verticalGradient(
+                            colors = listOf(Color.Transparent, Theme.color.surfaces.surface)
+                        )
                     )
+            )
+
+
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 32.dp)
+            ) {
+                SeriesDetailsHeader(
+                    movieName = uiState.seriesName,
+                    seriesCategory = uiState.seriesGenre,
+                    date = uiState.productionDate,
+                    time = stringResource(
+                        id = R.string.season_count, uiState.numberOfSeasons.toString()
+                    ),
+                    rate = uiState.rate.take(3),
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
                 )
-        )
+
+                BottomMediaActions(
+                    onRateClick = {
+                        listener.onShowAddRatingBottomSheetClick()
+                    },
+                    onPlayClick = {
+                        listener.onPlayItClick()
+                        playSeriesTrailer(context, uiState)
+                    },
+                    onAddToListClick = { listener.onShowSnackBar() },
+                    modifier = Modifier.padding(vertical = 16.dp)
+                )
+
+                MovioBottomSheet(
+                    show = uiState.showAddRatingBottomSheet,
+                    onDismiss = { listener.onDismissAddRatingBottomSheet() },
+                    content = {
+                        if (uiState.isGuest) {
+                            LogoutConfirmationBottomSheet(
+                                isVisible = uiState.isGuest,
+                                onDismiss = { listener.onDismissShareBottomSheetClick() },
+                                onNavigateToAuth = { listener.onLoginButtonClick() },
+                                title = stringResource(R.string.you_dont_have_an_account),
+                                description = stringResource(R.string.this_rating_is_only_available_to_registered_users_Login_to_share_your_rating),
+                                actionButtonText = stringResource(R.string.login)
+                            )
+                        } else {
+                            AddRatingBottomSheet(
+                                onDismissAddRatingBottomSheet = { listener.onDismissAddRatingBottomSheet() },
+                                onRateButtonClick = { listener.onRateButtonClick() },
+                                onShowDoneRatingBottomSheetClick = { listener.onShowDoneRatingBottomSheetClick() },
+                                onPickRatingNumber = { listener.onPickRatingNumber(it) },
+                                imageUrl = uiState.topImageUrl,
+                                seriesName = uiState.seriesName,
+                                userRating = uiState.userRating,
+                            )
+                        }
+                    })
+
+                DoneAddRating(
+                    showDoneRatingBottomSheet = uiState.showDoneRatingBottomSheet,
+                    userRating = uiState.userRating,
+                    onDismissDoneRatingClick = { listener.onDismissShowDoneRatingBottomSheetClick() })
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                DescriptionSection(description = uiState.description)
+
+                TopCastSection(
+                    artists = uiState.topCast,
+                    onActorCardClick = { actorId -> listener.onActorCardClick(actorId) },
+                    onSeeAllClick = {
+                        listener.onSeeAllClick(
+                            seriesId = uiState.seriesId, seeAllType = SeeAllType.TopCast
+                        )
+                    },
+                )
+
+                CurrentSeasonsSection(
+                    seasons = uiState.currentSeasonsUiStates,
+                    onSeeAllClick = { listener.onSeeAllClick(uiState.seriesId, SeeAllType.Season) },
+                    onCurrentSeasonCardClick = { seasonNumber ->
+                        listener.onCurrentSeasonCardClick(
+                            uiState.seriesId, seasonNumber = seasonNumber
+                        )
+                    },
+                )
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                if (uiState.reviews.isNotEmpty()) {
+                    ReviewScreen(
+                        reviews = uiState.reviews,
+                        onSeeAllReviews = {
+                            listener.onSeeAllClick(
+                                uiState.seriesId, SeeAllType.Review
+                            )
+                        },
+                    )
+                    Spacer(modifier = Modifier.height(32.dp))
+                }
+
+                SimilarSeriesHorizontalSection(
+                    modifier = Modifier.padding(bottom = 32.dp),
+                    uiState = uiState,
+                    onSeeAllClick = {
+                        listener.onSeeAllClick(
+                            seriesId = uiState.seriesId, seeAllType = SeeAllType.SimilarSeries
+                        )
+                    },
+                    onSimilarSeriesCardClick = { seriesId ->
+                        listener.onSimilarSeriesCardClick(
+                            seriesId
+                        )
+                    })
+            }
+
+            LogoutConfirmationBottomSheet(
+                title = stringResource(R.string.you_dont_have_an_account),
+                description = stringResource(R.string.please_log_in_or_create_an_account_to_save_items_to_your_favorites_and_access_them_later),
+                actionButtonText = stringResource(R.string.login),
+                isVisible = uiState.isLoginBottomSheetVisible,
+                onDismiss = { listener.onDismissLoginBottomSheet() },
+                onNavigateToAuth = { listener.onLoginButtonClick() },
+            )
+        }
 
         TopAppBar(
             text = null,
-            modifier = Modifier.padding(start = 16.dp, top = 36.dp, end = 16.dp),
+            modifier = Modifier
+                .background(animatedBrush)
+                .padding(start = 16.dp, top = 36.dp, end = 16.dp),
             onFirstIconClick = { listener.onBackButtonClick() },
             onSecondIconClick = { listener.onShareIconClick() },
             onThirdIconClick = { listener.onFavoriteClick(uiState.seriesId) },
             isFavorite = uiState.isFavourite
         )
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Spacer(modifier = Modifier.height(360.dp))
 
-            SeriesDetailsHeader(
-                movieName = uiState.seriesName,
-                seriesCategory = uiState.seriesGenre,
-                date = uiState.productionDate,
-                time = stringResource(
-                    id = R.string.season_count, uiState.numberOfSeasons.toString()
-                ),
-                rate = uiState.rate.take(3),
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
-            )
-
-            BottomMediaActions(
-                onRateClick = {
-                    listener.onShowAddRatingBottomSheetClick()
-                },
-                onPlayClick = {
-                    listener.onPlayItClick()
-                    playSeriesTrailer(context, uiState)
-                },
-                onAddToListClick = { listener.onShowSnackBar() },
-                modifier = Modifier.padding(vertical = 16.dp)
-            )
-
-            MovioBottomSheet(
-                show = uiState.showAddRatingBottomSheet,
-                onDismiss = { listener.onDismissAddRatingBottomSheet() },
-                content = {
-                    if (uiState.isGuest) {
-                        LogoutConfirmationBottomSheet(
-                            isVisible = uiState.isGuest,
-                            onDismiss = { listener.onDismissShareBottomSheetClick() },
-                            onNavigateToAuth = { listener.onLoginButtonClick() },
-                            title = stringResource(R.string.you_dont_have_an_account),
-                            description = stringResource(R.string.this_rating_is_only_available_to_registered_users_Login_to_share_your_rating),
-                            actionButtonText = stringResource(R.string.login)
-                        )
-                    } else {
-                        AddRatingBottomSheet(
-                            onDismissAddRatingBottomSheet = { listener.onDismissAddRatingBottomSheet() },
-                            onRateButtonClick = { listener.onRateButtonClick() },
-                            onShowDoneRatingBottomSheetClick = { listener.onShowDoneRatingBottomSheetClick() },
-                            onPickRatingNumber = { listener.onPickRatingNumber(it) },
-                            imageUrl = uiState.topImageUrl,
-                            seriesName = uiState.seriesName,
-                            userRating = uiState.userRating,
-                        )
-                    }
-                }
-            )
-
-            DoneAddRating(
-                showDoneRatingBottomSheet = uiState.showDoneRatingBottomSheet,
-                userRating = uiState.userRating,
-                onDismissDoneRatingClick = { listener.onDismissShowDoneRatingBottomSheetClick() }
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            DescriptionSection(description = uiState.description)
-
-            TopCastSection(
-                artists = uiState.topCast,
-                onActorCardClick = { actorId -> listener.onActorCardClick(actorId) },
-                onSeeAllClick = {
-                    listener.onSeeAllClick(
-                        seriesId = uiState.seriesId,
-                        seeAllType = SeeAllType.TopCast
-                    )
-                },
-            )
-
-            CurrentSeasonsSection(
-                seasons = uiState.currentSeasonsUiStates,
-                onSeeAllClick = { listener.onSeeAllClick(uiState.seriesId, SeeAllType.Season) },
-                onCurrentSeasonCardClick = { seasonNumber ->
-                    listener.onCurrentSeasonCardClick(
-                        uiState.seriesId,
-                        seasonNumber = seasonNumber
-                    )
-                },
-            )
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            if (uiState.reviews.isNotEmpty()) {
-                ReviewScreen(
-                    reviews = uiState.reviews,
-                    onSeeAllReviews = {
-                        listener.onSeeAllClick(
-                            uiState.seriesId,
-                            SeeAllType.Review
-                        )
-                    },
+        if (uiState.showSnackBar) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                MovioSnakBar(
+                    message = stringResource(uiState.errorResMessageId),
+                    duration = ToastDuration.SHORT,
+                    onDismiss = { listener.onDismissSnackBar() },
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(Alignment.BottomCenter)
                 )
-                Spacer(modifier = Modifier.height(32.dp))
             }
-
-            SimilarSeriesHorizontalSection(
-                modifier = Modifier.padding(bottom = 32.dp),
-                uiState = uiState,
-                onSeeAllClick = {
-                    listener.onSeeAllClick(
-                        seriesId = uiState.seriesId,
-                        seeAllType = SeeAllType.SimilarSeries
-                    )
-                },
-                onSimilarSeriesCardClick = { seriesId -> listener.onSimilarSeriesCardClick(seriesId) }
-            )
-        }
-
-        LogoutConfirmationBottomSheet(
-            title = stringResource(R.string.you_dont_have_an_account),
-            description = stringResource(R.string.please_log_in_or_create_an_account_to_save_items_to_your_favorites_and_access_them_later),
-            actionButtonText = stringResource(R.string.login),
-            isVisible = uiState.isLoginBottomSheetVisible,
-            onDismiss = { listener.onDismissLoginBottomSheet() },
-            onNavigateToAuth = { listener.onLoginButtonClick() },
-        )
-    }
-
-    if (uiState.showSnackBar) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            MovioSnakBar(
-                message = stringResource(uiState.errorResMessageId),
-                duration = ToastDuration.SHORT,
-                onDismiss = { listener.onDismissSnackBar() },
-                modifier = Modifier
-                    .padding(16.dp)
-                    .align(Alignment.BottomCenter)
-            )
         }
     }
 }
