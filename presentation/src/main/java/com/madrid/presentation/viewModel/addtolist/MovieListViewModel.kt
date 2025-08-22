@@ -8,6 +8,7 @@ import com.madrid.domain.usecase.watchList.GetWatchListsUseCase
 import com.madrid.presentation.R
 import com.madrid.presentation.viewModel.base.BaseViewModel
 import com.madrid.presentation.viewModel.base.ErrorState
+import com.madrid.presentation.viewModel.base.toInt
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +48,7 @@ class MovieListViewModel @Inject constructor(
                     updateState {
                         it.copy(
                             isLoadingLists = false,
-                            errorMessage = getErrorMessage(ex)
+                            errorMessage = ex.toInt()
                         )
                     }
                 }
@@ -82,7 +83,7 @@ class MovieListViewModel @Inject constructor(
                     it.copy(
                         isLoading = false,
                         createListSuccess = true,
-                        errorMessage = ex.message
+                        errorMessage = ex.toInt()
                     )
                 }
             }
@@ -125,7 +126,7 @@ class MovieListViewModel @Inject constructor(
                     it.copy(
                         isLoading = false,
                         addToListSuccess = true,
-                        errorMessage = ex.message,
+                        errorMessage = ex.toInt(),
                     )
                 }
             }

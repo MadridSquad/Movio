@@ -5,7 +5,7 @@ import com.madrid.presentation.R
 
 data class MovieListUiState(
     val isLoading: Boolean = false,
-    val errorMessage: String? = null,
+    val errorMessage: Int? = null,
     val successMessage: Int? = R.string.add_to_list,
     val createListSuccess: Boolean = false,
     val addToListSuccess: Boolean = false,

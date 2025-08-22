@@ -61,7 +61,7 @@ fun ListManagementBottomSheet(
             successMessage = if (uiState.successMessage != null) {
                 uiState.successMessage ?: R.string.success_message
             } else {
-                R.string.unknown_error
+                uiState.errorMessage?: R.string.unknown_error
             }
             bottomSheetVisible = false
             delay(200)
@@ -76,7 +76,7 @@ fun ListManagementBottomSheet(
             successMessage = if (uiState.successMessage != null) {
                 uiState.successMessage ?: R.string.success_message
             } else {
-                R.string.unknown_error
+                uiState.errorMessage?: R.string.unknown_error
             }
             bottomSheetVisible = false
             delay(200)
