@@ -7,22 +7,25 @@ import kotlin.math.floor
 
 
 fun formatRate(rate: Double): String {
-    return try {
+    try {
         val numericRate = rate
         val truncated = floor(numericRate * 10) / 10
-        if (truncated == truncated.toInt().toDouble()) {
+        val result = if (truncated == truncated.toInt().toDouble()) {
             truncated.toInt().toString()
         } else {
             DecimalFormat("#.#").format(truncated)
         }
+        return when (Locale.getDefault().toLanguageTag()) {
+            "ar" -> convertEnglishDigitsToArabic(result)
+            else -> result
+        }
     } catch (e: Exception) {
-        rate.toString()
+        return rate.toString()
     }
 }
 
 fun formatDate(dateString: String?): String {
     if (dateString.isNullOrEmpty()) return ""
-
     return try {
         val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
         val outputFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
