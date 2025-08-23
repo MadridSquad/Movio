@@ -108,7 +108,7 @@ fun LazyGridScope.recentSearchScreen(
                     painterResource(com.madrid.designSystem.R.drawable.send)
 
                 },
-                onEndIconClick = if(isWrite) {
+                onEndIconClick = if(isWrite || searchQuery.trim().isEmpty() || searchQuery.trim().isBlank() ) {
                     { onRemoveItem(searchText) }
                 }else{
                     { onSearchItem(searchText) }
