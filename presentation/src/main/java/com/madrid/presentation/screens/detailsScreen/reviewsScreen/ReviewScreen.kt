@@ -24,6 +24,7 @@ import com.madrid.presentation.navigation.LocalNavController
 import com.madrid.presentation.screens.detailsScreen.reviewsScreen.composables.ReviewCard
 import com.madrid.presentation.viewModel.detailsViewModel.review.ReviewsScreenUiState
 import com.madrid.presentation.viewModel.detailsViewModel.review.ReviewsScreenViewModel
+import com.madrid.presentation.viewModel.shared.parser.formatDate
 
 @Composable
 fun ReviewsScreen(viewModel: ReviewsScreenViewModel = hiltViewModel()) {
@@ -67,7 +68,7 @@ fun ReviewsScreenContent(
                         reviewerName = review.reviewerName,
                         reviewerImageUrl = review.reviewerImageUrl.toString(),
                         rating = review.rating,
-                        date = review.date,
+                        date = formatDate(review.date),
                         content = review.content,
                         modifier = Modifier.fillMaxWidth()
                     )
