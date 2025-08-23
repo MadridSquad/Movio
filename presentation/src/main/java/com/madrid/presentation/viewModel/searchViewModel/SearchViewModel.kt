@@ -84,6 +84,7 @@ class SearchViewModel @Inject constructor(
                 )
             )
         }
+        loadRecentSearches()
     }
     fun addRecentSearch(recentSearch: String) {
         tryToExecute(
