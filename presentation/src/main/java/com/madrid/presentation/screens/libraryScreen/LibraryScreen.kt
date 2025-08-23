@@ -121,11 +121,13 @@ private fun LibraryScreenContent(
         enter = fadeIn(),
         exit = fadeOut()
     ) {
-        LibraryColumn(state, libraryInteractionListener)
+        if (state.isGuest.not()) {
+            LibraryColumn(state, libraryInteractionListener)
+        }
     }
 
     AnimatedVisibility(
-        visible = state.errorMessage.isNullOrBlank().not(),
+        visible = state.errorMessage.isNullOrBlank().not() && state.isGuest.not(),
         enter = fadeIn(),
         exit = fadeOut()
     ) {

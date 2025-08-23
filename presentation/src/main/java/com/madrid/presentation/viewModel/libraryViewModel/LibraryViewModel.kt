@@ -28,13 +28,14 @@ class LibraryViewModel @Inject constructor(
 ), LibraryInteractionListener {
 
     fun loadData() {
+        getIsGuest()
         getWatchList()
         getFavoriteList()
         getHistoryList()
-        getIsGuest()
     }
 
     fun onRefresh() {
+        getIsGuest()
         getWatchList()
         getFavoriteList()
         getHistoryList()
@@ -84,7 +85,6 @@ class LibraryViewModel @Inject constructor(
     fun getIsGuest() {
         updateState {
             it.copy(
-                isLoading = true,
                 errorMessage = null
             )
         }
@@ -94,7 +94,7 @@ class LibraryViewModel @Inject constructor(
             },
             onNewValue = { isGuest ->
                 updateState {
-                    it.copy(isGuest = isGuest, isLoading = false)
+                    it.copy(isGuest = isGuest, isLoading = false , errorMessage = null)
                 }
             },
             onError = { throwable -> onError(message = throwable.message) }
@@ -111,7 +111,8 @@ class LibraryViewModel @Inject constructor(
                 updateState {
                     it.copy(
                         isWatchListLoading = false,
-                        watchList = watchList.map { it.toWatchListUiState() }
+                        watchList = watchList.map { it.toWatchListUiState() },
+                        errorMessage = null
                     )
                 }
             },
@@ -129,7 +130,8 @@ class LibraryViewModel @Inject constructor(
                 updateState {
                     it.copy(
                         isFavouriteLoading = false,
-                        favoriteList = favoriteList.map { it.toMediaUiState() }
+                        favoriteList = favoriteList.map { it.toMediaUiState() },
+                        errorMessage = null
                     )
                 }
             },
@@ -153,7 +155,8 @@ class LibraryViewModel @Inject constructor(
                 updateState {
                     it.copy(
                         isHistoryLoading = false,
-                        historyList = historyList
+                        historyList = historyList,
+                        errorMessage = null
                     )
                 }
             },
