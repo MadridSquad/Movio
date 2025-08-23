@@ -190,46 +190,41 @@ fun ContentSearchScreen(
     onTopResultClick: (Int) -> Unit,
     onSearchedClick: (Int) -> Unit,
     onArtistClick: (Int) -> Unit,
-    isChangeSearchQuery : Boolean,
-    isDoAction : Boolean,
-    doAction : () -> Unit ,
-    changeValueOfIsChangeSearchQuery : () -> Unit,
+    isChangeSearchQuery: Boolean,
+    isDoAction: Boolean,
+    doAction: () -> Unit,
+    changeValueOfIsChangeSearchQuery: () -> Unit,
     highLightRecentSearch: (String, String, Color, Color, TextStyle) -> AnnotatedString,
 ) {
     val showSearchResults = searchQuery.isNotBlank()
     var selectedTabIndex by remember { mutableIntStateOf(0) }
-    var showRecentSearch by remember { mutableIntStateOf(0) }
     var isPressSearchIconInKeyboard by remember { mutableIntStateOf(0) }
     var previousSelectedTabIndex by remember { mutableIntStateOf(-1) }
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
+    var isFocused by remember { mutableStateOf(false) }
+    var isWrite by remember { mutableStateOf(false) }
+
 
     LaunchedEffect(isDoAction) {
-        if(searchQuery.isEmpty() || searchQuery.isBlank() || isPressSearchIconInKeyboard == 1){
-            showRecentSearch = 0
+        if (isPressSearchIconInKeyboard == 1) {
+            isFocused = false
             isPressSearchIconInKeyboard = 0
-        }
-        else{
-            showRecentSearch = 1
+        } else {
+            isFocused = true
             snapshotFlow { searchQuery }
-                .debounce(1500)
+                .debounce(1200)
                 .collect { query ->
-                    showRecentSearch = 0
-
-                    if (query.isNotBlank() && isChangeSearchQuery ) {
-                        onSearchBarClick()
-                        changeValueOfIsChangeSearchQuery()
-                        addRecentSearch(query)
-                        when (typeOfFilterSearch) {
-                            FilterPagesItem.TOP_RATED -> onClickTopRated()
-                            FilterPagesItem.MOVIES -> onClickMovies()
-                            FilterPagesItem.SERIES -> onClickSeries()
-                            FilterPagesItem.ARTISTS -> onClickArtist()
-                        }
+                    isWrite = false
+                    if (query.isNotBlank() && isChangeSearchQuery) {
+                        ////////////////////////
                     }
                 }
         }
 
+    }
+    LaunchedEffect(Unit) {
+        isFocused = false
     }
 
     Column(
@@ -251,8 +246,8 @@ fun ContentSearchScreen(
                 BasicTextInputField(
                     value = searchQuery,
                     onValueChange = { newQuery ->
+                        isWrite = true
                         onSearchQueryChange(newQuery)
-                        showRecentSearch = 1
                     },
                     borderBrushColors = null,
                     hintText = stringResource(com.madrid.presentation.R.string.searchdot),
@@ -260,35 +255,36 @@ fun ContentSearchScreen(
                     endIconPainter = painterResource(R.drawable.outline_add),
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 16.dp)
-                        .clickable { onSearchBarClick() },
+                        .padding(top = 16.dp),
                     onClickEndIcon = { onSearchQueryChange("") },
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Search
-                ),
-                keyboardActions = KeyboardActions(
-                    onSearch = {
-                        isPressSearchIconInKeyboard = 1
-                        doAction()
-                        if (searchQuery.isNotBlank() && isChangeSearchQuery ) {
-                            onSearchBarClick()
-                            changeValueOfIsChangeSearchQuery()
-                            addRecentSearch(searchQuery)
-                            when (typeOfFilterSearch) {
-                                FilterPagesItem.TOP_RATED -> onClickTopRated()
-                                FilterPagesItem.MOVIES -> onClickMovies()
-                                FilterPagesItem.SERIES -> onClickSeries()
-                                FilterPagesItem.ARTISTS -> onClickArtist()
+                    onClickInputTextField = { isFocused = true },
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Search
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onSearch = {
+                            isPressSearchIconInKeyboard = 1
+                            isFocused = false
+                            doAction()
+                            if (searchQuery.isNotBlank() && isChangeSearchQuery) {
+                                onSearchBarClick()
+                                changeValueOfIsChangeSearchQuery()
+                                addRecentSearch(searchQuery)
+                                when (typeOfFilterSearch) {
+                                    FilterPagesItem.TOP_RATED -> onClickTopRated()
+                                    FilterPagesItem.MOVIES -> onClickMovies()
+                                    FilterPagesItem.SERIES -> onClickSeries()
+                                    FilterPagesItem.ARTISTS -> onClickArtist()
+                                }
                             }
+                            keyboardController?.hide()
+                            focusManager.clearFocus()
                         }
-                        keyboardController?.hide()
-                        focusManager.clearFocus()
-                    }
+                    )
                 )
-            )
-        }
+            }
 
-            if (searchQuery.isEmpty() && showRecentSearch != 1) {
+            if (searchQuery.isEmpty() && isFocused != true) {
                 ForYouAndExploreScreen(
                     showSearchResults = showSearchResults,
                     isLoading = isLoading,
@@ -301,7 +297,7 @@ fun ContentSearchScreen(
                 )
             }
 
-            if (showRecentSearch == 1 && searchHistory.isNotEmpty()) {
+            if (isFocused && searchHistory.isNotEmpty()) {
                 recentSearchScreen(
                     searchHistory = searchHistory,
                     searchQuery = searchQuery,
@@ -309,14 +305,33 @@ fun ContentSearchScreen(
                     onRemoveItem = { onRemoveItem(it) },
                     onClearAll = { onClearAll() },
                     highlightCharactersInText = highLightRecentSearch,
+                    isWrite = isWrite,
+                    onSearchItem = { itemInRecent ->
+                        onSearchItemClick(itemInRecent)
+                        isPressSearchIconInKeyboard = 1
+                        isFocused = false
+                        doAction()
+                        onSearchBarClick()
+                        changeValueOfIsChangeSearchQuery()
+                        addRecentSearch(itemInRecent)
+                        when (typeOfFilterSearch) {
+                            FilterPagesItem.TOP_RATED -> onClickTopRated()
+                            FilterPagesItem.MOVIES -> onClickMovies()
+                            FilterPagesItem.SERIES -> onClickSeries()
+                            FilterPagesItem.ARTISTS -> onClickArtist()
+                        }
+
+                        keyboardController?.hide()
+                        focusManager.clearFocus()
+                    }
                 )
             }
-            if (showRecentSearch == 1 && searchHistory.isEmpty()) {
+            if (isFocused && searchHistory.isEmpty()) {
                 emptyRecentSearch()
             }
         }
 
-        if (searchQuery.isNotEmpty() && showRecentSearch != 1) {
+        if (searchQuery.isNotEmpty() && isFocused != true) {
 
             FilterSearchScreen(
                 typeOfFilterSearch = typeOfFilterSearch,
