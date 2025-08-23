@@ -27,9 +27,10 @@ fun LazyGridScope.recentSearchScreen(
     searchQuery: String,
     onSearchItemClick: (String) -> Unit,
     onRemoveItem: (String) -> Unit,
+    onSearchItem: (String) -> Unit = {},
     onClearAll: () -> Unit,
     highlightCharactersInText: (String, String, Color, Color, TextStyle) -> AnnotatedString,
-    modifier: Modifier = Modifier
+    isWrite: Boolean = false,
 ) {
     item(span = { GridItemSpan(maxLineSpan) }) {
         Row(
@@ -70,20 +71,30 @@ fun LazyGridScope.recentSearchScreen(
             MovioRecentSearchText(
                 text = highlightCharactersInText(
                     searchText,
-                    searchQuery,
-                    Theme.color.surfaces.onSurface,
-                    Theme.color.surfaces.onSurfaceVariant,
+                    if(isWrite) searchQuery else "",
+                    Theme.color.surfaces.onSurface ,
+                    if(isWrite) Theme.color.surfaces.onSurfaceVariant else Theme.color.surfaces.onSurface,
                     Theme.textStyle.label.smallRegular14
                 ),
-                modifier = Modifier.align(Alignment.CenterVertically).weight(1f),
-//                modifier = Modifier.align(Alignment.CenterVertically).weight(1f),
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .weight(1f),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 textStyle = Theme.textStyle.label.smallRegular14,
                 textAlign = null,
                 startIcon = painterResource(com.madrid.designSystem.R.drawable.outline_history),
-                endIcon = painterResource(com.madrid.designSystem.R.drawable.outline_add),
-                onEndIconClick = { onRemoveItem(searchText) }
+                endIcon = if (isWrite) {
+                    painterResource(com.madrid.designSystem.R.drawable.outline_add)
+                } else {
+                    painterResource(com.madrid.designSystem.R.drawable.send)
+
+                },
+                onEndIconClick = if(isWrite) {
+                    { onRemoveItem(searchText) }
+                }else{
+                    { onSearchItem(searchText) }
+                }
             )
         }
     }
