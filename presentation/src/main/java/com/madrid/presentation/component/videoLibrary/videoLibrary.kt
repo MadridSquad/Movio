@@ -53,13 +53,6 @@ fun VideoLibrary(
                     contentDescription = stringResource(com.madrid.presentation.R.string.background_image_of_squares),
                     modifier = Modifier.fillMaxWidth(),
                     contentScale = ContentScale.Crop,
-                    error = {
-                        Image(
-                            painter = painterResource(com.madrid.presentation.R.drawable.library_background),
-                            contentDescription = stringResource(com.madrid.presentation.R.string.background_image_of_squares),
-                            contentScale = ContentScale.Crop
-                        )
-                    }
                 )
             } else {
                 Image(
