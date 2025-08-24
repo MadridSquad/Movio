@@ -29,6 +29,7 @@ import com.madrid.presentation.viewModel.shared.parser.formatYearKtx
 fun SeasonsScreen(viewModel: SeriesDetailsViewModel = hiltViewModel()) {
     val uiState by viewModel.state.collectAsState()
     val navController = LocalNavController.current
+
     SeasonsScreenContent(
         uiState = uiState,
         onClickBack = { navController.popBackStack() },
@@ -62,9 +63,11 @@ fun SeasonsScreenContent(
             modifier = Modifier.padding(top = 36.dp),
         )
         Spacer(Modifier.height(20.dp))
+        
         val seasons = uiState.currentSeasonsUiStates
+        
         LazyColumn(
-            contentPadding = PaddingValues(bottom = 40.dp)
+            contentPadding = PaddingValues(vertical = 6.dp)
         ) {
             items(seasons) { season ->
                 MovioSeasonCard(
@@ -76,7 +79,7 @@ fun SeasonsScreenContent(
                     yearOfPublish = season.productionDate.formatYearKtx(),
                     currentSeason = season.seasonNumber.toString(),
                     timeOfPublish = season.productionDate.formatFullDateKtx(),
-                    modifier = Modifier.padding(bottom = 6.dp)
+                    modifier = Modifier.padding(vertical = 6.dp)
                 )
             }
         }
