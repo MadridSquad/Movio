@@ -45,7 +45,7 @@ fun MovioSnakBar(
                 .padding(16.dp)
                 .height(48.dp)
                 .background(
-                    color = Theme.color.surfaces.onSurfaceContainer.copy(0.1f),
+                    color = Theme.color.surfaces.surfaceContainer,
                     shape = RoundedCornerShape(8.dp)
                 )
                 .padding(horizontal = 16.dp, vertical = 12.dp),

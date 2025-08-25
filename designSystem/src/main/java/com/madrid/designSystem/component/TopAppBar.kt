@@ -67,7 +67,7 @@ fun TopAppBar(
         Row(
             modifier = Modifier.padding(end = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+            horizontalArrangement = Arrangement.spacedBy(18.dp)
         ) {
             secondIcon?.let { iconRes ->
                 MovioIcon(

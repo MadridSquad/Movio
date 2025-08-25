@@ -360,15 +360,14 @@ private fun SeriesDetailsScreenContent(
             onThirdIconClick = { listener.onFavoriteClick(uiState.seriesId) },
             isFavorite = uiState.isFavourite
         )
-
         if (uiState.showSnackBar) {
-            Box(modifier = Modifier.fillMaxSize()) {
+            Box(modifier = Modifier
+                .fillMaxSize()) {
                 MovioSnakBar(
                     message = stringResource(uiState.errorResMessageId),
                     duration = ToastDuration.SHORT,
                     onDismiss = { listener.onDismissSnackBar() },
                     modifier = Modifier
-                        .padding(16.dp)
                         .align(Alignment.BottomCenter)
                 )
             }
